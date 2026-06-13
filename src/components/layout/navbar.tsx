@@ -71,7 +71,7 @@ export function Navbar() {
                 </Button>
               </>
             ) : (
-              <Link href="/api/auth/signin">
+              <Link href="/login">
                 <Button size="sm" className="rounded-full">
                   <User className="w-4 h-4 mr-1.5" />
                   Entrar
@@ -122,7 +122,7 @@ export function Navbar() {
               </>
             ) : (
               <Link
-                href="/api/auth/signin"
+                href="/login"
                 onClick={() => setOpen(false)}
                 className="block px-4 py-3 text-sm font-medium text-primary rounded-xl hover:bg-muted transition-colors"
               >

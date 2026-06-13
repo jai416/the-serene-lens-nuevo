@@ -62,7 +62,7 @@ export default function HomePage() {
               </p>
 
               <div className="flex flex-col sm:flex-row gap-3">
-                <Link href={session ? "/analysis" : "/api/auth/signin"}>
+                <Link href={session ? "/analysis" : "/login"}>
                   <Button variant="neon" size="lg" className="text-base px-8 py-6 h-auto">
                     <Scan className="w-4 h-4 mr-2" />
                     Observa tu Piel — Gratis
