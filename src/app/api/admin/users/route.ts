@@ -1,0 +1,57 @@
+import { getServerSession } from "next-auth"
+import { authOptions } from "@/lib/auth"
+import { db } from "@/lib/db"
+import { NextRequest } from "next/server"
+import { ok, unauthorized, serverError } from "@/lib/api-response"
+
+async function requireAdmin() {
+  const session = await getServerSession(authOptions)
+  if (!session?.user || session.user.role !== "ADMIN") return null
+  return session.user
+}
+
+export async function GET() {
+  try {
+    const admin = await requireAdmin()
+    if (!admin) return unauthorized()
+
+    const users = await db.user.findMany({
+      orderBy: { createdAt: "desc" },
+      select: {
+        id: true,
+        name: true,
+        email: true,
+        role: true,
+        plan: true,
+        createdAt: true,
+        _count: { select: { analyses: true, payments: true } },
+      },
+    })
+
+    return ok({ users })
+  } catch (e) {
+    return serverError(e)
+  }
+}
+
+export async function PUT(req: NextRequest) {
+  try {
+    const admin = await requireAdmin()
+    if (!admin) return unauthorized()
+
+    const { id, role, plan } = await req.json()
+
+    const user = await db.user.update({
+      where: { id },
+      data: {
+        ...(role !== undefined && { role }),
+        ...(plan !== undefined && { plan }),
+      },
+      select: { id: true, name: true, email: true, role: true, plan: true },
+    })
+
+    return ok({ user })
+  } catch (e) {
+    return serverError(e)
+  }
+}

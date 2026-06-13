@@ -1,0 +1,115 @@
+{
+  "name": "The Serene Lens",
+  "short_name": "Serene Lens",
+  "description": "Plataforma de skincare con IA, análisis personalizado y membresías Premium.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#fbf9f5",
+  "theme_color": "#456646",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "/favicon.ico",
+      "sizes": "48x48",
+      "type": "image/x-icon",
+      "purpose": "any"
+    },
+    {
+      "src": "/images/favicon-icon.png",
+      "sizes": "1024x1024",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/images/favicon-icon.png",
+      "sizes": "1024x1024",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ],
+  "categories": ["health", "lifestyle", "beauty"],
+  "lang": "es",
+  "dir": "ltr",
+  "screenshots": [
+    {
+      "src": "/images/pwa-screenshot-home.webp",
+      "sizes": "1080x1920",
+      "type": "image/webp",
+      "form_factor": "narrow",
+      "label": "The Serene Lens - Análisis de Piel con IA"
+    }
+  ],
+  "share_target": {
+    "action": "/share-target",
+    "method": "POST",
+    "enctype": "multipart/form-data",
+    "params": {
+      "title": "title",
+      "text": "text",
+      "url": "url",
+      "files": [
+        { "name": "images", "accept": ["image/*"] },
+        { "name": "text", "accept": ["text/*"] }
+      ]
+    }
+  },
+  "file_handlers": [
+    {
+      "action": "/analysis?fromFile=true",
+      "accept": { "image/jpeg": [".jpg", ".jpeg"], "image/png": [".png"], "image/webp": [".webp"] },
+      "name": "Analizar Imagen de Piel",
+      "icons": [{ "src": "/images/shortcut-analyze.svg", "sizes": "96x96", "type": "image/svg+xml" }]
+    },
+    {
+      "action": "/dashboard?import=skin-data",
+      "accept": { "application/json": [".json"] },
+      "name": "Importar Datos de Piel",
+      "icons": [{ "src": "/images/shortcut-dashboard.svg", "sizes": "96x96", "type": "image/svg+xml" }]
+    },
+    {
+      "action": "/routine-generator?import=csv",
+      "accept": { "text/csv": [".csv"] },
+      "name": "Importar Rutina",
+      "icons": [{ "src": "/images/shortcut-routine.svg", "sizes": "96x96", "type": "image/svg+xml" }]
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Analizar Piel",
+      "short_name": "Analizar",
+      "url": "/analysis",
+      "description": "Analiza tu piel con inteligencia artificial",
+      "icons": [
+        { "src": "/images/shortcut-analyze.svg", "sizes": "96x96", "type": "image/svg+xml" }
+      ]
+    },
+    {
+      "name": "Mi Rutina",
+      "short_name": "Rutina",
+      "url": "/routine-generator",
+      "description": "Genera tu rutina de skincare personalizada",
+      "icons": [
+        { "src": "/images/shortcut-routine.svg", "sizes": "96x96", "type": "image/svg+xml" }
+      ]
+    },
+    {
+      "name": "Diario de Piel",
+      "short_name": "Diario",
+      "url": "/skin-diary",
+      "description": "Registra el estado de tu piel diariamente",
+      "icons": [
+        { "src": "/images/shortcut-diary.svg", "sizes": "96x96", "type": "image/svg+xml" }
+      ]
+    },
+    {
+      "name": "Panel de Control",
+      "short_name": "Dashboard",
+      "url": "/dashboard",
+      "description": "Accede a tu panel de control y estadísticas",
+      "icons": [
+        { "src": "/images/shortcut-dashboard.svg", "sizes": "96x96", "type": "image/svg+xml" }
+      ]
+    }
+  ]
+}

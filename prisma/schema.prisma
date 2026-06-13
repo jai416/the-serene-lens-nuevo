@@ -1,0 +1,209 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id                String    @id @default(cuid())
+  name              String?
+  email             String    @unique
+  emailVerified     DateTime?
+  image             String?
+  password          String?
+  role              String    @default("USER")
+  plan              String    @default("FREE")
+  qvapayId          String?
+  stripeCustomerId  String?
+  analysisLimit     Int       @default(1)
+  analysisUsed      Int       @default(0)
+  analysisResetAt   DateTime?
+  createdAt         DateTime  @default(now())
+  updatedAt         DateTime  @updatedAt
+
+  accounts      Account[]
+  sessions      Session[]
+  analyses      SkinAnalysis[]
+  payments      Payment[]
+  subscriptions Subscription[]
+  purchasePacks PurchasePack[]
+  usageRecords  UsageTracking[]
+}
+
+model Account {
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String?
+  access_token      String?
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String?
+  session_state     String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model VerificationToken {
+  identifier String
+  token      String   @unique
+  expires    DateTime
+
+  @@unique([identifier, token])
+}
+
+model SkinAnalysis {
+  id              String   @id @default(cuid())
+  userId          String?
+  imageUrl        String?
+  skinType        String?
+  concerns        String?
+  observations    String   @default("[]")
+  recommendations String   @default("[]")
+  routine         String?
+  createdAt       DateTime @default(now())
+
+  user User? @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([createdAt])
+  @@index([userId, createdAt])
+}
+
+model BlogPost {
+  id          String    @id @default(cuid())
+  title       String
+  slug        String    @unique
+  excerpt     String
+  content     String
+  image       String
+  category    String
+  tags        String?
+  published   Boolean   @default(false)
+  publishedAt DateTime?
+  readTime    Int?
+  views       Int       @default(0)
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  @@index([published])
+  @@index([publishedAt])
+  @@index([category])
+}
+
+model Product {
+  id          String   @id @default(cuid())
+  name        String
+  slug        String   @unique
+  description String
+  shortDesc   String?
+  image       String
+  category    String
+  skinTypes   String   @default("all")
+  price       Float    @default(0)
+  ingredients String?
+  isActive    Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([isActive])
+  @@index([category])
+}
+
+model Payment {
+  id                String    @id @default(cuid())
+  userId            String
+  provider          String    @default("qvapay")
+  qvapayId          String?   @unique
+  stripePaymentId   String?   @unique
+  plan              String
+  amount            Float
+  amountUsd         Float?
+  amountCup         Float?
+  currency          String    @default("USD")
+  status            String    @default("pending")
+  remoteId          String?
+  confirmedAt       DateTime?
+  createdAt         DateTime  @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([provider])
+}
+
+model Subscription {
+  id                   String   @id @default(cuid())
+  userId               String
+  provider             String   @default("stripe")
+  stripeSubscriptionId String?  @unique
+  qvapayInvoiceId      String?  @unique
+  plan                 String
+  status               String   @default("active")
+  currentPeriodStart   DateTime?
+  currentPeriodEnd     DateTime?
+  createdAt            DateTime @default(now())
+  updatedAt            DateTime @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([status])
+}
+
+model PurchasePack {
+  id        String   @id @default(cuid())
+  userId    String
+  packType  String
+  provider  String   @default("stripe")
+  amountUsd Float
+  amountCup Float
+  analyses  Int
+  status    String   @default("completed")
+  createdAt DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+}
+
+model UsageTracking {
+  id        String   @id @default(cuid())
+  userId    String
+  type      String
+  createdAt DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, createdAt])
+}
+
+model ContactMessage {
+  id        String   @id @default(cuid())
+  name      String
+  email     String
+  subject   String
+  message   String
+  read      Boolean  @default(false)
+  createdAt DateTime @default(now())
+
+  @@index([read])
+  @@index([createdAt])
+}

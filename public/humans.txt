@@ -1,0 +1,27 @@
+/* TEAM */
+
+Name: The Serene Lens Team
+Site: https://serenelens.com
+Location: Remote
+Role: Skincare AI Platform Development
+
+/* SITE */
+
+Last update: 2025/01/15
+Standards: HTML5, CSS3, TypeScript, React (Next.js 16)
+Framework: Next.js 16 with App Router
+Components: shadcn/ui (New York style)
+Database: PostgreSQL via Prisma ORM
+Styling: Tailwind CSS 4
+Fonts: Noto Serif, Manrope, Geist Mono
+Language: Spanish (es-ES)
+
+/* THANKS */
+
+Next.js Team - https://nextjs.org
+Vercel - https://vercel.com
+Tailwind Labs - https://tailwindcss.com
+shadcn/ui - https://ui.shadcn.com
+Prisma - https://prisma.io
+Google Gemini - AI skin analysis
+OpenRouter - AI API gateway

@@ -1,0 +1,99 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" role="img" aria-label="The Serene Lens logo">
+  <defs>
+    <!-- Leaf gradient: dark sage (top-left) to light sage (bottom-right) -->
+    <linearGradient id="leafGrad" x1="0.15" y1="0" x2="0.85" y2="1">
+      <stop offset="0%" stop-color="#4A6E52"/>
+      <stop offset="45%" stop-color="#6B8F71"/>
+      <stop offset="100%" stop-color="#8FB896"/>
+    </linearGradient>
+
+    <!-- Aperture blade gradient -->
+    <linearGradient id="bladeGrad" x1="0.25" y1="0.1" x2="0.75" y2="0.9">
+      <stop offset="0%" stop-color="#5A7F61"/>
+      <stop offset="100%" stop-color="#7DA883"/>
+    </linearGradient>
+
+    <!-- Lens background: subtle radial vignette for depth -->
+    <radialGradient id="lensBg" cx="0.44" cy="0.40" r="0.58">
+      <stop offset="0%" stop-color="#FBF8F1"/>
+      <stop offset="100%" stop-color="#EBE3D4"/>
+    </radialGradient>
+
+    <!-- Clip aperture blades to the lens circle -->
+    <clipPath id="lensClip">
+      <circle cx="60" cy="60" r="27"/>
+    </clipPath>
+  </defs>
+
+  <!-- ===================== LEAF SHAPE ===================== -->
+  <!-- Smooth, symmetric almond/leaf silhouette -->
+  <path
+    d="M 60 8
+       C 38 10, 10 38, 12 60
+       C 14 82, 38 110, 60 112
+       C 82 110, 106 82, 108 60
+       C 110 38, 82 10, 60 8 Z"
+    fill="url(#leafGrad)"
+  />
+
+  <!-- ================ SUBTLE LEAF VEINS =================== -->
+  <!-- Visible only in the leaf areas above/below the lens -->
+  <path d="M 60 16 Q 48 20, 34 30" stroke="#3D5E44" stroke-width="0.8" fill="none" opacity="0.12" stroke-linecap="round"/>
+  <path d="M 60 16 Q 72 20, 86 30" stroke="#3D5E44" stroke-width="0.8" fill="none" opacity="0.12" stroke-linecap="round"/>
+  <path d="M 60 104 Q 48 100, 34 90" stroke="#3D5E44" stroke-width="0.8" fill="none" opacity="0.12" stroke-linecap="round"/>
+  <path d="M 60 104 Q 72 100, 86 90" stroke="#3D5E44" stroke-width="0.8" fill="none" opacity="0.12" stroke-linecap="round"/>
+  <!-- Central vein -->
+  <path d="M 60 16 L 60 104" stroke="#3D5E44" stroke-width="0.7" fill="none" opacity="0.08" stroke-linecap="round"/>
+
+  <!-- ================ LENS BACKGROUND ===================== -->
+  <!-- Warm cream circle with subtle vignette for depth -->
+  <circle cx="60" cy="60" r="27" fill="url(#lensBg)"/>
+
+  <!-- ================ APERTURE BLADES ==================== -->
+  <!--
+    5-blade aperture inside the lens.
+    Pentagon center opening (radius ~11) reveals the cream background.
+    Cream-colored stroke between blades creates the classic iris pattern.
+
+    Geometry:
+      Inner pentagon vertices at radius 11, starting from -90° (top)
+      Outer arc points at radius 27 at the same angles
+      Each blade: outer arc → inner vertex → inner vertex → close
+  -->
+  <g clip-path="url(#lensClip)">
+    <!-- Blade 0: top → upper-right -->
+    <path
+      d="M 60 33 A 27 27 0 0 1 85.68 51.66 L 70.46 56.60 L 60 49 Z"
+      fill="url(#bladeGrad)" stroke="#F0EBE1" stroke-width="1.6" stroke-linejoin="round"
+    />
+    <!-- Blade 1: upper-right → lower-right -->
+    <path
+      d="M 85.68 51.66 A 27 27 0 0 1 75.87 81.84 L 66.47 68.90 L 70.46 56.60 Z"
+      fill="url(#bladeGrad)" stroke="#F0EBE1" stroke-width="1.6" stroke-linejoin="round"
+    />
+    <!-- Blade 2: lower-right → lower-left -->
+    <path
+      d="M 75.87 81.84 A 27 27 0 0 1 44.13 81.84 L 53.53 68.90 L 66.47 68.90 Z"
+      fill="url(#bladeGrad)" stroke="#F0EBE1" stroke-width="1.6" stroke-linejoin="round"
+    />
+    <!-- Blade 3: lower-left → upper-left -->
+    <path
+      d="M 44.13 81.84 A 27 27 0 0 1 34.32 51.66 L 49.54 56.60 L 53.53 68.90 Z"
+      fill="url(#bladeGrad)" stroke="#F0EBE1" stroke-width="1.6" stroke-linejoin="round"
+    />
+    <!-- Blade 4: upper-left → top -->
+    <path
+      d="M 34.32 51.66 A 27 27 0 0 1 60 33 L 60 49 L 49.54 56.60 Z"
+      fill="url(#bladeGrad)" stroke="#F0EBE1" stroke-width="1.6" stroke-linejoin="round"
+    />
+  </g>
+
+  <!-- ================ LENS RING =========================== -->
+  <!-- Defined border between leaf and aperture -->
+  <circle cx="60" cy="60" r="27" fill="none" stroke="#4A6E52" stroke-width="2.2"/>
+
+  <!-- ================ SUBTLE HIGHLIGHT ==================== -->
+  <!-- Simulates light reflection on a glass lens -->
+  <circle cx="55" cy="53" r="5.5" fill="white" opacity="0.10"/>
+  <circle cx="53" cy="51" r="2" fill="white" opacity="0.14"/>
+</svg>
