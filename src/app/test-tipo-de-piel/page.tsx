@@ -7,7 +7,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Test de Tipo de Piel Gratis",
     description: "¿Tienes piel grasa, seca o mixta? Nuestra IA analiza tu piel y te dice tu tipo exacto.",
-    url: "https://theserenelens.com/test-tipo-de-piel",
+    url: "https://the-serene-lens-nuevo.onrender.com/test-tipo-de-piel",
   },
 }
 

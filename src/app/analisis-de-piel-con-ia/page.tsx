@@ -7,7 +7,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Análisis de Piel con IA",
     description: "Análisis cosmético de piel con inteligencia artificial. Gratis y sin registro.",
-    url: "https://theserenelens.com/analisis-de-piel-con-ia",
+    url: "https://the-serene-lens-nuevo.onrender.com/analisis-de-piel-con-ia",
   },
 }
 

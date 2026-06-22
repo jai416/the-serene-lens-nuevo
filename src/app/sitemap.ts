@@ -2,7 +2,7 @@ import type { MetadataRoute } from "next"
 import { db } from "@/lib/db"
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const baseUrl = process.env.NEXT_PUBLIC_APP_URL || "https://theserenelens.com"
+  const baseUrl = process.env.NEXT_PUBLIC_APP_URL || "https://the-serene-lens-nuevo.onrender.com"
 
   const posts = await db.blogPost.findMany({
     select: { slug: true, publishedAt: true },

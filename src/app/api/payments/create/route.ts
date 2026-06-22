@@ -21,12 +21,10 @@ export async function POST(req: NextRequest) {
     }
 
     const baseUrl = process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000"
+    const hasStripe = !!getPriceId(plan)
 
-    if (provider === "stripe") {
-      const priceId = getPriceId(plan)
-      if (!priceId) {
-        return error("Stripe no configurado para este plan")
-      }
+    if (provider === "stripe" && hasStripe) {
+      const priceId = getPriceId(plan)!
 
       try {
         const checkout = await createSubscriptionCheckoutSession({

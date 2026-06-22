@@ -8,7 +8,7 @@ import { MobileNav } from "@/components/layout/mobile-nav"
 import { ClientInit } from "@/components/client-init"
 
 export const metadata: Metadata = {
-  metadataBase: new URL(process.env.NEXT_PUBLIC_APP_URL || "https://theserenelens.com"),
+  metadataBase: new URL(process.env.NEXT_PUBLIC_APP_URL || "https://the-serene-lens-nuevo.onrender.com"),
   title: {
     template: "%s | The Serene Lens",
     default: "The Serene Lens | Observación Cosmética de tu Piel",

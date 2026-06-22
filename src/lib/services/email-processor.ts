@@ -1,7 +1,7 @@
 import { db } from "@/lib/db"
 import { buildEmailSequence, sendEmail } from "./email-sequence"
 
-const appUrl = process.env.NEXT_PUBLIC_APP_URL || "https://theserenelens.com"
+const appUrl = process.env.NEXT_PUBLIC_APP_URL || "https://the-serene-lens-nuevo.onrender.com"
 
 type UserProfile = {
   id: string

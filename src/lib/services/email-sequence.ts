@@ -32,7 +32,7 @@ function emailWrapper(content: string): string {
       ${content}
       <p style="font-size:12px;color:#8A9A82;margin-top:24px;text-align:center">
         The Serene Lens · Observación cosmética de tu piel<br/>
-        <a href="${process.env.NEXT_PUBLIC_APP_URL || "https://theserenelens.com"}/unsubscribe" style="color:#8A9A82">Cancelar suscripción</a>
+        <a href="${process.env.NEXT_PUBLIC_APP_URL || "https://the-serene-lens-nuevo.onrender.com"}/unsubscribe" style="color:#8A9A82">Cancelar suscripción</a>
       </p>
     </div>`
 }

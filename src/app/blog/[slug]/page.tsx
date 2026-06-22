@@ -79,8 +79,8 @@ export default function BlogPostPage() {
     description: post.excerpt,
     datePublished: post.publishedAt,
     author: { "@type": "Organization", name: "The Serene Lens" },
-    publisher: { "@type": "Organization", name: "The Serene Lens", logo: { "@type": "ImageObject", url: `${process.env.NEXT_PUBLIC_APP_URL || "https://theserenelens.com"}/icon.svg` } },
-    mainEntityOfPage: { "@type": "WebPage", "@id": `${process.env.NEXT_PUBLIC_APP_URL || "https://theserenelens.com"}/blog/${post.slug}` },
+    publisher: { "@type": "Organization", name: "The Serene Lens", logo: { "@type": "ImageObject", url: `${process.env.NEXT_PUBLIC_APP_URL || "https://the-serene-lens-nuevo.onrender.com"}/icon.svg` } },
+    mainEntityOfPage: { "@type": "WebPage", "@id": `${process.env.NEXT_PUBLIC_APP_URL || "https://the-serene-lens-nuevo.onrender.com"}/blog/${post.slug}` },
   } : null
 
   return (

@@ -7,7 +7,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Analizador de Ingredientes Cosméticos",
     description: "Analiza ingredientes de productos cosméticos con inteligencia artificial. Sube una foto y obtén el análisis completo.",
-    url: "https://theserenelens.com/ingredients-analyzer",
+    url: "https://the-serene-lens-nuevo.onrender.com/ingredients-analyzer",
   },
 }
 

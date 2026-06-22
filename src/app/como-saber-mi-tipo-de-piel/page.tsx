@@ -7,7 +7,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Cómo Saber Mi Tipo de Piel",
     description: "Guía completa para identificar tu tipo de piel. Análisis gratuito con inteligencia artificial.",
-    url: "https://theserenelens.com/como-saber-mi-tipo-de-piel",
+    url: "https://the-serene-lens-nuevo.onrender.com/como-saber-mi-tipo-de-piel",
   },
 }
 

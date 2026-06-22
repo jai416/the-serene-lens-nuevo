@@ -267,7 +267,7 @@ Prices defined in `src/lib/pricing.ts` — single source of truth.
 - **Prisma 7 driver adapter**: Requires `pg` + `@prisma/adapter-pg` installed. `prisma generate` must run after install.
 - **Prisma schema actualizado**: Modelo Referral eliminado. Schema limpio con 19 modelos.
 - **CRON_SECRET**: Generado en `.env`, falta configurar como env var en Render
-- **Cron-job.org**: 3 jobs configurados (SEO 7882243 8am, emails 7882246 9am, retention 7882249 10am). API key en `.env`. Apuntan a `theserene-lens.onrender.com`
+- **Cron-job.org**: 3 jobs configurados (SEO 7882243 8am, emails 7882246 9am, retention 7882249 10am). API key en `.env`. Apuntan a `the-serene-lens-nuevo.onrender.com`
 - **PostHog/Sentry configurados en .env**: Falta verificar que funcionan en producción
 - **Webhook processor sin testear**: `webhook-processor.ts` y `webhook.service.ts` no tienen tests unitarios
 - **handleSuccessfulPlanPayment**: Implementada en `payment.service.ts` pero no probada por falta de env vars de Stripe

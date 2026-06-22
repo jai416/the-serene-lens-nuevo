@@ -7,7 +7,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Rutina Skincare Personalizada",
     description: "Rutina de skincare personalizada según tu tipo de piel. Análisis gratuito con IA.",
-    url: "https://theserenelens.com/rutina-skincare-personalizada",
+    url: "https://the-serene-lens-nuevo.onrender.com/rutina-skincare-personalizada",
   },
 }
 
