@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="400" height="400" viewBox="0 0 400 400">
+  <rect width="400" height="400" fill="#FFF6AD" opacity="0.15"/>
+  <rect x="135" y="100" width="130" height="200" rx="25" fill="white" stroke="#DDE7D3" stroke-width="2"/>
+  <circle cx="200" cy="150" r="20" fill="#FFF6AD" opacity="0.5"/>
+  <text x="200" y="168" text-anchor="middle" font-size="16" fill="#2F3A2D" font-weight="bold">C</text>
+  <text x="200" y="355" text-anchor="middle" font-family="serif" font-size="14" fill="#64705E">Sérum Vitamina C 15%</text>
+</svg>

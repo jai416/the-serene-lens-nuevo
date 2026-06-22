@@ -66,8 +66,8 @@ export default function AdminPage() {
 
         <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-10">
           {cards.map((card) => (
-            <Link key={card.href} href={card.href}>
-              <Card className="border-[rgba(255,255,255,0.25)] transition-all duration-200 group">
+            <Link key={card.label} href={card.href}>
+              <Card className="border-[#DDE7D3] transition-all duration-200 group">
                 <CardContent className="p-5">
                   <div className="flex items-center justify-between mb-3">
                     <div className={`w-10 h-10 rounded-xl ${card.color} flex items-center justify-center`}>
@@ -84,7 +84,7 @@ export default function AdminPage() {
         </div>
 
         <div className="grid lg:grid-cols-2 gap-6">
-          <Card className="p-5 border-[rgba(255,255,255,0.25)]">
+          <Card className="p-5 border-[#DDE7D3]">
             <div>
               <h2 className="font-serif text-lg font-semibold mb-4">Acceso Rápido</h2>
               <div className="space-y-2">
@@ -96,8 +96,8 @@ export default function AdminPage() {
                   { href: "/admin/products", label: "Administrar Productos", icon: Package },
                 ].map((item) => (
                   <Link key={item.href} href={item.href}>
-                    <div className="flex items-center gap-3 p-3 rounded-xl hover:bg-[rgba(255,255,255,0.04)] transition-colors">
-                      <item.icon className="w-4 h-4 text-primary" />
+                    <div className="flex items-center gap-3 p-3 rounded-xl hover:bg-[#F8FAF5] transition-colors">
+                      <item.icon className="w-4 h-4 text-[#C2E09D]" />
                       <span className="text-sm font-medium">{item.label}</span>
                     </div>
                   </Link>
@@ -106,7 +106,7 @@ export default function AdminPage() {
             </div>
           </Card>
 
-          <Card className="p-5 border-[rgba(255,255,255,0.25)]">
+          <Card className="p-5 border-[#DDE7D3]">
             <div>
               <h2 className="font-serif text-lg font-semibold mb-4">Resumen Rápido</h2>
               <div className="space-y-3 text-sm">

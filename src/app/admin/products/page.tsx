@@ -64,7 +64,7 @@ export default function AdminProductsPage() {
         toast.success("Producto creado correctamente")
       } else {
         const data = await res.json()
-        toast.error(data.error || "Error al crear producto")
+        toast.error(data.error?.message || data.error || "Error al crear producto")
       }
     } catch {
       toast.error("Error al crear producto")
@@ -84,7 +84,7 @@ export default function AdminProductsPage() {
         toast.success("Producto eliminado")
       } else {
         const data = await res.json()
-        toast.error(data.error || "Error al eliminar producto")
+        toast.error(data.error?.message || data.error || "Error al eliminar producto")
       }
     } catch {
       toast.error("Error al eliminar producto")

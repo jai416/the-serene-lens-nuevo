@@ -2,9 +2,13 @@
 // Ejecutar con: npx tsx prisma/migrate-data.ts
 // Asegúrate de tener la BD antigua conectada con el schema nuevo.
 
-import { PrismaClient } from "@prisma/client"
+import { Pool } from "pg"
+import { PrismaPg } from "@prisma/adapter-pg"
+import { PrismaClient } from "../src/generated/prisma/client"
 
-const prisma = new PrismaClient()
+const pool = new Pool({ connectionString: process.env.DATABASE_URL })
+const adapter = new PrismaPg(pool)
+const prisma = new PrismaClient({ adapter })
 
 async function migrate() {
   console.log("=== Iniciando migración de datos ===")

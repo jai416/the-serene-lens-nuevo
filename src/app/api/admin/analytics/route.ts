@@ -14,22 +14,33 @@ export async function GET() {
     const admin = await requireAdmin()
     if (!admin) return unauthorized()
 
-    const [totalPayments, stripePayments, qvapayPayments] = await Promise.all([
+    const [totalPayments, stripePayments, qvapayPayments, recentSubscriptions, recentPacks] = await db.$transaction([
       db.payment.findMany({ where: { status: "completed" } }),
       db.payment.findMany({ where: { status: "completed", provider: "stripe" } }),
       db.payment.findMany({ where: { status: "completed", provider: "qvapay" } }),
+      db.subscription.findMany({
+        orderBy: { createdAt: "desc" },
+        take: 10,
+        include: { user: { select: { name: true, email: true } } },
+      }),
+      db.purchasePack.findMany({
+        orderBy: { createdAt: "desc" },
+        take: 10,
+        include: { user: { select: { name: true, email: true } } },
+      }),
     ])
+
+    const userPlans = await db.user.groupBy({
+      by: ["plan"],
+      _count: true,
+      orderBy: { plan: "asc" },
+    })
 
     const revenueByProvider = {
       stripe: stripePayments.reduce((sum, p) => sum + p.amount, 0),
       qvapay: qvapayPayments.reduce((sum, p) => sum + p.amount, 0),
       total: totalPayments.reduce((sum, p) => sum + p.amount, 0),
     }
-
-    const userPlans = await db.user.groupBy({
-      by: ["plan"],
-      _count: true,
-    })
 
     const planDistribution = Object.fromEntries(
       userPlans.map((u) => [u.plan, u._count]),
@@ -40,18 +51,6 @@ export async function GET() {
       .filter((u) => u.plan !== "FREE")
       .reduce((sum, u) => sum + u._count, 0)
     const conversionRate = totalUsers > 0 ? (paidUsers / totalUsers) * 100 : 0
-
-    const recentSubscriptions = await db.subscription.findMany({
-      orderBy: { createdAt: "desc" },
-      take: 10,
-      include: { user: { select: { name: true, email: true } } },
-    })
-
-    const recentPacks = await db.purchasePack.findMany({
-      orderBy: { createdAt: "desc" },
-      take: 10,
-      include: { user: { select: { name: true, email: true } } },
-    })
 
     return ok({
       revenueByProvider,

@@ -1,0 +1,84 @@
+{
+  "home": {
+    "title": "The Serene Lens | Observación Cosmética de tu Piel",
+    "subtitle": "Descubre las características visibles de tu piel con observaciones personalizadas.",
+    "cta": "Comenzar análisis",
+    "heroBadge": "Observación Cosmética, no diagnóstico médico",
+    "features": {
+      "analysis": "Análisis de Piel",
+      "history": "Historial",
+      "products": "Productos",
+      "ingredients": "Ingredientes"
+    }
+  },
+  "analysis": {
+    "title": "Observación de Piel",
+    "consent": {
+      "title": "Aviso Legal",
+      "description": "Información importante antes de comenzar",
+      "body": "Esta herramienta realiza observaciones cosméticas orientativas basadas únicamente en fotografías y la información proporcionada por el usuario. No diagnostica enfermedades ni sustituye a dermatólogos.",
+      "accept": "He leído y acepto los términos."
+    },
+    "photo": {
+      "front": "Foto frontal",
+      "left": "Perfil izquierdo",
+      "right": "Perfil derecho",
+      "closeup": "Acercamiento (opcional)",
+      "upload": "Toca para tomar o subir foto",
+      "tip": "Buena iluminación natural, rostro centrado, sin filtros."
+    },
+    "questions": {
+      "age": "Edad",
+      "gender": "Sexo",
+      "climate": "Clima donde vives",
+      "concerns": "Principales preocupaciones",
+      "routine": "Rutina actual (opcional)"
+    },
+    "analyzing": "Analizando tus fotos...",
+    "analyzingDesc": "Estamos examinando las características visibles desde múltiples ángulos."
+  },
+  "results": {
+    "title": "Tu Análisis",
+    "general": "Resumen General",
+    "skinType": "Tipo de Piel Observado",
+    "observations": "Observaciones Detectadas",
+    "factors": "Factores Observados en la Imagen",
+    "recommendations": "Recomendaciones Cosméticas",
+    "routine": "Rutina Sugerida",
+    "morning": "Rutina Mañana",
+    "evening": "Rutina Noche",
+    "products": "Productos Compatibles",
+    "history": "Historial Relacionado",
+    "feedback": "¿Te fue útil este análisis?",
+    "yes": "Sí, útil",
+    "no": "No tanto"
+  },
+  "pricing": {
+    "title": "Planes y Precios",
+    "essential": {
+      "name": "Essential",
+      "price": "Gratis",
+      "features": ["1 análisis al mes", "Historial básico"]
+    },
+    "premium": {
+      "name": "Premium",
+      "price": "$4.99/mes",
+      "features": ["Análisis ilimitados", "Historial completo", "Comparación de evolución"]
+    },
+    "pro": {
+      "name": "Pro",
+      "price": "$9.99/mes",
+      "features": ["Todo Premium", "Procesamiento prioritario", "Acceso anticipado"]
+    }
+  },
+  "common": {
+    "loading": "Cargando...",
+    "error": "Error",
+    "save": "Guardar cambios",
+    "cancel": "Cancelar",
+    "continue": "Continuar",
+    "back": "Atrás",
+    "next": "Siguiente",
+    "disclaimer": "Esta herramienta ofrece observaciones cosméticas orientativas. No constituye diagnóstico médico."
+  }
+}

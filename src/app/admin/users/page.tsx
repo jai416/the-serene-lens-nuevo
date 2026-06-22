@@ -73,7 +73,7 @@ export default function AdminUsersPage() {
           </h1>
         </div>
 
-        <Card className="border-[rgba(255,255,255,0.25)] overflow-hidden">
+        <Card className="border-[#DDE7D3] overflow-hidden">
           <div className="overflow-x-auto">
             <table className="w-full text-sm">
               <thead>
@@ -100,7 +100,7 @@ export default function AdminUsersPage() {
                     </td>
                     <td className="p-4">
                       <Badge variant={user.plan === "FREE" ? "outline" : "default"}>
-                        {user.plan === "ULTRAPREMIUM" ? "Ultra" : user.plan === "PREMIUM" ? "Pro" : "Free"}
+                        {user.plan === "PRO" ? "Pro" : user.plan === "PREMIUM" ? "Premium" : user.plan}
                       </Badge>
                     </td>
                     <td className="p-4">{user._count.analyses}</td>
@@ -128,7 +128,7 @@ export default function AdminUsersPage() {
                           >
                             <option value="FREE">FREE</option>
                             <option value="PREMIUM">PREMIUM</option>
-                            <option value="ULTRAPREMIUM">ULTRAPREMIUM</option>
+                            <option value="PRO">PRO</option>
                           </select>
                         </div>
                       ) : (

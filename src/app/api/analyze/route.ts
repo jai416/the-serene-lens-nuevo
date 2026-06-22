@@ -1,63 +1,42 @@
 import { NextRequest } from "next/server"
 import { getServerSession } from "next-auth"
 import { authOptions } from "@/lib/auth"
-import { analyzeSkin } from "@/lib/openrouter"
-import { db } from "@/lib/db"
 import { ok, error, serverError } from "@/lib/api-response"
-import { checkAndDeductUsage } from "@/lib/usage"
+import { checkRateLimit } from "@/lib/rate-limit"
+import { AnalysisService } from "@/lib/services/analysis.service"
+import { logger } from "@/lib/logger"
+import { analysisBodySchema } from "@/lib/validations"
 
 export async function POST(req: NextRequest) {
   try {
     const session = await getServerSession(authOptions)
+    if (!session?.user) return error("Debes iniciar sesión para realizar un análisis")
+
+    const ip = req.headers.get("x-forwarded-for") || req.headers.get("x-real-ip") || "unknown"
+    const rl = await checkRateLimit(`analyze:${session.user.id}:${ip}`, 5, 60 * 1000)
+    if (!rl.allowed) {
+      return error("Demasiadas solicitudes. Espera un minuto antes de intentar de nuevo.")
+    }
+
     const formData = await req.formData()
     const photos = formData.getAll("photos") as File[]
-    const concerns = formData.get("concerns") as string | null
-    const age = formData.get("age") as string | null
-    const gender = formData.get("gender") as string | null
-    const climate = formData.get("climate") as string | null
-    const routine = formData.get("routine") as string | null
 
     if (!photos || photos.length === 0) return error("Se requieren fotos")
 
-    const imagesBase64 = await Promise.all(
-      photos.map(async (file) => {
-        if (file.size > 10 * 1024 * 1024) {
-          throw new Error("Una imagen supera los 10MB")
-        }
-        const bytes = await file.arrayBuffer()
-        const buffer = Buffer.from(bytes)
-        return buffer.toString("base64")
-      })
-    )
-
-    const result = await analyzeSkin({
-      imagesBase64,
-      concerns: concerns || undefined,
-      age: age || undefined,
-      gender: gender || undefined,
-      climate: climate || undefined,
-      routine: routine || undefined,
-    })
-
-    const analysis = await db.skinAnalysis.create({
-      data: {
-        userId: session?.user?.id || null,
-        imageUrl: null,
-        skinType: null,
-        concerns: concerns || null,
-        observations: JSON.stringify(result.observations || []),
-        recommendations: JSON.stringify(result.recommendations || []),
-        routine: result.routine ? JSON.stringify(result.routine) : null,
-      },
-    })
-
-    if (session?.user?.id) {
-      const usage = await checkAndDeductUsage(session.user.id)
-      if (!usage.allowed) {
-        await db.skinAnalysis.delete({ where: { id: analysis.id } }).catch(() => {})
-        return error(usage.error || "Límite de análisis alcanzado")
-      }
+    const body: Record<string, string> = {}
+    for (const key of ["concerns", "age", "gender", "climate", "routine", "language"]) {
+      const val = formData.get(key)
+      if (val) body[key] = val as string
     }
+
+    const parsed = analysisBodySchema.safeParse(body)
+    if (!parsed.success) {
+      return error("Datos inválidos: " + parsed.error.issues.map((i) => i.message).join(", "))
+    }
+
+    const { analysis, result } = await AnalysisService.processAnalysis(session.user.id, photos, body)
+
+    logger.info("Analysis completed", { userId: session.user.id, analysisId: analysis.id })
 
     return ok({ analysis, result })
   } catch (e) {

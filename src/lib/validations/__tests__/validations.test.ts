@@ -1,0 +1,224 @@
+import { describe, it, expect } from "vitest"
+import { analysisBodySchema, contactSchema, profileSchema, feedbackSchema, clinicSchema, registerSchema } from "@/lib/validations"
+
+describe("analysisBodySchema", () => {
+  it("accepts valid input with all fields", () => {
+    const result = analysisBodySchema.safeParse({
+      concerns: "acné",
+      age: "25-30",
+      gender: "femenino",
+      climate: "tropical",
+      routine: "basica",
+      language: "es",
+    })
+    expect(result.success).toBe(true)
+  })
+
+  it("accepts input with only concerns", () => {
+    const result = analysisBodySchema.safeParse({
+      concerns: "arrugas",
+    })
+    expect(result.success).toBe(true)
+  })
+
+  it("accepts empty input (all optional)", () => {
+    const result = analysisBodySchema.safeParse({})
+    expect(result.success).toBe(true)
+  })
+
+  it("rejects extra keys (strict mode)", () => {
+    const result = analysisBodySchema.safeParse({
+      concerns: "acné",
+      unknownField: "value",
+    })
+    expect(result.success).toBe(false)
+  })
+
+  it("rejects invalid age value", () => {
+    const result = analysisBodySchema.safeParse({
+      concerns: "acné",
+      age: "35-44",
+    })
+    expect(result.success).toBe(false)
+  })
+
+  it("accepts all valid age values", () => {
+    for (const age of ["<18", "18-24", "25-30", "31-40", "41-50", "51+"] as const) {
+      const result = analysisBodySchema.safeParse({ concerns: "test", age })
+      expect(result.success).toBe(true)
+    }
+  })
+})
+
+describe("contactSchema", () => {
+  it("accepts valid contact data", () => {
+    const result = contactSchema.safeParse({
+      name: "Juan",
+      email: "juan@test.com",
+      subject: "Consulta",
+      message: "Hola, tengo una pregunta",
+    })
+    expect(result.success).toBe(true)
+  })
+
+  it("rejects invalid email", () => {
+    const result = contactSchema.safeParse({
+      name: "Juan",
+      email: "not-an-email",
+      subject: "Test",
+      message: "Message",
+    })
+    expect(result.success).toBe(false)
+  })
+
+  it("rejects empty name", () => {
+    const result = contactSchema.safeParse({
+      name: "",
+      email: "juan@test.com",
+      subject: "Test",
+      message: "Message",
+    })
+    expect(result.success).toBe(false)
+  })
+
+  it("rejects extra keys (strict mode)", () => {
+    const result = contactSchema.safeParse({
+      name: "Juan",
+      email: "juan@test.com",
+      subject: "Test",
+      message: "Message",
+      extra: "field",
+    })
+    expect(result.success).toBe(false)
+  })
+})
+
+describe("profileSchema", () => {
+  it("accepts valid profile data", () => {
+    const result = profileSchema.safeParse({ name: "Juan Pérez" })
+    expect(result.success).toBe(true)
+  })
+
+  it("accepts profile without name (optional)", () => {
+    const result = profileSchema.safeParse({})
+    expect(result.success).toBe(true)
+  })
+})
+
+describe("feedbackSchema", () => {
+  it("accepts valid feedback", () => {
+    const result = feedbackSchema.safeParse({
+      analysisId: "abc123",
+      rating: 5,
+      comment: "Muy útil",
+      wouldRecommend: true,
+    })
+    expect(result.success).toBe(true)
+  })
+
+  it("rejects rating out of range", () => {
+    const result = feedbackSchema.safeParse({
+      analysisId: "abc123",
+      rating: 10,
+      wouldRecommend: true,
+    })
+    expect(result.success).toBe(false)
+  })
+
+  it("accepts minimal feedback without comment", () => {
+    const result = feedbackSchema.safeParse({
+      analysisId: "abc123",
+      rating: 3,
+      wouldRecommend: false,
+    })
+    expect(result.success).toBe(true)
+  })
+
+  it("rejects missing analysisId", () => {
+    const result = feedbackSchema.safeParse({
+      rating: 3,
+      wouldRecommend: false,
+    })
+    expect(result.success).toBe(false)
+  })
+})
+
+describe("clinicSchema", () => {
+  it("accepts valid clinic data with all fields", () => {
+    const result = clinicSchema.safeParse({
+      name: "Clínica Dermatológica",
+      logo: "https://example.com/logo.png",
+      address: "Calle 123",
+      phone: "+123456789",
+    })
+    expect(result.success).toBe(true)
+  })
+
+  it("accepts clinic with only name", () => {
+    const result = clinicSchema.safeParse({
+      name: "Clínica",
+    })
+    expect(result.success).toBe(true)
+  })
+
+  it("rejects clinic without name", () => {
+    const result = clinicSchema.safeParse({})
+    expect(result.success).toBe(false)
+  })
+
+  it("rejects invalid logo URL", () => {
+    const result = clinicSchema.safeParse({
+      name: "Clínica",
+      logo: "not-a-url",
+    })
+    expect(result.success).toBe(false)
+  })
+})
+
+describe("registerSchema", () => {
+  it("accepts valid registration", () => {
+    const result = registerSchema.safeParse({
+      email: "test@test.com",
+      password: "SecurePass1!",
+      name: "Test User",
+    })
+    expect(result.success).toBe(true)
+  })
+
+  it("rejects short password", () => {
+    const result = registerSchema.safeParse({
+      email: "test@test.com",
+      password: "123",
+      name: "Test",
+    })
+    expect(result.success).toBe(false)
+  })
+
+  it("rejects invalid email", () => {
+    const result = registerSchema.safeParse({
+      email: "invalid",
+      password: "SecurePass1!",
+      name: "Test",
+    })
+    expect(result.success).toBe(false)
+  })
+
+  it("rejects empty name", () => {
+    const result = registerSchema.safeParse({
+      email: "test@test.com",
+      password: "SecurePass1!",
+      name: "",
+    })
+    expect(result.success).toBe(false)
+  })
+
+  it("rejects extra keys (strict mode)", () => {
+    const result = registerSchema.safeParse({
+      email: "test@test.com",
+      password: "SecurePass1!",
+      name: "Test",
+      role: "ADMIN",
+    })
+    expect(result.success).toBe(false)
+  })
+})

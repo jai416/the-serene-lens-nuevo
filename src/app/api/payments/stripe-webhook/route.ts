@@ -2,7 +2,7 @@ import { NextRequest } from "next/server"
 import { db } from "@/lib/db"
 import { ok, error, serverError } from "@/lib/api-response"
 import { constructWebhookEvent } from "@/lib/stripe-server"
-import { CUP_RATE } from "@/lib/pricing"
+import { getCUPRate } from "@/lib/cup-rate"
 
 export async function POST(req: NextRequest) {
   try {
@@ -71,13 +71,14 @@ export async function POST(req: NextRequest) {
           const analyses = packAnalyses[packType] || 0
 
           const amountUsd = (session.amount_total || 0) / 100
+          const cupRate = await getCUPRate()
           await db.purchasePack.create({
             data: {
               userId,
               packType,
               provider: "stripe",
               amountUsd,
-              amountCup: amountUsd * CUP_RATE,
+              amountCup: amountUsd * cupRate,
               analyses,
               status: "completed",
             },

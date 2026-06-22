@@ -1,37 +1,69 @@
-function requireEnv(key: string): string {
-  const value = process.env[key]
-  if (!value) throw new Error(`Missing required env variable: ${key}`)
-  return value
-}
+import { z } from "zod"
 
-function optionalEnv(key: string, fallback: string = ""): string {
-  return process.env[key] || fallback
-}
+const envSchema = z.object({
+  DATABASE_URL: z.string().min(1),
+  NEXTAUTH_SECRET: z.string().min(1),
+  NEXTAUTH_URL: z.string().url().default("http://localhost:3000"),
+  OPENROUTER_API_KEY: z.string().min(1),
+  QVAPAY_UUID: z.string().min(1),
+  QVAPAY_SECRET: z.string().min(1),
+  QVAPAY_URL: z.string().url().default("https://qvapay.com"),
+  QVAPAY_API_URL: z.string().url().default("https://qvapay.com/api/v1"),
+  QVAPAY_TAX_RATE: z.string().default("0"),
+  GOOGLE_CLIENT_ID: z.string().optional(),
+  GOOGLE_CLIENT_SECRET: z.string().optional(),
+  GITHUB_CLIENT_ID: z.string().optional(),
+  GITHUB_CLIENT_SECRET: z.string().optional(),
+  ROOT_ADMIN_EMAIL: z.string().email().optional(),
+  EXCHANGERATE_API_KEY: z.string().optional(),
+  RESEND_API_KEY: z.string().optional(),
+  NEXT_PUBLIC_APP_URL: z.string().url().optional(),
+  NEXT_PUBLIC_WHATSAPP_NUMBER: z.string().optional(),
+  NEXT_PUBLIC_POSTHOG_KEY: z.string().optional(),
+  NEXT_PUBLIC_POSTHOG_HOST: z.string().url().optional(),
+  NEXT_PUBLIC_SENTRY_DSN: z.string().url().optional(),
+  NEXT_PUBLIC_CUP_FALLBACK: z.string().optional(),
+  NEXT_PUBLIC_PHOTO_STEPS: z.enum(["2", "4"]).optional(),
+  CRON_SECRET: z.string().optional(),
+  RAINFOREST_API_KEY: z.string().optional(),
+  STRIPE_SECRET_KEY: z.string().optional(),
+  STRIPE_WEBHOOK_SECRET: z.string().optional(),
+  STRIPE_PREMIUM_PRICE_ID: z.string().optional(),
+  STRIPE_PRO_PRICE_ID: z.string().optional(),
+  STRIPE_BASIC_PACK_PRICE_ID: z.string().optional(),
+  STRIPE_POPULAR_PACK_PRICE_ID: z.string().optional(),
+  STRIPE_ADVANCED_PACK_PRICE_ID: z.string().optional(),
+})
 
-export function getEnv() {
-  return {
-    DATABASE_URL: requireEnv("DATABASE_URL"),
-    NEXTAUTH_SECRET: requireEnv("NEXTAUTH_SECRET"),
-    NEXTAUTH_URL: optionalEnv("NEXTAUTH_URL", "http://localhost:3000"),
-    GOOGLE_CLIENT_ID: optionalEnv("GOOGLE_CLIENT_ID"),
-    GOOGLE_CLIENT_SECRET: optionalEnv("GOOGLE_CLIENT_SECRET"),
-    GITHUB_CLIENT_ID: optionalEnv("GITHUB_CLIENT_ID"),
-    GITHUB_CLIENT_SECRET: optionalEnv("GITHUB_CLIENT_SECRET"),
-    OPENROUTER_API_KEY: requireEnv("OPENROUTER_API_KEY"),
-    QVAPAY_UUID: requireEnv("QVAPAY_UUID"),
-    QVAPAY_SECRET: requireEnv("QVAPAY_SECRET"),
-    QVAPAY_URL: optionalEnv("QVAPAY_URL", "https://qvapay.com"),
-    QVAPAY_API_URL: optionalEnv("QVAPAY_API_URL", "https://qvapay.com/api/v1"),
-    QVAPAY_TAX_RATE: optionalEnv("QVAPAY_TAX_RATE", "0"),
-    ROOT_ADMIN_EMAIL: optionalEnv("ROOT_ADMIN_EMAIL"),
-    EXCHANGERATE_API_KEY: optionalEnv("EXCHANGERATE_API_KEY"),
-    NEXT_PUBLIC_WHATSAPP_NUMBER: optionalEnv("NEXT_PUBLIC_WHATSAPP_NUMBER"),
-    STRIPE_SECRET_KEY: optionalEnv("STRIPE_SECRET_KEY"),
-    STRIPE_WEBHOOK_SECRET: optionalEnv("STRIPE_WEBHOOK_SECRET"),
-    STRIPE_PREMIUM_PRICE_ID: optionalEnv("STRIPE_PREMIUM_PRICE_ID"),
-    STRIPE_PRO_PRICE_ID: optionalEnv("STRIPE_PRO_PRICE_ID"),
-    STRIPE_BASIC_PACK_PRICE_ID: optionalEnv("STRIPE_BASIC_PACK_PRICE_ID"),
-    STRIPE_POPULAR_PACK_PRICE_ID: optionalEnv("STRIPE_POPULAR_PACK_PRICE_ID"),
-    STRIPE_ADVANCED_PACK_PRICE_ID: optionalEnv("STRIPE_ADVANCED_PACK_PRICE_ID"),
+export type Env = z.infer<typeof envSchema>
+
+let _env: Env | null = null
+
+export function getEnv(): Env {
+  if (_env) return _env
+
+  const result = envSchema.safeParse(process.env)
+  if (!result.success) {
+    const missing = result.error.issues
+      .filter((i) => i.code === "invalid_type" && "received" in i && i.received === "undefined")
+      .map((i) => i.path.join("."))
+
+    if (missing.length > 0) {
+      throw new Error(`Missing required env variables: ${missing.join(", ")}`)
+    }
+
+    console.error("Env validation errors:", JSON.stringify(result.error.issues))
+    throw new Error("Invalid environment variables")
   }
+
+  _env = result.data
+  return _env
+}
+
+export function requireEnv(key: string): string {
+  return getEnv()[key as keyof Env] || ""
+}
+
+export function optionalEnv(key: string, fallback = ""): string {
+  return process.env[key] || fallback
 }

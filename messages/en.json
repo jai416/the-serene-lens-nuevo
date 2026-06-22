@@ -1,0 +1,84 @@
+{
+  "home": {
+    "title": "The Serene Lens | Cosmetic Skin Observation",
+    "subtitle": "Discover the visible characteristics of your skin with personalized observations.",
+    "cta": "Start analysis",
+    "heroBadge": "Cosmetic Observation, not medical diagnosis",
+    "features": {
+      "analysis": "Skin Analysis",
+      "history": "History",
+      "products": "Products",
+      "ingredients": "Ingredients"
+    }
+  },
+  "analysis": {
+    "title": "Skin Observation",
+    "consent": {
+      "title": "Legal Notice",
+      "description": "Important information before starting",
+      "body": "This tool provides orientative cosmetic observations based solely on photographs and information provided by the user. It does not diagnose diseases or replace dermatologists.",
+      "accept": "I have read and accept the terms."
+    },
+    "photo": {
+      "front": "Front photo",
+      "left": "Left profile",
+      "right": "Right profile",
+      "closeup": "Close-up (optional)",
+      "upload": "Tap to take or upload photo",
+      "tip": "Good natural lighting, face centered, no filters."
+    },
+    "questions": {
+      "age": "Age",
+      "gender": "Gender",
+      "climate": "Your climate",
+      "concerns": "Main concerns",
+      "routine": "Current routine (optional)"
+    },
+    "analyzing": "Analyzing your photos...",
+    "analyzingDesc": "Examining visible characteristics from multiple angles."
+  },
+  "results": {
+    "title": "Your Analysis",
+    "general": "General Summary",
+    "skinType": "Observed Skin Type",
+    "observations": "Detected Observations",
+    "factors": "Observed Factors",
+    "recommendations": "Cosmetic Recommendations",
+    "routine": "Suggested Routine",
+    "morning": "Morning Routine",
+    "evening": "Evening Routine",
+    "products": "Compatible Products",
+    "history": "Related History",
+    "feedback": "Was this analysis helpful?",
+    "yes": "Yes, helpful",
+    "no": "Not really"
+  },
+  "pricing": {
+    "title": "Plans & Pricing",
+    "essential": {
+      "name": "Essential",
+      "price": "Free",
+      "features": ["1 analysis per month", "Basic history"]
+    },
+    "premium": {
+      "name": "Premium",
+      "price": "$4.99/mo",
+      "features": ["Unlimited analyses", "Full history", "Evolution comparison"]
+    },
+    "pro": {
+      "name": "Pro",
+      "price": "$9.99/mo",
+      "features": ["Everything Premium", "Priority processing", "Early access"]
+    }
+  },
+  "common": {
+    "loading": "Loading...",
+    "error": "Error",
+    "save": "Save changes",
+    "cancel": "Cancel",
+    "continue": "Continue",
+    "back": "Back",
+    "next": "Next",
+    "disclaimer": "This tool provides orientative cosmetic observations. It does not constitute medical diagnosis."
+  }
+}

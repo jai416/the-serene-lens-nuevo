@@ -5,7 +5,8 @@ import { db } from "@/lib/db"
 import { ok, error, serverError, unauthorized } from "@/lib/api-response"
 import { createQvaPayPackPayment, getPaymentError } from "@/lib/payments"
 import { createPackCheckoutSession, getPriceId } from "@/lib/stripe-server"
-import { getPack, CUP_RATE } from "@/lib/pricing"
+import { getPack } from "@/lib/pricing"
+import { getCUPRate } from "@/lib/cup-rate"
 
 export async function POST(req: NextRequest) {
   try {
@@ -49,6 +50,7 @@ export async function POST(req: NextRequest) {
 
     try {
       const amount = packDef.priceUSD
+      const cupRate = await getCUPRate()
       const qvapayPayment = await createQvaPayPackPayment({
         amount,
         description: `Pack ${packDef.name} - The Serene Lens`,
@@ -66,7 +68,7 @@ export async function POST(req: NextRequest) {
             plan: packType,
             amount,
             amountUsd: amount,
-            amountCup: amount * CUP_RATE,
+            amountCup: amount * cupRate,
             remoteId: qvapayPayment.remote_id,
           },
         })

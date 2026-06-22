@@ -2,52 +2,49 @@ import type { MetadataRoute } from "next"
 import { db } from "@/lib/db"
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const url = process.env.NEXT_PUBLIC_APP_URL || "https://theserenelens.com"
+  const baseUrl = process.env.NEXT_PUBLIC_APP_URL || "https://theserenelens.com"
+
+  const posts = await db.blogPost.findMany({
+    select: { slug: true, publishedAt: true },
+    where: { publishedAt: { not: null } },
+    orderBy: { publishedAt: "desc" },
+  })
 
   const staticPages = [
-    { path: "", priority: 1.0 },
-    { path: "/analysis", priority: 0.9 },
-    { path: "/products", priority: 0.8 },
-    { path: "/blog", priority: 0.9 },
-    { path: "/pricing", priority: 0.8 },
-    { path: "/contact", priority: 0.7 },
-    { path: "/privacy", priority: 0.3 },
-    { path: "/terms", priority: 0.3 },
+    { url: baseUrl, lastModified: new Date(), changeFrequency: "monthly" as const, priority: 1 },
+    { url: `${baseUrl}/blog`, lastModified: new Date(), changeFrequency: "weekly" as const, priority: 0.8 },
+    { url: `${baseUrl}/pricing`, lastModified: new Date(), changeFrequency: "monthly" as const, priority: 0.7 },
+    { url: `${baseUrl}/products`, lastModified: new Date(), changeFrequency: "weekly" as const, priority: 0.6 },
+    { url: `${baseUrl}/contact`, lastModified: new Date(), changeFrequency: "monthly" as const, priority: 0.4 },
+    { url: `${baseUrl}/terms`, lastModified: new Date(), changeFrequency: "yearly" as const, priority: 0.3 },
+    { url: `${baseUrl}/privacy`, lastModified: new Date(), changeFrequency: "yearly" as const, priority: 0.3 },
+    { url: `${baseUrl}/analysis`, lastModified: new Date(), changeFrequency: "monthly" as const, priority: 0.5 },
+    { url: `${baseUrl}/analizar-piel-gratis`, lastModified: new Date(), changeFrequency: "monthly" as const, priority: 0.9 },
+    { url: `${baseUrl}/test-tipo-de-piel`, lastModified: new Date(), changeFrequency: "monthly" as const, priority: 0.9 },
+    { url: `${baseUrl}/como-saber-mi-tipo-de-piel`, lastModified: new Date(), changeFrequency: "monthly" as const, priority: 0.8 },
+    { url: `${baseUrl}/analisis-de-piel-con-ia`, lastModified: new Date(), changeFrequency: "monthly" as const, priority: 0.8 },
+    { url: `${baseUrl}/rutina-skincare-personalizada`, lastModified: new Date(), changeFrequency: "monthly" as const, priority: 0.8 },
+    { url: `${baseUrl}/ingredients-analyzer`, lastModified: new Date(), changeFrequency: "monthly" as const, priority: 0.8 },
   ]
 
-  let blogEntries: MetadataRoute.Sitemap = []
-  let productEntries: MetadataRoute.Sitemap = []
+  const blogPages: MetadataRoute.Sitemap = posts.map((post) => ({
+    url: `${baseUrl}/blog/${post.slug}`,
+    lastModified: post.publishedAt || new Date(),
+    changeFrequency: "weekly" as const,
+    priority: 0.7,
+  }))
 
-  try {
-    const blogPosts = await db.blogPost.findMany({
-      where: { published: true },
-      select: { slug: true, updatedAt: true },
-    })
-    blogEntries = blogPosts.map((post) => ({
-      url: `${url}/blog/${post.slug}`,
-      lastModified: post.updatedAt,
-      priority: 0.7 as const,
-    }))
-  } catch {}
+  const products = await db.product.findMany({
+    select: { slug: true, updatedAt: true },
+    where: { isActive: true },
+  })
 
-  try {
-    const products = await db.product.findMany({
-      where: { isActive: true },
-      select: { slug: true, updatedAt: true },
-    })
-    productEntries = products.map((product) => ({
-      url: `${url}/products/${product.slug}`,
-      lastModified: product.updatedAt,
-      priority: 0.6 as const,
-    }))
-  } catch {}
+  const productPages: MetadataRoute.Sitemap = products.map((product) => ({
+    url: `${baseUrl}/products/${product.slug}`,
+    lastModified: product.updatedAt || new Date(),
+    changeFrequency: "monthly" as const,
+    priority: 0.6,
+  }))
 
-  return [
-    ...staticPages.map((page) => ({
-      url: `${url}${page.path}`,
-      priority: page.priority,
-    })),
-    ...blogEntries,
-    ...productEntries,
-  ]
+  return [...staticPages, ...blogPages, ...productPages]
 }

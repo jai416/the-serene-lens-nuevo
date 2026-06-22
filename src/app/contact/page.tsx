@@ -27,7 +27,7 @@ export default function ContactPage() {
 
       if (!res.ok) {
         const data = await res.json()
-        throw new Error(data.error || "Error al enviar mensaje")
+        throw new Error(data.error?.message || data.error || "Error al enviar mensaje")
       }
 
       setSent(true)

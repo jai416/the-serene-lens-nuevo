@@ -72,9 +72,30 @@ export default function BlogPostPage() {
     )
   }
 
+  const jsonLd = post ? {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    headline: post.title,
+    description: post.excerpt,
+    datePublished: post.publishedAt,
+    author: { "@type": "Organization", name: "The Serene Lens" },
+    publisher: { "@type": "Organization", name: "The Serene Lens", logo: { "@type": "ImageObject", url: `${process.env.NEXT_PUBLIC_APP_URL || "https://theserenelens.com"}/icon.svg` } },
+    mainEntityOfPage: { "@type": "WebPage", "@id": `${process.env.NEXT_PUBLIC_APP_URL || "https://theserenelens.com"}/blog/${post.slug}` },
+  } : null
+
   return (
     <div className="min-h-screen pt-24 pb-16 px-4">
+      {jsonLd && (
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
+      )}
       <article className="max-w-3xl mx-auto">
+        <nav className="flex items-center gap-2 text-xs text-[#64705E] mb-4" aria-label="Breadcrumb">
+          <Link href="/" className="hover:text-[#2F3A2D]">Inicio</Link>
+          <span>/</span>
+          <Link href="/blog" className="hover:text-[#2F3A2D]">Blog</Link>
+          <span>/</span>
+          <span className="text-[#2F3A2D] truncate max-w-[200px]">{post.title}</span>
+        </nav>
         <Button variant="ghost" size="sm" onClick={() => router.push("/blog")} className="mb-6">
           <ArrowLeft className="w-4 h-4 mr-1.5" />
           Volver al blog

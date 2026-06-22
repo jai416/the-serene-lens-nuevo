@@ -1,29 +1,32 @@
 "use client"
 
-import { useSession } from "next-auth/react"
-import { redirect } from "next/navigation"
+import { useSession, signOut } from "next-auth/react"
+import { redirect, usePathname } from "next/navigation"
 import { useState } from "react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
-import { User, Save, AlertCircle } from "lucide-react"
+import { User, Save, AlertCircle, Trash2 } from "lucide-react"
+import { toast } from "sonner"
 
 export default function ProfilePage() {
+  const pathname = usePathname()
   const { data: session, status, update } = useSession()
   const [name, setName] = useState(session?.user?.name || "")
   const [saving, setSaving] = useState(false)
   const [error, setError] = useState("")
   const [success, setSuccess] = useState(false)
+  const [showDeleteConfirm, setShowDeleteConfirm] = useState(false)
 
   if (status === "loading") {
     return (
       <div className="min-h-screen flex items-center justify-center">
-        <p className="text-muted-foreground">Cargando...</p>
+        <p className="text-[#64705E]">Cargando...</p>
       </div>
     )
   }
 
-  if (!session) redirect("/api/auth/signin")
+  if (!session) redirect("/login?callbackUrl=" + encodeURIComponent(pathname))
 
   const handleSave = async () => {
     setSaving(true)
@@ -48,57 +51,108 @@ export default function ProfilePage() {
     }
   }
 
+  const handleDeleteAccount = async () => {
+    try {
+      const res = await fetch("/api/user/delete-account", { method: "DELETE" })
+      if (!res.ok) throw new Error("Error al eliminar la cuenta")
+      toast.success("Cuenta eliminada")
+      await signOut({ callbackUrl: "/" })
+    } catch {
+      toast.error("No se pudo eliminar la cuenta")
+    }
+  }
+
   return (
     <div className="min-h-screen px-4 py-8">
       <div className="max-w-2xl mx-auto">
         <div className="mb-8">
-          <Badge variant="neon" className="mb-4 rounded-full px-4 py-1.5 border-0">
+          <Badge variant="primary" className="mb-4 rounded-full px-4 py-1.5 border-0">
             <User className="w-3.5 h-3.5 mr-2" />
             Perfil
           </Badge>
-          <h1 className="font-serif text-3xl sm:text-4xl font-semibold">
-            Mi <span className="gradient-text">Perfil</span>
+          <h1 className="font-serif text-3xl sm:text-4xl font-semibold text-[#2F3A2D]">
+            Mi Perfil
           </h1>
         </div>
 
-        <Card className="p-6 border-[rgba(255,255,255,0.25)]">
+        <Card className="p-6">
           <CardContent className="p-0 space-y-5">
             <div>
-              <label className="text-sm font-medium mb-1.5 block">Nombre</label>
+              <label className="text-sm font-medium mb-1.5 block text-[#2F3A2D]">Nombre</label>
               <input
                 type="text"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
-                className="w-full rounded-xl border border-input bg-background px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-ring"
+                className="w-full rounded-xl border border-[#DDE7D3] bg-white px-4 py-2.5 text-sm focus:outline-none focus:ring-1 focus:ring-[#C2E09D] text-[#2F3A2D]"
                 placeholder="Tu nombre"
               />
             </div>
 
             <div>
-              <label className="text-sm font-medium mb-1.5 block">Email</label>
+              <label className="text-sm font-medium mb-1.5 block text-[#2F3A2D]">Email</label>
               <input
                 type="email"
                 value={session.user.email || ""}
                 disabled
-                className="w-full rounded-xl border border-input bg-muted px-4 py-2.5 text-sm text-muted-foreground cursor-not-allowed"
+                className="w-full rounded-xl border border-[#DDE7D3] bg-[#F0F5EC] px-4 py-2.5 text-sm text-[#64705E] cursor-not-allowed"
+              />
+            </div>
+
+            <div>
+              <label className="text-sm font-medium mb-1.5 block text-[#2F3A2D]">Plan</label>
+              <input
+                type="text"
+                value={(session.user as any).plan === "PREMIUM" ? "Premium" : (session.user as any).plan === "PRO" ? "Pro" : "Gratuito"}
+                disabled
+                className="w-full rounded-xl border border-[#DDE7D3] bg-[#F0F5EC] px-4 py-2.5 text-sm text-[#64705E] cursor-not-allowed"
               />
             </div>
 
             {error && (
-              <div className="flex items-center gap-2 p-3 rounded-xl bg-destructive/10 text-destructive text-sm">
+              <div className="flex items-center gap-2 p-3 rounded-xl bg-[#FEF2F2] border border-[#FECACA] text-sm text-[#E07070]">
                 <AlertCircle className="w-4 h-4" />
                 {error}
               </div>
             )}
 
             {success && (
-              <p className="text-sm text-green-600 dark:text-green-400">Perfil actualizado</p>
+              <p className="text-sm text-[#2F3A2D]">Perfil actualizado</p>
             )}
 
-            <Button onClick={handleSave} disabled={saving} className="rounded-full">
+            <Button onClick={handleSave} disabled={saving} variant="primary">
               <Save className="w-4 h-4 mr-2" />
               {saving ? "Guardando..." : "Guardar cambios"}
             </Button>
+          </CardContent>
+        </Card>
+
+        {/* ── Eliminar cuenta ── */}
+        <Card className="p-6 mt-6 border-[#FECACA]">
+          <CardHeader className="p-0 mb-3">
+            <CardTitle className="flex items-center gap-2 text-base text-[#E07070]">
+              <Trash2 className="w-4 h-4" />
+              Eliminar cuenta
+            </CardTitle>
+          </CardHeader>
+          <CardContent className="p-0">
+            <p className="text-sm text-[#64705E] mb-4">
+              Esta acción eliminará permanentemente tu cuenta y todos tus datos. No se puede deshacer.
+            </p>
+            {showDeleteConfirm ? (
+              <div className="flex gap-2">
+                <Button variant="outline" size="sm" onClick={() => setShowDeleteConfirm(false)}>
+                  Cancelar
+                </Button>
+                <Button variant="outline" size="sm" className="border-[#E07070] text-[#E07070] hover:bg-[#FEF2F2]" onClick={handleDeleteAccount}>
+                  Confirmar eliminación
+                </Button>
+              </div>
+            ) : (
+              <Button variant="outline" size="sm" className="border-[#E07070] text-[#E07070] hover:bg-[#FEF2F2]" onClick={() => setShowDeleteConfirm(true)}>
+                <Trash2 className="w-4 h-4 mr-1.5" />
+                Eliminar mis datos
+              </Button>
+            )}
           </CardContent>
         </Card>
       </div>

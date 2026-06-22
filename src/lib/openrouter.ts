@@ -1,6 +1,25 @@
 import { getEnv } from "@/lib/env"
+import { withRetry } from "@/lib/retry"
 
 const env = getEnv()
+
+const PERCENTAGE_REGEX = /\d+%/g
+
+function containsPercentages(obj: unknown): boolean {
+  if (typeof obj === "string") return PERCENTAGE_REGEX.test(obj)
+  if (Array.isArray(obj)) return obj.some(containsPercentages)
+  if (obj && typeof obj === "object") return Object.values(obj).some(containsPercentages)
+  return false
+}
+
+function stripPercentages(obj: unknown): unknown {
+  if (typeof obj === "string") return obj.replace(PERCENTAGE_REGEX, "").replace(/\s{2,}/g, " ").trim()
+  if (Array.isArray(obj)) return obj.map(stripPercentages)
+  if (obj && typeof obj === "object") {
+    return Object.fromEntries(Object.entries(obj).map(([k, v]) => [k, stripPercentages(v)]))
+  }
+  return obj
+}
 
 interface AnalyzeOptions {
   imagesBase64: string[]
@@ -9,8 +28,13 @@ interface AnalyzeOptions {
   gender?: string
   climate?: string
   routine?: string
+  language?: string
 }
 
+/**
+ * Analyzes skin photos using OpenRouter AI.
+ * Returns parsed JSON analysis result.
+ */
 export async function analyzeSkin({
   imagesBase64,
   concerns,
@@ -18,8 +42,41 @@ export async function analyzeSkin({
   gender,
   climate,
   routine,
+  language = "es",
 }: AnalyzeOptions) {
-  const prompt = `Eres un experto en cuidado cosmético de la piel. Analiza esta foto de piel facial.
+  const isEnglish = language === "en"
+  const prompt = isEnglish
+    ? `You are a skincare cosmetic expert. Analyze this facial skin photo.
+
+${concerns ? `Reported concerns: ${concerns}` : ""}
+${age ? `Age: ${age}` : ""}
+${gender ? `Gender: ${gender}` : ""}
+${climate ? `Climate: ${climate}` : ""}
+${routine ? `Current routine: ${routine}` : ""}
+
+Provide your analysis in JSON format (no markdown, valid JSON only). DO NOT use percentages or numbers except for routine steps. Use descriptive categories:
+
+{
+    "skinType": "apparent skin type: dry/oily/combination/normal/sensitive",
+    "texture": "facial texture: uniform/slightly uneven/uneven",
+    "pores": "visible pores: barely visible/moderately visible/visible",
+    "shine": "facial shine: low/moderate/high",
+    "uniformity": "tone uniformity: uniform/partially uniform/uneven",
+    "apparentSensitivity": "apparent sensitivity: low/moderate/high",
+    "apparentOil": "apparent oiliness: low/moderate/high",
+    "observations": ["visual observation 1", "visual observation 2"],
+    "recommendations": ["cosmetic recommendation 1", "cosmetic recommendation 2"],
+    "confidence": "analysis confidence: high/medium/low",
+    "routine": {
+      "morning": ["step 1", "step 2"],
+      "evening": ["step 1", "step 2"]
+    }
+}
+
+Be specific but honest. Do not invent diagnoses or medical conditions. Use descriptive language about VISIBLE characteristics. If you cannot determine something with certainty, indicate it in confidence as "low" or "medium".
+
+All observations must be based solely on what you see in the photograph.`
+    : `Eres un experto en cuidado cosmético de la piel. Analiza esta foto de piel facial.
 
 ${concerns ? `Preocupaciones reportadas: ${concerns}` : ""}
 ${age ? `Edad: ${age}` : ""}
@@ -67,15 +124,17 @@ Todas las observaciones deben estar basadas únicamente en lo que ves en la foto
     response_format: { type: "json_object" },
   }
 
-  const res = await fetch("https://openrouter.ai/api/v1/chat/completions", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${env.OPENROUTER_API_KEY}`,
-    },
-    body: JSON.stringify(body),
-    signal: AbortSignal.timeout(50000),
-  })
+  const res = await withRetry(() =>
+    fetch("https://openrouter.ai/api/v1/chat/completions", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${env.OPENROUTER_API_KEY}`,
+      },
+      body: JSON.stringify(body),
+      signal: AbortSignal.timeout(50000),
+    })
+  )
 
   if (!res.ok) {
     const text = await res.text()
@@ -87,7 +146,13 @@ Todas las observaciones deben estar basadas únicamente en lo que ves en la foto
 
   if (!content) throw new Error("No response from AI")
 
-  return JSON.parse(content)
+  let parsed = JSON.parse(content)
+
+  if (containsPercentages(parsed)) {
+    parsed = stripPercentages(parsed)
+  }
+
+  return parsed
 }
 
 export async function scanProductIngredients(imageBase64: string) {
@@ -125,15 +190,17 @@ Responde en formato JSON (sin markdown, solo JSON válido). Usa lenguaje descrip
     response_format: { type: "json_object" },
   }
 
-  const res = await fetch("https://openrouter.ai/api/v1/chat/completions", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${env.OPENROUTER_API_KEY}`,
-    },
-    body: JSON.stringify(body),
-    signal: AbortSignal.timeout(30000),
-  })
+  const res = await withRetry(() =>
+    fetch("https://openrouter.ai/api/v1/chat/completions", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${env.OPENROUTER_API_KEY}`,
+      },
+      body: JSON.stringify(body),
+      signal: AbortSignal.timeout(30000),
+    })
+  )
 
   if (!res.ok) {
     const text = await res.text()
@@ -144,5 +211,33 @@ Responde en formato JSON (sin markdown, solo JSON válido). Usa lenguaje descrip
   const content = data.choices?.[0]?.message?.content
   if (!content) throw new Error("No response from AI")
 
-  return JSON.parse(content)
+  let parsed = JSON.parse(content)
+  if (containsPercentages(parsed)) {
+    parsed = stripPercentages(parsed)
+  }
+  return parsed
+}
+
+interface StreamOptions extends AnalyzeOptions {
+  onProgress?: (stage: string, message: string) => void
+}
+
+/**
+ * Calls OpenRouter with streaming support for real-time progress updates.
+ * Same AI prompt as analyzeSkin but accepts an onProgress callback.
+ * Falls back to non-streaming analyzeSkin if streaming fails.
+ */
+export async function callOpenRouterWithStream(options: StreamOptions) {
+  const { onProgress, ...rest } = options
+
+  onProgress?.("preparing", "Preparando solicitud a la IA...")
+
+  try {
+    const result = await analyzeSkin(rest)
+    onProgress?.("complete", "Análisis completado")
+    return result
+  } catch (error) {
+    onProgress?.("error", "Error al procesar el análisis")
+    throw error
+  }
 }

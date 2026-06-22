@@ -1,7 +1,9 @@
-const CUP_RATE = Number(process.env.NEXT_PUBLIC_CUP_FALLBACK) || 300
+export const FALLBACK_CUP_RATE = Number(process.env.NEXT_PUBLIC_CUP_FALLBACK) || 500
+
+export const PACK_EXPIRY_DAYS = 30
 
 function toCUP(usd: number): number {
-  return Math.round(usd * CUP_RATE)
+  return Math.round(usd * FALLBACK_CUP_RATE)
 }
 
 export interface PlanDef {
@@ -78,12 +80,13 @@ export const PACKS: PackDef[] = [
   {
     id: "BASIC",
     name: "Pack Básico",
-    priceUSD: 2.99,
-    priceCUP: toCUP(2.99),
+    priceUSD: 1.99,
+    priceCUP: toCUP(1.99),
     analyses: 3,
     features: [
       "3 análisis de piel",
       "Historial desbloqueado",
+      "Válido por 30 días",
     ],
     popular: false,
   },
@@ -97,20 +100,22 @@ export const PACKS: PackDef[] = [
       "5 análisis de piel",
       "Historial desbloqueado",
       "Comparación de resultados",
+      "Válido por 30 días",
     ],
     popular: true,
   },
   {
     id: "ADVANCED",
     name: "Pack Avanzado",
-    priceUSD: 9.99,
-    priceCUP: toCUP(9.99),
+    priceUSD: 6.99,
+    priceCUP: toCUP(6.99),
     analyses: 15,
     features: [
       "15 análisis de piel",
       "Historial desbloqueado",
       "Comparación avanzada",
       "Acceso prioritario",
+      "Válido por 30 días",
     ],
     popular: false,
   },
@@ -128,4 +133,4 @@ export function getPlanLabel(id: string): string {
   return getPlan(id)?.name || id
 }
 
-export { CUP_RATE }
+export { FALLBACK_CUP_RATE as CUP_RATE }

@@ -6,35 +6,44 @@ import { useSession, signOut } from "next-auth/react"
 import { cn } from "@/lib/utils"
 import {
   Home,
-  LayoutDashboard,
   Scan,
   History,
+  Leaf,
   Package,
-  Newspaper,
-  CreditCard,
+  Beaker,
+  TrendingUp,
   User,
-  Shield,
+  Settings,
   LogOut,
   Menu,
   X,
+  Flower2,
+  Sparkles,
+  ArrowRight,
 } from "lucide-react"
 import { useState } from "react"
 
-const links = [
+const guestLinks = [
   { href: "/", label: "Inicio", icon: Home },
-  { href: "/dashboard", label: "Dashboard", icon: LayoutDashboard },
-  { href: "/analysis", label: "Análisis", icon: Scan },
+  { href: "/products", label: "Productos", icon: Package },
+  { href: "/ingredients-analyzer", label: "Ingredientes", icon: Beaker },
+]
+
+const authLinks = [
+  { href: "/", label: "Inicio", icon: Home },
+  { href: "/analysis", label: "Análisis de piel", icon: Scan },
   { href: "/dashboard/history", label: "Historial", icon: History },
   { href: "/products", label: "Productos", icon: Package },
-  { href: "/blog", label: "Blog", icon: Newspaper },
-  { href: "/pricing", label: "Planes", icon: CreditCard },
-  { href: "/dashboard/profile", label: "Perfil", icon: User },
+  { href: "/ingredients-analyzer", label: "Ingredientes", icon: Beaker },
+  { href: "/dashboard/subscription", label: "Plan", icon: TrendingUp },
+  { href: "/dashboard/profile", label: "Cuenta", icon: User },
 ]
 
 export function Sidebar() {
   const pathname = usePathname()
   const { data: session } = useSession()
   const [mobileOpen, setMobileOpen] = useState(false)
+  const links = session ? authLinks : guestLinks
 
   const isActive = (href: string) => {
     if (href === "/") return pathname === "/"
@@ -42,15 +51,15 @@ export function Sidebar() {
   }
 
   const sidebarContent = (
-    <div className="flex flex-col h-full">
+    <div className="flex flex-col h-full bg-white">
       <div className="p-6">
         <Link href="/" className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-2xl gradient-primary flex items-center justify-center shadow-lg neon-glow">
-            <Scan className="w-5 h-5 text-primary-foreground" />
+          <div className="w-10 h-10 rounded-2xl bg-[#C2E09D] flex items-center justify-center">
+            <Flower2 className="w-5 h-5 text-[#2F3A2D]" />
           </div>
           <div>
-            <span className="font-serif text-lg font-semibold text-on-surface">The Serene Lens</span>
-            <span className="text-[10px] text-muted-foreground block leading-tight">Observación Cosmética</span>
+            <span className="font-serif text-lg font-semibold text-[#2F3A2D]">The Serene Lens</span>
+            <span className="text-[10px] text-[#8A9A82] block leading-tight">Observación Cosmética</span>
           </div>
         </Link>
       </div>
@@ -60,17 +69,17 @@ export function Sidebar() {
           const active = isActive(link.href)
           return (
             <Link
-              key={link.href}
+              key={`${link.href}-${link.label}`}
               href={link.href}
               onClick={() => setMobileOpen(false)}
               className={cn(
                 "flex items-center gap-3 px-4 py-2.5 text-sm font-medium rounded-xl transition-all duration-200",
                 active
-                  ? "glass-sidebar-item active"
-                  : "glass-sidebar-item text-on-surface-variant"
+                  ? "bg-[#F0F5EC] text-[#2F3A2D]"
+                  : "text-[#64705E] hover:bg-[#F8FAF5] hover:text-[#2F3A2D]"
               )}
             >
-              <link.icon className={cn("w-4.5 h-4.5 shrink-0", active ? "text-primary" : "")} />
+              <link.icon className={cn("w-4.5 h-4.5 shrink-0", active ? "text-[#2F3A2D]" : "text-[#8A9A82]")} />
               {link.label}
             </Link>
           )
@@ -83,32 +92,51 @@ export function Sidebar() {
             className={cn(
               "flex items-center gap-3 px-4 py-2.5 text-sm font-medium rounded-xl transition-all duration-200",
               isActive("/admin")
-                ? "glass-sidebar-item active"
-                : "glass-sidebar-item text-on-surface-variant"
+                ? "bg-[#F0F5EC] text-[#2F3A2D]"
+                : "text-[#64705E] hover:bg-[#F8FAF5] hover:text-[#2F3A2D]"
             )}
           >
-            <Shield className="w-4.5 h-4.5 shrink-0" />
+            <Settings className="w-4.5 h-4.5 shrink-0 text-[#8A9A82]" />
             Admin
           </Link>
         )}
+
+        {/* ─── Premium Card ─── */}
+        <div className="pt-4 px-1">
+          <div className="p-4 rounded-2xl gradient-primary border border-[#C2E09D]/30">
+            <Sparkles className="w-5 h-5 text-[#2F3A2D] mb-2" />
+            <p className="text-sm font-semibold text-[#2F3A2D] mb-1">Premium</p>
+            <p className="text-xs text-[#64705E] leading-relaxed mb-3">
+              Análisis ilimitados, historial completo y rutinas personalizadas.
+            </p>
+            <Link
+              href="/pricing"
+              onClick={() => setMobileOpen(false)}
+              className="inline-flex items-center gap-1.5 text-xs font-medium text-[#2F3A2D] hover:text-[#2F3A2D]/80 transition-colors"
+            >
+              Ver planes
+              <ArrowRight className="w-3 h-3" />
+            </Link>
+          </div>
+        </div>
       </nav>
 
-      <div className="p-3 border-t border-white/10">
+      <div className="p-3 border-t border-[#DDE7D3]">
         {session ? (
           <div className="space-y-1">
             <Link
               href="/dashboard/profile"
               onClick={() => setMobileOpen(false)}
-              className="flex items-center gap-3 px-4 py-2.5 text-sm rounded-xl glass-sidebar-item text-on-surface-variant"
+              className="flex items-center gap-3 px-4 py-2.5 text-sm rounded-xl text-[#64705E] hover:bg-[#F8FAF5] hover:text-[#2F3A2D] transition-all duration-200"
             >
-              <User className="w-4.5 h-4.5 shrink-0" />
+              <User className="w-4.5 h-4.5 shrink-0 text-[#8A9A82]" />
               <span className="truncate">{session.user.name || session.user.email}</span>
             </Link>
             <button
               onClick={() => signOut()}
-              className="flex items-center gap-3 px-4 py-2.5 text-sm rounded-xl glass-sidebar-item text-on-surface-variant w-full text-left"
+              className="flex items-center gap-3 px-4 py-2.5 text-sm rounded-xl text-[#64705E] hover:bg-[#F8FAF5] hover:text-[#2F3A2D] transition-all duration-200 w-full text-left"
             >
-              <LogOut className="w-4.5 h-4.5 shrink-0" />
+              <LogOut className="w-4.5 h-4.5 shrink-0 text-[#8A9A82]" />
               Cerrar sesión
             </button>
           </div>
@@ -116,13 +144,13 @@ export function Sidebar() {
           <Link
             href="/login"
             onClick={() => setMobileOpen(false)}
-            className="flex items-center gap-3 px-4 py-2.5 text-sm font-medium rounded-xl glass-sidebar-item text-primary"
+            className="flex items-center gap-3 px-4 py-2.5 text-sm font-medium rounded-xl bg-[#C2E09D] text-[#2F3A2D] hover:bg-[#B0D48E] transition-all duration-200"
           >
             <User className="w-4.5 h-4.5 shrink-0" />
             Iniciar sesión
           </Link>
         )}
-        <p className="text-[10px] text-muted-foreground/50 text-center mt-2">
+        <p className="text-[10px] text-[#8A9A82] text-center mt-2">
           &copy; {new Date().getFullYear()} The Serene Lens
         </p>
       </div>
@@ -131,20 +159,20 @@ export function Sidebar() {
 
   return (
     <>
-      <aside className="hidden md:flex fixed left-0 top-0 h-screen w-[280px] z-40 glass-sidebar flex-col">
+      <aside className="hidden md:flex fixed left-0 top-0 h-screen w-[280px] z-40 flex-col border-r border-[#DDE7D3] bg-white">
         {sidebarContent}
       </aside>
 
       {mobileOpen && (
         <div
-          className="md:hidden fixed inset-0 z-40 bg-black/50 backdrop-blur-sm"
+          className="md:hidden fixed inset-0 z-40 bg-black/20"
           onClick={() => setMobileOpen(false)}
         />
       )}
 
       <aside
         className={cn(
-          "md:hidden fixed top-0 left-0 h-screen w-[280px] z-50 glass-sidebar flex-col transition-transform duration-300",
+          "md:hidden fixed top-0 left-0 h-screen w-[280px] z-50 bg-white flex-col transition-transform duration-300 border-r border-[#DDE7D3]",
           mobileOpen ? "translate-x-0" : "-translate-x-full"
         )}
       >
@@ -153,10 +181,10 @@ export function Sidebar() {
 
       <button
         onClick={() => setMobileOpen(!mobileOpen)}
-        className="md:hidden fixed top-4 left-4 z-50 w-10 h-10 rounded-xl glass-card-strong flex items-center justify-center"
+        className="md:hidden fixed top-4 left-4 z-50 w-10 h-10 rounded-xl bg-white border border-[#DDE7D3] flex items-center justify-center shadow-sm"
         aria-label="Menú"
       >
-        {mobileOpen ? <X className="w-5 h-5 text-on-surface" /> : <Menu className="w-5 h-5 text-on-surface" />}
+        {mobileOpen ? <X className="w-5 h-5 text-[#2F3A2D]" /> : <Menu className="w-5 h-5 text-[#2F3A2D]" />}
       </button>
     </>
   )

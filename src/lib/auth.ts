@@ -5,11 +5,14 @@ import GoogleProvider from "next-auth/providers/google"
 import GitHubProvider from "next-auth/providers/github"
 import { db } from "@/lib/db"
 import { getEnv } from "@/lib/env"
-import crypto from "crypto"
-
 const env = getEnv()
 
+async function get_crypto() {
+  return import("crypto")
+}
+
 async function hashPassword(password: string): Promise<string> {
+  const crypto = await get_crypto()
   return new Promise((resolve, reject) => {
     const salt = crypto.randomBytes(16).toString("hex")
     crypto.scrypt(password, salt, 64, (err, derivedKey) => {
@@ -20,6 +23,7 @@ async function hashPassword(password: string): Promise<string> {
 }
 
 async function verifyPassword(password: string, hash: string): Promise<boolean> {
+  const crypto = await get_crypto()
   return new Promise((resolve, reject) => {
     const [salt, key] = hash.split(":")
     crypto.scrypt(password, salt, 64, (err, derivedKey) => {
@@ -41,7 +45,7 @@ export async function registerUser(email: string, password: string, name?: strin
       name: name || null,
       password: await hashPassword(password),
       role: isAdmin ? "ADMIN" : "USER",
-      plan: isAdmin ? "ULTRAPREMIUM" : "FREE",
+      plan: isAdmin ? "PRO" : "FREE",
     },
   })
 
@@ -103,6 +107,53 @@ export const authOptions: NextAuthOptions = {
       : []),
   ],
   callbacks: {
+    async signIn({ user, account }) {
+      if (!account || account.provider === "credentials") return true
+
+      const existingUser = await db.user.findUnique({
+        where: { email: user.email! },
+        include: { accounts: true },
+      })
+
+      if (!existingUser) return true
+
+      const hasLinkedAccount = existingUser.accounts.some(
+        (a) => a.provider === account.provider
+      )
+
+      if (hasLinkedAccount) return true
+
+      const hasPassword = !!existingUser.password
+
+      if (hasPassword) {
+        const alreadyLinkedToOther = existingUser.accounts.some(
+          (a) => a.provider !== account.provider
+        )
+        if (alreadyLinkedToOther) return true
+
+        await db.account.create({
+          data: {
+            userId: existingUser.id,
+            type: account.type,
+            provider: account.provider,
+            providerAccountId: account.providerAccountId,
+            refresh_token: account.refresh_token,
+            access_token: account.access_token,
+            expires_at: account.expires_at,
+            token_type: account.token_type,
+            scope: account.scope,
+            id_token: account.id_token,
+            session_state: account.session_state,
+          },
+        })
+
+        user.id = existingUser.id
+        return true
+      }
+
+      return true
+    },
+
     async jwt({ token, user }) {
       if (user) {
         token.role = user.role || "USER"

@@ -19,6 +19,13 @@ export async function GET() {
         skinType: true,
         concerns: true,
         createdAt: true,
+        feedback: {
+          select: {
+            id: true,
+            rating: true,
+            wouldRecommend: true,
+          },
+        },
       },
       orderBy: { createdAt: "desc" },
       take: 50,

@@ -2,11 +2,17 @@ import type { Metadata } from "next"
 import "./globals.css"
 import { Toaster } from "sonner"
 import { AuthProvider } from "@/components/auth-provider"
+import { QueryProvider } from "@/components/query-provider"
 import { Sidebar } from "@/components/layout/sidebar"
 import { MobileNav } from "@/components/layout/mobile-nav"
+import { ClientInit } from "@/components/client-init"
 
 export const metadata: Metadata = {
-  title: "The Serene Lens | Observación Cosmética de tu Piel",
+  metadataBase: new URL(process.env.NEXT_PUBLIC_APP_URL || "https://theserenelens.com"),
+  title: {
+    template: "%s | The Serene Lens",
+    default: "The Serene Lens | Observación Cosmética de tu Piel",
+  },
   description:
     "Descubre las características visibles de tu piel con observaciones cosméticas personalizadas y recomendaciones educativas.",
   openGraph: {
@@ -16,27 +22,64 @@ export const metadata: Metadata = {
     locale: "es_ES",
     type: "website",
   },
+  twitter: {
+    card: "summary_large_image",
+    title: "The Serene Lens | Observación Cosmética",
+    description: "Descubre las características visibles de tu piel con observaciones personalizadas.",
+  },
+  robots: {
+    index: true,
+    follow: true,
+  },
 }
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="es" suppressHydrationWarning>
-      <body className="min-h-screen antialiased">
-        <AuthProvider>
-          <Sidebar />
-          <main id="main-content" className="md:ml-[280px] min-h-screen pb-20 md:pb-0 pt-16 md:pt-0">
-            {children}
-          </main>
-          <MobileNav />
-          <Toaster
-            position="top-center"
-            toastOptions={{
-              className:
-                "!bg-[rgba(0,0,0,0.7)] !backdrop-blur-[25px] !border-[rgba(255,255,255,0.25)] !rounded-2xl !shadow-[0_8px_32px_rgba(0,0,0,0.20)]",
-              duration: 4000,
+      <head>
+        <link rel="manifest" href="/manifest.json" />
+        <link rel="preconnect" href="https://api.openrouter.ai" />
+        <link rel="dns-prefetch" href="https://api.openrouter.ai" />
+        <link rel="preconnect" href="https://api.stripe.com" />
+        <link rel="dns-prefetch" href="https://api.stripe.com" />
+        <link rel="preconnect" href="https://app.posthog.com" />
+        <link rel="dns-prefetch" href="https://app.posthog.com" />
+        {process.env.NODE_ENV === "production" && (
+          <script
+            dangerouslySetInnerHTML={{
+              __html: `
+                if ("serviceWorker" in navigator) {
+                  window.addEventListener("load", () => {
+                    navigator.serviceWorker.register("/sw.js")
+                  })
+                }
+              `,
             }}
           />
-        </AuthProvider>
+        )}
+      </head>
+      <body className="min-h-screen antialiased bg-[#FFFFFF]">
+        <QueryProvider>
+          <AuthProvider>
+            <Sidebar />
+            <main id="main-content" className="md:ml-[280px] min-h-screen pb-20 md:pb-0 bg-[#F8FAF5]">
+              {children}
+            </main>
+            <MobileNav />
+            <Toaster
+              position="top-center"
+              toastOptions={{
+                className:
+                  "!bg-white !border-[#DDE7D3] !rounded-2xl !shadow-[0_4px_12px_rgba(47,58,45,0.08)] !text-[#2F3A2D]",
+                duration: 4000,
+                style: {
+                  borderLeft: "4px solid #C2E09D",
+                },
+              }}
+            />
+            <ClientInit />
+          </AuthProvider>
+        </QueryProvider>
       </body>
     </html>
   )

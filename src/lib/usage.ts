@@ -1,5 +1,9 @@
 import { db } from "@/lib/db"
-import { getPlan } from "@/lib/pricing"
+import { getPlan, PACK_EXPIRY_DAYS } from "@/lib/pricing"
+
+function getPackCutoff(): Date {
+  return new Date(Date.now() - PACK_EXPIRY_DAYS * 24 * 60 * 60 * 1000)
+}
 
 export async function getUsageInfo(userId: string) {
   const user = await db.user.findUnique({
@@ -17,13 +21,14 @@ export async function getUsageInfo(userId: string) {
   const plan = getPlan(user.plan)
   const isUnlimited = plan?.analysesPerMonth === -1
 
+  const cutoff = getPackCutoff()
   const packAnalyses = await db.purchasePack.aggregate({
-    where: { userId, status: "completed" },
+    where: { userId, status: "completed", createdAt: { gte: cutoff } },
     _sum: { analyses: true },
   })
 
   const packUsage = await db.usageTracking.count({
-    where: { userId, type: "analysis" },
+    where: { userId, type: "pack" },
   })
 
   const monthlyLimit = isUnlimited ? Infinity : (plan?.analysesPerMonth ?? 1)
@@ -79,13 +84,14 @@ export async function checkAndDeductUsage(userId: string): Promise<{ allowed: bo
   const monthlyLimit = plan?.analysesPerMonth ?? 1
   const monthlyRemaining = Math.max(0, monthlyLimit - user.analysisUsed)
 
+  const cutoff = getPackCutoff()
   const packResult = await db.purchasePack.aggregate({
-    where: { userId, status: "completed" },
+    where: { userId, status: "completed", createdAt: { gte: cutoff } },
     _sum: { analyses: true },
   })
   const packTotal = packResult._sum.analyses ?? 0
   const packUsage = await db.usageTracking.count({
-    where: { userId, type: "analysis" },
+    where: { userId, type: "pack" },
   })
   const packRemaining = Math.max(0, packTotal - packUsage)
 
@@ -95,14 +101,14 @@ export async function checkAndDeductUsage(userId: string): Promise<{ allowed: bo
     return { allowed: false, error: "Has alcanzado tu límite de análisis. Adquiere un plan o pack para continuar." }
   }
 
-  if (monthlyRemaining > 0) {
+  if (packRemaining > 0) {
+    await db.usageTracking.create({
+      data: { userId, type: "pack" },
+    })
+  } else {
     await db.user.update({
       where: { id: userId },
       data: { analysisUsed: { increment: 1 } },
-    })
-  } else {
-    await db.usageTracking.create({
-      data: { userId, type: "analysis" },
     })
   }
 

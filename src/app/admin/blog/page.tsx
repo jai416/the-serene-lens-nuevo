@@ -56,7 +56,7 @@ export default function AdminBlogPage() {
         toast.success("Artículo creado correctamente")
       } else {
         const data = await res.json()
-        toast.error(data.error || "Error al crear artículo")
+        toast.error(data.error?.message || data.error || "Error al crear artículo")
       }
     } catch {
       toast.error("Error al crear artículo")
@@ -76,7 +76,7 @@ export default function AdminBlogPage() {
         toast.success("Artículo eliminado")
       } else {
         const data = await res.json()
-        toast.error(data.error || "Error al eliminar artículo")
+        toast.error(data.error?.message || data.error || "Error al eliminar artículo")
       }
     } catch {
       toast.error("Error al eliminar artículo")

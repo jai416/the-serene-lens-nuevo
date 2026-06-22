@@ -7,15 +7,13 @@ const buttonVariants = cva(
   {
     variants: {
       variant: {
-        default: "bg-primary text-primary-foreground hover:opacity-90 shadow-sm rounded-xl h-10 px-5 py-2",
-        neon: "bg-primary text-primary-foreground shadow-[0_0_20px_rgba(183,255,42,0.3)] hover:shadow-[0_0_30px_rgba(183,255,42,0.5)] hover:scale-[1.02] rounded-xl h-10 px-5 py-2",
-        glass: "bg-[rgba(255,255,255,0.10)] backdrop-blur-[25px] border border-[rgba(255,255,255,0.25)] text-on-surface hover:bg-[rgba(255,255,255,0.15)] rounded-xl h-10 px-5 py-2",
-        destructive: "bg-destructive text-white hover:opacity-90 rounded-xl h-10 px-5 py-2",
-        outline: "border border-input bg-transparent hover:bg-muted rounded-xl h-10 px-5 py-2",
-        secondary: "bg-[rgba(255,255,255,0.06)] text-on-surface hover:bg-[rgba(255,255,255,0.10)] rounded-xl h-10 px-5 py-2",
-        ghost: "hover:bg-[rgba(255,255,255,0.06)] rounded-xl h-10 px-5 py-2",
-        link: "text-primary underline-offset-4 hover:underline",
-        gradient: "gradient-primary text-primary-foreground shadow-sm hover:opacity-90 hover:shadow-md rounded-xl h-10 px-5 py-2",
+        default: "bg-primary text-primary-foreground hover:bg-[#B0D48E] shadow-sm rounded-xl h-10 px-5 py-2",
+        primary: "bg-primary text-primary-foreground hover:bg-[#B0D48E] rounded-xl h-10 px-5 py-2",
+        secondary: "bg-white border border-[#C2E09D] text-[#2F3A2D] hover:bg-[#F8FAF5] rounded-xl h-10 px-5 py-2",
+        outline: "border border-[#DDE7D3] bg-white hover:bg-[#F8FAF5] rounded-xl h-10 px-5 py-2",
+        ghost: "hover:bg-[#F0F5EC] rounded-xl h-10 px-5 py-2",
+        link: "text-[#64705E] underline-offset-4 hover:underline hover:text-[#2F3A2D]",
+        destructive: "bg-[#E07070] text-white hover:bg-[#D06060] rounded-xl h-10 px-5 py-2",
       },
       size: {
         default: "h-10 px-5 py-2",
@@ -36,8 +34,8 @@ export interface ButtonProps
     VariantProps<typeof buttonVariants> {}
 
 const Button = forwardRef<HTMLButtonElement, ButtonProps>(
-  ({ className, variant, size, ...props }, ref) => (
-    <button className={cn(buttonVariants({ variant, size, className }))} ref={ref} {...props} />
+  ({ className, variant, size, "aria-label": ariaLabel, ...props }, ref) => (
+    <button className={cn(buttonVariants({ variant, size, className }))} ref={ref} aria-label={ariaLabel} {...props} />
   )
 )
 Button.displayName = "Button"

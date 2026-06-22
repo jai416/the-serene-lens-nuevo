@@ -2,6 +2,7 @@ import { getServerSession } from "next-auth"
 import { authOptions } from "@/lib/auth"
 import { db } from "@/lib/db"
 import { NextRequest } from "next/server"
+import { revalidateTag } from "next/cache"
 import { ok, unauthorized, serverError } from "@/lib/api-response"
 
 async function requireAdmin() {
@@ -47,6 +48,8 @@ export async function POST(req: NextRequest) {
       },
     })
 
+    revalidateTag("products-catalog", {})
+
     return ok({ product })
   } catch (e) {
     return serverError(e)
@@ -65,6 +68,8 @@ export async function PUT(req: NextRequest) {
       data,
     })
 
+    revalidateTag("products-catalog", {})
+
     return ok({ product })
   } catch (e) {
     return serverError(e)
@@ -79,6 +84,8 @@ export async function DELETE(req: NextRequest) {
     const { id } = await req.json()
 
     await db.product.delete({ where: { id } })
+
+    revalidateTag("products-catalog", {})
 
     return ok({ deleted: true })
   } catch (e) {

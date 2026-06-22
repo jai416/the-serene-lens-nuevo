@@ -2,6 +2,7 @@ import { getServerSession } from "next-auth"
 import { authOptions } from "@/lib/auth"
 import { db } from "@/lib/db"
 import { NextRequest } from "next/server"
+import { revalidateTag } from "next/cache"
 import { ok, unauthorized, serverError } from "@/lib/api-response"
 
 async function requireAdmin() {
@@ -47,6 +48,8 @@ export async function POST(req: NextRequest) {
       },
     })
 
+    revalidateTag("blog-posts", {})
+
     return ok({ post })
   } catch (e) {
     return serverError(e)
@@ -70,6 +73,8 @@ export async function PUT(req: NextRequest) {
       data: updateData,
     })
 
+    revalidateTag("blog-posts", {})
+
     return ok({ post })
   } catch (e) {
     return serverError(e)
@@ -84,6 +89,8 @@ export async function DELETE(req: NextRequest) {
     const { id } = await req.json()
 
     await db.blogPost.delete({ where: { id } })
+
+    revalidateTag("blog-posts", {})
 
     return ok({ deleted: true })
   } catch (e) {

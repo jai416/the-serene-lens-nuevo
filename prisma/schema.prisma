@@ -1,10 +1,10 @@
 generator client {
-  provider = "prisma-client-js"
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
 }
 
 datasource db {
   provider = "postgresql"
-  url      = env("DATABASE_URL")
 }
 
 model User {
@@ -31,6 +31,7 @@ model User {
   subscriptions Subscription[]
   purchasePacks PurchasePack[]
   usageRecords  UsageTracking[]
+  clinic        Clinic?
 }
 
 model Account {
@@ -80,6 +81,7 @@ model SkinAnalysis {
   routine         String?
   createdAt       DateTime @default(now())
 
+  feedback        Feedback?
   user User? @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@index([userId])
@@ -195,6 +197,48 @@ model UsageTracking {
   @@index([userId, createdAt])
 }
 
+model Feedback {
+  id              String   @id @default(cuid())
+  analysisId      String   @unique
+  rating          Int
+  comment         String?
+  wouldRecommend  Boolean
+  createdAt       DateTime @default(now())
+
+  analysis SkinAnalysis @relation(fields: [analysisId], references: [id], onDelete: Cascade)
+
+  @@index([analysisId])
+  @@index([createdAt])
+}
+
+model Clinic {
+  id        String   @id @default(cuid())
+  name      String
+  slug      String   @unique
+  logo      String?
+  address   String?
+  phone     String?
+  ownerId   String   @unique
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  owner User @relation(fields: [ownerId], references: [id], onDelete: Cascade)
+}
+
+model AffiliateClick {
+  id          String   @id @default(cuid())
+  productName String
+  query       String?
+  provider    String   @default("amazon")
+  url         String
+  refParam    String?
+  userId      String?
+  createdAt   DateTime @default(now())
+
+  @@index([createdAt])
+  @@index([productName])
+}
+
 model ContactMessage {
   id        String   @id @default(cuid())
   name      String
@@ -206,4 +250,53 @@ model ContactMessage {
 
   @@index([read])
   @@index([createdAt])
+}
+
+model Cache {
+  key       String   @id
+  value     String
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+
+  @@index([expiresAt])
+}
+
+model WebhookEvent {
+  id          String    @id @default(cuid())
+  provider    String
+  eventType   String
+  payload     String
+  processedAt DateTime?
+  attempts    Int       @default(0)
+  lastAttempt DateTime?
+  error       String?
+  createdAt   DateTime  @default(now())
+
+  @@index([processedAt])
+  @@index([attempts])
+}
+
+model UserEvolution {
+  id           String   @id @default(cuid())
+  userId       String   @unique
+  data         String
+  lastAnalysis DateTime
+  updatedAt    DateTime @updatedAt
+
+  @@index([userId])
+}
+
+model RateLimit {
+  key       String   @id
+  count     Int      @default(1)
+  resetAt   DateTime
+  createdAt DateTime @default(now())
+
+  @@index([resetAt])
+}
+
+model AppConfig {
+  key       String   @id
+  value     String
+  updatedAt DateTime @updatedAt
 }

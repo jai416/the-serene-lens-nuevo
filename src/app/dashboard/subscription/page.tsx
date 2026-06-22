@@ -1,7 +1,7 @@
 "use client"
 
 import { useSession } from "next-auth/react"
-import { redirect } from "next/navigation"
+import { redirect, usePathname } from "next/navigation"
 import { useEffect, useState } from "react"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
@@ -42,6 +42,7 @@ interface Pack {
 }
 
 export default function SubscriptionPage() {
+  const pathname = usePathname()
   const { data: session, status, update } = useSession()
   const [payments, setPayments] = useState<Payment[]>([])
   const [usage, setUsage] = useState<Usage | null>(null)
@@ -64,12 +65,12 @@ export default function SubscriptionPage() {
   if (status === "loading") {
     return (
       <div className="min-h-screen flex items-center justify-center">
-        <p className="text-muted-foreground">Cargando...</p>
+        <p className="text-[#64705E]">Cargando...</p>
       </div>
     )
   }
 
-  if (!session) redirect("/api/auth/signin")
+  if (!session) redirect("/login?callbackUrl=" + encodeURIComponent(pathname))
 
   const plan = session.user.plan || "FREE"
   const isPaid = plan !== "FREE"
@@ -78,31 +79,31 @@ export default function SubscriptionPage() {
     <div className="min-h-screen px-4 py-8">
       <div className="max-w-3xl mx-auto">
         <div className="mb-8">
-          <Badge variant="neon" className="mb-4 rounded-full px-4 py-1.5 border-0">
+          <Badge variant="primary" className="mb-4 rounded-full px-4 py-1.5 border-0">
             <CreditCard className="w-3.5 h-3.5 mr-2" />
             Mi Suscripción
           </Badge>
-          <h1 className="font-serif text-3xl sm:text-4xl font-semibold">
-            Mi <span className="gradient-text">Suscripción</span>
+          <h1 className="font-serif text-3xl sm:text-4xl font-semibold text-[#2F3A2D]">
+            Mi Suscripción
           </h1>
         </div>
 
         {/* Current Plan */}
-        <Card className={`p-6 border-[rgba(255,255,255,0.25)] mb-6 ${isPaid ? "ring-1 ring-primary/20" : ""}`}>
+        <Card className={`p-6 mb-6 ${isPaid ? "ring-1 ring-[#C2E09D]" : ""}`}>
           <CardContent className="p-0">
             <div className="flex items-center justify-between mb-4">
               <div>
-                <p className="text-sm text-muted-foreground">Plan actual</p>
-                <h2 className="font-serif text-2xl font-semibold">{getPlanLabel(plan)}</h2>
+                <p className="text-sm text-[#64705E]">Plan actual</p>
+                <h2 className="font-serif text-2xl font-semibold text-[#2F3A2D]">{getPlanLabel(plan)}</h2>
               </div>
-              <Badge className={isPaid ? "bg-primary text-primary-foreground" : "bg-muted text-muted-foreground"}>
+              <Badge className={isPaid ? "bg-[#C2E09D] text-[#2F3A2D]" : "bg-[#F0F5EC] text-[#64705E]"}>
                 {isPaid ? "Activo" : "Gratuito"}
               </Badge>
             </div>
 
             {!isPaid && (
               <Link href="/pricing">
-                <Button className="rounded-full gradient-primary text-white w-full mt-4">
+                <Button variant="primary" className="w-full mt-4">
                   <CreditCard className="w-4 h-4 mr-2" />
                   Actualizar plan
                 </Button>
@@ -113,22 +114,22 @@ export default function SubscriptionPage() {
 
         {/* Usage */}
         {usage && (
-          <Card className="p-6 border-[rgba(255,255,255,0.25)] mb-6">
+          <Card className="p-6 mb-6">
             <CardContent className="p-0">
-              <h3 className="font-medium text-sm mb-4 flex items-center gap-2">
-                <BarChart3 className="w-4 h-4 text-primary" />
+              <h3 className="font-medium text-sm mb-4 flex items-center gap-2 text-[#2F3A2D]">
+                <BarChart3 className="w-4 h-4 text-[#2F3A2D]" />
                 Análisis disponibles
               </h3>
               <div className="space-y-3">
                 {!usage.isUnlimited && (
                   <div>
                     <div className="flex justify-between text-sm mb-1">
-                      <span className="text-muted-foreground">Plan {getPlanLabel(usage.plan)}</span>
-                      <span className="font-medium">{usage.monthlyUsed} / {usage.monthlyLimit}</span>
+                      <span className="text-[#64705E]">Plan {getPlanLabel(usage.plan)}</span>
+                      <span className="font-medium text-[#2F3A2D]">{usage.monthlyUsed} / {usage.monthlyLimit}</span>
                     </div>
-                    <div className="h-2 rounded-full bg-muted overflow-hidden">
+                    <div className="h-2 rounded-full bg-[#F0F5EC] overflow-hidden">
                       <div
-                        className="h-full rounded-full gradient-primary transition-all"
+                        className="h-full rounded-full bg-[#C2E09D] transition-all"
                         style={{ width: `${Math.min(100, (usage.monthlyUsed / usage.monthlyLimit) * 100)}%` }}
                       />
                     </div>
@@ -137,23 +138,23 @@ export default function SubscriptionPage() {
                 {usage.packTotal > 0 && (
                   <div>
                     <div className="flex justify-between text-sm mb-1">
-                      <span className="text-muted-foreground">Paquetes</span>
-                      <span className="font-medium">{usage.packTotal - usage.packRemaining} / {usage.packTotal}</span>
+                      <span className="text-[#64705E]">Paquetes</span>
+                      <span className="font-medium text-[#2F3A2D]">{usage.packTotal - usage.packRemaining} / {usage.packTotal}</span>
                     </div>
-                    <div className="h-2 rounded-full bg-muted overflow-hidden">
+                    <div className="h-2 rounded-full bg-[#F0F5EC] overflow-hidden">
                       <div
-                        className="h-full rounded-full bg-amber-500 transition-all"
+                        className="h-full rounded-full bg-[#FFF6AD] transition-all"
                         style={{ width: `${Math.min(100, ((usage.packTotal - usage.packRemaining) / usage.packTotal) * 100)}%` }}
                       />
                     </div>
                   </div>
                 )}
                 {usage.isUnlimited ? (
-                  <p className="text-sm text-green-500 flex items-center gap-1">
+                  <p className="text-sm text-[#2F3A2D] flex items-center gap-1">
                     <CheckCircle2 className="w-4 h-4" /> Análisis ilimitados
                   </p>
                 ) : (
-                  <p className="text-sm text-muted-foreground">
+                  <p className="text-sm text-[#64705E]">
                     {usage.totalRemaining === Infinity
                       ? "Análisis ilimitados"
                       : `${usage.totalRemaining} análisis restantes`}
@@ -167,16 +168,16 @@ export default function SubscriptionPage() {
         {/* Packs purchased */}
         {isPaid && (
           <Link href="/pricing?tab=packs">
-            <Card className="border-[rgba(255,255,255,0.25)] transition-all duration-200 cursor-pointer">
+            <Card className="transition-all duration-200 cursor-pointer hover:ring-1 hover:ring-[#C2E09D]">
               <CardContent className="p-4 flex items-center justify-between">
                 <div className="flex items-center gap-3">
-                  <ShoppingBag className="w-5 h-5 text-primary" />
+                  <ShoppingBag className="w-5 h-5 text-[#2F3A2D]" />
                   <div>
-                    <p className="text-sm font-medium">Comprar más análisis</p>
-                    <p className="text-xs text-muted-foreground">Paquetes adicionales sin caducidad</p>
+                    <p className="text-sm font-medium text-[#2F3A2D]">Comprar más análisis</p>
+                    <p className="text-xs text-[#64705E]">Paquetes adicionales</p>
                   </div>
                 </div>
-                <CreditCard className="w-4 h-4 text-muted-foreground" />
+                <CreditCard className="w-4 h-4 text-[#8A9A82]" />
               </CardContent>
             </Card>
           </Link>
@@ -185,32 +186,30 @@ export default function SubscriptionPage() {
         {/* Payment History */}
         {payments.length > 0 && (
           <div>
-            <h2 className="font-serif text-xl font-semibold mb-4">Historial de Pagos</h2>
+            <h2 className="font-serif text-xl font-semibold mb-4 text-[#2F3A2D]">Historial de Pagos</h2>
             <div className="space-y-2">
               {payments.map((p) => (
-                <Card key={p.id} className="border-[rgba(255,255,255,0.25)]">
+                <Card key={p.id}>
                   <CardContent className="p-4 flex items-center justify-between">
                     <div className="flex items-center gap-3">
                       {p.status === "completed" ? (
-                        <CheckCircle2 className="w-5 h-5 text-green-500" />
+                        <CheckCircle2 className="w-5 h-5 text-[#2F3A2D]" />
                       ) : p.status === "pending" ? (
-                        <Clock className="w-5 h-5 text-amber-500" />
+                        <Clock className="w-5 h-5 text-[#64705E]" />
                       ) : (
-                        <XCircle className="w-5 h-5 text-red-500" />
+                        <XCircle className="w-5 h-5 text-[#E07070]" />
                       )}
                       <div>
-                        <p className="text-sm font-medium">
+                        <p className="text-sm font-medium text-[#2F3A2D]">
                           {getPlanLabel(p.plan)} - {formatPrice(p.amount, p.currency)}
                         </p>
-                        <p className="text-xs text-muted-foreground">
+                        <p className="text-xs text-[#64705E]">
                           {formatDate(p.createdAt)} · {p.provider === "stripe" ? "Stripe" : "QvaPay"}
                         </p>
                       </div>
                     </div>
                     <Badge
-                      variant={
-                        p.status === "completed" ? "success" : p.status === "pending" ? "secondary" : "outline"
-                      }
+                      variant={p.status === "completed" ? "success" : p.status === "pending" ? "secondary" : "outline"}
                       className="text-xs"
                     >
                       {p.status === "completed" ? "Pagado" : p.status === "pending" ? "Pendiente" : p.status}
@@ -223,14 +222,14 @@ export default function SubscriptionPage() {
         )}
 
         {payments.length === 0 && !isPaid && (
-          <Card className="border-[rgba(255,255,255,0.25)]">
+          <Card>
             <CardContent className="p-8 text-center">
-              <div className="w-14 h-14 rounded-2xl bg-muted flex items-center justify-center mx-auto mb-4">
-                <CreditCard className="w-6 h-6 text-muted-foreground" />
+              <div className="w-14 h-14 rounded-2xl bg-[#F0F5EC] flex items-center justify-center mx-auto mb-4">
+                <CreditCard className="w-6 h-6 text-[#64705E]" />
               </div>
-              <p className="text-muted-foreground mb-4">No tienes pagos registrados aún.</p>
+              <p className="text-[#64705E] mb-4">No tienes pagos registrados aún.</p>
               <Link href="/pricing">
-                <Button className="rounded-full gradient-primary text-white">
+                <Button variant="primary">
                   Ver planes y precios
                 </Button>
               </Link>

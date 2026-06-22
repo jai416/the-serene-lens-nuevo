@@ -5,7 +5,7 @@ import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
-import { Package, Scan, Camera, Upload, ArrowRight, Loader2, AlertCircle, CheckCircle2, AlertTriangle, XCircle, Info } from "lucide-react"
+import { Package, Camera, Upload, ArrowRight, Loader2, AlertCircle, CheckCircle2, AlertTriangle, XCircle, Info } from "lucide-react"
 import Image from "next/image"
 import { toast } from "sonner"
 
@@ -114,27 +114,27 @@ export default function ProductsPage() {
     <div className="min-h-screen px-4 py-8">
       <div className="max-w-7xl mx-auto">
         <div className="text-center mb-10">
-          <Badge variant="neon" className="mb-4 rounded-full px-4 py-1.5 border-0">
+          <Badge variant="primary" className="mb-4 rounded-full px-4 py-1.5 border-0">
             <Package className="w-3.5 h-3.5 mr-2" />
             Productos
           </Badge>
-          <h1 className="font-serif text-3xl sm:text-4xl font-semibold mb-2">
-            Escáner de <span className="gradient-text">Productos</span>
+          <h1 className="font-serif text-3xl sm:text-4xl font-semibold mb-2 text-[#2F3A2D]">
+            Escáner de Productos
           </h1>
-          <p className="text-on-surface-variant max-w-lg mx-auto">
+          <p className="text-[#64705E] max-w-lg mx-auto">
             Escanea la lista de ingredientes de cualquier producto cosmético y descubre su función cosmética.
           </p>
         </div>
 
         {/* Scanner */}
-        <Card className="p-6 mb-10 border-[rgba(255,255,255,0.25)]">
+        <Card className="p-6 mb-10">
           <CardContent className="p-0">
             <div className="flex flex-col items-center text-center">
-              <div className="w-12 h-12 rounded-xl gradient-primary flex items-center justify-center mb-4">
-                <Camera className="w-5 h-5 text-primary-foreground" />
+              <div className="w-12 h-12 rounded-xl bg-[#C2E09D] flex items-center justify-center mb-4">
+                <Camera className="w-5 h-5 text-[#2F3A2D]" />
               </div>
-              <h2 className="font-serif text-lg font-semibold mb-1">Escanea un producto</h2>
-              <p className="text-sm text-on-surface-variant mb-4">
+              <h2 className="font-serif text-lg font-semibold mb-1 text-[#2F3A2D]">Escanea un producto</h2>
+              <p className="text-sm text-[#64705E] mb-4">
                 Sube una foto de la lista de ingredientes de tu producto
               </p>
               <input
@@ -149,7 +149,7 @@ export default function ProductsPage() {
               />
               <Button
                 onClick={() => fileInputRef.current?.click()}
-                variant="neon"
+                variant="primary"
                 disabled={scanning}
               >
                 {scanning ? (
@@ -162,7 +162,7 @@ export default function ProductsPage() {
             </div>
 
             {scanError && (
-              <div className="flex items-center gap-2 p-3 mt-4 rounded-xl bg-destructive/10 text-destructive text-sm">
+              <div className="flex items-center gap-2 p-3 mt-4 rounded-xl bg-[#FEF2F2] border border-[#FECACA] text-sm text-[#E07070]">
                 <AlertCircle className="w-4 h-4" />
                 {scanError}
               </div>
@@ -171,63 +171,79 @@ export default function ProductsPage() {
             {scanResult && (
               <div className="mt-6 space-y-4 animate-fade-in-up">
                 {scanResult.productName && (
-                  <p className="font-medium text-sm">
-                    Producto detectado: <span className="text-primary">{scanResult.productName}</span>
+                  <p className="font-medium text-sm text-[#2F3A2D]">
+                    Producto detectado: <span className="font-semibold">{scanResult.productName}</span>
                   </p>
                 )}
 
-                <p className="text-sm text-on-surface-variant bg-[rgba(255,255,255,0.04)] rounded-xl p-4">
+                <p className="text-sm text-[#64705E] bg-[#F8FAF5] rounded-xl p-4">
                   {scanResult.summary}
                 </p>
 
                 <div className="grid sm:grid-cols-3 gap-3">
                   {scanResult.analysis.good.length > 0 && (
-                    <div className="p-3 rounded-xl bg-[rgba(183,255,42,0.08)]">
-                      <p className="text-xs font-medium text-primary mb-2 flex items-center gap-1">
+                    <div className="p-3 rounded-xl bg-[#F0F5EC]">
+                      <p className="text-xs font-medium text-[#2F3A2D] mb-2 flex items-center gap-1">
                         <CheckCircle2 className="w-3 h-3" /> Buenos
                       </p>
                       <ul className="space-y-1">
                         {scanResult.analysis.good.map((ing, i) => (
-                          <li key={i} className="text-xs text-on-surface-variant">{ing}</li>
+                          <li key={i} className="text-xs text-[#64705E]">{ing}</li>
                         ))}
                       </ul>
                     </div>
                   )}
 
                   {scanResult.analysis.caution.length > 0 && (
-                    <div className="p-3 rounded-xl bg-[rgba(255,200,50,0.08)]">
-                      <p className="text-xs font-medium text-amber-400 mb-2 flex items-center gap-1">
+                    <div className="p-3 rounded-xl bg-[#FFF8EB]">
+                      <p className="text-xs font-medium text-[#2F3A2D] mb-2 flex items-center gap-1">
                         <AlertTriangle className="w-3 h-3" /> Precaución
                       </p>
                       <ul className="space-y-1">
                         {scanResult.analysis.caution.map((ing, i) => (
-                          <li key={i} className="text-xs text-on-surface-variant">{ing}</li>
+                          <li key={i} className="text-xs text-[#64705E]">{ing}</li>
                         ))}
                       </ul>
                     </div>
                   )}
 
                   {scanResult.analysis.avoid.length > 0 && (
-                    <div className="p-3 rounded-xl bg-[rgba(255,100,100,0.08)]">
-                      <p className="text-xs font-medium text-red-400 mb-2 flex items-center gap-1">
+                    <div className="p-3 rounded-xl bg-[#FEF2F2]">
+                      <p className="text-xs font-medium text-[#2F3A2D] mb-2 flex items-center gap-1">
                         <XCircle className="w-3 h-3" /> Evitar
                       </p>
                       <ul className="space-y-1">
                         {scanResult.analysis.avoid.map((ing, i) => (
-                          <li key={i} className="text-xs text-on-surface-variant">{ing}</li>
+                          <li key={i} className="text-xs text-[#64705E]">{ing}</li>
                         ))}
                       </ul>
                     </div>
                   )}
                 </div>
 
-                <div className="flex items-start gap-2 p-3 rounded-xl bg-[rgba(255,255,255,0.03)] border border-[rgba(255,255,255,0.1)]">
-                  <Info className="w-4 h-4 text-primary shrink-0 mt-0.5" />
-                  <p className="text-xs text-on-surface-variant">
+                <div className="flex items-start gap-2 p-3 rounded-xl bg-[#F8FAF5] border border-[#DDE7D3]">
+                  <Info className="w-4 h-4 text-[#2F3A2D] shrink-0 mt-0.5" />
+                  <p className="text-xs text-[#64705E]">
                     Este análisis es informativo y se basa en reconocimiento de ingredientes. No constituye
                     una recomendación médica. Siempre consulta con un profesional ante cualquier duda.
                   </p>
                 </div>
+
+                <button
+                  onClick={() => {
+                    const url = `${window.location.origin}/api/og?product=${encodeURIComponent(scanResult.productName || "Producto")}&summary=${encodeURIComponent(scanResult.summary)}`
+                    const shareUrl = `${window.location.origin}/products?ref=share&scan=${encodeURIComponent(scanResult.productName || "")}`
+                    if (navigator.share) {
+                      navigator.share({ title: scanResult.productName || "Análisis de producto", text: scanResult.summary, url: shareUrl })
+                    } else {
+                      navigator.clipboard.writeText(shareUrl).then(() => toast.success("Enlace copiado"))
+                    }
+                  }}
+                  className="flex items-center gap-2 text-xs font-medium px-4 py-2 rounded-full border border-[#DDE7D3] hover:bg-[#F0F5EC] transition-colors text-[#2F3A2D]"
+                >
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
+                  Compartir análisis
+                </button>
               </div>
             )}
           </CardContent>
@@ -236,12 +252,12 @@ export default function ProductsPage() {
         {/* Catalog */}
         <div className="mb-8">
           <div className="flex items-center justify-between mb-6">
-            <h2 className="font-serif text-2xl font-semibold">Catálogo de Productos</h2>
+            <h2 className="font-serif text-2xl font-semibold text-[#2F3A2D]">Catálogo de Productos</h2>
             <div className="flex gap-2 overflow-x-auto scrollbar-hide">
               <button
                 onClick={() => setCategory("")}
                 className={`px-3 py-1.5 text-xs rounded-full whitespace-nowrap transition-colors ${
-                  !category ? "bg-primary text-primary-foreground" : "bg-[rgba(255,255,255,0.06)] hover:bg-[rgba(255,255,255,0.10)]"
+                  !category ? "bg-[#C2E09D] text-[#2F3A2D]" : "bg-[#F0F5EC] hover:bg-[#E8F0E0] text-[#64705E]"
                 }`}
               >
                 Todos
@@ -251,7 +267,7 @@ export default function ProductsPage() {
                   key={cat}
                   onClick={() => setCategory(cat)}
                   className={`px-3 py-1.5 text-xs rounded-full whitespace-nowrap transition-colors ${
-                    category === cat ? "bg-primary text-primary-foreground" : "bg-[rgba(255,255,255,0.06)] hover:bg-[rgba(255,255,255,0.10)]"
+                    category === cat ? "bg-[#C2E09D] text-[#2F3A2D]" : "bg-[#F0F5EC] hover:bg-[#E8F0E0] text-[#64705E]"
                   }`}
                 >
                   {cat}
@@ -261,15 +277,15 @@ export default function ProductsPage() {
           </div>
 
           {loading ? (
-            <p className="text-center text-on-surface-variant py-10">Cargando productos...</p>
+            <p className="text-center text-[#64705E] py-10">Cargando productos...</p>
           ) : products.length === 0 ? (
-            <p className="text-center text-on-surface-variant py-10">No hay productos disponibles.</p>
+            <p className="text-center text-[#64705E] py-10">No hay productos disponibles.</p>
           ) : (
             <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
               {products.map((product) => (
                 <Link key={product.id} href={`/products/${product.slug}`}>
-                  <Card className="border-[rgba(255,255,255,0.25)] hover:border-primary/30 transition-all h-full group overflow-hidden">
-                    <div className="relative aspect-square bg-[rgba(255,255,255,0.03)] overflow-hidden">
+                  <Card className="hover:ring-1 hover:ring-[#C2E09D] transition-all h-full group overflow-hidden">
+                    <div className="relative aspect-square bg-[#F8FAF5] overflow-hidden">
                       <Image
                         src={product.image || "/images/placeholder.svg"}
                         alt={product.name}
@@ -279,8 +295,8 @@ export default function ProductsPage() {
                     </div>
                     <CardContent className="p-4">
                       <Badge variant="secondary" className="text-[10px] mb-2">{product.category}</Badge>
-                      <h3 className="font-medium text-sm mb-1 line-clamp-2">{product.name}</h3>
-                      <p className="text-xs text-on-surface-variant line-clamp-2">{product.shortDesc}</p>
+                      <h3 className="font-medium text-sm mb-1 line-clamp-2 text-[#2F3A2D]">{product.name}</h3>
+                      <p className="text-xs text-[#64705E] line-clamp-2">{product.shortDesc}</p>
                     </CardContent>
                   </Card>
                 </Link>

@@ -105,7 +105,7 @@ export default function ProductDetailPage() {
             )}
 
             {product.ingredients && (
-                <Card className="bg-[rgba(255,255,255,0.04)] border-[rgba(255,255,255,0.15)] mt-4">
+                <Card className="bg-[#F8FAF5] border-[#DDE7D3] mt-4">
                 <CardHeader className="p-4 pb-2">
                   <CardTitle className="text-sm font-medium">Ingredientes</CardTitle>
                 </CardHeader>
