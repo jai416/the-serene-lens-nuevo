@@ -40,8 +40,7 @@ All env vars documented in `.env.example`. Key vars:
 - `NEXTAUTH_SECRET` — NextAuth secret
 - `NEXT_PUBLIC_APP_URL` — base URL
 - `OPENROUTER_API_KEY` — AI analysis API
-- `STRIPE_*` — stripe payments (secret key, webhook, price IDs)
-- `QVAPAY_*` — QvaPay payment gateway (fallback)
+- `QVAPAY_UUID`, `QVAPAY_SECRET`, `QVAPAY_API_URL` — QvaPay payment gateway (v2 API)
 - `RESEND_API_KEY` — transactional emails
 - `CRON_SECRET` — cron job authorization
 - `NEXT_PUBLIC_POSTHOG_KEY`, `NEXT_PUBLIC_POSTHOG_HOST` — product analytics
@@ -124,8 +123,8 @@ Clean, professional skincare platform inspired by Apple Health, Headspace, Calm,
 - **Auth guards**: Use `redirect()` from `next/navigation` in client components during render. Safe with React 19 + Next.js 16.
 - **SessionProvider**: Configured with `refetchOnWindowFocus={false}`, `refetchInterval={5 * 60}`, `refetchWhenOffline={false}` to prevent spurious re-renders.
 - **Turbopack root**: `next.config.ts` sets `turbopack.root` to the project directory to prevent Next.js from picking up a parent-level `package-lock.json` that causes HMR issues and repeated API calls.
-- **Webhook security**: QvaPay v1 has no built-in webhook auth; server calls `get_payment_info` API to verify payment status before upgrading user plan
-- **Multi-provider payments**: Stripe (primary, card) + QvaPay (fallback, crypto). User chooses on pricing page.
+- **Webhook security**: QvaPay v2 uses `app-id`/`app-secret` headers for auth; webhook verifies payment status via GET `/v2/transaction/{uuid}`
+- **Payments**: QvaPay only (v2 API). Auth via `app-id`/`app-secret` headers. Invoice creation at `/v2/create_invoice`.
 - **Plan prices**: FREE (1 analysis/mo), PREMIUM ($4.99/mo unlimited), PRO ($9.99/mo unlimited). ULTRAPREMIUM renamed to PRO.
 - **Pack prices**: BASIC $1.99 (3 análises), POPULAR $4.99 (5), ADVANCED $6.99 (15). Plans unchanged (FREE $0, PREMIUM $4.99, PRO $9.99).
 - **Pack expiration**: Packs expire 30 days after purchase. `lib/usage.ts` filters packs by `createdAt >= now - 30 days`. No schema change needed — `createdAt` field on `PurchasePack` is used.
@@ -181,7 +180,7 @@ Clean, professional skincare platform inspired by Apple Health, Headspace, Calm,
 - **CRON_SECRET**: Timing-safe comparison with `crypto.timingSafeEqual`
 - **CSRF**: Token generation and validation in `lib/csrf.ts`
 - **Auth guards**: `redirect()` from `next/navigation` in client components during render
-- **Webhook security**: QvaPay verified via `get_payment_info` API call
+- **Webhook security**: QvaPay verified via GET `/v2/transaction/{uuid}` with app credentials
 - **No PII in analytics**: PostHog tracks events only, no email/name in logs
 
 ## Pricing & Plans
@@ -213,7 +212,7 @@ Prices defined in `src/lib/pricing.ts` — single source of truth.
 - `/dashboard/challenges` — gamification challenges with points
 - `/dashboard/referrals` — referral program management
 - `/products/[slug]` — product detail with ingredients
-- `/pricing` — subscriptions + packs, USD/CUP, Stripe + QvaPay buttons
+- `/pricing` — subscriptions + packs, USD/CUP, QvaPay payments
 - `/blog` — articles with category filter
 - `/blog/[slug]` — article body
 - `/contact` — contact form (posts to `/api/contact`)
@@ -258,7 +257,7 @@ Prices defined in `src/lib/pricing.ts` — single source of truth.
 - No percentages anywhere — only descriptive labels and severity badges
 
 ## Legal Pages
-- `/terms` — expanded terms: medical disclaimer, AI limitations (lighting, quality, makeup can affect results), subscription/pack terms (30-day expiration, Stripe/QvaPay), acceptable use, liability limitation.
+- `/terms` — expanded terms: medical disclaimer, AI limitations (lighting, quality, makeup can affect results), subscription/pack terms (30-day expiration, QvaPay), acceptable use, liability limitation.
 - `/privacy` — expanded privacy: what data collected (photos sent to OpenRouter for analysis, not used for training), storage (Supabase, encrypted), user rights (access, correction, deletion, export), cookies (essential only).
 
 ## Auth Flow
@@ -278,16 +277,16 @@ Prices defined in `src/lib/pricing.ts` — single source of truth.
 - `POST /api/analyze` — requires auth, checks usage BEFORE calling AI (no wasted API calls), saves `skinType` from AI result, deducts usage atomically. Returns `{ analysis, result }`.
 
 ## API Routes (Payments)
-- `POST /api/payments/create` — creates checkout session (Stripe or QvaPay). Body: `{ plan, provider }`
-- `POST /api/payments/create-pack` — creates pack checkout. Body: `{ packType, provider }`
-- `POST /api/payments/stripe-webhook` — Stripe webhook (subscriptions + packs)
+- `POST /api/payments/create` — creates QvaPay invoice. Body: `{ plan, provider }`
+- `POST /api/payments/create-pack` — creates QvaPay pack invoice. Body: `{ packType, provider }`
+- `POST /api/payments/stripe-webhook` — DELETED (Stripe removed)
 - `POST /api/payments/webhook` — QvaPay webhook (subscriptions + packs)
 - `GET /api/user/usage` — returns usage info for current user
 - `GET /api/admin/analytics` — revenue by provider, plan distribution, conversion rate
 
 ## Known Issues
 - **npm install falla**: `node_modules` corrupto (ENOTEMPTY). Solución: `rm -rf node_modules .next && npm install --legacy-peer-deps`
-- **Stripe env vars empty**: STRIPE_SECRET_KEY, STRIPE_WEBHOOK_SECRET, price IDs all empty. Payments fall back to QvaPay only.
+- **Stripe removed**: All Stripe references removed from frontend. Payments are QvaPay only (v2 API).
 - **DB unreachable from CLI**: Schema pushes and seeds cannot run locally without Supabase access.
 - **Prisma 7 driver adapter**: Requires `pg` + `@prisma/adapter-pg` installed. `prisma generate` must run after install.
 - **Prisma schema actualizado**: Modelo Referral eliminado. Schema limpio con 19 modelos.

@@ -10,7 +10,7 @@ Observación cosmética de tu piel. Sube fotos guiadas, responde preguntas y rec
 - **Database:** PostgreSQL via Supabase + Prisma 7 (20 modelos, driver adapter pg)
 - **Auth:** NextAuth v4 with credentials + Google + GitHub + middleware protection
 - **AI:** OpenRouter API (Gemini 2.0 Flash for skin analysis, bilingual prompt)
-- **Payments:** Stripe (primary) + QvaPay (fallback) — USD & CUP
+- **Payments:** QvaPay (v2 API) — USD & CUP
 - **UI:** Radix UI (accordion, dialog, dropdown, select, tabs, switch) + Lucide icons + sonner toasts
 - **Validation:** Zod v4 (strict schemas for all API routes)
 - **Observability:** PostHog (events), Sentry (errors), structured logger
@@ -79,7 +79,7 @@ The Serene Lens uses a **clean, professional skincare** design system:
 - **Product Catalog** — 10 products curated by skin type (limpiadores, hidratantes, serums, protectores solares, exfoliantes, mascarillas, aceites, contornos)
 - **Affiliate Links** — optional Rainforest API integration for Amazon product search with affiliate tags
 - **Usage Tracking** — Free (1/mo), Premium ($4.99/mo unlimited), Pro ($9.99/mo unlimited). Packs stack on any plan (expire 30 days).
-- **Payments** — Stripe (card) + QvaPay (crypto). Prices in USD with CUP conversion.
+- **Payments** — QvaPay (v2 API). Prices in USD with CUP conversion.
 - **Blog** — 10 skincare articles across 5 categories with read tracking
 - **B2B/Clinics** — white-label dashboard for clinics with patient analysis list + PDF report generation
 - **Dashboard** — user profile, analysis history (with skeletons), subscription management with usage bars
@@ -129,7 +129,7 @@ src/
 │   ├── admin/            # Admin panel (users, payments, blog, products, analytics)
 │   ├── blog/             # Blog listing + [slug] with schema.org JSON-LD
 │   ├── products/         # Product catalog + scanner + [slug]
-│   ├── pricing/          # Plans + packs (Stripe + QvaPay)
+│   ├── pricing/          # Plans + packs (QvaPay)
 │   ├── layout.tsx        # Root layout: metadataBase, QueryProvider, ClientInit
 │   ├── middleware.ts      # Auth + security headers
 │   └── globals.css       # Design system: light mode, sage green palette
@@ -156,7 +156,7 @@ src/
 │   ├── photo-quality.ts  # Client-side blur + brightness validation
 │   ├── photo-steps.ts    # A/B config for 2 or 4 photo steps
 │   ├── email.ts          # Resend lazy (console.log fallback)
-│   ├── stripe-server.ts  # Lazy Stripe client (avoids build crash without env)
+│   ├── stripe-server.ts  # DELETED (Stripe removed)
 │   ├── repositories/     # Repository pattern: Analysis, User, Payment, Blog, Product, Feedback
 │   ├── services/         # Service layer: analysis, user, payment, evolution, affiliate, feedback, billing, webhook
 │   └── validations/      # Zod strict schemas for all API routes
@@ -223,9 +223,8 @@ src/
 | POST | `/api/register` | Create user account |
 | POST | `/api/contact` | Submit contact form |
 | POST | `/api/feedback` | Submit feedback (Zod strict) |
-| POST | `/api/payments/create` | Create checkout session (Stripe/QvaPay) |
-| POST | `/api/payments/create-pack` | Create pack checkout |
-| POST | `/api/payments/stripe-webhook` | Stripe webhook handler |
+| POST | `/api/payments/create` | Create QvaPay invoice |
+| POST | `/api/payments/create-pack` | Create QvaPay pack invoice |
 | GET | `/api/admin/analytics` | Revenue by provider, plan distribution |
 | POST | `/api/cron/retention` | Retention cron (3d before expiry, downgrade on expiry) — 10am daily |
 | POST | `/api/reports/generate` | Generate white-label PDF for B2B |
@@ -275,8 +274,7 @@ npm run e2e
 - **Image compression**: Always compresses via canvas; falls back if compressed > original. Skips files < 100KB.
 - **ESLint config**: `.eslintrc.json` con reglas import/order, no-unused-vars, no-console, prefer-const, no-var, resolver TypeScript.
 - **Delete `.next/`** if you get artifact build errors like `required-server-files.json` not found after schema changes.
-- **Stripe env vars**: Must be set before Stripe payments work in production.
-- **Stripe API version**: `2026-05-27.dahlia` (latest).
+- **QvaPay v2 API**: Auth via `app-id`/`app-secret` headers. Invoice at `/v2/create_invoice`.
 - **Email service configured**: Resend API key set. Password reset works via email. Email sequences automated (6 emails Día 0-21).
 - **`findings` field removed**: Was dead code — never read in any frontend component.
 - **CSP script-src**: Uses `'unsafe-inline'` (required by Next.js). All other CSP directives are restrictive.
@@ -293,12 +291,12 @@ npm run e2e
 - **revalidateTag Next.js 16**: Requiere 2do arg `{}`. Admin routes lo usan para blog/products.
 - **unstable_cache**: `/api/products` cacheado 3600s con tag "products-catalog".
 - **Evolution cache**: `UserEvolution` modelo precálcula + cachea resultados de evolución.
-- **Webhook processor**: `webhook-processor.ts` maneja Stripe + QvaPay. `webhook.service.ts` registra/reintenta.
+- **Webhook processor**: `webhook-processor.ts` maneja QvaPay. `webhook.service.ts` registra/reintenta.
 - **Anti-fraud**: `/api/register` rate limit 3 cuentas/IP en 24h. In-memory Map.
 - **Edge Runtime**: `/api/health` y `/api/og` en edge — sin cold starts.
 - **Compound queries**: Analytics usa `db.$transaction()` — 6 queries en un roundtrip.
 - **N+1 prevention**: `/api/analysis` incluye feedback con `select` mínimo.
-- **DNS prefetch**: Layout pre-conecta a OpenRouter, Stripe, PostHog.
+- **DNS prefetch**: Layout pre-conecta a OpenRouter, QvaPay, PostHog.
 - **Cron retención**: Notifica 3 días antes de expiración + degrada suscripciones vencidas. Usa `sendEmail` con templates HTML. Cron diario 10am.
 - **CRON_SECRET**: Generado con `crypto.randomBytes(32)`. Necesario como env var en Render para autorizar los 3 cron endpoints.
 - **Cron-job.org**: 3 jobs externos (SEO 8am, emails 9am, retención 10am). Headers `x-cron-secret`. API key en `CRONJOB_API_KEY`. Jobs: SEO (7882243), emails (7882246), retention (7882249).

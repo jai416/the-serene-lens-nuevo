@@ -204,7 +204,7 @@ export default function SubscriptionPage() {
                           {getPlanLabel(p.plan)} - {formatPrice(p.amount, p.currency)}
                         </p>
                         <p className="text-xs text-[#64705E]">
-                          {formatDate(p.createdAt)} · {p.provider === "stripe" ? "Stripe" : "QvaPay"}
+                          {formatDate(p.createdAt)} · QvaPay
                         </p>
                       </div>
                     </div>

@@ -13,14 +13,14 @@ const PACK_ANALYSES: Record<string, number> = {
 export async function POST(req: NextRequest) {
   try {
     const body = await req.json()
-    const { payment_id } = body
+    const transactionUuid = body.transaction_uuid || body.payment_id
 
-    if (!payment_id) {
-      return error("payment_id requerido")
+    if (!transactionUuid) {
+      return error("transaction_uuid requerido")
     }
 
     const payment = await db.payment.findUnique({
-      where: { qvapayId: payment_id },
+      where: { qvapayId: transactionUuid },
       include: { user: true },
     })
 
@@ -32,14 +32,14 @@ export async function POST(req: NextRequest) {
       return ok({ received: true })
     }
 
-    let qvapayStatus: { data?: { status?: string } } | null = null
+    let qvapayStatus: any = null
     try {
-      qvapayStatus = await getQvaPayPaymentStatus(payment_id)
+      qvapayStatus = await getQvaPayPaymentStatus(transactionUuid)
     } catch {
       return error("No se pudo verificar el pago con QvaPay")
     }
 
-    const remoteStatus = qvapayStatus?.data?.status
+    const remoteStatus = qvapayStatus?.status || qvapayStatus?.data?.status
 
     if (remoteStatus !== "paid" && remoteStatus !== "completed") {
       return ok({ received: true, verified: false })
@@ -83,7 +83,7 @@ export async function POST(req: NextRequest) {
         data: {
           userId: payment.userId,
           provider: "qvapay",
-          qvapayInvoiceId: payment_id,
+          qvapayInvoiceId: transactionUuid,
           plan: payment.plan,
           status: "active",
           currentPeriodStart: new Date(),

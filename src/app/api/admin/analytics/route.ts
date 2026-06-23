@@ -14,9 +14,8 @@ export async function GET() {
     const admin = await requireAdmin()
     if (!admin) return unauthorized()
 
-    const [totalPayments, stripePayments, qvapayPayments, recentSubscriptions, recentPacks] = await db.$transaction([
+    const [totalPayments, qvapayPayments, recentSubscriptions, recentPacks] = await db.$transaction([
       db.payment.findMany({ where: { status: "completed" } }),
-      db.payment.findMany({ where: { status: "completed", provider: "stripe" } }),
       db.payment.findMany({ where: { status: "completed", provider: "qvapay" } }),
       db.subscription.findMany({
         orderBy: { createdAt: "desc" },
@@ -37,7 +36,6 @@ export async function GET() {
     })
 
     const revenueByProvider = {
-      stripe: stripePayments.reduce((sum, p) => sum + p.amount, 0),
       qvapay: qvapayPayments.reduce((sum, p) => sum + p.amount, 0),
       total: totalPayments.reduce((sum, p) => sum + p.amount, 0),
     }

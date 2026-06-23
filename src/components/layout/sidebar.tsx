@@ -61,12 +61,12 @@ export function Sidebar() {
     <div className="flex flex-col h-full bg-white dark:bg-[#222920]">
       <div className="p-6">
         <Link href="/" className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-2xl bg-[#C2E09D] flex items-center justify-center">
-            <Flower2 className="w-5 h-5 text-[#2F3A2D]" />
+          <div className="w-10 h-10 rounded-2xl bg-[#2F3A2D] dark:bg-[#C2E09D] flex items-center justify-center">
+            <Flower2 className="w-5 h-5 text-white dark:text-[#2F3A2D]" />
           </div>
           <div>
             <span className="font-serif text-lg font-semibold text-[#2F3A2D] dark:text-[#E8EDE6]">The Serene Lens</span>
-            <span className="text-[10px] text-[#8A9A82] dark:text-[#7A8A72] block leading-tight">Observación Cosmética</span>
+            <span className="text-[10px] text-[#64705E] dark:text-[#9BAA93] block leading-tight">Observación Cosmética</span>
           </div>
         </Link>
       </div>
@@ -110,16 +110,16 @@ export function Sidebar() {
 
         {/* ─── Premium Card ─── */}
         <div className="pt-4 px-1">
-          <div className="p-4 rounded-2xl gradient-primary border border-[#C2E09D]/30">
-            <Sparkles className="w-5 h-5 text-[#2F3A2D] mb-2" />
-            <p className="text-sm font-semibold text-[#2F3A2D] mb-1">Premium</p>
-            <p className="text-xs text-[#64705E] leading-relaxed mb-3">
+          <div className="p-4 rounded-2xl bg-[#2F3A2D] dark:bg-[#C2E09D] border border-[#2F3A2D]/30 dark:border-[#C2E09D]/30">
+            <Sparkles className="w-5 h-5 text-white dark:text-[#2F3A2D] mb-2" />
+            <p className="text-sm font-semibold text-white dark:text-[#2F3A2D] mb-1">Premium</p>
+            <p className="text-xs text-[#ECFFD3] dark:text-[#2F3A2D]/80 leading-relaxed mb-3">
               Análisis ilimitados, historial completo y rutinas personalizadas.
             </p>
             <Link
               href="/pricing"
               onClick={() => setMobileOpen(false)}
-              className="inline-flex items-center gap-1.5 text-xs font-medium text-[#2F3A2D] hover:text-[#2F3A2D]/80 transition-colors"
+              className="inline-flex items-center gap-1.5 text-xs font-medium text-[#C2E09D] dark:text-[#2F3A2D] hover:text-white dark:hover:text-[#2F3A2D]/80 transition-colors"
             >
               Ver planes
               <ArrowRight className="w-3 h-3" />

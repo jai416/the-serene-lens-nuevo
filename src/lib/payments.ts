@@ -1,6 +1,8 @@
 import { getEnv } from "@/lib/env"
 
-const env = getEnv()
+function getPaymentsEnv() {
+  return getEnv()
+}
 
 interface CreateQvaPayOptions {
   amount: number
@@ -10,56 +12,65 @@ interface CreateQvaPayOptions {
 }
 
 export async function createQvaPayPayment({ amount, description, plan, userId }: CreateQvaPayOptions) {
-  const res = await fetch(`${env.QVAPAY_API_URL}/create_payment`, {
+  const e = getPaymentsEnv()
+  const res = await fetch(`${e.QVAPAY_API_URL}/v2/create_invoice`, {
     method: "POST",
-    headers: { "Content-Type": "application/json" },
+    headers: {
+      "Content-Type": "application/json",
+      "app-id": e.QVAPAY_UUID,
+      "app-secret": e.QVAPAY_SECRET,
+    },
     body: JSON.stringify({
-      uuid: env.QVAPAY_UUID,
-      secret: env.QVAPAY_SECRET,
       amount,
       description,
       remote_id: `${userId}_${plan}_${Date.now()}`,
-      webhook: `${env.NEXTAUTH_URL}/api/payments/webhook`,
-      redirect_url: `${env.NEXTAUTH_URL}/dashboard/subscription?payment=success`,
-      cancel_url: `${env.NEXTAUTH_URL}/pricing?payment=cancelled`,
+      webhook: `${e.NEXTAUTH_URL}/api/payments/webhook`,
     }),
   })
 
-  if (!res.ok) throw new Error("Error al crear pago en QvaPay")
+  if (!res.ok) {
+    const body = await res.text().catch(() => "")
+    console.error("[QvaPay] create_payment failed:", res.status, body)
+    throw new Error("Error al crear pago en QvaPay")
+  }
 
   return res.json()
 }
 
 export async function createQvaPayPackPayment({ amount, description, packType, userId }: CreateQvaPayOptions & { packType: string }) {
-  const res = await fetch(`${env.QVAPAY_API_URL}/create_payment`, {
+  const e = getPaymentsEnv()
+  const res = await fetch(`${e.QVAPAY_API_URL}/v2/create_invoice`, {
     method: "POST",
-    headers: { "Content-Type": "application/json" },
+    headers: {
+      "Content-Type": "application/json",
+      "app-id": e.QVAPAY_UUID,
+      "app-secret": e.QVAPAY_SECRET,
+    },
     body: JSON.stringify({
-      uuid: env.QVAPAY_UUID,
-      secret: env.QVAPAY_SECRET,
       amount,
       description,
       remote_id: `${userId}_pack_${packType}_${Date.now()}`,
-      webhook: `${env.NEXTAUTH_URL}/api/payments/webhook`,
-      redirect_url: `${env.NEXTAUTH_URL}/dashboard/subscription?payment=success`,
-      cancel_url: `${env.NEXTAUTH_URL}/pricing?payment=cancelled`,
+      webhook: `${e.NEXTAUTH_URL}/api/payments/webhook`,
     }),
   })
 
-  if (!res.ok) throw new Error("Error al crear pago en QvaPay")
+  if (!res.ok) {
+    const body = await res.text().catch(() => "")
+    console.error("[QvaPay] create_pack_payment failed:", res.status, body)
+    throw new Error("Error al crear pago en QvaPay")
+  }
 
   return res.json()
 }
 
-export async function getQvaPayPaymentStatus(qvapayId: string) {
-  const res = await fetch(`${env.QVAPAY_API_URL}/get_payment_info`, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
-      uuid: env.QVAPAY_UUID,
-      secret: env.QVAPAY_SECRET,
-      payment_id: qvapayId,
-    }),
+export async function getQvaPayPaymentStatus(transactionUuid: string) {
+  const e = getPaymentsEnv()
+  const res = await fetch(`${e.QVAPAY_API_URL}/v2/transaction/${transactionUuid}`, {
+    method: "GET",
+    headers: {
+      "app-id": e.QVAPAY_UUID,
+      "app-secret": e.QVAPAY_SECRET,
+    },
   })
 
   if (!res.ok) throw new Error("Error al verificar pago")
@@ -68,8 +79,5 @@ export async function getQvaPayPaymentStatus(qvapayId: string) {
 }
 
 export function getPaymentError(provider: string, error: unknown): string {
-  if (provider === "stripe") {
-    return "No pudimos procesar el pago con tarjeta. Intenta con criptomonedas."
-  }
   return "No pudimos procesar el pago. Intenta de nuevo más tarde."
 }

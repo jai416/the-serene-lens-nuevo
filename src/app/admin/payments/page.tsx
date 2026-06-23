@@ -14,7 +14,6 @@ interface Payment {
   id: string
   provider: string
   qvapayId: string | null
-  stripePaymentId: string | null
   plan: string
   amount: number
   currency: string
@@ -71,7 +70,6 @@ export default function AdminPaymentsPage() {
                   <th className="text-left p-4 font-medium text-muted-foreground">Usuario</th>
                   <th className="text-left p-4 font-medium text-muted-foreground">Email</th>
                   <th className="text-left p-4 font-medium text-muted-foreground">Plan</th>
-                  <th className="text-left p-4 font-medium text-muted-foreground">Proveedor</th>
                   <th className="text-left p-4 font-medium text-muted-foreground">Monto</th>
                   <th className="text-left p-4 font-medium text-muted-foreground">Estado</th>
                   <th className="text-left p-4 font-medium text-muted-foreground">Fecha</th>
@@ -84,11 +82,6 @@ export default function AdminPaymentsPage() {
                     <td className="p-4 font-medium">{p.user.name || "—"}</td>
                     <td className="p-4 text-muted-foreground">{p.user.email}</td>
                     <td className="p-4">{p.plan}</td>
-                    <td className="p-4">
-                      <Badge variant="outline" className="text-[10px]">
-                        {p.provider === "stripe" ? "Stripe" : "QvaPay"}
-                      </Badge>
-                    </td>
                     <td className="p-4 font-medium">{formatPrice(p.amount, p.currency)}</td>
                     <td className="p-4">
                       {p.status === "completed" ? (
@@ -107,13 +100,13 @@ export default function AdminPaymentsPage() {
                     </td>
                     <td className="p-4 text-xs text-muted-foreground">{formatDate(p.createdAt)}</td>
                     <td className="p-4 text-xs text-muted-foreground font-mono">
-                      {p.stripePaymentId ? p.stripePaymentId.slice(0, 12) + "..." : p.qvapayId ? p.qvapayId.slice(0, 12) + "..." : "—"}
+                      {p.qvapayId ? p.qvapayId.slice(0, 12) + "..." : "—"}
                     </td>
                   </tr>
                 ))}
                 {payments.length === 0 && (
                   <tr>
-                    <td colSpan={8} className="p-8 text-center text-muted-foreground">No hay pagos registrados</td>
+                    <td colSpan={7} className="p-8 text-center text-muted-foreground">No hay pagos registrados</td>
                   </tr>
                 )}
               </tbody>

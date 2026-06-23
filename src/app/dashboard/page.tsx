@@ -107,7 +107,7 @@ export default function DashboardPage() {
                         <span className="text-[#64705E] dark:text-[#9BAA93]">Análisis este mes</span>
                         <span className="text-[#64705E] dark:text-[#9BAA93]">{usage.monthlyUsed} / {usage.monthlyLimit}</span>
                       </div>
-                      <div className="h-1.5 rounded-full bg-[#F0F5EC] overflow-hidden">
+                      <div className="h-1.5 rounded-full bg-[#F0F5EC] dark:bg-[#2E3829] overflow-hidden">
                         <div
                           className="h-full rounded-full bg-[#C2E09D] transition-all"
                           style={{ width: `${Math.min(100, (usage.monthlyUsed / usage.monthlyLimit) * 100)}%` }}
@@ -116,11 +116,11 @@ export default function DashboardPage() {
                     </div>
                   )}
                   {usage.isUnlimited ? (
-                    <p className="text-xs text-[#2F3A2D] flex items-center gap-1">
+                    <p className="text-xs text-[#2F3A2D] dark:text-[#E8EDE6] flex items-center gap-1">
                       <BarChart3 className="w-3 h-3" /> Análisis ilimitados
                     </p>
                   ) : (
-                    <p className="text-xs text-[#64705E]">
+                    <p className="text-xs text-[#64705E] dark:text-[#9BAA93]">
                       {usage.totalRemaining != null && usage.totalRemaining !== Infinity
                         ? `${usage.totalRemaining} análisis restantes`
                         : "Análisis ilimitados"}
@@ -130,7 +130,7 @@ export default function DashboardPage() {
               )}
               {!isPaid && (
                 <Link href="/pricing" className="mt-3 block">
-                  <span className="text-xs text-[#2F3A2D] hover:underline font-medium">Actualizar plan →</span>
+                  <span className="text-xs text-[#2F3A2D] dark:text-[#E8EDE6] hover:underline font-medium">Actualizar plan →</span>
                 </Link>
               )}
             </CardContent>
@@ -139,24 +139,24 @@ export default function DashboardPage() {
           <Card className="p-5 border-t-4 border-t-[#ECFFD3]">
             <CardContent className="p-0">
               <div className="flex items-center gap-2 mb-3">
-                <Clock className="w-5 h-5 text-[#2F3A2D]" />
-                <span className="text-sm font-medium text-[#2F3A2D]">Último Análisis</span>
+                <Clock className="w-5 h-5 text-[#2F3A2D] dark:text-[#E8EDE6]" />
+                <span className="text-sm font-medium text-[#2F3A2D] dark:text-[#E8EDE6]">Último Análisis</span>
               </div>
               {latestAnalysis ? (
                 <div>
-                  <p className="text-xs text-[#64705E]">{formatDate(latestAnalysis.createdAt)}</p>
-                  <p className="text-sm mt-1 text-[#2F3A2D]">
+                  <p className="text-xs text-[#64705E] dark:text-[#9BAA93]">{formatDate(latestAnalysis.createdAt)}</p>
+                  <p className="text-sm mt-1 text-[#2F3A2D] dark:text-[#E8EDE6]">
                     {latestAnalysis.skinType ? `Piel ${latestAnalysis.skinType}` : "Análisis completado"}
                   </p>
                   <Link href={`/analysis/results/${latestAnalysis.id}`} className="mt-2 block">
-                    <span className="text-xs text-[#2F3A2D] hover:underline font-medium">Ver resultados →</span>
+                    <span className="text-xs text-[#2F3A2D] dark:text-[#E8EDE6] hover:underline font-medium">Ver resultados →</span>
                   </Link>
                 </div>
               ) : (
                 <div>
-                  <p className="text-xs text-[#64705E]">Aún no has realizado ningún análisis.</p>
+                  <p className="text-xs text-[#64705E] dark:text-[#9BAA93]">Aún no has realizado ningún análisis.</p>
                   <Link href="/analysis" className="mt-2 block">
-                    <span className="text-xs text-[#2F3A2D] hover:underline font-medium">Comenzar ahora →</span>
+                    <span className="text-xs text-[#2F3A2D] dark:text-[#E8EDE6] hover:underline font-medium">Comenzar ahora →</span>
                   </Link>
                 </div>
               )}
@@ -173,16 +173,16 @@ export default function DashboardPage() {
             { title: "Mi Perfil", desc: session.user.email || "", icon: User, href: "/dashboard/profile" },
           ].map((card) => (
             <Link key={card.href} href={card.href}>
-              <Card className="p-5 hover:shadow-[0_8px_24px_rgba(47,58,45,0.1)] hover:-translate-y-1 transition-all duration-300 group border-t-4 border-t-[#C2E09D]">
+              <Card className="p-5 hover:shadow-[0_8px_24px_rgba(47,58,45,0.1)] dark:hover:shadow-[0_8px_24px_rgba(0,0,0,0.4)] hover:-translate-y-1 transition-all duration-300 group border-t-4 border-t-[#C2E09D]">
                 <CardContent className="p-0 flex items-center gap-4">
-                  <div className="w-12 h-12 rounded-xl bg-[#ECFFD3] flex items-center justify-center shrink-0">
-                    <card.icon className="w-5 h-5 text-[#2F3A2D]" />
+                  <div className="w-12 h-12 rounded-xl bg-[#ECFFD3] dark:bg-[#2A3A24] flex items-center justify-center shrink-0">
+                    <card.icon className="w-5 h-5 text-[#2F3A2D] dark:text-[#E8EDE6]" />
                   </div>
                   <div className="flex-1 min-w-0">
-                    <h3 className="font-medium text-sm text-[#2F3A2D]">{card.title}</h3>
-                    <p className="text-xs text-[#64705E] truncate">{card.desc}</p>
+                    <h3 className="font-medium text-sm text-[#2F3A2D] dark:text-[#E8EDE6]">{card.title}</h3>
+                    <p className="text-xs text-[#64705E] dark:text-[#9BAA93] truncate">{card.desc}</p>
                   </div>
-                  <ArrowRight className="w-4 h-4 text-[#8A9A82] group-hover:text-[#2F3A2D] transition-colors shrink-0" />
+                  <ArrowRight className="w-4 h-4 text-[#8A9A82] dark:text-[#7A8A72] group-hover:text-[#2F3A2D] dark:group-hover:text-[#E8EDE6] transition-colors shrink-0" />
                 </CardContent>
               </Card>
             </Link>
@@ -190,19 +190,19 @@ export default function DashboardPage() {
         </div>
 
         {/* Referral Section */}
-        <Card className="p-5 mb-10 bg-gradient-to-br from-[#ECFFD3] to-[#F8FAF5] border-t-4 border-t-[#C2E09D]">
+        <Card className="p-5 mb-10 bg-gradient-to-br from-[#ECFFD3] to-[#F8FAF5] dark:from-[#2A3A24] dark:to-[#1E251C] border-t-4 border-t-[#C2E09D]">
           <CardContent className="p-0">
             <div className="flex items-start gap-4">
               <div className="w-12 h-12 rounded-xl bg-[#C2E09D] flex items-center justify-center shrink-0">
                 <Sparkles className="w-5 h-5 text-[#2F3A2D]" />
               </div>
               <div className="flex-1">
-                <h3 className="font-medium text-sm text-[#2F3A2D] mb-1">Invita amigos, gana análisis gratis</h3>
-                <p className="text-xs text-[#64705E] mb-3">
+                <h3 className="font-medium text-sm text-[#2F3A2D] dark:text-[#E8EDE6] mb-1">Invita amigos, gana análisis gratis</h3>
+                <p className="text-xs text-[#64705E] dark:text-[#9BAA93] mb-3">
                   Comparte tu enlace y obtén 1 análisis bonus por cada amigo que se registre.
                 </p>
                 <Link href="/dashboard/referrals">
-                  <span className="text-xs text-[#2F3A2D] hover:underline font-medium">Ver mis referidos →</span>
+                  <span className="text-xs text-[#2F3A2D] dark:text-[#E8EDE6] hover:underline font-medium">Ver mis referidos →</span>
                 </Link>
               </div>
             </div>
@@ -212,27 +212,27 @@ export default function DashboardPage() {
         {/* Recent Analyses */}
         {analyses.length > 0 && (
           <div>
-            <h2 className="font-serif text-xl font-semibold mb-4 flex items-center gap-2 text-[#2F3A2D]">
-              <Clock className="w-5 h-5 text-[#2F3A2D]" />
+            <h2 className="font-serif text-xl font-semibold mb-4 flex items-center gap-2 text-[#2F3A2D] dark:text-[#E8EDE6]">
+              <Clock className="w-5 h-5 text-[#2F3A2D] dark:text-[#E8EDE6]" />
               Últimos Análisis
             </h2>
             <div className="space-y-2">
               {analyses.slice(0, 5).map((a) => (
                 <Link key={a.id} href={`/analysis/results/${a.id}`}>
-                  <Card className="p-4 hover:shadow-[0_8px_24px_rgba(47,58,45,0.1)] hover:-translate-y-1 transition-all duration-300 border-t-4 border-t-[#ECFFD3]">
+                  <Card className="p-4 hover:shadow-[0_8px_24px_rgba(47,58,45,0.1)] dark:hover:shadow-[0_8px_24px_rgba(0,0,0,0.4)] hover:-translate-y-1 transition-all duration-300 border-t-4 border-t-[#ECFFD3]">
                     <CardContent className="p-0 flex items-center justify-between">
                       <div className="flex items-center gap-3 min-w-0">
-                        <Scan className="w-4 h-4 text-[#2F3A2D] shrink-0" />
+                        <Scan className="w-4 h-4 text-[#2F3A2D] dark:text-[#E8EDE6] shrink-0" />
                         <div className="min-w-0">
-                          <p className="text-sm font-medium text-[#2F3A2D] truncate">
+                          <p className="text-sm font-medium text-[#2F3A2D] dark:text-[#E8EDE6] truncate">
                             Análisis {a.skinType ? `- ${a.skinType}` : ""}
                           </p>
-                          <p className="text-xs text-[#64705E]">
+                          <p className="text-xs text-[#64705E] dark:text-[#9BAA93]">
                             {formatDate(a.createdAt)}
                           </p>
                         </div>
                       </div>
-                      <ArrowRight className="w-4 h-4 text-[#8A9A82] shrink-0 ml-2" />
+                      <ArrowRight className="w-4 h-4 text-[#8A9A82] dark:text-[#7A8A72] shrink-0 ml-2" />
                     </CardContent>
                   </Card>
                 </Link>
@@ -247,8 +247,8 @@ export default function DashboardPage() {
               <div className="w-14 h-14 rounded-2xl bg-[#C2E09D] flex items-center justify-center mx-auto mb-4">
                 <Sparkles className="w-6 h-6 text-[#2F3A2D]" />
               </div>
-              <h3 className="font-serif text-lg font-semibold mb-2 text-[#2F3A2D]">Comienza tu primer análisis</h3>
-              <p className="text-sm text-[#64705E] mb-6">
+              <h3 className="font-serif text-lg font-semibold mb-2 text-[#2F3A2D] dark:text-[#E8EDE6]">Comienza tu primer análisis</h3>
+              <p className="text-sm text-[#64705E] dark:text-[#9BAA93] mb-6">
                 Aún no tienes análisis guardados. Descubre las características visibles de tu piel.
               </p>
               <Link href="/analysis">

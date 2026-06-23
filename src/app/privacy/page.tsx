@@ -14,7 +14,7 @@ export default function PrivacyPage() {
               <li><strong>Fotos de análisis:</strong> las imágenes que subes voluntariamente para la observación cosmética.</li>
               <li><strong>Datos demográficos:</strong> edad, sexo, clima, preocupaciones de piel y rutina que proporcionas.</li>
               <li><strong>Datos de uso:</strong> historial de análisis, productos escaneados, artículos leídos.</li>
-              <li><strong>Datos de pago:</strong> no almacenamos información de tarjetas ni billeteras. Stripe y QvaPay procesan los pagos directamente.</li>
+              <li><strong>Datos de pago:</strong> no almacenamos información de tarjetas ni billeteras. QvaPay procesa los pagos directamente.</li>
             </ul>
           </section>
 

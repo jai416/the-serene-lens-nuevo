@@ -4,7 +4,6 @@ import { authOptions } from "@/lib/auth"
 import { db } from "@/lib/db"
 import { ok, error, serverError, unauthorized } from "@/lib/api-response"
 import { createQvaPayPayment, getPaymentError } from "@/lib/payments"
-import { createSubscriptionCheckoutSession, getPriceId } from "@/lib/stripe-server"
 import { getPlan } from "@/lib/pricing"
 import { getCUPRate } from "@/lib/cup-rate"
 
@@ -13,37 +12,11 @@ export async function POST(req: NextRequest) {
     const session = await getServerSession(authOptions)
     if (!session?.user) return unauthorized()
 
-    const { plan, provider = "stripe" } = await req.json()
+    const { plan } = await req.json()
 
     const planDef = getPlan(plan)
     if (!planDef || planDef.priceUSD === 0) {
       return error("Plan inválido")
-    }
-
-    const baseUrl = process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000"
-    const hasStripe = !!getPriceId(plan)
-
-    if (provider === "stripe" && hasStripe) {
-      const priceId = getPriceId(plan)!
-
-      try {
-        const checkout = await createSubscriptionCheckoutSession({
-          priceId,
-          userId: session.user.id,
-          email: session.user.email || "",
-          plan,
-          successUrl: `${baseUrl}/dashboard/subscription?payment=success`,
-          cancelUrl: `${baseUrl}/pricing?payment=cancelled`,
-        })
-
-        if (checkout?.url) {
-          return ok({ url: checkout.url, provider: "stripe" })
-        }
-        return error("Error al crear sesión de pago")
-      } catch (e) {
-        console.error("Stripe error:", e)
-        return error(getPaymentError("stripe", e))
-      }
     }
 
     try {
@@ -56,12 +29,13 @@ export async function POST(req: NextRequest) {
         userId: session.user.id,
       })
 
-      if (qvapayPayment?.id) {
+      const transactionUuid = qvapayPayment?.transaction_uuid
+      if (transactionUuid) {
         await db.payment.create({
           data: {
             userId: session.user.id,
             provider: "qvapay",
-            qvapayId: qvapayPayment.id,
+            qvapayId: transactionUuid,
             plan,
             amount,
             amountUsd: amount,
@@ -71,9 +45,9 @@ export async function POST(req: NextRequest) {
         })
       }
 
-      return ok({ url: qvapayPayment?.url, id: qvapayPayment?.id, provider: "qvapay" })
+      return ok({ url: qvapayPayment?.url, id: transactionUuid, provider: "qvapay" })
     } catch (e) {
-      console.error("QvaPay error:", e)
+      console.error("[payments/create] QvaPay error:", e)
       return error(getPaymentError("qvapay", e))
     }
   } catch (e) {

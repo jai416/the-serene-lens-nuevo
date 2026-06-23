@@ -23,21 +23,20 @@ export default function PricingPage() {
   const [loading, setLoading] = useState<string | null>(null)
   const [error, setError] = useState("")
 
-  const handleSubscribe = async (planId: string, provider: "stripe" | "qvapay") => {
+  const handleSubscribe = async (planId: string) => {
     if (!session) {
       router.push("/login?callbackUrl=/pricing")
       return
     }
 
-    const key = `${planId}_${provider}`
-    setLoading(key)
+    setLoading(planId)
     setError("")
 
     try {
       const res = await fetch("/api/payments/create", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ plan: planId, provider }),
+        body: JSON.stringify({ plan: planId, provider: "qvapay" }),
       })
 
       const data = await res.json()
@@ -58,21 +57,20 @@ export default function PricingPage() {
     }
   }
 
-  const handleBuyPack = async (packId: string, provider: "stripe" | "qvapay") => {
+  const handleBuyPack = async (packId: string) => {
     if (!session) {
       router.push("/login?callbackUrl=/pricing")
       return
     }
 
-    const key = `${packId}_${provider}`
-    setLoading(key)
+    setLoading(packId)
     setError("")
 
     try {
       const res = await fetch("/api/payments/create-pack", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ packType: packId, provider }),
+        body: JSON.stringify({ packType: packId, provider: "qvapay" }),
       })
 
       const data = await res.json()
@@ -194,36 +192,20 @@ export default function PricingPage() {
                 </ul>
 
                 {plan.priceUSD > 0 ? (
-                  <div className="space-y-2">
-                    <Button
-                      onClick={() => handleSubscribe(plan.id, "stripe")}
-                      disabled={loading === `${plan.id}_stripe`}
-                      variant={plan.popular ? "primary" : "secondary"}
-                      className="w-full py-5"
-                      aria-label={`${plan.name} - Stripe`}
-                    >
-                      {loading === `${plan.id}_stripe` ? (
-                        <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-                      ) : (
-                        <DollarSign className="w-4 h-4 mr-2" />
-                      )}
-                      {loading === `${plan.id}_stripe` ? "Procesando..." : "Tarjeta (Stripe)"}
-                    </Button>
-                    <Button
-                      onClick={() => handleSubscribe(plan.id, "qvapay")}
-                      disabled={loading === `${plan.id}_qvapay`}
-                      variant="outline"
-                      className="w-full py-5"
-                      aria-label={`${plan.name} - QvaPay`}
-                    >
-                      {loading === `${plan.id}_qvapay` ? (
-                        <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-                      ) : (
-                        <WalletCards className="w-4 h-4 mr-2" />
-                      )}
-                      {loading === `${plan.id}_qvapay` ? "Procesando..." : "Cripto (QvaPay)"}
-                    </Button>
-                  </div>
+                  <Button
+                    onClick={() => handleSubscribe(plan.id)}
+                    disabled={loading === plan.id}
+                    variant={plan.popular ? "primary" : "secondary"}
+                    className="w-full py-5"
+                    aria-label={`${plan.name} - QvaPay`}
+                  >
+                    {loading === plan.id ? (
+                      <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                    ) : (
+                      <WalletCards className="w-4 h-4 mr-2" />
+                    )}
+                    {loading === plan.id ? "Procesando..." : "Pagar con QvaPay"}
+                  </Button>
                 ) : (
                   <Button
                     onClick={() => router.push("/analysis")}
@@ -294,36 +276,20 @@ export default function PricingPage() {
                   ))}
                 </ul>
 
-                <div className="space-y-2">
-                  <Button
-                    onClick={() => handleBuyPack(pack.id, "stripe")}
-                    disabled={loading === `${pack.id}_stripe`}
-                    variant={pack.popular ? "primary" : "secondary"}
-                    className="w-full py-5"
-                    aria-label={`${pack.name} - Stripe`}
-                  >
-                    {loading === `${pack.id}_stripe` ? (
-                      <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-                    ) : (
-                      <DollarSign className="w-4 h-4 mr-2" />
-                    )}
-                    {loading === `${pack.id}_stripe` ? "Procesando..." : "Tarjeta (Stripe)"}
-                  </Button>
-                  <Button
-                    onClick={() => handleBuyPack(pack.id, "qvapay")}
-                    disabled={loading === `${pack.id}_qvapay`}
-                    variant="outline"
-                    className="w-full py-5"
-                    aria-label={`${pack.name} - QvaPay`}
-                  >
-                    {loading === `${pack.id}_qvapay` ? (
-                      <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-                    ) : (
-                      <WalletCards className="w-4 h-4 mr-2" />
-                    )}
-                    {loading === `${pack.id}_qvapay` ? "Procesando..." : "Cripto (QvaPay)"}
-                  </Button>
-                </div>
+                <Button
+                  onClick={() => handleBuyPack(pack.id)}
+                  disabled={loading === pack.id}
+                  variant={pack.popular ? "primary" : "secondary"}
+                  className="w-full py-5"
+                  aria-label={`${pack.name} - QvaPay`}
+                >
+                  {loading === pack.id ? (
+                    <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                  ) : (
+                    <WalletCards className="w-4 h-4 mr-2" />
+                  )}
+                  {loading === pack.id ? "Procesando..." : "Pagar con QvaPay"}
+                </Button>
               </Card>
             ))}
           </div>
@@ -344,7 +310,7 @@ export default function PricingPage() {
         </div>
 
         <p className="text-xs text-[#8A9A82] text-center max-w-md mx-auto mt-6">
-          Pagos procesados de forma segura a través de Stripe y QvaPay.
+          Pagos procesados de forma segura a través de QvaPay.
           No almacenamos información de pago.
         </p>
       </div>

@@ -4,7 +4,6 @@ import { authOptions } from "@/lib/auth"
 import { db } from "@/lib/db"
 import { ok, error, serverError, unauthorized } from "@/lib/api-response"
 import { createQvaPayPackPayment, getPaymentError } from "@/lib/payments"
-import { createPackCheckoutSession, getPriceId } from "@/lib/stripe-server"
 import { getPack } from "@/lib/pricing"
 import { getCUPRate } from "@/lib/cup-rate"
 
@@ -13,71 +12,74 @@ export async function POST(req: NextRequest) {
     const session = await getServerSession(authOptions)
     if (!session?.user) return unauthorized()
 
-    const { packType, provider = "stripe" } = await req.json()
+    let body: { packType?: string }
+    try {
+      body = await req.json()
+    } catch {
+      return error("Cuerpo de solicitud inválido")
+    }
+
+    const { packType } = body
+
+    if (!packType || typeof packType !== "string") {
+      return error("Tipo de pack inválido")
+    }
 
     const packDef = getPack(packType)
     if (!packDef) {
-      return error("Pack inválido")
-    }
-
-    const baseUrl = process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000"
-    const hasStripe = !!getPriceId(packType)
-
-    if (provider === "stripe" && hasStripe) {
-      const priceId = getPriceId(packType)!
-
-      try {
-        const checkout = await createPackCheckoutSession({
-          priceId,
-          userId: session.user.id,
-          email: session.user.email || "",
-          packType,
-          successUrl: `${baseUrl}/dashboard/subscription?pack=success`,
-          cancelUrl: `${baseUrl}/pricing?payment=cancelled`,
-        })
-
-        if (checkout?.url) {
-          return ok({ url: checkout.url, provider: "stripe" })
-        }
-        return error("Error al crear sesión de pago")
-      } catch (e) {
-        console.error("Stripe error:", e)
-        return error(getPaymentError("stripe", e))
-      }
+      return error("Pack no encontrado")
     }
 
     try {
       const amount = packDef.priceUSD
       const cupRate = await getCUPRate()
-      const qvapayPayment = await createQvaPayPackPayment({
-        amount,
-        description: `Pack ${packDef.name} - The Serene Lens`,
-        plan: "",
-        userId: session.user.id,
-        packType,
-      })
 
-      if (qvapayPayment?.id) {
-        await db.payment.create({
-          data: {
-            userId: session.user.id,
-            provider: "qvapay",
-            qvapayId: qvapayPayment.id,
-            plan: packType,
-            amount,
-            amountUsd: amount,
-            amountCup: amount * cupRate,
-            remoteId: qvapayPayment.remote_id,
-          },
+      let qvapayPayment: any
+      try {
+        qvapayPayment = await createQvaPayPackPayment({
+          amount,
+          description: `Pack ${packDef.name} - The Serene Lens`,
+          plan: "",
+          userId: session.user.id,
+          packType,
         })
+      } catch (e) {
+        console.error("[create-pack] QvaPay API error:", e)
+        return error("No se pudo conectar con el procesador de pagos. Intenta de nuevo.")
       }
 
-      return ok({ url: qvapayPayment?.url, id: qvapayPayment?.id, provider: "qvapay" })
+      const transactionUuid = qvapayPayment?.transaction_uuid
+      if (transactionUuid) {
+        try {
+          await db.payment.create({
+            data: {
+              userId: session.user.id,
+              provider: "qvapay",
+              qvapayId: transactionUuid,
+              plan: packType,
+              amount,
+              amountUsd: amount,
+              amountCup: amount * cupRate,
+              remoteId: qvapayPayment.remote_id,
+            },
+          })
+        } catch (e) {
+          console.error("[create-pack] DB payment save error:", e)
+        }
+      }
+
+      if (!qvapayPayment?.url) {
+        console.error("[create-pack] QvaPay returned no URL:", qvapayPayment)
+        return error("Error al generar enlace de pago")
+      }
+
+      return ok({ url: qvapayPayment.url, id: transactionUuid, provider: "qvapay" })
     } catch (e) {
-      console.error("QvaPay error:", e)
+      console.error("[create-pack] QvaPay flow error:", e)
       return error(getPaymentError("qvapay", e))
     }
   } catch (e) {
+    console.error("[create-pack] Unexpected error:", e)
     return serverError(e)
   }
 }

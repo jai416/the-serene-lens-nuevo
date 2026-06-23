@@ -72,7 +72,7 @@ export default function TermsPage() {
             </ul>
             <h3 className="font-medium mt-3 mb-1">Procesamiento de pagos</h3>
             <ul className="list-disc pl-4 space-y-1">
-              <li>Los pagos se procesan a través de Stripe (tarjeta) y QvaPay (criptomonedas).</li>
+              <li>Los pagos se procesan a través de QvaPay.</li>
               <li>No almacenamos información de pago en nuestros servidores.</li>
               <li>Los precios se muestran en USD con conversión aproximada a CUP.</li>
             </ul>

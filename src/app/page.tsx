@@ -55,12 +55,12 @@ export default function HomePage() {
   return (
     <div className="min-h-screen">
       {/* ─── Hero ─── */}
-      <section className="relative min-h-[90vh] flex items-center py-20 px-4 sm:px-8 overflow-hidden bg-gradient-to-b from-[#ECFFD3] via-[#F8FAF5] to-[#F8FAF5] dark:from-[#1E251C] dark:via-[#222920] dark:to-[#1A1F19]">
+      <section className="relative min-h-[90vh] flex items-center py-20 px-4 sm:px-8 overflow-hidden bg-gradient-to-b from-[#ECFFD3] via-[#F8FAF5] to-white dark:from-[#1E251C] dark:via-[#222920] dark:to-[#1A1F19]">
         <div className="max-w-7xl mx-auto w-full">
           <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
             <div className="animate-fade-in-up max-w-xl">
               <SeasonalHero />
-              <span className="inline-block bg-[#FFF6AD] dark:bg-[#3A3A24] text-[#2F3A2D] dark:text-[#E8EDE6] px-4 py-1.5 rounded-full text-sm font-medium mb-4 shadow-sm">
+              <span className="inline-block bg-[#C2E09D] text-[#2F3A2D] px-4 py-1.5 rounded-full text-sm font-medium mb-4 shadow-md">
                 <Sparkles className="w-3.5 h-3.5 mr-2 inline" />
                 Observación cosmética con IA
               </span>
@@ -77,13 +77,13 @@ export default function HomePage() {
 
               <div className="flex flex-col sm:flex-row gap-3">
                 <Link href={session ? "/analysis" : "/login"}>
-                  <button className="inline-flex items-center justify-center text-base font-semibold transition-all bg-[#C2E09D] text-[#2F3A2D] px-8 py-6 rounded-full shadow-[0_4px_16px_rgba(194,224,157,0.35)] hover:shadow-[0_8px_24px_rgba(194,224,157,0.5)] hover:bg-[#B0D48E]">
+                  <button className="inline-flex items-center justify-center text-base font-semibold transition-all bg-[#2F3A2D] text-white px-8 py-6 rounded-full shadow-[0_4px_16px_rgba(47,58,45,0.25)] hover:shadow-[0_8px_24px_rgba(47,58,45,0.35)] hover:bg-[#3A4A38]">
                     <Scan className="w-4 h-4 mr-2" />
                     Comenzar Análisis
                   </button>
                 </Link>
                 <Link href="#how-it-works">
-                  <button className="inline-flex items-center justify-center text-base font-semibold transition-all bg-white dark:bg-[#2A3228] text-[#2F3A2D] dark:text-[#E8EDE6] px-8 py-6 rounded-full border border-[#C2E09D] dark:border-[#3A5A2A] hover:bg-[#F8FAF5] dark:hover:bg-[#2E3829]">
+                  <button className="inline-flex items-center justify-center text-base font-semibold transition-all bg-white dark:bg-[#2A3228] text-[#2F3A2D] dark:text-[#E8EDE6] px-8 py-6 rounded-full border-2 border-[#C2E09D] dark:border-[#3A5A2A] hover:bg-[#F8FAF5] dark:hover:bg-[#2E3829]">
                     Ver cómo funciona
                     <ArrowRight className="w-4 h-4 ml-2" />
                   </button>
@@ -99,24 +99,24 @@ export default function HomePage() {
             <div className="hidden lg:flex items-center justify-center animate-fade-in relative" style={{ animationDelay: "300ms" }}>
               <div className="relative w-full max-w-[420px] aspect-[4/5]">
                 {/* Background organic shapes */}
-                <div className="absolute -top-8 -right-8 w-48 h-48 rounded-full bg-[#ECFFD3]/60" />
-                <div className="absolute -bottom-6 -left-6 w-36 h-36 rounded-full bg-[#FFF6AD]/50" />
-                <div className="absolute top-1/2 -left-10 w-20 h-20 rounded-full bg-[#C2E09D]/30" />
+                <div className="absolute -top-8 -right-8 w-48 h-48 rounded-full bg-[#C2E09D]/40" />
+                <div className="absolute -bottom-6 -left-6 w-36 h-36 rounded-full bg-[#ECFFD3]/80" />
+                <div className="absolute top-1/2 -left-10 w-20 h-20 rounded-full bg-[#FFF6AD]/60" />
 
                 {/* Decorative leaves */}
-                <svg className="absolute -top-4 -left-4 w-16 h-16 text-[#C2E09D]/60" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+                <svg className="absolute -top-4 -left-4 w-16 h-16 text-[#2F3A2D]/30" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
                   <path d="M12 2C12 2 8 6 8 10C8 13.3 10.7 16 14 16C17.3 16 20 13.3 20 10C20 6 16 4 12 2Z" />
                   <path d="M12 2C12 2 16 6 16 10C16 13.3 13.3 16 10 16C6.7 16 4 13.3 4 10C4 6 8 4 12 2Z" />
                 </svg>
-                <svg className="absolute bottom-8 -right-6 w-14 h-14 text-[#ECFFD3]/70 rotate-45" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+                <svg className="absolute bottom-8 -right-6 w-14 h-14 text-[#C2E09D]/50 rotate-45" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
                   <path d="M12 2C12 2 8 6 8 10C8 13.3 10.7 16 14 16C17.3 16 20 13.3 20 10C20 6 16 4 12 2Z" />
                   <path d="M12 2C12 2 16 6 16 10C16 13.3 13.3 16 10 16C6.7 16 4 13.3 4 10C4 6 8 4 12 2Z" />
                 </svg>
 
                 {/* Main card with face illustration */}
-                <div className="relative w-full h-full rounded-[32px] bg-white dark:bg-[#222920] border border-[#DDE7D3] dark:border-[#3A4536] shadow-[0_4px_20px_rgba(47,58,45,0.06)] dark:shadow-[0_4px_20px_rgba(0,0,0,0.3)] p-8 flex flex-col items-center justify-center">
-                  <div className="w-24 h-24 rounded-full bg-[#F8FAF5] dark:bg-[#2A3228] flex items-center justify-center mb-6 border-2 border-[#ECFFD3] dark:border-[#3A5A2A]">
-                    <Flower2 className="w-12 h-12 text-[#C2E09D]" />
+                <div className="relative w-full h-full rounded-[32px] bg-white dark:bg-[#222920] border border-[#DDE7D3] dark:border-[#3A4536] shadow-[0_4px_20px_rgba(47,58,45,0.08)] dark:shadow-[0_4px_20px_rgba(0,0,0,0.3)] p-8 flex flex-col items-center justify-center">
+                  <div className="w-24 h-24 rounded-full bg-[#ECFFD3] dark:bg-[#2A3A24] flex items-center justify-center mb-6 border-2 border-[#C2E09D]">
+                    <Flower2 className="w-12 h-12 text-[#2F3A2D]" />
                   </div>
 
                   <h3 className="font-serif text-xl font-semibold text-[#2F3A2D] dark:text-[#E8EDE6] mb-2 text-center">
@@ -128,28 +128,28 @@ export default function HomePage() {
 
                   {/* Natural decorative elements */}
                   <div className="flex items-center gap-3 mt-6">
-                    <div className="w-8 h-8 rounded-full bg-[#ECFFD3] dark:bg-[#2A3A24] flex items-center justify-center">
-                      <Leaf className="w-4 h-4 text-[#2F3A2D] dark:text-[#E8EDE6]" />
+                    <div className="w-8 h-8 rounded-full bg-[#ECFFD3] flex items-center justify-center">
+                      <Leaf className="w-4 h-4 text-[#2F3A2D]" />
                     </div>
-                    <div className="w-8 h-8 rounded-full bg-[#FFF6AD] dark:bg-[#3A3A24] flex items-center justify-center">
-                      <Flower2 className="w-4 h-4 text-[#2F3A2D] dark:text-[#E8EDE6]" />
+                    <div className="w-8 h-8 rounded-full bg-[#FFF6AD] flex items-center justify-center">
+                      <Flower2 className="w-4 h-4 text-[#2F3A2D]" />
                     </div>
                     <div className="w-8 h-8 rounded-full bg-[#C2E09D] flex items-center justify-center">
                       <Sparkles className="w-4 h-4 text-[#2F3A2D]" />
                     </div>
                   </div>
 
-                  <div className="mt-6 flex items-center justify-center gap-6 text-xs text-[#8A9A82] dark:text-[#7A8A72]">
+                  <div className="mt-6 flex items-center justify-center gap-6 text-xs text-[#64705E] dark:text-[#9BAA93]">
                     <span className="flex items-center gap-1.5">
-                      <CheckCircle2 className="w-3.5 h-3.5 text-[#C2E09D]" />
+                      <CheckCircle2 className="w-3.5 h-3.5 text-[#2F3A2D] dark:text-[#C2E09D]" />
                       Privado
                     </span>
                     <span className="flex items-center gap-1.5">
-                      <CheckCircle2 className="w-3.5 h-3.5 text-[#C2E09D]" />
+                      <CheckCircle2 className="w-3.5 h-3.5 text-[#2F3A2D] dark:text-[#C2E09D]" />
                       Seguro
                     </span>
                     <span className="flex items-center gap-1.5">
-                      <CheckCircle2 className="w-3.5 h-3.5 text-[#C2E09D]" />
+                      <CheckCircle2 className="w-3.5 h-3.5 text-[#2F3A2D] dark:text-[#C2E09D]" />
                       Educativo
                     </span>
                   </div>
@@ -167,15 +167,15 @@ export default function HomePage() {
             {actionCards.map((card, i) => (
               <Link key={card.title} href={card.href}>
                 <Card
-                  className="p-5 transition-all duration-300 hover:shadow-[0_8px_24px_rgba(47,58,45,0.1)] hover:-translate-y-1 cursor-pointer animate-fade-in-up h-full border-t-4 border-t-[#C2E09D]"
+                  className="p-5 transition-all duration-300 hover:shadow-[0_8px_24px_rgba(47,58,45,0.1)] hover:-translate-y-1 cursor-pointer animate-fade-in-up h-full border-t-4 border-t-[#2F3A2D] dark:border-t-[#C2E09D]"
                   style={{ animationDelay: `${i * 100}ms` }}
                 >
                   <CardContent className="p-0">
-                    <div className="w-10 h-10 rounded-xl bg-[#ECFFD3] flex items-center justify-center mb-4">
+                    <div className="w-10 h-10 rounded-xl bg-[#C2E09D] flex items-center justify-center mb-4">
                       <card.icon className="w-5 h-5 text-[#2F3A2D]" />
                     </div>
-                    <h3 className="font-serif text-base font-semibold text-[#2F3A2D] mb-1">{card.title}</h3>
-                    <p className="text-xs text-[#64705E] leading-relaxed">{card.description}</p>
+                    <h3 className="font-serif text-base font-semibold text-[#2F3A2D] dark:text-[#E8EDE6] mb-1">{card.title}</h3>
+                    <p className="text-xs text-[#64705E] dark:text-[#9BAA93] leading-relaxed">{card.description}</p>
                   </CardContent>
                 </Card>
               </Link>
@@ -205,8 +205,8 @@ export default function HomePage() {
                 style={{ animationDelay: `${i * 150}ms` }}
               >
                 <CardContent className="p-0">
-                  <div className="w-14 h-14 rounded-2xl gradient-primary flex items-center justify-center mx-auto mb-5">
-                    <step.icon className="w-6 h-6 text-[#2F3A2D]" />
+                  <div className="w-14 h-14 rounded-2xl bg-[#2F3A2D] dark:bg-[#C2E09D] flex items-center justify-center mx-auto mb-5">
+                    <step.icon className="w-6 h-6 text-white dark:text-[#2F3A2D]" />
                   </div>
                   <h3 className="font-serif text-xl font-semibold mb-3 text-[#2F3A2D] dark:text-[#E8EDE6]">{step.title}</h3>
                   <p className="text-sm text-[#64705E] dark:text-[#9BAA93] leading-relaxed">{step.description}</p>
@@ -235,8 +235,8 @@ export default function HomePage() {
             {features.map((f, i) => (
               <Card key={f.title} className="p-6 animate-fade-in-up" style={{ animationDelay: `${i * 100}ms` }}>
                 <CardContent className="p-0">
-                  <div className="w-12 h-12 rounded-xl gradient-primary flex items-center justify-center mb-4">
-                    <f.icon className="w-5 h-5 text-[#2F3A2D]" />
+                  <div className="w-12 h-12 rounded-xl bg-[#2F3A2D] dark:bg-[#C2E09D] flex items-center justify-center mb-4">
+                    <f.icon className="w-5 h-5 text-white dark:text-[#2F3A2D]" />
                   </div>
                   <h3 className="font-serif text-lg font-semibold mb-2 text-[#2F3A2D] dark:text-[#E8EDE6]">{f.title}</h3>
                   <p className="text-sm text-[#64705E] dark:text-[#9BAA93]">{f.description}</p>
@@ -298,7 +298,7 @@ export default function HomePage() {
               <Card
                 key={p.name}
                 className={`p-8 flex flex-col transition-all duration-300 animate-fade-in-up ${
-                  p.popular ? "sm:scale-[1.04] z-10 ring-2 ring-[#C2E09D]" : ""
+                  p.popular ? "sm:scale-[1.04] z-10 ring-2 ring-[#2F3A2D] dark:ring-[#C2E09D]" : ""
                 }`}
                 style={{ animationDelay: `${i * 100}ms` }}
               >
@@ -329,7 +329,7 @@ export default function HomePage() {
                   <ul className="space-y-2.5 mb-6 flex-1">
                     {p.features.map((f) => (
                       <li key={f} className="flex items-start gap-2.5 text-sm text-[#64705E] dark:text-[#9BAA93]">
-                        <CheckCircle2 className="w-4 h-4 flex-shrink-0 mt-0.5 text-[#C2E09D]" />
+                        <CheckCircle2 className="w-4 h-4 flex-shrink-0 mt-0.5 text-[#2F3A2D] dark:text-[#C2E09D]" />
                         {f}
                       </li>
                     ))}

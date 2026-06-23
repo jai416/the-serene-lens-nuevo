@@ -7,8 +7,7 @@ const envSchema = z.object({
   OPENROUTER_API_KEY: z.string().min(1),
   QVAPAY_UUID: z.string().min(1),
   QVAPAY_SECRET: z.string().min(1),
-  QVAPAY_URL: z.string().url().default("https://qvapay.com"),
-  QVAPAY_API_URL: z.string().url().default("https://qvapay.com/api/v1"),
+  QVAPAY_API_URL: z.string().url().default("https://api.qvapay.com"),
   QVAPAY_TAX_RATE: z.string().default("0"),
   GOOGLE_CLIENT_ID: z.string().optional(),
   GOOGLE_CLIENT_SECRET: z.string().optional(),
@@ -26,13 +25,6 @@ const envSchema = z.object({
   NEXT_PUBLIC_PHOTO_STEPS: z.enum(["2", "4"]).optional(),
   CRON_SECRET: z.string().optional(),
   RAINFOREST_API_KEY: z.string().optional(),
-  STRIPE_SECRET_KEY: z.string().optional(),
-  STRIPE_WEBHOOK_SECRET: z.string().optional(),
-  STRIPE_PREMIUM_PRICE_ID: z.string().optional(),
-  STRIPE_PRO_PRICE_ID: z.string().optional(),
-  STRIPE_BASIC_PACK_PRICE_ID: z.string().optional(),
-  STRIPE_POPULAR_PACK_PRICE_ID: z.string().optional(),
-  STRIPE_ADVANCED_PACK_PRICE_ID: z.string().optional(),
 })
 
 export type Env = z.infer<typeof envSchema>

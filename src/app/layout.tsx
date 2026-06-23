@@ -38,11 +38,12 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="es" suppressHydrationWarning>
       <head>
+        <meta name="google-site-verification" content="FyNhwOqJ_JWdfoU_RZPYAqSNuHeuCXUgjmwDqT1cGXw" />
         <link rel="manifest" href="/manifest.json" />
         <link rel="preconnect" href="https://api.openrouter.ai" />
         <link rel="dns-prefetch" href="https://api.openrouter.ai" />
-        <link rel="preconnect" href="https://api.stripe.com" />
-        <link rel="dns-prefetch" href="https://api.stripe.com" />
+        <link rel="preconnect" href="https://api.qvapay.com" />
+        <link rel="dns-prefetch" href="https://api.qvapay.com" />
         <link rel="preconnect" href="https://app.posthog.com" />
         <link rel="dns-prefetch" href="https://app.posthog.com" />
         {process.env.NODE_ENV === "production" && (
