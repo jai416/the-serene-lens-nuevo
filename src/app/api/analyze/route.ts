@@ -3,11 +3,12 @@ import { getServerSession } from "next-auth"
 import { authOptions } from "@/lib/auth"
 import { ok, error, serverError } from "@/lib/api-response"
 import { checkRateLimit } from "@/lib/rate-limit"
-import { AnalysisService } from "@/lib/services/analysis.service"
+import { AnalysisService, AnalysisError } from "@/lib/services/analysis.service"
 import { logger } from "@/lib/logger"
 import { analysisBodySchema } from "@/lib/validations"
 
 export async function POST(req: NextRequest) {
+  const startTime = Date.now()
   try {
     const session = await getServerSession(authOptions)
     if (!session?.user) return error("Debes iniciar sesión para realizar un análisis")
@@ -34,12 +35,34 @@ export async function POST(req: NextRequest) {
       return error("Datos inválidos: " + parsed.error.issues.map((i) => i.message).join(", "))
     }
 
+    logger.info("Analysis started", { userId: session.user.id, photoCount: photos.length })
+
     const { analysis, result } = await AnalysisService.processAnalysis(session.user.id, photos, body)
 
-    logger.info("Analysis completed", { userId: session.user.id, analysisId: analysis.id })
+    const duration = Date.now() - startTime
+    logger.info("Analysis completed", { userId: session.user.id, analysisId: analysis.id, duration })
+
+    if (duration > 15000) {
+      logger.warn("Slow analysis", { userId: session.user.id, duration, photoCount: photos.length })
+    }
 
     return ok({ analysis, result })
   } catch (e) {
+    const duration = Date.now() - startTime
+    if (e instanceof AnalysisError) {
+      const statusMap: Record<string, number> = {
+        VALIDATION: 400,
+        USAGE_LIMIT: 403,
+        COMPRESSION: 400,
+        AI_ERROR: 502,
+        DB_ERROR: 500,
+        UNKNOWN: 500,
+      }
+      const status = statusMap[e.code] || 500
+      logger.error("Analysis failed", { duration, code: e.code, message: e.message })
+      return error(e.message, status)
+    }
+    logger.error("Analysis failed", { duration, error: e })
     return serverError(e)
   }
 }

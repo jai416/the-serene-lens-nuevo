@@ -141,3 +141,38 @@ export type RateLimit = Prisma.RateLimitModel
  * 
  */
 export type AppConfig = Prisma.AppConfigModel
+/**
+ * Model SurveyFeedback
+ * 
+ */
+export type SurveyFeedback = Prisma.SurveyFeedbackModel
+/**
+ * Model CommunityPost
+ * 
+ */
+export type CommunityPost = Prisma.CommunityPostModel
+/**
+ * Model Comment
+ * 
+ */
+export type Comment = Prisma.CommentModel
+/**
+ * Model SkinDiary
+ * 
+ */
+export type SkinDiary = Prisma.SkinDiaryModel
+/**
+ * Model Challenge
+ * 
+ */
+export type Challenge = Prisma.ChallengeModel
+/**
+ * Model UserChallenge
+ * 
+ */
+export type UserChallenge = Prisma.UserChallengeModel
+/**
+ * Model ProductReview
+ * 
+ */
+export type ProductReview = Prisma.ProductReviewModel

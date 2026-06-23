@@ -20,9 +20,14 @@ import {
   Package,
 } from "lucide-react"
 import { useSession } from "next-auth/react"
+import { SeasonalHero } from "@/components/seasonal-hero"
 
 const FAQSection = dynamic(() => import("@/components/faq-section").then((m) => ({ default: m.FAQSection })), {
   loading: () => <div className="py-16 text-center text-muted-foreground text-sm">Cargando...</div>,
+})
+
+const SkinTest = dynamic(() => import("@/components/skin-test").then((m) => ({ default: m.SkinTest })), {
+  loading: () => <div className="py-8 text-center text-muted-foreground text-sm">Cargando test...</div>,
 })
 
 const steps = [
@@ -50,14 +55,15 @@ export default function HomePage() {
   return (
     <div className="min-h-screen">
       {/* ─── Hero ─── */}
-      <section className="relative min-h-[90vh] flex items-center py-20 px-4 sm:px-8 overflow-hidden">
+      <section className="relative min-h-[90vh] flex items-center py-20 px-4 sm:px-8 overflow-hidden bg-gradient-to-b from-[#ECFFD3] via-[#F8FAF5] to-[#F8FAF5]">
         <div className="max-w-7xl mx-auto w-full">
           <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
             <div className="animate-fade-in-up max-w-xl">
-              <Badge variant="primary" className="mb-6 rounded-full px-4 py-1.5 border-0">
-                <Sparkles className="w-3.5 h-3.5 mr-2" />
-                Observación Cosmética Visual
-              </Badge>
+              <SeasonalHero />
+              <span className="inline-block bg-[#FFF6AD] text-[#2F3A2D] px-4 py-1.5 rounded-full text-sm font-medium mb-4 shadow-sm">
+                <Sparkles className="w-3.5 h-3.5 mr-2 inline" />
+                Observación cosmética con IA
+              </span>
 
               <h1 className="font-serif text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-semibold leading-[1.08] mb-6 text-[#2F3A2D]">
                 Conoce mejor
@@ -71,16 +77,16 @@ export default function HomePage() {
 
               <div className="flex flex-col sm:flex-row gap-3">
                 <Link href={session ? "/analysis" : "/login"}>
-                  <Button variant="primary" size="lg" className="text-base px-8 py-6 h-auto">
+                  <button className="inline-flex items-center justify-center text-base font-semibold transition-all bg-[#C2E09D] text-[#2F3A2D] px-8 py-6 rounded-full shadow-[0_4px_16px_rgba(194,224,157,0.35)] hover:shadow-[0_8px_24px_rgba(194,224,157,0.5)] hover:bg-[#B0D48E]">
                     <Scan className="w-4 h-4 mr-2" />
                     Comenzar Análisis
-                  </Button>
+                  </button>
                 </Link>
                 <Link href="#how-it-works">
-                  <Button variant="secondary" size="lg" className="text-base px-8 py-6 h-auto">
+                  <button className="inline-flex items-center justify-center text-base font-semibold transition-all bg-[#FFFFFF] text-[#2F3A2D] px-8 py-6 rounded-full border border-[#C2E09D] hover:bg-[#F8FAF5]">
                     Ver cómo funciona
                     <ArrowRight className="w-4 h-4 ml-2" />
-                  </Button>
+                  </button>
                 </Link>
               </div>
 
@@ -161,11 +167,11 @@ export default function HomePage() {
             {actionCards.map((card, i) => (
               <Link key={card.title} href={card.href}>
                 <Card
-                  className="p-5 transition-all duration-200 hover:shadow-[0_4px_16px_rgba(47,58,45,0.08)] hover:-translate-y-0.5 cursor-pointer animate-fade-in-up h-full"
+                  className="p-5 transition-all duration-300 hover:shadow-[0_8px_24px_rgba(47,58,45,0.1)] hover:-translate-y-1 cursor-pointer animate-fade-in-up h-full border-t-4 border-t-[#C2E09D]"
                   style={{ animationDelay: `${i * 100}ms` }}
                 >
                   <CardContent className="p-0">
-                    <div className="w-10 h-10 rounded-xl gradient-primary flex items-center justify-center mb-4">
+                    <div className="w-10 h-10 rounded-xl bg-[#ECFFD3] flex items-center justify-center mb-4">
                       <card.icon className="w-5 h-5 text-[#2F3A2D]" />
                     </div>
                     <h3 className="font-serif text-base font-semibold text-[#2F3A2D] mb-1">{card.title}</h3>
@@ -238,6 +244,22 @@ export default function HomePage() {
               </Card>
             ))}
           </div>
+        </div>
+      </section>
+
+      {/* ─── Quick Skin Test ─── */}
+      <section className="py-16 sm:py-24 px-4 sm:px-8 bg-[#F8FAF5]">
+        <div className="max-w-3xl mx-auto">
+          <div className="text-center max-w-2xl mx-auto mb-10">
+            <Badge variant="secondary" className="mb-4 rounded-full px-4 py-1.5">
+              Mini Test
+            </Badge>
+            <h2 className="font-serif text-3xl sm:text-4xl font-semibold mb-4 text-[#2F3A2D]">
+              ¿Qué tipo de piel tienes?
+            </h2>
+            <p className="text-[#64705E]">Responde 3 preguntas rápidas y descúbrelo.</p>
+          </div>
+          <SkinTest />
         </div>
       </section>
 

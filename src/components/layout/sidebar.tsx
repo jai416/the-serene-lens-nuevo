@@ -20,8 +20,12 @@ import {
   Flower2,
   Sparkles,
   ArrowRight,
+  Users,
+  BookOpen,
+  Trophy,
 } from "lucide-react"
 import { useState } from "react"
+import { ThemeToggle } from "@/components/theme-toggle"
 
 const guestLinks = [
   { href: "/", label: "Inicio", icon: Home },
@@ -33,6 +37,9 @@ const authLinks = [
   { href: "/", label: "Inicio", icon: Home },
   { href: "/analysis", label: "Análisis de piel", icon: Scan },
   { href: "/dashboard/history", label: "Historial", icon: History },
+  { href: "/dashboard/diary", label: "Mi Diario", icon: BookOpen },
+  { href: "/dashboard/challenges", label: "Desafíos", icon: Trophy },
+  { href: "/community", label: "Comunidad", icon: Users },
   { href: "/products", label: "Productos", icon: Package },
   { href: "/ingredients-analyzer", label: "Ingredientes", icon: Beaker },
   { href: "/dashboard/subscription", label: "Plan", icon: TrendingUp },
@@ -51,15 +58,15 @@ export function Sidebar() {
   }
 
   const sidebarContent = (
-    <div className="flex flex-col h-full bg-white">
+    <div className="flex flex-col h-full bg-white dark:bg-[#222920]">
       <div className="p-6">
         <Link href="/" className="flex items-center gap-3">
           <div className="w-10 h-10 rounded-2xl bg-[#C2E09D] flex items-center justify-center">
             <Flower2 className="w-5 h-5 text-[#2F3A2D]" />
           </div>
           <div>
-            <span className="font-serif text-lg font-semibold text-[#2F3A2D]">The Serene Lens</span>
-            <span className="text-[10px] text-[#8A9A82] block leading-tight">Observación Cosmética</span>
+            <span className="font-serif text-lg font-semibold text-[#2F3A2D] dark:text-[#E8EDE6]">The Serene Lens</span>
+            <span className="text-[10px] text-[#8A9A82] dark:text-[#7A8A72] block leading-tight">Observación Cosmética</span>
           </div>
         </Link>
       </div>
@@ -75,11 +82,11 @@ export function Sidebar() {
               className={cn(
                 "flex items-center gap-3 px-4 py-2.5 text-sm font-medium rounded-xl transition-all duration-200",
                 active
-                  ? "bg-[#F0F5EC] text-[#2F3A2D]"
-                  : "text-[#64705E] hover:bg-[#F8FAF5] hover:text-[#2F3A2D]"
+                  ? "bg-[#F0F5EC] dark:bg-[#2E3829] text-[#2F3A2D] dark:text-[#E8EDE6]"
+                  : "text-[#64705E] dark:text-[#9BAA93] hover:bg-[#F8FAF5] dark:hover:bg-[#2A3228] hover:text-[#2F3A2D] dark:hover:text-[#E8EDE6]"
               )}
             >
-              <link.icon className={cn("w-4.5 h-4.5 shrink-0", active ? "text-[#2F3A2D]" : "text-[#8A9A82]")} />
+              <link.icon className={cn("w-4.5 h-4.5 shrink-0", active ? "text-[#2F3A2D] dark:text-[#E8EDE6]" : "text-[#8A9A82] dark:text-[#7A8A72]")} />
               {link.label}
             </Link>
           )
@@ -92,11 +99,11 @@ export function Sidebar() {
             className={cn(
               "flex items-center gap-3 px-4 py-2.5 text-sm font-medium rounded-xl transition-all duration-200",
               isActive("/admin")
-                ? "bg-[#F0F5EC] text-[#2F3A2D]"
-                : "text-[#64705E] hover:bg-[#F8FAF5] hover:text-[#2F3A2D]"
+                ? "bg-[#F0F5EC] dark:bg-[#2E3829] text-[#2F3A2D] dark:text-[#E8EDE6]"
+                : "text-[#64705E] dark:text-[#9BAA93] hover:bg-[#F8FAF5] dark:hover:bg-[#2A3228] hover:text-[#2F3A2D] dark:hover:text-[#E8EDE6]"
             )}
           >
-            <Settings className="w-4.5 h-4.5 shrink-0 text-[#8A9A82]" />
+            <Settings className="w-4.5 h-4.5 shrink-0 text-[#8A9A82] dark:text-[#7A8A72]" />
             Admin
           </Link>
         )}
@@ -121,22 +128,23 @@ export function Sidebar() {
         </div>
       </nav>
 
-      <div className="p-3 border-t border-[#DDE7D3]">
+      <div className="p-3 border-t border-[#DDE7D3] dark:border-[#3A4536]">
+        <ThemeToggle />
         {session ? (
-          <div className="space-y-1">
+          <div className="space-y-1 mt-1">
             <Link
               href="/dashboard/profile"
               onClick={() => setMobileOpen(false)}
-              className="flex items-center gap-3 px-4 py-2.5 text-sm rounded-xl text-[#64705E] hover:bg-[#F8FAF5] hover:text-[#2F3A2D] transition-all duration-200"
+              className="flex items-center gap-3 px-4 py-2.5 text-sm rounded-xl text-[#64705E] dark:text-[#9BAA93] hover:bg-[#F8FAF5] dark:hover:bg-[#2A3228] hover:text-[#2F3A2D] dark:hover:text-[#E8EDE6] transition-all duration-200"
             >
-              <User className="w-4.5 h-4.5 shrink-0 text-[#8A9A82]" />
+              <User className="w-4.5 h-4.5 shrink-0 text-[#8A9A82] dark:text-[#7A8A72]" />
               <span className="truncate">{session.user.name || session.user.email}</span>
             </Link>
             <button
               onClick={() => signOut()}
-              className="flex items-center gap-3 px-4 py-2.5 text-sm rounded-xl text-[#64705E] hover:bg-[#F8FAF5] hover:text-[#2F3A2D] transition-all duration-200 w-full text-left"
+              className="flex items-center gap-3 px-4 py-2.5 text-sm rounded-xl text-[#64705E] dark:text-[#9BAA93] hover:bg-[#F8FAF5] dark:hover:bg-[#2A3228] hover:text-[#2F3A2D] dark:hover:text-[#E8EDE6] transition-all duration-200 w-full text-left"
             >
-              <LogOut className="w-4.5 h-4.5 shrink-0 text-[#8A9A82]" />
+              <LogOut className="w-4.5 h-4.5 shrink-0 text-[#8A9A82] dark:text-[#7A8A72]" />
               Cerrar sesión
             </button>
           </div>
@@ -144,13 +152,13 @@ export function Sidebar() {
           <Link
             href="/login"
             onClick={() => setMobileOpen(false)}
-            className="flex items-center gap-3 px-4 py-2.5 text-sm font-medium rounded-xl bg-[#C2E09D] text-[#2F3A2D] hover:bg-[#B0D48E] transition-all duration-200"
+            className="flex items-center gap-3 px-4 py-2.5 text-sm font-medium rounded-xl bg-[#C2E09D] text-[#2F3A2D] hover:bg-[#B0D48E] transition-all duration-200 mt-1"
           >
             <User className="w-4.5 h-4.5 shrink-0" />
             Iniciar sesión
           </Link>
         )}
-        <p className="text-[10px] text-[#8A9A82] text-center mt-2">
+        <p className="text-[10px] text-[#8A9A82] dark:text-[#7A8A72] text-center mt-2">
           &copy; {new Date().getFullYear()} The Serene Lens
         </p>
       </div>
@@ -159,7 +167,7 @@ export function Sidebar() {
 
   return (
     <>
-      <aside className="hidden md:flex fixed left-0 top-0 h-screen w-[280px] z-40 flex-col border-r border-[#DDE7D3] bg-white">
+      <aside className="hidden md:flex fixed left-0 top-0 h-screen w-[280px] z-40 flex-col border-r border-[#DDE7D3] dark:border-[#3A4536] bg-white dark:bg-[#222920]">
         {sidebarContent}
       </aside>
 
@@ -172,7 +180,7 @@ export function Sidebar() {
 
       <aside
         className={cn(
-          "md:hidden fixed top-0 left-0 h-screen w-[280px] z-50 bg-white flex-col transition-transform duration-300 border-r border-[#DDE7D3]",
+          "md:hidden fixed top-0 left-0 h-screen w-[280px] z-50 bg-white dark:bg-[#222920] flex-col transition-transform duration-300 border-r border-[#DDE7D3] dark:border-[#3A4536]",
           mobileOpen ? "translate-x-0" : "-translate-x-full"
         )}
       >
@@ -181,10 +189,10 @@ export function Sidebar() {
 
       <button
         onClick={() => setMobileOpen(!mobileOpen)}
-        className="md:hidden fixed top-4 left-4 z-50 w-10 h-10 rounded-xl bg-white border border-[#DDE7D3] flex items-center justify-center shadow-sm"
+        className="md:hidden fixed top-4 left-4 z-50 w-10 h-10 rounded-xl bg-white dark:bg-[#222920] border border-[#DDE7D3] dark:border-[#3A4536] flex items-center justify-center shadow-sm"
         aria-label="Menú"
       >
-        {mobileOpen ? <X className="w-5 h-5 text-[#2F3A2D]" /> : <Menu className="w-5 h-5 text-[#2F3A2D]" />}
+        {mobileOpen ? <X className="w-5 h-5 text-[#2F3A2D] dark:text-[#E8EDE6]" /> : <Menu className="w-5 h-5 text-[#2F3A2D] dark:text-[#E8EDE6]" />}
       </button>
     </>
   )

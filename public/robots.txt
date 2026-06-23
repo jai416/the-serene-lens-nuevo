@@ -1,5 +1,12 @@
 User-agent: *
 Allow: /
 Disallow: /api/
+Disallow: /dashboard/
+Disallow: /admin/
+Disallow: /analysis/
+Disallow: /login/
+Disallow: /register/
+Disallow: /forgot-password/
+Disallow: /reset-password/
 
-Sitemap: https://serenelens.com/sitemap.xml
+Sitemap: https://the-serene-lens-nuevo.onrender.com/sitemap.xml

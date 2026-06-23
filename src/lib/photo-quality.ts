@@ -83,9 +83,9 @@ export async function validatePhoto(file: File): Promise<PhotoQualityResult> {
     }
   } catch {
     return {
-      pass: true,
-      blur: { value: 0, pass: true },
-      brightness: { value: 128, pass: true },
+      pass: false,
+      blur: { value: 0, pass: false, message: "No se pudo procesar la imagen. Asegúrate de que no esté corrupta y sea un formato compatible (JPG, PNG, WebP)." },
+      brightness: { value: 0, pass: false, message: "Imagen no procesable." },
     }
   }
 }

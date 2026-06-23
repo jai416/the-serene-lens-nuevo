@@ -3,6 +3,7 @@ import "./globals.css"
 import { Toaster } from "sonner"
 import { AuthProvider } from "@/components/auth-provider"
 import { QueryProvider } from "@/components/query-provider"
+import { ThemeProvider } from "@/components/theme-provider"
 import { Sidebar } from "@/components/layout/sidebar"
 import { MobileNav } from "@/components/layout/mobile-nav"
 import { ClientInit } from "@/components/client-init"
@@ -58,28 +59,30 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           />
         )}
       </head>
-      <body className="min-h-screen antialiased bg-[#FFFFFF]">
-        <QueryProvider>
-          <AuthProvider>
-            <Sidebar />
-            <main id="main-content" className="md:ml-[280px] min-h-screen pb-20 md:pb-0 bg-[#F8FAF5]">
-              {children}
-            </main>
-            <MobileNav />
-            <Toaster
-              position="top-center"
-              toastOptions={{
-                className:
-                  "!bg-white !border-[#DDE7D3] !rounded-2xl !shadow-[0_4px_12px_rgba(47,58,45,0.08)] !text-[#2F3A2D]",
-                duration: 4000,
-                style: {
-                  borderLeft: "4px solid #C2E09D",
-                },
-              }}
-            />
-            <ClientInit />
-          </AuthProvider>
-        </QueryProvider>
+      <body className="min-h-screen antialiased bg-[var(--surface)]">
+        <ThemeProvider>
+          <QueryProvider>
+            <AuthProvider>
+              <Sidebar />
+              <main id="main-content" className="md:ml-[280px] min-h-screen pb-20 md:pb-0 bg-[var(--background)]">
+                {children}
+              </main>
+              <MobileNav />
+              <Toaster
+                position="top-center"
+                toastOptions={{
+                  className:
+                    "!bg-white dark:!bg-[#222920] !border-[#DDE7D3] dark:!border-[#3A4536] !rounded-2xl !shadow-[0_4px_12px_rgba(47,58,45,0.08)] dark:!shadow-[0_4px_12px_rgba(0,0,0,0.3)] !text-[#2F3A2D] dark:!text-[#E8EDE6]",
+                  duration: 4000,
+                  style: {
+                    borderLeft: "4px solid #C2E09D",
+                  },
+                }}
+              />
+              <ClientInit />
+            </AuthProvider>
+          </QueryProvider>
+        </ThemeProvider>
       </body>
     </html>
   )

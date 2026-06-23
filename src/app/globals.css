@@ -42,6 +42,35 @@
   --foreground: #2F3A2D;
   --surface: #FFFFFF;
   --surface-container: #F8FAF5;
+  --border: #DDE7D3;
+  --on-surface: #2F3A2D;
+  --on-surface-variant: #64705E;
+}
+
+.dark {
+  --background: #1A1F19;
+  --foreground: #E8EDE6;
+  --surface: #222920;
+  --surface-container: #1E251C;
+  --border: #3A4536;
+  --on-surface: #E8EDE6;
+  --on-surface-variant: #9BAA93;
+  --color-background: #1A1F19;
+  --color-foreground: #E8EDE6;
+  --color-surface: #222920;
+  --color-surface-container: #1E251C;
+  --color-on-surface: #E8EDE6;
+  --color-on-surface-variant: #9BAA93;
+  --color-outline: #3A4536;
+  --color-outline-variant: #2E3829;
+  --color-muted: #2A3228;
+  --color-muted-foreground: #7A8A72;
+  --color-card: #222920;
+  --color-card-foreground: #E8EDE6;
+  --color-popover: #222920;
+  --color-popover-foreground: #E8EDE6;
+  --color-input: #3A4536;
+  --color-border: #3A4536;
 }
 
 * {
@@ -52,6 +81,10 @@ body {
   background: var(--surface);
   color: var(--on-surface);
   font-family: var(--font-sans);
+}
+
+.dark body {
+  background: var(--surface);
 }
 
 body::before {
@@ -66,15 +99,33 @@ body::before {
   pointer-events: none;
 }
 
+.dark body::before {
+  background:
+    radial-gradient(ellipse 80% 50% at 50% 0%, rgba(194,224,157,0.06) 0%, transparent 70%),
+    radial-gradient(ellipse 50% 40% at 20% 80%, rgba(42,50,40,0.3) 0%, transparent 60%),
+    linear-gradient(180deg, #1A1F19 0%, #222920 40%, #1A1F19 100%);
+}
+
 .card-base {
-  background: #FFFFFF;
-  border: 1px solid #DDE7D3;
+  background: var(--surface);
+  border: 1px solid var(--border);
   box-shadow: 0 1px 3px rgba(47,58,45,0.04), 0 2px 8px rgba(47,58,45,0.06);
   border-radius: 20px;
 }
 
+.dark .card-base {
+  box-shadow: 0 1px 3px rgba(0,0,0,0.2), 0 2px 8px rgba(0,0,0,0.3);
+}
+
 .gradient-text {
   background: linear-gradient(135deg, #2F3A2D, #64705E);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.dark .gradient-text {
+  background: linear-gradient(135deg, #E8EDE6, #9BAA93);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -109,4 +160,27 @@ body::before {
 
 .scrollbar-hide::-webkit-scrollbar {
   display: none;
+}
+
+@layer base {
+  h1 {
+    @apply text-4xl md:text-5xl font-extrabold tracking-tight;
+    color: var(--on-surface);
+  }
+  h2 {
+    @apply text-2xl md:text-3xl font-bold;
+    color: var(--on-surface);
+  }
+  h3 {
+    @apply text-xl font-semibold;
+    color: var(--on-surface);
+  }
+  p {
+    @apply text-base;
+    color: var(--on-surface);
+  }
+  .text-secondary {
+    @apply text-sm;
+    color: var(--on-surface-variant);
+  }
 }

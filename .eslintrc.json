@@ -1,23 +1,29 @@
 {
   "extends": [
-    "next/core-web-vitals"
+    "next/core-web-vitals",
+    "next/typescript",
+    "plugin:import/recommended",
+    "plugin:import/typescript"
   ],
   "plugins": ["import"],
   "rules": {
-    "import/order": ["warn", {
-      "groups": ["builtin", "external", "internal", "parent", "sibling", "index"],
-      "newlines-between": "always",
-      "alphabetize": { "order": "asc", "caseInsensitive": true }
-    }],
-    "no-unused-vars": ["warn", { "argsIgnorePattern": "^_", "varsIgnorePattern": "^_" }],
-    "no-console": ["warn", { "allow": ["warn", "error"] }],
+    "import/order": [
+      "warn",
+      {
+        "groups": ["builtin", "external", "internal", "parent", "sibling", "index"],
+        "alphabetize": { "order": "asc", "caseInsensitive": true },
+        "newlines-between": "always"
+      }
+    ],
+    "@typescript-eslint/no-unused-vars": ["warn", { "argsIgnorePattern": "^_" }],
     "import/no-duplicates": "warn",
+    "no-console": ["warn", { "allow": ["warn", "error"] }],
     "prefer-const": "warn",
     "no-var": "error"
   },
   "settings": {
     "import/resolver": {
-      "typescript": {}
+      "typescript": { "project": "." }
     }
   }
 }

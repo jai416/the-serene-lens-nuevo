@@ -1,7 +1,7 @@
 # AGENTS.md — The Serene Lens
 
 ## Test Commands
-- `npm test` — run Vitest (100 tests across 11 suites)
+- `npm test` — run Vitest (104 tests across 12 suites)
 - `npm run test:watch` — watch mode
 - `npm run e2e` — Playwright tests (not yet configured)
 
@@ -66,12 +66,18 @@ Clean, professional skincare platform inspired by Apple Health, Headspace, Calm,
 - All neon glow effects (`neon-glow`, `neon-glow-strong`, `animate-neon-pulse`)
 - All scan/facial detection animations (`animate-scan-line`, `animate-spin-slow`)
 - All glassmorphism (`glass-card`, `glass-sidebar`, `glass-mobile-nav`)
-- Dark backgrounds, dark mode
 - Cyberpunk/futuristic aesthetic
 - Aggressive gradients, bright borders
 - Top horizontal navbar — all navigation moved to sidebar
 - Percentages in analysis results (replaced with descriptive labels)
 - Scan/futuristic hero elements (replaced with natural illustration)
+
+### Dark Mode
+- Custom theme provider (`src/components/theme-provider.tsx`) — no external deps
+- Toggle: sun/moon/system cycle in sidebar + mobile nav
+- Stored in localStorage, respects `prefers-color-scheme`
+- Dark palette: Background #1A1F19, Surface #222920, Primary #C2E09D, Text #E8EDE6
+- Applied via `.dark` class on `<html>` element
 
 ### Cards
 - White background (`#FFFFFF`)
@@ -87,25 +93,25 @@ Clean, professional skincare platform inspired by Apple Health, Headspace, Calm,
 - No neon shadows, no glow effects
 
 ### Sidebar
-- White background with `border-r border-[#DDE7D3]`, `w-[280px]`
-- Active state: `bg-[#F0F5EC]` light green tint
-- Inactive: `text-[#64705E]` hover `bg-[#F8FAF5]`
+- White/dark background with `border-r`, `w-[280px]`
+- Active state: `bg-[#F0F5EC]` / `dark:bg-[#2E3829]`
+- Inactive: `text-[#64705E]` hover `bg-[#F8FAF5]` / `dark:text-[#9BAA93]` hover `dark:bg-[#2A3228]`
 - Logo: `#C2E09D` background with `Flower2` icon
-- Nav items: Inicio, Análisis de piel, Historial, Productos, Ingredientes, Referidos, Plan, Cuenta
+- Nav items: Inicio, Análisis de piel, Historial, Mi Diario, Desafíos, Comunidad, Productos, Ingredientes, Plan, Cuenta
+- Theme toggle: sun/moon/system cycle (bottom section)
 - Premium card at bottom (gradient-primary background, links to `/pricing`)
-- Mobile: white drawer with backdrop overlay
+- Mobile: dark/light drawer with backdrop overlay
 - User section at bottom: profile, sign out (or login link)
-- **No duplicate nav items**: Each link points to a unique page (Rutinas/Progreso/Configuración removed — no dedicated pages exist yet)
 
 ### Mobile Navigation
 - Fixed bottom bar visible on mobile (`md:hidden`)
 - 5 items: Inicio, Análisis, Historial, Productos, Cuenta
-- White background, `border-t border-[#DDE7D3]`, active state dot indicator
-- No glass/neon effects
+- Dark mode support with `dark:` Tailwind classes
+- White/dark background, `border-t`, active state dot indicator
 
 ## Conventions
 - Spanish UI, English code
-- Mobile-first, light mode only (no dark mode)
+- Mobile-first, light/dark mode support
 - Tailwind v4 with `tw-animate-css` (NOT `tailwindcss-animate`)
 - CSS animations only — no Framer Motion
 - `sonner` for toasts (Toaster in root layout)
@@ -165,6 +171,18 @@ Clean, professional skincare platform inspired by Apple Health, Headspace, Calm,
 - **DNS prefetch**: Layout pre-conecta a OpenRouter, Stripe, PostHog
 - **N+1 prevention**: `/api/analysis` incluye feedback con `select` mínimo
 - **FAQ lazy-load**: `faq-section.tsx` con `next/dynamic` — ~15KB off main bundle
+- **Seasonal hero**: Messages based on Southern Hemisphere seasons (Cuba)
+- **Explainable AI**: AI returns `observationExplanations` and `confidenceReason` for user transparency
+- **Age-based recommendations**: AI prompt includes decade-specific skincare priorities
+
+## Security
+- **Rate limiting**: DB-backed via `lib/rate-limit.ts` — `/api/contact` (5/hour/IP), `/api/feedback/survey` (10/day/user), `/api/register` (3/day/IP in-memory)
+- **Input sanitization**: All user inputs stripped of HTML tags via regex before DB storage
+- **CRON_SECRET**: Timing-safe comparison with `crypto.timingSafeEqual`
+- **CSRF**: Token generation and validation in `lib/csrf.ts`
+- **Auth guards**: `redirect()` from `next/navigation` in client components during render
+- **Webhook security**: QvaPay verified via `get_payment_info` API call
+- **No PII in analytics**: PostHog tracks events only, no email/name in logs
 
 ## Pricing & Plans
 Prices defined in `src/lib/pricing.ts` — single source of truth.
@@ -182,11 +200,18 @@ Prices defined in `src/lib/pricing.ts` — single source of truth.
 | Pack Avanzado | $6.99 | 15 analyses, priority, 30 days |
 
 ## Page Structure
-- `/` — landing page: hero (badge + title + CTAs + natural illustration with trust badges), 4 action cards (Análisis, Historial, Rutinas, Ingredientes), how-it-works, features, pricing preview, FAQ, legal disclaimer
+- `/` — landing page: hero with seasonal messages (climate-aware), badge + title + CTAs, 4 action cards (Análisis, Historial, Rutinas, Ingredientes), quick skin test (3 questions), how-it-works, features, pricing preview, FAQ, legal disclaimer
+- `/about` — founding story: "Soy un programador que se hartó de apps de skincare que inventaban porcentajes." Mission, values (honesty, transparency, no fake percentages), CTA
 - `/login` — sign in / register page (email/password, Google, GitHub). NextAuth `signIn` page set to `/login`
 - `/analysis` — 4-step guided wizard: Consent → Photo Assistant (frontal/perfil izq/perfil der/acercamiento opcional, one at a time with validation) → Questions (age, sex, climate, concern, routine) → Processing → redirect to results
-- `/analysis/results/[id]` — 8 sections: Resumen General, Tipo de Piel Observado, Observaciones Detectadas, Factores Observados, Recomendaciones, Rutina, Productos, Historial + legal disclaimer. No percentages, only descriptive labels. Auto-saves to user history.
+- `/analysis/results/[id]` — 8 sections: Resumen General, Tipo de Piel Observado, Observaciones Detectadas (with explainable AI tooltips), Factores Observados, Recomendaciones, Rutina, Productos, Historial + legal disclaimer + satisfaction survey + social sharing. No percentages, only descriptive labels. Auto-saves to user history.
 - `/products` — product scanner (sends single photo of ingredients label) + catalog
+- `/products/[slug]` — product detail with ingredients + Schema.org JSON-LD
+- `/blog/[slug]` — article body + Schema.org JSON-LD
+- `/community` — forum with categories, post creation, comments
+- `/dashboard/diary` — daily skin diary with calendar grid, feeling tracking
+- `/dashboard/challenges` — gamification challenges with points
+- `/dashboard/referrals` — referral program management
 - `/products/[slug]` — product detail with ingredients
 - `/pricing` — subscriptions + packs, USD/CUP, Stripe + QvaPay buttons
 - `/blog` — articles with category filter

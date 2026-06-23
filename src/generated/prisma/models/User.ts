@@ -308,6 +308,12 @@ export type UserWhereInput = {
   purchasePacks?: Prisma.PurchasePackListRelationFilter
   usageRecords?: Prisma.UsageTrackingListRelationFilter
   clinic?: Prisma.XOR<Prisma.ClinicNullableScalarRelationFilter, Prisma.ClinicWhereInput> | null
+  surveyFeedback?: Prisma.SurveyFeedbackListRelationFilter
+  communityPosts?: Prisma.CommunityPostListRelationFilter
+  comments?: Prisma.CommentListRelationFilter
+  skinDiary?: Prisma.SkinDiaryListRelationFilter
+  userChallenges?: Prisma.UserChallengeListRelationFilter
+  productReviews?: Prisma.ProductReviewListRelationFilter
 }
 
 export type UserOrderByWithRelationInput = {
@@ -334,6 +340,12 @@ export type UserOrderByWithRelationInput = {
   purchasePacks?: Prisma.PurchasePackOrderByRelationAggregateInput
   usageRecords?: Prisma.UsageTrackingOrderByRelationAggregateInput
   clinic?: Prisma.ClinicOrderByWithRelationInput
+  surveyFeedback?: Prisma.SurveyFeedbackOrderByRelationAggregateInput
+  communityPosts?: Prisma.CommunityPostOrderByRelationAggregateInput
+  comments?: Prisma.CommentOrderByRelationAggregateInput
+  skinDiary?: Prisma.SkinDiaryOrderByRelationAggregateInput
+  userChallenges?: Prisma.UserChallengeOrderByRelationAggregateInput
+  productReviews?: Prisma.ProductReviewOrderByRelationAggregateInput
 }
 
 export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -363,6 +375,12 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   purchasePacks?: Prisma.PurchasePackListRelationFilter
   usageRecords?: Prisma.UsageTrackingListRelationFilter
   clinic?: Prisma.XOR<Prisma.ClinicNullableScalarRelationFilter, Prisma.ClinicWhereInput> | null
+  surveyFeedback?: Prisma.SurveyFeedbackListRelationFilter
+  communityPosts?: Prisma.CommunityPostListRelationFilter
+  comments?: Prisma.CommentListRelationFilter
+  skinDiary?: Prisma.SkinDiaryListRelationFilter
+  userChallenges?: Prisma.UserChallengeListRelationFilter
+  productReviews?: Prisma.ProductReviewListRelationFilter
 }, "id" | "email">
 
 export type UserOrderByWithAggregationInput = {
@@ -433,6 +451,12 @@ export type UserCreateInput = {
   purchasePacks?: Prisma.PurchasePackCreateNestedManyWithoutUserInput
   usageRecords?: Prisma.UsageTrackingCreateNestedManyWithoutUserInput
   clinic?: Prisma.ClinicCreateNestedOneWithoutOwnerInput
+  surveyFeedback?: Prisma.SurveyFeedbackCreateNestedManyWithoutUserInput
+  communityPosts?: Prisma.CommunityPostCreateNestedManyWithoutUserInput
+  comments?: Prisma.CommentCreateNestedManyWithoutUserInput
+  skinDiary?: Prisma.SkinDiaryCreateNestedManyWithoutUserInput
+  userChallenges?: Prisma.UserChallengeCreateNestedManyWithoutUserInput
+  productReviews?: Prisma.ProductReviewCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateInput = {
@@ -459,6 +483,12 @@ export type UserUncheckedCreateInput = {
   purchasePacks?: Prisma.PurchasePackUncheckedCreateNestedManyWithoutUserInput
   usageRecords?: Prisma.UsageTrackingUncheckedCreateNestedManyWithoutUserInput
   clinic?: Prisma.ClinicUncheckedCreateNestedOneWithoutOwnerInput
+  surveyFeedback?: Prisma.SurveyFeedbackUncheckedCreateNestedManyWithoutUserInput
+  communityPosts?: Prisma.CommunityPostUncheckedCreateNestedManyWithoutUserInput
+  comments?: Prisma.CommentUncheckedCreateNestedManyWithoutUserInput
+  skinDiary?: Prisma.SkinDiaryUncheckedCreateNestedManyWithoutUserInput
+  userChallenges?: Prisma.UserChallengeUncheckedCreateNestedManyWithoutUserInput
+  productReviews?: Prisma.ProductReviewUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserUpdateInput = {
@@ -485,6 +515,12 @@ export type UserUpdateInput = {
   purchasePacks?: Prisma.PurchasePackUpdateManyWithoutUserNestedInput
   usageRecords?: Prisma.UsageTrackingUpdateManyWithoutUserNestedInput
   clinic?: Prisma.ClinicUpdateOneWithoutOwnerNestedInput
+  surveyFeedback?: Prisma.SurveyFeedbackUpdateManyWithoutUserNestedInput
+  communityPosts?: Prisma.CommunityPostUpdateManyWithoutUserNestedInput
+  comments?: Prisma.CommentUpdateManyWithoutUserNestedInput
+  skinDiary?: Prisma.SkinDiaryUpdateManyWithoutUserNestedInput
+  userChallenges?: Prisma.UserChallengeUpdateManyWithoutUserNestedInput
+  productReviews?: Prisma.ProductReviewUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateInput = {
@@ -511,6 +547,12 @@ export type UserUncheckedUpdateInput = {
   purchasePacks?: Prisma.PurchasePackUncheckedUpdateManyWithoutUserNestedInput
   usageRecords?: Prisma.UsageTrackingUncheckedUpdateManyWithoutUserNestedInput
   clinic?: Prisma.ClinicUncheckedUpdateOneWithoutOwnerNestedInput
+  surveyFeedback?: Prisma.SurveyFeedbackUncheckedUpdateManyWithoutUserNestedInput
+  communityPosts?: Prisma.CommunityPostUncheckedUpdateManyWithoutUserNestedInput
+  comments?: Prisma.CommentUncheckedUpdateManyWithoutUserNestedInput
+  skinDiary?: Prisma.SkinDiaryUncheckedUpdateManyWithoutUserNestedInput
+  userChallenges?: Prisma.UserChallengeUncheckedUpdateManyWithoutUserNestedInput
+  productReviews?: Prisma.ProductReviewUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateManyInput = {
@@ -779,6 +821,90 @@ export type UserUpdateOneRequiredWithoutClinicNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutClinicInput, Prisma.UserUpdateWithoutClinicInput>, Prisma.UserUncheckedUpdateWithoutClinicInput>
 }
 
+export type UserCreateNestedOneWithoutSurveyFeedbackInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutSurveyFeedbackInput, Prisma.UserUncheckedCreateWithoutSurveyFeedbackInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutSurveyFeedbackInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneRequiredWithoutSurveyFeedbackNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutSurveyFeedbackInput, Prisma.UserUncheckedCreateWithoutSurveyFeedbackInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutSurveyFeedbackInput
+  upsert?: Prisma.UserUpsertWithoutSurveyFeedbackInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutSurveyFeedbackInput, Prisma.UserUpdateWithoutSurveyFeedbackInput>, Prisma.UserUncheckedUpdateWithoutSurveyFeedbackInput>
+}
+
+export type UserCreateNestedOneWithoutCommunityPostsInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutCommunityPostsInput, Prisma.UserUncheckedCreateWithoutCommunityPostsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutCommunityPostsInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneRequiredWithoutCommunityPostsNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutCommunityPostsInput, Prisma.UserUncheckedCreateWithoutCommunityPostsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutCommunityPostsInput
+  upsert?: Prisma.UserUpsertWithoutCommunityPostsInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutCommunityPostsInput, Prisma.UserUpdateWithoutCommunityPostsInput>, Prisma.UserUncheckedUpdateWithoutCommunityPostsInput>
+}
+
+export type UserCreateNestedOneWithoutCommentsInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutCommentsInput, Prisma.UserUncheckedCreateWithoutCommentsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutCommentsInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneRequiredWithoutCommentsNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutCommentsInput, Prisma.UserUncheckedCreateWithoutCommentsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutCommentsInput
+  upsert?: Prisma.UserUpsertWithoutCommentsInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutCommentsInput, Prisma.UserUpdateWithoutCommentsInput>, Prisma.UserUncheckedUpdateWithoutCommentsInput>
+}
+
+export type UserCreateNestedOneWithoutSkinDiaryInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutSkinDiaryInput, Prisma.UserUncheckedCreateWithoutSkinDiaryInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutSkinDiaryInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneRequiredWithoutSkinDiaryNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutSkinDiaryInput, Prisma.UserUncheckedCreateWithoutSkinDiaryInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutSkinDiaryInput
+  upsert?: Prisma.UserUpsertWithoutSkinDiaryInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutSkinDiaryInput, Prisma.UserUpdateWithoutSkinDiaryInput>, Prisma.UserUncheckedUpdateWithoutSkinDiaryInput>
+}
+
+export type UserCreateNestedOneWithoutUserChallengesInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutUserChallengesInput, Prisma.UserUncheckedCreateWithoutUserChallengesInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutUserChallengesInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneRequiredWithoutUserChallengesNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutUserChallengesInput, Prisma.UserUncheckedCreateWithoutUserChallengesInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutUserChallengesInput
+  upsert?: Prisma.UserUpsertWithoutUserChallengesInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutUserChallengesInput, Prisma.UserUpdateWithoutUserChallengesInput>, Prisma.UserUncheckedUpdateWithoutUserChallengesInput>
+}
+
+export type UserCreateNestedOneWithoutProductReviewsInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutProductReviewsInput, Prisma.UserUncheckedCreateWithoutProductReviewsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutProductReviewsInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneRequiredWithoutProductReviewsNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutProductReviewsInput, Prisma.UserUncheckedCreateWithoutProductReviewsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutProductReviewsInput
+  upsert?: Prisma.UserUpsertWithoutProductReviewsInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutProductReviewsInput, Prisma.UserUpdateWithoutProductReviewsInput>, Prisma.UserUncheckedUpdateWithoutProductReviewsInput>
+}
+
 export type UserCreateWithoutAccountsInput = {
   id?: string
   name?: string | null
@@ -802,6 +928,12 @@ export type UserCreateWithoutAccountsInput = {
   purchasePacks?: Prisma.PurchasePackCreateNestedManyWithoutUserInput
   usageRecords?: Prisma.UsageTrackingCreateNestedManyWithoutUserInput
   clinic?: Prisma.ClinicCreateNestedOneWithoutOwnerInput
+  surveyFeedback?: Prisma.SurveyFeedbackCreateNestedManyWithoutUserInput
+  communityPosts?: Prisma.CommunityPostCreateNestedManyWithoutUserInput
+  comments?: Prisma.CommentCreateNestedManyWithoutUserInput
+  skinDiary?: Prisma.SkinDiaryCreateNestedManyWithoutUserInput
+  userChallenges?: Prisma.UserChallengeCreateNestedManyWithoutUserInput
+  productReviews?: Prisma.ProductReviewCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutAccountsInput = {
@@ -827,6 +959,12 @@ export type UserUncheckedCreateWithoutAccountsInput = {
   purchasePacks?: Prisma.PurchasePackUncheckedCreateNestedManyWithoutUserInput
   usageRecords?: Prisma.UsageTrackingUncheckedCreateNestedManyWithoutUserInput
   clinic?: Prisma.ClinicUncheckedCreateNestedOneWithoutOwnerInput
+  surveyFeedback?: Prisma.SurveyFeedbackUncheckedCreateNestedManyWithoutUserInput
+  communityPosts?: Prisma.CommunityPostUncheckedCreateNestedManyWithoutUserInput
+  comments?: Prisma.CommentUncheckedCreateNestedManyWithoutUserInput
+  skinDiary?: Prisma.SkinDiaryUncheckedCreateNestedManyWithoutUserInput
+  userChallenges?: Prisma.UserChallengeUncheckedCreateNestedManyWithoutUserInput
+  productReviews?: Prisma.ProductReviewUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutAccountsInput = {
@@ -868,6 +1006,12 @@ export type UserUpdateWithoutAccountsInput = {
   purchasePacks?: Prisma.PurchasePackUpdateManyWithoutUserNestedInput
   usageRecords?: Prisma.UsageTrackingUpdateManyWithoutUserNestedInput
   clinic?: Prisma.ClinicUpdateOneWithoutOwnerNestedInput
+  surveyFeedback?: Prisma.SurveyFeedbackUpdateManyWithoutUserNestedInput
+  communityPosts?: Prisma.CommunityPostUpdateManyWithoutUserNestedInput
+  comments?: Prisma.CommentUpdateManyWithoutUserNestedInput
+  skinDiary?: Prisma.SkinDiaryUpdateManyWithoutUserNestedInput
+  userChallenges?: Prisma.UserChallengeUpdateManyWithoutUserNestedInput
+  productReviews?: Prisma.ProductReviewUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutAccountsInput = {
@@ -893,6 +1037,12 @@ export type UserUncheckedUpdateWithoutAccountsInput = {
   purchasePacks?: Prisma.PurchasePackUncheckedUpdateManyWithoutUserNestedInput
   usageRecords?: Prisma.UsageTrackingUncheckedUpdateManyWithoutUserNestedInput
   clinic?: Prisma.ClinicUncheckedUpdateOneWithoutOwnerNestedInput
+  surveyFeedback?: Prisma.SurveyFeedbackUncheckedUpdateManyWithoutUserNestedInput
+  communityPosts?: Prisma.CommunityPostUncheckedUpdateManyWithoutUserNestedInput
+  comments?: Prisma.CommentUncheckedUpdateManyWithoutUserNestedInput
+  skinDiary?: Prisma.SkinDiaryUncheckedUpdateManyWithoutUserNestedInput
+  userChallenges?: Prisma.UserChallengeUncheckedUpdateManyWithoutUserNestedInput
+  productReviews?: Prisma.ProductReviewUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutSessionsInput = {
@@ -918,6 +1068,12 @@ export type UserCreateWithoutSessionsInput = {
   purchasePacks?: Prisma.PurchasePackCreateNestedManyWithoutUserInput
   usageRecords?: Prisma.UsageTrackingCreateNestedManyWithoutUserInput
   clinic?: Prisma.ClinicCreateNestedOneWithoutOwnerInput
+  surveyFeedback?: Prisma.SurveyFeedbackCreateNestedManyWithoutUserInput
+  communityPosts?: Prisma.CommunityPostCreateNestedManyWithoutUserInput
+  comments?: Prisma.CommentCreateNestedManyWithoutUserInput
+  skinDiary?: Prisma.SkinDiaryCreateNestedManyWithoutUserInput
+  userChallenges?: Prisma.UserChallengeCreateNestedManyWithoutUserInput
+  productReviews?: Prisma.ProductReviewCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutSessionsInput = {
@@ -943,6 +1099,12 @@ export type UserUncheckedCreateWithoutSessionsInput = {
   purchasePacks?: Prisma.PurchasePackUncheckedCreateNestedManyWithoutUserInput
   usageRecords?: Prisma.UsageTrackingUncheckedCreateNestedManyWithoutUserInput
   clinic?: Prisma.ClinicUncheckedCreateNestedOneWithoutOwnerInput
+  surveyFeedback?: Prisma.SurveyFeedbackUncheckedCreateNestedManyWithoutUserInput
+  communityPosts?: Prisma.CommunityPostUncheckedCreateNestedManyWithoutUserInput
+  comments?: Prisma.CommentUncheckedCreateNestedManyWithoutUserInput
+  skinDiary?: Prisma.SkinDiaryUncheckedCreateNestedManyWithoutUserInput
+  userChallenges?: Prisma.UserChallengeUncheckedCreateNestedManyWithoutUserInput
+  productReviews?: Prisma.ProductReviewUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutSessionsInput = {
@@ -984,6 +1146,12 @@ export type UserUpdateWithoutSessionsInput = {
   purchasePacks?: Prisma.PurchasePackUpdateManyWithoutUserNestedInput
   usageRecords?: Prisma.UsageTrackingUpdateManyWithoutUserNestedInput
   clinic?: Prisma.ClinicUpdateOneWithoutOwnerNestedInput
+  surveyFeedback?: Prisma.SurveyFeedbackUpdateManyWithoutUserNestedInput
+  communityPosts?: Prisma.CommunityPostUpdateManyWithoutUserNestedInput
+  comments?: Prisma.CommentUpdateManyWithoutUserNestedInput
+  skinDiary?: Prisma.SkinDiaryUpdateManyWithoutUserNestedInput
+  userChallenges?: Prisma.UserChallengeUpdateManyWithoutUserNestedInput
+  productReviews?: Prisma.ProductReviewUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutSessionsInput = {
@@ -1009,6 +1177,12 @@ export type UserUncheckedUpdateWithoutSessionsInput = {
   purchasePacks?: Prisma.PurchasePackUncheckedUpdateManyWithoutUserNestedInput
   usageRecords?: Prisma.UsageTrackingUncheckedUpdateManyWithoutUserNestedInput
   clinic?: Prisma.ClinicUncheckedUpdateOneWithoutOwnerNestedInput
+  surveyFeedback?: Prisma.SurveyFeedbackUncheckedUpdateManyWithoutUserNestedInput
+  communityPosts?: Prisma.CommunityPostUncheckedUpdateManyWithoutUserNestedInput
+  comments?: Prisma.CommentUncheckedUpdateManyWithoutUserNestedInput
+  skinDiary?: Prisma.SkinDiaryUncheckedUpdateManyWithoutUserNestedInput
+  userChallenges?: Prisma.UserChallengeUncheckedUpdateManyWithoutUserNestedInput
+  productReviews?: Prisma.ProductReviewUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutAnalysesInput = {
@@ -1034,6 +1208,12 @@ export type UserCreateWithoutAnalysesInput = {
   purchasePacks?: Prisma.PurchasePackCreateNestedManyWithoutUserInput
   usageRecords?: Prisma.UsageTrackingCreateNestedManyWithoutUserInput
   clinic?: Prisma.ClinicCreateNestedOneWithoutOwnerInput
+  surveyFeedback?: Prisma.SurveyFeedbackCreateNestedManyWithoutUserInput
+  communityPosts?: Prisma.CommunityPostCreateNestedManyWithoutUserInput
+  comments?: Prisma.CommentCreateNestedManyWithoutUserInput
+  skinDiary?: Prisma.SkinDiaryCreateNestedManyWithoutUserInput
+  userChallenges?: Prisma.UserChallengeCreateNestedManyWithoutUserInput
+  productReviews?: Prisma.ProductReviewCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutAnalysesInput = {
@@ -1059,6 +1239,12 @@ export type UserUncheckedCreateWithoutAnalysesInput = {
   purchasePacks?: Prisma.PurchasePackUncheckedCreateNestedManyWithoutUserInput
   usageRecords?: Prisma.UsageTrackingUncheckedCreateNestedManyWithoutUserInput
   clinic?: Prisma.ClinicUncheckedCreateNestedOneWithoutOwnerInput
+  surveyFeedback?: Prisma.SurveyFeedbackUncheckedCreateNestedManyWithoutUserInput
+  communityPosts?: Prisma.CommunityPostUncheckedCreateNestedManyWithoutUserInput
+  comments?: Prisma.CommentUncheckedCreateNestedManyWithoutUserInput
+  skinDiary?: Prisma.SkinDiaryUncheckedCreateNestedManyWithoutUserInput
+  userChallenges?: Prisma.UserChallengeUncheckedCreateNestedManyWithoutUserInput
+  productReviews?: Prisma.ProductReviewUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutAnalysesInput = {
@@ -1100,6 +1286,12 @@ export type UserUpdateWithoutAnalysesInput = {
   purchasePacks?: Prisma.PurchasePackUpdateManyWithoutUserNestedInput
   usageRecords?: Prisma.UsageTrackingUpdateManyWithoutUserNestedInput
   clinic?: Prisma.ClinicUpdateOneWithoutOwnerNestedInput
+  surveyFeedback?: Prisma.SurveyFeedbackUpdateManyWithoutUserNestedInput
+  communityPosts?: Prisma.CommunityPostUpdateManyWithoutUserNestedInput
+  comments?: Prisma.CommentUpdateManyWithoutUserNestedInput
+  skinDiary?: Prisma.SkinDiaryUpdateManyWithoutUserNestedInput
+  userChallenges?: Prisma.UserChallengeUpdateManyWithoutUserNestedInput
+  productReviews?: Prisma.ProductReviewUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutAnalysesInput = {
@@ -1125,6 +1317,12 @@ export type UserUncheckedUpdateWithoutAnalysesInput = {
   purchasePacks?: Prisma.PurchasePackUncheckedUpdateManyWithoutUserNestedInput
   usageRecords?: Prisma.UsageTrackingUncheckedUpdateManyWithoutUserNestedInput
   clinic?: Prisma.ClinicUncheckedUpdateOneWithoutOwnerNestedInput
+  surveyFeedback?: Prisma.SurveyFeedbackUncheckedUpdateManyWithoutUserNestedInput
+  communityPosts?: Prisma.CommunityPostUncheckedUpdateManyWithoutUserNestedInput
+  comments?: Prisma.CommentUncheckedUpdateManyWithoutUserNestedInput
+  skinDiary?: Prisma.SkinDiaryUncheckedUpdateManyWithoutUserNestedInput
+  userChallenges?: Prisma.UserChallengeUncheckedUpdateManyWithoutUserNestedInput
+  productReviews?: Prisma.ProductReviewUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutPaymentsInput = {
@@ -1150,6 +1348,12 @@ export type UserCreateWithoutPaymentsInput = {
   purchasePacks?: Prisma.PurchasePackCreateNestedManyWithoutUserInput
   usageRecords?: Prisma.UsageTrackingCreateNestedManyWithoutUserInput
   clinic?: Prisma.ClinicCreateNestedOneWithoutOwnerInput
+  surveyFeedback?: Prisma.SurveyFeedbackCreateNestedManyWithoutUserInput
+  communityPosts?: Prisma.CommunityPostCreateNestedManyWithoutUserInput
+  comments?: Prisma.CommentCreateNestedManyWithoutUserInput
+  skinDiary?: Prisma.SkinDiaryCreateNestedManyWithoutUserInput
+  userChallenges?: Prisma.UserChallengeCreateNestedManyWithoutUserInput
+  productReviews?: Prisma.ProductReviewCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutPaymentsInput = {
@@ -1175,6 +1379,12 @@ export type UserUncheckedCreateWithoutPaymentsInput = {
   purchasePacks?: Prisma.PurchasePackUncheckedCreateNestedManyWithoutUserInput
   usageRecords?: Prisma.UsageTrackingUncheckedCreateNestedManyWithoutUserInput
   clinic?: Prisma.ClinicUncheckedCreateNestedOneWithoutOwnerInput
+  surveyFeedback?: Prisma.SurveyFeedbackUncheckedCreateNestedManyWithoutUserInput
+  communityPosts?: Prisma.CommunityPostUncheckedCreateNestedManyWithoutUserInput
+  comments?: Prisma.CommentUncheckedCreateNestedManyWithoutUserInput
+  skinDiary?: Prisma.SkinDiaryUncheckedCreateNestedManyWithoutUserInput
+  userChallenges?: Prisma.UserChallengeUncheckedCreateNestedManyWithoutUserInput
+  productReviews?: Prisma.ProductReviewUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutPaymentsInput = {
@@ -1216,6 +1426,12 @@ export type UserUpdateWithoutPaymentsInput = {
   purchasePacks?: Prisma.PurchasePackUpdateManyWithoutUserNestedInput
   usageRecords?: Prisma.UsageTrackingUpdateManyWithoutUserNestedInput
   clinic?: Prisma.ClinicUpdateOneWithoutOwnerNestedInput
+  surveyFeedback?: Prisma.SurveyFeedbackUpdateManyWithoutUserNestedInput
+  communityPosts?: Prisma.CommunityPostUpdateManyWithoutUserNestedInput
+  comments?: Prisma.CommentUpdateManyWithoutUserNestedInput
+  skinDiary?: Prisma.SkinDiaryUpdateManyWithoutUserNestedInput
+  userChallenges?: Prisma.UserChallengeUpdateManyWithoutUserNestedInput
+  productReviews?: Prisma.ProductReviewUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutPaymentsInput = {
@@ -1241,6 +1457,12 @@ export type UserUncheckedUpdateWithoutPaymentsInput = {
   purchasePacks?: Prisma.PurchasePackUncheckedUpdateManyWithoutUserNestedInput
   usageRecords?: Prisma.UsageTrackingUncheckedUpdateManyWithoutUserNestedInput
   clinic?: Prisma.ClinicUncheckedUpdateOneWithoutOwnerNestedInput
+  surveyFeedback?: Prisma.SurveyFeedbackUncheckedUpdateManyWithoutUserNestedInput
+  communityPosts?: Prisma.CommunityPostUncheckedUpdateManyWithoutUserNestedInput
+  comments?: Prisma.CommentUncheckedUpdateManyWithoutUserNestedInput
+  skinDiary?: Prisma.SkinDiaryUncheckedUpdateManyWithoutUserNestedInput
+  userChallenges?: Prisma.UserChallengeUncheckedUpdateManyWithoutUserNestedInput
+  productReviews?: Prisma.ProductReviewUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutSubscriptionsInput = {
@@ -1266,6 +1488,12 @@ export type UserCreateWithoutSubscriptionsInput = {
   purchasePacks?: Prisma.PurchasePackCreateNestedManyWithoutUserInput
   usageRecords?: Prisma.UsageTrackingCreateNestedManyWithoutUserInput
   clinic?: Prisma.ClinicCreateNestedOneWithoutOwnerInput
+  surveyFeedback?: Prisma.SurveyFeedbackCreateNestedManyWithoutUserInput
+  communityPosts?: Prisma.CommunityPostCreateNestedManyWithoutUserInput
+  comments?: Prisma.CommentCreateNestedManyWithoutUserInput
+  skinDiary?: Prisma.SkinDiaryCreateNestedManyWithoutUserInput
+  userChallenges?: Prisma.UserChallengeCreateNestedManyWithoutUserInput
+  productReviews?: Prisma.ProductReviewCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutSubscriptionsInput = {
@@ -1291,6 +1519,12 @@ export type UserUncheckedCreateWithoutSubscriptionsInput = {
   purchasePacks?: Prisma.PurchasePackUncheckedCreateNestedManyWithoutUserInput
   usageRecords?: Prisma.UsageTrackingUncheckedCreateNestedManyWithoutUserInput
   clinic?: Prisma.ClinicUncheckedCreateNestedOneWithoutOwnerInput
+  surveyFeedback?: Prisma.SurveyFeedbackUncheckedCreateNestedManyWithoutUserInput
+  communityPosts?: Prisma.CommunityPostUncheckedCreateNestedManyWithoutUserInput
+  comments?: Prisma.CommentUncheckedCreateNestedManyWithoutUserInput
+  skinDiary?: Prisma.SkinDiaryUncheckedCreateNestedManyWithoutUserInput
+  userChallenges?: Prisma.UserChallengeUncheckedCreateNestedManyWithoutUserInput
+  productReviews?: Prisma.ProductReviewUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutSubscriptionsInput = {
@@ -1332,6 +1566,12 @@ export type UserUpdateWithoutSubscriptionsInput = {
   purchasePacks?: Prisma.PurchasePackUpdateManyWithoutUserNestedInput
   usageRecords?: Prisma.UsageTrackingUpdateManyWithoutUserNestedInput
   clinic?: Prisma.ClinicUpdateOneWithoutOwnerNestedInput
+  surveyFeedback?: Prisma.SurveyFeedbackUpdateManyWithoutUserNestedInput
+  communityPosts?: Prisma.CommunityPostUpdateManyWithoutUserNestedInput
+  comments?: Prisma.CommentUpdateManyWithoutUserNestedInput
+  skinDiary?: Prisma.SkinDiaryUpdateManyWithoutUserNestedInput
+  userChallenges?: Prisma.UserChallengeUpdateManyWithoutUserNestedInput
+  productReviews?: Prisma.ProductReviewUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutSubscriptionsInput = {
@@ -1357,6 +1597,12 @@ export type UserUncheckedUpdateWithoutSubscriptionsInput = {
   purchasePacks?: Prisma.PurchasePackUncheckedUpdateManyWithoutUserNestedInput
   usageRecords?: Prisma.UsageTrackingUncheckedUpdateManyWithoutUserNestedInput
   clinic?: Prisma.ClinicUncheckedUpdateOneWithoutOwnerNestedInput
+  surveyFeedback?: Prisma.SurveyFeedbackUncheckedUpdateManyWithoutUserNestedInput
+  communityPosts?: Prisma.CommunityPostUncheckedUpdateManyWithoutUserNestedInput
+  comments?: Prisma.CommentUncheckedUpdateManyWithoutUserNestedInput
+  skinDiary?: Prisma.SkinDiaryUncheckedUpdateManyWithoutUserNestedInput
+  userChallenges?: Prisma.UserChallengeUncheckedUpdateManyWithoutUserNestedInput
+  productReviews?: Prisma.ProductReviewUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutPurchasePacksInput = {
@@ -1382,6 +1628,12 @@ export type UserCreateWithoutPurchasePacksInput = {
   subscriptions?: Prisma.SubscriptionCreateNestedManyWithoutUserInput
   usageRecords?: Prisma.UsageTrackingCreateNestedManyWithoutUserInput
   clinic?: Prisma.ClinicCreateNestedOneWithoutOwnerInput
+  surveyFeedback?: Prisma.SurveyFeedbackCreateNestedManyWithoutUserInput
+  communityPosts?: Prisma.CommunityPostCreateNestedManyWithoutUserInput
+  comments?: Prisma.CommentCreateNestedManyWithoutUserInput
+  skinDiary?: Prisma.SkinDiaryCreateNestedManyWithoutUserInput
+  userChallenges?: Prisma.UserChallengeCreateNestedManyWithoutUserInput
+  productReviews?: Prisma.ProductReviewCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutPurchasePacksInput = {
@@ -1407,6 +1659,12 @@ export type UserUncheckedCreateWithoutPurchasePacksInput = {
   subscriptions?: Prisma.SubscriptionUncheckedCreateNestedManyWithoutUserInput
   usageRecords?: Prisma.UsageTrackingUncheckedCreateNestedManyWithoutUserInput
   clinic?: Prisma.ClinicUncheckedCreateNestedOneWithoutOwnerInput
+  surveyFeedback?: Prisma.SurveyFeedbackUncheckedCreateNestedManyWithoutUserInput
+  communityPosts?: Prisma.CommunityPostUncheckedCreateNestedManyWithoutUserInput
+  comments?: Prisma.CommentUncheckedCreateNestedManyWithoutUserInput
+  skinDiary?: Prisma.SkinDiaryUncheckedCreateNestedManyWithoutUserInput
+  userChallenges?: Prisma.UserChallengeUncheckedCreateNestedManyWithoutUserInput
+  productReviews?: Prisma.ProductReviewUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutPurchasePacksInput = {
@@ -1448,6 +1706,12 @@ export type UserUpdateWithoutPurchasePacksInput = {
   subscriptions?: Prisma.SubscriptionUpdateManyWithoutUserNestedInput
   usageRecords?: Prisma.UsageTrackingUpdateManyWithoutUserNestedInput
   clinic?: Prisma.ClinicUpdateOneWithoutOwnerNestedInput
+  surveyFeedback?: Prisma.SurveyFeedbackUpdateManyWithoutUserNestedInput
+  communityPosts?: Prisma.CommunityPostUpdateManyWithoutUserNestedInput
+  comments?: Prisma.CommentUpdateManyWithoutUserNestedInput
+  skinDiary?: Prisma.SkinDiaryUpdateManyWithoutUserNestedInput
+  userChallenges?: Prisma.UserChallengeUpdateManyWithoutUserNestedInput
+  productReviews?: Prisma.ProductReviewUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutPurchasePacksInput = {
@@ -1473,6 +1737,12 @@ export type UserUncheckedUpdateWithoutPurchasePacksInput = {
   subscriptions?: Prisma.SubscriptionUncheckedUpdateManyWithoutUserNestedInput
   usageRecords?: Prisma.UsageTrackingUncheckedUpdateManyWithoutUserNestedInput
   clinic?: Prisma.ClinicUncheckedUpdateOneWithoutOwnerNestedInput
+  surveyFeedback?: Prisma.SurveyFeedbackUncheckedUpdateManyWithoutUserNestedInput
+  communityPosts?: Prisma.CommunityPostUncheckedUpdateManyWithoutUserNestedInput
+  comments?: Prisma.CommentUncheckedUpdateManyWithoutUserNestedInput
+  skinDiary?: Prisma.SkinDiaryUncheckedUpdateManyWithoutUserNestedInput
+  userChallenges?: Prisma.UserChallengeUncheckedUpdateManyWithoutUserNestedInput
+  productReviews?: Prisma.ProductReviewUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutUsageRecordsInput = {
@@ -1498,6 +1768,12 @@ export type UserCreateWithoutUsageRecordsInput = {
   subscriptions?: Prisma.SubscriptionCreateNestedManyWithoutUserInput
   purchasePacks?: Prisma.PurchasePackCreateNestedManyWithoutUserInput
   clinic?: Prisma.ClinicCreateNestedOneWithoutOwnerInput
+  surveyFeedback?: Prisma.SurveyFeedbackCreateNestedManyWithoutUserInput
+  communityPosts?: Prisma.CommunityPostCreateNestedManyWithoutUserInput
+  comments?: Prisma.CommentCreateNestedManyWithoutUserInput
+  skinDiary?: Prisma.SkinDiaryCreateNestedManyWithoutUserInput
+  userChallenges?: Prisma.UserChallengeCreateNestedManyWithoutUserInput
+  productReviews?: Prisma.ProductReviewCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutUsageRecordsInput = {
@@ -1523,6 +1799,12 @@ export type UserUncheckedCreateWithoutUsageRecordsInput = {
   subscriptions?: Prisma.SubscriptionUncheckedCreateNestedManyWithoutUserInput
   purchasePacks?: Prisma.PurchasePackUncheckedCreateNestedManyWithoutUserInput
   clinic?: Prisma.ClinicUncheckedCreateNestedOneWithoutOwnerInput
+  surveyFeedback?: Prisma.SurveyFeedbackUncheckedCreateNestedManyWithoutUserInput
+  communityPosts?: Prisma.CommunityPostUncheckedCreateNestedManyWithoutUserInput
+  comments?: Prisma.CommentUncheckedCreateNestedManyWithoutUserInput
+  skinDiary?: Prisma.SkinDiaryUncheckedCreateNestedManyWithoutUserInput
+  userChallenges?: Prisma.UserChallengeUncheckedCreateNestedManyWithoutUserInput
+  productReviews?: Prisma.ProductReviewUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutUsageRecordsInput = {
@@ -1564,6 +1846,12 @@ export type UserUpdateWithoutUsageRecordsInput = {
   subscriptions?: Prisma.SubscriptionUpdateManyWithoutUserNestedInput
   purchasePacks?: Prisma.PurchasePackUpdateManyWithoutUserNestedInput
   clinic?: Prisma.ClinicUpdateOneWithoutOwnerNestedInput
+  surveyFeedback?: Prisma.SurveyFeedbackUpdateManyWithoutUserNestedInput
+  communityPosts?: Prisma.CommunityPostUpdateManyWithoutUserNestedInput
+  comments?: Prisma.CommentUpdateManyWithoutUserNestedInput
+  skinDiary?: Prisma.SkinDiaryUpdateManyWithoutUserNestedInput
+  userChallenges?: Prisma.UserChallengeUpdateManyWithoutUserNestedInput
+  productReviews?: Prisma.ProductReviewUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutUsageRecordsInput = {
@@ -1589,6 +1877,12 @@ export type UserUncheckedUpdateWithoutUsageRecordsInput = {
   subscriptions?: Prisma.SubscriptionUncheckedUpdateManyWithoutUserNestedInput
   purchasePacks?: Prisma.PurchasePackUncheckedUpdateManyWithoutUserNestedInput
   clinic?: Prisma.ClinicUncheckedUpdateOneWithoutOwnerNestedInput
+  surveyFeedback?: Prisma.SurveyFeedbackUncheckedUpdateManyWithoutUserNestedInput
+  communityPosts?: Prisma.CommunityPostUncheckedUpdateManyWithoutUserNestedInput
+  comments?: Prisma.CommentUncheckedUpdateManyWithoutUserNestedInput
+  skinDiary?: Prisma.SkinDiaryUncheckedUpdateManyWithoutUserNestedInput
+  userChallenges?: Prisma.UserChallengeUncheckedUpdateManyWithoutUserNestedInput
+  productReviews?: Prisma.ProductReviewUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutClinicInput = {
@@ -1614,6 +1908,12 @@ export type UserCreateWithoutClinicInput = {
   subscriptions?: Prisma.SubscriptionCreateNestedManyWithoutUserInput
   purchasePacks?: Prisma.PurchasePackCreateNestedManyWithoutUserInput
   usageRecords?: Prisma.UsageTrackingCreateNestedManyWithoutUserInput
+  surveyFeedback?: Prisma.SurveyFeedbackCreateNestedManyWithoutUserInput
+  communityPosts?: Prisma.CommunityPostCreateNestedManyWithoutUserInput
+  comments?: Prisma.CommentCreateNestedManyWithoutUserInput
+  skinDiary?: Prisma.SkinDiaryCreateNestedManyWithoutUserInput
+  userChallenges?: Prisma.UserChallengeCreateNestedManyWithoutUserInput
+  productReviews?: Prisma.ProductReviewCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutClinicInput = {
@@ -1639,6 +1939,12 @@ export type UserUncheckedCreateWithoutClinicInput = {
   subscriptions?: Prisma.SubscriptionUncheckedCreateNestedManyWithoutUserInput
   purchasePacks?: Prisma.PurchasePackUncheckedCreateNestedManyWithoutUserInput
   usageRecords?: Prisma.UsageTrackingUncheckedCreateNestedManyWithoutUserInput
+  surveyFeedback?: Prisma.SurveyFeedbackUncheckedCreateNestedManyWithoutUserInput
+  communityPosts?: Prisma.CommunityPostUncheckedCreateNestedManyWithoutUserInput
+  comments?: Prisma.CommentUncheckedCreateNestedManyWithoutUserInput
+  skinDiary?: Prisma.SkinDiaryUncheckedCreateNestedManyWithoutUserInput
+  userChallenges?: Prisma.UserChallengeUncheckedCreateNestedManyWithoutUserInput
+  productReviews?: Prisma.ProductReviewUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutClinicInput = {
@@ -1680,6 +1986,12 @@ export type UserUpdateWithoutClinicInput = {
   subscriptions?: Prisma.SubscriptionUpdateManyWithoutUserNestedInput
   purchasePacks?: Prisma.PurchasePackUpdateManyWithoutUserNestedInput
   usageRecords?: Prisma.UsageTrackingUpdateManyWithoutUserNestedInput
+  surveyFeedback?: Prisma.SurveyFeedbackUpdateManyWithoutUserNestedInput
+  communityPosts?: Prisma.CommunityPostUpdateManyWithoutUserNestedInput
+  comments?: Prisma.CommentUpdateManyWithoutUserNestedInput
+  skinDiary?: Prisma.SkinDiaryUpdateManyWithoutUserNestedInput
+  userChallenges?: Prisma.UserChallengeUpdateManyWithoutUserNestedInput
+  productReviews?: Prisma.ProductReviewUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutClinicInput = {
@@ -1705,6 +2017,852 @@ export type UserUncheckedUpdateWithoutClinicInput = {
   subscriptions?: Prisma.SubscriptionUncheckedUpdateManyWithoutUserNestedInput
   purchasePacks?: Prisma.PurchasePackUncheckedUpdateManyWithoutUserNestedInput
   usageRecords?: Prisma.UsageTrackingUncheckedUpdateManyWithoutUserNestedInput
+  surveyFeedback?: Prisma.SurveyFeedbackUncheckedUpdateManyWithoutUserNestedInput
+  communityPosts?: Prisma.CommunityPostUncheckedUpdateManyWithoutUserNestedInput
+  comments?: Prisma.CommentUncheckedUpdateManyWithoutUserNestedInput
+  skinDiary?: Prisma.SkinDiaryUncheckedUpdateManyWithoutUserNestedInput
+  userChallenges?: Prisma.UserChallengeUncheckedUpdateManyWithoutUserNestedInput
+  productReviews?: Prisma.ProductReviewUncheckedUpdateManyWithoutUserNestedInput
+}
+
+export type UserCreateWithoutSurveyFeedbackInput = {
+  id?: string
+  name?: string | null
+  email: string
+  emailVerified?: Date | string | null
+  image?: string | null
+  password?: string | null
+  role?: string
+  plan?: string
+  qvapayId?: string | null
+  stripeCustomerId?: string | null
+  analysisLimit?: number
+  analysisUsed?: number
+  analysisResetAt?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
+  sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
+  analyses?: Prisma.SkinAnalysisCreateNestedManyWithoutUserInput
+  payments?: Prisma.PaymentCreateNestedManyWithoutUserInput
+  subscriptions?: Prisma.SubscriptionCreateNestedManyWithoutUserInput
+  purchasePacks?: Prisma.PurchasePackCreateNestedManyWithoutUserInput
+  usageRecords?: Prisma.UsageTrackingCreateNestedManyWithoutUserInput
+  clinic?: Prisma.ClinicCreateNestedOneWithoutOwnerInput
+  communityPosts?: Prisma.CommunityPostCreateNestedManyWithoutUserInput
+  comments?: Prisma.CommentCreateNestedManyWithoutUserInput
+  skinDiary?: Prisma.SkinDiaryCreateNestedManyWithoutUserInput
+  userChallenges?: Prisma.UserChallengeCreateNestedManyWithoutUserInput
+  productReviews?: Prisma.ProductReviewCreateNestedManyWithoutUserInput
+}
+
+export type UserUncheckedCreateWithoutSurveyFeedbackInput = {
+  id?: string
+  name?: string | null
+  email: string
+  emailVerified?: Date | string | null
+  image?: string | null
+  password?: string | null
+  role?: string
+  plan?: string
+  qvapayId?: string | null
+  stripeCustomerId?: string | null
+  analysisLimit?: number
+  analysisUsed?: number
+  analysisResetAt?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
+  sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
+  analyses?: Prisma.SkinAnalysisUncheckedCreateNestedManyWithoutUserInput
+  payments?: Prisma.PaymentUncheckedCreateNestedManyWithoutUserInput
+  subscriptions?: Prisma.SubscriptionUncheckedCreateNestedManyWithoutUserInput
+  purchasePacks?: Prisma.PurchasePackUncheckedCreateNestedManyWithoutUserInput
+  usageRecords?: Prisma.UsageTrackingUncheckedCreateNestedManyWithoutUserInput
+  clinic?: Prisma.ClinicUncheckedCreateNestedOneWithoutOwnerInput
+  communityPosts?: Prisma.CommunityPostUncheckedCreateNestedManyWithoutUserInput
+  comments?: Prisma.CommentUncheckedCreateNestedManyWithoutUserInput
+  skinDiary?: Prisma.SkinDiaryUncheckedCreateNestedManyWithoutUserInput
+  userChallenges?: Prisma.UserChallengeUncheckedCreateNestedManyWithoutUserInput
+  productReviews?: Prisma.ProductReviewUncheckedCreateNestedManyWithoutUserInput
+}
+
+export type UserCreateOrConnectWithoutSurveyFeedbackInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutSurveyFeedbackInput, Prisma.UserUncheckedCreateWithoutSurveyFeedbackInput>
+}
+
+export type UserUpsertWithoutSurveyFeedbackInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutSurveyFeedbackInput, Prisma.UserUncheckedUpdateWithoutSurveyFeedbackInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutSurveyFeedbackInput, Prisma.UserUncheckedCreateWithoutSurveyFeedbackInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutSurveyFeedbackInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutSurveyFeedbackInput, Prisma.UserUncheckedUpdateWithoutSurveyFeedbackInput>
+}
+
+export type UserUpdateWithoutSurveyFeedbackInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  emailVerified?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.StringFieldUpdateOperationsInput | string
+  plan?: Prisma.StringFieldUpdateOperationsInput | string
+  qvapayId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  stripeCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  analysisLimit?: Prisma.IntFieldUpdateOperationsInput | number
+  analysisUsed?: Prisma.IntFieldUpdateOperationsInput | number
+  analysisResetAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
+  sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
+  analyses?: Prisma.SkinAnalysisUpdateManyWithoutUserNestedInput
+  payments?: Prisma.PaymentUpdateManyWithoutUserNestedInput
+  subscriptions?: Prisma.SubscriptionUpdateManyWithoutUserNestedInput
+  purchasePacks?: Prisma.PurchasePackUpdateManyWithoutUserNestedInput
+  usageRecords?: Prisma.UsageTrackingUpdateManyWithoutUserNestedInput
+  clinic?: Prisma.ClinicUpdateOneWithoutOwnerNestedInput
+  communityPosts?: Prisma.CommunityPostUpdateManyWithoutUserNestedInput
+  comments?: Prisma.CommentUpdateManyWithoutUserNestedInput
+  skinDiary?: Prisma.SkinDiaryUpdateManyWithoutUserNestedInput
+  userChallenges?: Prisma.UserChallengeUpdateManyWithoutUserNestedInput
+  productReviews?: Prisma.ProductReviewUpdateManyWithoutUserNestedInput
+}
+
+export type UserUncheckedUpdateWithoutSurveyFeedbackInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  emailVerified?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.StringFieldUpdateOperationsInput | string
+  plan?: Prisma.StringFieldUpdateOperationsInput | string
+  qvapayId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  stripeCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  analysisLimit?: Prisma.IntFieldUpdateOperationsInput | number
+  analysisUsed?: Prisma.IntFieldUpdateOperationsInput | number
+  analysisResetAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
+  sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
+  analyses?: Prisma.SkinAnalysisUncheckedUpdateManyWithoutUserNestedInput
+  payments?: Prisma.PaymentUncheckedUpdateManyWithoutUserNestedInput
+  subscriptions?: Prisma.SubscriptionUncheckedUpdateManyWithoutUserNestedInput
+  purchasePacks?: Prisma.PurchasePackUncheckedUpdateManyWithoutUserNestedInput
+  usageRecords?: Prisma.UsageTrackingUncheckedUpdateManyWithoutUserNestedInput
+  clinic?: Prisma.ClinicUncheckedUpdateOneWithoutOwnerNestedInput
+  communityPosts?: Prisma.CommunityPostUncheckedUpdateManyWithoutUserNestedInput
+  comments?: Prisma.CommentUncheckedUpdateManyWithoutUserNestedInput
+  skinDiary?: Prisma.SkinDiaryUncheckedUpdateManyWithoutUserNestedInput
+  userChallenges?: Prisma.UserChallengeUncheckedUpdateManyWithoutUserNestedInput
+  productReviews?: Prisma.ProductReviewUncheckedUpdateManyWithoutUserNestedInput
+}
+
+export type UserCreateWithoutCommunityPostsInput = {
+  id?: string
+  name?: string | null
+  email: string
+  emailVerified?: Date | string | null
+  image?: string | null
+  password?: string | null
+  role?: string
+  plan?: string
+  qvapayId?: string | null
+  stripeCustomerId?: string | null
+  analysisLimit?: number
+  analysisUsed?: number
+  analysisResetAt?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
+  sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
+  analyses?: Prisma.SkinAnalysisCreateNestedManyWithoutUserInput
+  payments?: Prisma.PaymentCreateNestedManyWithoutUserInput
+  subscriptions?: Prisma.SubscriptionCreateNestedManyWithoutUserInput
+  purchasePacks?: Prisma.PurchasePackCreateNestedManyWithoutUserInput
+  usageRecords?: Prisma.UsageTrackingCreateNestedManyWithoutUserInput
+  clinic?: Prisma.ClinicCreateNestedOneWithoutOwnerInput
+  surveyFeedback?: Prisma.SurveyFeedbackCreateNestedManyWithoutUserInput
+  comments?: Prisma.CommentCreateNestedManyWithoutUserInput
+  skinDiary?: Prisma.SkinDiaryCreateNestedManyWithoutUserInput
+  userChallenges?: Prisma.UserChallengeCreateNestedManyWithoutUserInput
+  productReviews?: Prisma.ProductReviewCreateNestedManyWithoutUserInput
+}
+
+export type UserUncheckedCreateWithoutCommunityPostsInput = {
+  id?: string
+  name?: string | null
+  email: string
+  emailVerified?: Date | string | null
+  image?: string | null
+  password?: string | null
+  role?: string
+  plan?: string
+  qvapayId?: string | null
+  stripeCustomerId?: string | null
+  analysisLimit?: number
+  analysisUsed?: number
+  analysisResetAt?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
+  sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
+  analyses?: Prisma.SkinAnalysisUncheckedCreateNestedManyWithoutUserInput
+  payments?: Prisma.PaymentUncheckedCreateNestedManyWithoutUserInput
+  subscriptions?: Prisma.SubscriptionUncheckedCreateNestedManyWithoutUserInput
+  purchasePacks?: Prisma.PurchasePackUncheckedCreateNestedManyWithoutUserInput
+  usageRecords?: Prisma.UsageTrackingUncheckedCreateNestedManyWithoutUserInput
+  clinic?: Prisma.ClinicUncheckedCreateNestedOneWithoutOwnerInput
+  surveyFeedback?: Prisma.SurveyFeedbackUncheckedCreateNestedManyWithoutUserInput
+  comments?: Prisma.CommentUncheckedCreateNestedManyWithoutUserInput
+  skinDiary?: Prisma.SkinDiaryUncheckedCreateNestedManyWithoutUserInput
+  userChallenges?: Prisma.UserChallengeUncheckedCreateNestedManyWithoutUserInput
+  productReviews?: Prisma.ProductReviewUncheckedCreateNestedManyWithoutUserInput
+}
+
+export type UserCreateOrConnectWithoutCommunityPostsInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutCommunityPostsInput, Prisma.UserUncheckedCreateWithoutCommunityPostsInput>
+}
+
+export type UserUpsertWithoutCommunityPostsInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutCommunityPostsInput, Prisma.UserUncheckedUpdateWithoutCommunityPostsInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutCommunityPostsInput, Prisma.UserUncheckedCreateWithoutCommunityPostsInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutCommunityPostsInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutCommunityPostsInput, Prisma.UserUncheckedUpdateWithoutCommunityPostsInput>
+}
+
+export type UserUpdateWithoutCommunityPostsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  emailVerified?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.StringFieldUpdateOperationsInput | string
+  plan?: Prisma.StringFieldUpdateOperationsInput | string
+  qvapayId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  stripeCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  analysisLimit?: Prisma.IntFieldUpdateOperationsInput | number
+  analysisUsed?: Prisma.IntFieldUpdateOperationsInput | number
+  analysisResetAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
+  sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
+  analyses?: Prisma.SkinAnalysisUpdateManyWithoutUserNestedInput
+  payments?: Prisma.PaymentUpdateManyWithoutUserNestedInput
+  subscriptions?: Prisma.SubscriptionUpdateManyWithoutUserNestedInput
+  purchasePacks?: Prisma.PurchasePackUpdateManyWithoutUserNestedInput
+  usageRecords?: Prisma.UsageTrackingUpdateManyWithoutUserNestedInput
+  clinic?: Prisma.ClinicUpdateOneWithoutOwnerNestedInput
+  surveyFeedback?: Prisma.SurveyFeedbackUpdateManyWithoutUserNestedInput
+  comments?: Prisma.CommentUpdateManyWithoutUserNestedInput
+  skinDiary?: Prisma.SkinDiaryUpdateManyWithoutUserNestedInput
+  userChallenges?: Prisma.UserChallengeUpdateManyWithoutUserNestedInput
+  productReviews?: Prisma.ProductReviewUpdateManyWithoutUserNestedInput
+}
+
+export type UserUncheckedUpdateWithoutCommunityPostsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  emailVerified?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.StringFieldUpdateOperationsInput | string
+  plan?: Prisma.StringFieldUpdateOperationsInput | string
+  qvapayId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  stripeCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  analysisLimit?: Prisma.IntFieldUpdateOperationsInput | number
+  analysisUsed?: Prisma.IntFieldUpdateOperationsInput | number
+  analysisResetAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
+  sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
+  analyses?: Prisma.SkinAnalysisUncheckedUpdateManyWithoutUserNestedInput
+  payments?: Prisma.PaymentUncheckedUpdateManyWithoutUserNestedInput
+  subscriptions?: Prisma.SubscriptionUncheckedUpdateManyWithoutUserNestedInput
+  purchasePacks?: Prisma.PurchasePackUncheckedUpdateManyWithoutUserNestedInput
+  usageRecords?: Prisma.UsageTrackingUncheckedUpdateManyWithoutUserNestedInput
+  clinic?: Prisma.ClinicUncheckedUpdateOneWithoutOwnerNestedInput
+  surveyFeedback?: Prisma.SurveyFeedbackUncheckedUpdateManyWithoutUserNestedInput
+  comments?: Prisma.CommentUncheckedUpdateManyWithoutUserNestedInput
+  skinDiary?: Prisma.SkinDiaryUncheckedUpdateManyWithoutUserNestedInput
+  userChallenges?: Prisma.UserChallengeUncheckedUpdateManyWithoutUserNestedInput
+  productReviews?: Prisma.ProductReviewUncheckedUpdateManyWithoutUserNestedInput
+}
+
+export type UserCreateWithoutCommentsInput = {
+  id?: string
+  name?: string | null
+  email: string
+  emailVerified?: Date | string | null
+  image?: string | null
+  password?: string | null
+  role?: string
+  plan?: string
+  qvapayId?: string | null
+  stripeCustomerId?: string | null
+  analysisLimit?: number
+  analysisUsed?: number
+  analysisResetAt?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
+  sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
+  analyses?: Prisma.SkinAnalysisCreateNestedManyWithoutUserInput
+  payments?: Prisma.PaymentCreateNestedManyWithoutUserInput
+  subscriptions?: Prisma.SubscriptionCreateNestedManyWithoutUserInput
+  purchasePacks?: Prisma.PurchasePackCreateNestedManyWithoutUserInput
+  usageRecords?: Prisma.UsageTrackingCreateNestedManyWithoutUserInput
+  clinic?: Prisma.ClinicCreateNestedOneWithoutOwnerInput
+  surveyFeedback?: Prisma.SurveyFeedbackCreateNestedManyWithoutUserInput
+  communityPosts?: Prisma.CommunityPostCreateNestedManyWithoutUserInput
+  skinDiary?: Prisma.SkinDiaryCreateNestedManyWithoutUserInput
+  userChallenges?: Prisma.UserChallengeCreateNestedManyWithoutUserInput
+  productReviews?: Prisma.ProductReviewCreateNestedManyWithoutUserInput
+}
+
+export type UserUncheckedCreateWithoutCommentsInput = {
+  id?: string
+  name?: string | null
+  email: string
+  emailVerified?: Date | string | null
+  image?: string | null
+  password?: string | null
+  role?: string
+  plan?: string
+  qvapayId?: string | null
+  stripeCustomerId?: string | null
+  analysisLimit?: number
+  analysisUsed?: number
+  analysisResetAt?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
+  sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
+  analyses?: Prisma.SkinAnalysisUncheckedCreateNestedManyWithoutUserInput
+  payments?: Prisma.PaymentUncheckedCreateNestedManyWithoutUserInput
+  subscriptions?: Prisma.SubscriptionUncheckedCreateNestedManyWithoutUserInput
+  purchasePacks?: Prisma.PurchasePackUncheckedCreateNestedManyWithoutUserInput
+  usageRecords?: Prisma.UsageTrackingUncheckedCreateNestedManyWithoutUserInput
+  clinic?: Prisma.ClinicUncheckedCreateNestedOneWithoutOwnerInput
+  surveyFeedback?: Prisma.SurveyFeedbackUncheckedCreateNestedManyWithoutUserInput
+  communityPosts?: Prisma.CommunityPostUncheckedCreateNestedManyWithoutUserInput
+  skinDiary?: Prisma.SkinDiaryUncheckedCreateNestedManyWithoutUserInput
+  userChallenges?: Prisma.UserChallengeUncheckedCreateNestedManyWithoutUserInput
+  productReviews?: Prisma.ProductReviewUncheckedCreateNestedManyWithoutUserInput
+}
+
+export type UserCreateOrConnectWithoutCommentsInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutCommentsInput, Prisma.UserUncheckedCreateWithoutCommentsInput>
+}
+
+export type UserUpsertWithoutCommentsInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutCommentsInput, Prisma.UserUncheckedUpdateWithoutCommentsInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutCommentsInput, Prisma.UserUncheckedCreateWithoutCommentsInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutCommentsInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutCommentsInput, Prisma.UserUncheckedUpdateWithoutCommentsInput>
+}
+
+export type UserUpdateWithoutCommentsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  emailVerified?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.StringFieldUpdateOperationsInput | string
+  plan?: Prisma.StringFieldUpdateOperationsInput | string
+  qvapayId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  stripeCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  analysisLimit?: Prisma.IntFieldUpdateOperationsInput | number
+  analysisUsed?: Prisma.IntFieldUpdateOperationsInput | number
+  analysisResetAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
+  sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
+  analyses?: Prisma.SkinAnalysisUpdateManyWithoutUserNestedInput
+  payments?: Prisma.PaymentUpdateManyWithoutUserNestedInput
+  subscriptions?: Prisma.SubscriptionUpdateManyWithoutUserNestedInput
+  purchasePacks?: Prisma.PurchasePackUpdateManyWithoutUserNestedInput
+  usageRecords?: Prisma.UsageTrackingUpdateManyWithoutUserNestedInput
+  clinic?: Prisma.ClinicUpdateOneWithoutOwnerNestedInput
+  surveyFeedback?: Prisma.SurveyFeedbackUpdateManyWithoutUserNestedInput
+  communityPosts?: Prisma.CommunityPostUpdateManyWithoutUserNestedInput
+  skinDiary?: Prisma.SkinDiaryUpdateManyWithoutUserNestedInput
+  userChallenges?: Prisma.UserChallengeUpdateManyWithoutUserNestedInput
+  productReviews?: Prisma.ProductReviewUpdateManyWithoutUserNestedInput
+}
+
+export type UserUncheckedUpdateWithoutCommentsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  emailVerified?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.StringFieldUpdateOperationsInput | string
+  plan?: Prisma.StringFieldUpdateOperationsInput | string
+  qvapayId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  stripeCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  analysisLimit?: Prisma.IntFieldUpdateOperationsInput | number
+  analysisUsed?: Prisma.IntFieldUpdateOperationsInput | number
+  analysisResetAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
+  sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
+  analyses?: Prisma.SkinAnalysisUncheckedUpdateManyWithoutUserNestedInput
+  payments?: Prisma.PaymentUncheckedUpdateManyWithoutUserNestedInput
+  subscriptions?: Prisma.SubscriptionUncheckedUpdateManyWithoutUserNestedInput
+  purchasePacks?: Prisma.PurchasePackUncheckedUpdateManyWithoutUserNestedInput
+  usageRecords?: Prisma.UsageTrackingUncheckedUpdateManyWithoutUserNestedInput
+  clinic?: Prisma.ClinicUncheckedUpdateOneWithoutOwnerNestedInput
+  surveyFeedback?: Prisma.SurveyFeedbackUncheckedUpdateManyWithoutUserNestedInput
+  communityPosts?: Prisma.CommunityPostUncheckedUpdateManyWithoutUserNestedInput
+  skinDiary?: Prisma.SkinDiaryUncheckedUpdateManyWithoutUserNestedInput
+  userChallenges?: Prisma.UserChallengeUncheckedUpdateManyWithoutUserNestedInput
+  productReviews?: Prisma.ProductReviewUncheckedUpdateManyWithoutUserNestedInput
+}
+
+export type UserCreateWithoutSkinDiaryInput = {
+  id?: string
+  name?: string | null
+  email: string
+  emailVerified?: Date | string | null
+  image?: string | null
+  password?: string | null
+  role?: string
+  plan?: string
+  qvapayId?: string | null
+  stripeCustomerId?: string | null
+  analysisLimit?: number
+  analysisUsed?: number
+  analysisResetAt?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
+  sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
+  analyses?: Prisma.SkinAnalysisCreateNestedManyWithoutUserInput
+  payments?: Prisma.PaymentCreateNestedManyWithoutUserInput
+  subscriptions?: Prisma.SubscriptionCreateNestedManyWithoutUserInput
+  purchasePacks?: Prisma.PurchasePackCreateNestedManyWithoutUserInput
+  usageRecords?: Prisma.UsageTrackingCreateNestedManyWithoutUserInput
+  clinic?: Prisma.ClinicCreateNestedOneWithoutOwnerInput
+  surveyFeedback?: Prisma.SurveyFeedbackCreateNestedManyWithoutUserInput
+  communityPosts?: Prisma.CommunityPostCreateNestedManyWithoutUserInput
+  comments?: Prisma.CommentCreateNestedManyWithoutUserInput
+  userChallenges?: Prisma.UserChallengeCreateNestedManyWithoutUserInput
+  productReviews?: Prisma.ProductReviewCreateNestedManyWithoutUserInput
+}
+
+export type UserUncheckedCreateWithoutSkinDiaryInput = {
+  id?: string
+  name?: string | null
+  email: string
+  emailVerified?: Date | string | null
+  image?: string | null
+  password?: string | null
+  role?: string
+  plan?: string
+  qvapayId?: string | null
+  stripeCustomerId?: string | null
+  analysisLimit?: number
+  analysisUsed?: number
+  analysisResetAt?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
+  sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
+  analyses?: Prisma.SkinAnalysisUncheckedCreateNestedManyWithoutUserInput
+  payments?: Prisma.PaymentUncheckedCreateNestedManyWithoutUserInput
+  subscriptions?: Prisma.SubscriptionUncheckedCreateNestedManyWithoutUserInput
+  purchasePacks?: Prisma.PurchasePackUncheckedCreateNestedManyWithoutUserInput
+  usageRecords?: Prisma.UsageTrackingUncheckedCreateNestedManyWithoutUserInput
+  clinic?: Prisma.ClinicUncheckedCreateNestedOneWithoutOwnerInput
+  surveyFeedback?: Prisma.SurveyFeedbackUncheckedCreateNestedManyWithoutUserInput
+  communityPosts?: Prisma.CommunityPostUncheckedCreateNestedManyWithoutUserInput
+  comments?: Prisma.CommentUncheckedCreateNestedManyWithoutUserInput
+  userChallenges?: Prisma.UserChallengeUncheckedCreateNestedManyWithoutUserInput
+  productReviews?: Prisma.ProductReviewUncheckedCreateNestedManyWithoutUserInput
+}
+
+export type UserCreateOrConnectWithoutSkinDiaryInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutSkinDiaryInput, Prisma.UserUncheckedCreateWithoutSkinDiaryInput>
+}
+
+export type UserUpsertWithoutSkinDiaryInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutSkinDiaryInput, Prisma.UserUncheckedUpdateWithoutSkinDiaryInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutSkinDiaryInput, Prisma.UserUncheckedCreateWithoutSkinDiaryInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutSkinDiaryInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutSkinDiaryInput, Prisma.UserUncheckedUpdateWithoutSkinDiaryInput>
+}
+
+export type UserUpdateWithoutSkinDiaryInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  emailVerified?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.StringFieldUpdateOperationsInput | string
+  plan?: Prisma.StringFieldUpdateOperationsInput | string
+  qvapayId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  stripeCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  analysisLimit?: Prisma.IntFieldUpdateOperationsInput | number
+  analysisUsed?: Prisma.IntFieldUpdateOperationsInput | number
+  analysisResetAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
+  sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
+  analyses?: Prisma.SkinAnalysisUpdateManyWithoutUserNestedInput
+  payments?: Prisma.PaymentUpdateManyWithoutUserNestedInput
+  subscriptions?: Prisma.SubscriptionUpdateManyWithoutUserNestedInput
+  purchasePacks?: Prisma.PurchasePackUpdateManyWithoutUserNestedInput
+  usageRecords?: Prisma.UsageTrackingUpdateManyWithoutUserNestedInput
+  clinic?: Prisma.ClinicUpdateOneWithoutOwnerNestedInput
+  surveyFeedback?: Prisma.SurveyFeedbackUpdateManyWithoutUserNestedInput
+  communityPosts?: Prisma.CommunityPostUpdateManyWithoutUserNestedInput
+  comments?: Prisma.CommentUpdateManyWithoutUserNestedInput
+  userChallenges?: Prisma.UserChallengeUpdateManyWithoutUserNestedInput
+  productReviews?: Prisma.ProductReviewUpdateManyWithoutUserNestedInput
+}
+
+export type UserUncheckedUpdateWithoutSkinDiaryInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  emailVerified?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.StringFieldUpdateOperationsInput | string
+  plan?: Prisma.StringFieldUpdateOperationsInput | string
+  qvapayId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  stripeCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  analysisLimit?: Prisma.IntFieldUpdateOperationsInput | number
+  analysisUsed?: Prisma.IntFieldUpdateOperationsInput | number
+  analysisResetAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
+  sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
+  analyses?: Prisma.SkinAnalysisUncheckedUpdateManyWithoutUserNestedInput
+  payments?: Prisma.PaymentUncheckedUpdateManyWithoutUserNestedInput
+  subscriptions?: Prisma.SubscriptionUncheckedUpdateManyWithoutUserNestedInput
+  purchasePacks?: Prisma.PurchasePackUncheckedUpdateManyWithoutUserNestedInput
+  usageRecords?: Prisma.UsageTrackingUncheckedUpdateManyWithoutUserNestedInput
+  clinic?: Prisma.ClinicUncheckedUpdateOneWithoutOwnerNestedInput
+  surveyFeedback?: Prisma.SurveyFeedbackUncheckedUpdateManyWithoutUserNestedInput
+  communityPosts?: Prisma.CommunityPostUncheckedUpdateManyWithoutUserNestedInput
+  comments?: Prisma.CommentUncheckedUpdateManyWithoutUserNestedInput
+  userChallenges?: Prisma.UserChallengeUncheckedUpdateManyWithoutUserNestedInput
+  productReviews?: Prisma.ProductReviewUncheckedUpdateManyWithoutUserNestedInput
+}
+
+export type UserCreateWithoutUserChallengesInput = {
+  id?: string
+  name?: string | null
+  email: string
+  emailVerified?: Date | string | null
+  image?: string | null
+  password?: string | null
+  role?: string
+  plan?: string
+  qvapayId?: string | null
+  stripeCustomerId?: string | null
+  analysisLimit?: number
+  analysisUsed?: number
+  analysisResetAt?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
+  sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
+  analyses?: Prisma.SkinAnalysisCreateNestedManyWithoutUserInput
+  payments?: Prisma.PaymentCreateNestedManyWithoutUserInput
+  subscriptions?: Prisma.SubscriptionCreateNestedManyWithoutUserInput
+  purchasePacks?: Prisma.PurchasePackCreateNestedManyWithoutUserInput
+  usageRecords?: Prisma.UsageTrackingCreateNestedManyWithoutUserInput
+  clinic?: Prisma.ClinicCreateNestedOneWithoutOwnerInput
+  surveyFeedback?: Prisma.SurveyFeedbackCreateNestedManyWithoutUserInput
+  communityPosts?: Prisma.CommunityPostCreateNestedManyWithoutUserInput
+  comments?: Prisma.CommentCreateNestedManyWithoutUserInput
+  skinDiary?: Prisma.SkinDiaryCreateNestedManyWithoutUserInput
+  productReviews?: Prisma.ProductReviewCreateNestedManyWithoutUserInput
+}
+
+export type UserUncheckedCreateWithoutUserChallengesInput = {
+  id?: string
+  name?: string | null
+  email: string
+  emailVerified?: Date | string | null
+  image?: string | null
+  password?: string | null
+  role?: string
+  plan?: string
+  qvapayId?: string | null
+  stripeCustomerId?: string | null
+  analysisLimit?: number
+  analysisUsed?: number
+  analysisResetAt?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
+  sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
+  analyses?: Prisma.SkinAnalysisUncheckedCreateNestedManyWithoutUserInput
+  payments?: Prisma.PaymentUncheckedCreateNestedManyWithoutUserInput
+  subscriptions?: Prisma.SubscriptionUncheckedCreateNestedManyWithoutUserInput
+  purchasePacks?: Prisma.PurchasePackUncheckedCreateNestedManyWithoutUserInput
+  usageRecords?: Prisma.UsageTrackingUncheckedCreateNestedManyWithoutUserInput
+  clinic?: Prisma.ClinicUncheckedCreateNestedOneWithoutOwnerInput
+  surveyFeedback?: Prisma.SurveyFeedbackUncheckedCreateNestedManyWithoutUserInput
+  communityPosts?: Prisma.CommunityPostUncheckedCreateNestedManyWithoutUserInput
+  comments?: Prisma.CommentUncheckedCreateNestedManyWithoutUserInput
+  skinDiary?: Prisma.SkinDiaryUncheckedCreateNestedManyWithoutUserInput
+  productReviews?: Prisma.ProductReviewUncheckedCreateNestedManyWithoutUserInput
+}
+
+export type UserCreateOrConnectWithoutUserChallengesInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutUserChallengesInput, Prisma.UserUncheckedCreateWithoutUserChallengesInput>
+}
+
+export type UserUpsertWithoutUserChallengesInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutUserChallengesInput, Prisma.UserUncheckedUpdateWithoutUserChallengesInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutUserChallengesInput, Prisma.UserUncheckedCreateWithoutUserChallengesInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutUserChallengesInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutUserChallengesInput, Prisma.UserUncheckedUpdateWithoutUserChallengesInput>
+}
+
+export type UserUpdateWithoutUserChallengesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  emailVerified?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.StringFieldUpdateOperationsInput | string
+  plan?: Prisma.StringFieldUpdateOperationsInput | string
+  qvapayId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  stripeCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  analysisLimit?: Prisma.IntFieldUpdateOperationsInput | number
+  analysisUsed?: Prisma.IntFieldUpdateOperationsInput | number
+  analysisResetAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
+  sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
+  analyses?: Prisma.SkinAnalysisUpdateManyWithoutUserNestedInput
+  payments?: Prisma.PaymentUpdateManyWithoutUserNestedInput
+  subscriptions?: Prisma.SubscriptionUpdateManyWithoutUserNestedInput
+  purchasePacks?: Prisma.PurchasePackUpdateManyWithoutUserNestedInput
+  usageRecords?: Prisma.UsageTrackingUpdateManyWithoutUserNestedInput
+  clinic?: Prisma.ClinicUpdateOneWithoutOwnerNestedInput
+  surveyFeedback?: Prisma.SurveyFeedbackUpdateManyWithoutUserNestedInput
+  communityPosts?: Prisma.CommunityPostUpdateManyWithoutUserNestedInput
+  comments?: Prisma.CommentUpdateManyWithoutUserNestedInput
+  skinDiary?: Prisma.SkinDiaryUpdateManyWithoutUserNestedInput
+  productReviews?: Prisma.ProductReviewUpdateManyWithoutUserNestedInput
+}
+
+export type UserUncheckedUpdateWithoutUserChallengesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  emailVerified?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.StringFieldUpdateOperationsInput | string
+  plan?: Prisma.StringFieldUpdateOperationsInput | string
+  qvapayId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  stripeCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  analysisLimit?: Prisma.IntFieldUpdateOperationsInput | number
+  analysisUsed?: Prisma.IntFieldUpdateOperationsInput | number
+  analysisResetAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
+  sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
+  analyses?: Prisma.SkinAnalysisUncheckedUpdateManyWithoutUserNestedInput
+  payments?: Prisma.PaymentUncheckedUpdateManyWithoutUserNestedInput
+  subscriptions?: Prisma.SubscriptionUncheckedUpdateManyWithoutUserNestedInput
+  purchasePacks?: Prisma.PurchasePackUncheckedUpdateManyWithoutUserNestedInput
+  usageRecords?: Prisma.UsageTrackingUncheckedUpdateManyWithoutUserNestedInput
+  clinic?: Prisma.ClinicUncheckedUpdateOneWithoutOwnerNestedInput
+  surveyFeedback?: Prisma.SurveyFeedbackUncheckedUpdateManyWithoutUserNestedInput
+  communityPosts?: Prisma.CommunityPostUncheckedUpdateManyWithoutUserNestedInput
+  comments?: Prisma.CommentUncheckedUpdateManyWithoutUserNestedInput
+  skinDiary?: Prisma.SkinDiaryUncheckedUpdateManyWithoutUserNestedInput
+  productReviews?: Prisma.ProductReviewUncheckedUpdateManyWithoutUserNestedInput
+}
+
+export type UserCreateWithoutProductReviewsInput = {
+  id?: string
+  name?: string | null
+  email: string
+  emailVerified?: Date | string | null
+  image?: string | null
+  password?: string | null
+  role?: string
+  plan?: string
+  qvapayId?: string | null
+  stripeCustomerId?: string | null
+  analysisLimit?: number
+  analysisUsed?: number
+  analysisResetAt?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
+  sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
+  analyses?: Prisma.SkinAnalysisCreateNestedManyWithoutUserInput
+  payments?: Prisma.PaymentCreateNestedManyWithoutUserInput
+  subscriptions?: Prisma.SubscriptionCreateNestedManyWithoutUserInput
+  purchasePacks?: Prisma.PurchasePackCreateNestedManyWithoutUserInput
+  usageRecords?: Prisma.UsageTrackingCreateNestedManyWithoutUserInput
+  clinic?: Prisma.ClinicCreateNestedOneWithoutOwnerInput
+  surveyFeedback?: Prisma.SurveyFeedbackCreateNestedManyWithoutUserInput
+  communityPosts?: Prisma.CommunityPostCreateNestedManyWithoutUserInput
+  comments?: Prisma.CommentCreateNestedManyWithoutUserInput
+  skinDiary?: Prisma.SkinDiaryCreateNestedManyWithoutUserInput
+  userChallenges?: Prisma.UserChallengeCreateNestedManyWithoutUserInput
+}
+
+export type UserUncheckedCreateWithoutProductReviewsInput = {
+  id?: string
+  name?: string | null
+  email: string
+  emailVerified?: Date | string | null
+  image?: string | null
+  password?: string | null
+  role?: string
+  plan?: string
+  qvapayId?: string | null
+  stripeCustomerId?: string | null
+  analysisLimit?: number
+  analysisUsed?: number
+  analysisResetAt?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
+  sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
+  analyses?: Prisma.SkinAnalysisUncheckedCreateNestedManyWithoutUserInput
+  payments?: Prisma.PaymentUncheckedCreateNestedManyWithoutUserInput
+  subscriptions?: Prisma.SubscriptionUncheckedCreateNestedManyWithoutUserInput
+  purchasePacks?: Prisma.PurchasePackUncheckedCreateNestedManyWithoutUserInput
+  usageRecords?: Prisma.UsageTrackingUncheckedCreateNestedManyWithoutUserInput
+  clinic?: Prisma.ClinicUncheckedCreateNestedOneWithoutOwnerInput
+  surveyFeedback?: Prisma.SurveyFeedbackUncheckedCreateNestedManyWithoutUserInput
+  communityPosts?: Prisma.CommunityPostUncheckedCreateNestedManyWithoutUserInput
+  comments?: Prisma.CommentUncheckedCreateNestedManyWithoutUserInput
+  skinDiary?: Prisma.SkinDiaryUncheckedCreateNestedManyWithoutUserInput
+  userChallenges?: Prisma.UserChallengeUncheckedCreateNestedManyWithoutUserInput
+}
+
+export type UserCreateOrConnectWithoutProductReviewsInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutProductReviewsInput, Prisma.UserUncheckedCreateWithoutProductReviewsInput>
+}
+
+export type UserUpsertWithoutProductReviewsInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutProductReviewsInput, Prisma.UserUncheckedUpdateWithoutProductReviewsInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutProductReviewsInput, Prisma.UserUncheckedCreateWithoutProductReviewsInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutProductReviewsInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutProductReviewsInput, Prisma.UserUncheckedUpdateWithoutProductReviewsInput>
+}
+
+export type UserUpdateWithoutProductReviewsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  emailVerified?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.StringFieldUpdateOperationsInput | string
+  plan?: Prisma.StringFieldUpdateOperationsInput | string
+  qvapayId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  stripeCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  analysisLimit?: Prisma.IntFieldUpdateOperationsInput | number
+  analysisUsed?: Prisma.IntFieldUpdateOperationsInput | number
+  analysisResetAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
+  sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
+  analyses?: Prisma.SkinAnalysisUpdateManyWithoutUserNestedInput
+  payments?: Prisma.PaymentUpdateManyWithoutUserNestedInput
+  subscriptions?: Prisma.SubscriptionUpdateManyWithoutUserNestedInput
+  purchasePacks?: Prisma.PurchasePackUpdateManyWithoutUserNestedInput
+  usageRecords?: Prisma.UsageTrackingUpdateManyWithoutUserNestedInput
+  clinic?: Prisma.ClinicUpdateOneWithoutOwnerNestedInput
+  surveyFeedback?: Prisma.SurveyFeedbackUpdateManyWithoutUserNestedInput
+  communityPosts?: Prisma.CommunityPostUpdateManyWithoutUserNestedInput
+  comments?: Prisma.CommentUpdateManyWithoutUserNestedInput
+  skinDiary?: Prisma.SkinDiaryUpdateManyWithoutUserNestedInput
+  userChallenges?: Prisma.UserChallengeUpdateManyWithoutUserNestedInput
+}
+
+export type UserUncheckedUpdateWithoutProductReviewsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  emailVerified?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.StringFieldUpdateOperationsInput | string
+  plan?: Prisma.StringFieldUpdateOperationsInput | string
+  qvapayId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  stripeCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  analysisLimit?: Prisma.IntFieldUpdateOperationsInput | number
+  analysisUsed?: Prisma.IntFieldUpdateOperationsInput | number
+  analysisResetAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
+  sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
+  analyses?: Prisma.SkinAnalysisUncheckedUpdateManyWithoutUserNestedInput
+  payments?: Prisma.PaymentUncheckedUpdateManyWithoutUserNestedInput
+  subscriptions?: Prisma.SubscriptionUncheckedUpdateManyWithoutUserNestedInput
+  purchasePacks?: Prisma.PurchasePackUncheckedUpdateManyWithoutUserNestedInput
+  usageRecords?: Prisma.UsageTrackingUncheckedUpdateManyWithoutUserNestedInput
+  clinic?: Prisma.ClinicUncheckedUpdateOneWithoutOwnerNestedInput
+  surveyFeedback?: Prisma.SurveyFeedbackUncheckedUpdateManyWithoutUserNestedInput
+  communityPosts?: Prisma.CommunityPostUncheckedUpdateManyWithoutUserNestedInput
+  comments?: Prisma.CommentUncheckedUpdateManyWithoutUserNestedInput
+  skinDiary?: Prisma.SkinDiaryUncheckedUpdateManyWithoutUserNestedInput
+  userChallenges?: Prisma.UserChallengeUncheckedUpdateManyWithoutUserNestedInput
 }
 
 
@@ -1720,6 +2878,12 @@ export type UserCountOutputType = {
   subscriptions: number
   purchasePacks: number
   usageRecords: number
+  surveyFeedback: number
+  communityPosts: number
+  comments: number
+  skinDiary: number
+  userChallenges: number
+  productReviews: number
 }
 
 export type UserCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1730,6 +2894,12 @@ export type UserCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.I
   subscriptions?: boolean | UserCountOutputTypeCountSubscriptionsArgs
   purchasePacks?: boolean | UserCountOutputTypeCountPurchasePacksArgs
   usageRecords?: boolean | UserCountOutputTypeCountUsageRecordsArgs
+  surveyFeedback?: boolean | UserCountOutputTypeCountSurveyFeedbackArgs
+  communityPosts?: boolean | UserCountOutputTypeCountCommunityPostsArgs
+  comments?: boolean | UserCountOutputTypeCountCommentsArgs
+  skinDiary?: boolean | UserCountOutputTypeCountSkinDiaryArgs
+  userChallenges?: boolean | UserCountOutputTypeCountUserChallengesArgs
+  productReviews?: boolean | UserCountOutputTypeCountProductReviewsArgs
 }
 
 /**
@@ -1791,6 +2961,48 @@ export type UserCountOutputTypeCountUsageRecordsArgs<ExtArgs extends runtime.Typ
   where?: Prisma.UsageTrackingWhereInput
 }
 
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountSurveyFeedbackArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.SurveyFeedbackWhereInput
+}
+
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountCommunityPostsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.CommunityPostWhereInput
+}
+
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountCommentsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.CommentWhereInput
+}
+
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountSkinDiaryArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.SkinDiaryWhereInput
+}
+
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountUserChallengesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.UserChallengeWhereInput
+}
+
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountProductReviewsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.ProductReviewWhereInput
+}
+
 
 export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -1816,6 +3028,12 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   purchasePacks?: boolean | Prisma.User$purchasePacksArgs<ExtArgs>
   usageRecords?: boolean | Prisma.User$usageRecordsArgs<ExtArgs>
   clinic?: boolean | Prisma.User$clinicArgs<ExtArgs>
+  surveyFeedback?: boolean | Prisma.User$surveyFeedbackArgs<ExtArgs>
+  communityPosts?: boolean | Prisma.User$communityPostsArgs<ExtArgs>
+  comments?: boolean | Prisma.User$commentsArgs<ExtArgs>
+  skinDiary?: boolean | Prisma.User$skinDiaryArgs<ExtArgs>
+  userChallenges?: boolean | Prisma.User$userChallengesArgs<ExtArgs>
+  productReviews?: boolean | Prisma.User$productReviewsArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["user"]>
 
@@ -1883,6 +3101,12 @@ export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   purchasePacks?: boolean | Prisma.User$purchasePacksArgs<ExtArgs>
   usageRecords?: boolean | Prisma.User$usageRecordsArgs<ExtArgs>
   clinic?: boolean | Prisma.User$clinicArgs<ExtArgs>
+  surveyFeedback?: boolean | Prisma.User$surveyFeedbackArgs<ExtArgs>
+  communityPosts?: boolean | Prisma.User$communityPostsArgs<ExtArgs>
+  comments?: boolean | Prisma.User$commentsArgs<ExtArgs>
+  skinDiary?: boolean | Prisma.User$skinDiaryArgs<ExtArgs>
+  userChallenges?: boolean | Prisma.User$userChallengesArgs<ExtArgs>
+  productReviews?: boolean | Prisma.User$productReviewsArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type UserIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
@@ -1899,6 +3123,12 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     purchasePacks: Prisma.$PurchasePackPayload<ExtArgs>[]
     usageRecords: Prisma.$UsageTrackingPayload<ExtArgs>[]
     clinic: Prisma.$ClinicPayload<ExtArgs> | null
+    surveyFeedback: Prisma.$SurveyFeedbackPayload<ExtArgs>[]
+    communityPosts: Prisma.$CommunityPostPayload<ExtArgs>[]
+    comments: Prisma.$CommentPayload<ExtArgs>[]
+    skinDiary: Prisma.$SkinDiaryPayload<ExtArgs>[]
+    userChallenges: Prisma.$UserChallengePayload<ExtArgs>[]
+    productReviews: Prisma.$ProductReviewPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -2318,6 +3548,12 @@ export interface Prisma__UserClient<T, Null = never, ExtArgs extends runtime.Typ
   purchasePacks<T extends Prisma.User$purchasePacksArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$purchasePacksArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$PurchasePackPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   usageRecords<T extends Prisma.User$usageRecordsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$usageRecordsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$UsageTrackingPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   clinic<T extends Prisma.User$clinicArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$clinicArgs<ExtArgs>>): Prisma.Prisma__ClinicClient<runtime.Types.Result.GetResult<Prisma.$ClinicPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  surveyFeedback<T extends Prisma.User$surveyFeedbackArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$surveyFeedbackArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$SurveyFeedbackPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  communityPosts<T extends Prisma.User$communityPostsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$communityPostsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$CommunityPostPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  comments<T extends Prisma.User$commentsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$commentsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$CommentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  skinDiary<T extends Prisma.User$skinDiaryArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$skinDiaryArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$SkinDiaryPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  userChallenges<T extends Prisma.User$userChallengesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$userChallengesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$UserChallengePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  productReviews<T extends Prisma.User$productReviewsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$productReviewsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ProductReviewPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -2939,6 +4175,150 @@ export type User$clinicArgs<ExtArgs extends runtime.Types.Extensions.InternalArg
    */
   include?: Prisma.ClinicInclude<ExtArgs> | null
   where?: Prisma.ClinicWhereInput
+}
+
+/**
+ * User.surveyFeedback
+ */
+export type User$surveyFeedbackArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the SurveyFeedback
+   */
+  select?: Prisma.SurveyFeedbackSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the SurveyFeedback
+   */
+  omit?: Prisma.SurveyFeedbackOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.SurveyFeedbackInclude<ExtArgs> | null
+  where?: Prisma.SurveyFeedbackWhereInput
+  orderBy?: Prisma.SurveyFeedbackOrderByWithRelationInput | Prisma.SurveyFeedbackOrderByWithRelationInput[]
+  cursor?: Prisma.SurveyFeedbackWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.SurveyFeedbackScalarFieldEnum | Prisma.SurveyFeedbackScalarFieldEnum[]
+}
+
+/**
+ * User.communityPosts
+ */
+export type User$communityPostsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the CommunityPost
+   */
+  select?: Prisma.CommunityPostSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the CommunityPost
+   */
+  omit?: Prisma.CommunityPostOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.CommunityPostInclude<ExtArgs> | null
+  where?: Prisma.CommunityPostWhereInput
+  orderBy?: Prisma.CommunityPostOrderByWithRelationInput | Prisma.CommunityPostOrderByWithRelationInput[]
+  cursor?: Prisma.CommunityPostWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.CommunityPostScalarFieldEnum | Prisma.CommunityPostScalarFieldEnum[]
+}
+
+/**
+ * User.comments
+ */
+export type User$commentsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Comment
+   */
+  select?: Prisma.CommentSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Comment
+   */
+  omit?: Prisma.CommentOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.CommentInclude<ExtArgs> | null
+  where?: Prisma.CommentWhereInput
+  orderBy?: Prisma.CommentOrderByWithRelationInput | Prisma.CommentOrderByWithRelationInput[]
+  cursor?: Prisma.CommentWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.CommentScalarFieldEnum | Prisma.CommentScalarFieldEnum[]
+}
+
+/**
+ * User.skinDiary
+ */
+export type User$skinDiaryArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the SkinDiary
+   */
+  select?: Prisma.SkinDiarySelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the SkinDiary
+   */
+  omit?: Prisma.SkinDiaryOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.SkinDiaryInclude<ExtArgs> | null
+  where?: Prisma.SkinDiaryWhereInput
+  orderBy?: Prisma.SkinDiaryOrderByWithRelationInput | Prisma.SkinDiaryOrderByWithRelationInput[]
+  cursor?: Prisma.SkinDiaryWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.SkinDiaryScalarFieldEnum | Prisma.SkinDiaryScalarFieldEnum[]
+}
+
+/**
+ * User.userChallenges
+ */
+export type User$userChallengesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the UserChallenge
+   */
+  select?: Prisma.UserChallengeSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the UserChallenge
+   */
+  omit?: Prisma.UserChallengeOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.UserChallengeInclude<ExtArgs> | null
+  where?: Prisma.UserChallengeWhereInput
+  orderBy?: Prisma.UserChallengeOrderByWithRelationInput | Prisma.UserChallengeOrderByWithRelationInput[]
+  cursor?: Prisma.UserChallengeWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.UserChallengeScalarFieldEnum | Prisma.UserChallengeScalarFieldEnum[]
+}
+
+/**
+ * User.productReviews
+ */
+export type User$productReviewsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the ProductReview
+   */
+  select?: Prisma.ProductReviewSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the ProductReview
+   */
+  omit?: Prisma.ProductReviewOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ProductReviewInclude<ExtArgs> | null
+  where?: Prisma.ProductReviewWhereInput
+  orderBy?: Prisma.ProductReviewOrderByWithRelationInput | Prisma.ProductReviewOrderByWithRelationInput[]
+  cursor?: Prisma.ProductReviewWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.ProductReviewScalarFieldEnum | Prisma.ProductReviewScalarFieldEnum[]
 }
 
 /**

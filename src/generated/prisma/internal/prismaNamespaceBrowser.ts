@@ -70,7 +70,14 @@ export const ModelName = {
   WebhookEvent: 'WebhookEvent',
   UserEvolution: 'UserEvolution',
   RateLimit: 'RateLimit',
-  AppConfig: 'AppConfig'
+  AppConfig: 'AppConfig',
+  SurveyFeedback: 'SurveyFeedback',
+  CommunityPost: 'CommunityPost',
+  Comment: 'Comment',
+  SkinDiary: 'SkinDiary',
+  Challenge: 'Challenge',
+  UserChallenge: 'UserChallenge',
+  ProductReview: 'ProductReview'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -370,6 +377,91 @@ export const AppConfigScalarFieldEnum = {
 } as const
 
 export type AppConfigScalarFieldEnum = (typeof AppConfigScalarFieldEnum)[keyof typeof AppConfigScalarFieldEnum]
+
+
+export const SurveyFeedbackScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  rating: 'rating',
+  comment: 'comment',
+  createdAt: 'createdAt'
+} as const
+
+export type SurveyFeedbackScalarFieldEnum = (typeof SurveyFeedbackScalarFieldEnum)[keyof typeof SurveyFeedbackScalarFieldEnum]
+
+
+export const CommunityPostScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  title: 'title',
+  content: 'content',
+  category: 'category',
+  likes: 'likes',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type CommunityPostScalarFieldEnum = (typeof CommunityPostScalarFieldEnum)[keyof typeof CommunityPostScalarFieldEnum]
+
+
+export const CommentScalarFieldEnum = {
+  id: 'id',
+  postId: 'postId',
+  userId: 'userId',
+  content: 'content',
+  createdAt: 'createdAt'
+} as const
+
+export type CommentScalarFieldEnum = (typeof CommentScalarFieldEnum)[keyof typeof CommentScalarFieldEnum]
+
+
+export const SkinDiaryScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  date: 'date',
+  feeling: 'feeling',
+  notes: 'notes',
+  createdAt: 'createdAt'
+} as const
+
+export type SkinDiaryScalarFieldEnum = (typeof SkinDiaryScalarFieldEnum)[keyof typeof SkinDiaryScalarFieldEnum]
+
+
+export const ChallengeScalarFieldEnum = {
+  id: 'id',
+  title: 'title',
+  description: 'description',
+  points: 'points',
+  frequency: 'frequency',
+  active: 'active',
+  createdAt: 'createdAt'
+} as const
+
+export type ChallengeScalarFieldEnum = (typeof ChallengeScalarFieldEnum)[keyof typeof ChallengeScalarFieldEnum]
+
+
+export const UserChallengeScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  challengeId: 'challengeId',
+  completed: 'completed',
+  completedAt: 'completedAt',
+  createdAt: 'createdAt'
+} as const
+
+export type UserChallengeScalarFieldEnum = (typeof UserChallengeScalarFieldEnum)[keyof typeof UserChallengeScalarFieldEnum]
+
+
+export const ProductReviewScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  productId: 'productId',
+  rating: 'rating',
+  comment: 'comment',
+  createdAt: 'createdAt'
+} as const
+
+export type ProductReviewScalarFieldEnum = (typeof ProductReviewScalarFieldEnum)[keyof typeof ProductReviewScalarFieldEnum]
 
 
 export const SortOrder = {

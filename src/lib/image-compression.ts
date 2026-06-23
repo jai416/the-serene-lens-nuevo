@@ -8,20 +8,44 @@ function supportsWebP(): boolean {
 
 const preferWebP = supportsWebP()
 
+export class ImageCompressionError extends Error {
+  constructor(message: string, public cause?: unknown) {
+    super(message)
+    this.name = "ImageCompressionError"
+  }
+}
+
 export async function compressImage(file: File, maxSizeMB = 10): Promise<File> {
   const maxSizeBytes = maxSizeMB * 1024 * 1024
 
-  if (file.size <= maxSizeBytes) {
-    if (file.size < SMALL_FILE_THRESHOLD) {
-      return file
+  if (file.size > maxSizeBytes) {
+    throw new ImageCompressionError(
+      `La imagen supera los ${maxSizeMB}MB. Reduce el tamaño o toma una foto con menor resolución.`
+    )
+  }
+
+  if (file.size < SMALL_FILE_THRESHOLD) {
+    return file
+  }
+
+  let img: ImageBitmap
+  try {
+    img = await createImageBitmap(file)
+  } catch {
+    throw new ImageCompressionError(
+      "No se pudo leer la imagen. El archivo podría estar corrupto o en un formato no soportado."
+    )
+  }
+
+  try {
+    const canvas = document.createElement("canvas")
+    const ctx = canvas.getContext("2d")
+    if (!ctx) {
+      throw new ImageCompressionError("No se pudo crear el canvas de compresión.")
     }
 
-    const img = await createImageBitmap(file)
-    const canvas = document.createElement("canvas")
-    const ctx = canvas.getContext("2d")!
-
     let { width, height } = img
-    const maxDimension = 1920
+    const maxDimension = 768
     if (width > maxDimension || height > maxDimension) {
       const ratio = Math.min(maxDimension / width, maxDimension / height)
       width = Math.round(width * ratio)
@@ -33,7 +57,7 @@ export async function compressImage(file: File, maxSizeMB = 10): Promise<File> {
     ctx.drawImage(img, 0, 0, width, height)
     img.close()
 
-    let quality = 0.85
+    let quality = 0.7
     const mimeType = preferWebP ? "image/webp" : "image/jpeg"
     let blob = await canvasToBlob(canvas, quality, mimeType)
 
@@ -47,9 +71,12 @@ export async function compressImage(file: File, maxSizeMB = 10): Promise<File> {
       const baseName = file.name.replace(/\.[^/.]+$/, "")
       return new File([blob], `${baseName}.${ext}`, { type: mimeType })
     }
-  }
 
-  return file
+    return file
+  } catch (e) {
+    if (e instanceof ImageCompressionError) throw e
+    throw new ImageCompressionError("Error al comprimir la imagen.")
+  }
 }
 
 function canvasToBlob(
@@ -57,9 +84,15 @@ function canvasToBlob(
   quality: number,
   mimeType: string
 ): Promise<Blob> {
-  return new Promise((resolve) => {
+  return new Promise((resolve, reject) => {
     canvas.toBlob(
-      (b) => resolve(b!),
+      (b) => {
+        if (b) {
+          resolve(b)
+        } else {
+          reject(new ImageCompressionError("No se pudo generar la imagen comprimida."))
+        }
+      },
       mimeType,
       quality
     )

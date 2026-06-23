@@ -88,7 +88,7 @@ export default function DashboardPage() {
 
         {/* Plan + Usage Summary */}
         <div className="grid sm:grid-cols-2 gap-4 mb-6">
-          <Card className="p-5">
+          <Card className="p-5 border-t-4 border-t-[#C2E09D]">
             <CardContent className="p-0">
               <div className="flex items-center justify-between mb-3">
                 <div className="flex items-center gap-2">
@@ -136,7 +136,7 @@ export default function DashboardPage() {
             </CardContent>
           </Card>
 
-          <Card className="p-5">
+          <Card className="p-5 border-t-4 border-t-[#ECFFD3]">
             <CardContent className="p-0">
               <div className="flex items-center gap-2 mb-3">
                 <Clock className="w-5 h-5 text-[#2F3A2D]" />
@@ -173,9 +173,9 @@ export default function DashboardPage() {
             { title: "Mi Perfil", desc: session.user.email || "", icon: User, href: "/dashboard/profile" },
           ].map((card) => (
             <Link key={card.href} href={card.href}>
-              <Card className="p-5 hover:ring-1 hover:ring-[#C2E09D] transition-all duration-200 group">
+              <Card className="p-5 hover:shadow-[0_8px_24px_rgba(47,58,45,0.1)] hover:-translate-y-1 transition-all duration-300 group border-t-4 border-t-[#C2E09D]">
                 <CardContent className="p-0 flex items-center gap-4">
-                  <div className="w-12 h-12 rounded-xl bg-[#C2E09D] flex items-center justify-center shrink-0">
+                  <div className="w-12 h-12 rounded-xl bg-[#ECFFD3] flex items-center justify-center shrink-0">
                     <card.icon className="w-5 h-5 text-[#2F3A2D]" />
                   </div>
                   <div className="flex-1 min-w-0">
@@ -189,6 +189,26 @@ export default function DashboardPage() {
           ))}
         </div>
 
+        {/* Referral Section */}
+        <Card className="p-5 mb-10 bg-gradient-to-br from-[#ECFFD3] to-[#F8FAF5] border-t-4 border-t-[#C2E09D]">
+          <CardContent className="p-0">
+            <div className="flex items-start gap-4">
+              <div className="w-12 h-12 rounded-xl bg-[#C2E09D] flex items-center justify-center shrink-0">
+                <Sparkles className="w-5 h-5 text-[#2F3A2D]" />
+              </div>
+              <div className="flex-1">
+                <h3 className="font-medium text-sm text-[#2F3A2D] mb-1">Invita amigos, gana análisis gratis</h3>
+                <p className="text-xs text-[#64705E] mb-3">
+                  Comparte tu enlace y obtén 1 análisis bonus por cada amigo que se registre.
+                </p>
+                <Link href="/dashboard/referrals">
+                  <span className="text-xs text-[#2F3A2D] hover:underline font-medium">Ver mis referidos →</span>
+                </Link>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+
         {/* Recent Analyses */}
         {analyses.length > 0 && (
           <div>
@@ -199,7 +219,7 @@ export default function DashboardPage() {
             <div className="space-y-2">
               {analyses.slice(0, 5).map((a) => (
                 <Link key={a.id} href={`/analysis/results/${a.id}`}>
-                  <Card className="p-4 hover:ring-1 hover:ring-[#C2E09D] transition-all duration-200">
+                  <Card className="p-4 hover:shadow-[0_8px_24px_rgba(47,58,45,0.1)] hover:-translate-y-1 transition-all duration-300 border-t-4 border-t-[#ECFFD3]">
                     <CardContent className="p-0 flex items-center justify-between">
                       <div className="flex items-center gap-3 min-w-0">
                         <Scan className="w-4 h-4 text-[#2F3A2D] shrink-0" />

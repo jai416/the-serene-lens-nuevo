@@ -19,4 +19,8 @@ export const SEO_KEYWORDS = [
   { keyword: "cómo mejorar la textura de la piel", slug: "mejorar-textura-piel" },
   { keyword: "cómo reducir los poros abiertos", slug: "reducir-poros-abiertos" },
   { keyword: "cómo eliminar manchas de la piel", slug: "eliminar-manchas-piel" },
+  { keyword: "rutina skincare para piel sensible", slug: "rutina-skincare-piel-sensible" },
+  { keyword: "crema hidratante para piel grasa", slug: "crema-hidratante-piel-grasa" },
+  { keyword: "serum vitamina c beneficios", slug: "serum-vitamina-c-beneficios" },
+  { keyword: "cómo eliminar acné rápido", slug: "eliminar-acne-rapido" },
 ]

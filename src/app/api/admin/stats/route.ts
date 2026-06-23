@@ -9,6 +9,8 @@ async function requireAdmin() {
   return session.user
 }
 
+export const dynamic = "force-dynamic"
+
 export async function GET() {
   try {
     const admin = await requireAdmin()
@@ -23,37 +25,20 @@ export async function GET() {
       db.product.count(),
     ])
 
-    const [completedPayments, pendingPayments, unreadMessages] = await Promise.all([
+    const [completedPayments, unreadMessages] = await Promise.all([
       db.payment.count({ where: { status: "completed" } }),
-      db.payment.count({ where: { status: "pending" } }),
       db.contactMessage.count({ where: { read: false } }),
     ])
 
-    const [revenue, revenueStripe, revenueQvaPay] = await Promise.all([
-      db.payment.aggregate({
-        where: { status: "completed" },
-        _sum: { amount: true },
-      }),
-      db.payment.aggregate({
-        where: { status: "completed", provider: "stripe" },
-        _sum: { amount: true },
-      }),
-      db.payment.aggregate({
-        where: { status: "completed", provider: "qvapay" },
-        _sum: { amount: true },
-      }),
-    ])
+    const revenue = await db.payment.aggregate({
+      where: { status: "completed" },
+      _sum: { amount: true },
+    })
 
     const recentUsers = await db.user.findMany({
       orderBy: { createdAt: "desc" },
       take: 5,
       select: { id: true, name: true, email: true, plan: true, createdAt: true },
-    })
-
-    const recentPayments = await db.payment.findMany({
-      orderBy: { createdAt: "desc" },
-      take: 5,
-      include: { user: { select: { name: true, email: true } } },
     })
 
     return ok({
@@ -62,17 +47,16 @@ export async function GET() {
         analyses,
         payments,
         completedPayments,
-        pendingPayments,
+        pendingPayments: payments - completedPayments,
         messages,
         unreadMessages,
         posts,
         products,
         revenue: revenue._sum.amount || 0,
-        revenueStripe: revenueStripe._sum.amount || 0,
-        revenueQvaPay: revenueQvaPay._sum.amount || 0,
+        revenueStripe: 0,
+        revenueQvaPay: revenue._sum.amount || 0,
       },
       recentUsers,
-      recentPayments,
     })
   } catch (e) {
     return serverError(e)

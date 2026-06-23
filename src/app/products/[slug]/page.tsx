@@ -1,89 +1,111 @@
-"use client"
-
-import { useEffect, useState } from "react"
-import { useParams, useRouter } from "next/navigation"
+import { notFound } from "next/navigation"
+import { db } from "@/lib/db"
+import { formatPrice } from "@/lib/utils"
+import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
-import { Package, ArrowLeft, AlertCircle } from "lucide-react"
+import { Package, ArrowLeft } from "lucide-react"
 import Image from "next/image"
-import Link from "next/link"
+import type { Metadata } from "next"
 
-interface Product {
-  id: string
-  name: string
-  slug: string
-  description: string
-  shortDesc: string | null
-  image: string
-  category: string
-  skinTypes: string
-  price: number
-  ingredients: string | null
-  isActive: boolean
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ slug: string }>
+}): Promise<Metadata> {
+  const { slug } = await params
+  const product = await db.product.findUnique({
+    where: { slug, isActive: true },
+    select: { name: true, shortDesc: true, description: true, image: true, slug: true, price: true, category: true },
+  })
+
+  if (!product) return { title: "Producto no encontrado" }
+
+  const description = product.shortDesc || product.description.slice(0, 160)
+  const url = `${process.env.NEXT_PUBLIC_APP_URL || "https://the-serene-lens-nuevo.onrender.com"}/products/${product.slug}`
+
+  return {
+    title: product.name,
+    description,
+    openGraph: {
+      title: product.name,
+      description,
+      type: "website",
+      url,
+      siteName: "The Serene Lens",
+      locale: "es_ES",
+      images: product.image ? [{ url: product.image, alt: product.name }] : [],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: product.name,
+      description,
+      images: product.image ? [product.image] : [],
+    },
+  }
 }
 
-export default function ProductDetailPage() {
-  const { slug } = useParams<{ slug: string }>()
-  const router = useRouter()
-  const [product, setProduct] = useState<Product | null>(null)
-  const [loading, setLoading] = useState(true)
+export default async function ProductDetailPage({
+  params,
+}: {
+  params: Promise<{ slug: string }>
+}) {
+  const { slug } = await params
+  const product = await db.product.findUnique({
+    where: { slug, isActive: true },
+  })
 
-  useEffect(() => {
-    const loadProduct = async () => {
-      try {
-        const res = await fetch(`/api/products/${slug}`)
-        if (!res.ok) throw new Error("Not found")
-        const data = await res.json()
-        setProduct(data.product)
-      } catch {
-        setProduct(null)
-      } finally {
-        setLoading(false)
-      }
-    }
+  if (!product) notFound()
 
-    loadProduct()
-  }, [slug])
+  const baseUrl = process.env.NEXT_PUBLIC_APP_URL || "https://the-serene-lens-nuevo.onrender.com"
 
-  if (loading) {
-    return (
-      <div className="min-h-screen flex items-center justify-center">
-        <p className="text-muted-foreground">Cargando...</p>
-      </div>
-    )
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "Product",
+    name: product.name,
+    description: product.shortDesc || product.description,
+    image: product.image || undefined,
+    sku: product.id,
+    brand: {
+      "@type": "Organization",
+      name: "The Serene Lens",
+    },
+    category: product.category,
+    offers: {
+      "@type": "Offer",
+      price: product.price,
+      priceCurrency: "USD",
+      availability: "https://schema.org/InStock",
+      url: `${baseUrl}/products/${product.slug}`,
+    },
   }
 
-  if (!product) {
-    return (
-      <div className="min-h-screen flex items-center justify-center px-4">
-        <div className="text-center">
-          <div className="w-14 h-14 rounded-2xl bg-muted flex items-center justify-center mx-auto mb-4">
-            <AlertCircle className="w-6 h-6 text-muted-foreground" />
-          </div>
-          <h2 className="font-serif text-xl font-semibold mb-2">Producto no encontrado</h2>
-          <p className="text-muted-foreground text-sm mb-6">Este producto no existe o ha sido eliminado.</p>
-          <Link href="/products">
-            <Button className="rounded-full">
-              <Package className="w-4 h-4 mr-2" />
-              Ver productos
-            </Button>
-          </Link>
-        </div>
-      </div>
-    )
+  const skinTypeLabels: Record<string, string> = {
+    all: "Todos los tipos",
+    oily: "Piel grasa",
+    dry: "Piel seca",
+    combination: "Piel mixta",
+    sensitive: "Piel sensible",
+    normal: "Piel normal",
   }
 
   return (
     <div className="min-h-screen px-4 py-8">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
       <div className="max-w-4xl mx-auto">
-        <Button variant="ghost" size="sm" onClick={() => router.push("/products")} className="mb-6">
-          <ArrowLeft className="w-4 h-4 mr-1.5" />
-          Volver a productos
-        </Button>
+        <Link href="/products">
+          <Button variant="ghost" size="sm" className="mb-6">
+            <ArrowLeft className="w-4 h-4 mr-1.5" />
+            Volver a productos
+          </Button>
+        </Link>
 
         <div className="grid sm:grid-cols-2 gap-8">
-          <div className="relative aspect-square rounded-2xl overflow-hidden bg-muted">
+          <div className="relative aspect-square rounded-2xl overflow-hidden bg-[#F8FAF5] border border-[#DDE7D3]">
             <Image
               src={product.image || "/images/placeholder.svg"}
               alt={product.name}
@@ -93,24 +115,45 @@ export default function ProductDetailPage() {
           </div>
 
           <div>
-            <Badge variant="secondary" className="mb-3">{product.category}</Badge>
-            <h1 className="font-serif text-2xl sm:text-3xl font-semibold mb-3">{product.name}</h1>
-            <p className="text-sm text-muted-foreground mb-4">{product.description}</p>
+            <Badge variant="secondary" className="mb-3">
+              {product.category}
+            </Badge>
+            <h1 className="font-serif text-2xl sm:text-3xl font-semibold mb-3">
+              {product.name}
+            </h1>
+
+            {product.shortDesc && (
+              <p className="text-sm text-[#64705E] mb-2">{product.shortDesc}</p>
+            )}
+
+            <p className="text-sm text-[#2F3A2D] mb-4">{product.description}</p>
+
+            {product.price > 0 && (
+              <p className="text-lg font-semibold text-[#2F3A2D] mb-4">
+                {formatPrice(product.price)}
+              </p>
+            )}
 
             {product.skinTypes && product.skinTypes !== "all" && (
               <p className="text-sm mb-2">
-                <span className="font-medium">Tipo de piel:</span>{" "}
-                <span className="text-muted-foreground">{product.skinTypes}</span>
+                <span className="font-medium text-[#2F3A2D]">Tipo de piel:</span>{" "}
+                <span className="text-[#64705E]">
+                  {skinTypeLabels[product.skinTypes] || product.skinTypes}
+                </span>
               </p>
             )}
 
             {product.ingredients && (
-                <Card className="bg-[#F8FAF5] border-[#DDE7D3] mt-4">
+              <Card className="bg-[#F8FAF5] border-[#DDE7D3] mt-4">
                 <CardHeader className="p-4 pb-2">
-                  <CardTitle className="text-sm font-medium">Ingredientes</CardTitle>
+                  <CardTitle className="text-sm font-medium text-[#2F3A2D]">
+                    Ingredientes
+                  </CardTitle>
                 </CardHeader>
                 <CardContent className="p-4 pt-0">
-                  <p className="text-xs text-muted-foreground leading-relaxed">{product.ingredients}</p>
+                  <p className="text-xs text-[#64705E] leading-relaxed">
+                    {product.ingredients}
+                  </p>
                 </CardContent>
               </Card>
             )}

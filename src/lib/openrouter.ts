@@ -45,6 +45,12 @@ export async function analyzeSkin({
   language = "es",
 }: AnalyzeOptions) {
   const isEnglish = language === "en"
+  const ageContext = age
+    ? isEnglish
+      ? `The user is ${age} years old. Prioritize recommendations for this age decade: teens (acne control, oil management), 20s (prevention, hydration), 30s (first anti-aging, antioxidants), 40s (collagen stimulation, firmness), 50+ (deep hydration, renewal).`
+      : `La persona tiene ${age} años. Prioriza recomendaciones para esta década: adolescentes (control de acné, manejo de grasa), 20s (prevención, hidratación), 30s (primer anti-edad, antioxidantes), 40s (estimulación de colágeno, firmeza), 50+ (hidratación profunda, renovación).`
+    : ""
+
   const prompt = isEnglish
     ? `You are a skincare cosmetic expert. Analyze this facial skin photo.
 
@@ -53,8 +59,14 @@ ${age ? `Age: ${age}` : ""}
 ${gender ? `Gender: ${gender}` : ""}
 ${climate ? `Climate: ${climate}` : ""}
 ${routine ? `Current routine: ${routine}` : ""}
+${ageContext}
 
-Provide your analysis in JSON format (no markdown, valid JSON only). DO NOT use percentages or numbers except for routine steps. Use descriptive categories:
+CRITICAL RULES:
+- If you are NOT certain about an observation, respond "Not determined". Do NOT invent information.
+- DO NOT use percentages or numbers except for routine steps.
+- Each observation MUST include a brief "why" explaining what visual cue you detected.
+
+Provide your analysis in JSON format (no markdown, valid JSON only). Use descriptive categories:
 
 {
     "skinType": "apparent skin type: dry/oily/combination/normal/sensitive",
@@ -65,15 +77,17 @@ Provide your analysis in JSON format (no markdown, valid JSON only). DO NOT use 
     "apparentSensitivity": "apparent sensitivity: low/moderate/high",
     "apparentOil": "apparent oiliness: low/moderate/high",
     "observations": ["visual observation 1", "visual observation 2"],
+    "observationExplanations": {"observation 1 key": "brief explanation of what visual cue led to this observation", "observation 2 key": "brief explanation"},
     "recommendations": ["cosmetic recommendation 1", "cosmetic recommendation 2"],
     "confidence": "analysis confidence: high/medium/low",
+    "confidenceReason": "brief explanation of why this confidence level",
     "routine": {
       "morning": ["step 1", "step 2"],
       "evening": ["step 1", "step 2"]
     }
 }
 
-Be specific but honest. Do not invent diagnoses or medical conditions. Use descriptive language about VISIBLE characteristics. If you cannot determine something with certainty, indicate it in confidence as "low" or "medium".
+Be specific but honest. Do not invent diagnoses or medical conditions. Use descriptive language about VISIBLE characteristics.
 
 All observations must be based solely on what you see in the photograph.`
     : `Eres un experto en cuidado cosmético de la piel. Analiza esta foto de piel facial.
@@ -83,8 +97,14 @@ ${age ? `Edad: ${age}` : ""}
 ${gender ? `Sexo: ${gender}` : ""}
 ${climate ? `Clima: ${climate}` : ""}
 ${routine ? `Rutina actual: ${routine}` : ""}
+${ageContext}
 
-Proporciona tu análisis en formato JSON (sin markdown, solo JSON válido). NO uses porcentajes ni números excepto para pasos de rutina. Usa categorías descriptivas:
+REGLAS CRÍTICAS:
+- Si NO estás seguro de una observación, responde "No determinado". No inventes información.
+- NO uses porcentajes ni números excepto para pasos de rutina.
+- Cada observación DEBE incluir un breve "por qué" explicando qué señal visual detectaste.
+
+Proporciona tu análisis en formato JSON (sin markdown, solo JSON válido). Usa categorías descriptivas:
 
 {
     "skinType": "tipo de piel aparente: seca/grasa/mixta/normal/sensible",
@@ -95,15 +115,17 @@ Proporciona tu análisis en formato JSON (sin markdown, solo JSON válido). NO u
     "apparentSensitivity": "sensibilidad aparente: baja/moderada/elevada",
     "apparentOil": "grasa aparente: baja/moderada/alta",
     "observations": ["observación visual 1", "observación visual 2"],
+    "observationExplanations": {"clave observación 1": "breve explicación de qué señal visual llevó a esta observación", "clave observación 2": "breve explicación"},
     "recommendations": ["recomendación cosmética 1", "recomendación cosmética 2"],
     "confidence": "confianza del análisis: alta/media/baja",
+    "confidenceReason": "breve explicación del nivel de confianza",
     "routine": {
       "morning": ["paso 1", "paso 2"],
       "evening": ["paso 1", "paso 2"]
     }
 }
 
-Sé específico pero honesto. No inventes diagnósticos ni condiciones médicas. Usa lenguaje descriptivo sobre características VISUALES observables. Si no puedes determinar algo con certeza, indícalo en confidence como "baja" o "media".
+Sé específico pero honesto. No inventes diagnósticos ni condiciones médicas. Usa lenguaje descriptivo sobre características VISUALES observables.
 
 Todas las observaciones deben estar basadas únicamente en lo que ves en la fotografía.`
 
@@ -146,10 +168,15 @@ Todas las observaciones deben estar basadas únicamente en lo que ves en la foto
 
   if (!content) throw new Error("No response from AI")
 
-  let parsed = JSON.parse(content)
+  let parsed: Record<string, unknown>
+  try {
+    parsed = JSON.parse(content)
+  } catch {
+    throw new Error("The AI returned an invalid response. Please try again with clearer photos.")
+  }
 
   if (containsPercentages(parsed)) {
-    parsed = stripPercentages(parsed)
+    parsed = stripPercentages(parsed) as Record<string, unknown>
   }
 
   return parsed
@@ -211,9 +238,15 @@ Responde en formato JSON (sin markdown, solo JSON válido). Usa lenguaje descrip
   const content = data.choices?.[0]?.message?.content
   if (!content) throw new Error("No response from AI")
 
-  let parsed = JSON.parse(content)
+  let parsed: Record<string, unknown>
+  try {
+    parsed = JSON.parse(content)
+  } catch {
+    throw new Error("The AI returned an invalid response for the product. Please try again with a clearer photo of the ingredient label.")
+  }
+
   if (containsPercentages(parsed)) {
-    parsed = stripPercentages(parsed)
+    parsed = stripPercentages(parsed) as Record<string, unknown>
   }
   return parsed
 }
