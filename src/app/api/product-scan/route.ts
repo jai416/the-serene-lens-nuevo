@@ -30,7 +30,7 @@ export async function POST(req: NextRequest) {
     const result = await scanProductIngredients(base64)
 
     if (result.summary) {
-      result.summary = sanitizeSummary(result.summary)
+      result.summary = sanitizeSummary(result.summary as string)
     }
 
     return ok({ result })

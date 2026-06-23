@@ -20,10 +20,12 @@ export async function GET() {
       orderBy: { createdAt: "desc" },
     })
 
-    const totalPoints = await db.userChallenge.aggregate({
+    const userChallenges = await db.userChallenge.findMany({
       where: { userId: session.user.id, completed: true },
-      _sum: { challenge: { select: { points: true } } },
+      include: { challenge: { select: { points: true } } },
     })
+
+    const totalPoints = userChallenges.reduce((sum, uc) => sum + (uc.challenge?.points || 0), 0)
 
     const result = challenges.map((c) => ({
       id: c.id,
@@ -37,7 +39,7 @@ export async function GET() {
 
     return ok({
       challenges: result,
-      totalPoints: totalPoints._sum?.challenge?.points || 0,
+      totalPoints,
     })
   } catch (e) {
     return serverError(e)

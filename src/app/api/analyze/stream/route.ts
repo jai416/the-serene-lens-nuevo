@@ -64,7 +64,7 @@ export async function POST(req: Request) {
     const analysis = await db.skinAnalysis.create({
       data: {
         userId: session.user.id,
-        skinType: result.skinType || null,
+        skinType: (result.skinType as string) || null,
         concerns: concerns || null,
         observations: JSON.stringify(result.observations || []),
         recommendations: JSON.stringify(result.recommendations || []),

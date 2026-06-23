@@ -5,10 +5,10 @@ import { ok, error, serverError } from "@/lib/api-response";
 
 export async function GET(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    const { id } = params;
+    const { id } = await params;
 
     const post = await db.communityPost.findUnique({ where: { id } });
     if (!post) {
@@ -29,7 +29,7 @@ export async function GET(
 
 export async function POST(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     const session = await getServerSession();
@@ -45,7 +45,7 @@ export async function POST(
       return error("Usuario no encontrado", 404);
     }
 
-    const { id } = params;
+    const { id } = await params;
 
     const post = await db.communityPost.findUnique({ where: { id } });
     if (!post) {
