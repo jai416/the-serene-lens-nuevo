@@ -6,9 +6,10 @@ import { useSearchParams, useRouter } from "next/navigation"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
-import { Mail, Lock, Eye, EyeOff, LogIn, UserPlus, Github, Chrome, ArrowLeft, AlertCircle, Flower2 } from "lucide-react"
+import { Mail, Lock, Eye, EyeOff, LogIn, UserPlus, ArrowLeft, AlertCircle, Flower2 } from "lucide-react"
 import Link from "next/link"
 import { toast } from "sonner"
+import { SocialLoginButtons } from "@/components/social-login-buttons"
 
 const errorMessages: Record<string, string> = {
   CredentialsSignin: "Email o contraseña incorrectos",
@@ -77,20 +78,6 @@ function LoginForm() {
       setError("Error de conexión")
     } finally {
       setLoading(false)
-    }
-  }
-
-  const handleSocialLogin = async (provider: string) => {
-    try {
-      const result = await signIn(provider, { callbackUrl, redirect: false })
-      if (result?.error) {
-        setError(errorMessages[result.error] || "Error al iniciar sesión con " + provider)
-      }
-      if (result?.ok) {
-        router.push(callbackUrl)
-      }
-    } catch {
-      setError("Error de conexión al iniciar sesión con " + provider)
     }
   }
 
@@ -231,24 +218,7 @@ function LoginForm() {
               </div>
             </div>
 
-            <div className="grid grid-cols-2 gap-3">
-              <Button
-                variant="secondary"
-                onClick={() => handleSocialLogin("google")}
-                className="py-5 h-auto"
-              >
-                <Chrome className="w-4 h-4 mr-2" />
-                Google
-              </Button>
-              <Button
-                variant="secondary"
-                onClick={() => handleSocialLogin("github")}
-                className="py-5 h-auto"
-              >
-                <Github className="w-4 h-4 mr-2" />
-                GitHub
-              </Button>
-            </div>
+            <SocialLoginButtons />
 
             <div className="text-center mt-6">
               <p className="text-sm text-[#64705E]">
