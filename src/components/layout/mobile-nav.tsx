@@ -5,6 +5,7 @@ import { usePathname } from "next/navigation"
 import { useSession } from "next-auth/react"
 import { Home, Scan, History, Leaf, User } from "lucide-react"
 import { cn } from "@/lib/utils"
+import { ThemeToggleCompact } from "@/components/theme-toggle"
 
 const guestItems = [
   { href: "/", label: "Inicio", icon: Home },
@@ -35,7 +36,9 @@ export function MobileNav() {
               href={item.href}
               className={cn(
                 "flex flex-col items-center gap-0.5 px-2 sm:px-4 py-1.5 rounded-xl transition-all duration-200 relative shrink-0",
-                active ? "text-[#2F3A2D] dark:text-[#E8EDE6]" : "text-[#8A9A82] dark:text-[#7A8A72] hover:text-[#64705E] dark:hover:text-[#9BAA93]"
+                active
+                  ? "text-[#2F3A2D] dark:text-[#E8EDE6]"
+                  : "text-[#8A9A82] dark:text-[#7A8A72] hover:text-[#64705E] dark:hover:text-[#9BAA93]"
               )}
             >
               {active && (
@@ -46,6 +49,7 @@ export function MobileNav() {
             </Link>
           )
         })}
+        <ThemeToggleCompact />
       </div>
     </nav>
   )

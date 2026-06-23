@@ -78,10 +78,10 @@ export default function DashboardPage() {
             <LayoutDashboard className="w-3.5 h-3.5 mr-2" />
             Dashboard
           </Badge>
-          <h1 className="font-serif text-3xl sm:text-4xl font-semibold text-[#2F3A2D]">
+          <h1 className="font-serif text-3xl sm:text-4xl font-semibold text-[#2F3A2D] dark:text-[#E8EDE6]">
             Bienvenido, {session.user.name || "Usuario"}
           </h1>
-          <p className="text-[#64705E] mt-1 text-sm">
+          <p className="text-[#64705E] dark:text-[#9BAA93] mt-1 text-sm">
             Gestiona tus análisis, suscripción y perfil.
           </p>
         </div>
@@ -92,10 +92,10 @@ export default function DashboardPage() {
             <CardContent className="p-0">
               <div className="flex items-center justify-between mb-3">
                 <div className="flex items-center gap-2">
-                  <CreditCard className="w-5 h-5 text-[#2F3A2D]" />
-                  <span className="text-sm font-medium text-[#2F3A2D]">Plan {getPlanLabel(plan)}</span>
+                  <CreditCard className="w-5 h-5 text-[#2F3A2D] dark:text-[#E8EDE6]" />
+                  <span className="text-sm font-medium text-[#2F3A2D] dark:text-[#E8EDE6]">Plan {getPlanLabel(plan)}</span>
                 </div>
-                <Badge className={isPaid ? "bg-[#C2E09D] text-[#2F3A2D]" : "bg-[#F0F5EC] text-[#64705E]"}>
+                <Badge className={isPaid ? "bg-[#C2E09D] text-[#2F3A2D]" : "bg-[#F0F5EC] dark:bg-[#2E3829] text-[#64705E] dark:text-[#9BAA93]"}>
                   {isPaid ? "Activo" : "Gratuito"}
                 </Badge>
               </div>
@@ -104,8 +104,8 @@ export default function DashboardPage() {
                   {!usage.isUnlimited && (
                     <div>
                       <div className="flex justify-between text-xs mb-1">
-                        <span className="text-[#64705E]">Análisis este mes</span>
-                        <span className="text-[#64705E]">{usage.monthlyUsed} / {usage.monthlyLimit}</span>
+                        <span className="text-[#64705E] dark:text-[#9BAA93]">Análisis este mes</span>
+                        <span className="text-[#64705E] dark:text-[#9BAA93]">{usage.monthlyUsed} / {usage.monthlyLimit}</span>
                       </div>
                       <div className="h-1.5 rounded-full bg-[#F0F5EC] overflow-hidden">
                         <div

@@ -55,23 +55,23 @@ export default function HomePage() {
   return (
     <div className="min-h-screen">
       {/* ─── Hero ─── */}
-      <section className="relative min-h-[90vh] flex items-center py-20 px-4 sm:px-8 overflow-hidden bg-gradient-to-b from-[#ECFFD3] via-[#F8FAF5] to-[#F8FAF5]">
+      <section className="relative min-h-[90vh] flex items-center py-20 px-4 sm:px-8 overflow-hidden bg-gradient-to-b from-[#ECFFD3] via-[#F8FAF5] to-[#F8FAF5] dark:from-[#1E251C] dark:via-[#222920] dark:to-[#1A1F19]">
         <div className="max-w-7xl mx-auto w-full">
           <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
             <div className="animate-fade-in-up max-w-xl">
               <SeasonalHero />
-              <span className="inline-block bg-[#FFF6AD] text-[#2F3A2D] px-4 py-1.5 rounded-full text-sm font-medium mb-4 shadow-sm">
+              <span className="inline-block bg-[#FFF6AD] dark:bg-[#3A3A24] text-[#2F3A2D] dark:text-[#E8EDE6] px-4 py-1.5 rounded-full text-sm font-medium mb-4 shadow-sm">
                 <Sparkles className="w-3.5 h-3.5 mr-2 inline" />
                 Observación cosmética con IA
               </span>
 
-              <h1 className="font-serif text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-semibold leading-[1.08] mb-6 text-[#2F3A2D]">
+              <h1 className="font-serif text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-semibold leading-[1.08] mb-6 text-[#2F3A2D] dark:text-[#E8EDE6]">
                 Conoce mejor
                 <br />
                 tu piel
               </h1>
 
-              <p className="text-base sm:text-lg text-[#64705E] leading-relaxed mb-10 max-w-lg">
+              <p className="text-base sm:text-lg text-[#64705E] dark:text-[#9BAA93] leading-relaxed mb-10 max-w-lg">
                 Obtén observaciones cosméticas personalizadas mediante fotografías y seguimiento continuo.
               </p>
 
@@ -83,14 +83,14 @@ export default function HomePage() {
                   </button>
                 </Link>
                 <Link href="#how-it-works">
-                  <button className="inline-flex items-center justify-center text-base font-semibold transition-all bg-[#FFFFFF] text-[#2F3A2D] px-8 py-6 rounded-full border border-[#C2E09D] hover:bg-[#F8FAF5]">
+                  <button className="inline-flex items-center justify-center text-base font-semibold transition-all bg-white dark:bg-[#2A3228] text-[#2F3A2D] dark:text-[#E8EDE6] px-8 py-6 rounded-full border border-[#C2E09D] dark:border-[#3A5A2A] hover:bg-[#F8FAF5] dark:hover:bg-[#2E3829]">
                     Ver cómo funciona
                     <ArrowRight className="w-4 h-4 ml-2" />
                   </button>
                 </Link>
               </div>
 
-              <p className="text-xs text-[#8A9A82] mt-4">
+              <p className="text-xs text-[#8A9A82] dark:text-[#7A8A72] mt-4">
                 Sin tarjeta de crédito · Resultados en segundos · Privacidad garantizada
               </p>
             </div>
@@ -114,32 +114,32 @@ export default function HomePage() {
                 </svg>
 
                 {/* Main card with face illustration */}
-                <div className="relative w-full h-full rounded-[32px] bg-white border border-[#DDE7D3] shadow-[0_4px_20px_rgba(47,58,45,0.06)] p-8 flex flex-col items-center justify-center">
-                  <div className="w-24 h-24 rounded-full bg-[#F8FAF5] flex items-center justify-center mb-6 border-2 border-[#ECFFD3]">
+                <div className="relative w-full h-full rounded-[32px] bg-white dark:bg-[#222920] border border-[#DDE7D3] dark:border-[#3A4536] shadow-[0_4px_20px_rgba(47,58,45,0.06)] dark:shadow-[0_4px_20px_rgba(0,0,0,0.3)] p-8 flex flex-col items-center justify-center">
+                  <div className="w-24 h-24 rounded-full bg-[#F8FAF5] dark:bg-[#2A3228] flex items-center justify-center mb-6 border-2 border-[#ECFFD3] dark:border-[#3A5A2A]">
                     <Flower2 className="w-12 h-12 text-[#C2E09D]" />
                   </div>
 
-                  <h3 className="font-serif text-xl font-semibold text-[#2F3A2D] mb-2 text-center">
+                  <h3 className="font-serif text-xl font-semibold text-[#2F3A2D] dark:text-[#E8EDE6] mb-2 text-center">
                     Piel saludable y natural
                   </h3>
-                  <p className="text-sm text-[#64705E] text-center leading-relaxed max-w-xs">
+                  <p className="text-sm text-[#64705E] dark:text-[#9BAA93] text-center leading-relaxed max-w-xs">
                     Observaciones cosméticas honestas basadas en tus fotografías. Sin diagnósticos, sin porcentajes inventados.
                   </p>
 
                   {/* Natural decorative elements */}
                   <div className="flex items-center gap-3 mt-6">
-                    <div className="w-8 h-8 rounded-full bg-[#ECFFD3] flex items-center justify-center">
-                      <Leaf className="w-4 h-4 text-[#2F3A2D]" />
+                    <div className="w-8 h-8 rounded-full bg-[#ECFFD3] dark:bg-[#2A3A24] flex items-center justify-center">
+                      <Leaf className="w-4 h-4 text-[#2F3A2D] dark:text-[#E8EDE6]" />
                     </div>
-                    <div className="w-8 h-8 rounded-full bg-[#FFF6AD] flex items-center justify-center">
-                      <Flower2 className="w-4 h-4 text-[#2F3A2D]" />
+                    <div className="w-8 h-8 rounded-full bg-[#FFF6AD] dark:bg-[#3A3A24] flex items-center justify-center">
+                      <Flower2 className="w-4 h-4 text-[#2F3A2D] dark:text-[#E8EDE6]" />
                     </div>
                     <div className="w-8 h-8 rounded-full bg-[#C2E09D] flex items-center justify-center">
                       <Sparkles className="w-4 h-4 text-[#2F3A2D]" />
                     </div>
                   </div>
 
-                  <div className="mt-6 flex items-center justify-center gap-6 text-xs text-[#8A9A82]">
+                  <div className="mt-6 flex items-center justify-center gap-6 text-xs text-[#8A9A82] dark:text-[#7A8A72]">
                     <span className="flex items-center gap-1.5">
                       <CheckCircle2 className="w-3.5 h-3.5 text-[#C2E09D]" />
                       Privado
@@ -185,16 +185,16 @@ export default function HomePage() {
       </section>
 
       {/* ─── How It Works ─── */}
-      <section id="how-it-works" className="py-20 sm:py-28 px-4 sm:px-8 bg-[#F8FAF5]">
+      <section id="how-it-works" className="py-20 sm:py-28 px-4 sm:px-8 bg-[#F8FAF5] dark:bg-[#1E251C]">
         <div className="max-w-7xl mx-auto">
           <div className="text-center max-w-2xl mx-auto mb-14">
             <Badge variant="secondary" className="mb-4 rounded-full px-4 py-1.5">
               Proceso Simple
             </Badge>
-            <h2 className="font-serif text-3xl sm:text-4xl lg:text-5xl font-semibold mb-4 text-[#2F3A2D]">
+            <h2 className="font-serif text-3xl sm:text-4xl lg:text-5xl font-semibold mb-4 text-[#2F3A2D] dark:text-[#E8EDE6]">
               ¿Cómo Funciona?
             </h2>
-            <p className="text-[#64705E]">Tres pasos sencillos para conocer tu piel.</p>
+            <p className="text-[#64705E] dark:text-[#9BAA93]">Tres pasos sencillos para conocer tu piel.</p>
           </div>
 
           <div className="grid sm:grid-cols-3 gap-6 lg:gap-8">
@@ -208,8 +208,8 @@ export default function HomePage() {
                   <div className="w-14 h-14 rounded-2xl gradient-primary flex items-center justify-center mx-auto mb-5">
                     <step.icon className="w-6 h-6 text-[#2F3A2D]" />
                   </div>
-                  <h3 className="font-serif text-xl font-semibold mb-3 text-[#2F3A2D]">{step.title}</h3>
-                  <p className="text-sm text-[#64705E] leading-relaxed">{step.description}</p>
+                  <h3 className="font-serif text-xl font-semibold mb-3 text-[#2F3A2D] dark:text-[#E8EDE6]">{step.title}</h3>
+                  <p className="text-sm text-[#64705E] dark:text-[#9BAA93] leading-relaxed">{step.description}</p>
                 </CardContent>
               </Card>
             ))}
@@ -225,10 +225,10 @@ export default function HomePage() {
               <Leaf className="w-3.5 h-3.5 mr-2" />
               Transparencia
             </Badge>
-            <h2 className="font-serif text-3xl sm:text-4xl lg:text-5xl font-semibold mb-4 text-[#2F3A2D]">
+            <h2 className="font-serif text-3xl sm:text-4xl lg:text-5xl font-semibold mb-4 text-[#2F3A2D] dark:text-[#E8EDE6]">
               Sin Engaños
             </h2>
-            <p className="text-[#64705E]">Lo que ves es lo que obtienes. Sin métricas inventadas.</p>
+            <p className="text-[#64705E] dark:text-[#9BAA93]">Lo que ves es lo que obtienes. Sin métricas inventadas.</p>
           </div>
 
           <div className="grid sm:grid-cols-3 gap-6">
@@ -238,8 +238,8 @@ export default function HomePage() {
                   <div className="w-12 h-12 rounded-xl gradient-primary flex items-center justify-center mb-4">
                     <f.icon className="w-5 h-5 text-[#2F3A2D]" />
                   </div>
-                  <h3 className="font-serif text-lg font-semibold mb-2 text-[#2F3A2D]">{f.title}</h3>
-                  <p className="text-sm text-[#64705E]">{f.description}</p>
+                  <h3 className="font-serif text-lg font-semibold mb-2 text-[#2F3A2D] dark:text-[#E8EDE6]">{f.title}</h3>
+                  <p className="text-sm text-[#64705E] dark:text-[#9BAA93]">{f.description}</p>
                 </CardContent>
               </Card>
             ))}
@@ -248,29 +248,29 @@ export default function HomePage() {
       </section>
 
       {/* ─── Quick Skin Test ─── */}
-      <section className="py-16 sm:py-24 px-4 sm:px-8 bg-[#F8FAF5]">
+      <section className="py-16 sm:py-24 px-4 sm:px-8 bg-[#F8FAF5] dark:bg-[#1E251C]">
         <div className="max-w-3xl mx-auto">
           <div className="text-center max-w-2xl mx-auto mb-10">
             <Badge variant="secondary" className="mb-4 rounded-full px-4 py-1.5">
               Mini Test
             </Badge>
-            <h2 className="font-serif text-3xl sm:text-4xl font-semibold mb-4 text-[#2F3A2D]">
+            <h2 className="font-serif text-3xl sm:text-4xl font-semibold mb-4 text-[#2F3A2D] dark:text-[#E8EDE6]">
               ¿Qué tipo de piel tienes?
             </h2>
-            <p className="text-[#64705E]">Responde 3 preguntas rápidas y descúbrelo.</p>
+            <p className="text-[#64705E] dark:text-[#9BAA93]">Responde 3 preguntas rápidas y descúbrelo.</p>
           </div>
           <SkinTest />
         </div>
       </section>
 
       {/* ─── Pricing Preview ─── */}
-      <section className="py-20 sm:py-28 px-4 sm:px-8 bg-[#F8FAF5]">
+      <section className="py-20 sm:py-28 px-4 sm:px-8 bg-[#F8FAF5] dark:bg-[#1E251C]">
         <div className="max-w-5xl mx-auto">
           <div className="text-center max-w-2xl mx-auto mb-12">
-            <h2 className="font-serif text-3xl sm:text-4xl lg:text-5xl font-semibold mb-4 text-[#2F3A2D]">
+            <h2 className="font-serif text-3xl sm:text-4xl lg:text-5xl font-semibold mb-4 text-[#2F3A2D] dark:text-[#E8EDE6]">
               Un Plan para Cada Objetivo
             </h2>
-            <p className="text-[#64705E]">Sin letra pequeña. Sin sorpresas.</p>
+            <p className="text-[#64705E] dark:text-[#9BAA93]">Sin letra pequeña. Sin sorpresas.</p>
           </div>
 
           <div className="grid sm:grid-cols-3 gap-5">
@@ -319,16 +319,16 @@ export default function HomePage() {
                   )}
 
                   <div className="text-center mb-6">
-                    <p className="text-lg font-semibold mb-1 text-[#2F3A2D]">{p.name}</p>
+                    <p className="text-lg font-semibold mb-1 text-[#2F3A2D] dark:text-[#E8EDE6]">{p.name}</p>
                     <div className="flex items-baseline justify-center gap-1">
-                      <span className={`font-bold text-[#2F3A2D] ${p.popular ? "text-3xl" : "text-2xl"}`}>{p.price}</span>
-                      {p.price !== "$0" && <span className="text-sm text-[#64705E]">/mes</span>}
+                      <span className={`font-bold text-[#2F3A2D] dark:text-[#E8EDE6] ${p.popular ? "text-3xl" : "text-2xl"}`}>{p.price}</span>
+                      {p.price !== "$0" && <span className="text-sm text-[#64705E] dark:text-[#9BAA93]">/mes</span>}
                     </div>
                   </div>
 
                   <ul className="space-y-2.5 mb-6 flex-1">
                     {p.features.map((f) => (
-                      <li key={f} className="flex items-start gap-2.5 text-sm text-[#64705E]">
+                      <li key={f} className="flex items-start gap-2.5 text-sm text-[#64705E] dark:text-[#9BAA93]">
                         <CheckCircle2 className="w-4 h-4 flex-shrink-0 mt-0.5 text-[#C2E09D]" />
                         {f}
                       </li>
@@ -354,7 +354,7 @@ export default function HomePage() {
 
       {/* ─── Disclaimer ─── */}
       <section className="pb-20 text-center px-4">
-        <p className="text-xs text-[#8A9A82] max-w-lg mx-auto leading-relaxed">
+        <p className="text-xs text-[#8A9A82] dark:text-[#7A8A72] max-w-lg mx-auto leading-relaxed">
           Esta herramienta ofrece observaciones cosméticas orientativas basadas únicamente en fotografías proporcionadas por el usuario. No constituye diagnóstico médico ni reemplaza la evaluación de un dermatólogo.
         </p>
       </section>
