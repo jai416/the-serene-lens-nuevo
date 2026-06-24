@@ -11,7 +11,8 @@ import { logger } from "@/lib/logger"
 
 const createPaymentSchema = z.object({
   plan: z.string().min(1).max(50),
-}).strict()
+  provider: z.string().optional(),
+})
 
 export async function POST(req: NextRequest) {
   try {

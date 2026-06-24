@@ -8,7 +8,7 @@ const stripHtml = (s: string) => s.replace(/<[^>]*>/g, "").trim()
 
 const commentSchema = z.object({
   content: z.string().min(1).max(2000).transform(stripHtml),
-}).strict()
+})
 
 export async function GET(
   request: NextRequest,

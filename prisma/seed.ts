@@ -88,7 +88,7 @@ async function main() {
 - Visiblemente irritada
 
 Recuerda que esta es una guía informativa. Consulta a un dermatólogo para un diagnóstico profesional.`,
-      image: "/blog/skin-type.svg",
+      image: "https://cdn-icons-png.flaticon.com/512/3076/3076641.png",
       category: "cuidado-basico",
       tags: "piel,tipos de piel,cuidado facial",
       published: true,
@@ -116,7 +116,7 @@ Recuerda que esta es una guía informativa. Consulta a un dermatólogo para un d
 6. **Contorno de ojos**
 
 La noche es cuando la piel se regenera, por eso los productos más potentes se aplican antes de dormir.`,
-      image: "/blog/routine.svg",
+      image: "https://cdn-icons-png.flaticon.com/512/3076/3076644.png",
       category: "rutinas",
       tags: "rutina,cuidado facial,mañana,noche",
       published: true,
@@ -148,7 +148,7 @@ La noche es cuando la piel se regenera, por eso los productos más potentes se a
 - **Niacinamida**: Regula sebo y poros
 
 Recuerda: más ingredientes no significa mejor. La concentración y formulación importan más que la lista larga de ingredientes.`,
-      image: "/blog/ingredients.svg",
+      image: "https://cdn-icons-png.flaticon.com/512/3076/3076647.png",
       category: "ingredientes",
       tags: "ingredientes,cosmética,guía",
       published: true,
@@ -179,7 +179,7 @@ Sí. La luz azul de pantallas y la luz indirecta que entra por ventanas también
 - **Físico (mineral)**: Crea una barrera reflectante, ideal para piel sensible, puede dejar residuo blanco
 
 Conclusión: el mejor protector es el que usas todos los días. Elige el que más te guste y hazlo parte de tu rutina.`,
-      image: "/blog/sunscreen.svg",
+      image: "https://cdn-icons-png.flaticon.com/512/3076/3076650.png",
       category: "proteccion-solar",
       tags: "protector solar,FPS,UV,protección solar",
       published: true,
@@ -208,7 +208,7 @@ Conclusión: el mejor protector es el que usas todos los días. Elige el que má
 - Si el acné persiste después de 3 meses de cuidado constante
 - Si deja cicatrices o manchas oscuras
 - Si afecta tu autoestima o calidad de vida`,
-      image: "/blog/acne.svg",
+      image: "https://cdn-icons-png.flaticon.com/512/3076/3076653.png",
       category: "problemas-de-piel",
       tags: "acné,adulto,tratamiento,causas",
       published: true,
@@ -237,7 +237,7 @@ Conclusión: el mejor protector es el que usas todos los días. Elige el que má
 - Identificas más rápido qué funciona y qué no
 
 Tu piel no necesita 15 productos. Necesita los correctos para ti.`,
-      image: "/blog/minimalist.svg",
+      image: "https://cdn-icons-png.flaticon.com/512/3076/3076656.png",
       category: "rutinas",
       tags: "minimalista,rutina,simplificar",
       published: true,
@@ -268,9 +268,9 @@ Tu piel no necesita 15 productos. Necesita los correctos para ti.`,
 
 ## ¿Quién puede usarla?
 Casi todo tipo de piel, excepto aquellas con alergia conocida. Las pieles sensibles deben empezar con concentraciones bajas (10%) y espaciar su uso.`,
-      image: "/blog/vitamin-c.svg",
+      image: "https://cdn-icons-png.flaticon.com/512/3076/3076659.png",
       category: "ingredientes",
-      tags: "vitamina C,antioxidante,iluminador,COLOR",
+      tags: "vitamina C,antioxidante,iluminador",
       published: true,
       readTime: 7,
     },
@@ -287,7 +287,7 @@ Casi todo tipo de piel, excepto aquellas con alergia conocida. Las pieles sensib
 - Mejoran la textura y el tono de la piel
 - Ayudan con el acné
 
-## tipos de retinoides
+## Tipos de retinoides
 - **Retinol**: El más común en cosmética de venta libre
 - **Retinaldehído**: Más potente que retinol, menos irritante que retinoico
 - **Ácido Retinoico**: Solo con receta médica
@@ -304,9 +304,9 @@ Casi todo tipo de piel, excepto aquellas con alergia conocida. Las pieles sensib
 - No combines con otros activos fuertes (AHA/BHA) al inicio
 - Aplica sobre piel seca para reducir irritación
 - La "purga" inicial (brotes) es normal las primeras 4-6 semanas`,
-      image: "/blog/retinoids.svg",
+      image: "https://cdn-icons-png.flaticon.com/512/3076/3076662.png",
       category: "ingredientes",
-      tags: "retinoides,retinol,antienvejecimiento,renovación",
+      tags: "retinoides,retinol,antienvejecimiento",
       published: true,
       readTime: 8,
     },
@@ -333,7 +333,7 @@ Casi todo tipo de piel, excepto aquellas con alergia conocida. Las pieles sensib
 2. No dejes que una capa se seque completamente antes de la siguiente
 3. Usa ingredientes humectantes (glicerina, AH) + emolientes (ceramidas, escualano)
 4. No olvides el protector solar — la piel deshidratada es más vulnerable al daño solar`,
-      image: "/blog/hydration.svg",
+      image: "https://cdn-icons-png.flaticon.com/512/3076/3076665.png",
       category: "cuidado-basico",
       tags: "hidratación,mitos,piel,humectantes",
       published: true,
@@ -366,9 +366,9 @@ Los ingredientes aparecen en **orden descendente de concentración**. El primero
 3. Envase que proteja los ingredientes (opaco, dosificador)
 
 Con esta guía podrás leer cualquier etiqueta y tomar decisiones informadas sobre lo que aplicas en tu piel.`,
-      image: "/blog/labels.svg",
+      image: "https://cdn-icons-png.flaticon.com/512/3076/3076668.png",
       category: "ingredientes",
-      tags: "INCI,etiquetas,ingredientes,cósmetica",
+      tags: "INCI,etiquetas,ingredientes",
       published: true,
       readTime: 7,
     },
@@ -387,126 +387,47 @@ Con esta guía podrás leer cualquier etiqueta y tomar decisiones informadas sob
   console.log(`${posts.length} blog posts created`)
 
   const products = [
-    {
-      name: "Limpiador Facial Suave",
-      slug: "limpiador-facial-suave",
-      description: "Limpiador suave que remueve impurezas sin resecar. Ideal para uso diario mañana y noche. Formulado con glicerina y extracto de manzanilla para calmar la piel mientras limpia.",
-      shortDesc: "Limpieza suave para todo tipo de piel",
-      image: "/products/cleanser.svg",
-      category: "limpiadores",
-      skinTypes: "normal,mixta,seca",
-      price: 12.99,
-      ingredients: "Agua, Glicerina, Extracto de Manzanilla, Cocamidopropil Betaína, Ácido Cítrico",
-      isActive: true,
-    },
-    {
-      name: "Protector Solar SPF 50+",
-      slug: "protector-solar-spf-50",
-      description: "Protección solar de amplio espectro SPF 50+. Textura ligera que no deja residuo blanco. Resistente al agua por 40 minutos. Ideal para uso diario.",
-      shortDesc: "Protección solar alta, textura ligera",
-      image: "/products/sunscreen.svg",
-      category: "proteccion-solar",
-      skinTypes: "all",
-      price: 18.99,
-      ingredients: "Óxido de Zinc, Dióxido de Titanio, Vitamina E, Aloe Vera, Ácido Hialurónico",
-      isActive: true,
-    },
-    {
-      name: "Sérum Vitamina C 15%",
-      slug: "serum-vitamina-c-15",
-      description: "Sérum con Vitamina C estabilizada al 15% para iluminar y unificar el tono de la piel. Con vitamina E y ácido ferúlico para potenciar sus efectos antioxidantes.",
-      shortDesc: "Ilumina y unifica el tono",
-      image: "/products/vitamin-c.svg",
-      category: "serums",
-      skinTypes: "normal,mixta,seca,madura",
-      price: 24.99,
-      ingredients: "Ácido Ascórbico (Vitamina C), Vitamina E, Ácido Ferúlico, Ácido Hialurónico",
-      isActive: true,
-    },
-    {
-      name: "Crema Hidratante con Ácido Hialurónico",
-      slug: "crema-hidratante-acido-hialuronico",
-      description: "Crema hidratante ligera con ácido hialurónico de triple peso molecular. Hidratación profunda sin sensación grasa. Ideal para uso diario bajo el maquillaje.",
-      shortDesc: "Hidratación profunda, textura ligera",
-      image: "/products/moisturizer.svg",
-      category: "hidratantes",
-      skinTypes: "normal,mixta,grasa",
-      price: 16.99,
-      ingredients: "Ácido Hialurónico, Glicerina, Escualano, Ceramidas, Pantenol",
-      isActive: true,
-    },
-    {
-      name: "Contorno de Ojos con Cafeína",
-      slug: "contorno-ojos-cafeina",
-      description: "Contorno de ojos revitalizante con cafeína y péptidos. Reduce bolsas y ojeras, ilumina la mirada. Textura fresca de rápida absorción.",
-      shortDesc: "Revitaliza y reduce ojeras",
-      image: "/products/eye-contour.svg",
-      category: "contornos",
-      skinTypes: "all",
-      price: 19.99,
-      ingredients: "Cafeína, Péptidos, Ácido Hialurónico, Vitamina C, Alantoína",
-      isActive: true,
-    },
-    {
-      name: "Exfoliante Químico AHA 10%",
-      slug: "exfoliante-quimico-aha-10",
-      description: "Exfoliante químico con AHA al 10% (ácido glicólico + láctico). Renueva la textura de la piel, reduce manchas y unifica el tono. Uso nocturno, 2-3 veces por semana.",
-      shortDesc: "Renovación y luminosidad",
-      image: "/products/exfoliant.svg",
-      category: "exfoliantes",
-      skinTypes: "normal,mixta,madura",
-      price: 22.99,
-      ingredients: "Ácido Glicólico, Ácido Láctico, Aloe Vera, Vitamina E, Glicerina",
-      isActive: true,
-    },
-    {
-      name: "Mascarilla de Arcilla Purificante",
-      slug: "mascarilla-arcilla-purificante",
-      description: "Mascarilla facial con caolín y bentonita que absorbe el exceso de grasa y purifica los poros. Con extracto de té verde para calmar. Uso semanal.",
-      shortDesc: "Purifica y minimiza poros",
-      image: "/products/clay-mask.svg",
-      category: "mascarillas",
-      skinTypes: "grasa,mixta",
-      price: 14.99,
-      ingredients: "Caolín, Bentonita, Extracto de Té Verde, Aloe Vera, Aceite de Árbol de Té",
-      isActive: true,
-    },
-    {
-      name: "Aceite Facial Noche con Retinol",
-      slug: "aceite-facial-noche-retinol",
-      description: "Aceite facial nocturno con retinol encapsulado y escualano. Regenera la piel mientras duermes, reduce líneas de expresión y mejora la textura.",
-      shortDesc: "Regeneración nocturna",
-      image: "/products/night-oil.svg",
-      category: "aceites",
-      skinTypes: "normal,seca,madura",
-      price: 28.99,
-      ingredients: "Escualano, Retinol Encapsulado, Vitamina E, Aceite de Jojoba, Aceite de Rosa Mosqueta",
-      isActive: true,
-    },
-    {
-      name: "Sérum Niacinamida 10%",
-      slug: "serum-niacinamida-10",
-      description: "Sérum con niacinamida al 10% y zinc. Regula la producción de sebo, minimiza poros y fortalece la barrera cutánea. Ideal para piel grasa y con imperfecciones.",
-      shortDesc: "Regula sebo y fortalece la barrera",
-      image: "/products/niacinamide.svg",
-      category: "serums",
-      skinTypes: "grasa,mixta",
-      price: 20.99,
-      ingredients: "Niacinamida, Zinc PCA, Glicerina, Ácido Hialurónico",
-      isActive: true,
-    },
-    {
-      name: "Limpiador en Espuma para Piel Grasa",
-      slug: "limpiador-espuma-piel-grasa",
-      description: "Limpiador en espuma suave con ácido salicílico y zinc. Elimina el exceso de grasa sin resecar. Ideal para piel grasa y con tendencia acnéica.",
-      shortDesc: "Limpieza profunda sin resecar",
-      image: "/products/foaming-cleanser.svg",
-      category: "limpiadores",
-      skinTypes: "grasa,mixta",
-      price: 13.99,
-      ingredients: "Ácido Salicílico, Zinc PCA, Glicerina, Aloe Vera, Vitamina B5",
-      isActive: true,
-    },
+    { name: "Limpiador Facial Suave", slug: "limpiador-facial-suave", description: "Limpiador suave que remueve impurezas sin resecar. Ideal para uso diario mañana y noche. Formulado con glicerina y extracto de manzanilla para calmar la piel mientras limpia.", shortDesc: "Limpieza suave para todo tipo de piel", image: "https://cdn-icons-png.flaticon.com/512/3076/3076641.png", category: "limpiadores", skinTypes: "normal,mixta,seca", price: 12.99, ingredients: "Agua, Glicerina, Extracto de Manzanilla, Cocamidopropil Betaína, Ácido Cítrico", isActive: true },
+    { name: "Protector Solar SPF 50+", slug: "protector-solar-spf-50", description: "Protección solar de amplio espectro SPF 50+. Textura ligera que no deja residuo blanco. Resistente al agua por 40 minutos.", shortDesc: "Protección solar alta, textura ligera", image: "https://cdn-icons-png.flaticon.com/512/3076/3076644.png", category: "proteccion-solar", skinTypes: "all", price: 18.99, ingredients: "Óxido de Zinc, Dióxido de Titanio, Vitamina E, Aloe Vera, Ácido Hialurónico", isActive: true },
+    { name: "Sérum Vitamina C 15%", slug: "serum-vitamina-c-15", description: "Sérum con Vitamina C estabilizada al 15% para iluminar y unificar el tono de la piel.", shortDesc: "Ilumina y unifica el tono", image: "https://cdn-icons-png.flaticon.com/512/3076/3076647.png", category: "serums", skinTypes: "normal,mixta,seca,madura", price: 24.99, ingredients: "Ácido Ascórbico, Vitamina E, Ácido Ferúlico, Ácido Hialurónico", isActive: true },
+    { name: "Crema Hidratante con Ácido Hialurónico", slug: "crema-hidratante-acido-hialuronico", description: "Crema hidratante ligera con ácido hialurónico de triple peso molecular. Hidratación profunda sin sensación grasa.", shortDesc: "Hidratación profunda, textura ligera", image: "https://cdn-icons-png.flaticon.com/512/3076/3076650.png", category: "hidratantes", skinTypes: "normal,mixta,grasa", price: 16.99, ingredients: "Ácido Hialurónico, Glicerina, Escualano, Ceramidas, Pantenol", isActive: true },
+    { name: "Contorno de Ojos con Cafeína", slug: "contorno-ojos-cafeina", description: "Contorno de ojos revitalizante con cafeína y péptidos. Reduce bolsas y ojeras, ilumina la mirada.", shortDesc: "Revitaliza y reduce ojeras", image: "https://cdn-icons-png.flaticon.com/512/3076/3076653.png", category: "contornos", skinTypes: "all", price: 19.99, ingredients: "Cafeína, Péptidos, Ácido Hialurónico, Vitamina C, Alantoína", isActive: true },
+    { name: "Exfoliante Químico AHA 10%", slug: "exfoliante-quimico-aha-10", description: "Exfoliante químico con AHA al 10%. Renueva la textura, reduce manchas y unifica el tono.", shortDesc: "Renovación y luminosidad", image: "https://cdn-icons-png.flaticon.com/512/3076/3076656.png", category: "exfoliantes", skinTypes: "normal,mixta,madura", price: 22.99, ingredients: "Ácido Glicólico, Ácido Láctico, Aloe Vera, Vitamina E, Glicerina", isActive: true },
+    { name: "Mascarilla de Arcilla Purificante", slug: "mascarilla-arcilla-purificante", description: "Mascarilla con caolín y bentonita que absorbe el exceso de grasa y purifica los poros.", shortDesc: "Purifica y minimiza poros", image: "https://cdn-icons-png.flaticon.com/512/3076/3076659.png", category: "mascarillas", skinTypes: "grasa,mixta", price: 14.99, ingredients: "Caolín, Bentonita, Extracto de Té Verde, Aloe Vera, Aceite de Árbol de Té", isActive: true },
+    { name: "Aceite Facial Noche con Retinol", slug: "aceite-facial-noche-retinol", description: "Aceite nocturno con retinol encapsulado y escualano. Regenera la piel mientras duermes.", shortDesc: "Regeneración nocturna", image: "https://cdn-icons-png.flaticon.com/512/3076/3076662.png", category: "aceites", skinTypes: "normal,seca,madura", price: 28.99, ingredients: "Escualano, Retinol Encapsulado, Vitamina E, Aceite de Jojoba, Aceite de Rosa Mosqueta", isActive: true },
+    { name: "Sérum Niacinamida 10%", slug: "serum-niacinamida-10", description: "Sérum con niacinamida al 10% y zinc. Regula sebo, minimiza poros y fortalece la barrera.", shortDesc: "Regula sebo y fortalece la barrera", image: "https://cdn-icons-png.flaticon.com/512/3076/3076665.png", category: "serums", skinTypes: "grasa,mixta", price: 20.99, ingredients: "Niacinamida, Zinc PCA, Glicerina, Ácido Hialurónico", isActive: true },
+    { name: "Limpiador en Espuma para Piel Grasa", slug: "limpiador-espuma-piel-grasa", description: "Limpiador en espuma con ácido salicílico y zinc. Elimina grasa sin resecar.", shortDesc: "Limpieza profunda sin resecar", image: "https://cdn-icons-png.flaticon.com/512/3076/3076668.png", category: "limpiadores", skinTypes: "grasa,mixta", price: 13.99, ingredients: "Ácido Salicílico, Zinc PCA, Glicerina, Aloe Vera, Vitamina B5", isActive: true },
+    { name: "Tónico Equilibrante con Niacinamida", slug: "tonico-equilibrante-niacinamida", description: "Tónico con niacinamida y ácido hialurónico que equilibra el pH y cierra poros.", shortDesc: "Equilibra y prepara la piel", image: "https://cdn-icons-png.flaticon.com/512/3076/3076671.png", category: "hidratantes", skinTypes: "normal,mixta,grasa", price: 15.99, ingredients: "Niacinamida, Ácido Hialurónico, Aloe Vera, Panthenol, Allantoin", isActive: true },
+    { name: "Mascarilla Hidratante Overnight", slug: "mascarilla-hidratante-overnight", description: "Mascarilla de noche con ceramidas y escualano que repara la barrera cutánea mientras duermes.", shortDesc: "Reparación nocturna intensiva", image: "https://cdn-icons-png.flaticon.com/512/3076/3076674.png", category: "mascarillas", skinTypes: "seca,madura,normal", price: 24.99, ingredients: "Ceramidas, Escualano, Ácido Hialurónico, Vitamina E, Manteca de Karité", isActive: true },
+    { name: "Sérum Retinol 0.5%", slug: "serum-retinol-05", description: "Sérum con retinol encapsulado al 0.5%. Anti-edad suave para principiantes en retinoides.", shortDesc: "Anti-edad suave para empezar", image: "https://cdn-icons-png.flaticon.com/512/3076/3076677.png", category: "serums", skinTypes: "normal,mixta,madura", price: 26.99, ingredients: "Retinol Encapsulado, Vitamina E, Escualano, Aceite de Jojoba", isActive: true },
+    { name: "Aceite de Rosa Mosqueta Puro", slug: "aceite-rosa-mosqueta", description: "Aceite puro de rosa mosqueta orgánico. Regenera, hidrata y reduce manchas e cicatrices.", shortDesc: "Regeneración y reparación natural", image: "https://cdn-icons-png.flaticon.com/512/3076/3076680.png", category: "aceites", skinTypes: "seca,madura,normal", price: 22.99, ingredients: "Aceite de Rosa Mosqueta (100% puro, orgánico)", isActive: true },
+    { name: "Protector Solar Mineral SPF 50", slug: "protector-solar-mineral-spf50", description: "Protector mineral (físico) SPF 50 para pieles sensibles. Sin químicos, sin fragancia.", shortDesc: "Protección mineral, pieles sensibles", image: "https://cdn-icons-png.flaticon.com/512/3076/3076683.png", category: "proteccion-solar", skinTypes: "sensible,todos", price: 21.99, ingredients: "Óxido de Zinc, Dióxido de Titanio, Vitamina E, Aloe Vera", isActive: true },
+    { name: "Mascarilla de Carbón Activado", slug: "mascarilla-carbon-activado", description: "Mascarilla con carbón activado que absorbe toxinas y impurezas profundas de los poros.", shortDesc: "Limpieza profunda de poros", image: "https://cdn-icons-png.flaticon.com/512/3076/3076686.png", category: "mascarillas", skinTypes: "grasa,mixta", price: 13.99, ingredients: "Carbón Activado, Caolín, Extracto de Té Verde, Aloe Vera", isActive: true },
+    { name: "Contorno de Ojos Antiojeras", slug: "contorno-ojos-antiojeras", description: "Contorno de ojos con vitamina K y péptidos que reduce ojeras oscuras y bolsas.", shortDesc: "Reduce ojeras y bolsas", image: "https://cdn-icons-png.flaticon.com/512/3076/3076689.png", category: "contornos", skinTypes: "all", price: 24.99, ingredients: "Vitamina K, Péptidos, Cafeína, Ácido Hialurónico, Vitamina C", isActive: true },
+    { name: "Tónico Exfoliante con Ácido Salicílico", slug: "tonico-exfoliante-acido-salicilico", description: "Tónico exfoliante con BHA al 2% para piel grasa y con tendencia acnéica.", shortDesc: "Exfoliación y control de grasa", image: "https://cdn-icons-png.flaticon.com/512/3076/3076692.png", category: "hidratantes", skinTypes: "grasa,mixta", price: 17.99, ingredients: "Ácido Salicílico 2%, Glicerina, Aloe Vera, Niacinamida", isActive: true },
+    { name: "Sérum Ácido Hialurónico + B5", slug: "serum-acido-hialuronico-b5", description: "Sérum hidratante con ácido hialurónico de bajo y alto peso molecular más pantenol (B5).", shortDesc: "Hidratación molecular profunda", image: "https://cdn-icons-png.flaticon.com/512/3076/3076695.png", category: "serums", skinTypes: "all", price: 19.99, ingredients: "Ácido Hialurónico, Pantenol (Vitamina B5), Glicerina", isActive: true },
+    { name: "Crema Anti-edad con Péptidos", slug: "crema-anti-edad-peptidos", description: "Crema anti-edad con péptidos de cobre, retinol y ceramidas. Firmeza y elasticidad.", shortDesc: "Firmeza y elasticidad", image: "https://cdn-icons-png.flaticon.com/512/3076/3076698.png", category: "hidratantes", skinTypes: "madura,seca", price: 32.99, ingredients: "Péptidos de Cobre, Retinol, Ceramidas, Escualano, Vitamina E", isActive: true },
+    { name: "Agua Micelar Limpiadora", slug: "agua-micelar-limpiadora", description: "Agua micelar que limpia, desmaquilla y tonifica en un solo paso. Sin enjuague.", shortDesc: "Limpieza rápida sin enjuague", image: "https://cdn-icons-png.flaticon.com/512/3076/3076701.png", category: "limpiadores", skinTypes: "all", price: 11.99, ingredients: "Micelas, Glicerina, Aloe Vera, Pantenol, Extracto de Manzanilla", isActive: true },
+    { name: "Mascarilla Vitaminada SOS", slug: "mascarilla-vitaminada-sos", description: "Mascarilla exprés con vitaminas C, E y B5 para piel apagada y fatigada.", shortDesc: "Energía y luminosidad inmediata", image: "https://cdn-icons-png.flaticon.com/512/3076/3076704.png", category: "mascarillas", skinTypes: "all", price: 16.99, ingredients: "Vitamina C, Vitamina E, Vitamina B5, Aloe Vera, Ácido Hialurónico", isActive: true },
+    { name: "Aceite Multifunción Dry Oil", slug: "aceite-multifuncion-dry-oil", description: "Aceite seco multifunción para cara, cuerpo y cabello. Absorción rápida, sin sensación grasa.", shortDesc: "Triple用途, absorción rápida", image: "https://cdn-icons-png.flaticon.com/512/3076/3076707.png", category: "aceites", skinTypes: "all", price: 18.99, ingredients: "Aceite de Jojoba, Aceite de Argán, Aceite de Rosa Mosqueta, Vitamina E", isActive: true },
+    { name: "Sérum Depigmentante con Arbutina", slug: "serum-depigmentante-arbutina", description: "Sérum despigmentante con alfa-arbutina y vitamina C para manchas oscuras e hiperpigmentación.", shortDesc: "Reduce manchas y unifica tono", image: "https://cdn-icons-png.flaticon.com/512/3076/3076710.png", category: "serums", skinTypes: "normal,mixta,madura", price: 27.99, ingredients: "Alfa-Arbutina, Vitamina C, Niacinamida, Ácido Hialurónico", isActive: true },
+    { name: "Protector Solar Tintado FPS 50", slug: "protector-solar-tintado-fps50", description: "Protector solar mineral tintado SPF 50 con cobertura ligera. Ideal como base.", shortDesc: "Protección + maquillaje en uno", image: "https://cdn-icons-png.flaticon.com/512/3076/3076713.png", category: "proteccion-solar", skinTypes: "all", price: 23.99, ingredients: "Óxido de Zinc, Dióxido de Titanio, Pigminos Minerales, Vitamina E", isActive: true },
+    { name: "Crema Hidratante Oil-Free", slug: "crema-hidratante-oil-free", description: "Hidratante sin aceite para piel grasa. Textura gel que no obstruye poros.", shortDesc: "Hidratación sin brillo", image: "https://cdn-icons-png.flaticon.com/512/3076/3076716.png", category: "hidratantes", skinTypes: "grasa,mixta", price: 15.99, ingredients: "Ácido Hialurónico, Niacinamida, Aloe Vera, Glicerina", isActive: true },
+    { name: "Limpiador Exfoliante en Polvo", slug: "limpiador-exfoliante-polvo", description: "Limpiador exfoliante en polvo que se activa con agua. Micro-granos naturales.", shortDesc: "Exfoliación suave y profunda", image: "https://cdn-icons-png.flaticon.com/512/3076/3076719.png", category: "limpiadores", skinTypes: "normal,mixta", price: 14.99, ingredients: "Enzima de Papaya, Ácido Salicílico, Glicerina, Aloe Vera", isActive: true },
+    { name: "Mascarilla Colágeno Marino", slug: "mascarilla-colageno-marino", description: "Mascarilla con colágeno marino y ácido hialurónico para piel madura y sin firmeza.", shortDesc: "Firmeza y elasticidad", image: "https://cdn-icons-png.flaticon.com/512/3076/3076722.png", category: "mascarillas", skinTypes: "madura,seca", price: 19.99, ingredients: "Colágeno Marino, Ácido Hialurónico, Vitamina E, Escualano", isActive: true },
+    { name: "Sérum Vitamina C + Ferulic", slug: "serum-vitamina-c-ferulic", description: "Sérum avanzado con Vitamina C al 20% y ácido ferúlico para máxima estabilidad y efectividad.", shortDesc: "Antioxidante máximo", image: "https://cdn-icons-png.flaticon.com/512/3076/3076725.png", category: "serums", skinTypes: "normal,mixta,madura", price: 34.99, ingredients: "Ácido Ascórbico 20%, Ácido Ferúlico, Vitamina E, Ácido Hialurónico", isActive: true },
+    { name: "Bálsamo Labial Reparador con SPF 30", slug: "balsamo-labial-reparador-spf30", description: "Bálsamo labial reparador con protección SPF 30. Hidrata y protege los labios del sol.", shortDesc: "Hidratación y protección solar", image: "https://cdn-icons-png.flaticon.com/512/3076/3076728.png", category: "contornos", skinTypes: "all", price: 7.99, ingredients: "Manteca de Karité, Cera de Abeja, Vitamina E, FPS 30", isActive: true },
+    { name: "Aceite de Argán Puro Orgánico", slug: "aceite-argan-puro-organico", description: "Aceite de argán puro orgánico certificado. Nutre, hidrata y repara piel y cabello.", shortDesc: "Nutrición pura y natural", image: "https://cdn-icons-png.flaticon.com/512/3076/3076731.png", category: "aceites", skinTypes: "seca,normal,madura", price: 19.99, ingredients: "Aceite de Argán (100% puro, orgánico certificado)", isActive: true },
+    { name: "Tónico Calmante con Manzanilla", slug: "tonico-calmante-manzanilla", description: "Tónico suave con extracto de manzanilla y aloe vera para calmar la piel irritada.", shortDesc: "Calma y reduce enrojecimiento", image: "https://cdn-icons-png.flaticon.com/512/3076/3076734.png", category: "hidratantes", skinTypes: "sensible,normal", price: 13.99, ingredients: "Extracto de Manzanilla, Aloe Vera, Pantenol, Allantoin", isActive: true },
+    { name: "Mascarilla Enzimática de Frutas", slug: "mascarilla-enzimatica-frutas", description: "Mascarilla exfoliante enzimática con extractos de papaya y piña. Renueva suavemente.", shortDesc: "Exfoliación enzimática suave", image: "https://cdn-icons-png.flaticon.com/512/3076/3076737.png", category: "mascarillas", skinTypes: "normal,mixta", price: 15.99, ingredients: "Papaina, Bromelina, Aloe Vera, Vitamina E, Glicerina", isActive: true },
+    { name: "Sérum Anti-acné con Azufre", slug: "serum-anti-acne-azufre", description: "Sérum localizado con azufre, zinc y niacinamida para tratar brotes de acné.", shortDesc: "Tratamiento puntual para brotes", image: "https://cdn-icons-png.flaticon.com/512/3076/3076740.png", category: "serums", skinTypes: "grasa,mixta", price: 16.99, ingredients: "Azufre 10%, Zinc PCA, Niacinamida, Aloe Vera", isActive: true },
+    { name: "Crema de Manos Reparadora", slug: "crema-manos-reparadora", description: "Crema de manos intensiva con urea y manteca de karité para manos muy secas y agrietadas.", shortDesc: "Reparación intensiva para manos", image: "https://cdn-icons-png.flaticon.com/512/3076/3076743.png", category: "hidratantes", skinTypes: "all", price: 9.99, ingredients: "Urea 10%, Manteca de Karité, Glicerina, Aloe Vera, Vitamina E", isActive: true },
+    { name: "Protector Solar Capilar SPF 30", slug: "protector-solar-capilar-spf30", description: "Spray protector solar para cabello con SPF 30. Protege del sol, cloro y sal.", shortDesc: "Protección capilar solar", image: "https://cdn-icons-png.flaticon.com/512/3076/3076746.png", category: "proteccion-solar", skinTypes: "all", price: 14.99, ingredients: "FPS 30, Vitamina E, Aceite de Argán, Filtros Solares", isActive: true },
+    { name: "Aceite Desmaquillante Botánico", slug: "aceite-desmaquillante-botanico", description: "Aceite desmaquillante con 8 aceites botánicos que disuelve maquillaje sin fricción.", shortDesc: "Desmaquillado suave sin irritar", image: "https://cdn-icons-png.flaticon.com/512/3076/3076749.png", category: "aceites", skinTypes: "all", price: 17.99, ingredients: "Aceite de Jojoba, Aceite de Argán, Aceite de Rosa Mosqueta, Vitamina E", isActive: true },
+    { name: "Mascarilla de Oro 24K", slug: "mascarilla-oro-24k", description: "Mascarilla lujosa con partículas de oro 24K y ácido hialurónico. Efecto tensor inmediato.", shortDesc: "Lujo y efecto tensor", image: "https://cdn-icons-png.flaticon.com/512/3076/3076752.png", category: "mascarillas", skinTypes: "madura,normal", price: 39.99, ingredients: "Oro 24K, Ácido Hialurónico, Colágeno, Vitamina E, Escualano", isActive: true },
+    { name: "Sérum Púrpura de Corea", slug: "serum-purpura-corea", description: "Sérum coreano con extracto de camelia púrpura y niacinamida. Iluminación y poros refinados.", shortDesc: "K-beauty: luminosidad coreana", image: "https://cdn-icons-png.flaticon.com/512/3076/3076755.png", category: "serums", skinTypes: "normal,mixta", price: 29.99, ingredients: "Extracto de Camelia Púrpura, Niacinamida, Ácido Hialurónico, Centella Asiática", isActive: true },
+    { name: "Crema Solar con Tinte Invisible", slug: "crema-solar-tinte-invisible", description: "Protector solar con tinte invisible que se adapta a todos los tonos de piel.", shortDesc: "Protección invisible para todos", image: "https://cdn-icons-png.flaticon.com/512/3076/3076758.png", category: "proteccion-solar", skinTypes: "all", price: 22.99, ingredients: "Filtros Solares Avanzados, Vitamina E, Aloe Vera, Ácido Hialurónico", isActive: true },
+    { name: "Mascarilla de Bambú Purificante", slug: "mascarilla-bambu-purificante", description: "Mascarilla con extracto de bambú y caolín que purifica sin resecar la piel.", shortDesc: "Purificación suave con bambú", image: "https://cdn-icons-png.flaticon.com/512/3076/3076761.png", category: "mascarillas", skinTypes: "normal,mixta", price: 16.99, ingredients: "Extracto de Bambú, Caolín, Aloe Vera, Glicerina, Pantenol", isActive: true },
   ]
 
   for (const product of products) {
@@ -524,13 +445,32 @@ Con esta guía podrás leer cualquier etiqueta y tomar decisiones informadas sob
     { title: "Toma 8 vasos de agua", description: "Mantente hidratado bebiendo al menos 8 vasos de agua hoy.", points: 10, frequency: "daily" },
     { title: "Doble limpieza nocturna", description: "Realiza doble limpieza por la noche: desmaquillante + limpiador.", points: 15, frequency: "daily" },
     { title: "No toques tu cara", description: "Evita tocarte la cara durante todo el día para prevenir brotes.", points: 20, frequency: "daily" },
+    { title: "Aplica sérum por la mañana", description: "Aplica un sérum después del tónico y antes del hidratante.", points: 10, frequency: "daily" },
+    { title: "Masajea tu rostro 2 minutos", description: "Dedica 2 minutos a masajear tu rostro con movimientos ascendentes.", points: 10, frequency: "daily" },
+    { title: "Come 3 porciones de fruta", description: "Incluye al menos 3 porciones de fruta rica en antioxidantes.", points: 10, frequency: "daily" },
+    { title: "Aplica contorno de ojos", description: "No olvides el contorno de ojos en tu rutina de la noche.", points: 10, frequency: "daily" },
+    { title: "Duerme 7-8 horas", description: "Duerme al menos 7 horas para que tu piel se regenere adecuadamente.", points: 15, frequency: "daily" },
     { title: "7 días de consistencia", description: "Mantén tu rutina de cuidado facial por 7 días seguidos.", points: 50, frequency: "weekly" },
     { title: "Exfoliación semanal", description: "Realiza una exfoliación suave (química o física) esta semana.", points: 20, frequency: "weekly" },
     { title: "Mascarilla hidratante", description: "Aplica una mascarilla hidratante o de arcilla esta semana.", points: 15, frequency: "weekly" },
     { title: "Lee la etiqueta de un producto", description: "Lee y analiza el INCI de al menos un producto que uses.", points: 10, frequency: "weekly" },
     { title: "Registra tu piel en el diario", description: "Escribe al menos 3 entradas en tu diario de piel esta semana.", points: 25, frequency: "weekly" },
+    { title: "Prueba un producto nuevo", description: "Incorpora un producto nuevo a tu rutina esta semana.", points: 15, frequency: "weekly" },
+    { title: "Toma una selfie de progreso", description: "Toma una foto con buena luz para comparar tu piel en el tiempo.", points: 10, frequency: "weekly" },
+    { title: "Investiga un ingrediente", description: "Busca información sobre un ingrediente que nunca hayas usado.", points: 15, frequency: "weekly" },
     { title: "Reorganiza tu rutina", description: "Revisa tu rutina actual y ajusta según las necesidades de tu piel.", points: 20, frequency: "monthly" },
     { title: "Compra un producto nuevo consciente", description: "Elige un producto basándote en sus ingredientes, no solo en el marketing.", points: 30, frequency: "monthly" },
+    { title: "Visita un dermatólogo", description: "Agenda una consulta profesional para evaluación de tu piel.", points: 40, frequency: "monthly" },
+    { title: "Revisa tu protector solar", description: "Verifica que tu protector solar no esté vencido y reemplázalo si es necesario.", points: 15, frequency: "monthly" },
+    { title: "Limpia tus brochas de maquillaje", description: "Limpia y desinfecta todas tus brochas y herramientas de maquillaje.", points: 15, frequency: "weekly" },
+    { title: "Cambia tu funda de almohada", description: "Cambia la funda de tu almohada para evitar acumulación de bacterias.", points: 10, frequency: "weekly" },
+    { title: "Aplica protector solar cada 2 horas", description: "Si pasas tiempo al sol, reaplica protector solar cada 2 horas.", points: 20, frequency: "daily" },
+    { title: "Reduce el azúcar hoy", description: "Evita alimentos con alto índice glucémico que pueden desencadenar brotes.", points: 15, frequency: "daily" },
+    { title: "Haz ejercicio 30 minutos", description: "El ejercicio mejora la circulación sanguínea y la salud de tu piel.", points: 15, frequency: "daily" },
+    { title: "Medita 10 minutos", description: "Reduce el estrés con 10 minutos de meditación o respiración profunda.", points: 10, frequency: "daily" },
+    { title: "Revisa tu rutina completa", description: "Evalúa si cada paso de tu rutina es necesario y está funcionando.", points: 25, frequency: "monthly" },
+    { title: "Documenta tu rutina favorita", description: "Escribe tu rutina ideal paso a paso y guárdala como referencia.", points: 15, frequency: "monthly" },
+    { title: "Compra un producto con SPF", description: "Añade un protector solar a tu rutina si aún no lo usas diariamente.", points: 20, frequency: "monthly" },
   ]
 
   for (const challenge of challenges) {
@@ -540,6 +480,47 @@ Con esta guía podrás leer cualquier etiqueta y tomar decisiones informadas sob
     }
   }
   console.log(`${challenges.length} challenges seeded`)
+
+  const communityPosts = [
+    {
+      userId: demo.id,
+      title: "Mi rutina de skincare para piel grasa en verano",
+      content: "Hola a todos! Estoy buscando recomendaciones para mi rutina de verano. Tengo la piel grasa y en verano se me duplica el brillo. ¿Alguna recomendación de productos ligeros no comedogénicos?",
+      category: "rutinas",
+    },
+    {
+      userId: demo.id,
+      title: "¿La niacinamida realmente minimiza los poros?",
+      content: "He leído mucho sobre la niacinamida y sus beneficios para los poros. ¿Alguien ha visto resultados reales? Llevo 3 meses usándola y noto mi piel más uniforme.",
+      category: "ingredientes",
+    },
+    {
+      userId: demo.id,
+      title: "Consejo: cómo aplicar protector solar correctamente",
+      content: "Mucha gente no aplica suficiente protector solar. La cantidad recomendada es un dedo completo para la cara y el cuello. No olvides las orejas! Y reaplica cada 2 horas.",
+      category: "consejos",
+    },
+    {
+      userId: demo.id,
+      title: "Mi experiencia con el acné hormonal",
+      content: "Después de años luchando con acné hormonal, finalmente encontré una rutina que funciona. Niacinamida + zinc por la mañana, retinol por la noche y protector solar siempre.",
+      category: "general",
+    },
+    {
+      userId: demo.id,
+      title: "¿Cuál es su paso favorito de la rutina?",
+      content: "Para mí es el sérum de vitamina C por la mañana. Es como un chute de energía para la piel. Me encanta ver cómo mi piel se va iluminando. ¿Cuál es la vuestra?",
+      category: "general",
+    },
+  ]
+
+  for (const post of communityPosts) {
+    const existing = await db.communityPost.findFirst({ where: { title: post.title } })
+    if (!existing) {
+      await db.communityPost.create({ data: post })
+    }
+  }
+  console.log(`${communityPosts.length} community posts seeded`)
 }
 
 main()

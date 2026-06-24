@@ -9,7 +9,8 @@ import { Badge } from "@/components/ui/badge"
 import {
   LayoutDashboard, Users, CreditCard, MessageSquare, Newspaper, Package,
   DollarSign, Activity, Eye, TrendingUp, UserPlus, BarChart3, ArrowUpRight,
-  Calendar, Sparkles, CheckCircle2, Clock, Mail
+  Calendar, Sparkles, CheckCircle2, Clock, Mail, BookOpen, Trophy, Heart,
+  ShoppingBag, MessageCircle, Settings, TrendingDown, Zap
 } from "lucide-react"
 import { NewUserToast } from "@/components/admin/new-user-toast"
 
@@ -33,6 +34,18 @@ interface Stats {
   analysesToday: number
   conversionRate: number
   paidUsers: number
+  challenges: number
+  diaryEntries: number
+  subscriptions: number
+  activeSubscriptions: number
+  packs: number
+  completedPacks: number
+  comments: number
+  featureFlags: number
+  avgAnalysesPerUser: number
+  churnRate: number
+  usersYesterday: number
+  analysesYesterday: number
   timestamp: string
 }
 
@@ -57,6 +70,7 @@ export default function AdminPage() {
   const [recentUsers, setRecentUsers] = useState<RecentUser[]>([])
   const [recentAnalyses, setRecentAnalyses] = useState<RecentAnalysis[]>([])
   const [planDistribution, setPlanDistribution] = useState<Record<string, number>>({})
+  const [skinTypeDistribution, setSkinTypeDistribution] = useState<Record<string, number>>({})
   const [healthCheck, setHealthCheck] = useState<any>(null)
   useEffect(() => {
     if (session?.user?.role !== "ADMIN") return
@@ -70,6 +84,7 @@ export default function AdminPage() {
             setRecentUsers(d.recentUsers || [])
             setRecentAnalyses(d.recentAnalyses || [])
             setPlanDistribution(d.planDistribution || {})
+            setSkinTypeDistribution(d.skinTypeDistribution || {})
           }
         })
         .catch(() => {})
@@ -87,6 +102,9 @@ export default function AdminPage() {
   if (status === "loading") return <div className="min-h-screen pt-24 flex items-center justify-center"><p className="text-muted-foreground">Cargando...</p></div>
   if (!session || session.user.role !== "ADMIN") redirect("/")
 
+  const usersTrend = (stats?.newUsersToday ?? 0) - (stats?.usersYesterday ?? 0)
+  const analysesTrend = (stats?.analysesToday ?? 0) - (stats?.analysesYesterday ?? 0)
+
   const mainCards = [
     { label: "Usuarios Totales", value: stats?.users ?? "—", icon: Users, href: "/admin/users", color: "bg-[#2F3A2D]", trend: `+${stats?.newUsersThisWeek ?? 0} esta semana` },
     { label: "Análisis Totales", value: stats?.analyses ?? "—", icon: Activity, href: "/admin", color: "bg-[#C2E09D]", trend: `${stats?.analysesToday ?? 0} hoy · ${stats?.analysesThisMonth ?? 0} este mes` },
@@ -95,14 +113,18 @@ export default function AdminPage() {
   ]
 
   const metricCards = [
-    { label: "Nuevos Hoy", value: stats?.newUsersToday ?? "—", icon: UserPlus, color: "text-[#2F3A2D] dark:text-[#C2E09D]" },
-    { label: "Activos (7 días)", value: stats?.newUsersThisWeek ?? "—", icon: Calendar, color: "text-[#2F3A2D] dark:text-[#C2E09D]" },
+    { label: "Nuevos Hoy", value: stats?.newUsersToday ?? "—", icon: UserPlus, color: "text-[#2F3A2D] dark:text-[#C2E09D]", sub: usersTrend !== 0 ? `${usersTrend > 0 ? "+" : ""}${usersTrend} vs ayer` : undefined },
+    { label: "Análisis Hoy", value: stats?.analysesToday ?? "—", icon: BarChart3, color: "text-[#2F3A2D] dark:text-[#C2E09D]", sub: analysesTrend !== 0 ? `${analysesTrend > 0 ? "+" : ""}${analysesTrend} vs ayer` : undefined },
     { label: "Tasa Conversión", value: stats?.conversionRate ? `${stats.conversionRate}%` : "0%", icon: TrendingUp, color: "text-[#2F3A2D] dark:text-[#C2E09D]" },
-    { label: "Pagos Pendientes", value: stats?.pendingPayments ?? "—", icon: Clock, color: "text-[#2F3A2D] dark:text-[#C2E09D]" },
+    { label: "Usuarios Premium", value: stats?.paidUsers ?? "—", icon: Sparkles, color: "text-[#2F3A2D] dark:text-[#C2E09D]", sub: `${stats?.activeSubscriptions ?? 0} suscripciones activas` },
     { label: "Blog Posts", value: stats?.posts ?? "—", icon: Newspaper, color: "text-[#2F3A2D] dark:text-[#C2E09D]" },
     { label: "Productos", value: stats?.products ?? "—", icon: Package, color: "text-[#2F3A2D] dark:text-[#C2E09D]" },
-    { label: "Usuarios Premium", value: stats?.paidUsers ?? "—", icon: Sparkles, color: "text-[#2F3A2D] dark:text-[#C2E09D]" },
-    { label: "Análisis Hoy", value: stats?.analysesToday ?? "—", icon: BarChart3, color: "text-[#2F3A2D] dark:text-[#C2E09D]" },
+    { label: "Desafíos Activos", value: stats?.challenges ?? "—", icon: Trophy, color: "text-[#2F3A2D] dark:text-[#C2E09D]" },
+    { label: "Diario de Piel", value: stats?.diaryEntries ?? "—", icon: BookOpen, color: "text-[#2F3A2D] dark:text-[#C2E09D]", sub: "entradas totales" },
+    { label: "Packs Vendidos", value: stats?.completedPacks ?? "—", icon: ShoppingBag, color: "text-[#2F3A2D] dark:text-[#C2E09D]", sub: `${stats?.packs ?? 0} total` },
+    { label: "Comentarios", value: stats?.comments ?? "—", icon: MessageCircle, color: "text-[#2F3A2D] dark:text-[#C2E09D]" },
+    { label: "Prom. Análisis/Usuario", value: stats?.avgAnalysesPerUser ?? "—", icon: Zap, color: "text-[#2F3A2D] dark:text-[#C2E09D]" },
+    { label: "Pagos Pendientes", value: stats?.pendingPayments ?? "—", icon: Clock, color: "text-[#2F3A2D] dark:text-[#C2E09D]" },
   ]
 
   return (
@@ -148,7 +170,7 @@ export default function AdminPage() {
         </div>
 
         {/* Secondary Metrics */}
-        <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-8">
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 mb-8">
           {metricCards.map((card) => (
             <Card key={card.label} className="p-4">
               <CardContent className="p-0">
@@ -157,6 +179,7 @@ export default function AdminPage() {
                   <span className="text-xs text-[#64705E] dark:text-[#9BAA93]">{card.label}</span>
                 </div>
                 <p className="text-xl font-bold text-[#2F3A2D] dark:text-[#E8EDE6]">{card.value}</p>
+                {card.sub && <p className="text-[10px] text-[#8A9A82] dark:text-[#7A8A72] mt-0.5">{card.sub}</p>}
               </CardContent>
             </Card>
           ))}
@@ -258,32 +281,56 @@ export default function AdminPage() {
             </div>
           </Card>
 
-          {/* Quick Links */}
+          {/* Skin Type Distribution */}
           <Card className="p-5">
             <h2 className="font-serif text-lg font-semibold mb-4 text-[#2F3A2D] dark:text-[#E8EDE6] flex items-center gap-2">
-              <Eye className="w-5 h-5 text-[#2F3A2D] dark:text-[#C2E09D]" />
-              Acceso Rápido
+              <Heart className="w-5 h-5 text-[#2F3A2D] dark:text-[#C2E09D]" />
+              Tipos de Piel Detectados
             </h2>
-            <div className="space-y-2">
-              {[
-                { href: "/admin/users", label: "Gestionar Usuarios", icon: Users },
-                { href: "/admin/payments", label: "Ver Pagos", icon: CreditCard },
-                { href: "/admin/messages", label: "Mensajes Recibidos", icon: MessageSquare },
-                { href: "/admin/emails", label: "Envío de Emails", icon: Mail },
-                { href: "/admin/blog", label: "Administrar Blog", icon: Newspaper },
-                { href: "/admin/products", label: "Administrar Productos", icon: Package },
-              ].map((item) => (
-                <Link key={item.href} href={item.href}>
-                  <div className="flex items-center gap-3 p-3 rounded-xl hover:bg-[#F8FAF5] dark:hover:bg-[#2A3228] transition-colors group">
-                    <item.icon className="w-4 h-4 text-[#C2E09D]" />
-                    <span className="text-sm font-medium text-[#2F3A2D] dark:text-[#E8EDE6] group-hover:text-[#2F3A2D] dark:group-hover:text-[#C2E09D] transition-colors">{item.label}</span>
-                    <ArrowUpRight className="w-3 h-3 text-[#8A9A82] dark:text-[#7A8A72] ml-auto opacity-0 group-hover:opacity-100 transition-opacity" />
+            <div className="space-y-3">
+              {Object.entries(skinTypeDistribution).sort(([, a], [, b]) => b - a).slice(0, 6).map(([type, count]) => {
+                const total = Object.values(skinTypeDistribution).reduce((a, b) => a + b, 0)
+                const percentage = total > 0 ? Math.round((count / total) * 100) : 0
+                return (
+                  <div key={type}>
+                    <div className="flex justify-between items-center mb-1">
+                      <span className="text-sm text-[#64705E] dark:text-[#9BAA93] capitalize">{type}</span>
+                      <span className="text-sm font-medium text-[#2F3A2D] dark:text-[#E8EDE6]">{count} ({percentage}%)</span>
+                    </div>
+                    <div className="w-full h-2 rounded-full bg-[#F0F5EC] dark:bg-[#2E3829]">
+                      <div className="h-full rounded-full bg-[#FFF6AD]" style={{ width: `${percentage}%` }} />
+                    </div>
                   </div>
-                </Link>
-              ))}
+                )
+              })}
             </div>
           </Card>
         </div>
+
+        {/* Quick Links */}
+        <Card className="p-5 mt-6">
+          <h2 className="font-serif text-lg font-semibold mb-4 text-[#2F3A2D] dark:text-[#E8EDE6] flex items-center gap-2">
+            <Eye className="w-5 h-5 text-[#2F3A2D] dark:text-[#C2E09D]" />
+            Acceso Rápido
+          </h2>
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-2">
+            {[
+              { href: "/admin/users", label: "Usuarios", icon: Users },
+              { href: "/admin/payments", label: "Pagos", icon: CreditCard },
+              { href: "/admin/messages", label: "Mensajes", icon: MessageSquare },
+              { href: "/admin/emails", label: "Emails", icon: Mail },
+              { href: "/admin/blog", label: "Blog", icon: Newspaper },
+              { href: "/admin/products", label: "Productos", icon: Package },
+            ].map((item) => (
+              <Link key={item.href} href={item.href}>
+                <div className="flex items-center gap-2 p-3 rounded-xl hover:bg-[#F8FAF5] dark:hover:bg-[#2A3228] transition-colors group">
+                  <item.icon className="w-4 h-4 text-[#C2E09D]" />
+                  <span className="text-sm font-medium text-[#2F3A2D] dark:text-[#E8EDE6] group-hover:text-[#2F3A2D] dark:group-hover:text-[#C2E09D] transition-colors">{item.label}</span>
+                </div>
+              </Link>
+            ))}
+          </div>
+        </Card>
 
         {/* Recent Activity */}
         <div className="grid lg:grid-cols-2 gap-6 mt-6">

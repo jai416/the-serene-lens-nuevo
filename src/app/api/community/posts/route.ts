@@ -9,8 +9,8 @@ const stripHtml = (s: string) => s.replace(/<[^>]*>/g, "").trim()
 const communityPostSchema = z.object({
   title: z.string().min(1).max(200).transform(stripHtml),
   content: z.string().min(1).max(5000).transform(stripHtml),
-  category: z.enum(["skin-care", "makeup", "lifestyle", "questions"]),
-}).strict()
+  category: z.enum(["general", "rutinas", "ingredientes", "consejos", "skin-care", "makeup", "lifestyle", "questions"]),
+})
 
 export async function GET(request: NextRequest) {
   try {

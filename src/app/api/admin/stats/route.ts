@@ -14,6 +14,7 @@ export async function GET() {
     const sevenDaysAgo = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000)
     const thirtyDaysAgo = new Date(now.getTime() - 30 * 24 * 60 * 60 * 1000)
     const todayStart = new Date(now.getFullYear(), now.getMonth(), now.getDate())
+    const yesterdayStart = new Date(now.getTime() - 24 * 60 * 60 * 1000)
 
     const [
       users,
@@ -33,6 +34,17 @@ export async function GET() {
       revenue,
       qvapayRevenue,
       paidUsers,
+      challenges,
+      diaryEntries,
+      subscriptions,
+      activeSubscriptions,
+      packs,
+      completedPacks,
+      comments,
+      featureFlags,
+      usersYesterday,
+      analysesYesterday,
+      avgAnalysesPerUser,
     ] = await Promise.all([
       db.user.count(),
       db.skinAnalysis.count(),
@@ -51,11 +63,24 @@ export async function GET() {
       db.payment.aggregate({ where: { status: "completed" }, _sum: { amount: true } }),
       db.payment.aggregate({ where: { status: "completed", provider: "qvapay" }, _sum: { amount: true } }),
       db.user.count({ where: { plan: { not: "FREE" } } }),
+      db.challenge.count({ where: { active: true } }),
+      db.skinDiary.count(),
+      db.subscription.count(),
+      db.subscription.count({ where: { status: "active" } }),
+      db.purchasePack.count(),
+      db.purchasePack.count({ where: { status: "completed" } }),
+      db.comment.count(),
+      db.appConfig.count(),
+      db.user.count({ where: { createdAt: { gte: yesterdayStart, lt: todayStart } } }),
+      db.skinAnalysis.count({ where: { createdAt: { gte: yesterdayStart, lt: todayStart } } }),
+      db.skinAnalysis.aggregate({ _avg: { id: true } }).then(() => 0),
     ])
 
     const conversionRate = users > 0 ? Math.round((paidUsers / users) * 10000) / 100 : 0
+    const avgAnalyses = users > 0 ? Math.round((analyses / users) * 100) / 100 : 0
+    const churnRate = users > 0 && activeSubscriptions > 0 ? Math.round(((users - activeSubscriptions) / users) * 10000) / 100 : 0
 
-    const [recentUsers, recentAnalyses, planDistribution] = await Promise.all([
+    const [recentUsers, recentAnalyses, planDistribution, skinTypeDistribution] = await Promise.all([
       db.user.findMany({
         orderBy: { createdAt: "desc" },
         take: 5,
@@ -67,6 +92,7 @@ export async function GET() {
         select: { id: true, skinType: true, createdAt: true, user: { select: { name: true, email: true } } },
       }),
       db.user.groupBy({ by: ["plan"], _count: true }),
+      db.skinAnalysis.groupBy({ by: ["skinType"], _count: true }),
     ])
 
     return ok({
@@ -90,11 +116,24 @@ export async function GET() {
         analysesToday,
         conversionRate,
         paidUsers,
+        challenges,
+        diaryEntries,
+        subscriptions,
+        activeSubscriptions,
+        packs,
+        completedPacks,
+        comments,
+        featureFlags,
+        avgAnalysesPerUser: avgAnalyses,
+        churnRate,
+        usersYesterday,
+        analysesYesterday,
         timestamp: new Date().toISOString(),
       },
       recentUsers,
       recentAnalyses,
       planDistribution: Object.fromEntries(planDistribution.map((p) => [p.plan, p._count])),
+      skinTypeDistribution: Object.fromEntries(skinTypeDistribution.map((s) => [s.skinType || "unknown", s._count])),
     })
   } catch (e) {
     return serverError(e)

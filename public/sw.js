@@ -1,4 +1,4 @@
-const CACHE_NAME = "serene-lens-v2"
+const CACHE_NAME = "serene-lens-v3"
 const STATIC_ASSETS = [
   "/",
   "/manifest.json",
@@ -71,14 +71,15 @@ async function networkFirst(request) {
 }
 
 async function staleWhileRevalidate(request) {
-  const cached = await caches.match(request)
+  const cache = await caches.open(CACHE_NAME)
+  const cached = await cache.match(request)
+
   const fetchPromise = fetch(request)
-    .then((response) => {
-      if (response.ok) {
-        const cache = caches.open(CACHE_NAME)
-        cache.then((c) => c.put(request, response.clone()))
+    .then((networkResponse) => {
+      if (networkResponse.ok) {
+        cache.put(request, networkResponse.clone())
       }
-      return response
+      return networkResponse
     })
     .catch(() => cached)
 
