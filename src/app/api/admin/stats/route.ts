@@ -44,7 +44,6 @@ export async function GET() {
       featureFlags,
       usersYesterday,
       analysesYesterday,
-      avgAnalysesPerUser,
     ] = await Promise.all([
       db.user.count(),
       db.skinAnalysis.count(),
@@ -73,7 +72,6 @@ export async function GET() {
       db.appConfig.count(),
       db.user.count({ where: { createdAt: { gte: yesterdayStart, lt: todayStart } } }),
       db.skinAnalysis.count({ where: { createdAt: { gte: yesterdayStart, lt: todayStart } } }),
-      db.skinAnalysis.aggregate({ _avg: { id: true } }).then(() => 0),
     ])
 
     const conversionRate = users > 0 ? Math.round((paidUsers / users) * 10000) / 100 : 0
