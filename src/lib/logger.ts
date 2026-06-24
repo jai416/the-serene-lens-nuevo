@@ -40,6 +40,7 @@ function formatLog(level: LogLevel, msg: string, meta?: Record<string, unknown>)
     timestamp,
     level: level.toUpperCase(),
     message: msg,
+    service: "the-serene-lens",
     correlationId: correlationId || undefined,
     ...meta,
   }
@@ -66,6 +67,39 @@ export const logger = {
   info: (msg: string, meta?: Record<string, unknown>) => formatLog("info", msg, meta),
   warn: (msg: string, meta?: Record<string, unknown>) => formatLog("warn", msg, meta),
   error: (msg: string, meta?: Record<string, unknown>) => formatLog("error", msg, meta),
+
+  child: (context: Record<string, unknown>) => ({
+    debug: (msg: string, meta?: Record<string, unknown>) => formatLog("debug", msg, { ...context, ...meta }),
+    info: (msg: string, meta?: Record<string, unknown>) => formatLog("info", msg, { ...context, ...meta }),
+    warn: (msg: string, meta?: Record<string, unknown>) => formatLog("warn", msg, { ...context, ...meta }),
+    error: (msg: string, meta?: Record<string, unknown>) => formatLog("error", msg, { ...context, ...meta }),
+  }),
+
+  http: (method: string, path: string, statusCode: number, durationMs: number, meta?: Record<string, unknown>) => {
+    formatLog(statusCode >= 500 ? "error" : statusCode >= 400 ? "warn" : "info", "HTTP request", {
+      method,
+      path,
+      statusCode,
+      durationMs,
+      ...meta,
+    })
+  },
+
+  db: (operation: string, durationMs: number, meta?: Record<string, unknown>) => {
+    formatLog(durationMs > 1000 ? "warn" : "debug", "DB query", {
+      operation,
+      durationMs,
+      ...meta,
+    })
+  },
+
+  auth: (event: string, meta?: Record<string, unknown>) => {
+    formatLog("info", "Auth event", { event, ...meta })
+  },
+
+  payment: (event: string, meta?: Record<string, unknown>) => {
+    formatLog("info", "Payment event", { event, ...meta })
+  },
 }
 
 export function createRequestLogger(correlationId: string) {

@@ -39,3 +39,21 @@ export const clinicSchema = z.object({
   phone: z.string().max(50).optional(),
   logo: z.string().url().optional(),
 }).strict()
+
+export const diaryEntrySchema = z.object({
+  date: z.string().min(1),
+  feeling: z.number().int().min(1).max(5),
+  notes: z.string().max(500).optional(),
+}).strict()
+
+export const challengeCompleteSchema = z.object({
+  challengeId: z.string().min(1),
+}).strict()
+
+export const challengeCreateSchema = z.object({
+  title: z.string().min(1).max(200),
+  description: z.string().min(1).max(1000),
+  points: z.number().int().min(1).max(1000).default(10),
+  frequency: z.enum(["daily", "weekly", "monthly"]).default("weekly"),
+  active: z.boolean().default(true),
+}).strict()

@@ -77,7 +77,9 @@ export const ModelName = {
   SkinDiary: 'SkinDiary',
   Challenge: 'Challenge',
   UserChallenge: 'UserChallenge',
-  ProductReview: 'ProductReview'
+  ProductReview: 'ProductReview',
+  EmailLog: 'EmailLog',
+  Unsubscribe: 'Unsubscribe'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -462,6 +464,30 @@ export const ProductReviewScalarFieldEnum = {
 } as const
 
 export type ProductReviewScalarFieldEnum = (typeof ProductReviewScalarFieldEnum)[keyof typeof ProductReviewScalarFieldEnum]
+
+
+export const EmailLogScalarFieldEnum = {
+  id: 'id',
+  subject: 'subject',
+  body: 'body',
+  recipient: 'recipient',
+  segment: 'segment',
+  status: 'status',
+  batchId: 'batchId',
+  sentAt: 'sentAt'
+} as const
+
+export type EmailLogScalarFieldEnum = (typeof EmailLogScalarFieldEnum)[keyof typeof EmailLogScalarFieldEnum]
+
+
+export const UnsubscribeScalarFieldEnum = {
+  id: 'id',
+  email: 'email',
+  reason: 'reason',
+  createdAt: 'createdAt'
+} as const
+
+export type UnsubscribeScalarFieldEnum = (typeof UnsubscribeScalarFieldEnum)[keyof typeof UnsubscribeScalarFieldEnum]
 
 
 export const SortOrder = {

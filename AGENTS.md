@@ -1,7 +1,34 @@
 # AGENTS.md — The Serene Lens
 
+## Project Status (2026-06-24)
+**Código completo.** Todas las features implementadas:
+- Landing page, análisis de piel con IA, historial, evolución
+- Sistema de pagos QvaPay (planes + packs), webhooks, suscripciones
+- Blog, productos, ingredientes, comunidad
+- Diario de piel, desafíos gamificados
+- Panel admin: usuarios, pagos, mensajes, blog, productos, analytics, envío de emails, health check
+- Sistema de unsubscribe (CAN-SPAM/GDPR)
+- Feature flags, health check, queue system, Sentry replays
+- SEO: 55 keywords con contexto para generación de artículos
+- 163 tests, type check limpio
+
+**Pendiente solo configuración manual:**
+1. `npx prisma db push` — crear tablas nuevas en Supabase (EmailLog, Unsubscribe, Challenge, indexes)
+2. `CRON_SECRET` — agregar env var en Render Dashboard
+3. Google/GitHub OAuth — configurar callbacks (opcional)
+
+**Verificado en producción (2026-06-24):**
+- Render: `https://the-serene-lens-nuevo.onrender.com` respondiendo OK (health check: DB connected)
+- QvaPay API: Conexión exitosa, facturas creándose correctamente (transaction_uuid + URL generados)
+- QvaPay Webhook: Endpoint funcionando en Render (`/api/payments/webhook`)
+- OpenRouter API: Conectado (modelos disponibles)
+- PostHog: Conectado (API responde)
+- Sentry: Conectado (sentry.io accesible)
+- CRON_SECRET: Generado en `.env` (pendiente en Render Dashboard)
+- **Resend**: ⚠️ Dominio `theserenelens.com` NO verificado. Emails caerán en SPAM. Verificar en Resend → Settings → Domains.
+
 ## Test Commands
-- `npm test` — run Vitest (104 tests across 12 suites)
+- `npm test` — run Vitest (163 tests across 16 suites)
 - `npm run test:watch` — watch mode
 - `npm run e2e` — Playwright tests (not yet configured)
 
@@ -10,13 +37,17 @@
 - `src/lib/services/__tests__/analysis.service.test.ts` — 4 tests: usage limit, file size, success, language
 - `src/lib/services/__tests__/affiliate.service.test.ts` — 7 tests: db-cache mock, API failure, timeout, tag, URL building
 - `src/lib/services/__tests__/sanitize.test.ts` — 11 tests: HTML escape, non-string, obj sanitization
-- `src/lib/validations/__tests__/validations.test.ts` — 25 tests: all Zod schemas
+- `src/lib/validations/__tests__/validations.test.ts` — 44 tests: all Zod schemas (including diary, challenge)
 - `src/lib/__tests__/api-response.test.ts` — 10 tests: apiResponse, apiError, ok, error, unauthorized, forbidden, notFound, serverError
 - `src/lib/__tests__/csrf.test.ts` — 8 tests: token generation, validation, timingSafeEqual, constants
 - `src/lib/__tests__/cache.test.ts` — 7 tests: get/set/del/clear/TTL/complex data
 - `src/lib/services/__tests__/email-sequence.test.ts` — 5 tests: sequence, days, name, URL, HTML
 - `src/lib/__tests__/streaming.test.ts` — 9 tests: stream, events, error, close, generator, hook
 - `src/lib/__tests__/webp.test.ts` — 6 tests: supportsWebP, optimizeToWebP
+- `src/lib/services/__tests__/diary.service.test.ts` — 7 tests: CRUD, weekly trend
+- `src/lib/services/__tests__/challenge.service.test.ts` — 7 tests: CRUD, stats, validations
+- `src/lib/services/__tests__/admin-email.service.test.ts` — 5 tests: send, bulk, recipients, counts
+- `src/app/api/payments/webhook/__tests__/webhook.test.ts` — 8 tests: validation, not found, already completed, QvaPay errors, pack/subscription processing
 - Mock pattern: `vi.hoisted()` for variables used in `vi.mock()` factory (Vitest v3 hoisting requirement)
 
 ## Seed Data
@@ -38,11 +69,12 @@
 All env vars documented in `.env.example`. Key vars:
 - `DATABASE_URL` — PostgreSQL (Supabase)
 - `NEXTAUTH_SECRET` — NextAuth secret
-- `NEXT_PUBLIC_APP_URL` — base URL
+- `NEXT_PUBLIC_APP_URL` — base URL (`https://the-serene-lens-nuevo.onrender.com`)
+- `NEXTAUTH_URL` — NextAuth URL (`https://the-serene-lens-nuevo.onrender.com`)
 - `OPENROUTER_API_KEY` — AI analysis API
 - `QVAPAY_UUID`, `QVAPAY_SECRET`, `QVAPAY_API_URL` — QvaPay payment gateway (v2 API)
-- `RESEND_API_KEY` — transactional emails
-- `CRON_SECRET` — cron job authorization
+- `RESEND_API_KEY` — transactional + bulk emails (from: `noreply@theserenelens.com`)
+- `CRON_SECRET` — cron job authorization (pendiente en Render)
 - `NEXT_PUBLIC_POSTHOG_KEY`, `NEXT_PUBLIC_POSTHOG_HOST` — product analytics
 - `NEXT_PUBLIC_SENTRY_DSN` — error tracking
 - `NEXT_PUBLIC_WHATSAPP_NUMBER` — WhatsApp contact
@@ -153,6 +185,15 @@ Clean, professional skincare platform inspired by Apple Health, Headspace, Calm,
 - **Cron retención**: Notifica 3 días antes de expiración + degrada suscripciones vencidas. Usa `sendEmail` (no `sendPasswordResetEmail`). Cron diario 10am via cron-job.org.
 - **Sidebar Ingredientes**: Link apunta a `/ingredients-analyzer` (landing SEO), no a `/products`.
 - **CRON_SECRET**: Generado con `crypto.randomBytes(32)`, en `.env`. Necesario como env var en Render para autorizar cron endpoints.
+- **QvaPay v2 only (Stripe fully removed)**: Deleted all Stripe code files and env vars. Dead code completely cleaned.
+- **Lazy env loading in payments.ts**: `getEnv()` at module level caused crashes on Render when env vars missing. Changed to `getPaymentsEnv()`.
+- **In-memory queue over BullMQ**: No Redis dependency; queue system is swappable to BullMQ later.
+- **Feature flags via AppConfig table**: No external service; cached 60s; admin API + React component.
+- **Service layer pattern for diary/challenges**: Business logic separated from API routes; enables testing and reuse.
+- **Image compression adapts to connection**: Uses `navigator.connection.effectiveType` for dynamic quality/resolution.
+- **Sentry replays**: Session replay 0.1 sampling, error replay 1.0, text masking for privacy compliance.
+- **Admin email sender**: Resend batch API (100 per call), segment targeting, 3 HTML templates, unsubscribe compliance, email logging.
+- **Unsubscribe system**: Required by CAN-SPAM/GDPR. All email footers include `/unsubscribe` link. Unsubscribe records stored in DB, excluded from bulk sends.
 
 ## Performance Notes
 - `SessionProvider` uses `refetchOnWindowFocus={false}` — prevents session fetch on every window focus event
@@ -167,12 +208,19 @@ Clean, professional skincare platform inspired by Apple Health, Headspace, Calm,
 - **revalidateTag**: Admin blog/products routes invalidan caché tras crear/editar/eliminar
 - **Edge Runtime**: `/api/health` y `/api/og` usan edge — 0 cold starts
 - **Compound queries**: Analytics usa `db.$transaction()` — reduce roundtrips a Supabase
-- **DNS prefetch**: Layout pre-conecta a OpenRouter, Stripe, PostHog
+- **DNS prefetch**: Layout pre-conecta a Resend, Sentry, QvaPay
 - **N+1 prevention**: `/api/analysis` incluye feedback con `select` mínimo
 - **FAQ lazy-load**: `faq-section.tsx` con `next/dynamic` — ~15KB off main bundle
 - **Seasonal hero**: Messages based on Southern Hemisphere seasons (Cuba)
 - **Explainable AI**: AI returns `observationExplanations` and `confidenceReason` for user transparency
 - **Age-based recommendations**: AI prompt includes decade-specific skincare priorities
+- **Slow connection adaptation**: `use-slow-connection.ts` hook detects 2G/3G, reduces image compression quality/resolution
+- **Service worker**: `public/sw.js` — cache-first for static assets, stale-while-revalidate for pages, network-first for APIs
+- **Queue system**: `lib/queue.ts` — in-memory queue with retry, exponential backoff, auto-cleanup. Swappable to BullMQ+Redis.
+- **Admin dashboard auto-refresh**: 10s interval, "Hoy" metrics (newUsersToday, analysesToday), timestamp
+- **Prisma indexes**: Added indexes on User(plan, role, createdAt), Payment(status, createdAt, userId+status), Subscription(provider, currentPeriodEnd), PurchasePack(status, userId+status, createdAt), WebhookEvent(provider, provider+eventType), SkinDiary(userId+date), Challenge(active, createdAt)
+- **Lazy image loading**: `LazyChart` component wraps `EvolutionChart` with `next/dynamic` + skeleton
+- **Feature flags**: `lib/feature-flags.ts` — AppConfig table, 60s cache, admin API + React component
 
 ## Security
 - **Rate limiting**: DB-backed via `lib/rate-limit.ts` — `/api/contact` (5/hour/IP), `/api/feedback/survey` (10/day/user), `/api/register` (3/day/IP in-memory)
@@ -182,6 +230,10 @@ Clean, professional skincare platform inspired by Apple Health, Headspace, Calm,
 - **Auth guards**: `redirect()` from `next/navigation` in client components during render
 - **Webhook security**: QvaPay verified via GET `/v2/transaction/{uuid}` with app credentials
 - **No PII in analytics**: PostHog tracks events only, no email/name in logs
+- **Correlation IDs**: Middleware injects `x-correlation-id` on every request for tracing
+- **Sentry replays**: Session replay 0.1, error replay 1.0, text masking, media blocking for privacy
+- **Structured logging**: `logger.child()` with service context, typed `.http()`, `.db()`, `.auth()`, `.payment()` methods
+- **Health check**: `/api/health` returns DB latency, queue stats, memory usage, uptime, version
 
 ## Pricing & Plans
 Prices defined in `src/lib/pricing.ts` — single source of truth.
@@ -221,7 +273,9 @@ Prices defined in `src/lib/pricing.ts` — single source of truth.
 - `/dashboard/subscription` — plan status, usage bars, payment history
 - `/dashboard/profile` — user profile form
 - `/ingredients-analyzer` — SEO landing page for ingredient scanning
-- `/admin/` — admin panel: users, payments (with provider column), messages, blog, products, analytics
+- `/admin/` — admin panel: users, payments, messages, blog, products, analytics, emails, health check (DB latency, queue, memory, uptime)
+- `/admin/emails` — bulk email sender: segment targeting (all/free/premium/pro/active/inactive/new), 3 templates (announcement/promotion/newsletter), preview mode, send history
+- `/unsubscribe` — unsubscribe page for marketing emails (linked from all email footers)
 
 ## Photo Upload (Guided Assistant)
 - `/analysis` — 4 photo steps shown one at a time, not a grid
@@ -276,22 +330,35 @@ Prices defined in `src/lib/pricing.ts` — single source of truth.
 ## API Routes (Analysis)
 - `POST /api/analyze` — requires auth, checks usage BEFORE calling AI (no wasted API calls), saves `skinType` from AI result, deducts usage atomically. Returns `{ analysis, result }`.
 
+## API Routes (Diary & Challenges)
+- `GET /api/skin-diary` — returns diary entries (last 30 days) + weekly trend
+- `POST /api/skin-diary` — create or update diary entry (date, feeling 1-5, notes)
+- `DELETE /api/skin-diary/[id]` — delete diary entry (ownership enforced)
+- `GET /api/challenges` — returns active challenges with user completion status + total points
+- `POST /api/challenges/[id]/complete` — mark challenge as completed, return points earned
+- `GET /api/admin/challenges` — list all challenges (admin only)
+- `POST /api/admin/challenges` — create new challenge (admin only)
+- `PATCH /api/admin/challenges/[id]` — update challenge (admin only)
+- `DELETE /api/admin/challenges/[id]` — deactivate challenge (admin only)
+- `GET /api/admin/feature-flags` — list all feature flags (admin only)
+- `POST /api/admin/feature-flags` — create/update feature flag (admin only)
+
+## API Routes (Admin Emails)
+- `POST /api/admin/emails/send` — send bulk emails via Resend batch API. Body: `{ subject, html, segment, preview?, previewEmail? }`. Segments: all, free, premium, pro, active, inactive, new. Preview mode sends only to admin email.
+- `GET /api/admin/emails/history` — email send history with pagination + recipient counts per segment
+- `POST /api/unsubscribe` — unsubscribe from marketing emails. Body: `{ email, reason? }`. Stored in Unsubscribe model.
+- `GET /api/unsubscribe?email=` — check if email is unsubscribed
+
 ## API Routes (Payments)
 - `POST /api/payments/create` — creates QvaPay invoice. Body: `{ plan, provider }`
 - `POST /api/payments/create-pack` — creates QvaPay pack invoice. Body: `{ packType, provider }`
-- `POST /api/payments/stripe-webhook` — DELETED (Stripe removed)
 - `POST /api/payments/webhook` — QvaPay webhook (subscriptions + packs)
 - `GET /api/user/usage` — returns usage info for current user
 - `GET /api/admin/analytics` — revenue by provider, plan distribution, conversion rate
 
 ## Known Issues
+- **Resend domain NO verificado**: `theserenelens.com` no está verificado en Resend. Los emails caerán en SPAM. Solución: ir a Resend → Settings → Domains → agregar y verificar `theserenelens.com` con registros DNS (DKIM/SPF).
 - **npm install falla**: `node_modules` corrupto (ENOTEMPTY). Solución: `rm -rf node_modules .next && npm install --legacy-peer-deps`
-- **Stripe removed**: All Stripe references removed from frontend. Payments are QvaPay only (v2 API).
-- **DB unreachable from CLI**: Schema pushes and seeds cannot run locally without Supabase access.
 - **Prisma 7 driver adapter**: Requires `pg` + `@prisma/adapter-pg` installed. `prisma generate` must run after install.
-- **Prisma schema actualizado**: Modelo Referral eliminado. Schema limpio con 19 modelos.
-- **CRON_SECRET**: Generado en `.env`, falta configurar como env var en Render
-- **Cron-job.org**: 3 jobs configurados (SEO 7882243 8am, emails 7882246 9am, retention 7882249 10am). API key en `.env`. Apuntan a `the-serene-lens-nuevo.onrender.com`
-- **PostHog/Sentry configurados en .env**: Falta verificar que funcionan en producción
-- **Webhook processor sin testear**: `webhook-processor.ts` y `webhook.service.ts` no tienen tests unitarios
-- **handleSuccessfulPlanPayment**: Implementada en `payment.service.ts` pero no probada por falta de env vars de Stripe
+- **DB push pendiente**: Ejecutar `npx prisma db push` desde entorno con acceso a Supabase para crear tablas `EmailLog`, `Unsubscribe`, `Challenge`, indexes.
+- **CRON_SECRET pendiente**: Agregar env var `CRON_SECRET` en Render Dashboard (valor en `.env`). Los cron endpoints no funcionarán sin esto.

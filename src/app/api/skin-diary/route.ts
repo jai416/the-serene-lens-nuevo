@@ -1,42 +1,16 @@
 import { NextRequest } from "next/server"
 import { getServerSession } from "next-auth"
 import { authOptions } from "@/lib/auth"
-import { db } from "@/lib/db"
 import { ok, error, serverError } from "@/lib/api-response"
-import { z } from "zod"
-
-const createSchema = z.object({
-  date: z.string().min(1),
-  feeling: z.number().int().min(1).max(5),
-  notes: z.string().max(500).optional(),
-})
+import { DiaryService, DiaryError } from "@/lib/services/diary.service"
+import { diaryEntrySchema } from "@/lib/validations"
 
 export async function GET() {
   try {
     const session = await getServerSession(authOptions)
-    if (!session?.user) {
-      return error("Debes iniciar sesión", 401)
-    }
+    if (!session?.user) return error("Debes iniciar sesión", 401)
 
-    const thirtyDaysAgo = new Date()
-    thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30)
-    thirtyDaysAgo.setHours(0, 0, 0, 0)
-
-    const entries = await db.skinDiary.findMany({
-      where: {
-        userId: session.user.id,
-        date: { gte: thirtyDaysAgo },
-      },
-      orderBy: { date: "desc" },
-      select: {
-        id: true,
-        date: true,
-        feeling: true,
-        notes: true,
-        createdAt: true,
-      },
-    })
-
+    const entries = await DiaryService.getEntries(session.user.id)
     return ok(entries)
   } catch (e) {
     return serverError(e)
@@ -46,44 +20,46 @@ export async function GET() {
 export async function POST(req: NextRequest) {
   try {
     const session = await getServerSession(authOptions)
-    if (!session?.user) {
-      return error("Debes iniciar sesión", 401)
-    }
+    if (!session?.user) return error("Debes iniciar sesión", 401)
 
-    const parsed = createSchema.safeParse(await req.json())
+    const parsed = diaryEntrySchema.safeParse(await req.json())
     if (!parsed.success) {
       return error("Datos inválidos: " + parsed.error.issues.map((i) => i.message).join(", "))
     }
 
-    const { date, feeling, notes } = parsed.data
-    const entryDate = new Date(date)
-    entryDate.setHours(0, 0, 0, 0)
-
-    const entry = await db.skinDiary.upsert({
-      where: {
-        userId_date: {
-          userId: session.user.id,
-          date: entryDate,
-        },
-      },
-      update: { feeling, notes },
-      create: {
-        userId: session.user.id,
-        date: entryDate,
-        feeling,
-        notes,
-      },
-      select: {
-        id: true,
-        date: true,
-        feeling: true,
-        notes: true,
-        createdAt: true,
-      },
-    })
+    const entry = await DiaryService.upsertEntry(
+      session.user.id,
+      parsed.data.date,
+      parsed.data.feeling,
+      parsed.data.notes
+    )
 
     return ok(entry, 201)
   } catch (e) {
+    if (e instanceof DiaryError) {
+      const statusMap: Record<string, number> = { FUTURE_DATE: 400, NOT_FOUND: 404, UNAUTHORIZED: 403 }
+      return error(e.message, statusMap[e.code] || 400)
+    }
+    return serverError(e)
+  }
+}
+
+export async function DELETE(req: NextRequest) {
+  try {
+    const session = await getServerSession(authOptions)
+    if (!session?.user) return error("Debes iniciar sesión", 401)
+
+    const { searchParams } = new URL(req.url)
+    const entryId = searchParams.get("id")
+    if (!entryId) return error("Se requiere el id de la entrada")
+
+    await DiaryService.deleteEntry(session.user.id, entryId)
+    return ok({ deleted: true })
+  } catch (e) {
+    if (e instanceof DiaryError) {
+      const statusMap: Record<string, number> = { NOT_FOUND: 404, UNAUTHORIZED: 403 }
+      return error(e.message, statusMap[e.code] || 400)
+    }
     return serverError(e)
   }
 }

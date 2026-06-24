@@ -9,9 +9,9 @@ import { Badge } from "@/components/ui/badge"
 import {
   LayoutDashboard, Users, CreditCard, MessageSquare, Newspaper, Package,
   DollarSign, Activity, Eye, TrendingUp, UserPlus, BarChart3, ArrowUpRight,
-  Calendar, Sparkles, CheckCircle2, Clock
+  Calendar, Sparkles, CheckCircle2, Clock, Mail
 } from "lucide-react"
-import { toast } from "sonner"
+import { NewUserToast } from "@/components/admin/new-user-toast"
 
 interface Stats {
   users: number
@@ -28,9 +28,12 @@ interface Stats {
   activeUsers: number
   newUsersThisMonth: number
   newUsersThisWeek: number
+  newUsersToday: number
   analysesThisMonth: number
+  analysesToday: number
   conversionRate: number
   paidUsers: number
+  timestamp: string
 }
 
 interface RecentUser {
@@ -54,11 +57,13 @@ export default function AdminPage() {
   const [recentUsers, setRecentUsers] = useState<RecentUser[]>([])
   const [recentAnalyses, setRecentAnalyses] = useState<RecentAnalysis[]>([])
   const [planDistribution, setPlanDistribution] = useState<Record<string, number>>({})
-
+  const [healthCheck, setHealthCheck] = useState<any>(null)
   useEffect(() => {
-    if (session?.user?.role === "ADMIN") {
+    if (session?.user?.role !== "ADMIN") return
+
+    const fetchStats = () => {
       fetch("/api/admin/stats")
-        .then((r) => r.ok ? r.json() : null)
+        .then((r) => (r.ok ? r.json() : null))
         .then((d) => {
           if (d?.stats) {
             setStats(d.stats)
@@ -67,8 +72,16 @@ export default function AdminPage() {
             setPlanDistribution(d.planDistribution || {})
           }
         })
-        .catch(() => toast.error("Error al cargar estadísticas"))
+        .catch(() => {})
     }
+
+    fetchStats()
+    fetch("/api/health")
+      .then((r) => r.json())
+      .then((d) => setHealthCheck(d))
+      .catch(() => {})
+    const interval = setInterval(fetchStats, 10000)
+    return () => clearInterval(interval)
   }, [session])
 
   if (status === "loading") return <div className="min-h-screen pt-24 flex items-center justify-center"><p className="text-muted-foreground">Cargando...</p></div>
@@ -76,24 +89,25 @@ export default function AdminPage() {
 
   const mainCards = [
     { label: "Usuarios Totales", value: stats?.users ?? "—", icon: Users, href: "/admin/users", color: "bg-[#2F3A2D]", trend: `+${stats?.newUsersThisWeek ?? 0} esta semana` },
-    { label: "Análisis Totales", value: stats?.analyses ?? "—", icon: Activity, href: "/admin", color: "bg-[#C2E09D]", trend: `${stats?.analysesThisMonth ?? 0} este mes` },
-    { label: "Ingresos Totales", value: stats?.revenue ? `$${stats.revenue.toFixed(2)}` : "$0", icon: DollarSign, href: "/admin/payments", color: "bg-emerald-600", trend: `${stats?.analysesThisMonth ?? 0} este mes` },
+    { label: "Análisis Totales", value: stats?.analyses ?? "—", icon: Activity, href: "/admin", color: "bg-[#C2E09D]", trend: `${stats?.analysesToday ?? 0} hoy · ${stats?.analysesThisMonth ?? 0} este mes` },
+    { label: "Ingresos Totales", value: stats?.revenue ? `$${stats.revenue.toFixed(2)}` : "$0", icon: DollarSign, href: "/admin/payments", color: "bg-emerald-600", trend: `QvaPay: $${stats?.revenueQvaPay?.toFixed(2) ?? "0.00"}` },
     { label: "Mensajes", value: stats?.messages ?? "—", icon: MessageSquare, href: "/admin/messages", color: "bg-purple-600", trend: `${stats?.unreadMessages ?? 0} sin leer` },
   ]
 
   const metricCards = [
-    { label: "Activos (7 días)", value: stats?.activeUsers ?? "—", icon: UserPlus, color: "text-[#2F3A2D] dark:text-[#C2E09D]" },
-    { label: "Nuevos (30 días)", value: stats?.newUsersThisMonth ?? "—", icon: Calendar, color: "text-[#2F3A2D] dark:text-[#C2E09D]" },
+    { label: "Nuevos Hoy", value: stats?.newUsersToday ?? "—", icon: UserPlus, color: "text-[#2F3A2D] dark:text-[#C2E09D]" },
+    { label: "Activos (7 días)", value: stats?.newUsersThisWeek ?? "—", icon: Calendar, color: "text-[#2F3A2D] dark:text-[#C2E09D]" },
     { label: "Tasa Conversión", value: stats?.conversionRate ? `${stats.conversionRate}%` : "0%", icon: TrendingUp, color: "text-[#2F3A2D] dark:text-[#C2E09D]" },
     { label: "Pagos Pendientes", value: stats?.pendingPayments ?? "—", icon: Clock, color: "text-[#2F3A2D] dark:text-[#C2E09D]" },
     { label: "Blog Posts", value: stats?.posts ?? "—", icon: Newspaper, color: "text-[#2F3A2D] dark:text-[#C2E09D]" },
     { label: "Productos", value: stats?.products ?? "—", icon: Package, color: "text-[#2F3A2D] dark:text-[#C2E09D]" },
     { label: "Usuarios Premium", value: stats?.paidUsers ?? "—", icon: Sparkles, color: "text-[#2F3A2D] dark:text-[#C2E09D]" },
-    { label: "Ingresos QvaPay", value: stats?.revenueQvaPay ? `$${stats.revenueQvaPay.toFixed(2)}` : "$0", icon: BarChart3, color: "text-[#2F3A2D] dark:text-[#C2E09D]" },
+    { label: "Análisis Hoy", value: stats?.analysesToday ?? "—", icon: BarChart3, color: "text-[#2F3A2D] dark:text-[#C2E09D]" },
   ]
 
   return (
     <div className="min-h-screen pt-24 pb-16 px-4">
+      <NewUserToast />
       <div className="max-w-7xl mx-auto">
         <div className="mb-8">
           <Badge variant="secondary" className="mb-4 rounded-full px-4 py-1.5">
@@ -103,6 +117,11 @@ export default function AdminPage() {
           <h1 className="font-serif text-3xl sm:text-4xl font-semibold text-[#2F3A2D] dark:text-[#E8EDE6]">
             Panel de <span className="gradient-text">Administración</span>
           </h1>
+          {stats?.timestamp && (
+            <p className="text-xs text-[#8A9A82] dark:text-[#7A8A72] mt-1">
+              Actualizado: {new Date(stats.timestamp).toLocaleTimeString("es")} · Auto-refresh 10s
+            </p>
+          )}
         </div>
 
         {/* Main Stats */}
@@ -142,6 +161,53 @@ export default function AdminPage() {
             </Card>
           ))}
         </div>
+
+        {/* Health Check */}
+        {healthCheck && (
+          <Card className="p-5 mb-8">
+            <h2 className="font-serif text-lg font-semibold mb-4 text-[#2F3A2D] dark:text-[#E8EDE6] flex items-center gap-2">
+              <Activity className="w-5 h-5 text-[#2F3A2D] dark:text-[#C2E09D]" />
+              Health Check
+              <Badge
+                variant={healthCheck.status === "ok" ? "success" : "secondary"}
+                className={`ml-2 text-[10px] ${healthCheck.status === "ok" ? "bg-[#C2E09D] text-[#2F3A2D]" : "bg-red-100 text-red-700"}`}
+              >
+                {healthCheck.status === "ok" ? "OPERATIONAL" : "DEGRADED"}
+              </Badge>
+            </h2>
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
+              {Object.entries(healthCheck.checks || {}).map(([name, check]: [string, any]) => (
+                <div key={name} className="p-3 rounded-xl bg-[#F8FAF5] dark:bg-[#1E251C]">
+                  <div className="flex items-center gap-2 mb-1">
+                    <div className={`w-2 h-2 rounded-full ${check.status === "ok" ? "bg-green-500" : "bg-red-500"}`} />
+                    <span className="text-xs font-medium text-[#64705E] dark:text-[#9BAA93] capitalize">{name}</span>
+                  </div>
+                  <p className="text-sm font-bold text-[#2F3A2D] dark:text-[#E8EDE6]">
+                    {check.latencyMs !== undefined ? `${check.latencyMs}ms` : check.status}
+                  </p>
+                </div>
+              ))}
+              <div className="p-3 rounded-xl bg-[#F8FAF5] dark:bg-[#1E251C]">
+                <div className="flex items-center gap-2 mb-1">
+                  <Clock className="w-2 h-2 text-[#64705E]" />
+                  <span className="text-xs font-medium text-[#64705E] dark:text-[#9BAA93]">Uptime</span>
+                </div>
+                <p className="text-sm font-bold text-[#2F3A2D] dark:text-[#E8EDE6]">
+                  {Math.floor((healthCheck.uptime || 0) / 3600)}h {Math.floor(((healthCheck.uptime || 0) % 3600) / 60)}m
+                </p>
+              </div>
+              <div className="p-3 rounded-xl bg-[#F8FAF5] dark:bg-[#1E251C]">
+                <div className="flex items-center gap-2 mb-1">
+                  <Activity className="w-2 h-2 text-[#64705E]" />
+                  <span className="text-xs font-medium text-[#64705E] dark:text-[#9BAA93]">Memoria</span>
+                </div>
+                <p className="text-sm font-bold text-[#2F3A2D] dark:text-[#E8EDE6]">
+                  {healthCheck.memory?.heapUsedMB || 0}MB
+                </p>
+              </div>
+            </div>
+          </Card>
+        )}
 
         <div className="grid lg:grid-cols-3 gap-6">
           {/* Revenue Breakdown */}
@@ -203,6 +269,7 @@ export default function AdminPage() {
                 { href: "/admin/users", label: "Gestionar Usuarios", icon: Users },
                 { href: "/admin/payments", label: "Ver Pagos", icon: CreditCard },
                 { href: "/admin/messages", label: "Mensajes Recibidos", icon: MessageSquare },
+                { href: "/admin/emails", label: "Envío de Emails", icon: Mail },
                 { href: "/admin/blog", label: "Administrar Blog", icon: Newspaper },
                 { href: "/admin/products", label: "Administrar Productos", icon: Package },
               ].map((item) => (

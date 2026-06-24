@@ -45,7 +45,11 @@ export async function compressImage(file: File, maxSizeMB = 10): Promise<File> {
     }
 
     let { width, height } = img
-    const maxDimension = 768
+    const isSlowConnection =
+      typeof navigator !== "undefined" &&
+      "connection" in navigator &&
+      ["slow-2g", "2g", "3g"].includes((navigator as any).connection?.effectiveType || "")
+    const maxDimension = isSlowConnection ? 480 : 768
     if (width > maxDimension || height > maxDimension) {
       const ratio = Math.min(maxDimension / width, maxDimension / height)
       width = Math.round(width * ratio)
@@ -57,7 +61,7 @@ export async function compressImage(file: File, maxSizeMB = 10): Promise<File> {
     ctx.drawImage(img, 0, 0, width, height)
     img.close()
 
-    let quality = 0.7
+    let quality = isSlowConnection ? 0.5 : 0.7
     const mimeType = preferWebP ? "image/webp" : "image/jpeg"
     let blob = await canvasToBlob(canvas, quality, mimeType)
 

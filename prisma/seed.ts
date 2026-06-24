@@ -517,6 +517,29 @@ Con esta guía podrás leer cualquier etiqueta y tomar decisiones informadas sob
     })
   }
   console.log(`${products.length} products created`)
+
+  const challenges = [
+    { title: "Limpia tu cara 2 veces hoy", description: "Lava tu rostro por la mañana y por la noche con un limpiador suave.", points: 10, frequency: "daily" },
+    { title: "Aplica protector solar", description: "Aplica protector solar SPF 30+ antes de salir de casa.", points: 15, frequency: "daily" },
+    { title: "Toma 8 vasos de agua", description: "Mantente hidratado bebiendo al menos 8 vasos de agua hoy.", points: 10, frequency: "daily" },
+    { title: "Doble limpieza nocturna", description: "Realiza doble limpieza por la noche: desmaquillante + limpiador.", points: 15, frequency: "daily" },
+    { title: "No toques tu cara", description: "Evita tocarte la cara durante todo el día para prevenir brotes.", points: 20, frequency: "daily" },
+    { title: "7 días de consistencia", description: "Mantén tu rutina de cuidado facial por 7 días seguidos.", points: 50, frequency: "weekly" },
+    { title: "Exfoliación semanal", description: "Realiza una exfoliación suave (química o física) esta semana.", points: 20, frequency: "weekly" },
+    { title: "Mascarilla hidratante", description: "Aplica una mascarilla hidratante o de arcilla esta semana.", points: 15, frequency: "weekly" },
+    { title: "Lee la etiqueta de un producto", description: "Lee y analiza el INCI de al menos un producto que uses.", points: 10, frequency: "weekly" },
+    { title: "Registra tu piel en el diario", description: "Escribe al menos 3 entradas en tu diario de piel esta semana.", points: 25, frequency: "weekly" },
+    { title: "Reorganiza tu rutina", description: "Revisa tu rutina actual y ajusta según las necesidades de tu piel.", points: 20, frequency: "monthly" },
+    { title: "Compra un producto nuevo consciente", description: "Elige un producto basándote en sus ingredientes, no solo en el marketing.", points: 30, frequency: "monthly" },
+  ]
+
+  for (const challenge of challenges) {
+    const existing = await db.challenge.findFirst({ where: { title: challenge.title } })
+    if (!existing) {
+      await db.challenge.create({ data: challenge })
+    }
+  }
+  console.log(`${challenges.length} challenges seeded`)
 }
 
 main()

@@ -40,12 +40,17 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <head>
         <meta name="google-site-verification" content="FyNhwOqJ_JWdfoU_RZPYAqSNuHeuCXUgjmwDqT1cGXw" />
         <link rel="manifest" href="/manifest.json" />
-        <link rel="preconnect" href="https://api.openrouter.ai" />
+        <link rel="preconnect" href="https://api.openrouter.ai" crossOrigin="anonymous" />
         <link rel="dns-prefetch" href="https://api.openrouter.ai" />
-        <link rel="preconnect" href="https://api.qvapay.com" />
+        <link rel="preconnect" href="https://api.qvapay.com" crossOrigin="anonymous" />
         <link rel="dns-prefetch" href="https://api.qvapay.com" />
-        <link rel="preconnect" href="https://app.posthog.com" />
+        <link rel="preconnect" href="https://api.resend.com" crossOrigin="anonymous" />
+        <link rel="dns-prefetch" href="https://api.resend.com" />
+        <link rel="preconnect" href="https://app.posthog.com" crossOrigin="anonymous" />
         <link rel="dns-prefetch" href="https://app.posthog.com" />
+        <link rel="preconnect" href="https://o4511315853246464.ingest.us.sentry.io" crossOrigin="anonymous" />
+        <link rel="dns-prefetch" href="https://o4511315853246464.ingest.us.sentry.io" />
+        <link rel="dns-prefetch" href="https://www.qvapay.com" />
         {process.env.NODE_ENV === "production" && (
           <script
             dangerouslySetInnerHTML={{

@@ -152,3 +152,13 @@ export type UserChallenge = Prisma.UserChallengeModel
  * 
  */
 export type ProductReview = Prisma.ProductReviewModel
+/**
+ * Model EmailLog
+ * 
+ */
+export type EmailLog = Prisma.EmailLogModel
+/**
+ * Model Unsubscribe
+ * 
+ */
+export type Unsubscribe = Prisma.UnsubscribeModel

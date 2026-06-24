@@ -1,46 +1,17 @@
 import { NextRequest } from "next/server"
 import { getServerSession } from "next-auth"
 import { authOptions } from "@/lib/auth"
-import { db } from "@/lib/db"
 import { ok, error, serverError } from "@/lib/api-response"
+import { ChallengeService, ChallengeError } from "@/lib/services/challenge.service"
+import { challengeCompleteSchema } from "@/lib/validations"
 
 export async function GET() {
   try {
     const session = await getServerSession(authOptions)
     if (!session?.user) return error("Debes iniciar sesión", 401)
 
-    const challenges = await db.challenge.findMany({
-      where: { active: true },
-      include: {
-        userChallenges: {
-          where: { userId: session.user.id },
-          select: { completed: true, completedAt: true },
-        },
-      },
-      orderBy: { createdAt: "desc" },
-    })
-
-    const userChallenges = await db.userChallenge.findMany({
-      where: { userId: session.user.id, completed: true },
-      include: { challenge: { select: { points: true } } },
-    })
-
-    const totalPoints = userChallenges.reduce((sum, uc) => sum + (uc.challenge?.points || 0), 0)
-
-    const result = challenges.map((c) => ({
-      id: c.id,
-      title: c.title,
-      description: c.description,
-      points: c.points,
-      frequency: c.frequency,
-      completed: c.userChallenges[0]?.completed || false,
-      completedAt: c.userChallenges[0]?.completedAt || null,
-    }))
-
-    return ok({
-      challenges: result,
-      totalPoints,
-    })
+    const data = await ChallengeService.getActiveChallenges(session.user.id)
+    return ok(data)
   } catch (e) {
     return serverError(e)
   }
@@ -51,26 +22,18 @@ export async function POST(req: NextRequest) {
     const session = await getServerSession(authOptions)
     if (!session?.user) return error("Debes iniciar sesión", 401)
 
-    const { challengeId } = await req.json()
-    if (!challengeId) return error("challengeId es requerido")
+    const parsed = challengeCompleteSchema.safeParse(await req.json())
+    if (!parsed.success) {
+      return error("Datos inválidos: " + parsed.error.issues.map((i) => i.message).join(", "))
+    }
 
-    const challenge = await db.challenge.findUnique({ where: { id: challengeId } })
-    if (!challenge) return error("Desafío no encontrado", 404)
-
-    const existing = await db.userChallenge.findUnique({
-      where: { userId_challengeId: { userId: session.user.id, challengeId } },
-    })
-
-    if (existing?.completed) return error("Ya completaste este desafío")
-
-    const userChallenge = await db.userChallenge.upsert({
-      where: { userId_challengeId: { userId: session.user.id, challengeId } },
-      update: { completed: true, completedAt: new Date() },
-      create: { userId: session.user.id, challengeId, completed: true, completedAt: new Date() },
-    })
-
-    return ok({ userChallenge, pointsEarned: challenge.points })
+    const result = await ChallengeService.completeChallenge(session.user.id, parsed.data.challengeId)
+    return ok(result)
   } catch (e) {
+    if (e instanceof ChallengeError) {
+      const statusMap: Record<string, number> = { NOT_FOUND: 404, INACTIVE: 400, ALREADY_COMPLETED: 409 }
+      return error(e.message, statusMap[e.code] || 400)
+    }
     return serverError(e)
   }
 }

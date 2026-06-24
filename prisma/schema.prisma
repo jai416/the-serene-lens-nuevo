@@ -38,6 +38,10 @@ model User {
   skinDiary      SkinDiary[]
   userChallenges UserChallenge[]
   productReviews ProductReview[]
+
+  @@index([plan])
+  @@index([role])
+  @@index([createdAt])
 }
 
 model Account {
@@ -157,6 +161,9 @@ model Payment {
 
   @@index([userId])
   @@index([provider])
+  @@index([status])
+  @@index([createdAt])
+  @@index([userId, status])
 }
 
 model Subscription {
@@ -176,6 +183,8 @@ model Subscription {
 
   @@index([userId])
   @@index([status])
+  @@index([provider])
+  @@index([currentPeriodEnd])
 }
 
 model PurchasePack {
@@ -192,6 +201,9 @@ model PurchasePack {
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@index([userId])
+  @@index([status])
+  @@index([userId, status])
+  @@index([createdAt])
 }
 
 model UsageTracking {
@@ -282,6 +294,8 @@ model WebhookEvent {
 
   @@index([processedAt])
   @@index([attempts])
+  @@index([provider])
+  @@index([provider, eventType])
 }
 
 model UserEvolution {
@@ -367,6 +381,7 @@ model SkinDiary {
   @@unique([userId, date])
   @@index([userId])
   @@index([date])
+  @@index([userId, date])
 }
 
 model Challenge {
@@ -379,6 +394,9 @@ model Challenge {
   createdAt   DateTime @default(now())
 
   userChallenges UserChallenge[]
+
+  @@index([active])
+  @@index([createdAt])
 }
 
 model UserChallenge {
@@ -409,4 +427,27 @@ model ProductReview {
 
   @@unique([userId, productId])
   @@index([productId])
+}
+
+model EmailLog {
+  id        String   @id @default(cuid())
+  subject   String
+  body      String
+  recipient String
+  segment   String
+  status    String   @default("sent")
+  batchId   String?
+  sentAt    DateTime @default(now())
+
+  @@index([sentAt])
+  @@index([recipient])
+}
+
+model Unsubscribe {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  reason    String?
+  createdAt DateTime @default(now())
+
+  @@index([email])
 }
