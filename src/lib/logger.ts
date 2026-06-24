@@ -1,5 +1,3 @@
-import crypto from "crypto"
-
 const isDev = process.env.NODE_ENV === "development"
 const MIN_LEVEL = isDev ? 0 : 1
 
@@ -27,7 +25,7 @@ export function setCorrelationId(id: string): void {
 }
 
 export function generateCorrelationId(): string {
-  return crypto.randomUUID()
+  return globalThis.crypto.randomUUID()
 }
 
 function formatLog(level: LogLevel, msg: string, meta?: Record<string, unknown>) {
