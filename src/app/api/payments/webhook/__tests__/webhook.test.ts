@@ -6,12 +6,14 @@ const {
   mockCreate,
   mockQvaPayStatus,
   mockGetCUPRate,
+  mockCheckRateLimit,
 } = vi.hoisted(() => ({
   mockFindUnique: vi.fn(),
   mockUpdate: vi.fn(),
   mockCreate: vi.fn(),
   mockQvaPayStatus: vi.fn(),
   mockGetCUPRate: vi.fn(),
+  mockCheckRateLimit: vi.fn().mockResolvedValue({ allowed: true, remaining: 29 }),
 }))
 
 vi.mock("@/lib/db", () => ({
@@ -42,6 +44,10 @@ vi.mock("@/lib/cup-rate", () => ({
 
 vi.mock("@/lib/logger", () => ({
   logger: { info: vi.fn(), error: vi.fn(), warn: vi.fn(), debug: vi.fn() },
+}))
+
+vi.mock("@/lib/rate-limit", () => ({
+  checkRateLimit: mockCheckRateLimit,
 }))
 
 // We need to test the webhook route handler directly

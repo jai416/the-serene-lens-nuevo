@@ -2,12 +2,19 @@ import { getServerSession } from "next-auth"
 import { authOptions } from "@/lib/auth"
 import { db } from "@/lib/db"
 import { AnalysisStream } from "@/lib/streaming"
-import { unauthorized, serverError } from "@/lib/api-response"
+import { unauthorized, serverError, error } from "@/lib/api-response"
+import { checkRateLimit } from "@/lib/rate-limit"
 
 export async function POST(req: Request) {
   try {
     const session = await getServerSession(authOptions)
     if (!session?.user?.id) return unauthorized()
+
+    const ip = req.headers.get("x-forwarded-for") || req.headers.get("x-real-ip") || "unknown"
+    const rl = await checkRateLimit(`analyze-stream:${session.user.id}:${ip}`, 5, 60 * 1000)
+    if (!rl.allowed) {
+      return error("Demasiadas solicitudes. Espera un minuto.")
+    }
 
     const stream = new AnalysisStream()
     const webStream = stream.createStream()
@@ -34,6 +41,9 @@ export async function POST(req: Request) {
 
     const imagesBase64 = await Promise.all(
       files.map(async (file) => {
+        if (!file.type.startsWith("image/")) {
+          throw new Error("Solo se aceptan archivos de imagen")
+        }
         if (file.size > 10 * 1024 * 1024) {
           throw new Error("Una imagen supera los 10MB")
         }

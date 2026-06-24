@@ -6,15 +6,25 @@ import { ok, error, serverError, unauthorized } from "@/lib/api-response"
 import { createQvaPayPayment, getPaymentError } from "@/lib/payments"
 import { getPlan } from "@/lib/pricing"
 import { getCUPRate } from "@/lib/cup-rate"
+import { z } from "zod"
+import { logger } from "@/lib/logger"
+
+const createPaymentSchema = z.object({
+  plan: z.string().min(1).max(50),
+}).strict()
 
 export async function POST(req: NextRequest) {
   try {
     const session = await getServerSession(authOptions)
     if (!session?.user) return unauthorized()
 
-    const { plan } = await req.json()
+    const body = await req.json()
+    const parsed = createPaymentSchema.safeParse(body)
+    if (!parsed.success) {
+      return error(parsed.error.issues.map((i) => i.message).join(", "), 400)
+    }
 
-    const planDef = getPlan(plan)
+    const planDef = getPlan(parsed.data.plan)
     if (!planDef || planDef.priceUSD === 0) {
       return error("Plan inválido")
     }
@@ -25,7 +35,7 @@ export async function POST(req: NextRequest) {
       const qvapayPayment = await createQvaPayPayment({
         amount,
         description: `Plan ${planDef.name} - The Serene Lens`,
-        plan,
+        plan: parsed.data.plan,
         userId: session.user.id,
       })
 
@@ -36,7 +46,7 @@ export async function POST(req: NextRequest) {
             userId: session.user.id,
             provider: "qvapay",
             qvapayId: transactionUuid,
-            plan,
+            plan: parsed.data.plan,
             amount,
             amountUsd: amount,
             amountCup: amount * cupRate,
@@ -47,7 +57,7 @@ export async function POST(req: NextRequest) {
 
       return ok({ url: qvapayPayment?.url, id: transactionUuid, provider: "qvapay" })
     } catch (e) {
-      console.error("[payments/create] QvaPay error:", e)
+      logger.error("QvaPay create error", { error: e instanceof Error ? e.message : "Unknown" })
       return error(getPaymentError("qvapay", e))
     }
   } catch (e) {

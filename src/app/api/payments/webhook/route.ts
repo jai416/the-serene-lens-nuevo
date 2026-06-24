@@ -3,6 +3,7 @@ import { db } from "@/lib/db"
 import { ok, error, serverError } from "@/lib/api-response"
 import { getQvaPayPaymentStatus } from "@/lib/payments"
 import { getCUPRate } from "@/lib/cup-rate"
+import { checkRateLimit } from "@/lib/rate-limit"
 
 const PACK_ANALYSES: Record<string, number> = {
   BASIC: 3,
@@ -12,10 +13,16 @@ const PACK_ANALYSES: Record<string, number> = {
 
 export async function POST(req: NextRequest) {
   try {
+    const ip = req.headers.get("x-forwarded-for") || req.headers.get("x-real-ip") || "unknown"
+    const rl = await checkRateLimit(`webhook:${ip}`, 30, 60 * 1000)
+    if (!rl.allowed) {
+      return error("Demasiadas solicitudes", 429)
+    }
+
     const body = await req.json()
     const transactionUuid = body.transaction_uuid || body.payment_id
 
-    if (!transactionUuid) {
+    if (!transactionUuid || typeof transactionUuid !== "string") {
       return error("transaction_uuid requerido")
     }
 

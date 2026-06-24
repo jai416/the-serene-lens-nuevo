@@ -9,7 +9,9 @@ import { useState } from "react"
 export function SocialLoginButtons() {
   const router = useRouter()
   const searchParams = useSearchParams()
-  const callbackUrl = searchParams.get("callbackUrl") || "/dashboard"
+  const rawCallback = searchParams.get("callbackUrl") || "/dashboard"
+  const callbackUrl =
+    rawCallback.startsWith("/") && !rawCallback.startsWith("//") ? rawCallback : "/dashboard"
   const [loading, setLoading] = useState<string | null>(null)
 
   const handleSocialLogin = async (provider: string) => {

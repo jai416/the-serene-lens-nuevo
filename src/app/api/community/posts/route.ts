@@ -2,11 +2,20 @@ import { NextRequest } from "next/server";
 import { getServerSession } from "next-auth";
 import { db } from "@/lib/db";
 import { ok, error, serverError } from "@/lib/api-response";
+import { z } from "zod";
+
+const stripHtml = (s: string) => s.replace(/<[^>]*>/g, "").trim()
+
+const communityPostSchema = z.object({
+  title: z.string().min(1).max(200).transform(stripHtml),
+  content: z.string().min(1).max(5000).transform(stripHtml),
+  category: z.enum(["skin-care", "makeup", "lifestyle", "questions"]),
+}).strict()
 
 export async function GET(request: NextRequest) {
   try {
     const searchParams = request.nextUrl.searchParams;
-    const page = parseInt(searchParams.get("page") || "1");
+    const page = Math.min(Math.max(1, parseInt(searchParams.get("page") || "1")), 100);
     const category = searchParams.get("category");
     const limit = 10;
     const skip = (page - 1) * limit;
@@ -54,11 +63,12 @@ export async function POST(request: NextRequest) {
     }
 
     const body = await request.json();
-    const { title, content, category } = body;
-
-    if (!title || !content || !category) {
-      return error("Título, contenido y categoría son requeridos", 400);
+    const parsed = communityPostSchema.safeParse(body);
+    if (!parsed.success) {
+      return error(parsed.error.issues.map((i) => i.message).join(", "), 400);
     }
+
+    const { title, content, category } = parsed.data;
 
     const post = await db.communityPost.create({
       data: {

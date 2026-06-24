@@ -4,6 +4,7 @@ import { authOptions } from "@/lib/auth"
 import { z } from "zod"
 import { sendBulkEmail, getRecipients } from "@/lib/services/admin-email.service"
 import { logger } from "@/lib/logger"
+import { checkRateLimit } from "@/lib/rate-limit"
 
 const sendEmailSchema = z.object({
   subject: z.string().min(1).max(200),
@@ -18,6 +19,11 @@ export async function POST(request: NextRequest) {
     const session = await getServerSession(authOptions)
     if (!session?.user || session.user.role !== "ADMIN") {
       return NextResponse.json({ error: "No autorizado" }, { status: 401 })
+    }
+
+    const rl = await checkRateLimit(`admin-email:${session.user.id}`, 5, 60 * 60 * 1000)
+    if (!rl.allowed) {
+      return NextResponse.json({ error: "Demasiados envíos. Intenta más tarde." }, { status: 429 })
     }
 
     const body = await request.json()

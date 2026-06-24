@@ -31,7 +31,7 @@ export async function checkRateLimit(
 
     return { allowed: true, remaining: maxRequests - existing.count - 1 }
   } catch {
-    return { allowed: true, remaining: maxRequests - 1 }
+    return { allowed: false, remaining: maxRequests - 1 }
   }
 }
 

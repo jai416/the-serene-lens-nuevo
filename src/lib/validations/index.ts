@@ -57,3 +57,70 @@ export const challengeCreateSchema = z.object({
   frequency: z.enum(["daily", "weekly", "monthly"]).default("weekly"),
   active: z.boolean().default(true),
 }).strict()
+
+export const adminBlogPostSchema = z.object({
+  title: z.string().min(1).max(200),
+  slug: z.string().min(1).max(200),
+  excerpt: z.string().min(1).max(500),
+  content: z.string().min(1),
+  image: z.string().max(500).optional(),
+  category: z.string().min(1).max(100),
+  tags: z.string().max(500).optional(),
+  published: z.boolean().optional(),
+  readTime: z.number().int().min(1).max(600).optional(),
+}).strict()
+
+export const adminBlogUpdateSchema = z.object({
+  id: z.string().min(1),
+  title: z.string().min(1).max(200).optional(),
+  slug: z.string().min(1).max(200).optional(),
+  excerpt: z.string().min(1).max(500).optional(),
+  content: z.string().min(1).optional(),
+  image: z.string().max(500).optional(),
+  category: z.string().min(1).max(100).optional(),
+  tags: z.string().max(500).optional(),
+  published: z.boolean().optional(),
+  readTime: z.number().int().min(1).max(600).optional(),
+}).strict()
+
+export const adminProductSchema = z.object({
+  name: z.string().min(1).max(200),
+  slug: z.string().min(1).max(200),
+  description: z.string().min(1),
+  shortDesc: z.string().max(500).optional(),
+  image: z.string().max(500).optional(),
+  category: z.string().min(1).max(100),
+  skinTypes: z.string().max(100).optional(),
+  price: z.number().min(0).optional(),
+  ingredients: z.string().max(5000).optional(),
+  isActive: z.boolean().optional(),
+}).strict()
+
+export const adminProductUpdateSchema = z.object({
+  id: z.string().min(1),
+  name: z.string().min(1).max(200).optional(),
+  slug: z.string().min(1).max(200).optional(),
+  description: z.string().min(1).optional(),
+  shortDesc: z.string().max(500).optional(),
+  image: z.string().max(500).optional(),
+  category: z.string().min(1).max(100).optional(),
+  skinTypes: z.string().max(100).optional(),
+  price: z.number().min(0).optional(),
+  ingredients: z.string().max(5000).optional(),
+  isActive: z.boolean().optional(),
+}).strict()
+
+export const adminUserUpdateSchema = z.object({
+  id: z.string().min(1),
+  role: z.enum(["USER", "ADMIN"]).optional(),
+  plan: z.enum(["FREE", "PREMIUM", "PRO"]).optional(),
+}).strict()
+
+export const adminMessageUpdateSchema = z.object({
+  id: z.string().min(1),
+  read: z.boolean(),
+}).strict()
+
+export const adminDeleteSchema = z.object({
+  id: z.string().min(1),
+}).strict()

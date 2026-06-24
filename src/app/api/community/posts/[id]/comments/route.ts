@@ -2,6 +2,13 @@ import { NextRequest } from "next/server";
 import { getServerSession } from "next-auth";
 import { db } from "@/lib/db";
 import { ok, error, serverError } from "@/lib/api-response";
+import { z } from "zod";
+
+const stripHtml = (s: string) => s.replace(/<[^>]*>/g, "").trim()
+
+const commentSchema = z.object({
+  content: z.string().min(1).max(2000).transform(stripHtml),
+}).strict()
 
 export async function GET(
   request: NextRequest,
@@ -53,17 +60,16 @@ export async function POST(
     }
 
     const body = await request.json();
-    const { content } = body;
-
-    if (!content) {
-      return error("El contenido es requerido", 400);
+    const parsed = commentSchema.safeParse(body);
+    if (!parsed.success) {
+      return error(parsed.error.issues.map((i) => i.message).join(", "), 400);
     }
 
     const comment = await db.comment.create({
       data: {
         postId: id,
         userId: user.id,
-        content,
+        content: parsed.data.content,
       },
       include: { user: { select: { name: true } } },
     });

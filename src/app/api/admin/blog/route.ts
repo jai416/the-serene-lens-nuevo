@@ -3,7 +3,8 @@ import { authOptions } from "@/lib/auth"
 import { db } from "@/lib/db"
 import { NextRequest } from "next/server"
 import { revalidateTag } from "next/cache"
-import { ok, unauthorized, serverError } from "@/lib/api-response"
+import { ok, unauthorized, serverError, error } from "@/lib/api-response"
+import { adminBlogPostSchema, adminBlogUpdateSchema, adminDeleteSchema } from "@/lib/validations"
 
 async function requireAdmin() {
   const session = await getServerSession(authOptions)
@@ -31,8 +32,13 @@ export async function POST(req: NextRequest) {
     const admin = await requireAdmin()
     if (!admin) return unauthorized()
 
-    const data = await req.json()
+    const body = await req.json()
+    const parsed = adminBlogPostSchema.safeParse(body)
+    if (!parsed.success) {
+      return error(parsed.error.issues.map((i) => i.message).join(", "), 400)
+    }
 
+    const data = parsed.data
     const post = await db.blogPost.create({
       data: {
         title: data.title,
@@ -61,10 +67,15 @@ export async function PUT(req: NextRequest) {
     const admin = await requireAdmin()
     if (!admin) return unauthorized()
 
-    const { id, ...data } = await req.json()
+    const body = await req.json()
+    const parsed = adminBlogUpdateSchema.safeParse(body)
+    if (!parsed.success) {
+      return error(parsed.error.issues.map((i) => i.message).join(", "), 400)
+    }
 
+    const { id, ...data } = parsed.data
     const updateData: Record<string, unknown> = { ...data }
-    if (data.published && !data.publishedAt) {
+    if (data.published === true) {
       updateData.publishedAt = new Date()
     }
 
@@ -86,9 +97,13 @@ export async function DELETE(req: NextRequest) {
     const admin = await requireAdmin()
     if (!admin) return unauthorized()
 
-    const { id } = await req.json()
+    const body = await req.json()
+    const parsed = adminDeleteSchema.safeParse(body)
+    if (!parsed.success) {
+      return error(parsed.error.issues.map((i) => i.message).join(", "), 400)
+    }
 
-    await db.blogPost.delete({ where: { id } })
+    await db.blogPost.delete({ where: { id: parsed.data.id } })
 
     revalidateTag("blog-posts", {})
 

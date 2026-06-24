@@ -2,7 +2,8 @@ import { NextRequest } from "next/server"
 import { getServerSession } from "next-auth"
 import { authOptions } from "@/lib/auth"
 import { db } from "@/lib/db"
-import { ok, serverError, unauthorized } from "@/lib/api-response"
+import { ok, serverError, unauthorized, error } from "@/lib/api-response"
+import { profileSchema } from "@/lib/validations"
 
 export async function GET() {
   try {
@@ -33,11 +34,15 @@ export async function PUT(req: NextRequest) {
     const session = await getServerSession(authOptions)
     if (!session?.user) return unauthorized()
 
-    const { name } = await req.json()
+    const body = await req.json()
+    const parsed = profileSchema.safeParse(body)
+    if (!parsed.success) {
+      return error(parsed.error.issues.map((i) => i.message).join(", "), 400)
+    }
 
     const user = await db.user.update({
       where: { id: session.user.id },
-      data: { name },
+      data: { name: parsed.data.name },
       select: {
         id: true,
         name: true,

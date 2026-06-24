@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server"
 import { registerUser } from "@/lib/auth"
 import { buildEmailSequence, sendEmail } from "@/lib/services/email-sequence"
 import { checkRateLimit } from "@/lib/rate-limit"
+import { registerSchema } from "@/lib/validations"
 
 const appUrl = process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000"
 
@@ -16,11 +17,17 @@ export async function POST(req: NextRequest) {
       )
     }
 
-    const { name, email, password } = await req.json()
+    const body = await req.json()
 
-    if (!email || !password) {
-      return NextResponse.json({ error: "Email y contraseña son requeridos" }, { status: 400 })
+    const parsed = registerSchema.safeParse(body)
+    if (!parsed.success) {
+      return NextResponse.json(
+        { error: parsed.error.issues.map((i) => i.message).join(", ") },
+        { status: 400 }
+      )
     }
+
+    const { name, email, password } = parsed.data
 
     const result = await registerUser(email, password, name)
     if (result.error) {

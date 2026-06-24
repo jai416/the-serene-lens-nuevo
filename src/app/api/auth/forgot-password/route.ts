@@ -2,9 +2,16 @@ import { NextRequest, NextResponse } from "next/server"
 import crypto from "crypto"
 import { db } from "@/lib/db"
 import { sendPasswordResetEmail } from "@/lib/email"
+import { checkRateLimit } from "@/lib/rate-limit"
 
 export async function POST(req: NextRequest) {
   try {
+    const ip = req.headers.get("x-forwarded-for") || req.headers.get("x-real-ip") || "unknown"
+    const rl = await checkRateLimit(`forgot-password:${ip}`, 5, 60 * 60 * 1000)
+    if (!rl.allowed) {
+      return NextResponse.json({ error: "Demasiadas solicitudes. Intenta más tarde." }, { status: 429 })
+    }
+
     const { email } = await req.json()
 
     if (!email || typeof email !== "string") {
@@ -12,12 +19,12 @@ export async function POST(req: NextRequest) {
     }
 
     const user = await db.user.findUnique({ where: { email } })
-    if (!user) {
-      return NextResponse.json({ error: "No existe una cuenta con este email" }, { status: 404 })
-    }
 
-    if (!user.password) {
-      return NextResponse.json({ error: "Esta cuenta usa inicio de sesión con Google o GitHub. No puedes recuperar la contraseña." }, { status: 400 })
+    if (!user || !user.password) {
+      return NextResponse.json({
+        success: true,
+        message: "Si el email existe, recibirás un enlace de recuperación.",
+      })
     }
 
     const token = crypto.randomBytes(32).toString("hex")

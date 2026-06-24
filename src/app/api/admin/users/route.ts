@@ -2,7 +2,8 @@ import { getServerSession } from "next-auth"
 import { authOptions } from "@/lib/auth"
 import { db } from "@/lib/db"
 import { NextRequest } from "next/server"
-import { ok, unauthorized, serverError } from "@/lib/api-response"
+import { ok, unauthorized, serverError, error } from "@/lib/api-response"
+import { adminUserUpdateSchema } from "@/lib/validations"
 
 async function requireAdmin() {
   const session = await getServerSession(authOptions)
@@ -39,7 +40,13 @@ export async function PUT(req: NextRequest) {
     const admin = await requireAdmin()
     if (!admin) return unauthorized()
 
-    const { id, role, plan } = await req.json()
+    const body = await req.json()
+    const parsed = adminUserUpdateSchema.safeParse(body)
+    if (!parsed.success) {
+      return error(parsed.error.issues.map((i) => i.message).join(", "), 400)
+    }
+
+    const { id, role, plan } = parsed.data
 
     const user = await db.user.update({
       where: { id },

@@ -6,25 +6,31 @@ import { ok, error, serverError, unauthorized } from "@/lib/api-response"
 import { createQvaPayPackPayment, getPaymentError } from "@/lib/payments"
 import { getPack } from "@/lib/pricing"
 import { getCUPRate } from "@/lib/cup-rate"
+import { z } from "zod"
+import { logger } from "@/lib/logger"
+
+const packSchema = z.object({
+  packType: z.enum(["BASIC", "POPULAR", "ADVANCED"]),
+}).strict()
 
 export async function POST(req: NextRequest) {
   try {
     const session = await getServerSession(authOptions)
     if (!session?.user) return unauthorized()
 
-    let body: { packType?: string }
+    let body: unknown
     try {
       body = await req.json()
     } catch {
       return error("Cuerpo de solicitud inválido")
     }
 
-    const { packType } = body
-
-    if (!packType || typeof packType !== "string") {
-      return error("Tipo de pack inválido")
+    const parsed = packSchema.safeParse(body)
+    if (!parsed.success) {
+      return error(parsed.error.issues.map((i) => i.message).join(", "), 400)
     }
 
+    const { packType } = parsed.data
     const packDef = getPack(packType)
     if (!packDef) {
       return error("Pack no encontrado")
@@ -44,7 +50,7 @@ export async function POST(req: NextRequest) {
           packType,
         })
       } catch (e) {
-        console.error("[create-pack] QvaPay API error:", e)
+        logger.error("QvaPay pack API error", { error: e instanceof Error ? e.message : "Unknown" })
         return error("No se pudo conectar con el procesador de pagos. Intenta de nuevo.")
       }
 
@@ -64,22 +70,22 @@ export async function POST(req: NextRequest) {
             },
           })
         } catch (e) {
-          console.error("[create-pack] DB payment save error:", e)
+          logger.error("DB payment save error", { error: e instanceof Error ? e.message : "Unknown" })
         }
       }
 
       if (!qvapayPayment?.url) {
-        console.error("[create-pack] QvaPay returned no URL:", qvapayPayment)
+        logger.error("QvaPay returned no URL", { qvapayPayment })
         return error("Error al generar enlace de pago")
       }
 
       return ok({ url: qvapayPayment.url, id: transactionUuid, provider: "qvapay" })
     } catch (e) {
-      console.error("[create-pack] QvaPay flow error:", e)
+      logger.error("QvaPay pack flow error", { error: e instanceof Error ? e.message : "Unknown" })
       return error(getPaymentError("qvapay", e))
     }
   } catch (e) {
-    console.error("[create-pack] Unexpected error:", e)
+    logger.error("Unexpected pack error", { error: e instanceof Error ? e.message : "Unknown" })
     return serverError(e)
   }
 }

@@ -41,6 +41,10 @@ export async function DELETE() {
       }
     }
 
+    await db.skinDiary.deleteMany({ where: { userId } })
+    await db.userChallenge.deleteMany({ where: { userId } })
+    await db.communityPost.deleteMany({ where: { userId } })
+    await db.comment.deleteMany({ where: { userId } })
     await db.skinAnalysis.deleteMany({ where: { userId } })
     await db.purchasePack.deleteMany({ where: { userId } })
     await db.payment.deleteMany({ where: { userId } })

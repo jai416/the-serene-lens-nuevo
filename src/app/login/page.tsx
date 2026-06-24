@@ -23,7 +23,9 @@ const errorMessages: Record<string, string> = {
 function LoginForm() {
   const searchParams = useSearchParams()
   const router = useRouter()
-  const callbackUrl = searchParams.get("callbackUrl") || "/dashboard"
+  const rawCallback = searchParams.get("callbackUrl") || "/dashboard"
+  const callbackUrl =
+    rawCallback.startsWith("/") && !rawCallback.startsWith("//") ? rawCallback : "/dashboard"
   const errorParam = searchParams.get("error")
 
   const [isRegister, setIsRegister] = useState(false)

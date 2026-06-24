@@ -36,15 +36,14 @@ export function getEnv(): Env {
 
   const result = envSchema.safeParse(process.env)
   if (!result.success) {
-    const missing = result.error.issues
+    const issues = result.error.issues
       .filter((i) => i.code === "invalid_type" && "received" in i && i.received === "undefined")
       .map((i) => i.path.join("."))
 
-    if (missing.length > 0) {
-      throw new Error(`Missing required env variables: ${missing.join(", ")}`)
+    if (issues.length > 0) {
+      throw new Error(`Missing required env variables: ${issues.join(", ")}`)
     }
 
-    console.error("Env validation errors:", JSON.stringify(result.error.issues))
     throw new Error("Invalid environment variables")
   }
 
