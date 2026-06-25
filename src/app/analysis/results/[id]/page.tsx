@@ -94,8 +94,9 @@ export default function AnalysisResultsPage() {
         const res = await fetch(`/api/analysis/${id}`)
         if (!res.ok) throw new Error("Not found")
         const data = await res.json()
-        setAnalysis(data.analysis)
-        const obs = JSON.parse(data.analysis.observations || "{}")
+        const analysisData = data?.data?.analysis || data.analysis
+        setAnalysis(analysisData)
+        const obs = JSON.parse(analysisData.observations || "{}")
         const parsed: AIResult = {
           skinType: obs.skinType || "",
           texture: obs.texture || "",
@@ -104,12 +105,12 @@ export default function AnalysisResultsPage() {
           uniformity: obs.uniformity || "",
           apparentSensitivity: obs.apparentSensitivity || "",
           apparentOil: obs.apparentOil || "",
-          observations: obs.observations || JSON.parse(data.analysis.observations || "[]"),
+          observations: obs.observations || JSON.parse(analysisData.observations || "[]"),
           observationExplanations: obs.observationExplanations || {},
-          recommendations: JSON.parse(data.analysis.recommendations || "[]"),
+          recommendations: JSON.parse(analysisData.recommendations || "[]"),
           confidence: obs.confidence || "media",
           confidenceReason: obs.confidenceReason || "",
-          routine: JSON.parse(data.analysis.routine || '{"morning":[],"evening":[]}'),
+          routine: JSON.parse(analysisData.routine || '{"morning":[],"evening":[]}'),
         }
         setResult(parsed)
       } catch {

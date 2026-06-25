@@ -24,7 +24,6 @@ export default function ChallengesPage() {
   const [challenges, setChallenges] = useState<Challenge[]>([])
   const [totalPoints, setTotalPoints] = useState(0)
   const [loading, setLoading] = useState(true)
-  const [completing, setCompleting] = useState<string | null>(null)
 
   useEffect(() => {
     fetch("/api/challenges")
@@ -50,35 +49,6 @@ export default function ChallengesPage() {
   }
 
   if (!session) redirect("/login?callbackUrl=" + encodeURIComponent(pathname))
-
-  const completeChallenge = async (challengeId: string) => {
-    setCompleting(challengeId)
-    try {
-      const res = await fetch("/api/challenges", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ challengeId }),
-      })
-      const data = await res.json()
-      if (data.success) {
-        toast.success(`+${data.data.pointsEarned} puntos ganados`)
-        setChallenges((prev) =>
-          prev.map((c) =>
-            c.id === challengeId
-              ? { ...c, completed: true, completedAt: new Date().toISOString() }
-              : c
-          )
-        )
-        setTotalPoints((prev) => prev + data.data.pointsEarned)
-      } else {
-        toast.error(data.error?.message || "Error al completar desafío")
-      }
-    } catch {
-      toast.error("Error de conexión")
-    } finally {
-      setCompleting(null)
-    }
-  }
 
   const completedCount = challenges.filter((c) => c.completed).length
 
@@ -175,13 +145,9 @@ export default function ChallengesPage() {
                       Completado
                     </Badge>
                   ) : (
-                    <button
-                      onClick={() => completeChallenge(challenge.id)}
-                      disabled={completing === challenge.id}
-                      className="px-4 py-2 bg-[#C2E09D] text-[#2F3A2D] rounded-full text-xs font-semibold hover:bg-[#B0D48E] transition-all disabled:opacity-50"
-                    >
-                      {completing === challenge.id ? "..." : "Completar"}
-                    </button>
+                    <Badge variant="secondary" className="rounded-full text-[10px]">
+                      Pendiente
+                    </Badge>
                   )}
                 </div>
               </CardContent>
