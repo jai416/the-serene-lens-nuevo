@@ -18,12 +18,6 @@ export class ImageCompressionError extends Error {
 export async function compressImage(file: File, maxSizeMB = 10): Promise<File> {
   const maxSizeBytes = maxSizeMB * 1024 * 1024
 
-  if (file.size > maxSizeBytes) {
-    throw new ImageCompressionError(
-      `La imagen supera los ${maxSizeMB}MB. Reduce el tamaño o toma una foto con menor resolución.`
-    )
-  }
-
   if (file.size < SMALL_FILE_THRESHOLD) {
     return file
   }
@@ -49,7 +43,8 @@ export async function compressImage(file: File, maxSizeMB = 10): Promise<File> {
       typeof navigator !== "undefined" &&
       "connection" in navigator &&
       ["slow-2g", "2g", "3g"].includes((navigator as any).connection?.effectiveType || "")
-    const maxDimension = isSlowConnection ? 480 : 768
+    const isOversized = file.size > maxSizeBytes
+    const maxDimension = isOversized ? 640 : isSlowConnection ? 480 : 768
     if (width > maxDimension || height > maxDimension) {
       const ratio = Math.min(maxDimension / width, maxDimension / height)
       width = Math.round(width * ratio)
@@ -61,11 +56,11 @@ export async function compressImage(file: File, maxSizeMB = 10): Promise<File> {
     ctx.drawImage(img, 0, 0, width, height)
     img.close()
 
-    let quality = isSlowConnection ? 0.5 : 0.7
+    let quality = isOversized ? 0.4 : isSlowConnection ? 0.5 : 0.7
     const mimeType = preferWebP ? "image/webp" : "image/jpeg"
     let blob = await canvasToBlob(canvas, quality, mimeType)
 
-    while (blob.size > file.size && quality > 0.05) {
+    while (blob.size > (isOversized ? blob.size : file.size) && quality > 0.05) {
       quality -= 0.1
       blob = await canvasToBlob(canvas, quality, mimeType)
     }

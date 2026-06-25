@@ -6,7 +6,7 @@ import { useState } from "react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
-import { User, Save, AlertCircle, Trash2 } from "lucide-react"
+import { User, Save, AlertCircle, Trash2, LogOut } from "lucide-react"
 import { toast } from "sonner"
 
 export default function ProfilePage() {
@@ -122,6 +122,22 @@ export default function ProfilePage() {
             <Button onClick={handleSave} disabled={saving} variant="primary">
               <Save className="w-4 h-4 mr-2" />
               {saving ? "Guardando..." : "Guardar cambios"}
+            </Button>
+          </CardContent>
+        </Card>
+
+        {/* ── Cerrar sesión ── */}
+        <Card className="p-6 mt-6">
+          <CardContent className="p-0">
+            <p className="text-sm text-[#64705E] mb-4">
+              Cierra sesión en este dispositivo. Podrás volver a iniciar sesión cuando quieras.
+            </p>
+            <Button
+              variant="outline"
+              onClick={() => signOut({ callbackUrl: "/login" })}
+            >
+              <LogOut className="w-4 h-4 mr-2" />
+              Cerrar sesión
             </Button>
           </CardContent>
         </Card>

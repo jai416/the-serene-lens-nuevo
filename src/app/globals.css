@@ -216,3 +216,17 @@ body::before {
 /* Shadow overrides for dark mode */
 .shadow-\[0_2px_8px_rgba\(47\,58\,45\,0\.05\)\] { @apply dark:shadow-[0_2px_8px_rgba(0,0,0,0.3)]; }
 .shadow-\[0_8px_24px_rgba\(47\,58\,45\,0\.1\)\] { @apply dark:shadow-[0_8px_24px_rgba(0,0,0,0.4)]; }
+
+/* Mobile responsive */
+@media (max-width: 640px) {
+  body { font-size: 14px; }
+  h1 { @apply text-2xl; }
+  h2 { @apply text-xl; }
+  h3 { @apply text-base; }
+  button, .btn { @apply py-2 px-3 text-sm; }
+  input, textarea, select { @apply py-2 px-3 text-sm; }
+}
+
+@media (max-width: 480px) {
+  body { font-size: 13px; }
+}
