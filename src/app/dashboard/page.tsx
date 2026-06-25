@@ -1,7 +1,7 @@
 "use client"
 
 import { useSession } from "next-auth/react"
-import { redirect, usePathname } from "next/navigation"
+import { redirect, usePathname, useSearchParams } from "next/navigation"
 import { useEffect, useState } from "react"
 import Link from "next/link"
 import { Card, CardContent } from "@/components/ui/card"
@@ -28,9 +28,11 @@ interface Usage {
 
 export default function DashboardPage() {
   const pathname = usePathname()
+  const searchParams = useSearchParams()
   const { data: session, status } = useSession()
   const [analyses, setAnalyses] = useState<Analysis[]>([])
   const [usage, setUsage] = useState<Usage | null>(null)
+  const [showWelcome, setShowWelcome] = useState(searchParams.get("welcome") === "1")
 
   useEffect(() => {
     if (session) {
@@ -85,6 +87,31 @@ export default function DashboardPage() {
             Gestiona tus análisis, suscripción y perfil.
           </p>
         </div>
+
+        {showWelcome && (
+          <div className="mb-6 p-5 rounded-2xl bg-gradient-to-r from-[#ECFFD3] to-[#C2E09D] dark:from-[#2A3A24] dark:to-[#2E3829] border border-[#C2E09D] dark:border-[#3A5A2A] relative">
+            <button
+              onClick={() => setShowWelcome(false)}
+              className="absolute top-3 right-3 text-[#64705E] dark:text-[#9BAA93] hover:text-[#2F3A2D] dark:hover:text-[#E8EDE6] text-lg leading-none"
+            >
+              ×
+            </button>
+            <h2 className="font-serif text-lg font-semibold text-[#2F3A2D] dark:text-[#E8EDE6] mb-1">
+              ¡Bienvenido a The Serene Lens!
+            </h2>
+            <p className="text-sm text-[#2F3A2D]/80 dark:text-[#E8EDE6]/80 mb-3">
+              Tu cuenta está lista. Comienza subiendo una foto de tu piel para recibir tu primer análisis cosmético con IA.
+            </p>
+            <Link
+              href="/analysis"
+              className="inline-flex items-center gap-2 px-4 py-2 bg-[#2F3A2D] dark:bg-[#C2E09D] text-white dark:text-[#2F3A2D] rounded-xl text-sm font-medium hover:opacity-90 transition-opacity"
+            >
+              <Scan className="w-4 h-4" />
+              Analizar mi piel ahora
+              <ArrowRight className="w-3.5 h-3.5" />
+            </Link>
+          </div>
+        )}
 
         {/* Plan + Usage Summary */}
         <div className="grid sm:grid-cols-2 gap-4 mb-6">

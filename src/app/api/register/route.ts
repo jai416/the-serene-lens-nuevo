@@ -1,11 +1,7 @@
 import { NextRequest, NextResponse } from "next/server"
 import { registerUser } from "@/lib/auth"
-import { buildEmailSequence, sendEmail } from "@/lib/services/email-sequence"
 import { checkRateLimit } from "@/lib/rate-limit"
 import { registerSchema } from "@/lib/validations"
-import { logger } from "@/lib/logger"
-
-const appUrl = process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000"
 
 export async function POST(req: NextRequest) {
   try {
@@ -33,23 +29,6 @@ export async function POST(req: NextRequest) {
     const result = await registerUser(email, password, name)
     if (result.error) {
       return NextResponse.json({ error: result.error }, { status: 400 })
-    }
-
-    if (result.user) {
-      try {
-        const sequence = buildEmailSequence(result.user.name || "usuario", appUrl)
-        const welcomeEmail = sequence.find((e) => e.day === 0)
-        if (welcomeEmail) {
-          const sent = await sendEmail({
-            to: result.user.email,
-            subject: welcomeEmail.subject,
-            html: welcomeEmail.html,
-          })
-          if (!sent) logger.warn("Welcome email failed to send", { email: result.user.email })
-        }
-      } catch (e) {
-        logger.error("Welcome email error", { error: e, email: result.user.email })
-      }
     }
 
     return NextResponse.json({ ok: true, userId: result.user?.id })

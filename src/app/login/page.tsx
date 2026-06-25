@@ -55,6 +55,8 @@ function LoginForm() {
           return
         }
         toast.success("Cuenta creada correctamente")
+        router.push("/dashboard?welcome=1")
+        return
       }
 
       const result = await signIn("credentials", {
