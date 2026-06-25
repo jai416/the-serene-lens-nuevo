@@ -33,7 +33,7 @@ export default function BlogPage() {
         const res = await fetch(url)
         if (res.ok) {
           const data = await res.json()
-          setPosts(data.posts || [])
+          setPosts(data?.data?.posts || data.posts || [])
         }
       } catch {
         toast.error("Error al cargar artículos")

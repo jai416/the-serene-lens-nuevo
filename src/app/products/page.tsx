@@ -62,7 +62,7 @@ export default function ProductsPage() {
         const res = await fetch(url)
         if (res.ok) {
           const data = await res.json()
-          setProducts(data.products || [])
+          setProducts(data?.data?.products || data.products || [])
         }
       } catch {
         toast.error("Error al cargar productos")

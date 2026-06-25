@@ -36,7 +36,7 @@ export default function HistoryPage() {
     if (session) {
       fetch("/api/analysis")
         .then((res) => res.ok ? res.json() : { analyses: [] })
-        .then((data) => setAnalyses(data.analyses || []))
+        .then((data) => setAnalyses(data?.data?.analyses || data.analyses || []))
         .catch(() => toast.error("Error al cargar historial"))
     }
   }, [session])

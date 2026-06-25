@@ -36,12 +36,12 @@ export default function DashboardPage() {
     if (session) {
       fetch("/api/analysis")
         .then((res) => (res.ok ? res.json() : []))
-        .then((data) => setAnalyses(data.analyses || []))
+        .then((data) => setAnalyses(data?.data?.analyses || data.analyses || []))
         .catch(() => toast.error("Error al cargar análisis"))
 
       fetch("/api/user/usage")
         .then((res) => (res.ok ? res.json() : { usage: null }))
-        .then((data) => setUsage(data.usage))
+        .then((data) => setUsage(data?.data?.usage || data.usage))
         .catch(() => {})
     }
   }, [session])

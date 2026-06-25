@@ -52,12 +52,12 @@ export default function SubscriptionPage() {
     if (session) {
       fetch("/api/user/payments")
         .then((res) => res.ok ? res.json() : { payments: [] })
-        .then((data) => setPayments(data.payments || []))
+        .then((data) => setPayments(data?.data?.payments || data.payments || []))
         .catch(() => toast.error("Error al cargar pagos"))
 
       fetch("/api/user/usage")
         .then((res) => res.ok ? res.json() : { usage: null })
-        .then((data) => setUsage(data.usage))
+        .then((data) => setUsage(data?.data?.usage || data.usage))
         .catch(() => {})
     }
   }, [session])
