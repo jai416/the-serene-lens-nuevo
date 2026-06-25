@@ -51,7 +51,7 @@ export async function GET() {
 
     const latestByUser = new Map<string, typeof friendAnalyses[0]>()
     for (const a of friendAnalyses) {
-      if (!latestByUser.has(a.userId)) {
+      if (a.userId && !latestByUser.has(a.userId)) {
         latestByUser.set(a.userId, a)
       }
     }
