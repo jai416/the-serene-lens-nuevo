@@ -98,11 +98,11 @@ export default function ProductsPage() {
       if (!res.ok) throw new Error("Error al escanear")
       const data = await res.json()
 
-      if (data.result?.summary) {
-        data.result.summary = sanitizeText(data.result.summary)
+      if (data.data?.result?.summary) {
+        data.data.result.summary = sanitizeText(data.data.result.summary)
       }
 
-      setScanResult(data.result)
+      setScanResult(data?.data?.result || data.result)
     } catch (e: any) {
       setScanError(e.message || "Error al escanear")
     } finally {
