@@ -16,7 +16,6 @@ interface Product {
   shortDesc: string | null
   image: string
   category: string
-  price: number
   skinTypes: string
 }
 

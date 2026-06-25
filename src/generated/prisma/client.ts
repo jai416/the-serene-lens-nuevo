@@ -186,3 +186,23 @@ export type EmailLog = Prisma.EmailLogModel
  * 
  */
 export type Unsubscribe = Prisma.UnsubscribeModel
+/**
+ * Model GroupAnalytics
+ * 
+ */
+export type GroupAnalytics = Prisma.GroupAnalyticsModel
+/**
+ * Model Referral
+ * 
+ */
+export type Referral = Prisma.ReferralModel
+/**
+ * Model DigitalProduct
+ * 
+ */
+export type DigitalProduct = Prisma.DigitalProductModel
+/**
+ * Model DigitalProductPurchase
+ * 
+ */
+export type DigitalProductPurchase = Prisma.DigitalProductPurchaseModel

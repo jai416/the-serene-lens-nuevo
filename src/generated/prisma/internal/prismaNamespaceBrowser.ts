@@ -79,7 +79,11 @@ export const ModelName = {
   UserChallenge: 'UserChallenge',
   ProductReview: 'ProductReview',
   EmailLog: 'EmailLog',
-  Unsubscribe: 'Unsubscribe'
+  Unsubscribe: 'Unsubscribe',
+  GroupAnalytics: 'GroupAnalytics',
+  Referral: 'Referral',
+  DigitalProduct: 'DigitalProduct',
+  DigitalProductPurchase: 'DigitalProductPurchase'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -490,12 +494,87 @@ export const UnsubscribeScalarFieldEnum = {
 export type UnsubscribeScalarFieldEnum = (typeof UnsubscribeScalarFieldEnum)[keyof typeof UnsubscribeScalarFieldEnum]
 
 
+export const GroupAnalyticsScalarFieldEnum = {
+  id: 'id',
+  groupId: 'groupId',
+  referrerId: 'referrerId',
+  invitedCount: 'invitedCount',
+  completedCount: 'completedCount',
+  totalRevenue: 'totalRevenue',
+  status: 'status',
+  notifiedAdmin: 'notifiedAdmin',
+  createdAt: 'createdAt',
+  completedAt: 'completedAt',
+  expiresAt: 'expiresAt',
+  metadata: 'metadata'
+} as const
+
+export type GroupAnalyticsScalarFieldEnum = (typeof GroupAnalyticsScalarFieldEnum)[keyof typeof GroupAnalyticsScalarFieldEnum]
+
+
+export const ReferralScalarFieldEnum = {
+  id: 'id',
+  referrerId: 'referrerId',
+  referredId: 'referredId',
+  code: 'code',
+  groupId: 'groupId',
+  status: 'status',
+  discountPrice: 'discountPrice',
+  createdAt: 'createdAt',
+  completedAt: 'completedAt'
+} as const
+
+export type ReferralScalarFieldEnum = (typeof ReferralScalarFieldEnum)[keyof typeof ReferralScalarFieldEnum]
+
+
+export const DigitalProductScalarFieldEnum = {
+  id: 'id',
+  title: 'title',
+  slug: 'slug',
+  description: 'description',
+  shortDesc: 'shortDesc',
+  image: 'image',
+  category: 'category',
+  price: 'price',
+  fileUrl: 'fileUrl',
+  isActive: 'isActive',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type DigitalProductScalarFieldEnum = (typeof DigitalProductScalarFieldEnum)[keyof typeof DigitalProductScalarFieldEnum]
+
+
+export const DigitalProductPurchaseScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  digitalProductId: 'digitalProductId',
+  amount: 'amount',
+  currency: 'currency',
+  provider: 'provider',
+  qvapayId: 'qvapayId',
+  status: 'status',
+  downloadUrl: 'downloadUrl',
+  createdAt: 'createdAt'
+} as const
+
+export type DigitalProductPurchaseScalarFieldEnum = (typeof DigitalProductPurchaseScalarFieldEnum)[keyof typeof DigitalProductPurchaseScalarFieldEnum]
+
+
 export const SortOrder = {
   asc: 'asc',
   desc: 'desc'
 } as const
 
 export type SortOrder = (typeof SortOrder)[keyof typeof SortOrder]
+
+
+export const NullableJsonNullValueInput = {
+  DbNull: DbNull,
+  JsonNull: JsonNull
+} as const
+
+export type NullableJsonNullValueInput = (typeof NullableJsonNullValueInput)[keyof typeof NullableJsonNullValueInput]
 
 
 export const QueryMode = {
@@ -512,4 +591,13 @@ export const NullsOrder = {
 } as const
 
 export type NullsOrder = (typeof NullsOrder)[keyof typeof NullsOrder]
+
+
+export const JsonNullValueFilter = {
+  DbNull: DbNull,
+  JsonNull: JsonNull,
+  AnyNull: AnyNull
+} as const
+
+export type JsonNullValueFilter = (typeof JsonNullValueFilter)[keyof typeof JsonNullValueFilter]
 

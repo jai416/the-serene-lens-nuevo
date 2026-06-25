@@ -101,6 +101,17 @@ export default function SubscriptionPage() {
               </Badge>
             </div>
 
+            {plan === "PRO_PLUS" && (
+              <div className="mt-4 p-4 rounded-xl bg-[#C2E09D]/10 border border-[#C2E09D]">
+                <p className="text-sm font-medium text-[#2F3A2D] mb-2">Funciones Pro+ exclusivas:</p>
+                <ul className="space-y-1 text-xs text-[#64705E]">
+                  <li>• Comparativa mensual automática</li>
+                  <li>• Rutina dinámica semanal</li>
+                  <li>• Informe PDF descargable</li>
+                  <li>• Soporte prioritario (1 hora)</li>
+                </ul>
+              </div>
+            )}
             {!isPaid && (
               <Link href="/pricing">
                 <Button variant="primary" className="w-full mt-4">

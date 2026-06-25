@@ -41,6 +41,7 @@ const SEGMENT_LABELS: Record<string, string> = {
   free: "Free",
   premium: "Premium",
   pro: "Pro",
+  pro_plus: "Pro+",
   active: "Activos",
   inactive: "Inactivos",
   new: "Nuevos (30 días)",

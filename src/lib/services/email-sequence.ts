@@ -24,7 +24,9 @@ async function getResend(): Promise<ResendClient | null> {
   return resendClient
 }
 
-const FROM = "The Serene Lens <noreply@theserenelens.com>"
+const FROM = process.env.RESEND_DOMAIN_VERIFIED === "true"
+  ? "The Serene Lens <noreply@theserenelens.com>"
+  : "The Serene Lens <onboarding@resend.dev>"
 
 function emailWrapper(content: string): string {
   return `
@@ -144,4 +146,44 @@ export async function sendEmail(payload: EmailPayload): Promise<boolean> {
   } catch {
     return false
   }
+}
+
+export async function sendGroupCompletionEmail(
+  email: string,
+  name: string,
+  groupId: string,
+): Promise<boolean> {
+  const appUrl = process.env.NEXT_PUBLIC_APP_URL || "https://the-serene-lens-nuevo.onrender.com"
+  return sendEmail({
+    to: email,
+    subject: "🎉 ¡Tu grupo se completó! Has ganado un análisis gratis",
+    html: `<!DOCTYPE html>
+<html>
+<head><style>
+body{font-family:'Segoe UI',sans-serif;background:#F8FAF5;padding:40px 0}
+.c{max-width:600px;margin:0 auto;background:#fff;border-radius:20px;padding:40px;border:1px solid #DDE7D3}
+.h{text-align:center;margin-bottom:30px}
+.l{font-size:24px;color:#2F3A2D;font-weight:bold}.l span{color:#C2E09D}
+h1{color:#2F3A2D;font-size:24px;margin-bottom:10px}
+p{color:#64705E;line-height:1.6}
+.hl{background:#F0F5EC;padding:20px;border-radius:12px;margin:20px 0;text-align:center}
+.btn{display:inline-block;background:#C2E09D;color:#2F3A2D;padding:12px 30px;border-radius:12px;text-decoration:none;font-weight:bold}
+.f{margin-top:30px;text-align:center;font-size:12px;color:#9BAA93}
+</style></head>
+<body><div class="c">
+<div class="h"><div class="l">🌿 The <span>Serene</span> Lens</div></div>
+<h1>🎉 ¡Felicidades, ${name}!</h1>
+<p>Tu grupo de 3 amigos se ha completado exitosamente. Como recompensa, <strong>has ganado un análisis GRATIS</strong> para tu piel.</p>
+<div class="hl">
+<p style="font-size:18px;color:#2F3A2D;margin:0">✨ 1 análisis gratis añadido a tu cuenta ✨</p>
+<p style="font-size:14px;margin-top:8px">Válido por 30 días</p>
+</div>
+<p>¡Invita a más amigos y sigue ganando análisis gratis!</p>
+<div style="text-align:center;margin:30px 0">
+<a href="${appUrl}/dashboard" class="btn">Ir a mi dashboard</a>
+</div>
+<p style="font-size:14px;color:#64705E">ID de tu grupo: <strong>${groupId}</strong></p>
+<div class="f"><p>The Serene Lens · Observación cosmética con IA</p></div>
+</div></body></html>`,
+  })
 }

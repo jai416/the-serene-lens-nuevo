@@ -81,7 +81,7 @@ async function staleWhileRevalidate(request) {
       }
       return networkResponse
     })
-    .catch(() => cached)
+    .catch(() => cached || new Response("Offline", { status: 503 }))
 
   return cached || fetchPromise
 }

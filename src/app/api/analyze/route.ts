@@ -63,6 +63,10 @@ export async function POST(req: NextRequest) {
       return error(e.message, status)
     }
     logger.error("Analysis failed", { duration, error: e })
+    const msg = e instanceof Error ? e.message : String(e)
+    if (msg.includes("ETIMEDOUT") || msg.includes("fetch failed")) {
+      return error("El servicio de análisis IA está temporalmente no disponible. Intenta de nuevo.", 503)
+    }
     return serverError(e)
   }
 }

@@ -146,16 +146,18 @@ Todas las observaciones deben estar basadas únicamente en lo que ves en la foto
     response_format: { type: "json_object" },
   }
 
-  const res = await withRetry(() =>
-    fetch("https://openrouter.ai/api/v1/chat/completions", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${env.OPENROUTER_API_KEY}`,
-      },
-      body: JSON.stringify(body),
-      signal: AbortSignal.timeout(50000),
-    })
+  const res = await withRetry(
+    () =>
+      fetch("https://openrouter.ai/api/v1/chat/completions", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${env.OPENROUTER_API_KEY}`,
+        },
+        body: JSON.stringify(body),
+        signal: AbortSignal.timeout(90000),
+      }),
+    { maxRetries: 2, baseDelayMs: 2000 }
   )
 
   if (!res.ok) {
@@ -217,16 +219,18 @@ Responde en formato JSON (sin markdown, solo JSON válido). Usa lenguaje descrip
     response_format: { type: "json_object" },
   }
 
-  const res = await withRetry(() =>
-    fetch("https://openrouter.ai/api/v1/chat/completions", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${env.OPENROUTER_API_KEY}`,
-      },
-      body: JSON.stringify(body),
-      signal: AbortSignal.timeout(30000),
-    })
+  const res = await withRetry(
+    () =>
+      fetch("https://openrouter.ai/api/v1/chat/completions", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${env.OPENROUTER_API_KEY}`,
+        },
+        body: JSON.stringify(body),
+        signal: AbortSignal.timeout(60000),
+      }),
+    { maxRetries: 2, baseDelayMs: 2000 }
   )
 
   if (!res.ok) {

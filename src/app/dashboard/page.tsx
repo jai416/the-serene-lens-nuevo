@@ -9,6 +9,7 @@ import { Badge } from "@/components/ui/badge"
 import { LayoutDashboard, Scan, History, CreditCard, User, ArrowRight, Sparkles, Clock, BarChart3 } from "lucide-react"
 import { getPlanLabel, formatDate } from "@/lib/utils"
 import { CardSkeleton } from "@/components/ui/skeleton"
+import { SocialComparison } from "@/components/social-comparison"
 import { toast } from "sonner"
 
 interface Analysis {
@@ -235,6 +236,11 @@ export default function DashboardPage() {
             </div>
           </CardContent>
         </Card>
+
+        {/* Social Comparison */}
+        <div className="mb-6">
+          <SocialComparison />
+        </div>
 
         {/* Recent Analyses */}
         {analyses.length > 0 && (

@@ -74,6 +74,22 @@ export const PLANS: PlanDef[] = [
     ],
     popular: false,
   },
+  {
+    id: "PRO_PLUS",
+    name: "Pro+",
+    priceUSD: 14.99,
+    priceCUP: toCUP(14.99),
+    period: "por mes",
+    analysesPerMonth: -1,
+    features: [
+      "Todo Pro",
+      "Comparativa mensual automática",
+      "Rutina dinámica semanal",
+      "Informe PDF descargable",
+      "Soporte prioritario (1 hora)",
+    ],
+    popular: false,
+  },
 ]
 
 export const PACKS: PackDef[] = [

@@ -48,7 +48,6 @@ export async function POST(req: NextRequest) {
         image: data.image || "",
         category: data.category,
         skinTypes: data.skinTypes || "all",
-        price: data.price || 0,
         ingredients: data.ingredients || null,
         isActive: data.isActive ?? true,
       },

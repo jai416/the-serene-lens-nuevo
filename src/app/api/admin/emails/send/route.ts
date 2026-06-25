@@ -9,7 +9,7 @@ import { checkRateLimit } from "@/lib/rate-limit"
 const sendEmailSchema = z.object({
   subject: z.string().min(1).max(200),
   html: z.string().min(1),
-  segment: z.enum(["all", "free", "premium", "pro", "active", "inactive", "new"]),
+  segment: z.enum(["all", "free", "premium", "pro", "pro_plus", "active", "inactive", "new"]),
   preview: z.boolean().optional(),
   previewEmail: z.string().email().optional(),
 })

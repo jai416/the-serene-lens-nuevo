@@ -1,6 +1,5 @@
 import { notFound } from "next/navigation"
 import { db } from "@/lib/db"
-import { formatPrice } from "@/lib/utils"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
@@ -17,7 +16,7 @@ export async function generateMetadata({
   const { slug } = await params
   const product = await db.product.findUnique({
     where: { slug, isActive: true },
-    select: { name: true, shortDesc: true, description: true, image: true, slug: true, price: true, category: true },
+    select: { name: true, shortDesc: true, description: true, image: true, slug: true, category: true },
   })
 
   if (!product) return { title: "Producto no encontrado" }
@@ -72,13 +71,6 @@ export default async function ProductDetailPage({
       name: "The Serene Lens",
     },
     category: product.category,
-    offers: {
-      "@type": "Offer",
-      price: product.price,
-      priceCurrency: "USD",
-      availability: "https://schema.org/InStock",
-      url: `${baseUrl}/products/${product.slug}`,
-    },
   }
 
   const skinTypeLabels: Record<string, string> = {
@@ -127,12 +119,6 @@ export default async function ProductDetailPage({
             )}
 
             <p className="text-sm text-[#2F3A2D] mb-4">{product.description}</p>
-
-            {product.price > 0 && (
-              <p className="text-lg font-semibold text-[#2F3A2D] mb-4">
-                {formatPrice(product.price)}
-              </p>
-            )}
 
             {product.skinTypes && product.skinTypes !== "all" && (
               <p className="text-sm mb-2">

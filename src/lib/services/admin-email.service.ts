@@ -2,7 +2,8 @@ import { z } from "zod"
 import { logger } from "@/lib/logger"
 import { db } from "@/lib/db"
 
-const FROM = "The Serene Lens <noreply@theserenelens.com>"
+const FALLBACK_FROM = "The Serene Lens <onboarding@resend.dev>"
+const CUSTOM_FROM = "The Serene Lens <noreply@theserenelens.com>"
 
 let resendClient: any = null
 
@@ -15,6 +16,10 @@ async function getResend() {
   const { Resend } = await import("resend")
   resendClient = new Resend(process.env.RESEND_API_KEY)
   return resendClient
+}
+
+function getFromAddress(): string {
+  return process.env.RESEND_DOMAIN_VERIFIED === "true" ? CUSTOM_FROM : FALLBACK_FROM
 }
 
 export interface SendEmailOptions {
@@ -33,7 +38,7 @@ export async function sendEmail(options: SendEmailOptions): Promise<{ id?: strin
 
   try {
     const result = await resend.emails.send({
-      from: FROM,
+      from: getFromAddress(),
       to: options.to,
       subject: options.subject,
       html: options.html,
@@ -86,7 +91,7 @@ export async function sendBulkEmail(options: SendBulkEmailOptions): Promise<{
 
   for (const batch of batches) {
     const emails = batch.map((r) => ({
-      from: FROM,
+      from: getFromAddress(),
       to: r.email,
       subject: options.subject,
       html: options.html,
@@ -146,6 +151,9 @@ export async function getRecipients(segment: string): Promise<{ email: string; n
     case "pro":
       where = { plan: "PRO" }
       break
+    case "pro_plus":
+      where = { plan: "PRO_PLUS" }
+      break
     case "active":
       where = { analysisUsed: { gt: 0 } }
       break
@@ -190,6 +198,7 @@ export async function getRecipientCounts(): Promise<Record<string, number>> {
     free: activeUsers.filter((u) => u.plan === "FREE").length,
     premium: activeUsers.filter((u) => u.plan === "PREMIUM").length,
     pro: activeUsers.filter((u) => u.plan === "PRO").length,
+    proPlus: activeUsers.filter((u) => u.plan === "PRO_PLUS").length,
     active: activeUsers.filter((u) => u.analysisUsed > 0).length,
     inactive: activeUsers.filter((u) => u.analysisUsed === 0).length,
     new: activeUsers.filter((u) => u.createdAt >= thirtyDaysAgo).length,

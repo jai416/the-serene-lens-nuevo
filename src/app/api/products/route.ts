@@ -21,7 +21,6 @@ export async function GET(req: NextRequest) {
         shortDesc: true,
         image: true,
         category: true,
-        price: true,
         skinTypes: true,
       },
       take: limit,

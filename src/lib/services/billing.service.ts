@@ -24,7 +24,7 @@ export async function getUsageStats(userId: string) {
     monthlyLimit: user.analysisLimit,
     monthlyUsed: user.analysisUsed,
     packAnalyses,
-    remaining: user.plan === "PREMIUM" || user.plan === "PRO" || user.plan === "ESTHETICIAN"
+    remaining: user.plan === "PREMIUM" || user.plan === "PRO" || user.plan === "PRO_PLUS" || user.plan === "ESTHETICIAN"
       ? null
       : Math.max(0, user.analysisLimit - user.analysisUsed) + packAnalyses,
     resetAt: user.analysisResetAt,

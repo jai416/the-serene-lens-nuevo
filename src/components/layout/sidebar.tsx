@@ -23,6 +23,7 @@ import {
   Users,
   BookOpen,
   Trophy,
+  FileText,
 } from "lucide-react"
 import { useState } from "react"
 import { ThemeToggle } from "@/components/theme-toggle"
@@ -41,8 +42,11 @@ const authLinks = [
   { href: "/dashboard/challenges", label: "Desafíos", icon: Trophy },
   { href: "/community", label: "Comunidad", icon: Users },
   { href: "/products", label: "Productos", icon: Package },
+  { href: "/guides", label: "Guías", icon: BookOpen },
   { href: "/ingredients-analyzer", label: "Ingredientes", icon: Beaker },
   { href: "/dashboard/subscription", label: "Plan", icon: TrendingUp },
+  { href: "/dashboard/report", label: "Informe", icon: FileText },
+  { href: "/dashboard/referrals", label: "Referidos", icon: Users },
   { href: "/dashboard/profile", label: "Cuenta", icon: User },
 ]
 

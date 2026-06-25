@@ -9,13 +9,17 @@
 - Panel admin: usuarios, pagos, mensajes, blog, productos, analytics, health check
 - Feature flags, health check, queue system, Sentry replays
 - SEO: 55 keywords con contexto para generación de artículos
+- **PRO+ plan** ($14.99/mes): informe PDF, rutina dinámica, comparativa mensual
+- **Modo Social**: comparación anónima de resultados con amigos
+- **Guías Digitales**: e-books descargables vendidos vía QvaPay
+- **Sistema de Referidos Grupal**: invita 3 amigos → análisis gratis
 - 163 tests, type check limpio
 
 **Pendiente solo configuración manual:**
-1. `npx prisma db push` — crear tablas nuevas en Supabase (EmailLog, Unsubscribe, Challenge, indexes)
+1. `npx prisma db push` — crear tablas nuevas en Supabase
 2. `CRON_SECRET` — agregar env var en Render Dashboard
 3. Google/GitHub OAuth — configurar callbacks (opcional)
-4. `npm run seed` en producción — poblar tabla Product con 50 productos
+4. `npm run seed` en producción — poblar productos, guías y desafíos
 
 **Verificado en producción (2026-06-25):**
 - Render: `https://the-serene-lens-nuevo.onrender.com` respondiendo OK
@@ -206,6 +210,7 @@ Prices defined in `src/lib/pricing.ts` — single source of truth.
 | Essential (FREE) | $0 | 1 analysis/mo, forever |
 | Premium | $4.99/mo | Unlimited analyses, history, evolution comparison |
 | Pro | $9.99/mo | Everything Premium, priority processing, early access |
+| **Pro+** | **$14.99/mo** | **Everything Pro + PDF reports, dynamic routine, monthly comparison, priority support (1h)** |
 | Pack Básico | $1.99 | 3 analyses, history unlocked, 30 days |
 | Pack Popular | $4.99 | 5 analyses, comparison, 30 days |
 | Pack Avanzado | $6.99 | 15 analyses, priority, 30 days |
@@ -218,10 +223,12 @@ Prices defined in `src/lib/pricing.ts` — single source of truth.
 - `/analysis/results/[id]` — 8 sections with explainable AI, no percentages, descriptive labels
 - `/products` — product scanner + catalog (50 products from seed)
 - `/products/[slug]` — product detail with ingredients + Schema.org JSON-LD
+- `/guides` — digital products store (5 e-books from seed)
+- `/join/[code]` — referral group join landing page
 - `/blog` — articles with category filter
 - `/blog/[slug]` — article body + Schema.org JSON-LD
 - `/community` — forum with categories, post creation, **comments (view + write)**
-- `/dashboard/` — user dashboard with welcome banner on first visit (`?welcome=1`)
+- `/dashboard/` — user dashboard with welcome banner on first visit (`?welcome=1`) + **social comparison component**
 - `/dashboard/history` — chronological timeline of past analyses
 - `/dashboard/subscription` — plan status, usage bars, payment history
 - `/dashboard/profile` — user profile + **sign out button** + delete account
@@ -313,6 +320,27 @@ Prices defined in `src/lib/pricing.ts` — single source of truth.
 - `PUT /api/admin/users` — update user role/plan (admin only)
 - `GET /api/admin/payments` — list all payments (admin only)
 - `GET /api/admin/debug` — debug DB counts (admin only)
+- `GET /api/admin/notifications` — unread group completion notifications (admin only)
+- `POST /api/admin/notifications` — mark notification as read (admin only)
+
+## API Routes (Referral Groups)
+- `GET /api/referral` — list user's referral groups
+- `POST /api/referral` — create new referral group
+- `GET /api/referral/[code]` — get group info (public)
+- `POST /api/referral/[code]` — join referral group (auth required)
+
+## API Routes (PRO+ Features)
+- `GET /api/user/monthly-comparison` — monthly analysis comparison (PRO+ only)
+- `GET /api/user/dynamic-routine` — dynamic routine based on season + skin type (PRO+ only)
+- `GET /api/user/social-comparison` — anonymous comparison with friends' results
+- `GET /api/guides` — list available digital products
+- `POST /api/payments/create-guide` — create QvaPay invoice for guide purchase
+
+## New Models (2026-06-25)
+- `GroupAnalytics` — tracks referral group progress (groupId, referrerId, invitedCount, completedCount, totalRevenue, status, expiresAt)
+- `Referral` — individual referral records (referrerId, referredId, code, groupId, status, discountPrice)
+- `DigitalProduct` — e-books and digital guides (title, slug, price, fileUrl, category)
+- `DigitalProductPurchase` — purchase records for digital products
 
 ## Known Issues
 - **Resend domain NO verificado**: Only used for admin bulk emails. Registration uses on-screen welcome banner.
@@ -320,4 +348,4 @@ Prices defined in `src/lib/pricing.ts` — single source of truth.
 - **Prisma 7 driver adapter**: Requires `pg` + `@prisma/adapter-pg`
 - **DB push pendiente**: `npx prisma db push` for new tables
 - **CRON_SECRET pendiente**: Add env var in Render Dashboard
-- **Seed en producción**: Ejecutar `npm run seed` después de deploy para poblar productos
+- **Seed en producción**: Ejecutar `npm run seed` después de deploy para poblar productos, guías y desafíos

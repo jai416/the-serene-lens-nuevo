@@ -38,6 +38,10 @@ model User {
   skinDiary      SkinDiary[]
   userChallenges UserChallenge[]
   productReviews ProductReview[]
+  referralsOwned  Referral[]    @relation("ReferralOwner")
+  referralsReferred Referral[]  @relation("ReferralReferred")
+  groupsOwned    GroupAnalytics[]
+  digitalPurchases DigitalProductPurchase[]
 
   @@index([plan])
   @@index([role])
@@ -450,4 +454,85 @@ model Unsubscribe {
   createdAt DateTime @default(now())
 
   @@index([email])
+}
+
+model GroupAnalytics {
+  id             String   @id @default(cuid())
+  groupId        String   @unique
+  referrerId     String
+  invitedCount   Int      @default(0)
+  completedCount Int      @default(0)
+  totalRevenue   Float    @default(0)
+  status         String   @default("pending")
+  notifiedAdmin  Boolean  @default(false)
+  createdAt      DateTime @default(now())
+  completedAt    DateTime?
+  expiresAt      DateTime
+  metadata       Json?
+
+  referrer User @relation(fields: [referrerId], references: [id], onDelete: Cascade)
+
+  @@index([referrerId])
+  @@index([status])
+  @@index([groupId])
+}
+
+model Referral {
+  id           String    @id @default(cuid())
+  referrerId   String
+  referredId   String?
+  code         String    @unique
+  groupId      String?
+  status       String    @default("pending")
+  discountPrice Float?
+  createdAt    DateTime  @default(now())
+  completedAt  DateTime?
+
+  referrer User     @relation("ReferralOwner", fields: [referrerId], references: [id], onDelete: Cascade)
+  referred User?    @relation("ReferralReferred", fields: [referredId], references: [id], onDelete: SetNull)
+
+  @@index([referrerId])
+  @@index([code])
+  @@index([groupId])
+  @@index([status])
+}
+
+model DigitalProduct {
+  id          String   @id @default(cuid())
+  title       String
+  slug        String   @unique
+  description String
+  shortDesc   String?
+  image       String
+  category    String
+  price       Float
+  fileUrl     String?
+  isActive    Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  purchases DigitalProductPurchase[]
+
+  @@index([isActive])
+  @@index([category])
+}
+
+model DigitalProductPurchase {
+  id              String   @id @default(cuid())
+  userId          String
+  digitalProductId String
+  amount          Float
+  currency        String   @default("USD")
+  provider        String   @default("qvapay")
+  qvapayId        String?  @unique
+  status          String   @default("completed")
+  downloadUrl     String?
+  createdAt       DateTime @default(now())
+
+  user           User           @relation(fields: [userId], references: [id], onDelete: Cascade)
+  digitalProduct DigitalProduct @relation(fields: [digitalProductId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([digitalProductId])
+  @@index([status])
 }

@@ -90,7 +90,11 @@ export async function POST(req: Request) {
     return new Response(webStream, {
       headers: { "Content-Type": "text/event-stream", "Cache-Control": "no-cache", Connection: "keep-alive" },
     })
-  } catch (e) {
+  } catch (e: unknown) {
+    const msg = e instanceof Error ? e.message : String(e)
+    if (msg.includes("ETIMEDOUT") || msg.includes("fetch failed")) {
+      return error("El servicio de análisis IA está temporalmente no disponible.", 503)
+    }
     return serverError(e)
   }
 }

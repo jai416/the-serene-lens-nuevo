@@ -29,7 +29,7 @@ export const PaymentService = {
     })
 
     const packAnalyses = packs.reduce((sum, p) => sum + p.analyses, 0)
-    const isUnlimited = ["PREMIUM", "PRO", "ESTHETICIAN"].includes(user.plan)
+    const isUnlimited = ["PREMIUM", "PRO", "PRO_PLUS", "ESTHETICIAN"].includes(user.plan)
 
     return {
       plan: user.plan,
@@ -72,7 +72,7 @@ export async function handleSuccessfulPlanPayment(
       },
     })
   } else {
-    const limitMap: Record<string, number> = { PREMIUM: 0, PRO: 0 }
+    const limitMap: Record<string, number> = { PREMIUM: 0, PRO: 0, PRO_PLUS: 0 }
     const analysisLimit = limitMap[plan] ?? 5
 
     await db.user.update({

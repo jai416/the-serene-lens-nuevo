@@ -25,7 +25,7 @@ export default function AdminProductsPage() {
   const [products, setProducts] = useState<Product[]>([])
   const [form, setForm] = useState({
     name: "", slug: "", description: "", shortDesc: "",
-    image: "", category: "", skinTypes: "all", price: 0, ingredients: "",
+    image: "", category: "", skinTypes: "all", ingredients: "",
   })
 
   useEffect(() => {
@@ -42,7 +42,7 @@ export default function AdminProductsPage() {
 
   const resetForm = () => setForm({
     name: "", slug: "", description: "", shortDesc: "",
-    image: "", category: "", skinTypes: "all", price: 0, ingredients: "",
+    image: "", category: "", skinTypes: "all", ingredients: "",
   })
 
   const createProduct = async () => {
@@ -54,7 +54,6 @@ export default function AdminProductsPage() {
         body: JSON.stringify({
           ...form,
           slug: form.slug.toLowerCase().replace(/\s+/g, "-"),
-          price: Number(form.price),
         }),
       })
       if (res.ok) {
@@ -137,12 +136,10 @@ export default function AdminProductsPage() {
               <input placeholder="Slug" value={form.slug} onChange={(e) => setForm({ ...form, slug: e.target.value })}
                 className="rounded-xl border border-input bg-background px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-ring" />
             </div>
-            <div className="grid sm:grid-cols-3 gap-4 mb-4">
+            <div className="grid sm:grid-cols-2 gap-4 mb-4">
               <input placeholder="Categoría" value={form.category} onChange={(e) => setForm({ ...form, category: e.target.value })}
                 className="rounded-xl border border-input bg-background px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-ring" />
               <input placeholder="Tipo de piel (all, seca, grasa...)" value={form.skinTypes} onChange={(e) => setForm({ ...form, skinTypes: e.target.value })}
-                className="rounded-xl border border-input bg-background px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-ring" />
-              <input placeholder="Precio" type="number" value={form.price || ""} onChange={(e) => setForm({ ...form, price: Number(e.target.value) })}
                 className="rounded-xl border border-input bg-background px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-ring" />
             </div>
             <input placeholder="URL de imagen" value={form.image} onChange={(e) => setForm({ ...form, image: e.target.value })}
@@ -169,7 +166,7 @@ export default function AdminProductsPage() {
                   <div className="min-w-0">
                     <p className="text-sm font-medium truncate">{product.name}</p>
                     <p className="text-xs text-muted-foreground">
-                      {product.category} · ${product.price.toFixed(2)}
+                      {product.category}
                     </p>
                   </div>
                 </div>

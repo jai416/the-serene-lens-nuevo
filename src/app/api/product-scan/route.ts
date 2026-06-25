@@ -46,8 +46,14 @@ export async function POST(req: NextRequest) {
     }
 
     return ok({ result })
-  } catch (e) {
+  } catch (e: unknown) {
     logger.error("Product scan error", { error: e, userId: session.user.id })
+
+    const msg = e instanceof Error ? e.message : String(e)
+    if (msg.includes("ETIMEDOUT") || msg.includes("fetch failed")) {
+      return error("El servicio de análisis está temporalmente no disponible. Intenta de nuevo en unos segundos.")
+    }
+
     return serverError(e)
   }
 }
