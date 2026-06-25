@@ -25,7 +25,10 @@ export async function GET(request: NextRequest) {
     const [posts, total] = await Promise.all([
       db.communityPost.findMany({
         where,
-        include: { user: { select: { name: true } } },
+        include: {
+          user: { select: { name: true } },
+          _count: { select: { comments: true } },
+        },
         orderBy: { createdAt: "desc" },
         skip,
         take: limit,

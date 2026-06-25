@@ -11,7 +11,7 @@ import { logger } from "@/lib/logger"
 
 const packSchema = z.object({
   packType: z.enum(["BASIC", "POPULAR", "ADVANCED"]),
-}).strict()
+})
 
 export async function POST(req: NextRequest) {
   try {
