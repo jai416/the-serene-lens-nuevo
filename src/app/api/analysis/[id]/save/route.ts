@@ -19,7 +19,7 @@ export async function POST(req: NextRequest, { params }: { params: Promise<{ id:
     if (!existing) return notFound("Análisis no encontrado")
 
     if (existing.userId && existing.userId !== session.user.id) {
-      return ok({ saved: false, error: "Este análisis pertenece a otro usuario" })
+      return unauthorized()
     }
 
     await db.skinAnalysis.update({

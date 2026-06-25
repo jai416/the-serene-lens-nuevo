@@ -24,7 +24,7 @@ export async function GET(_req: Request, { params }: { params: Promise<{ id: str
 
     if (!analysis) return notFound("Análisis no encontrado")
 
-    if (analysis.userId && session?.user?.id !== analysis.userId) {
+    if (!session?.user || (analysis.userId && analysis.userId !== session.user.id)) {
       return unauthorized()
     }
 

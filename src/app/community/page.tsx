@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import { useSession } from "next-auth/react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { MessageCircle, Send, ChevronDown, ChevronUp } from "lucide-react";
+import { MessageCircle, Send, ChevronDown, ChevronUp, Heart } from "lucide-react";
 
 interface User {
   name: string | null;
@@ -24,6 +24,7 @@ interface Post {
   likes: number;
   createdAt: string;
   user: User;
+  userId?: string;
   _count?: { comments: number };
 }
 
@@ -57,6 +58,7 @@ export default function CommunityPage() {
   const [comments, setComments] = useState<Record<string, Comment[]>>({});
   const [commentText, setCommentText] = useState<Record<string, string>>({});
   const [commentLoading, setCommentLoading] = useState<string | null>(null);
+  const [likedPosts, setLikedPosts] = useState<Record<string, boolean>>({});
 
   const fetchPosts = async (page: number, category: string) => {
     setLoading(true);
@@ -154,6 +156,19 @@ export default function CommunityPage() {
     }
   };
 
+  const handleLike = async (postId: string) => {
+    if (!session || likedPosts[postId]) return;
+    try {
+      const res = await fetch(`/api/community/posts/${postId}/like`, { method: "POST" });
+      if (res.ok) {
+        setLikedPosts((prev) => ({ ...prev, [postId]: true }));
+        setPosts((prev) =>
+          prev.map((p) => (p.id === postId ? { ...p, likes: p.likes + 1 } : p))
+        );
+      }
+    } catch {}
+  };
+
   const formatDate = (dateString: string) => {
     return new Date(dateString).toLocaleDateString("es-ES", {
       day: "numeric",
@@ -218,14 +233,26 @@ export default function CommunityPage() {
                       <span>{post.user.name || "Anónimo"}</span>
                       <span>{formatDate(post.createdAt)}</span>
                     </div>
-                    <button
-                      onClick={() => toggleComments(post.id)}
-                      className="flex items-center gap-1 hover:text-[#2F3A2D] dark:hover:text-[#E8EDE6] transition-colors"
-                    >
+                    <div className="flex items-center gap-3">
+                      <button
+                        onClick={() => handleLike(post.id)}
+                        disabled={!session || likedPosts[post.id] || post.userId === session?.user?.id}
+                        className={`flex items-center gap-1 transition-colors disabled:opacity-50 ${
+                          likedPosts[post.id] ? "text-[#E07070]" : "hover:text-[#E07070]"
+                        }`}
+                      >
+                        <Heart className={`w-4 h-4 ${likedPosts[post.id] ? "fill-current" : ""}`} />
+                        <span>{post.likes}</span>
+                      </button>
+                      <button
+                        onClick={() => toggleComments(post.id)}
+                        className="flex items-center gap-1 hover:text-[#2F3A2D] dark:hover:text-[#E8EDE6] transition-colors"
+                      >
                       <MessageCircle className="w-4 h-4" />
                       <span>{post._count?.comments || 0}</span>
                       {expandedPost === post.id ? <ChevronUp className="w-3 h-3" /> : <ChevronDown className="w-3 h-3" />}
                     </button>
+                    </div>
                   </div>
 
                   {expandedPost === post.id && (

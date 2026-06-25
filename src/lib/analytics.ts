@@ -4,7 +4,7 @@ const POSTHOG_HOST = process.env.NEXT_PUBLIC_POSTHOG_HOST || "https://app.postho
 let posthog: any = null
 
 async function getPosthog() {
-  if (posthog !== undefined) return posthog
+  if (posthog !== null) return posthog
   if (typeof window === "undefined" || !POSTHOG_KEY) {
     posthog = null
     return null

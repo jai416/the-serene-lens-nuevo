@@ -26,7 +26,8 @@ export function getPlanLabel(plan: string) {
     FREE: "Essential",
     PREMIUM: "Premium",
     PRO: "Pro",
-    ULTRAPREMIUM: "Pro",
+    PRO_PLUS: "Pro+",
+    ESTHETICIAN: "Esteticista",
   }
   return labels[plan] || plan
 }

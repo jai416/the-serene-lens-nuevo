@@ -158,6 +158,8 @@ Clean, professional skincare platform inspired by Apple Health, Headspace, Calm,
 - **Admin panel auth check**: Each API route uses `requireAdmin()` helper that checks `session.user.role !== "ADMIN"`. No middleware-level admin protection.
 - **Mobile responsive CSS**: `@media (max-width: 640px)` and `(max-width: 480px)` breakpoints in `globals.css` for text sizes, buttons, inputs.
 - **Profile page**: Has both "Cerrar sesión" (signOut) and "Eliminar cuenta" (delete account) buttons, visually separated.
+- **Sentry init dedup**: `src/lib/sentry.ts` `initSentry()` is a no-op — Sentry auto-initializes via `sentry.client.config.ts`. Prevents replay rate override.
+- **Payments Zod strict**: `create` uses `z.enum(["FREE","PREMIUM","PRO","PRO_PLUS"])` to reject invalid plan IDs early. `create-guide` has granular error logging per step.
 
 ## Performance Notes
 - `SessionProvider` uses `refetchOnWindowFocus={false}`
@@ -346,6 +348,6 @@ Prices defined in `src/lib/pricing.ts` — single source of truth.
 - **Resend domain NO verificado**: Only used for admin bulk emails. Registration uses on-screen welcome banner.
 - **npm install falla**: `rm -rf node_modules .next && npm install --legacy-peer-deps`
 - **Prisma 7 driver adapter**: Requires `pg` + `@prisma/adapter-pg`
-- **DB push pendiente**: `npx prisma db push` for new tables
+- **DB push pendiente**: `npx prisma db push` for new tables + add `@relation` to UserEvolution/AffiliateClick
 - **CRON_SECRET pendiente**: Add env var in Render Dashboard
 - **Seed en producción**: Ejecutar `npm run seed` después de deploy para poblar productos, guías y desafíos

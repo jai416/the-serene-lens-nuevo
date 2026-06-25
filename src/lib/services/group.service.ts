@@ -7,12 +7,7 @@ export const GROUP_DISCOUNT_PRICE = 2.99
 export const GROUP_EXPIRY_DAYS = 30
 
 function generateGroupCode(): string {
-  const chars = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789"
-  let code = ""
-  for (let i = 0; i < 8; i++) {
-    code += chars.charAt(Math.floor(Math.random() * chars.length))
-  }
-  return code
+  return crypto.randomUUID().replace(/-/g, "").substring(0, 8).toUpperCase()
 }
 
 export async function createReferralGroup(userId: string) {

@@ -2,6 +2,7 @@
 
 import { useEffect, useState, useRef } from "react"
 import Link from "next/link"
+import Head from "next/head"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
@@ -111,6 +112,12 @@ export default function ProductsPage() {
 
   return (
     <div className="min-h-screen px-4 py-8">
+      <Head>
+        <title>Escáner de Productos y Catálogo | The Serene Lens</title>
+        <meta name="description" content="Escanea la lista de ingredientes de cualquier producto cosmético y descubre su función cosmética. Catálogo de 50+ productos analizados." />
+        <meta property="og:title" content="Escáner de Productos | The Serene Lens" />
+        <meta property="og:description" content="Escanea ingredientes y descubre la función de cada componente de tu producto cosmético." />
+      </Head>
       <div className="max-w-7xl mx-auto">
         <div className="text-center mb-10">
           <Badge variant="primary" className="mb-4 rounded-full px-4 py-1.5 border-0">

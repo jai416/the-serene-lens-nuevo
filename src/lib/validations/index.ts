@@ -113,7 +113,7 @@ export const adminProductUpdateSchema = z.object({
 export const adminUserUpdateSchema = z.object({
   id: z.string().min(1),
   role: z.enum(["USER", "ADMIN"]).optional(),
-  plan: z.enum(["FREE", "PREMIUM", "PRO"]).optional(),
+  plan: z.enum(["FREE", "PREMIUM", "PRO", "PRO_PLUS", "ESTHETICIAN"]).optional(),
 }).strict()
 
 export const adminMessageUpdateSchema = z.object({

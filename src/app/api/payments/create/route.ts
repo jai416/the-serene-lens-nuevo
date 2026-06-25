@@ -10,7 +10,7 @@ import { z } from "zod"
 import { logger } from "@/lib/logger"
 
 const createPaymentSchema = z.object({
-  plan: z.string().min(1).max(50),
+  plan: z.enum(["FREE", "PREMIUM", "PRO", "PRO_PLUS"]),
   provider: z.string().optional(),
 })
 
@@ -19,15 +19,22 @@ export async function POST(req: NextRequest) {
     const session = await getServerSession(authOptions)
     if (!session?.user) return unauthorized()
 
-    const body = await req.json()
+    let body: unknown
+    try {
+      body = await req.json()
+    } catch {
+      return error("Cuerpo de solicitud inválido")
+    }
+
     const parsed = createPaymentSchema.safeParse(body)
     if (!parsed.success) {
+      logger.warn("Payment create validation failed", { issues: parsed.error.issues, body })
       return error(parsed.error.issues.map((i) => i.message).join(", "), 400)
     }
 
     const planDef = getPlan(parsed.data.plan)
     if (!planDef || planDef.priceUSD === 0) {
-      return error("Plan inválido")
+      return error("Plan inválido o gratuito")
     }
 
     try {

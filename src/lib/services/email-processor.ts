@@ -47,7 +47,16 @@ export async function processEmailSequences(): Promise<{ sent: number; failed: n
     )
 
     const hasAnalyses = user.analysisUsed > 0
-    const daysSinceLastActivity = daysSinceRegister
+
+    const lastAnalysis = await db.skinAnalysis.findFirst({
+      where: { userId: user.id },
+      orderBy: { createdAt: "desc" },
+      select: { createdAt: true },
+    })
+
+    const daysSinceLastActivity = lastAnalysis
+      ? Math.floor((now.getTime() - lastAnalysis.createdAt.getTime()) / 86400000)
+      : daysSinceRegister
 
     const sequence = buildEmailSequence(user.name || "usuario", appUrl)
 

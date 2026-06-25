@@ -12,7 +12,7 @@ export async function getUsageStats(userId: string) {
     where: {
       userId,
       status: "completed",
-      createdAt: { gte: new Date(Date.now() - 365 * 24 * 60 * 60 * 1000) },
+      createdAt: { gte: new Date(Date.now() - 30 * 86400000) },
     },
     select: { analyses: true },
   })

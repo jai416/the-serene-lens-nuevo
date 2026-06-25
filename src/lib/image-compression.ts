@@ -60,7 +60,7 @@ export async function compressImage(file: File, maxSizeMB = 10): Promise<File> {
     const mimeType = preferWebP ? "image/webp" : "image/jpeg"
     let blob = await canvasToBlob(canvas, quality, mimeType)
 
-    while (blob.size > (isOversized ? blob.size : file.size) && quality > 0.05) {
+    while (blob.size > maxSizeBytes && quality > 0.05) {
       quality -= 0.1
       blob = await canvasToBlob(canvas, quality, mimeType)
     }

@@ -148,7 +148,7 @@ export default function AdminPage() {
   ]
 
   return (
-    <div className="min-h-screen pt-24 pb-16 px-4">
+    <div className="min-h-screen pt-24 pb-16 px-4 overflow-x-hidden">
       <NewUserToast />
       <div className="max-w-7xl mx-auto">
         <div className="mb-8">
@@ -167,7 +167,7 @@ export default function AdminPage() {
         </div>
 
         {/* Main Stats */}
-        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8 overflow-x-auto">
           {mainCards.map((card) => (
             <Link key={card.label} href={card.href}>
               <Card className="transition-all duration-200 group hover:shadow-[0_8px_24px_rgba(47,58,45,0.1)] dark:hover:shadow-[0_8px_24px_rgba(0,0,0,0.4)] hover:-translate-y-1">
@@ -190,7 +190,7 @@ export default function AdminPage() {
         </div>
 
         {/* Secondary Metrics */}
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 mb-8">
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 mb-8 overflow-x-auto">
           {metricCards.map((card) => (
             <Card key={card.label} className="p-4">
               <CardContent className="p-0">

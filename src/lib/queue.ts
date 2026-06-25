@@ -3,6 +3,7 @@ import { logger } from "@/lib/logger"
 export interface QueueJob<T = unknown> {
   id: string
   data: T
+  queue: string
   status: "pending" | "processing" | "completed" | "failed"
   attempts: number
   maxAttempts: number
@@ -29,6 +30,7 @@ class AnalysisQueue {
     const job: QueueJob<T> = {
       id,
       data,
+      queue: name,
       status: "pending",
       attempts: 0,
       maxAttempts: options?.maxAttempts ?? 3,
@@ -54,7 +56,7 @@ class AnalysisQueue {
       if (!handler) return
 
       const job = Array.from(this.jobs.values()).find(
-        (j) => j.status === "pending" && j.attempts < j.maxAttempts
+        (j) => j.queue === name && j.status === "pending" && j.attempts < j.maxAttempts
       )
       if (!job) return
 

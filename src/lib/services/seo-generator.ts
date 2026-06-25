@@ -121,8 +121,8 @@ Responde en JSON válido (sin markdown):
       model: "google/gemini-2.0-flash-001",
       messages: [{ role: "user", content: prompt }],
       response_format: { type: "json_object" },
-      signal: AbortSignal.timeout(60000),
     }),
+    signal: AbortSignal.timeout(60000),
   })
 
   if (!res.ok) {
@@ -134,9 +134,13 @@ Responde en JSON válido (sin markdown):
   const content = data.choices?.[0]?.message?.content
   if (!content) throw new Error("No response from AI")
 
-  const parsed = JSON.parse(content)
-  parsed.readTime = typeof parsed.readTime === "string" ? parseInt(parsed.readTime, 10) || 5 : parsed.readTime || 5
-  return parsed
+  try {
+    const parsed = JSON.parse(content)
+    parsed.readTime = typeof parsed.readTime === "string" ? parseInt(parsed.readTime, 10) || 5 : parsed.readTime || 5
+    return parsed
+  } catch {
+    throw new Error("Invalid JSON from AI response")
+  }
 }
 
 /**

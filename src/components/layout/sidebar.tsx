@@ -47,6 +47,8 @@ const authLinks = [
   { href: "/dashboard/subscription", label: "Plan", icon: TrendingUp },
   { href: "/dashboard/report", label: "Informe", icon: FileText },
   { href: "/dashboard/referrals", label: "Referidos", icon: Users },
+  { href: "/dashboard/social", label: "Social", icon: Users },
+  { href: "/dashboard/guides", label: "Mis Guías", icon: BookOpen },
   { href: "/dashboard/profile", label: "Cuenta", icon: User },
 ]
 

@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react"
 import Link from "next/link"
+import Head from "next/head"
 import { Card, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Newspaper, ArrowRight, Clock, Eye } from "lucide-react"
@@ -24,16 +25,21 @@ export default function BlogPage() {
   const [posts, setPosts] = useState<BlogPost[]>([])
   const [category, setCategory] = useState("")
   const [loading, setLoading] = useState(true)
+  const [page, setPage] = useState(1)
+  const [totalPages, setTotalPages] = useState(1)
+  const POSTS_PER_PAGE = 9
 
   useEffect(() => {
     const fetchPosts = async () => {
       setLoading(true)
       try {
-        const url = category ? `/api/blog?limit=50&category=${category}` : "/api/blog?limit=50"
-        const res = await fetch(url)
+        const params = new URLSearchParams({ page: page.toString(), limit: POSTS_PER_PAGE.toString() })
+        if (category) params.set("category", category)
+        const res = await fetch(`/api/blog?${params}`)
         if (res.ok) {
           const data = await res.json()
           setPosts(data?.data?.posts || data.posts || [])
+          setTotalPages(data?.data?.totalPages || Math.ceil((data?.data?.total || data.total || 0) / POSTS_PER_PAGE) || 1)
         }
       } catch {
         toast.error("Error al cargar artículos")
@@ -42,7 +48,7 @@ export default function BlogPage() {
       }
     }
     fetchPosts()
-  }, [category])
+  }, [category, page])
 
   const categories = posts.reduce<string[]>((acc, p) => {
     if (!acc.includes(p.category)) acc.push(p.category)
@@ -51,6 +57,12 @@ export default function BlogPage() {
 
   return (
     <div className="min-h-screen pt-24 pb-16 px-4">
+      <Head>
+        <title>Blog de Skincare | The Serene Lens</title>
+        <meta name="description" content="Artículos sobre cuidado de la piel, ingredientes activos, rutinas y tendencias en skincare. Consejos prácticos respaldados por ciencia." />
+        <meta property="og:title" content="Blog de Skincare | The Serene Lens" />
+        <meta property="og:description" content="Artículos sobre cuidado de la piel, ingredientes activos, rutinas y tendencias en skincare." />
+      </Head>
       <div className="max-w-7xl mx-auto">
         <div className="text-center mb-10">
           <Badge variant="secondary" className="mb-4 rounded-full px-4 py-1.5">
@@ -134,6 +146,38 @@ export default function BlogPage() {
                 </Card>
               </Link>
             ))}
+          </div>
+        )}
+
+        {totalPages > 1 && (
+          <div className="flex justify-center gap-2 mt-10">
+            <button
+              onClick={() => setPage((p) => Math.max(1, p - 1))}
+              disabled={page === 1}
+              className="px-4 py-2 text-sm rounded-full border border-[#DDE7D3] dark:border-[#3A4536] text-[#64705E] dark:text-[#9BAA93] hover:bg-[#F0F5EC] dark:hover:bg-[#2E3829] disabled:opacity-40 transition-colors"
+            >
+              Anterior
+            </button>
+            {Array.from({ length: totalPages }, (_, i) => i + 1).map((p) => (
+              <button
+                key={p}
+                onClick={() => setPage(p)}
+                className={`w-9 h-9 rounded-full text-sm font-medium transition-colors ${
+                  page === p
+                    ? "bg-[#C2E09D] text-[#2F3A2D]"
+                    : "border border-[#DDE7D3] dark:border-[#3A4536] text-[#64705E] dark:text-[#9BAA93] hover:bg-[#F0F5EC] dark:hover:bg-[#2E3829]"
+                }`}
+              >
+                {p}
+              </button>
+            ))}
+            <button
+              onClick={() => setPage((p) => Math.min(totalPages, p + 1))}
+              disabled={page === totalPages}
+              className="px-4 py-2 text-sm rounded-full border border-[#DDE7D3] dark:border-[#3A4536] text-[#64705E] dark:text-[#9BAA93] hover:bg-[#F0F5EC] dark:hover:bg-[#2E3829] disabled:opacity-40 transition-colors"
+            >
+              Siguiente
+            </button>
           </div>
         )}
       </div>
