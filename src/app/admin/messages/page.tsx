@@ -29,8 +29,8 @@ export default function AdminMessagesPage() {
   useEffect(() => {
     if (session?.user?.role === "ADMIN") {
       fetch("/api/admin/messages")
-        .then((r) => r.ok ? r.json() : { messages: [] })
-        .then((d) => setMessages(d.messages || []))
+        .then((r) => r.ok ? r.json() : { data: { messages: [] } })
+        .then((d) => setMessages(d?.data?.messages || d.messages || []))
         .catch(() => toast.error("Error al cargar mensajes"))
     }
   }, [session])

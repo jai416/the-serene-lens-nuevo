@@ -30,8 +30,8 @@ export default function AdminPaymentsPage() {
   useEffect(() => {
     if (session?.user?.role === "ADMIN") {
       fetch("/api/admin/payments")
-        .then((r) => r.ok ? r.json() : { payments: [] })
-        .then((d) => setPayments(d.payments || []))
+        .then((r) => r.ok ? r.json() : { data: { payments: [] } })
+        .then((d) => setPayments(d?.data?.payments || d.payments || []))
         .catch(() => toast.error("Error al cargar pagos"))
     }
   }, [session])

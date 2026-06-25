@@ -29,8 +29,8 @@ export default function AdminUsersPage() {
   useEffect(() => {
     if (session?.user?.role === "ADMIN") {
       fetch("/api/admin/users")
-        .then((r) => r.ok ? r.json() : { users: [] })
-        .then((d) => setUsers(d.users || []))
+        .then((r) => r.ok ? r.json() : { data: { users: [] } })
+        .then((d) => setUsers(d?.data?.users || d.users || []))
         .catch(() => toast.error("Error al cargar usuarios"))
     }
   }, [session])

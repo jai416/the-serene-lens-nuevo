@@ -30,8 +30,8 @@ export default function AdminBlogPage() {
   useEffect(() => {
     if (session?.user?.role === "ADMIN") {
       fetch("/api/admin/blog")
-        .then((r) => r.ok ? r.json() : { posts: [] })
-        .then((d) => setPosts(d.posts || []))
+        .then((r) => r.ok ? r.json() : { data: { posts: [] } })
+        .then((d) => setPosts(d?.data?.posts || d.posts || []))
         .catch(() => toast.error("Error al cargar artículos"))
     }
   }, [session])
@@ -51,7 +51,8 @@ export default function AdminBlogPage() {
       })
       if (res.ok) {
         const data = await res.json()
-        setPosts([data.post, ...posts])
+        const post = data?.data?.post || data.post
+        setPosts([post, ...posts])
         resetForm()
         toast.success("Artículo creado correctamente")
       } else {

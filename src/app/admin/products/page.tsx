@@ -31,8 +31,8 @@ export default function AdminProductsPage() {
   useEffect(() => {
     if (session?.user?.role === "ADMIN") {
       fetch("/api/admin/products")
-        .then((r) => r.ok ? r.json() : { products: [] })
-        .then((d) => setProducts(d.products || []))
+        .then((r) => r.ok ? r.json() : { data: { products: [] } })
+        .then((d) => setProducts(d?.data?.products || d.products || []))
         .catch(() => toast.error("Error al cargar productos"))
     }
   }, [session])
@@ -59,7 +59,8 @@ export default function AdminProductsPage() {
       })
       if (res.ok) {
         const data = await res.json()
-        setProducts([data.product, ...products])
+        const product = data?.data?.product || data.product
+        setProducts([product, ...products])
         resetForm()
         toast.success("Producto creado correctamente")
       } else {

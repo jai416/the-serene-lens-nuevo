@@ -85,12 +85,13 @@ export default function AdminPage() {
           return r.json()
         })
         .then((d) => {
-          if (d?.stats) {
-            setStats(d.stats)
-            setRecentUsers(d.recentUsers || [])
-            setRecentAnalyses(d.recentAnalyses || [])
-            setPlanDistribution(d.planDistribution || {})
-            setSkinTypeDistribution(d.skinTypeDistribution || {})
+          const body = d?.data || d
+          if (body?.stats) {
+            setStats(body.stats)
+            setRecentUsers(body.recentUsers || [])
+            setRecentAnalyses(body.recentAnalyses || [])
+            setPlanDistribution(body.planDistribution || {})
+            setSkinTypeDistribution(body.skinTypeDistribution || {})
           } else {
             console.error("Admin stats empty response:", d)
           }
