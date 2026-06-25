@@ -3,7 +3,7 @@ import { getServerSession } from "next-auth"
 import { authOptions } from "@/lib/auth"
 import { db } from "@/lib/db"
 import { ok, unauthorized, serverError, error } from "@/lib/api-response"
-import { getPaymentsEnv } from "@/lib/payments"
+import { getEnv } from "@/lib/env"
 
 export async function POST(req: NextRequest) {
   const session = await getServerSession(authOptions)
@@ -37,15 +37,15 @@ export async function POST(req: NextRequest) {
       })
     }
 
-    const env = getPaymentsEnv()
+    const env = getEnv()
     const appUrl = process.env.NEXT_PUBLIC_APP_URL || "https://the-serene-lens-nuevo.onrender.com"
 
     const response = await fetch(`${env.QVAPAY_API_URL}/v2/create_invoice`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        "app-id": env.QVAPAY_APP_ID,
-        "app-secret": env.QVAPAY_APP_SECRET,
+        "app-id": env.QVAPAY_UUID,
+        "app-secret": env.QVAPAY_SECRET,
       },
       body: JSON.stringify({
         title: guide.title,
