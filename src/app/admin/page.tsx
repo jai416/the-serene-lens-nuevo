@@ -77,7 +77,13 @@ export default function AdminPage() {
 
     const fetchStats = () => {
       fetch("/api/admin/stats")
-        .then((r) => (r.ok ? r.json() : null))
+        .then((r) => {
+          if (!r.ok) {
+            console.error("Admin stats HTTP", r.status, r.statusText)
+            return null
+          }
+          return r.json()
+        })
         .then((d) => {
           if (d?.stats) {
             setStats(d.stats)
@@ -85,22 +91,35 @@ export default function AdminPage() {
             setRecentAnalyses(d.recentAnalyses || [])
             setPlanDistribution(d.planDistribution || {})
             setSkinTypeDistribution(d.skinTypeDistribution || {})
+          } else {
+            console.error("Admin stats empty response:", d)
           }
         })
-        .catch(() => {})
+        .catch((e) => console.error("Admin stats fetch error:", e))
     }
 
     fetchStats()
     fetch("/api/health")
       .then((r) => r.json())
       .then((d) => setHealthCheck(d))
-      .catch(() => {})
+      .catch((e) => console.error("Health check error:", e))
     const interval = setInterval(fetchStats, 10000)
     return () => clearInterval(interval)
   }, [session])
 
   if (status === "loading") return <div className="min-h-screen pt-24 flex items-center justify-center"><p className="text-muted-foreground">Cargando...</p></div>
-  if (!session || session.user.role !== "ADMIN") redirect("/")
+  if (!session) redirect("/login?callbackUrl=/admin")
+  if (session.user.role !== "ADMIN") {
+    return (
+      <div className="min-h-screen pt-24 flex items-center justify-center">
+        <div className="text-center p-8 bg-white rounded-2xl border border-[#DDE7D3] max-w-md">
+          <h1 className="text-xl font-bold text-[#E07070] mb-2">Acceso denegado</h1>
+          <p className="text-sm text-[#64705E]">Tu rol: <code className="bg-[#F0F5EC] px-2 py-0.5 rounded">{session.user.role}</code></p>
+          <p className="text-sm text-[#64705E] mt-1">Email: {session.user.email}</p>
+        </div>
+      </div>
+    )
+  }
 
   const usersTrend = (stats?.newUsersToday ?? 0) - (stats?.usersYesterday ?? 0)
   const analysesTrend = (stats?.analysesToday ?? 0) - (stats?.analysesYesterday ?? 0)
