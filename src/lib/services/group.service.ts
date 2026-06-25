@@ -163,7 +163,6 @@ export async function getGroupInfo(code: string) {
     where: { groupId: code },
     include: {
       referrer: { select: { name: true } },
-      _count: { select: {} },
     },
   })
 
@@ -190,13 +189,6 @@ export async function getUserReferralGroups(userId: string) {
   const groups = await db.groupAnalytics.findMany({
     where: { referrerId: userId },
     orderBy: { createdAt: "desc" },
-    include: {
-      _count: {
-        select: {
-          // We'll count referrals separately
-        },
-      },
-    },
   })
 
   const result = await Promise.all(
