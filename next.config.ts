@@ -39,7 +39,7 @@ const nextConfig: NextConfig = {
               "default-src 'self'",
               "script-src 'self' 'unsafe-inline'",
               "style-src 'self' 'unsafe-inline'",
-              "img-src 'self' data: blob: https://avatars.githubusercontent.com https://lh3.googleusercontent.com https://cdn-icons-png.flaticon.com",
+              "img-src 'self' data: blob: https://avatars.githubusercontent.com https://lh3.googleusercontent.com https://cdn-icons-png.flaticon.com https://*.supabase.co",
               "font-src 'self' data:",
               "connect-src 'self' https://api.openrouter.ai https://api.qvapay.com https://www.qvapay.com https://*.supabase.co https://app.posthog.com https://o4511315853246464.ingest.us.sentry.io",
               "frame-src 'self'",

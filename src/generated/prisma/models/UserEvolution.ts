@@ -182,6 +182,7 @@ export type UserEvolutionWhereInput = {
   data?: Prisma.StringFilter<"UserEvolution"> | string
   lastAnalysis?: Prisma.DateTimeFilter<"UserEvolution"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"UserEvolution"> | Date | string
+  user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
 }
 
 export type UserEvolutionOrderByWithRelationInput = {
@@ -190,6 +191,7 @@ export type UserEvolutionOrderByWithRelationInput = {
   data?: Prisma.SortOrder
   lastAnalysis?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  user?: Prisma.UserOrderByWithRelationInput
 }
 
 export type UserEvolutionWhereUniqueInput = Prisma.AtLeast<{
@@ -201,6 +203,7 @@ export type UserEvolutionWhereUniqueInput = Prisma.AtLeast<{
   data?: Prisma.StringFilter<"UserEvolution"> | string
   lastAnalysis?: Prisma.DateTimeFilter<"UserEvolution"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"UserEvolution"> | Date | string
+  user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
 }, "id" | "userId">
 
 export type UserEvolutionOrderByWithAggregationInput = {
@@ -227,10 +230,10 @@ export type UserEvolutionScalarWhereWithAggregatesInput = {
 
 export type UserEvolutionCreateInput = {
   id?: string
-  userId: string
   data: string
   lastAnalysis: Date | string
   updatedAt?: Date | string
+  user: Prisma.UserCreateNestedOneWithoutEvolutionInput
 }
 
 export type UserEvolutionUncheckedCreateInput = {
@@ -243,10 +246,10 @@ export type UserEvolutionUncheckedCreateInput = {
 
 export type UserEvolutionUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  userId?: Prisma.StringFieldUpdateOperationsInput | string
   data?: Prisma.StringFieldUpdateOperationsInput | string
   lastAnalysis?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  user?: Prisma.UserUpdateOneRequiredWithoutEvolutionNestedInput
 }
 
 export type UserEvolutionUncheckedUpdateInput = {
@@ -267,7 +270,6 @@ export type UserEvolutionCreateManyInput = {
 
 export type UserEvolutionUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  userId?: Prisma.StringFieldUpdateOperationsInput | string
   data?: Prisma.StringFieldUpdateOperationsInput | string
   lastAnalysis?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -279,6 +281,11 @@ export type UserEvolutionUncheckedUpdateManyInput = {
   data?: Prisma.StringFieldUpdateOperationsInput | string
   lastAnalysis?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
+export type UserEvolutionNullableScalarRelationFilter = {
+  is?: Prisma.UserEvolutionWhereInput | null
+  isNot?: Prisma.UserEvolutionWhereInput | null
 }
 
 export type UserEvolutionCountOrderByAggregateInput = {
@@ -305,6 +312,82 @@ export type UserEvolutionMinOrderByAggregateInput = {
   updatedAt?: Prisma.SortOrder
 }
 
+export type UserEvolutionCreateNestedOneWithoutUserInput = {
+  create?: Prisma.XOR<Prisma.UserEvolutionCreateWithoutUserInput, Prisma.UserEvolutionUncheckedCreateWithoutUserInput>
+  connectOrCreate?: Prisma.UserEvolutionCreateOrConnectWithoutUserInput
+  connect?: Prisma.UserEvolutionWhereUniqueInput
+}
+
+export type UserEvolutionUncheckedCreateNestedOneWithoutUserInput = {
+  create?: Prisma.XOR<Prisma.UserEvolutionCreateWithoutUserInput, Prisma.UserEvolutionUncheckedCreateWithoutUserInput>
+  connectOrCreate?: Prisma.UserEvolutionCreateOrConnectWithoutUserInput
+  connect?: Prisma.UserEvolutionWhereUniqueInput
+}
+
+export type UserEvolutionUpdateOneWithoutUserNestedInput = {
+  create?: Prisma.XOR<Prisma.UserEvolutionCreateWithoutUserInput, Prisma.UserEvolutionUncheckedCreateWithoutUserInput>
+  connectOrCreate?: Prisma.UserEvolutionCreateOrConnectWithoutUserInput
+  upsert?: Prisma.UserEvolutionUpsertWithoutUserInput
+  disconnect?: Prisma.UserEvolutionWhereInput | boolean
+  delete?: Prisma.UserEvolutionWhereInput | boolean
+  connect?: Prisma.UserEvolutionWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserEvolutionUpdateToOneWithWhereWithoutUserInput, Prisma.UserEvolutionUpdateWithoutUserInput>, Prisma.UserEvolutionUncheckedUpdateWithoutUserInput>
+}
+
+export type UserEvolutionUncheckedUpdateOneWithoutUserNestedInput = {
+  create?: Prisma.XOR<Prisma.UserEvolutionCreateWithoutUserInput, Prisma.UserEvolutionUncheckedCreateWithoutUserInput>
+  connectOrCreate?: Prisma.UserEvolutionCreateOrConnectWithoutUserInput
+  upsert?: Prisma.UserEvolutionUpsertWithoutUserInput
+  disconnect?: Prisma.UserEvolutionWhereInput | boolean
+  delete?: Prisma.UserEvolutionWhereInput | boolean
+  connect?: Prisma.UserEvolutionWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserEvolutionUpdateToOneWithWhereWithoutUserInput, Prisma.UserEvolutionUpdateWithoutUserInput>, Prisma.UserEvolutionUncheckedUpdateWithoutUserInput>
+}
+
+export type UserEvolutionCreateWithoutUserInput = {
+  id?: string
+  data: string
+  lastAnalysis: Date | string
+  updatedAt?: Date | string
+}
+
+export type UserEvolutionUncheckedCreateWithoutUserInput = {
+  id?: string
+  data: string
+  lastAnalysis: Date | string
+  updatedAt?: Date | string
+}
+
+export type UserEvolutionCreateOrConnectWithoutUserInput = {
+  where: Prisma.UserEvolutionWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserEvolutionCreateWithoutUserInput, Prisma.UserEvolutionUncheckedCreateWithoutUserInput>
+}
+
+export type UserEvolutionUpsertWithoutUserInput = {
+  update: Prisma.XOR<Prisma.UserEvolutionUpdateWithoutUserInput, Prisma.UserEvolutionUncheckedUpdateWithoutUserInput>
+  create: Prisma.XOR<Prisma.UserEvolutionCreateWithoutUserInput, Prisma.UserEvolutionUncheckedCreateWithoutUserInput>
+  where?: Prisma.UserEvolutionWhereInput
+}
+
+export type UserEvolutionUpdateToOneWithWhereWithoutUserInput = {
+  where?: Prisma.UserEvolutionWhereInput
+  data: Prisma.XOR<Prisma.UserEvolutionUpdateWithoutUserInput, Prisma.UserEvolutionUncheckedUpdateWithoutUserInput>
+}
+
+export type UserEvolutionUpdateWithoutUserInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  data?: Prisma.StringFieldUpdateOperationsInput | string
+  lastAnalysis?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
+export type UserEvolutionUncheckedUpdateWithoutUserInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  data?: Prisma.StringFieldUpdateOperationsInput | string
+  lastAnalysis?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
 
 
 export type UserEvolutionSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -313,6 +396,7 @@ export type UserEvolutionSelect<ExtArgs extends runtime.Types.Extensions.Interna
   data?: boolean
   lastAnalysis?: boolean
   updatedAt?: boolean
+  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["userEvolution"]>
 
 export type UserEvolutionSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -321,6 +405,7 @@ export type UserEvolutionSelectCreateManyAndReturn<ExtArgs extends runtime.Types
   data?: boolean
   lastAnalysis?: boolean
   updatedAt?: boolean
+  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["userEvolution"]>
 
 export type UserEvolutionSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -329,6 +414,7 @@ export type UserEvolutionSelectUpdateManyAndReturn<ExtArgs extends runtime.Types
   data?: boolean
   lastAnalysis?: boolean
   updatedAt?: boolean
+  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["userEvolution"]>
 
 export type UserEvolutionSelectScalar = {
@@ -340,10 +426,21 @@ export type UserEvolutionSelectScalar = {
 }
 
 export type UserEvolutionOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "data" | "lastAnalysis" | "updatedAt", ExtArgs["result"]["userEvolution"]>
+export type UserEvolutionInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+}
+export type UserEvolutionIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+}
+export type UserEvolutionIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+}
 
 export type $UserEvolutionPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "UserEvolution"
-  objects: {}
+  objects: {
+    user: Prisma.$UserPayload<ExtArgs>
+  }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
     userId: string
@@ -744,6 +841,7 @@ readonly fields: UserEvolutionFieldRefs;
  */
 export interface Prisma__UserEvolutionClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
+  user<T extends Prisma.UserDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UserDefaultArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -795,6 +893,10 @@ export type UserEvolutionFindUniqueArgs<ExtArgs extends runtime.Types.Extensions
    */
   omit?: Prisma.UserEvolutionOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.UserEvolutionInclude<ExtArgs> | null
+  /**
    * Filter, which UserEvolution to fetch.
    */
   where: Prisma.UserEvolutionWhereUniqueInput
@@ -813,6 +915,10 @@ export type UserEvolutionFindUniqueOrThrowArgs<ExtArgs extends runtime.Types.Ext
    */
   omit?: Prisma.UserEvolutionOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.UserEvolutionInclude<ExtArgs> | null
+  /**
    * Filter, which UserEvolution to fetch.
    */
   where: Prisma.UserEvolutionWhereUniqueInput
@@ -830,6 +936,10 @@ export type UserEvolutionFindFirstArgs<ExtArgs extends runtime.Types.Extensions.
    * Omit specific fields from the UserEvolution
    */
   omit?: Prisma.UserEvolutionOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.UserEvolutionInclude<ExtArgs> | null
   /**
    * Filter, which UserEvolution to fetch.
    */
@@ -879,6 +989,10 @@ export type UserEvolutionFindFirstOrThrowArgs<ExtArgs extends runtime.Types.Exte
    */
   omit?: Prisma.UserEvolutionOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.UserEvolutionInclude<ExtArgs> | null
+  /**
    * Filter, which UserEvolution to fetch.
    */
   where?: Prisma.UserEvolutionWhereInput
@@ -926,6 +1040,10 @@ export type UserEvolutionFindManyArgs<ExtArgs extends runtime.Types.Extensions.I
    * Omit specific fields from the UserEvolution
    */
   omit?: Prisma.UserEvolutionOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.UserEvolutionInclude<ExtArgs> | null
   /**
    * Filter, which UserEvolutions to fetch.
    */
@@ -975,6 +1093,10 @@ export type UserEvolutionCreateArgs<ExtArgs extends runtime.Types.Extensions.Int
    */
   omit?: Prisma.UserEvolutionOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.UserEvolutionInclude<ExtArgs> | null
+  /**
    * The data needed to create a UserEvolution.
    */
   data: Prisma.XOR<Prisma.UserEvolutionCreateInput, Prisma.UserEvolutionUncheckedCreateInput>
@@ -1008,6 +1130,10 @@ export type UserEvolutionCreateManyAndReturnArgs<ExtArgs extends runtime.Types.E
    */
   data: Prisma.UserEvolutionCreateManyInput | Prisma.UserEvolutionCreateManyInput[]
   skipDuplicates?: boolean
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.UserEvolutionIncludeCreateManyAndReturn<ExtArgs> | null
 }
 
 /**
@@ -1022,6 +1148,10 @@ export type UserEvolutionUpdateArgs<ExtArgs extends runtime.Types.Extensions.Int
    * Omit specific fields from the UserEvolution
    */
   omit?: Prisma.UserEvolutionOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.UserEvolutionInclude<ExtArgs> | null
   /**
    * The data needed to update a UserEvolution.
    */
@@ -1074,6 +1204,10 @@ export type UserEvolutionUpdateManyAndReturnArgs<ExtArgs extends runtime.Types.E
    * Limit how many UserEvolutions to update.
    */
   limit?: number
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.UserEvolutionIncludeUpdateManyAndReturn<ExtArgs> | null
 }
 
 /**
@@ -1088,6 +1222,10 @@ export type UserEvolutionUpsertArgs<ExtArgs extends runtime.Types.Extensions.Int
    * Omit specific fields from the UserEvolution
    */
   omit?: Prisma.UserEvolutionOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.UserEvolutionInclude<ExtArgs> | null
   /**
    * The filter to search for the UserEvolution to update in case it exists.
    */
@@ -1114,6 +1252,10 @@ export type UserEvolutionDeleteArgs<ExtArgs extends runtime.Types.Extensions.Int
    * Omit specific fields from the UserEvolution
    */
   omit?: Prisma.UserEvolutionOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.UserEvolutionInclude<ExtArgs> | null
   /**
    * Filter which UserEvolution to delete.
    */
@@ -1146,4 +1288,8 @@ export type UserEvolutionDefaultArgs<ExtArgs extends runtime.Types.Extensions.In
    * Omit specific fields from the UserEvolution
    */
   omit?: Prisma.UserEvolutionOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.UserEvolutionInclude<ExtArgs> | null
 }

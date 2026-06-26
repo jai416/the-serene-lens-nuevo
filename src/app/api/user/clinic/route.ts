@@ -1,13 +1,14 @@
-import { NextRequest, NextResponse } from "next/server"
+import { NextRequest } from "next/server"
 import { getServerSession } from "next-auth"
 import { authOptions } from "@/lib/auth"
 import { db } from "@/lib/db"
+import { ok, unauthorized, serverError } from "@/lib/api-response"
 
 export async function GET(req: NextRequest) {
   try {
     const session = await getServerSession(authOptions)
     if (!session?.user) {
-      return NextResponse.json({ error: "No autorizado" }, { status: 401 })
+      return unauthorized()
     }
 
     const clinic = await db.clinic.findUnique({
@@ -21,8 +22,8 @@ export async function GET(req: NextRequest) {
       select: { id: true, skinType: true, createdAt: true },
     })
 
-    return NextResponse.json({ clinic, analyses })
+    return ok({ clinic, analyses })
   } catch {
-    return NextResponse.json({ error: "Error interno" }, { status: 500 })
+    return serverError()
   }
 }

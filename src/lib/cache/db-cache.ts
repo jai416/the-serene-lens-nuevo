@@ -34,5 +34,5 @@ export async function setDBCache<T>(key: string, value: T, ttlSeconds = 86400): 
 }
 
 export async function delDBCache(key: string): Promise<void> {
-  try { await db.cache.delete({ where: { key } }).catch(() => {}) } catch {}
+  await db.cache.delete({ where: { key } }).catch(() => {})
 }

@@ -1,13 +1,13 @@
-import { NextResponse } from "next/server"
 import { getServerSession } from "next-auth"
 import { authOptions } from "@/lib/auth"
 import { db } from "@/lib/db"
+import { ok, unauthorized, serverError } from "@/lib/api-response"
 
 export async function DELETE() {
   try {
     const session = await getServerSession(authOptions)
     if (!session?.user) {
-      return NextResponse.json({ error: "No autorizado" }, { status: 401 })
+      return unauthorized()
     }
 
     const userId = session.user.id
@@ -55,8 +55,8 @@ export async function DELETE() {
     await db.userEvolution.deleteMany({ where: { userId } })
     await db.user.delete({ where: { id: userId } })
 
-    return NextResponse.json({ success: true })
+    return ok({ deleted: true })
   } catch {
-    return NextResponse.json({ error: "Error al eliminar la cuenta" }, { status: 500 })
+    return serverError()
   }
 }

@@ -1,7 +1,9 @@
-import { NextRequest, NextResponse } from "next/server"
+import { NextRequest } from "next/server"
 import { db } from "@/lib/db"
 import { sendEmail } from "@/lib/services/email-sequence"
 import { verifyCronSecret } from "@/lib/cron-auth"
+import { sanitizeHtml } from "@/lib/sanitize"
+import { ok, error, serverError } from "@/lib/api-response"
 
 function emailWrapper(content: string): string {
   return `
@@ -17,7 +19,7 @@ function emailWrapper(content: string): string {
 export async function POST(req: NextRequest) {
   try {
     if (!verifyCronSecret(req)) {
-      return NextResponse.json({ error: "No autorizado" }, { status: 401 })
+      return error("No autorizado", 401)
     }
 
     const baseUrl = process.env.NEXT_PUBLIC_APP_URL || "https://the-serene-lens-nuevo.onrender.com"
@@ -47,7 +49,7 @@ export async function POST(req: NextRequest) {
           to: user.email,
           subject: "Tu suscripción está por renovarse - The Serene Lens",
           html: emailWrapper(`
-            <h2 style="font-size:18px;color:#2F3A2D;margin-bottom:16px">Hola ${user.name || ""}, tu suscripción se renueva pronto</h2>
+            <h2 style="font-size:18px;color:#2F3A2D;margin-bottom:16px">Hola ${sanitizeHtml(user.name || "")}, tu suscripción se renueva pronto</h2>
             <p style="font-size:14px;color:#64705E;line-height:1.6">
               Tu plan <strong>${sub.plan}</strong> se renovará automáticamente en los próximos días.
               Asegúrate de que tu método de pago esté actualizado para continuar disfrutando de análisis ilimitados.
@@ -101,12 +103,11 @@ export async function POST(req: NextRequest) {
       }
     }
 
-    return NextResponse.json({
-      success: true,
+    return ok({
       expiringNotified: renewalResults.filter((r) => r.status === "fulfilled").length,
       expiredDowngraded: expiredSubscriptions.length,
     })
   } catch {
-    return NextResponse.json({ error: "Error en retention cron" }, { status: 500 })
+    return serverError()
   }
 }

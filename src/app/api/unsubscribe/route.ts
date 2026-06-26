@@ -1,7 +1,8 @@
-import { NextRequest, NextResponse } from "next/server"
+import { NextRequest } from "next/server"
 import { z } from "zod"
 import { db } from "@/lib/db"
 import { logger } from "@/lib/logger"
+import { ok, error, serverError } from "@/lib/api-response"
 
 const unsubscribeSchema = z.object({
   email: z.string().email(),
@@ -14,15 +15,11 @@ export async function POST(request: NextRequest) {
     const parsed = unsubscribeSchema.safeParse(body)
 
     if (!parsed.success) {
-      return NextResponse.json(
-        { error: "Email inválido" },
-        { status: 400 }
-      )
+      return error("Email inválido", 400)
     }
 
     const { email, reason } = parsed.data
 
-    // Upsert unsubscribe record
     await db.unsubscribe.upsert({
       where: { email },
       create: { email, reason },
@@ -31,13 +28,10 @@ export async function POST(request: NextRequest) {
 
     logger.info("User unsubscribed", { email })
 
-    return NextResponse.json({ success: true })
-  } catch (error) {
-    logger.error("Unsubscribe error", { error: error instanceof Error ? error.message : "Unknown" })
-    return NextResponse.json(
-      { error: "Error al procesar" },
-      { status: 500 }
-    )
+    return ok({ unsubscribed: true })
+  } catch (err) {
+    logger.error("Unsubscribe error", { error: err instanceof Error ? err.message : "Unknown" })
+    return serverError()
   }
 }
 
@@ -46,9 +40,9 @@ export async function GET(request: NextRequest) {
   const email = searchParams.get("email")
 
   if (!email) {
-    return NextResponse.json({ error: "Email requerido" }, { status: 400 })
+    return error("Email requerido", 400)
   }
 
   const record = await db.unsubscribe.findUnique({ where: { email } })
-  return NextResponse.json({ unsubscribed: !!record })
+  return ok({ unsubscribed: !!record })
 }

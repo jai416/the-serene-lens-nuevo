@@ -1,5 +1,6 @@
 import { db } from "@/lib/db"
 import { buildEmailSequence, sendEmail } from "./email-sequence"
+import { sanitizeHtml } from "@/lib/sanitize"
 
 const appUrl = process.env.NEXT_PUBLIC_APP_URL || "https://the-serene-lens-nuevo.onrender.com"
 
@@ -58,7 +59,7 @@ export async function processEmailSequences(): Promise<{ sent: number; failed: n
       ? Math.floor((now.getTime() - lastAnalysis.createdAt.getTime()) / 86400000)
       : daysSinceRegister
 
-    const sequence = buildEmailSequence(user.name || "usuario", appUrl)
+    const sequence = buildEmailSequence(sanitizeHtml(user.name || "usuario"), appUrl)
 
     const targetEmails = sequence.filter((e) => {
       if (e.day === 0) return true

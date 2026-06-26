@@ -1,6 +1,7 @@
-import { NextRequest, NextResponse } from "next/server"
+import { NextRequest } from "next/server"
 import crypto from "crypto"
 import { db } from "@/lib/db"
+import { ok, error, serverError } from "@/lib/api-response"
 
 async function hashPassword(password: string): Promise<string> {
   return new Promise((resolve, reject) => {
@@ -17,11 +18,11 @@ export async function POST(req: NextRequest) {
     const { email, token, password } = await req.json()
 
     if (!email || !token || !password) {
-      return NextResponse.json({ error: "Faltan datos requeridos" }, { status: 400 })
+      return error("Faltan datos requeridos", 400)
     }
 
     if (password.length < 6) {
-      return NextResponse.json({ error: "La contraseña debe tener al menos 6 caracteres" }, { status: 400 })
+      return error("La contraseña debe tener al menos 6 caracteres", 400)
     }
 
     const stored = await db.verificationToken.findUnique({
@@ -29,12 +30,12 @@ export async function POST(req: NextRequest) {
     })
 
     if (!stored) {
-      return NextResponse.json({ error: "Token inválido o expirado" }, { status: 400 })
+      return error("Token inválido o expirado", 400)
     }
 
     if (new Date() > stored.expires) {
       await db.verificationToken.delete({ where: { token: stored.token } }).catch(() => {})
-      return NextResponse.json({ error: "El token ha expirado. Solicita uno nuevo." }, { status: 400 })
+      return error("El token ha expirado. Solicita uno nuevo.", 400)
     }
 
     const hashed = await hashPassword(password)
@@ -45,8 +46,8 @@ export async function POST(req: NextRequest) {
 
     await db.verificationToken.delete({ where: { token: stored.token } })
 
-    return NextResponse.json({ success: true, message: "Contraseña actualizada correctamente" })
+    return ok({ message: "Contraseña actualizada correctamente" })
   } catch {
-    return NextResponse.json({ error: "Error interno del servidor" }, { status: 500 })
+    return serverError()
   }
 }

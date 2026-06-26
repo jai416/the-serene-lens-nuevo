@@ -17,7 +17,6 @@ model User {
   role              String    @default("USER")
   plan              String    @default("FREE")
   qvapayId          String?
-  stripeCustomerId  String?
   analysisLimit     Int       @default(1)
   analysisUsed      Int       @default(0)
   analysisResetAt   DateTime?
@@ -152,7 +151,6 @@ model Payment {
   userId            String
   provider          String    @default("qvapay")
   qvapayId          String?   @unique
-  stripePaymentId   String?   @unique
   plan              String
   amount            Float
   amountUsd         Float?
@@ -175,8 +173,7 @@ model Payment {
 model Subscription {
   id                   String   @id @default(cuid())
   userId               String
-  provider             String   @default("stripe")
-  stripeSubscriptionId String?  @unique
+  provider             String   @default("qvapay")
   qvapayInvoiceId      String?  @unique
   plan                 String
   status               String   @default("active")

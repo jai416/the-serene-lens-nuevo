@@ -318,6 +318,8 @@ export type UserWhereInput = {
   referralsReferred?: Prisma.ReferralListRelationFilter
   groupsOwned?: Prisma.GroupAnalyticsListRelationFilter
   digitalPurchases?: Prisma.DigitalProductPurchaseListRelationFilter
+  affiliateClicks?: Prisma.AffiliateClickListRelationFilter
+  evolution?: Prisma.XOR<Prisma.UserEvolutionNullableScalarRelationFilter, Prisma.UserEvolutionWhereInput> | null
 }
 
 export type UserOrderByWithRelationInput = {
@@ -354,6 +356,8 @@ export type UserOrderByWithRelationInput = {
   referralsReferred?: Prisma.ReferralOrderByRelationAggregateInput
   groupsOwned?: Prisma.GroupAnalyticsOrderByRelationAggregateInput
   digitalPurchases?: Prisma.DigitalProductPurchaseOrderByRelationAggregateInput
+  affiliateClicks?: Prisma.AffiliateClickOrderByRelationAggregateInput
+  evolution?: Prisma.UserEvolutionOrderByWithRelationInput
 }
 
 export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -393,6 +397,8 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   referralsReferred?: Prisma.ReferralListRelationFilter
   groupsOwned?: Prisma.GroupAnalyticsListRelationFilter
   digitalPurchases?: Prisma.DigitalProductPurchaseListRelationFilter
+  affiliateClicks?: Prisma.AffiliateClickListRelationFilter
+  evolution?: Prisma.XOR<Prisma.UserEvolutionNullableScalarRelationFilter, Prisma.UserEvolutionWhereInput> | null
 }, "id" | "email">
 
 export type UserOrderByWithAggregationInput = {
@@ -473,6 +479,8 @@ export type UserCreateInput = {
   referralsReferred?: Prisma.ReferralCreateNestedManyWithoutReferredInput
   groupsOwned?: Prisma.GroupAnalyticsCreateNestedManyWithoutReferrerInput
   digitalPurchases?: Prisma.DigitalProductPurchaseCreateNestedManyWithoutUserInput
+  affiliateClicks?: Prisma.AffiliateClickCreateNestedManyWithoutUserInput
+  evolution?: Prisma.UserEvolutionCreateNestedOneWithoutUserInput
 }
 
 export type UserUncheckedCreateInput = {
@@ -509,6 +517,8 @@ export type UserUncheckedCreateInput = {
   referralsReferred?: Prisma.ReferralUncheckedCreateNestedManyWithoutReferredInput
   groupsOwned?: Prisma.GroupAnalyticsUncheckedCreateNestedManyWithoutReferrerInput
   digitalPurchases?: Prisma.DigitalProductPurchaseUncheckedCreateNestedManyWithoutUserInput
+  affiliateClicks?: Prisma.AffiliateClickUncheckedCreateNestedManyWithoutUserInput
+  evolution?: Prisma.UserEvolutionUncheckedCreateNestedOneWithoutUserInput
 }
 
 export type UserUpdateInput = {
@@ -545,6 +555,8 @@ export type UserUpdateInput = {
   referralsReferred?: Prisma.ReferralUpdateManyWithoutReferredNestedInput
   groupsOwned?: Prisma.GroupAnalyticsUpdateManyWithoutReferrerNestedInput
   digitalPurchases?: Prisma.DigitalProductPurchaseUpdateManyWithoutUserNestedInput
+  affiliateClicks?: Prisma.AffiliateClickUpdateManyWithoutUserNestedInput
+  evolution?: Prisma.UserEvolutionUpdateOneWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateInput = {
@@ -581,6 +593,8 @@ export type UserUncheckedUpdateInput = {
   referralsReferred?: Prisma.ReferralUncheckedUpdateManyWithoutReferredNestedInput
   groupsOwned?: Prisma.GroupAnalyticsUncheckedUpdateManyWithoutReferrerNestedInput
   digitalPurchases?: Prisma.DigitalProductPurchaseUncheckedUpdateManyWithoutUserNestedInput
+  affiliateClicks?: Prisma.AffiliateClickUncheckedUpdateManyWithoutUserNestedInput
+  evolution?: Prisma.UserEvolutionUncheckedUpdateOneWithoutUserNestedInput
 }
 
 export type UserCreateManyInput = {
@@ -849,6 +863,36 @@ export type UserUpdateOneRequiredWithoutClinicNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutClinicInput, Prisma.UserUpdateWithoutClinicInput>, Prisma.UserUncheckedUpdateWithoutClinicInput>
 }
 
+export type UserCreateNestedOneWithoutAffiliateClicksInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutAffiliateClicksInput, Prisma.UserUncheckedCreateWithoutAffiliateClicksInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutAffiliateClicksInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneWithoutAffiliateClicksNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutAffiliateClicksInput, Prisma.UserUncheckedCreateWithoutAffiliateClicksInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutAffiliateClicksInput
+  upsert?: Prisma.UserUpsertWithoutAffiliateClicksInput
+  disconnect?: Prisma.UserWhereInput | boolean
+  delete?: Prisma.UserWhereInput | boolean
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutAffiliateClicksInput, Prisma.UserUpdateWithoutAffiliateClicksInput>, Prisma.UserUncheckedUpdateWithoutAffiliateClicksInput>
+}
+
+export type UserCreateNestedOneWithoutEvolutionInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutEvolutionInput, Prisma.UserUncheckedCreateWithoutEvolutionInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutEvolutionInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneRequiredWithoutEvolutionNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutEvolutionInput, Prisma.UserUncheckedCreateWithoutEvolutionInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutEvolutionInput
+  upsert?: Prisma.UserUpsertWithoutEvolutionInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutEvolutionInput, Prisma.UserUpdateWithoutEvolutionInput>, Prisma.UserUncheckedUpdateWithoutEvolutionInput>
+}
+
 export type UserCreateNestedOneWithoutSurveyFeedbackInput = {
   create?: Prisma.XOR<Prisma.UserCreateWithoutSurveyFeedbackInput, Prisma.UserUncheckedCreateWithoutSurveyFeedbackInput>
   connectOrCreate?: Prisma.UserCreateOrConnectWithoutSurveyFeedbackInput
@@ -1024,6 +1068,8 @@ export type UserCreateWithoutAccountsInput = {
   referralsReferred?: Prisma.ReferralCreateNestedManyWithoutReferredInput
   groupsOwned?: Prisma.GroupAnalyticsCreateNestedManyWithoutReferrerInput
   digitalPurchases?: Prisma.DigitalProductPurchaseCreateNestedManyWithoutUserInput
+  affiliateClicks?: Prisma.AffiliateClickCreateNestedManyWithoutUserInput
+  evolution?: Prisma.UserEvolutionCreateNestedOneWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutAccountsInput = {
@@ -1059,6 +1105,8 @@ export type UserUncheckedCreateWithoutAccountsInput = {
   referralsReferred?: Prisma.ReferralUncheckedCreateNestedManyWithoutReferredInput
   groupsOwned?: Prisma.GroupAnalyticsUncheckedCreateNestedManyWithoutReferrerInput
   digitalPurchases?: Prisma.DigitalProductPurchaseUncheckedCreateNestedManyWithoutUserInput
+  affiliateClicks?: Prisma.AffiliateClickUncheckedCreateNestedManyWithoutUserInput
+  evolution?: Prisma.UserEvolutionUncheckedCreateNestedOneWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutAccountsInput = {
@@ -1110,6 +1158,8 @@ export type UserUpdateWithoutAccountsInput = {
   referralsReferred?: Prisma.ReferralUpdateManyWithoutReferredNestedInput
   groupsOwned?: Prisma.GroupAnalyticsUpdateManyWithoutReferrerNestedInput
   digitalPurchases?: Prisma.DigitalProductPurchaseUpdateManyWithoutUserNestedInput
+  affiliateClicks?: Prisma.AffiliateClickUpdateManyWithoutUserNestedInput
+  evolution?: Prisma.UserEvolutionUpdateOneWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutAccountsInput = {
@@ -1145,6 +1195,8 @@ export type UserUncheckedUpdateWithoutAccountsInput = {
   referralsReferred?: Prisma.ReferralUncheckedUpdateManyWithoutReferredNestedInput
   groupsOwned?: Prisma.GroupAnalyticsUncheckedUpdateManyWithoutReferrerNestedInput
   digitalPurchases?: Prisma.DigitalProductPurchaseUncheckedUpdateManyWithoutUserNestedInput
+  affiliateClicks?: Prisma.AffiliateClickUncheckedUpdateManyWithoutUserNestedInput
+  evolution?: Prisma.UserEvolutionUncheckedUpdateOneWithoutUserNestedInput
 }
 
 export type UserCreateWithoutSessionsInput = {
@@ -1180,6 +1232,8 @@ export type UserCreateWithoutSessionsInput = {
   referralsReferred?: Prisma.ReferralCreateNestedManyWithoutReferredInput
   groupsOwned?: Prisma.GroupAnalyticsCreateNestedManyWithoutReferrerInput
   digitalPurchases?: Prisma.DigitalProductPurchaseCreateNestedManyWithoutUserInput
+  affiliateClicks?: Prisma.AffiliateClickCreateNestedManyWithoutUserInput
+  evolution?: Prisma.UserEvolutionCreateNestedOneWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutSessionsInput = {
@@ -1215,6 +1269,8 @@ export type UserUncheckedCreateWithoutSessionsInput = {
   referralsReferred?: Prisma.ReferralUncheckedCreateNestedManyWithoutReferredInput
   groupsOwned?: Prisma.GroupAnalyticsUncheckedCreateNestedManyWithoutReferrerInput
   digitalPurchases?: Prisma.DigitalProductPurchaseUncheckedCreateNestedManyWithoutUserInput
+  affiliateClicks?: Prisma.AffiliateClickUncheckedCreateNestedManyWithoutUserInput
+  evolution?: Prisma.UserEvolutionUncheckedCreateNestedOneWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutSessionsInput = {
@@ -1266,6 +1322,8 @@ export type UserUpdateWithoutSessionsInput = {
   referralsReferred?: Prisma.ReferralUpdateManyWithoutReferredNestedInput
   groupsOwned?: Prisma.GroupAnalyticsUpdateManyWithoutReferrerNestedInput
   digitalPurchases?: Prisma.DigitalProductPurchaseUpdateManyWithoutUserNestedInput
+  affiliateClicks?: Prisma.AffiliateClickUpdateManyWithoutUserNestedInput
+  evolution?: Prisma.UserEvolutionUpdateOneWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutSessionsInput = {
@@ -1301,6 +1359,8 @@ export type UserUncheckedUpdateWithoutSessionsInput = {
   referralsReferred?: Prisma.ReferralUncheckedUpdateManyWithoutReferredNestedInput
   groupsOwned?: Prisma.GroupAnalyticsUncheckedUpdateManyWithoutReferrerNestedInput
   digitalPurchases?: Prisma.DigitalProductPurchaseUncheckedUpdateManyWithoutUserNestedInput
+  affiliateClicks?: Prisma.AffiliateClickUncheckedUpdateManyWithoutUserNestedInput
+  evolution?: Prisma.UserEvolutionUncheckedUpdateOneWithoutUserNestedInput
 }
 
 export type UserCreateWithoutAnalysesInput = {
@@ -1336,6 +1396,8 @@ export type UserCreateWithoutAnalysesInput = {
   referralsReferred?: Prisma.ReferralCreateNestedManyWithoutReferredInput
   groupsOwned?: Prisma.GroupAnalyticsCreateNestedManyWithoutReferrerInput
   digitalPurchases?: Prisma.DigitalProductPurchaseCreateNestedManyWithoutUserInput
+  affiliateClicks?: Prisma.AffiliateClickCreateNestedManyWithoutUserInput
+  evolution?: Prisma.UserEvolutionCreateNestedOneWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutAnalysesInput = {
@@ -1371,6 +1433,8 @@ export type UserUncheckedCreateWithoutAnalysesInput = {
   referralsReferred?: Prisma.ReferralUncheckedCreateNestedManyWithoutReferredInput
   groupsOwned?: Prisma.GroupAnalyticsUncheckedCreateNestedManyWithoutReferrerInput
   digitalPurchases?: Prisma.DigitalProductPurchaseUncheckedCreateNestedManyWithoutUserInput
+  affiliateClicks?: Prisma.AffiliateClickUncheckedCreateNestedManyWithoutUserInput
+  evolution?: Prisma.UserEvolutionUncheckedCreateNestedOneWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutAnalysesInput = {
@@ -1422,6 +1486,8 @@ export type UserUpdateWithoutAnalysesInput = {
   referralsReferred?: Prisma.ReferralUpdateManyWithoutReferredNestedInput
   groupsOwned?: Prisma.GroupAnalyticsUpdateManyWithoutReferrerNestedInput
   digitalPurchases?: Prisma.DigitalProductPurchaseUpdateManyWithoutUserNestedInput
+  affiliateClicks?: Prisma.AffiliateClickUpdateManyWithoutUserNestedInput
+  evolution?: Prisma.UserEvolutionUpdateOneWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutAnalysesInput = {
@@ -1457,6 +1523,8 @@ export type UserUncheckedUpdateWithoutAnalysesInput = {
   referralsReferred?: Prisma.ReferralUncheckedUpdateManyWithoutReferredNestedInput
   groupsOwned?: Prisma.GroupAnalyticsUncheckedUpdateManyWithoutReferrerNestedInput
   digitalPurchases?: Prisma.DigitalProductPurchaseUncheckedUpdateManyWithoutUserNestedInput
+  affiliateClicks?: Prisma.AffiliateClickUncheckedUpdateManyWithoutUserNestedInput
+  evolution?: Prisma.UserEvolutionUncheckedUpdateOneWithoutUserNestedInput
 }
 
 export type UserCreateWithoutPaymentsInput = {
@@ -1492,6 +1560,8 @@ export type UserCreateWithoutPaymentsInput = {
   referralsReferred?: Prisma.ReferralCreateNestedManyWithoutReferredInput
   groupsOwned?: Prisma.GroupAnalyticsCreateNestedManyWithoutReferrerInput
   digitalPurchases?: Prisma.DigitalProductPurchaseCreateNestedManyWithoutUserInput
+  affiliateClicks?: Prisma.AffiliateClickCreateNestedManyWithoutUserInput
+  evolution?: Prisma.UserEvolutionCreateNestedOneWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutPaymentsInput = {
@@ -1527,6 +1597,8 @@ export type UserUncheckedCreateWithoutPaymentsInput = {
   referralsReferred?: Prisma.ReferralUncheckedCreateNestedManyWithoutReferredInput
   groupsOwned?: Prisma.GroupAnalyticsUncheckedCreateNestedManyWithoutReferrerInput
   digitalPurchases?: Prisma.DigitalProductPurchaseUncheckedCreateNestedManyWithoutUserInput
+  affiliateClicks?: Prisma.AffiliateClickUncheckedCreateNestedManyWithoutUserInput
+  evolution?: Prisma.UserEvolutionUncheckedCreateNestedOneWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutPaymentsInput = {
@@ -1578,6 +1650,8 @@ export type UserUpdateWithoutPaymentsInput = {
   referralsReferred?: Prisma.ReferralUpdateManyWithoutReferredNestedInput
   groupsOwned?: Prisma.GroupAnalyticsUpdateManyWithoutReferrerNestedInput
   digitalPurchases?: Prisma.DigitalProductPurchaseUpdateManyWithoutUserNestedInput
+  affiliateClicks?: Prisma.AffiliateClickUpdateManyWithoutUserNestedInput
+  evolution?: Prisma.UserEvolutionUpdateOneWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutPaymentsInput = {
@@ -1613,6 +1687,8 @@ export type UserUncheckedUpdateWithoutPaymentsInput = {
   referralsReferred?: Prisma.ReferralUncheckedUpdateManyWithoutReferredNestedInput
   groupsOwned?: Prisma.GroupAnalyticsUncheckedUpdateManyWithoutReferrerNestedInput
   digitalPurchases?: Prisma.DigitalProductPurchaseUncheckedUpdateManyWithoutUserNestedInput
+  affiliateClicks?: Prisma.AffiliateClickUncheckedUpdateManyWithoutUserNestedInput
+  evolution?: Prisma.UserEvolutionUncheckedUpdateOneWithoutUserNestedInput
 }
 
 export type UserCreateWithoutSubscriptionsInput = {
@@ -1648,6 +1724,8 @@ export type UserCreateWithoutSubscriptionsInput = {
   referralsReferred?: Prisma.ReferralCreateNestedManyWithoutReferredInput
   groupsOwned?: Prisma.GroupAnalyticsCreateNestedManyWithoutReferrerInput
   digitalPurchases?: Prisma.DigitalProductPurchaseCreateNestedManyWithoutUserInput
+  affiliateClicks?: Prisma.AffiliateClickCreateNestedManyWithoutUserInput
+  evolution?: Prisma.UserEvolutionCreateNestedOneWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutSubscriptionsInput = {
@@ -1683,6 +1761,8 @@ export type UserUncheckedCreateWithoutSubscriptionsInput = {
   referralsReferred?: Prisma.ReferralUncheckedCreateNestedManyWithoutReferredInput
   groupsOwned?: Prisma.GroupAnalyticsUncheckedCreateNestedManyWithoutReferrerInput
   digitalPurchases?: Prisma.DigitalProductPurchaseUncheckedCreateNestedManyWithoutUserInput
+  affiliateClicks?: Prisma.AffiliateClickUncheckedCreateNestedManyWithoutUserInput
+  evolution?: Prisma.UserEvolutionUncheckedCreateNestedOneWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutSubscriptionsInput = {
@@ -1734,6 +1814,8 @@ export type UserUpdateWithoutSubscriptionsInput = {
   referralsReferred?: Prisma.ReferralUpdateManyWithoutReferredNestedInput
   groupsOwned?: Prisma.GroupAnalyticsUpdateManyWithoutReferrerNestedInput
   digitalPurchases?: Prisma.DigitalProductPurchaseUpdateManyWithoutUserNestedInput
+  affiliateClicks?: Prisma.AffiliateClickUpdateManyWithoutUserNestedInput
+  evolution?: Prisma.UserEvolutionUpdateOneWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutSubscriptionsInput = {
@@ -1769,6 +1851,8 @@ export type UserUncheckedUpdateWithoutSubscriptionsInput = {
   referralsReferred?: Prisma.ReferralUncheckedUpdateManyWithoutReferredNestedInput
   groupsOwned?: Prisma.GroupAnalyticsUncheckedUpdateManyWithoutReferrerNestedInput
   digitalPurchases?: Prisma.DigitalProductPurchaseUncheckedUpdateManyWithoutUserNestedInput
+  affiliateClicks?: Prisma.AffiliateClickUncheckedUpdateManyWithoutUserNestedInput
+  evolution?: Prisma.UserEvolutionUncheckedUpdateOneWithoutUserNestedInput
 }
 
 export type UserCreateWithoutPurchasePacksInput = {
@@ -1804,6 +1888,8 @@ export type UserCreateWithoutPurchasePacksInput = {
   referralsReferred?: Prisma.ReferralCreateNestedManyWithoutReferredInput
   groupsOwned?: Prisma.GroupAnalyticsCreateNestedManyWithoutReferrerInput
   digitalPurchases?: Prisma.DigitalProductPurchaseCreateNestedManyWithoutUserInput
+  affiliateClicks?: Prisma.AffiliateClickCreateNestedManyWithoutUserInput
+  evolution?: Prisma.UserEvolutionCreateNestedOneWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutPurchasePacksInput = {
@@ -1839,6 +1925,8 @@ export type UserUncheckedCreateWithoutPurchasePacksInput = {
   referralsReferred?: Prisma.ReferralUncheckedCreateNestedManyWithoutReferredInput
   groupsOwned?: Prisma.GroupAnalyticsUncheckedCreateNestedManyWithoutReferrerInput
   digitalPurchases?: Prisma.DigitalProductPurchaseUncheckedCreateNestedManyWithoutUserInput
+  affiliateClicks?: Prisma.AffiliateClickUncheckedCreateNestedManyWithoutUserInput
+  evolution?: Prisma.UserEvolutionUncheckedCreateNestedOneWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutPurchasePacksInput = {
@@ -1890,6 +1978,8 @@ export type UserUpdateWithoutPurchasePacksInput = {
   referralsReferred?: Prisma.ReferralUpdateManyWithoutReferredNestedInput
   groupsOwned?: Prisma.GroupAnalyticsUpdateManyWithoutReferrerNestedInput
   digitalPurchases?: Prisma.DigitalProductPurchaseUpdateManyWithoutUserNestedInput
+  affiliateClicks?: Prisma.AffiliateClickUpdateManyWithoutUserNestedInput
+  evolution?: Prisma.UserEvolutionUpdateOneWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutPurchasePacksInput = {
@@ -1925,6 +2015,8 @@ export type UserUncheckedUpdateWithoutPurchasePacksInput = {
   referralsReferred?: Prisma.ReferralUncheckedUpdateManyWithoutReferredNestedInput
   groupsOwned?: Prisma.GroupAnalyticsUncheckedUpdateManyWithoutReferrerNestedInput
   digitalPurchases?: Prisma.DigitalProductPurchaseUncheckedUpdateManyWithoutUserNestedInput
+  affiliateClicks?: Prisma.AffiliateClickUncheckedUpdateManyWithoutUserNestedInput
+  evolution?: Prisma.UserEvolutionUncheckedUpdateOneWithoutUserNestedInput
 }
 
 export type UserCreateWithoutUsageRecordsInput = {
@@ -1960,6 +2052,8 @@ export type UserCreateWithoutUsageRecordsInput = {
   referralsReferred?: Prisma.ReferralCreateNestedManyWithoutReferredInput
   groupsOwned?: Prisma.GroupAnalyticsCreateNestedManyWithoutReferrerInput
   digitalPurchases?: Prisma.DigitalProductPurchaseCreateNestedManyWithoutUserInput
+  affiliateClicks?: Prisma.AffiliateClickCreateNestedManyWithoutUserInput
+  evolution?: Prisma.UserEvolutionCreateNestedOneWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutUsageRecordsInput = {
@@ -1995,6 +2089,8 @@ export type UserUncheckedCreateWithoutUsageRecordsInput = {
   referralsReferred?: Prisma.ReferralUncheckedCreateNestedManyWithoutReferredInput
   groupsOwned?: Prisma.GroupAnalyticsUncheckedCreateNestedManyWithoutReferrerInput
   digitalPurchases?: Prisma.DigitalProductPurchaseUncheckedCreateNestedManyWithoutUserInput
+  affiliateClicks?: Prisma.AffiliateClickUncheckedCreateNestedManyWithoutUserInput
+  evolution?: Prisma.UserEvolutionUncheckedCreateNestedOneWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutUsageRecordsInput = {
@@ -2046,6 +2142,8 @@ export type UserUpdateWithoutUsageRecordsInput = {
   referralsReferred?: Prisma.ReferralUpdateManyWithoutReferredNestedInput
   groupsOwned?: Prisma.GroupAnalyticsUpdateManyWithoutReferrerNestedInput
   digitalPurchases?: Prisma.DigitalProductPurchaseUpdateManyWithoutUserNestedInput
+  affiliateClicks?: Prisma.AffiliateClickUpdateManyWithoutUserNestedInput
+  evolution?: Prisma.UserEvolutionUpdateOneWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutUsageRecordsInput = {
@@ -2081,6 +2179,8 @@ export type UserUncheckedUpdateWithoutUsageRecordsInput = {
   referralsReferred?: Prisma.ReferralUncheckedUpdateManyWithoutReferredNestedInput
   groupsOwned?: Prisma.GroupAnalyticsUncheckedUpdateManyWithoutReferrerNestedInput
   digitalPurchases?: Prisma.DigitalProductPurchaseUncheckedUpdateManyWithoutUserNestedInput
+  affiliateClicks?: Prisma.AffiliateClickUncheckedUpdateManyWithoutUserNestedInput
+  evolution?: Prisma.UserEvolutionUncheckedUpdateOneWithoutUserNestedInput
 }
 
 export type UserCreateWithoutClinicInput = {
@@ -2116,6 +2216,8 @@ export type UserCreateWithoutClinicInput = {
   referralsReferred?: Prisma.ReferralCreateNestedManyWithoutReferredInput
   groupsOwned?: Prisma.GroupAnalyticsCreateNestedManyWithoutReferrerInput
   digitalPurchases?: Prisma.DigitalProductPurchaseCreateNestedManyWithoutUserInput
+  affiliateClicks?: Prisma.AffiliateClickCreateNestedManyWithoutUserInput
+  evolution?: Prisma.UserEvolutionCreateNestedOneWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutClinicInput = {
@@ -2151,6 +2253,8 @@ export type UserUncheckedCreateWithoutClinicInput = {
   referralsReferred?: Prisma.ReferralUncheckedCreateNestedManyWithoutReferredInput
   groupsOwned?: Prisma.GroupAnalyticsUncheckedCreateNestedManyWithoutReferrerInput
   digitalPurchases?: Prisma.DigitalProductPurchaseUncheckedCreateNestedManyWithoutUserInput
+  affiliateClicks?: Prisma.AffiliateClickUncheckedCreateNestedManyWithoutUserInput
+  evolution?: Prisma.UserEvolutionUncheckedCreateNestedOneWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutClinicInput = {
@@ -2202,6 +2306,8 @@ export type UserUpdateWithoutClinicInput = {
   referralsReferred?: Prisma.ReferralUpdateManyWithoutReferredNestedInput
   groupsOwned?: Prisma.GroupAnalyticsUpdateManyWithoutReferrerNestedInput
   digitalPurchases?: Prisma.DigitalProductPurchaseUpdateManyWithoutUserNestedInput
+  affiliateClicks?: Prisma.AffiliateClickUpdateManyWithoutUserNestedInput
+  evolution?: Prisma.UserEvolutionUpdateOneWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutClinicInput = {
@@ -2237,6 +2343,336 @@ export type UserUncheckedUpdateWithoutClinicInput = {
   referralsReferred?: Prisma.ReferralUncheckedUpdateManyWithoutReferredNestedInput
   groupsOwned?: Prisma.GroupAnalyticsUncheckedUpdateManyWithoutReferrerNestedInput
   digitalPurchases?: Prisma.DigitalProductPurchaseUncheckedUpdateManyWithoutUserNestedInput
+  affiliateClicks?: Prisma.AffiliateClickUncheckedUpdateManyWithoutUserNestedInput
+  evolution?: Prisma.UserEvolutionUncheckedUpdateOneWithoutUserNestedInput
+}
+
+export type UserCreateWithoutAffiliateClicksInput = {
+  id?: string
+  name?: string | null
+  email: string
+  emailVerified?: Date | string | null
+  image?: string | null
+  password?: string | null
+  role?: string
+  plan?: string
+  qvapayId?: string | null
+  stripeCustomerId?: string | null
+  analysisLimit?: number
+  analysisUsed?: number
+  analysisResetAt?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
+  sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
+  analyses?: Prisma.SkinAnalysisCreateNestedManyWithoutUserInput
+  payments?: Prisma.PaymentCreateNestedManyWithoutUserInput
+  subscriptions?: Prisma.SubscriptionCreateNestedManyWithoutUserInput
+  purchasePacks?: Prisma.PurchasePackCreateNestedManyWithoutUserInput
+  usageRecords?: Prisma.UsageTrackingCreateNestedManyWithoutUserInput
+  clinic?: Prisma.ClinicCreateNestedOneWithoutOwnerInput
+  surveyFeedback?: Prisma.SurveyFeedbackCreateNestedManyWithoutUserInput
+  communityPosts?: Prisma.CommunityPostCreateNestedManyWithoutUserInput
+  comments?: Prisma.CommentCreateNestedManyWithoutUserInput
+  skinDiary?: Prisma.SkinDiaryCreateNestedManyWithoutUserInput
+  userChallenges?: Prisma.UserChallengeCreateNestedManyWithoutUserInput
+  productReviews?: Prisma.ProductReviewCreateNestedManyWithoutUserInput
+  referralsOwned?: Prisma.ReferralCreateNestedManyWithoutReferrerInput
+  referralsReferred?: Prisma.ReferralCreateNestedManyWithoutReferredInput
+  groupsOwned?: Prisma.GroupAnalyticsCreateNestedManyWithoutReferrerInput
+  digitalPurchases?: Prisma.DigitalProductPurchaseCreateNestedManyWithoutUserInput
+  evolution?: Prisma.UserEvolutionCreateNestedOneWithoutUserInput
+}
+
+export type UserUncheckedCreateWithoutAffiliateClicksInput = {
+  id?: string
+  name?: string | null
+  email: string
+  emailVerified?: Date | string | null
+  image?: string | null
+  password?: string | null
+  role?: string
+  plan?: string
+  qvapayId?: string | null
+  stripeCustomerId?: string | null
+  analysisLimit?: number
+  analysisUsed?: number
+  analysisResetAt?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
+  sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
+  analyses?: Prisma.SkinAnalysisUncheckedCreateNestedManyWithoutUserInput
+  payments?: Prisma.PaymentUncheckedCreateNestedManyWithoutUserInput
+  subscriptions?: Prisma.SubscriptionUncheckedCreateNestedManyWithoutUserInput
+  purchasePacks?: Prisma.PurchasePackUncheckedCreateNestedManyWithoutUserInput
+  usageRecords?: Prisma.UsageTrackingUncheckedCreateNestedManyWithoutUserInput
+  clinic?: Prisma.ClinicUncheckedCreateNestedOneWithoutOwnerInput
+  surveyFeedback?: Prisma.SurveyFeedbackUncheckedCreateNestedManyWithoutUserInput
+  communityPosts?: Prisma.CommunityPostUncheckedCreateNestedManyWithoutUserInput
+  comments?: Prisma.CommentUncheckedCreateNestedManyWithoutUserInput
+  skinDiary?: Prisma.SkinDiaryUncheckedCreateNestedManyWithoutUserInput
+  userChallenges?: Prisma.UserChallengeUncheckedCreateNestedManyWithoutUserInput
+  productReviews?: Prisma.ProductReviewUncheckedCreateNestedManyWithoutUserInput
+  referralsOwned?: Prisma.ReferralUncheckedCreateNestedManyWithoutReferrerInput
+  referralsReferred?: Prisma.ReferralUncheckedCreateNestedManyWithoutReferredInput
+  groupsOwned?: Prisma.GroupAnalyticsUncheckedCreateNestedManyWithoutReferrerInput
+  digitalPurchases?: Prisma.DigitalProductPurchaseUncheckedCreateNestedManyWithoutUserInput
+  evolution?: Prisma.UserEvolutionUncheckedCreateNestedOneWithoutUserInput
+}
+
+export type UserCreateOrConnectWithoutAffiliateClicksInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutAffiliateClicksInput, Prisma.UserUncheckedCreateWithoutAffiliateClicksInput>
+}
+
+export type UserUpsertWithoutAffiliateClicksInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutAffiliateClicksInput, Prisma.UserUncheckedUpdateWithoutAffiliateClicksInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutAffiliateClicksInput, Prisma.UserUncheckedCreateWithoutAffiliateClicksInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutAffiliateClicksInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutAffiliateClicksInput, Prisma.UserUncheckedUpdateWithoutAffiliateClicksInput>
+}
+
+export type UserUpdateWithoutAffiliateClicksInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  emailVerified?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.StringFieldUpdateOperationsInput | string
+  plan?: Prisma.StringFieldUpdateOperationsInput | string
+  qvapayId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  stripeCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  analysisLimit?: Prisma.IntFieldUpdateOperationsInput | number
+  analysisUsed?: Prisma.IntFieldUpdateOperationsInput | number
+  analysisResetAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
+  sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
+  analyses?: Prisma.SkinAnalysisUpdateManyWithoutUserNestedInput
+  payments?: Prisma.PaymentUpdateManyWithoutUserNestedInput
+  subscriptions?: Prisma.SubscriptionUpdateManyWithoutUserNestedInput
+  purchasePacks?: Prisma.PurchasePackUpdateManyWithoutUserNestedInput
+  usageRecords?: Prisma.UsageTrackingUpdateManyWithoutUserNestedInput
+  clinic?: Prisma.ClinicUpdateOneWithoutOwnerNestedInput
+  surveyFeedback?: Prisma.SurveyFeedbackUpdateManyWithoutUserNestedInput
+  communityPosts?: Prisma.CommunityPostUpdateManyWithoutUserNestedInput
+  comments?: Prisma.CommentUpdateManyWithoutUserNestedInput
+  skinDiary?: Prisma.SkinDiaryUpdateManyWithoutUserNestedInput
+  userChallenges?: Prisma.UserChallengeUpdateManyWithoutUserNestedInput
+  productReviews?: Prisma.ProductReviewUpdateManyWithoutUserNestedInput
+  referralsOwned?: Prisma.ReferralUpdateManyWithoutReferrerNestedInput
+  referralsReferred?: Prisma.ReferralUpdateManyWithoutReferredNestedInput
+  groupsOwned?: Prisma.GroupAnalyticsUpdateManyWithoutReferrerNestedInput
+  digitalPurchases?: Prisma.DigitalProductPurchaseUpdateManyWithoutUserNestedInput
+  evolution?: Prisma.UserEvolutionUpdateOneWithoutUserNestedInput
+}
+
+export type UserUncheckedUpdateWithoutAffiliateClicksInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  emailVerified?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.StringFieldUpdateOperationsInput | string
+  plan?: Prisma.StringFieldUpdateOperationsInput | string
+  qvapayId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  stripeCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  analysisLimit?: Prisma.IntFieldUpdateOperationsInput | number
+  analysisUsed?: Prisma.IntFieldUpdateOperationsInput | number
+  analysisResetAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
+  sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
+  analyses?: Prisma.SkinAnalysisUncheckedUpdateManyWithoutUserNestedInput
+  payments?: Prisma.PaymentUncheckedUpdateManyWithoutUserNestedInput
+  subscriptions?: Prisma.SubscriptionUncheckedUpdateManyWithoutUserNestedInput
+  purchasePacks?: Prisma.PurchasePackUncheckedUpdateManyWithoutUserNestedInput
+  usageRecords?: Prisma.UsageTrackingUncheckedUpdateManyWithoutUserNestedInput
+  clinic?: Prisma.ClinicUncheckedUpdateOneWithoutOwnerNestedInput
+  surveyFeedback?: Prisma.SurveyFeedbackUncheckedUpdateManyWithoutUserNestedInput
+  communityPosts?: Prisma.CommunityPostUncheckedUpdateManyWithoutUserNestedInput
+  comments?: Prisma.CommentUncheckedUpdateManyWithoutUserNestedInput
+  skinDiary?: Prisma.SkinDiaryUncheckedUpdateManyWithoutUserNestedInput
+  userChallenges?: Prisma.UserChallengeUncheckedUpdateManyWithoutUserNestedInput
+  productReviews?: Prisma.ProductReviewUncheckedUpdateManyWithoutUserNestedInput
+  referralsOwned?: Prisma.ReferralUncheckedUpdateManyWithoutReferrerNestedInput
+  referralsReferred?: Prisma.ReferralUncheckedUpdateManyWithoutReferredNestedInput
+  groupsOwned?: Prisma.GroupAnalyticsUncheckedUpdateManyWithoutReferrerNestedInput
+  digitalPurchases?: Prisma.DigitalProductPurchaseUncheckedUpdateManyWithoutUserNestedInput
+  evolution?: Prisma.UserEvolutionUncheckedUpdateOneWithoutUserNestedInput
+}
+
+export type UserCreateWithoutEvolutionInput = {
+  id?: string
+  name?: string | null
+  email: string
+  emailVerified?: Date | string | null
+  image?: string | null
+  password?: string | null
+  role?: string
+  plan?: string
+  qvapayId?: string | null
+  stripeCustomerId?: string | null
+  analysisLimit?: number
+  analysisUsed?: number
+  analysisResetAt?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
+  sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
+  analyses?: Prisma.SkinAnalysisCreateNestedManyWithoutUserInput
+  payments?: Prisma.PaymentCreateNestedManyWithoutUserInput
+  subscriptions?: Prisma.SubscriptionCreateNestedManyWithoutUserInput
+  purchasePacks?: Prisma.PurchasePackCreateNestedManyWithoutUserInput
+  usageRecords?: Prisma.UsageTrackingCreateNestedManyWithoutUserInput
+  clinic?: Prisma.ClinicCreateNestedOneWithoutOwnerInput
+  surveyFeedback?: Prisma.SurveyFeedbackCreateNestedManyWithoutUserInput
+  communityPosts?: Prisma.CommunityPostCreateNestedManyWithoutUserInput
+  comments?: Prisma.CommentCreateNestedManyWithoutUserInput
+  skinDiary?: Prisma.SkinDiaryCreateNestedManyWithoutUserInput
+  userChallenges?: Prisma.UserChallengeCreateNestedManyWithoutUserInput
+  productReviews?: Prisma.ProductReviewCreateNestedManyWithoutUserInput
+  referralsOwned?: Prisma.ReferralCreateNestedManyWithoutReferrerInput
+  referralsReferred?: Prisma.ReferralCreateNestedManyWithoutReferredInput
+  groupsOwned?: Prisma.GroupAnalyticsCreateNestedManyWithoutReferrerInput
+  digitalPurchases?: Prisma.DigitalProductPurchaseCreateNestedManyWithoutUserInput
+  affiliateClicks?: Prisma.AffiliateClickCreateNestedManyWithoutUserInput
+}
+
+export type UserUncheckedCreateWithoutEvolutionInput = {
+  id?: string
+  name?: string | null
+  email: string
+  emailVerified?: Date | string | null
+  image?: string | null
+  password?: string | null
+  role?: string
+  plan?: string
+  qvapayId?: string | null
+  stripeCustomerId?: string | null
+  analysisLimit?: number
+  analysisUsed?: number
+  analysisResetAt?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
+  sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
+  analyses?: Prisma.SkinAnalysisUncheckedCreateNestedManyWithoutUserInput
+  payments?: Prisma.PaymentUncheckedCreateNestedManyWithoutUserInput
+  subscriptions?: Prisma.SubscriptionUncheckedCreateNestedManyWithoutUserInput
+  purchasePacks?: Prisma.PurchasePackUncheckedCreateNestedManyWithoutUserInput
+  usageRecords?: Prisma.UsageTrackingUncheckedCreateNestedManyWithoutUserInput
+  clinic?: Prisma.ClinicUncheckedCreateNestedOneWithoutOwnerInput
+  surveyFeedback?: Prisma.SurveyFeedbackUncheckedCreateNestedManyWithoutUserInput
+  communityPosts?: Prisma.CommunityPostUncheckedCreateNestedManyWithoutUserInput
+  comments?: Prisma.CommentUncheckedCreateNestedManyWithoutUserInput
+  skinDiary?: Prisma.SkinDiaryUncheckedCreateNestedManyWithoutUserInput
+  userChallenges?: Prisma.UserChallengeUncheckedCreateNestedManyWithoutUserInput
+  productReviews?: Prisma.ProductReviewUncheckedCreateNestedManyWithoutUserInput
+  referralsOwned?: Prisma.ReferralUncheckedCreateNestedManyWithoutReferrerInput
+  referralsReferred?: Prisma.ReferralUncheckedCreateNestedManyWithoutReferredInput
+  groupsOwned?: Prisma.GroupAnalyticsUncheckedCreateNestedManyWithoutReferrerInput
+  digitalPurchases?: Prisma.DigitalProductPurchaseUncheckedCreateNestedManyWithoutUserInput
+  affiliateClicks?: Prisma.AffiliateClickUncheckedCreateNestedManyWithoutUserInput
+}
+
+export type UserCreateOrConnectWithoutEvolutionInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutEvolutionInput, Prisma.UserUncheckedCreateWithoutEvolutionInput>
+}
+
+export type UserUpsertWithoutEvolutionInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutEvolutionInput, Prisma.UserUncheckedUpdateWithoutEvolutionInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutEvolutionInput, Prisma.UserUncheckedCreateWithoutEvolutionInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutEvolutionInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutEvolutionInput, Prisma.UserUncheckedUpdateWithoutEvolutionInput>
+}
+
+export type UserUpdateWithoutEvolutionInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  emailVerified?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.StringFieldUpdateOperationsInput | string
+  plan?: Prisma.StringFieldUpdateOperationsInput | string
+  qvapayId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  stripeCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  analysisLimit?: Prisma.IntFieldUpdateOperationsInput | number
+  analysisUsed?: Prisma.IntFieldUpdateOperationsInput | number
+  analysisResetAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
+  sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
+  analyses?: Prisma.SkinAnalysisUpdateManyWithoutUserNestedInput
+  payments?: Prisma.PaymentUpdateManyWithoutUserNestedInput
+  subscriptions?: Prisma.SubscriptionUpdateManyWithoutUserNestedInput
+  purchasePacks?: Prisma.PurchasePackUpdateManyWithoutUserNestedInput
+  usageRecords?: Prisma.UsageTrackingUpdateManyWithoutUserNestedInput
+  clinic?: Prisma.ClinicUpdateOneWithoutOwnerNestedInput
+  surveyFeedback?: Prisma.SurveyFeedbackUpdateManyWithoutUserNestedInput
+  communityPosts?: Prisma.CommunityPostUpdateManyWithoutUserNestedInput
+  comments?: Prisma.CommentUpdateManyWithoutUserNestedInput
+  skinDiary?: Prisma.SkinDiaryUpdateManyWithoutUserNestedInput
+  userChallenges?: Prisma.UserChallengeUpdateManyWithoutUserNestedInput
+  productReviews?: Prisma.ProductReviewUpdateManyWithoutUserNestedInput
+  referralsOwned?: Prisma.ReferralUpdateManyWithoutReferrerNestedInput
+  referralsReferred?: Prisma.ReferralUpdateManyWithoutReferredNestedInput
+  groupsOwned?: Prisma.GroupAnalyticsUpdateManyWithoutReferrerNestedInput
+  digitalPurchases?: Prisma.DigitalProductPurchaseUpdateManyWithoutUserNestedInput
+  affiliateClicks?: Prisma.AffiliateClickUpdateManyWithoutUserNestedInput
+}
+
+export type UserUncheckedUpdateWithoutEvolutionInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  emailVerified?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.StringFieldUpdateOperationsInput | string
+  plan?: Prisma.StringFieldUpdateOperationsInput | string
+  qvapayId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  stripeCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  analysisLimit?: Prisma.IntFieldUpdateOperationsInput | number
+  analysisUsed?: Prisma.IntFieldUpdateOperationsInput | number
+  analysisResetAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
+  sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
+  analyses?: Prisma.SkinAnalysisUncheckedUpdateManyWithoutUserNestedInput
+  payments?: Prisma.PaymentUncheckedUpdateManyWithoutUserNestedInput
+  subscriptions?: Prisma.SubscriptionUncheckedUpdateManyWithoutUserNestedInput
+  purchasePacks?: Prisma.PurchasePackUncheckedUpdateManyWithoutUserNestedInput
+  usageRecords?: Prisma.UsageTrackingUncheckedUpdateManyWithoutUserNestedInput
+  clinic?: Prisma.ClinicUncheckedUpdateOneWithoutOwnerNestedInput
+  surveyFeedback?: Prisma.SurveyFeedbackUncheckedUpdateManyWithoutUserNestedInput
+  communityPosts?: Prisma.CommunityPostUncheckedUpdateManyWithoutUserNestedInput
+  comments?: Prisma.CommentUncheckedUpdateManyWithoutUserNestedInput
+  skinDiary?: Prisma.SkinDiaryUncheckedUpdateManyWithoutUserNestedInput
+  userChallenges?: Prisma.UserChallengeUncheckedUpdateManyWithoutUserNestedInput
+  productReviews?: Prisma.ProductReviewUncheckedUpdateManyWithoutUserNestedInput
+  referralsOwned?: Prisma.ReferralUncheckedUpdateManyWithoutReferrerNestedInput
+  referralsReferred?: Prisma.ReferralUncheckedUpdateManyWithoutReferredNestedInput
+  groupsOwned?: Prisma.GroupAnalyticsUncheckedUpdateManyWithoutReferrerNestedInput
+  digitalPurchases?: Prisma.DigitalProductPurchaseUncheckedUpdateManyWithoutUserNestedInput
+  affiliateClicks?: Prisma.AffiliateClickUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutSurveyFeedbackInput = {
@@ -2272,6 +2708,8 @@ export type UserCreateWithoutSurveyFeedbackInput = {
   referralsReferred?: Prisma.ReferralCreateNestedManyWithoutReferredInput
   groupsOwned?: Prisma.GroupAnalyticsCreateNestedManyWithoutReferrerInput
   digitalPurchases?: Prisma.DigitalProductPurchaseCreateNestedManyWithoutUserInput
+  affiliateClicks?: Prisma.AffiliateClickCreateNestedManyWithoutUserInput
+  evolution?: Prisma.UserEvolutionCreateNestedOneWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutSurveyFeedbackInput = {
@@ -2307,6 +2745,8 @@ export type UserUncheckedCreateWithoutSurveyFeedbackInput = {
   referralsReferred?: Prisma.ReferralUncheckedCreateNestedManyWithoutReferredInput
   groupsOwned?: Prisma.GroupAnalyticsUncheckedCreateNestedManyWithoutReferrerInput
   digitalPurchases?: Prisma.DigitalProductPurchaseUncheckedCreateNestedManyWithoutUserInput
+  affiliateClicks?: Prisma.AffiliateClickUncheckedCreateNestedManyWithoutUserInput
+  evolution?: Prisma.UserEvolutionUncheckedCreateNestedOneWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutSurveyFeedbackInput = {
@@ -2358,6 +2798,8 @@ export type UserUpdateWithoutSurveyFeedbackInput = {
   referralsReferred?: Prisma.ReferralUpdateManyWithoutReferredNestedInput
   groupsOwned?: Prisma.GroupAnalyticsUpdateManyWithoutReferrerNestedInput
   digitalPurchases?: Prisma.DigitalProductPurchaseUpdateManyWithoutUserNestedInput
+  affiliateClicks?: Prisma.AffiliateClickUpdateManyWithoutUserNestedInput
+  evolution?: Prisma.UserEvolutionUpdateOneWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutSurveyFeedbackInput = {
@@ -2393,6 +2835,8 @@ export type UserUncheckedUpdateWithoutSurveyFeedbackInput = {
   referralsReferred?: Prisma.ReferralUncheckedUpdateManyWithoutReferredNestedInput
   groupsOwned?: Prisma.GroupAnalyticsUncheckedUpdateManyWithoutReferrerNestedInput
   digitalPurchases?: Prisma.DigitalProductPurchaseUncheckedUpdateManyWithoutUserNestedInput
+  affiliateClicks?: Prisma.AffiliateClickUncheckedUpdateManyWithoutUserNestedInput
+  evolution?: Prisma.UserEvolutionUncheckedUpdateOneWithoutUserNestedInput
 }
 
 export type UserCreateWithoutCommunityPostsInput = {
@@ -2428,6 +2872,8 @@ export type UserCreateWithoutCommunityPostsInput = {
   referralsReferred?: Prisma.ReferralCreateNestedManyWithoutReferredInput
   groupsOwned?: Prisma.GroupAnalyticsCreateNestedManyWithoutReferrerInput
   digitalPurchases?: Prisma.DigitalProductPurchaseCreateNestedManyWithoutUserInput
+  affiliateClicks?: Prisma.AffiliateClickCreateNestedManyWithoutUserInput
+  evolution?: Prisma.UserEvolutionCreateNestedOneWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutCommunityPostsInput = {
@@ -2463,6 +2909,8 @@ export type UserUncheckedCreateWithoutCommunityPostsInput = {
   referralsReferred?: Prisma.ReferralUncheckedCreateNestedManyWithoutReferredInput
   groupsOwned?: Prisma.GroupAnalyticsUncheckedCreateNestedManyWithoutReferrerInput
   digitalPurchases?: Prisma.DigitalProductPurchaseUncheckedCreateNestedManyWithoutUserInput
+  affiliateClicks?: Prisma.AffiliateClickUncheckedCreateNestedManyWithoutUserInput
+  evolution?: Prisma.UserEvolutionUncheckedCreateNestedOneWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutCommunityPostsInput = {
@@ -2514,6 +2962,8 @@ export type UserUpdateWithoutCommunityPostsInput = {
   referralsReferred?: Prisma.ReferralUpdateManyWithoutReferredNestedInput
   groupsOwned?: Prisma.GroupAnalyticsUpdateManyWithoutReferrerNestedInput
   digitalPurchases?: Prisma.DigitalProductPurchaseUpdateManyWithoutUserNestedInput
+  affiliateClicks?: Prisma.AffiliateClickUpdateManyWithoutUserNestedInput
+  evolution?: Prisma.UserEvolutionUpdateOneWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutCommunityPostsInput = {
@@ -2549,6 +2999,8 @@ export type UserUncheckedUpdateWithoutCommunityPostsInput = {
   referralsReferred?: Prisma.ReferralUncheckedUpdateManyWithoutReferredNestedInput
   groupsOwned?: Prisma.GroupAnalyticsUncheckedUpdateManyWithoutReferrerNestedInput
   digitalPurchases?: Prisma.DigitalProductPurchaseUncheckedUpdateManyWithoutUserNestedInput
+  affiliateClicks?: Prisma.AffiliateClickUncheckedUpdateManyWithoutUserNestedInput
+  evolution?: Prisma.UserEvolutionUncheckedUpdateOneWithoutUserNestedInput
 }
 
 export type UserCreateWithoutCommentsInput = {
@@ -2584,6 +3036,8 @@ export type UserCreateWithoutCommentsInput = {
   referralsReferred?: Prisma.ReferralCreateNestedManyWithoutReferredInput
   groupsOwned?: Prisma.GroupAnalyticsCreateNestedManyWithoutReferrerInput
   digitalPurchases?: Prisma.DigitalProductPurchaseCreateNestedManyWithoutUserInput
+  affiliateClicks?: Prisma.AffiliateClickCreateNestedManyWithoutUserInput
+  evolution?: Prisma.UserEvolutionCreateNestedOneWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutCommentsInput = {
@@ -2619,6 +3073,8 @@ export type UserUncheckedCreateWithoutCommentsInput = {
   referralsReferred?: Prisma.ReferralUncheckedCreateNestedManyWithoutReferredInput
   groupsOwned?: Prisma.GroupAnalyticsUncheckedCreateNestedManyWithoutReferrerInput
   digitalPurchases?: Prisma.DigitalProductPurchaseUncheckedCreateNestedManyWithoutUserInput
+  affiliateClicks?: Prisma.AffiliateClickUncheckedCreateNestedManyWithoutUserInput
+  evolution?: Prisma.UserEvolutionUncheckedCreateNestedOneWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutCommentsInput = {
@@ -2670,6 +3126,8 @@ export type UserUpdateWithoutCommentsInput = {
   referralsReferred?: Prisma.ReferralUpdateManyWithoutReferredNestedInput
   groupsOwned?: Prisma.GroupAnalyticsUpdateManyWithoutReferrerNestedInput
   digitalPurchases?: Prisma.DigitalProductPurchaseUpdateManyWithoutUserNestedInput
+  affiliateClicks?: Prisma.AffiliateClickUpdateManyWithoutUserNestedInput
+  evolution?: Prisma.UserEvolutionUpdateOneWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutCommentsInput = {
@@ -2705,6 +3163,8 @@ export type UserUncheckedUpdateWithoutCommentsInput = {
   referralsReferred?: Prisma.ReferralUncheckedUpdateManyWithoutReferredNestedInput
   groupsOwned?: Prisma.GroupAnalyticsUncheckedUpdateManyWithoutReferrerNestedInput
   digitalPurchases?: Prisma.DigitalProductPurchaseUncheckedUpdateManyWithoutUserNestedInput
+  affiliateClicks?: Prisma.AffiliateClickUncheckedUpdateManyWithoutUserNestedInput
+  evolution?: Prisma.UserEvolutionUncheckedUpdateOneWithoutUserNestedInput
 }
 
 export type UserCreateWithoutSkinDiaryInput = {
@@ -2740,6 +3200,8 @@ export type UserCreateWithoutSkinDiaryInput = {
   referralsReferred?: Prisma.ReferralCreateNestedManyWithoutReferredInput
   groupsOwned?: Prisma.GroupAnalyticsCreateNestedManyWithoutReferrerInput
   digitalPurchases?: Prisma.DigitalProductPurchaseCreateNestedManyWithoutUserInput
+  affiliateClicks?: Prisma.AffiliateClickCreateNestedManyWithoutUserInput
+  evolution?: Prisma.UserEvolutionCreateNestedOneWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutSkinDiaryInput = {
@@ -2775,6 +3237,8 @@ export type UserUncheckedCreateWithoutSkinDiaryInput = {
   referralsReferred?: Prisma.ReferralUncheckedCreateNestedManyWithoutReferredInput
   groupsOwned?: Prisma.GroupAnalyticsUncheckedCreateNestedManyWithoutReferrerInput
   digitalPurchases?: Prisma.DigitalProductPurchaseUncheckedCreateNestedManyWithoutUserInput
+  affiliateClicks?: Prisma.AffiliateClickUncheckedCreateNestedManyWithoutUserInput
+  evolution?: Prisma.UserEvolutionUncheckedCreateNestedOneWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutSkinDiaryInput = {
@@ -2826,6 +3290,8 @@ export type UserUpdateWithoutSkinDiaryInput = {
   referralsReferred?: Prisma.ReferralUpdateManyWithoutReferredNestedInput
   groupsOwned?: Prisma.GroupAnalyticsUpdateManyWithoutReferrerNestedInput
   digitalPurchases?: Prisma.DigitalProductPurchaseUpdateManyWithoutUserNestedInput
+  affiliateClicks?: Prisma.AffiliateClickUpdateManyWithoutUserNestedInput
+  evolution?: Prisma.UserEvolutionUpdateOneWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutSkinDiaryInput = {
@@ -2861,6 +3327,8 @@ export type UserUncheckedUpdateWithoutSkinDiaryInput = {
   referralsReferred?: Prisma.ReferralUncheckedUpdateManyWithoutReferredNestedInput
   groupsOwned?: Prisma.GroupAnalyticsUncheckedUpdateManyWithoutReferrerNestedInput
   digitalPurchases?: Prisma.DigitalProductPurchaseUncheckedUpdateManyWithoutUserNestedInput
+  affiliateClicks?: Prisma.AffiliateClickUncheckedUpdateManyWithoutUserNestedInput
+  evolution?: Prisma.UserEvolutionUncheckedUpdateOneWithoutUserNestedInput
 }
 
 export type UserCreateWithoutUserChallengesInput = {
@@ -2896,6 +3364,8 @@ export type UserCreateWithoutUserChallengesInput = {
   referralsReferred?: Prisma.ReferralCreateNestedManyWithoutReferredInput
   groupsOwned?: Prisma.GroupAnalyticsCreateNestedManyWithoutReferrerInput
   digitalPurchases?: Prisma.DigitalProductPurchaseCreateNestedManyWithoutUserInput
+  affiliateClicks?: Prisma.AffiliateClickCreateNestedManyWithoutUserInput
+  evolution?: Prisma.UserEvolutionCreateNestedOneWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutUserChallengesInput = {
@@ -2931,6 +3401,8 @@ export type UserUncheckedCreateWithoutUserChallengesInput = {
   referralsReferred?: Prisma.ReferralUncheckedCreateNestedManyWithoutReferredInput
   groupsOwned?: Prisma.GroupAnalyticsUncheckedCreateNestedManyWithoutReferrerInput
   digitalPurchases?: Prisma.DigitalProductPurchaseUncheckedCreateNestedManyWithoutUserInput
+  affiliateClicks?: Prisma.AffiliateClickUncheckedCreateNestedManyWithoutUserInput
+  evolution?: Prisma.UserEvolutionUncheckedCreateNestedOneWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutUserChallengesInput = {
@@ -2982,6 +3454,8 @@ export type UserUpdateWithoutUserChallengesInput = {
   referralsReferred?: Prisma.ReferralUpdateManyWithoutReferredNestedInput
   groupsOwned?: Prisma.GroupAnalyticsUpdateManyWithoutReferrerNestedInput
   digitalPurchases?: Prisma.DigitalProductPurchaseUpdateManyWithoutUserNestedInput
+  affiliateClicks?: Prisma.AffiliateClickUpdateManyWithoutUserNestedInput
+  evolution?: Prisma.UserEvolutionUpdateOneWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutUserChallengesInput = {
@@ -3017,6 +3491,8 @@ export type UserUncheckedUpdateWithoutUserChallengesInput = {
   referralsReferred?: Prisma.ReferralUncheckedUpdateManyWithoutReferredNestedInput
   groupsOwned?: Prisma.GroupAnalyticsUncheckedUpdateManyWithoutReferrerNestedInput
   digitalPurchases?: Prisma.DigitalProductPurchaseUncheckedUpdateManyWithoutUserNestedInput
+  affiliateClicks?: Prisma.AffiliateClickUncheckedUpdateManyWithoutUserNestedInput
+  evolution?: Prisma.UserEvolutionUncheckedUpdateOneWithoutUserNestedInput
 }
 
 export type UserCreateWithoutProductReviewsInput = {
@@ -3052,6 +3528,8 @@ export type UserCreateWithoutProductReviewsInput = {
   referralsReferred?: Prisma.ReferralCreateNestedManyWithoutReferredInput
   groupsOwned?: Prisma.GroupAnalyticsCreateNestedManyWithoutReferrerInput
   digitalPurchases?: Prisma.DigitalProductPurchaseCreateNestedManyWithoutUserInput
+  affiliateClicks?: Prisma.AffiliateClickCreateNestedManyWithoutUserInput
+  evolution?: Prisma.UserEvolutionCreateNestedOneWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutProductReviewsInput = {
@@ -3087,6 +3565,8 @@ export type UserUncheckedCreateWithoutProductReviewsInput = {
   referralsReferred?: Prisma.ReferralUncheckedCreateNestedManyWithoutReferredInput
   groupsOwned?: Prisma.GroupAnalyticsUncheckedCreateNestedManyWithoutReferrerInput
   digitalPurchases?: Prisma.DigitalProductPurchaseUncheckedCreateNestedManyWithoutUserInput
+  affiliateClicks?: Prisma.AffiliateClickUncheckedCreateNestedManyWithoutUserInput
+  evolution?: Prisma.UserEvolutionUncheckedCreateNestedOneWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutProductReviewsInput = {
@@ -3138,6 +3618,8 @@ export type UserUpdateWithoutProductReviewsInput = {
   referralsReferred?: Prisma.ReferralUpdateManyWithoutReferredNestedInput
   groupsOwned?: Prisma.GroupAnalyticsUpdateManyWithoutReferrerNestedInput
   digitalPurchases?: Prisma.DigitalProductPurchaseUpdateManyWithoutUserNestedInput
+  affiliateClicks?: Prisma.AffiliateClickUpdateManyWithoutUserNestedInput
+  evolution?: Prisma.UserEvolutionUpdateOneWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutProductReviewsInput = {
@@ -3173,6 +3655,8 @@ export type UserUncheckedUpdateWithoutProductReviewsInput = {
   referralsReferred?: Prisma.ReferralUncheckedUpdateManyWithoutReferredNestedInput
   groupsOwned?: Prisma.GroupAnalyticsUncheckedUpdateManyWithoutReferrerNestedInput
   digitalPurchases?: Prisma.DigitalProductPurchaseUncheckedUpdateManyWithoutUserNestedInput
+  affiliateClicks?: Prisma.AffiliateClickUncheckedUpdateManyWithoutUserNestedInput
+  evolution?: Prisma.UserEvolutionUncheckedUpdateOneWithoutUserNestedInput
 }
 
 export type UserCreateWithoutGroupsOwnedInput = {
@@ -3208,6 +3692,8 @@ export type UserCreateWithoutGroupsOwnedInput = {
   referralsOwned?: Prisma.ReferralCreateNestedManyWithoutReferrerInput
   referralsReferred?: Prisma.ReferralCreateNestedManyWithoutReferredInput
   digitalPurchases?: Prisma.DigitalProductPurchaseCreateNestedManyWithoutUserInput
+  affiliateClicks?: Prisma.AffiliateClickCreateNestedManyWithoutUserInput
+  evolution?: Prisma.UserEvolutionCreateNestedOneWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutGroupsOwnedInput = {
@@ -3243,6 +3729,8 @@ export type UserUncheckedCreateWithoutGroupsOwnedInput = {
   referralsOwned?: Prisma.ReferralUncheckedCreateNestedManyWithoutReferrerInput
   referralsReferred?: Prisma.ReferralUncheckedCreateNestedManyWithoutReferredInput
   digitalPurchases?: Prisma.DigitalProductPurchaseUncheckedCreateNestedManyWithoutUserInput
+  affiliateClicks?: Prisma.AffiliateClickUncheckedCreateNestedManyWithoutUserInput
+  evolution?: Prisma.UserEvolutionUncheckedCreateNestedOneWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutGroupsOwnedInput = {
@@ -3294,6 +3782,8 @@ export type UserUpdateWithoutGroupsOwnedInput = {
   referralsOwned?: Prisma.ReferralUpdateManyWithoutReferrerNestedInput
   referralsReferred?: Prisma.ReferralUpdateManyWithoutReferredNestedInput
   digitalPurchases?: Prisma.DigitalProductPurchaseUpdateManyWithoutUserNestedInput
+  affiliateClicks?: Prisma.AffiliateClickUpdateManyWithoutUserNestedInput
+  evolution?: Prisma.UserEvolutionUpdateOneWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutGroupsOwnedInput = {
@@ -3329,6 +3819,8 @@ export type UserUncheckedUpdateWithoutGroupsOwnedInput = {
   referralsOwned?: Prisma.ReferralUncheckedUpdateManyWithoutReferrerNestedInput
   referralsReferred?: Prisma.ReferralUncheckedUpdateManyWithoutReferredNestedInput
   digitalPurchases?: Prisma.DigitalProductPurchaseUncheckedUpdateManyWithoutUserNestedInput
+  affiliateClicks?: Prisma.AffiliateClickUncheckedUpdateManyWithoutUserNestedInput
+  evolution?: Prisma.UserEvolutionUncheckedUpdateOneWithoutUserNestedInput
 }
 
 export type UserCreateWithoutReferralsOwnedInput = {
@@ -3364,6 +3856,8 @@ export type UserCreateWithoutReferralsOwnedInput = {
   referralsReferred?: Prisma.ReferralCreateNestedManyWithoutReferredInput
   groupsOwned?: Prisma.GroupAnalyticsCreateNestedManyWithoutReferrerInput
   digitalPurchases?: Prisma.DigitalProductPurchaseCreateNestedManyWithoutUserInput
+  affiliateClicks?: Prisma.AffiliateClickCreateNestedManyWithoutUserInput
+  evolution?: Prisma.UserEvolutionCreateNestedOneWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutReferralsOwnedInput = {
@@ -3399,6 +3893,8 @@ export type UserUncheckedCreateWithoutReferralsOwnedInput = {
   referralsReferred?: Prisma.ReferralUncheckedCreateNestedManyWithoutReferredInput
   groupsOwned?: Prisma.GroupAnalyticsUncheckedCreateNestedManyWithoutReferrerInput
   digitalPurchases?: Prisma.DigitalProductPurchaseUncheckedCreateNestedManyWithoutUserInput
+  affiliateClicks?: Prisma.AffiliateClickUncheckedCreateNestedManyWithoutUserInput
+  evolution?: Prisma.UserEvolutionUncheckedCreateNestedOneWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutReferralsOwnedInput = {
@@ -3439,6 +3935,8 @@ export type UserCreateWithoutReferralsReferredInput = {
   referralsOwned?: Prisma.ReferralCreateNestedManyWithoutReferrerInput
   groupsOwned?: Prisma.GroupAnalyticsCreateNestedManyWithoutReferrerInput
   digitalPurchases?: Prisma.DigitalProductPurchaseCreateNestedManyWithoutUserInput
+  affiliateClicks?: Prisma.AffiliateClickCreateNestedManyWithoutUserInput
+  evolution?: Prisma.UserEvolutionCreateNestedOneWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutReferralsReferredInput = {
@@ -3474,6 +3972,8 @@ export type UserUncheckedCreateWithoutReferralsReferredInput = {
   referralsOwned?: Prisma.ReferralUncheckedCreateNestedManyWithoutReferrerInput
   groupsOwned?: Prisma.GroupAnalyticsUncheckedCreateNestedManyWithoutReferrerInput
   digitalPurchases?: Prisma.DigitalProductPurchaseUncheckedCreateNestedManyWithoutUserInput
+  affiliateClicks?: Prisma.AffiliateClickUncheckedCreateNestedManyWithoutUserInput
+  evolution?: Prisma.UserEvolutionUncheckedCreateNestedOneWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutReferralsReferredInput = {
@@ -3525,6 +4025,8 @@ export type UserUpdateWithoutReferralsOwnedInput = {
   referralsReferred?: Prisma.ReferralUpdateManyWithoutReferredNestedInput
   groupsOwned?: Prisma.GroupAnalyticsUpdateManyWithoutReferrerNestedInput
   digitalPurchases?: Prisma.DigitalProductPurchaseUpdateManyWithoutUserNestedInput
+  affiliateClicks?: Prisma.AffiliateClickUpdateManyWithoutUserNestedInput
+  evolution?: Prisma.UserEvolutionUpdateOneWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutReferralsOwnedInput = {
@@ -3560,6 +4062,8 @@ export type UserUncheckedUpdateWithoutReferralsOwnedInput = {
   referralsReferred?: Prisma.ReferralUncheckedUpdateManyWithoutReferredNestedInput
   groupsOwned?: Prisma.GroupAnalyticsUncheckedUpdateManyWithoutReferrerNestedInput
   digitalPurchases?: Prisma.DigitalProductPurchaseUncheckedUpdateManyWithoutUserNestedInput
+  affiliateClicks?: Prisma.AffiliateClickUncheckedUpdateManyWithoutUserNestedInput
+  evolution?: Prisma.UserEvolutionUncheckedUpdateOneWithoutUserNestedInput
 }
 
 export type UserUpsertWithoutReferralsReferredInput = {
@@ -3606,6 +4110,8 @@ export type UserUpdateWithoutReferralsReferredInput = {
   referralsOwned?: Prisma.ReferralUpdateManyWithoutReferrerNestedInput
   groupsOwned?: Prisma.GroupAnalyticsUpdateManyWithoutReferrerNestedInput
   digitalPurchases?: Prisma.DigitalProductPurchaseUpdateManyWithoutUserNestedInput
+  affiliateClicks?: Prisma.AffiliateClickUpdateManyWithoutUserNestedInput
+  evolution?: Prisma.UserEvolutionUpdateOneWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutReferralsReferredInput = {
@@ -3641,6 +4147,8 @@ export type UserUncheckedUpdateWithoutReferralsReferredInput = {
   referralsOwned?: Prisma.ReferralUncheckedUpdateManyWithoutReferrerNestedInput
   groupsOwned?: Prisma.GroupAnalyticsUncheckedUpdateManyWithoutReferrerNestedInput
   digitalPurchases?: Prisma.DigitalProductPurchaseUncheckedUpdateManyWithoutUserNestedInput
+  affiliateClicks?: Prisma.AffiliateClickUncheckedUpdateManyWithoutUserNestedInput
+  evolution?: Prisma.UserEvolutionUncheckedUpdateOneWithoutUserNestedInput
 }
 
 export type UserCreateWithoutDigitalPurchasesInput = {
@@ -3676,6 +4184,8 @@ export type UserCreateWithoutDigitalPurchasesInput = {
   referralsOwned?: Prisma.ReferralCreateNestedManyWithoutReferrerInput
   referralsReferred?: Prisma.ReferralCreateNestedManyWithoutReferredInput
   groupsOwned?: Prisma.GroupAnalyticsCreateNestedManyWithoutReferrerInput
+  affiliateClicks?: Prisma.AffiliateClickCreateNestedManyWithoutUserInput
+  evolution?: Prisma.UserEvolutionCreateNestedOneWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutDigitalPurchasesInput = {
@@ -3711,6 +4221,8 @@ export type UserUncheckedCreateWithoutDigitalPurchasesInput = {
   referralsOwned?: Prisma.ReferralUncheckedCreateNestedManyWithoutReferrerInput
   referralsReferred?: Prisma.ReferralUncheckedCreateNestedManyWithoutReferredInput
   groupsOwned?: Prisma.GroupAnalyticsUncheckedCreateNestedManyWithoutReferrerInput
+  affiliateClicks?: Prisma.AffiliateClickUncheckedCreateNestedManyWithoutUserInput
+  evolution?: Prisma.UserEvolutionUncheckedCreateNestedOneWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutDigitalPurchasesInput = {
@@ -3762,6 +4274,8 @@ export type UserUpdateWithoutDigitalPurchasesInput = {
   referralsOwned?: Prisma.ReferralUpdateManyWithoutReferrerNestedInput
   referralsReferred?: Prisma.ReferralUpdateManyWithoutReferredNestedInput
   groupsOwned?: Prisma.GroupAnalyticsUpdateManyWithoutReferrerNestedInput
+  affiliateClicks?: Prisma.AffiliateClickUpdateManyWithoutUserNestedInput
+  evolution?: Prisma.UserEvolutionUpdateOneWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutDigitalPurchasesInput = {
@@ -3797,6 +4311,8 @@ export type UserUncheckedUpdateWithoutDigitalPurchasesInput = {
   referralsOwned?: Prisma.ReferralUncheckedUpdateManyWithoutReferrerNestedInput
   referralsReferred?: Prisma.ReferralUncheckedUpdateManyWithoutReferredNestedInput
   groupsOwned?: Prisma.GroupAnalyticsUncheckedUpdateManyWithoutReferrerNestedInput
+  affiliateClicks?: Prisma.AffiliateClickUncheckedUpdateManyWithoutUserNestedInput
+  evolution?: Prisma.UserEvolutionUncheckedUpdateOneWithoutUserNestedInput
 }
 
 
@@ -3822,6 +4338,7 @@ export type UserCountOutputType = {
   referralsReferred: number
   groupsOwned: number
   digitalPurchases: number
+  affiliateClicks: number
 }
 
 export type UserCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -3842,6 +4359,7 @@ export type UserCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.I
   referralsReferred?: boolean | UserCountOutputTypeCountReferralsReferredArgs
   groupsOwned?: boolean | UserCountOutputTypeCountGroupsOwnedArgs
   digitalPurchases?: boolean | UserCountOutputTypeCountDigitalPurchasesArgs
+  affiliateClicks?: boolean | UserCountOutputTypeCountAffiliateClicksArgs
 }
 
 /**
@@ -3973,6 +4491,13 @@ export type UserCountOutputTypeCountDigitalPurchasesArgs<ExtArgs extends runtime
   where?: Prisma.DigitalProductPurchaseWhereInput
 }
 
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountAffiliateClicksArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.AffiliateClickWhereInput
+}
+
 
 export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -4008,6 +4533,8 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   referralsReferred?: boolean | Prisma.User$referralsReferredArgs<ExtArgs>
   groupsOwned?: boolean | Prisma.User$groupsOwnedArgs<ExtArgs>
   digitalPurchases?: boolean | Prisma.User$digitalPurchasesArgs<ExtArgs>
+  affiliateClicks?: boolean | Prisma.User$affiliateClicksArgs<ExtArgs>
+  evolution?: boolean | Prisma.User$evolutionArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["user"]>
 
@@ -4085,6 +4612,8 @@ export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   referralsReferred?: boolean | Prisma.User$referralsReferredArgs<ExtArgs>
   groupsOwned?: boolean | Prisma.User$groupsOwnedArgs<ExtArgs>
   digitalPurchases?: boolean | Prisma.User$digitalPurchasesArgs<ExtArgs>
+  affiliateClicks?: boolean | Prisma.User$affiliateClicksArgs<ExtArgs>
+  evolution?: boolean | Prisma.User$evolutionArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type UserIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
@@ -4111,6 +4640,8 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     referralsReferred: Prisma.$ReferralPayload<ExtArgs>[]
     groupsOwned: Prisma.$GroupAnalyticsPayload<ExtArgs>[]
     digitalPurchases: Prisma.$DigitalProductPurchasePayload<ExtArgs>[]
+    affiliateClicks: Prisma.$AffiliateClickPayload<ExtArgs>[]
+    evolution: Prisma.$UserEvolutionPayload<ExtArgs> | null
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -4540,6 +5071,8 @@ export interface Prisma__UserClient<T, Null = never, ExtArgs extends runtime.Typ
   referralsReferred<T extends Prisma.User$referralsReferredArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$referralsReferredArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ReferralPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   groupsOwned<T extends Prisma.User$groupsOwnedArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$groupsOwnedArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$GroupAnalyticsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   digitalPurchases<T extends Prisma.User$digitalPurchasesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$digitalPurchasesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$DigitalProductPurchasePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  affiliateClicks<T extends Prisma.User$affiliateClicksArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$affiliateClicksArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$AffiliateClickPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  evolution<T extends Prisma.User$evolutionArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$evolutionArgs<ExtArgs>>): Prisma.Prisma__UserEvolutionClient<runtime.Types.Result.GetResult<Prisma.$UserEvolutionPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -5401,6 +5934,49 @@ export type User$digitalPurchasesArgs<ExtArgs extends runtime.Types.Extensions.I
   take?: number
   skip?: number
   distinct?: Prisma.DigitalProductPurchaseScalarFieldEnum | Prisma.DigitalProductPurchaseScalarFieldEnum[]
+}
+
+/**
+ * User.affiliateClicks
+ */
+export type User$affiliateClicksArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the AffiliateClick
+   */
+  select?: Prisma.AffiliateClickSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the AffiliateClick
+   */
+  omit?: Prisma.AffiliateClickOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.AffiliateClickInclude<ExtArgs> | null
+  where?: Prisma.AffiliateClickWhereInput
+  orderBy?: Prisma.AffiliateClickOrderByWithRelationInput | Prisma.AffiliateClickOrderByWithRelationInput[]
+  cursor?: Prisma.AffiliateClickWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.AffiliateClickScalarFieldEnum | Prisma.AffiliateClickScalarFieldEnum[]
+}
+
+/**
+ * User.evolution
+ */
+export type User$evolutionArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the UserEvolution
+   */
+  select?: Prisma.UserEvolutionSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the UserEvolution
+   */
+  omit?: Prisma.UserEvolutionOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.UserEvolutionInclude<ExtArgs> | null
+  where?: Prisma.UserEvolutionWhereInput
 }
 
 /**

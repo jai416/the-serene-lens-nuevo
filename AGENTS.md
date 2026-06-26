@@ -13,10 +13,10 @@
 - **Modo Social**: comparación anónima de resultados con amigos
 - **Guías Digitales**: e-books descargables vendidos vía QvaPay
 - **Sistema de Referidos Grupal**: invita 3 amigos → análisis gratis
-- 163 tests, type check limpio
+- 174 tests, type check limpio, auditoría completa (0 issues pendientes)
 
 **Pendiente solo configuración manual:**
-1. `npx prisma db push` — crear tablas nuevas en Supabase
+1. `npx prisma db push` — eliminar campos Stripe + sync tablas nuevas
 2. `CRON_SECRET` — agregar env var en Render Dashboard
 3. Google/GitHub OAuth — configurar callbacks (opcional)
 4. `npm run seed` en producción — poblar productos, guías y desafíos
@@ -27,12 +27,12 @@
 - QvaPay Webhook: Endpoint funcionando
 - OpenRouter API: Conectado
 - PostHog: Conectado
-- Sentry: Conectado
+- Sentry: DSN inválido (403 Forbidden), configs deshabilitadas
 - CRON_SECRET: Generado en `.env` (pendiente en Render Dashboard)
 - **Resend**: ⚠️ NO se usa para registro. Solo para admin bulk emails. Dominio NO verificado.
 
 ## Test Commands
-- `npm test` — run Vitest (163 tests across 16 suites)
+- `npm test` — run Vitest (174 tests across 16 suites)
 - `npm run test:watch` — watch mode
 - `npm run e2e` — Playwright tests (not yet configured)
 
@@ -50,12 +50,12 @@
 - `src/lib/__tests__/webp.test.ts` — 6 tests
 - `src/lib/services/__tests__/diary.service.test.ts` — 7 tests
 - `src/lib/services/__tests__/challenge.service.test.ts` — 7 tests
-- `src/lib/services/__tests__/admin-email.service.test.ts` — 5 tests
-- `src/app/api/payments/webhook/__tests__/webhook.test.ts` — 8 tests
+- `src/lib/services/__tests__/admin-email.service.test.ts` — 7 tests
+- `src/app/api/payments/webhook/__tests__/webhook.test.ts` — 19 tests
 - Mock pattern: `vi.hoisted()` for variables used in `vi.mock()` factory (Vitest v3 hoisting requirement)
 
 ## Seed Data
-- `npm run seed` — creates admin + demo users, 10 blog posts (5 categories), 50 products (10 categories), 30 challenges (10 daily, 10 weekly, 10 monthly), 5 community posts
+- `npm run seed` — creates admin + demo users, 10 blog posts (5 categories), 50 products (10 categories), 30 challenges (10 daily, 10 weekly, 10 monthly), 5 community posts, 5 digital products (e-books)
 - Blog categories: cuidado-basico, rutinas, ingredientes, proteccion-solar, problemas-de-piel
 - Product categories: limpiadores, hidratantes, serums, proteccion-solar, exfoliantes, mascarillas, aceites, contornos
 - **IMPORTANT**: Seed must be run on production after deploy: `npm run seed`
@@ -116,7 +116,9 @@ Clean, professional skincare platform inspired by Apple Health, Headspace, Calm,
 - Prisma 7 + next-auth v4 + `@auth/prisma-adapter` v2.8
 
 ## Key Decisions
-- **ok() wrapper**: All API routes use `ok()` which returns `{ success: true, data: {...} }`. Frontend must access data via `d?.data?.X || d.X` pattern. This caused widespread bugs when pages accessed `d.X` directly.
+- **ok() wrapper**: All API routes use `ok()`/`error()`/`unauthorized()`/`forbidden()`/`notFound()`/`serverError()` from `@/lib/api-response`. Returns `{ success: true, data: {...} }`. Frontend accesses via `d?.data?.X || d.X`. Exception: routes needing custom headers (Cache-Control) use `NextResponse.json` directly.
+- **XSS sanitization en emails**: `sanitizeHtml()` de `@/lib/sanitize` se usa en TODOS los templates de email que interpolan datos de usuario (`name`, `clinic.name`, `skinType`, observaciones, recomendaciones). Protege contra `<script>` en nombres de usuario.
+- **Stripe removed from schema**: `stripeCustomerId`, `stripePaymentId`, `stripeSubscriptionId` eliminados. `Subscription.provider` default cambiado a `"qvapay"`. Requiere `npx prisma db push`.
 - **No email on registration**: Welcome message shown on-screen via `/dashboard?welcome=1` banner. No external email service needed for registration. Resend only used for admin bulk emails.
 - **Challenges display-only**: Challenge "Complete" button removed from frontend. Challenges are view-only gamification. Points are tracked but cannot be earned manually.
 - **Image compression >10MB**: Files over 10MB are compressed with aggressive settings (640px, quality 0.4) instead of throwing an error.
@@ -137,6 +139,8 @@ Clean, professional skincare platform inspired by Apple Health, Headspace, Calm,
 - **ESLint config**: `.eslintrc.json` con reglas import/order, no-unused-vars, no-console
 - **Turbopack default**: Next.js 16 uses Turbopack for both dev and build.
 - **`navbar.tsx` deleted**: All navigation in sidebar + mobile nav.
+- `lib/validation.ts` eliminado — todo usa `lib/validations/index.ts`
+- `next-intl` eliminado de dependencias
 - **`Flower2` brand icon**: Represents skincare/nature.
 - **Cache híbrida**: `src/lib/cache/db-cache.ts` — memory Map + Supabase table.
 - **Retry mechanism**: `src/lib/retry.ts` con `withRetry()`.
@@ -152,7 +156,7 @@ Clean, professional skincare platform inspired by Apple Health, Headspace, Calm,
 - **Feature flags via AppConfig table**: No external service; cached 60s.
 - **Service layer pattern for diary/challenges**: Business logic separated from API routes.
 - **Image compression adapts to connection**: Uses `navigator.connection.effectiveType`.
-- **Sentry replays**: Session replay 0.1, error replay 1.0, text masking.
+- **Sentry replays**: Session replay 0.1, error replay 1.0, text masking (DESHABILITADO — DSN inválido)
 - **Admin email sender**: Resend batch API (100 per call), segment targeting.
 - **Unsubscribe system**: CAN-SPAM/GDPR compliance. All email footers include `/unsubscribe`.
 - **Admin panel auth check**: Each API route uses `requireAdmin()` helper that checks `session.user.role !== "ADMIN"`. No middleware-level admin protection.
@@ -200,6 +204,7 @@ Clean, professional skincare platform inspired by Apple Health, Headspace, Calm,
 - **Health check**: `/api/health` returns DB latency, queue stats, memory, uptime, version
 - **Admin debug endpoint**: `/api/admin/debug` — shows user count, analysis count, payment count (admin only)
 - **Community XSS protection**: All posts/comments stripped of HTML via `stripHtml` + Zod validation
+- **Email XSS protection**: All email templates sanitize user data (`name`, `clinic.name`, `skinType`, observations, recommendations) via `sanitizeHtml()` before interpolation
 
 ## Pricing & Plans
 Prices defined in `src/lib/pricing.ts` — single source of truth.
@@ -344,10 +349,18 @@ Prices defined in `src/lib/pricing.ts` — single source of truth.
 - `DigitalProduct` — e-books and digital guides (title, slug, price, fileUrl, category)
 - `DigitalProductPurchase` — purchase records for digital products
 
+## New Pages (2026-06-25)
+- `/pricing/success` — payment confirmation after QvaPay redirect
+- `/pricing/cancel` — payment cancellation page
+- `/dashboard/social` — dedicated social comparison with how-it-works
+- `/dashboard/guides` — purchased guides list with download buttons
+- `/dashboard/report` — PDF report generator (PRO+ only)
+- `/dashboard/referrals` — referral group management
+
 ## Known Issues
 - **Resend domain NO verificado**: Only used for admin bulk emails. Registration uses on-screen welcome banner.
 - **npm install falla**: `rm -rf node_modules .next && npm install --legacy-peer-deps`
 - **Prisma 7 driver adapter**: Requires `pg` + `@prisma/adapter-pg`
-- **DB push pendiente**: `npx prisma db push` for new tables + add `@relation` to UserEvolution/AffiliateClick
+- **DB push pendiente**: `npx prisma db push` for Stripe field removal + new tables + `@relation` to UserEvolution/AffiliateClick
 - **CRON_SECRET pendiente**: Add env var in Render Dashboard
 - **Seed en producción**: Ejecutar `npm run seed` después de deploy para poblar productos, guías y desafíos

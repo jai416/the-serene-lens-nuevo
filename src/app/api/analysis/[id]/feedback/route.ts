@@ -1,25 +1,26 @@
-import { NextRequest, NextResponse } from "next/server"
+import { NextRequest } from "next/server"
 import { getServerSession } from "next-auth"
 import { authOptions } from "@/lib/auth"
 import { db } from "@/lib/db"
+import { ok, error, unauthorized, forbidden, serverError } from "@/lib/api-response"
 
 export async function POST(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   try {
     const session = await getServerSession(authOptions)
     if (!session?.user) {
-      return NextResponse.json({ error: "No autorizado" }, { status: 401 })
+      return unauthorized()
     }
 
     const { id } = await params
     const { type } = await req.json()
 
     if (!["yes", "no"].includes(type)) {
-      return NextResponse.json({ error: "Tipo de feedback inválido" }, { status: 400 })
+      return error("Tipo de feedback inválido", 400)
     }
 
     const analysis = await db.skinAnalysis.findUnique({ where: { id } })
     if (!analysis || analysis.userId !== session.user.id) {
-      return NextResponse.json({ error: "No autorizado" }, { status: 403 })
+      return forbidden()
     }
 
     await db.feedback.upsert({
@@ -36,8 +37,8 @@ export async function POST(req: NextRequest, { params }: { params: Promise<{ id:
       },
     })
 
-    return NextResponse.json({ success: true })
+    return ok({ saved: true })
   } catch {
-    return NextResponse.json({ error: "Error interno" }, { status: 500 })
+    return serverError()
   }
 }

@@ -1,14 +1,15 @@
-import { NextRequest, NextResponse } from "next/server"
+import { NextRequest } from "next/server"
 import { getServerSession } from "next-auth"
 import { authOptions } from "@/lib/auth"
 import { db } from "@/lib/db"
 import { getRecipientCounts } from "@/lib/services/admin-email.service"
+import { ok, unauthorized, serverError } from "@/lib/api-response"
 
 export async function GET(request: NextRequest) {
   try {
     const session = await getServerSession(authOptions)
     if (!session?.user || session.user.role !== "ADMIN") {
-      return NextResponse.json({ error: "No autorizado" }, { status: 401 })
+      return unauthorized()
     }
 
     const { searchParams } = new URL(request.url)
@@ -35,7 +36,7 @@ export async function GET(request: NextRequest) {
 
     const counts = await getRecipientCounts()
 
-    return NextResponse.json({
+    return ok({
       logs,
       pagination: {
         page,
@@ -45,10 +46,7 @@ export async function GET(request: NextRequest) {
       },
       recipientCounts: counts,
     })
-  } catch (error) {
-    return NextResponse.json(
-      { error: "Error al obtener historial" },
-      { status: 500 }
-    )
+  } catch {
+    return serverError()
   }
 }

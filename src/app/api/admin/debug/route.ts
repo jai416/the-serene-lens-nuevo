@@ -1,7 +1,7 @@
 import { getServerSession } from "next-auth"
 import { authOptions } from "@/lib/auth"
 import { db } from "@/lib/db"
-import { NextResponse } from "next/server"
+import { ok, unauthorized, serverError } from "@/lib/api-response"
 
 export const dynamic = "force-dynamic"
 
@@ -9,7 +9,7 @@ export async function GET() {
   try {
     const session = await getServerSession(authOptions)
     if (!session?.user || session.user.role !== "ADMIN") {
-      return NextResponse.json({ error: "not admin" }, { status: 401 })
+      return unauthorized()
     }
 
     const userCount = await db.user.count()
@@ -20,19 +20,18 @@ export async function GET() {
     })
 
     let analysisCount = 0
-    try { analysisCount = await db.skinAnalysis.count() } catch (e: any) { analysisCount = -1 }
+    try { analysisCount = await db.skinAnalysis.count() } catch { analysisCount = -1 }
 
     let paymentCount = 0
-    try { paymentCount = await db.payment.count() } catch (e: any) { paymentCount = -1 }
+    try { paymentCount = await db.payment.count() } catch { paymentCount = -1 }
 
-    return NextResponse.json({
-      ok: true,
+    return ok({
       userCount,
       users,
       analysisCount,
       paymentCount,
     })
-  } catch (e: any) {
-    return NextResponse.json({ error: e.message }, { status: 500 })
+  } catch (e) {
+    return serverError(e)
   }
 }

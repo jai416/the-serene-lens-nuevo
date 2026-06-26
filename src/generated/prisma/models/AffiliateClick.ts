@@ -206,6 +206,7 @@ export type AffiliateClickWhereInput = {
   refParam?: Prisma.StringNullableFilter<"AffiliateClick"> | string | null
   userId?: Prisma.StringNullableFilter<"AffiliateClick"> | string | null
   createdAt?: Prisma.DateTimeFilter<"AffiliateClick"> | Date | string
+  user?: Prisma.XOR<Prisma.UserNullableScalarRelationFilter, Prisma.UserWhereInput> | null
 }
 
 export type AffiliateClickOrderByWithRelationInput = {
@@ -217,6 +218,7 @@ export type AffiliateClickOrderByWithRelationInput = {
   refParam?: Prisma.SortOrderInput | Prisma.SortOrder
   userId?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
+  user?: Prisma.UserOrderByWithRelationInput
 }
 
 export type AffiliateClickWhereUniqueInput = Prisma.AtLeast<{
@@ -231,6 +233,7 @@ export type AffiliateClickWhereUniqueInput = Prisma.AtLeast<{
   refParam?: Prisma.StringNullableFilter<"AffiliateClick"> | string | null
   userId?: Prisma.StringNullableFilter<"AffiliateClick"> | string | null
   createdAt?: Prisma.DateTimeFilter<"AffiliateClick"> | Date | string
+  user?: Prisma.XOR<Prisma.UserNullableScalarRelationFilter, Prisma.UserWhereInput> | null
 }, "id">
 
 export type AffiliateClickOrderByWithAggregationInput = {
@@ -268,8 +271,8 @@ export type AffiliateClickCreateInput = {
   provider?: string
   url: string
   refParam?: string | null
-  userId?: string | null
   createdAt?: Date | string
+  user?: Prisma.UserCreateNestedOneWithoutAffiliateClicksInput
 }
 
 export type AffiliateClickUncheckedCreateInput = {
@@ -290,8 +293,8 @@ export type AffiliateClickUpdateInput = {
   provider?: Prisma.StringFieldUpdateOperationsInput | string
   url?: Prisma.StringFieldUpdateOperationsInput | string
   refParam?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  userId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  user?: Prisma.UserUpdateOneWithoutAffiliateClicksNestedInput
 }
 
 export type AffiliateClickUncheckedUpdateInput = {
@@ -323,7 +326,6 @@ export type AffiliateClickUpdateManyMutationInput = {
   provider?: Prisma.StringFieldUpdateOperationsInput | string
   url?: Prisma.StringFieldUpdateOperationsInput | string
   refParam?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  userId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -336,6 +338,16 @@ export type AffiliateClickUncheckedUpdateManyInput = {
   refParam?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   userId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
+export type AffiliateClickListRelationFilter = {
+  every?: Prisma.AffiliateClickWhereInput
+  some?: Prisma.AffiliateClickWhereInput
+  none?: Prisma.AffiliateClickWhereInput
+}
+
+export type AffiliateClickOrderByRelationAggregateInput = {
+  _count?: Prisma.SortOrder
 }
 
 export type AffiliateClickCountOrderByAggregateInput = {
@@ -371,6 +383,148 @@ export type AffiliateClickMinOrderByAggregateInput = {
   createdAt?: Prisma.SortOrder
 }
 
+export type AffiliateClickCreateNestedManyWithoutUserInput = {
+  create?: Prisma.XOR<Prisma.AffiliateClickCreateWithoutUserInput, Prisma.AffiliateClickUncheckedCreateWithoutUserInput> | Prisma.AffiliateClickCreateWithoutUserInput[] | Prisma.AffiliateClickUncheckedCreateWithoutUserInput[]
+  connectOrCreate?: Prisma.AffiliateClickCreateOrConnectWithoutUserInput | Prisma.AffiliateClickCreateOrConnectWithoutUserInput[]
+  createMany?: Prisma.AffiliateClickCreateManyUserInputEnvelope
+  connect?: Prisma.AffiliateClickWhereUniqueInput | Prisma.AffiliateClickWhereUniqueInput[]
+}
+
+export type AffiliateClickUncheckedCreateNestedManyWithoutUserInput = {
+  create?: Prisma.XOR<Prisma.AffiliateClickCreateWithoutUserInput, Prisma.AffiliateClickUncheckedCreateWithoutUserInput> | Prisma.AffiliateClickCreateWithoutUserInput[] | Prisma.AffiliateClickUncheckedCreateWithoutUserInput[]
+  connectOrCreate?: Prisma.AffiliateClickCreateOrConnectWithoutUserInput | Prisma.AffiliateClickCreateOrConnectWithoutUserInput[]
+  createMany?: Prisma.AffiliateClickCreateManyUserInputEnvelope
+  connect?: Prisma.AffiliateClickWhereUniqueInput | Prisma.AffiliateClickWhereUniqueInput[]
+}
+
+export type AffiliateClickUpdateManyWithoutUserNestedInput = {
+  create?: Prisma.XOR<Prisma.AffiliateClickCreateWithoutUserInput, Prisma.AffiliateClickUncheckedCreateWithoutUserInput> | Prisma.AffiliateClickCreateWithoutUserInput[] | Prisma.AffiliateClickUncheckedCreateWithoutUserInput[]
+  connectOrCreate?: Prisma.AffiliateClickCreateOrConnectWithoutUserInput | Prisma.AffiliateClickCreateOrConnectWithoutUserInput[]
+  upsert?: Prisma.AffiliateClickUpsertWithWhereUniqueWithoutUserInput | Prisma.AffiliateClickUpsertWithWhereUniqueWithoutUserInput[]
+  createMany?: Prisma.AffiliateClickCreateManyUserInputEnvelope
+  set?: Prisma.AffiliateClickWhereUniqueInput | Prisma.AffiliateClickWhereUniqueInput[]
+  disconnect?: Prisma.AffiliateClickWhereUniqueInput | Prisma.AffiliateClickWhereUniqueInput[]
+  delete?: Prisma.AffiliateClickWhereUniqueInput | Prisma.AffiliateClickWhereUniqueInput[]
+  connect?: Prisma.AffiliateClickWhereUniqueInput | Prisma.AffiliateClickWhereUniqueInput[]
+  update?: Prisma.AffiliateClickUpdateWithWhereUniqueWithoutUserInput | Prisma.AffiliateClickUpdateWithWhereUniqueWithoutUserInput[]
+  updateMany?: Prisma.AffiliateClickUpdateManyWithWhereWithoutUserInput | Prisma.AffiliateClickUpdateManyWithWhereWithoutUserInput[]
+  deleteMany?: Prisma.AffiliateClickScalarWhereInput | Prisma.AffiliateClickScalarWhereInput[]
+}
+
+export type AffiliateClickUncheckedUpdateManyWithoutUserNestedInput = {
+  create?: Prisma.XOR<Prisma.AffiliateClickCreateWithoutUserInput, Prisma.AffiliateClickUncheckedCreateWithoutUserInput> | Prisma.AffiliateClickCreateWithoutUserInput[] | Prisma.AffiliateClickUncheckedCreateWithoutUserInput[]
+  connectOrCreate?: Prisma.AffiliateClickCreateOrConnectWithoutUserInput | Prisma.AffiliateClickCreateOrConnectWithoutUserInput[]
+  upsert?: Prisma.AffiliateClickUpsertWithWhereUniqueWithoutUserInput | Prisma.AffiliateClickUpsertWithWhereUniqueWithoutUserInput[]
+  createMany?: Prisma.AffiliateClickCreateManyUserInputEnvelope
+  set?: Prisma.AffiliateClickWhereUniqueInput | Prisma.AffiliateClickWhereUniqueInput[]
+  disconnect?: Prisma.AffiliateClickWhereUniqueInput | Prisma.AffiliateClickWhereUniqueInput[]
+  delete?: Prisma.AffiliateClickWhereUniqueInput | Prisma.AffiliateClickWhereUniqueInput[]
+  connect?: Prisma.AffiliateClickWhereUniqueInput | Prisma.AffiliateClickWhereUniqueInput[]
+  update?: Prisma.AffiliateClickUpdateWithWhereUniqueWithoutUserInput | Prisma.AffiliateClickUpdateWithWhereUniqueWithoutUserInput[]
+  updateMany?: Prisma.AffiliateClickUpdateManyWithWhereWithoutUserInput | Prisma.AffiliateClickUpdateManyWithWhereWithoutUserInput[]
+  deleteMany?: Prisma.AffiliateClickScalarWhereInput | Prisma.AffiliateClickScalarWhereInput[]
+}
+
+export type AffiliateClickCreateWithoutUserInput = {
+  id?: string
+  productName: string
+  query?: string | null
+  provider?: string
+  url: string
+  refParam?: string | null
+  createdAt?: Date | string
+}
+
+export type AffiliateClickUncheckedCreateWithoutUserInput = {
+  id?: string
+  productName: string
+  query?: string | null
+  provider?: string
+  url: string
+  refParam?: string | null
+  createdAt?: Date | string
+}
+
+export type AffiliateClickCreateOrConnectWithoutUserInput = {
+  where: Prisma.AffiliateClickWhereUniqueInput
+  create: Prisma.XOR<Prisma.AffiliateClickCreateWithoutUserInput, Prisma.AffiliateClickUncheckedCreateWithoutUserInput>
+}
+
+export type AffiliateClickCreateManyUserInputEnvelope = {
+  data: Prisma.AffiliateClickCreateManyUserInput | Prisma.AffiliateClickCreateManyUserInput[]
+  skipDuplicates?: boolean
+}
+
+export type AffiliateClickUpsertWithWhereUniqueWithoutUserInput = {
+  where: Prisma.AffiliateClickWhereUniqueInput
+  update: Prisma.XOR<Prisma.AffiliateClickUpdateWithoutUserInput, Prisma.AffiliateClickUncheckedUpdateWithoutUserInput>
+  create: Prisma.XOR<Prisma.AffiliateClickCreateWithoutUserInput, Prisma.AffiliateClickUncheckedCreateWithoutUserInput>
+}
+
+export type AffiliateClickUpdateWithWhereUniqueWithoutUserInput = {
+  where: Prisma.AffiliateClickWhereUniqueInput
+  data: Prisma.XOR<Prisma.AffiliateClickUpdateWithoutUserInput, Prisma.AffiliateClickUncheckedUpdateWithoutUserInput>
+}
+
+export type AffiliateClickUpdateManyWithWhereWithoutUserInput = {
+  where: Prisma.AffiliateClickScalarWhereInput
+  data: Prisma.XOR<Prisma.AffiliateClickUpdateManyMutationInput, Prisma.AffiliateClickUncheckedUpdateManyWithoutUserInput>
+}
+
+export type AffiliateClickScalarWhereInput = {
+  AND?: Prisma.AffiliateClickScalarWhereInput | Prisma.AffiliateClickScalarWhereInput[]
+  OR?: Prisma.AffiliateClickScalarWhereInput[]
+  NOT?: Prisma.AffiliateClickScalarWhereInput | Prisma.AffiliateClickScalarWhereInput[]
+  id?: Prisma.StringFilter<"AffiliateClick"> | string
+  productName?: Prisma.StringFilter<"AffiliateClick"> | string
+  query?: Prisma.StringNullableFilter<"AffiliateClick"> | string | null
+  provider?: Prisma.StringFilter<"AffiliateClick"> | string
+  url?: Prisma.StringFilter<"AffiliateClick"> | string
+  refParam?: Prisma.StringNullableFilter<"AffiliateClick"> | string | null
+  userId?: Prisma.StringNullableFilter<"AffiliateClick"> | string | null
+  createdAt?: Prisma.DateTimeFilter<"AffiliateClick"> | Date | string
+}
+
+export type AffiliateClickCreateManyUserInput = {
+  id?: string
+  productName: string
+  query?: string | null
+  provider?: string
+  url: string
+  refParam?: string | null
+  createdAt?: Date | string
+}
+
+export type AffiliateClickUpdateWithoutUserInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  productName?: Prisma.StringFieldUpdateOperationsInput | string
+  query?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  provider?: Prisma.StringFieldUpdateOperationsInput | string
+  url?: Prisma.StringFieldUpdateOperationsInput | string
+  refParam?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
+export type AffiliateClickUncheckedUpdateWithoutUserInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  productName?: Prisma.StringFieldUpdateOperationsInput | string
+  query?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  provider?: Prisma.StringFieldUpdateOperationsInput | string
+  url?: Prisma.StringFieldUpdateOperationsInput | string
+  refParam?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
+export type AffiliateClickUncheckedUpdateManyWithoutUserInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  productName?: Prisma.StringFieldUpdateOperationsInput | string
+  query?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  provider?: Prisma.StringFieldUpdateOperationsInput | string
+  url?: Prisma.StringFieldUpdateOperationsInput | string
+  refParam?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
 
 
 export type AffiliateClickSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -382,6 +536,7 @@ export type AffiliateClickSelect<ExtArgs extends runtime.Types.Extensions.Intern
   refParam?: boolean
   userId?: boolean
   createdAt?: boolean
+  user?: boolean | Prisma.AffiliateClick$userArgs<ExtArgs>
 }, ExtArgs["result"]["affiliateClick"]>
 
 export type AffiliateClickSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -393,6 +548,7 @@ export type AffiliateClickSelectCreateManyAndReturn<ExtArgs extends runtime.Type
   refParam?: boolean
   userId?: boolean
   createdAt?: boolean
+  user?: boolean | Prisma.AffiliateClick$userArgs<ExtArgs>
 }, ExtArgs["result"]["affiliateClick"]>
 
 export type AffiliateClickSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -404,6 +560,7 @@ export type AffiliateClickSelectUpdateManyAndReturn<ExtArgs extends runtime.Type
   refParam?: boolean
   userId?: boolean
   createdAt?: boolean
+  user?: boolean | Prisma.AffiliateClick$userArgs<ExtArgs>
 }, ExtArgs["result"]["affiliateClick"]>
 
 export type AffiliateClickSelectScalar = {
@@ -418,10 +575,21 @@ export type AffiliateClickSelectScalar = {
 }
 
 export type AffiliateClickOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "productName" | "query" | "provider" | "url" | "refParam" | "userId" | "createdAt", ExtArgs["result"]["affiliateClick"]>
+export type AffiliateClickInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  user?: boolean | Prisma.AffiliateClick$userArgs<ExtArgs>
+}
+export type AffiliateClickIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  user?: boolean | Prisma.AffiliateClick$userArgs<ExtArgs>
+}
+export type AffiliateClickIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  user?: boolean | Prisma.AffiliateClick$userArgs<ExtArgs>
+}
 
 export type $AffiliateClickPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "AffiliateClick"
-  objects: {}
+  objects: {
+    user: Prisma.$UserPayload<ExtArgs> | null
+  }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
     productName: string
@@ -825,6 +993,7 @@ readonly fields: AffiliateClickFieldRefs;
  */
 export interface Prisma__AffiliateClickClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
+  user<T extends Prisma.AffiliateClick$userArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.AffiliateClick$userArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -879,6 +1048,10 @@ export type AffiliateClickFindUniqueArgs<ExtArgs extends runtime.Types.Extension
    */
   omit?: Prisma.AffiliateClickOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.AffiliateClickInclude<ExtArgs> | null
+  /**
    * Filter, which AffiliateClick to fetch.
    */
   where: Prisma.AffiliateClickWhereUniqueInput
@@ -897,6 +1070,10 @@ export type AffiliateClickFindUniqueOrThrowArgs<ExtArgs extends runtime.Types.Ex
    */
   omit?: Prisma.AffiliateClickOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.AffiliateClickInclude<ExtArgs> | null
+  /**
    * Filter, which AffiliateClick to fetch.
    */
   where: Prisma.AffiliateClickWhereUniqueInput
@@ -914,6 +1091,10 @@ export type AffiliateClickFindFirstArgs<ExtArgs extends runtime.Types.Extensions
    * Omit specific fields from the AffiliateClick
    */
   omit?: Prisma.AffiliateClickOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.AffiliateClickInclude<ExtArgs> | null
   /**
    * Filter, which AffiliateClick to fetch.
    */
@@ -963,6 +1144,10 @@ export type AffiliateClickFindFirstOrThrowArgs<ExtArgs extends runtime.Types.Ext
    */
   omit?: Prisma.AffiliateClickOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.AffiliateClickInclude<ExtArgs> | null
+  /**
    * Filter, which AffiliateClick to fetch.
    */
   where?: Prisma.AffiliateClickWhereInput
@@ -1010,6 +1195,10 @@ export type AffiliateClickFindManyArgs<ExtArgs extends runtime.Types.Extensions.
    * Omit specific fields from the AffiliateClick
    */
   omit?: Prisma.AffiliateClickOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.AffiliateClickInclude<ExtArgs> | null
   /**
    * Filter, which AffiliateClicks to fetch.
    */
@@ -1059,6 +1248,10 @@ export type AffiliateClickCreateArgs<ExtArgs extends runtime.Types.Extensions.In
    */
   omit?: Prisma.AffiliateClickOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.AffiliateClickInclude<ExtArgs> | null
+  /**
    * The data needed to create a AffiliateClick.
    */
   data: Prisma.XOR<Prisma.AffiliateClickCreateInput, Prisma.AffiliateClickUncheckedCreateInput>
@@ -1092,6 +1285,10 @@ export type AffiliateClickCreateManyAndReturnArgs<ExtArgs extends runtime.Types.
    */
   data: Prisma.AffiliateClickCreateManyInput | Prisma.AffiliateClickCreateManyInput[]
   skipDuplicates?: boolean
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.AffiliateClickIncludeCreateManyAndReturn<ExtArgs> | null
 }
 
 /**
@@ -1106,6 +1303,10 @@ export type AffiliateClickUpdateArgs<ExtArgs extends runtime.Types.Extensions.In
    * Omit specific fields from the AffiliateClick
    */
   omit?: Prisma.AffiliateClickOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.AffiliateClickInclude<ExtArgs> | null
   /**
    * The data needed to update a AffiliateClick.
    */
@@ -1158,6 +1359,10 @@ export type AffiliateClickUpdateManyAndReturnArgs<ExtArgs extends runtime.Types.
    * Limit how many AffiliateClicks to update.
    */
   limit?: number
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.AffiliateClickIncludeUpdateManyAndReturn<ExtArgs> | null
 }
 
 /**
@@ -1172,6 +1377,10 @@ export type AffiliateClickUpsertArgs<ExtArgs extends runtime.Types.Extensions.In
    * Omit specific fields from the AffiliateClick
    */
   omit?: Prisma.AffiliateClickOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.AffiliateClickInclude<ExtArgs> | null
   /**
    * The filter to search for the AffiliateClick to update in case it exists.
    */
@@ -1199,6 +1408,10 @@ export type AffiliateClickDeleteArgs<ExtArgs extends runtime.Types.Extensions.In
    */
   omit?: Prisma.AffiliateClickOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.AffiliateClickInclude<ExtArgs> | null
+  /**
    * Filter which AffiliateClick to delete.
    */
   where: Prisma.AffiliateClickWhereUniqueInput
@@ -1219,6 +1432,25 @@ export type AffiliateClickDeleteManyArgs<ExtArgs extends runtime.Types.Extension
 }
 
 /**
+ * AffiliateClick.user
+ */
+export type AffiliateClick$userArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the User
+   */
+  select?: Prisma.UserSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the User
+   */
+  omit?: Prisma.UserOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.UserInclude<ExtArgs> | null
+  where?: Prisma.UserWhereInput
+}
+
+/**
  * AffiliateClick without action
  */
 export type AffiliateClickDefaultArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1230,4 +1462,8 @@ export type AffiliateClickDefaultArgs<ExtArgs extends runtime.Types.Extensions.I
    * Omit specific fields from the AffiliateClick
    */
   omit?: Prisma.AffiliateClickOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.AffiliateClickInclude<ExtArgs> | null
 }

@@ -3,18 +3,20 @@ import { authOptions } from "@/lib/auth"
 import { db } from "@/lib/db"
 import { NextResponse } from "next/server"
 import { trackPdfGenerated } from "@/lib/tracking"
+import { sanitizeHtml } from "@/lib/sanitize"
+import { error, unauthorized, forbidden, serverError } from "@/lib/api-response"
 
 export async function GET(req: Request) {
   try {
     const session = await getServerSession(authOptions)
     if (!session?.user) {
-      return NextResponse.json({ error: "No autorizado" }, { status: 401 })
+      return unauthorized()
     }
 
     const { searchParams } = new URL(req.url)
     const analysisId = searchParams.get("analysisId")
     if (!analysisId) {
-      return NextResponse.json({ error: "analysisId requerido" }, { status: 400 })
+      return error("analysisId requerido", 400)
     }
 
     const analysis = await db.skinAnalysis.findUnique({
@@ -23,7 +25,7 @@ export async function GET(req: Request) {
     })
 
     if (!analysis || analysis.userId !== session.user.id) {
-      return NextResponse.json({ error: "No autorizado" }, { status: 403 })
+      return forbidden()
     }
 
     const clinic = await db.clinic.findUnique({ where: { ownerId: session.user.id } })
@@ -64,13 +66,13 @@ export async function GET(req: Request) {
 </style></head><body>
   <div class="header">
     ${logoBase64 ? `<img src="${logoBase64}" class="logo" />` : ""}
-    <div class="clinic-name">${clinic?.name || "The Serene Lens"}</div>
+    <div class="clinic-name">${sanitizeHtml(clinic?.name || "The Serene Lens")}</div>
     <div class="report-title">Reporte de Observación Cosmética · ${date}</div>
   </div>
 
   <div class="section">
     <div class="info-grid">
-      <div class="info-item"><div class="info-label">Tipo de Piel</div><div class="info-value">${skinType}</div></div>
+      <div class="info-item"><div class="info-label">Tipo de Piel</div><div class="info-value">${sanitizeHtml(skinType)}</div></div>
       <div class="info-item"><div class="info-label">Fecha</div><div class="info-value">${date}</div></div>
     </div>
   </div>
@@ -78,13 +80,13 @@ export async function GET(req: Request) {
   ${observations.observations?.length ? `
   <div class="section">
     <div class="section-title">Factores Observados</div>
-    <ul class="obs-list">${observations.observations.map((o: string) => `<li>${o}</li>`).join("")}</ul>
+    <ul class="obs-list">${observations.observations.map((o: string) => `<li>${sanitizeHtml(o)}</li>`).join("")}</ul>
   </div>` : ""}
 
   ${recommendations.length ? `
   <div class="section">
     <div class="section-title">Recomendaciones Cosméticas</div>
-    <ul class="obs-list">${recommendations.map((r: string) => `<li>${r}</li>`).join("")}</ul>
+    <ul class="obs-list">${recommendations.map((r: string) => `<li>${sanitizeHtml(r)}</li>`).join("")}</ul>
   </div>` : ""}
 
   <div class="disclaimer">
@@ -100,6 +102,6 @@ export async function GET(req: Request) {
       headers: { "Content-Type": "text/html" },
     })
   } catch {
-    return NextResponse.json({ error: "Error al generar reporte" }, { status: 500 })
+    return serverError()
   }
 }

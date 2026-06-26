@@ -1,3 +1,6 @@
+import { sanitizeHtml } from "@/lib/sanitize"
+import { PLANS } from "@/lib/pricing"
+
 type EmailPayload = {
   to: string
   subject: string
@@ -66,13 +69,16 @@ export function buildEmailSequence(
   loginUrl: string
 ): SequenceEmail[] {
   const url = loginUrl
+  const premiumPlan = PLANS.find((p) => p.id === "PREMIUM")
+  const premiumPrice = premiumPlan?.priceUSD ?? 4.99
+  const discountPrice = (premiumPrice * 0.7).toFixed(2)
 
   return [
     {
       day: 0,
       subject: "Bienvenido a The Serene Lens",
       html: emailWrapper(`
-        ${header(`Hola ${name}, bienvenido 👋`)}
+        ${header(`Hola ${sanitizeHtml(name)}, bienvenido 👋`)}
         ${paragraph("Tu piel merece ser cuidada con la mejor tecnología. The Serene Lens analiza tu piel con IA y te da recomendaciones personalizadas.")}
         ${paragraph("<strong>Primer paso:</strong> Sube una foto de tu piel y recibe un análisis cosmético en segundos.")}
         ${ctaButton(`${url}/analysis`, "Analizar mi piel ahora →")}
@@ -124,7 +130,7 @@ export function buildEmailSequence(
       html: emailWrapper(`
         ${header("Última oportunidad 🎁")}
         ${paragraph("Como usuario registrado, te ofrecemos un <strong>30% de descuento</strong> en tu primer mes de Premium.")}
-        ${paragraph("Por solo $3.49/mes obtienes: análisis ilimitados, historial completo, evolución de piel y prioridad en procesamiento.")}
+        ${paragraph(`Por solo $${discountPrice}/mes obtienes: análisis ilimitados, historial completo, evolución de piel y prioridad en procesamiento.`)}
         ${ctaButton(`${url}/pricing`, "Aprovechar descuento →")}
       `),
     },
@@ -172,7 +178,7 @@ p{color:#64705E;line-height:1.6}
 </style></head>
 <body><div class="c">
 <div class="h"><div class="l">🌿 The <span>Serene</span> Lens</div></div>
-<h1>🎉 ¡Felicidades, ${name}!</h1>
+<h1>🎉 ¡Felicidades, ${sanitizeHtml(name)}!</h1>
 <p>Tu grupo de 3 amigos se ha completado exitosamente. Como recompensa, <strong>has ganado un análisis GRATIS</strong> para tu piel.</p>
 <div class="hl">
 <p style="font-size:18px;color:#2F3A2D;margin:0">✨ 1 análisis gratis añadido a tu cuenta ✨</p>

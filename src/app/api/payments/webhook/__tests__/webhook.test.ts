@@ -50,14 +50,12 @@ vi.mock("@/lib/rate-limit", () => ({
   checkRateLimit: mockCheckRateLimit,
 }))
 
-// We need to test the webhook route handler directly
-// Import the POST function from the webhook route
 import { POST } from "@/app/api/payments/webhook/route"
 
-function createRequest(body: any) {
+function createRequest(body: any, headers?: Record<string, string>) {
   return new Request("http://localhost/api/payments/webhook", {
     method: "POST",
-    headers: { "Content-Type": "application/json" },
+    headers: { "Content-Type": "application/json", ...headers },
     body: JSON.stringify(body),
   }) as any
 }
@@ -70,6 +68,13 @@ describe("Webhook Processor", () => {
 
   it("returns error when no transaction_uuid", async () => {
     const req = createRequest({})
+    const res = await POST(req)
+    const data = await res.json()
+    expect(data.error?.code).toBe("VALIDATION_ERROR")
+  })
+
+  it("returns error when transaction_uuid is not a string", async () => {
+    const req = createRequest({ transaction_uuid: 12345 })
     const res = await POST(req)
     const data = await res.json()
     expect(data.error?.code).toBe("VALIDATION_ERROR")
@@ -109,14 +114,33 @@ describe("Webhook Processor", () => {
     expect(data.data?.verified).toBe(false)
   })
 
-  it("processes successful pack payment", async () => {
+  it("returns unverified if QvaPay status is empty", async () => {
+    mockFindUnique.mockResolvedValue({ id: "p1", status: "pending", user: {} })
+    mockQvaPayStatus.mockResolvedValue({})
+    const req = createRequest({ transaction_uuid: "abc-123" })
+    const res = await POST(req)
+    const data = await res.json()
+    expect(data.data?.verified).toBe(false)
+  })
+
+  it("reads status from data.status (nested format)", async () => {
     mockFindUnique.mockResolvedValue({
-      id: "p1",
-      status: "pending",
-      plan: "BASIC",
-      amount: 1.99,
-      userId: "user-1",
-      user: {},
+      id: "p1", status: "pending", plan: "BASIC", amount: 1.99, userId: "u1", user: {},
+    })
+    mockQvaPayStatus.mockResolvedValue({ data: { status: "paid" } })
+    mockUpdate.mockResolvedValue({})
+    mockCreate.mockResolvedValue({})
+
+    const req = createRequest({ transaction_uuid: "abc-123" })
+    const res = await POST(req)
+    const data = await res.json()
+    expect(data.data?.received).toBe(true)
+    expect(mockUpdate).toHaveBeenCalled()
+  })
+
+  it("processes successful BASIC pack payment (3 analyses)", async () => {
+    mockFindUnique.mockResolvedValue({
+      id: "p1", status: "pending", plan: "BASIC", amount: 1.99, userId: "user-1", user: {},
     })
     mockQvaPayStatus.mockResolvedValue({ status: "paid" })
     mockUpdate.mockResolvedValue({})
@@ -126,18 +150,58 @@ describe("Webhook Processor", () => {
     const res = await POST(req)
     const data = await res.json()
     expect(data.data?.received).toBe(true)
-    expect(mockUpdate).toHaveBeenCalled()
-    expect(mockCreate).toHaveBeenCalled()
+    expect(mockCreate).toHaveBeenCalledWith({
+      data: expect.objectContaining({
+        packType: "BASIC",
+        analyses: 3,
+        status: "completed",
+      }),
+    })
   })
 
-  it("processes successful subscription payment", async () => {
+  it("processes successful POPULAR pack payment (5 analyses)", async () => {
     mockFindUnique.mockResolvedValue({
-      id: "p1",
-      status: "pending",
-      plan: "PREMIUM",
-      amount: 4.99,
-      userId: "user-1",
-      user: {},
+      id: "p1", status: "pending", plan: "POPULAR", amount: 4.99, userId: "user-1", user: {},
+    })
+    mockQvaPayStatus.mockResolvedValue({ status: "paid" })
+    mockUpdate.mockResolvedValue({})
+    mockCreate.mockResolvedValue({})
+
+    const req = createRequest({ transaction_uuid: "abc-123" })
+    const res = await POST(req)
+    const data = await res.json()
+    expect(data.data?.received).toBe(true)
+    expect(mockCreate).toHaveBeenCalledWith({
+      data: expect.objectContaining({
+        packType: "POPULAR",
+        analyses: 5,
+      }),
+    })
+  })
+
+  it("processes successful ADVANCED pack payment (15 analyses)", async () => {
+    mockFindUnique.mockResolvedValue({
+      id: "p1", status: "pending", plan: "ADVANCED", amount: 6.99, userId: "user-1", user: {},
+    })
+    mockQvaPayStatus.mockResolvedValue({ status: "paid" })
+    mockUpdate.mockResolvedValue({})
+    mockCreate.mockResolvedValue({})
+
+    const req = createRequest({ transaction_uuid: "abc-123" })
+    const res = await POST(req)
+    const data = await res.json()
+    expect(data.data?.received).toBe(true)
+    expect(mockCreate).toHaveBeenCalledWith({
+      data: expect.objectContaining({
+        packType: "ADVANCED",
+        analyses: 15,
+      }),
+    })
+  })
+
+  it("processes successful PREMIUM subscription", async () => {
+    mockFindUnique.mockResolvedValue({
+      id: "p1", status: "pending", plan: "PREMIUM", amount: 4.99, userId: "user-1", user: {},
     })
     mockQvaPayStatus.mockResolvedValue({ status: "completed" })
     mockUpdate.mockResolvedValue({})
@@ -147,8 +211,74 @@ describe("Webhook Processor", () => {
     const res = await POST(req)
     const data = await res.json()
     expect(data.data?.received).toBe(true)
-    expect(mockUpdate).toHaveBeenCalled()
-    expect(mockCreate).toHaveBeenCalled()
+    expect(mockUpdate).toHaveBeenCalledWith({
+      where: { id: "user-1" },
+      data: { plan: "PREMIUM" },
+    })
+    expect(mockCreate).toHaveBeenCalledWith({
+      data: expect.objectContaining({
+        plan: "PREMIUM",
+        status: "active",
+        provider: "qvapay",
+      }),
+    })
+  })
+
+  it("processes successful PRO subscription", async () => {
+    mockFindUnique.mockResolvedValue({
+      id: "p1", status: "pending", plan: "PRO", amount: 9.99, userId: "user-2", user: {},
+    })
+    mockQvaPayStatus.mockResolvedValue({ status: "paid" })
+    mockUpdate.mockResolvedValue({})
+    mockCreate.mockResolvedValue({})
+
+    const req = createRequest({ transaction_uuid: "def-456" })
+    const res = await POST(req)
+    const data = await res.json()
+    expect(data.data?.received).toBe(true)
+    expect(mockUpdate).toHaveBeenCalledWith({
+      where: { id: "user-2" },
+      data: { plan: "PRO" },
+    })
+  })
+
+  it("processes successful PRO_PLUS subscription", async () => {
+    mockFindUnique.mockResolvedValue({
+      id: "p1", status: "pending", plan: "PRO_PLUS", amount: 14.99, userId: "user-3", user: {},
+    })
+    mockQvaPayStatus.mockResolvedValue({ status: "paid" })
+    mockUpdate.mockResolvedValue({})
+    mockCreate.mockResolvedValue({})
+
+    const req = createRequest({ transaction_uuid: "ghi-789" })
+    const res = await POST(req)
+    const data = await res.json()
+    expect(data.data?.received).toBe(true)
+    expect(mockUpdate).toHaveBeenCalledWith({
+      where: { id: "user-3" },
+      data: { plan: "PRO_PLUS" },
+    })
+    expect(mockCreate).toHaveBeenCalledWith({
+      data: expect.objectContaining({
+        plan: "PRO_PLUS",
+        status: "active",
+      }),
+    })
+  })
+
+  it("handles payment with no plan (skips pack/subscription)", async () => {
+    mockFindUnique.mockResolvedValue({
+      id: "p1", status: "pending", plan: null, amount: 1.0, userId: "user-4", user: {},
+    })
+    mockQvaPayStatus.mockResolvedValue({ status: "paid" })
+    mockUpdate.mockResolvedValue({})
+
+    const req = createRequest({ transaction_uuid: "no-plan-001" })
+    const res = await POST(req)
+    const data = await res.json()
+    expect(data.data?.received).toBe(true)
+    expect(mockUpdate).toHaveBeenCalledTimes(1)
+    expect(mockCreate).not.toHaveBeenCalled()
   })
 
   it("handles v2 webhook format with payment_id", async () => {
@@ -157,10 +287,56 @@ describe("Webhook Processor", () => {
     const res = await POST(req)
     const data = await res.json()
     expect(data.error?.message).toBe("Pago no encontrado")
-    // Verify it tried to look up by qvapayId
     expect(mockFindUnique).toHaveBeenCalledWith({
       where: { qvapayId: "xyz-789" },
       include: { user: true },
     })
+  })
+
+  it("returns 429 when rate limited", async () => {
+    mockCheckRateLimit.mockResolvedValueOnce({ allowed: false, remaining: 0 })
+    const req = createRequest({ transaction_uuid: "abc-123" })
+    const res = await POST(req)
+    expect(res.status).toBe(429)
+    const data = await res.json()
+    expect(data.error?.message).toBe("Demasiadas solicitudes")
+  })
+
+  it("calculates CUP amount correctly for packs", async () => {
+    mockGetCUPRate.mockResolvedValue(500)
+    mockFindUnique.mockResolvedValue({
+      id: "p1", status: "pending", plan: "BASIC", amount: 1.99, userId: "user-1", user: {},
+    })
+    mockQvaPayStatus.mockResolvedValue({ status: "paid" })
+    mockUpdate.mockResolvedValue({})
+    mockCreate.mockResolvedValue({})
+
+    const req = createRequest({ transaction_uuid: "abc-123" })
+    await POST(req)
+
+    expect(mockCreate).toHaveBeenCalledWith({
+      data: expect.objectContaining({
+        amountUsd: 1.99,
+        amountCup: 1.99 * 500,
+      }),
+    })
+  })
+
+  it("sets subscription period end to 30 days", async () => {
+    const now = new Date()
+    mockFindUnique.mockResolvedValue({
+      id: "p1", status: "pending", plan: "PREMIUM", amount: 4.99, userId: "user-1", user: {},
+    })
+    mockQvaPayStatus.mockResolvedValue({ status: "paid" })
+    mockUpdate.mockResolvedValue({})
+    mockCreate.mockResolvedValue({})
+
+    const req = createRequest({ transaction_uuid: "abc-123" })
+    await POST(req)
+
+    const createCall = mockCreate.mock.calls[0][0]
+    const periodEnd = createCall.data.currentPeriodEnd
+    const diffDays = Math.round((periodEnd.getTime() - now.getTime()) / (1000 * 60 * 60 * 24))
+    expect(diffDays).toBe(30)
   })
 })

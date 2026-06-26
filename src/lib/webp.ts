@@ -44,8 +44,11 @@ export async function optimizeToWebP(
 
   const preferWebP = supportsWebP()
   const mimeType = preferWebP ? "image/webp" : "image/jpeg"
-  const blob = await new Promise<Blob>((resolve) => {
-    canvas.toBlob((b) => resolve(b!), mimeType, quality)
+  const blob = await new Promise<Blob>((resolve, reject) => {
+    canvas.toBlob((b) => {
+      if (b) resolve(b)
+      else reject(new Error("Canvas toBlob failed"))
+    }, mimeType, quality)
   })
 
   const ext = preferWebP ? "webp" : "jpg"

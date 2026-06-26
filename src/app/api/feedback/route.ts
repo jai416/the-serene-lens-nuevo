@@ -1,8 +1,9 @@
-import { NextRequest, NextResponse } from "next/server"
+import { NextRequest } from "next/server"
 import { getServerSession } from "next-auth"
 import { authOptions } from "@/lib/auth"
 import { db } from "@/lib/db"
 import { z } from "zod"
+import { ok, error, unauthorized, notFound, serverError } from "@/lib/api-response"
 
 const bodySchema = z.object({
   analysisId: z.string().min(1),
@@ -15,19 +16,19 @@ export async function POST(req: NextRequest) {
   try {
     const session = await getServerSession(authOptions)
     if (!session?.user) {
-      return NextResponse.json({ success: false, error: { code: "UNAUTHORIZED", message: "Debes iniciar sesión" } }, { status: 401 })
+      return unauthorized("Debes iniciar sesión")
     }
 
     const parsed = bodySchema.safeParse(await req.json())
     if (!parsed.success) {
-      return NextResponse.json({ success: false, error: { code: "VALIDATION_ERROR", message: "Datos inválidos", details: parsed.error.issues } }, { status: 400 })
+      return error("Datos inválidos", 400)
     }
 
     const { analysisId, rating, comment, wouldRecommend } = parsed.data
 
     const analysis = await db.skinAnalysis.findUnique({ where: { id: analysisId } })
     if (!analysis || analysis.userId !== session.user.id) {
-      return NextResponse.json({ success: false, error: { code: "NOT_FOUND", message: "Análisis no encontrado" } }, { status: 404 })
+      return notFound("Análisis no encontrado")
     }
 
     const feedback = await db.feedback.upsert({
@@ -36,8 +37,8 @@ export async function POST(req: NextRequest) {
       create: { analysisId, rating, comment, wouldRecommend },
     })
 
-    return NextResponse.json({ success: true, data: feedback })
+    return ok({ feedback })
   } catch {
-    return NextResponse.json({ success: false, error: { code: "INTERNAL_ERROR", message: "Error interno del servidor" } }, { status: 500 })
+    return serverError()
   }
 }

@@ -1,6 +1,7 @@
 import { z } from "zod"
 import { logger } from "@/lib/logger"
 import { db } from "@/lib/db"
+import type { Prisma } from "@/generated/prisma/client"
 
 const FALLBACK_FROM = "The Serene Lens <onboarding@resend.dev>"
 const CUSTOM_FROM = "The Serene Lens <noreply@theserenelens.com>"
@@ -13,8 +14,13 @@ async function getResend() {
     logger.warn("RESEND_API_KEY not set, emails will be logged to console")
     return null
   }
-  const { Resend } = await import("resend")
-  resendClient = new Resend(process.env.RESEND_API_KEY)
+  try {
+    const { Resend } = await import("resend")
+    resendClient = new Resend(process.env.RESEND_API_KEY)
+  } catch {
+    logger.error("Failed to import resend module")
+    return null
+  }
   return resendClient
 }
 
@@ -136,7 +142,7 @@ export async function getRecipients(segment: string): Promise<{ email: string; n
   })
   const unsubscribedSet = new Set(unsubscribed.map((u) => u.email))
 
-  let where: any = {}
+  let where: Prisma.UserWhereInput = {}
 
   switch (segment) {
     case "all":
@@ -175,8 +181,8 @@ export async function getRecipients(segment: string): Promise<{ email: string; n
   })
 
   return users
-    .filter((u) => !unsubscribedSet.has(u.email))
-    .map((u) => ({ email: u.email, name: u.name ?? undefined }))
+    .filter((u) => u.email && !unsubscribedSet.has(u.email))
+    .map((u) => ({ email: u.email!, name: u.name ?? undefined }))
 }
 
 export async function getRecipientCounts(): Promise<Record<string, number>> {

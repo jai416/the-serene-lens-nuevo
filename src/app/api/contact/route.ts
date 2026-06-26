@@ -1,5 +1,5 @@
 import { NextRequest } from "next/server"
-import { contactSchema } from "@/lib/validation"
+import { contactSchema } from "@/lib/validations"
 import { db } from "@/lib/db"
 import { ok, error, serverError } from "@/lib/api-response"
 import { checkRateLimit } from "@/lib/rate-limit"

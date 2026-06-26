@@ -60,9 +60,3 @@ export function delCache(key: string): void {
 export function clearCache(): void {
   getCacheAdapter().flushAll()
 }
-
-export function createRedisCache(url?: string): CacheAdapter {
-  throw new Error(
-    "Redis cache not yet implemented. Set REDIS_URL env var and install ioredis to enable."
-  )
-}

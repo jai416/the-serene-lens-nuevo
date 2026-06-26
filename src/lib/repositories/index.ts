@@ -104,26 +104,6 @@ export const PaymentRepository = {
     })
   },
 
-  async createStripe(data: {
-    userId: string
-    plan: string
-    amount: number
-    stripePaymentId: string
-    status?: string
-  }) {
-    return db.payment.create({
-      data: {
-        userId: data.userId,
-        provider: "stripe",
-        plan: data.plan,
-        amount: data.amount,
-        currency: "USD",
-        stripePaymentId: data.stripePaymentId,
-        status: data.status || "pending",
-      },
-    })
-  },
-
   async createQvaPay(data: {
     userId: string
     plan: string
