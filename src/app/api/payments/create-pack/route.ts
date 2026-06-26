@@ -52,8 +52,9 @@ export async function POST(req: NextRequest) {
           packType,
         })
       } catch (e) {
-        logger.error("QvaPay pack API error", { error: e instanceof Error ? e.message : "Unknown", stack: e instanceof Error ? e.stack : undefined })
-        return serverError(e)
+        const errMsg = e instanceof Error ? e.message : String(e)
+        logger.error("QvaPay pack API error", { error: errMsg })
+        return error(`Error QvaPay: ${errMsg}`, 502)
       }
 
       const transactionUuid = qvapayPayment?.transaction_uuid
@@ -83,11 +84,13 @@ export async function POST(req: NextRequest) {
 
       return ok({ url: qvapayPayment.url, id: transactionUuid, provider: "qvapay" })
     } catch (e) {
-      logger.error("QvaPay pack flow error", { error: e instanceof Error ? e.message : "Unknown" })
-      return error(getPaymentError("qvapay", e))
+      const errMsg = e instanceof Error ? e.message : String(e)
+      logger.error("QvaPay pack flow error", { error: errMsg })
+      return error(`Error al crear pack: ${errMsg}`, 500)
     }
   } catch (e) {
-    logger.error("Unexpected pack error", { error: e instanceof Error ? e.message : "Unknown" })
-    return serverError(e)
+    const errMsg = e instanceof Error ? e.message : String(e)
+    logger.error("Unexpected pack error", { error: errMsg })
+    return error(`Error interno: ${errMsg}`, 500)
   }
 }

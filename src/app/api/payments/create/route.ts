@@ -39,7 +39,12 @@ export async function POST(req: NextRequest) {
 
     try {
       const amount = planDef.priceUSD
-      const cupRate = await getCUPRate()
+      let cupRate = 500
+      try {
+        cupRate = await getCUPRate()
+      } catch {
+        logger.warn("CUP rate fetch failed, using default 500")
+      }
       logger.info("Creating QvaPay payment", { plan: parsed.data.plan, amount, userId: session.user.id })
       const qvapayPayment = await createQvaPayPayment({
         amount,
@@ -66,10 +71,13 @@ export async function POST(req: NextRequest) {
 
       return ok({ url: qvapayPayment?.url, id: transactionUuid, provider: "qvapay" })
     } catch (e) {
-      logger.error("QvaPay create error", { error: e instanceof Error ? e.message : "Unknown", stack: e instanceof Error ? e.stack : undefined })
-      return serverError(e)
+      const errMsg = e instanceof Error ? e.message : String(e)
+      logger.error("Payment create inner error", { error: errMsg })
+      return error(`Error al crear pago: ${errMsg}`, 500)
     }
   } catch (e) {
-    return serverError(e)
+    const errMsg = e instanceof Error ? e.message : String(e)
+    logger.error("Payment create outer error", { error: errMsg })
+    return error(`Error interno: ${errMsg}`, 500)
   }
 }
