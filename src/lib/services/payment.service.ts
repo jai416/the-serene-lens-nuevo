@@ -53,7 +53,7 @@ export async function handleSuccessfulPlanPayment(
   userId: string,
   plan: string,
   provider: string,
-  meta: { stripePaymentId?: string; qvapayId?: string; amount: number },
+  meta: { qvapayId?: string; amount: number },
 ) {
   const packMap: Record<string, number> = { BASIC: 3, POPULAR: 5, ADVANCED: 15 }
   const packAnalyses = packMap[plan]
@@ -93,7 +93,7 @@ export async function handleSuccessfulPlanPayment(
           plan,
           status: "active",
           provider,
-          stripeSubscriptionId: meta.stripePaymentId || null,
+          qvapayInvoiceId: meta.qvapayId || null,
           currentPeriodStart: new Date(),
           currentPeriodEnd: new Date(Date.now() + 30 * 86400000),
         },
@@ -107,7 +107,6 @@ export async function handleSuccessfulPlanPayment(
       plan,
       amount: meta.amount,
       provider,
-      stripePaymentId: meta.stripePaymentId,
       qvapayId: meta.qvapayId,
       status: "completed",
     },
