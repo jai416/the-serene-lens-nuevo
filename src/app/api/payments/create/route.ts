@@ -40,6 +40,7 @@ export async function POST(req: NextRequest) {
     try {
       const amount = planDef.priceUSD
       const cupRate = await getCUPRate()
+      logger.info("Creating QvaPay payment", { plan: parsed.data.plan, amount, userId: session.user.id })
       const qvapayPayment = await createQvaPayPayment({
         amount,
         description: `Plan ${planDef.name} - The Serene Lens`,
@@ -65,8 +66,8 @@ export async function POST(req: NextRequest) {
 
       return ok({ url: qvapayPayment?.url, id: transactionUuid, provider: "qvapay" })
     } catch (e) {
-      logger.error("QvaPay create error", { error: e instanceof Error ? e.message : "Unknown" })
-      return error(getPaymentError("qvapay", e))
+      logger.error("QvaPay create error", { error: e instanceof Error ? e.message : "Unknown", stack: e instanceof Error ? e.stack : undefined })
+      return serverError(e)
     }
   } catch (e) {
     return serverError(e)

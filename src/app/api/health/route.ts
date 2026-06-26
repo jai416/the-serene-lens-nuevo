@@ -42,6 +42,7 @@ export async function GET() {
   const response = {
     status: overallStatus,
     version: process.env.npm_package_version || "3.0.0",
+    buildTime: "2026-06-25T-fix-csp-payments",
     uptime: Math.round(process.uptime()),
     timestamp: new Date().toISOString(),
     totalLatencyMs: Date.now() - start,

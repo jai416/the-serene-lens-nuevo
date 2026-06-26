@@ -4,7 +4,7 @@ import path from "path"
 const nextConfig: NextConfig = {
   transpilePackages: ["lucide-react"],
   compiler: {
-    removeConsole: process.env.NODE_ENV === "production",
+    removeConsole: false,
   },
   images: {
     remotePatterns: [

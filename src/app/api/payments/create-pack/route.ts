@@ -27,6 +27,7 @@ export async function POST(req: NextRequest) {
 
     const parsed = packSchema.safeParse(body)
     if (!parsed.success) {
+      logger.warn("Pack create validation failed", { issues: parsed.error.issues, body })
       return error(parsed.error.issues.map((i) => i.message).join(", "), 400)
     }
 
@@ -39,6 +40,7 @@ export async function POST(req: NextRequest) {
     try {
       const amount = packDef.priceUSD
       const cupRate = await getCUPRate()
+      logger.info("Creating QvaPay pack payment", { packType, amount, userId: session.user.id })
 
       let qvapayPayment: any
       try {
@@ -50,8 +52,8 @@ export async function POST(req: NextRequest) {
           packType,
         })
       } catch (e) {
-        logger.error("QvaPay pack API error", { error: e instanceof Error ? e.message : "Unknown" })
-        return error("No se pudo conectar con el procesador de pagos. Intenta de nuevo.")
+        logger.error("QvaPay pack API error", { error: e instanceof Error ? e.message : "Unknown", stack: e instanceof Error ? e.stack : undefined })
+        return serverError(e)
       }
 
       const transactionUuid = qvapayPayment?.transaction_uuid
