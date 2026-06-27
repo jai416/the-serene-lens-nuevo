@@ -58,7 +58,7 @@ export default function AdminPaymentsPage() {
             Gestión de <span className="gradient-text">Pagos</span>
           </h1>
           <p className="text-sm text-muted-foreground">
-            Total ingresos: <span className="font-semibold text-on-surface">${totalRevenue.toFixed(2)}</span>
+            Total ingresos: <span className="font-semibold text-foreground">${totalRevenue.toFixed(2)}</span>
           </p>
         </div>
 

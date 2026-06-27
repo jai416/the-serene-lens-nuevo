@@ -29,11 +29,15 @@ export type AggregateUser = {
 export type UserAvgAggregateOutputType = {
   analysisLimit: number | null
   analysisUsed: number | null
+  currentStreak: number | null
+  maxStreak: number | null
 }
 
 export type UserSumAggregateOutputType = {
   analysisLimit: number | null
   analysisUsed: number | null
+  currentStreak: number | null
+  maxStreak: number | null
 }
 
 export type UserMinAggregateOutputType = {
@@ -51,6 +55,9 @@ export type UserMinAggregateOutputType = {
   analysisResetAt: Date | null
   createdAt: Date | null
   updatedAt: Date | null
+  currentStreak: number | null
+  maxStreak: number | null
+  lastCheckInDate: Date | null
 }
 
 export type UserMaxAggregateOutputType = {
@@ -68,6 +75,9 @@ export type UserMaxAggregateOutputType = {
   analysisResetAt: Date | null
   createdAt: Date | null
   updatedAt: Date | null
+  currentStreak: number | null
+  maxStreak: number | null
+  lastCheckInDate: Date | null
 }
 
 export type UserCountAggregateOutputType = {
@@ -85,6 +95,9 @@ export type UserCountAggregateOutputType = {
   analysisResetAt: number
   createdAt: number
   updatedAt: number
+  currentStreak: number
+  maxStreak: number
+  lastCheckInDate: number
   _all: number
 }
 
@@ -92,11 +105,15 @@ export type UserCountAggregateOutputType = {
 export type UserAvgAggregateInputType = {
   analysisLimit?: true
   analysisUsed?: true
+  currentStreak?: true
+  maxStreak?: true
 }
 
 export type UserSumAggregateInputType = {
   analysisLimit?: true
   analysisUsed?: true
+  currentStreak?: true
+  maxStreak?: true
 }
 
 export type UserMinAggregateInputType = {
@@ -114,6 +131,9 @@ export type UserMinAggregateInputType = {
   analysisResetAt?: true
   createdAt?: true
   updatedAt?: true
+  currentStreak?: true
+  maxStreak?: true
+  lastCheckInDate?: true
 }
 
 export type UserMaxAggregateInputType = {
@@ -131,6 +151,9 @@ export type UserMaxAggregateInputType = {
   analysisResetAt?: true
   createdAt?: true
   updatedAt?: true
+  currentStreak?: true
+  maxStreak?: true
+  lastCheckInDate?: true
 }
 
 export type UserCountAggregateInputType = {
@@ -148,6 +171,9 @@ export type UserCountAggregateInputType = {
   analysisResetAt?: true
   createdAt?: true
   updatedAt?: true
+  currentStreak?: true
+  maxStreak?: true
+  lastCheckInDate?: true
   _all?: true
 }
 
@@ -252,6 +278,9 @@ export type UserGroupByOutputType = {
   analysisResetAt: Date | null
   createdAt: Date
   updatedAt: Date
+  currentStreak: number
+  maxStreak: number
+  lastCheckInDate: Date | null
   _count: UserCountAggregateOutputType | null
   _avg: UserAvgAggregateOutputType | null
   _sum: UserSumAggregateOutputType | null
@@ -292,6 +321,9 @@ export type UserWhereInput = {
   analysisResetAt?: Prisma.DateTimeNullableFilter<"User"> | Date | string | null
   createdAt?: Prisma.DateTimeFilter<"User"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"User"> | Date | string
+  currentStreak?: Prisma.IntFilter<"User"> | number
+  maxStreak?: Prisma.IntFilter<"User"> | number
+  lastCheckInDate?: Prisma.DateTimeNullableFilter<"User"> | Date | string | null
   accounts?: Prisma.AccountListRelationFilter
   sessions?: Prisma.SessionListRelationFilter
   analyses?: Prisma.SkinAnalysisListRelationFilter
@@ -312,6 +344,7 @@ export type UserWhereInput = {
   digitalPurchases?: Prisma.DigitalProductPurchaseListRelationFilter
   affiliateClicks?: Prisma.AffiliateClickListRelationFilter
   evolution?: Prisma.XOR<Prisma.UserEvolutionNullableScalarRelationFilter, Prisma.UserEvolutionWhereInput> | null
+  checkIns?: Prisma.DailyCheckInListRelationFilter
 }
 
 export type UserOrderByWithRelationInput = {
@@ -329,6 +362,9 @@ export type UserOrderByWithRelationInput = {
   analysisResetAt?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  currentStreak?: Prisma.SortOrder
+  maxStreak?: Prisma.SortOrder
+  lastCheckInDate?: Prisma.SortOrderInput | Prisma.SortOrder
   accounts?: Prisma.AccountOrderByRelationAggregateInput
   sessions?: Prisma.SessionOrderByRelationAggregateInput
   analyses?: Prisma.SkinAnalysisOrderByRelationAggregateInput
@@ -349,6 +385,7 @@ export type UserOrderByWithRelationInput = {
   digitalPurchases?: Prisma.DigitalProductPurchaseOrderByRelationAggregateInput
   affiliateClicks?: Prisma.AffiliateClickOrderByRelationAggregateInput
   evolution?: Prisma.UserEvolutionOrderByWithRelationInput
+  checkIns?: Prisma.DailyCheckInOrderByRelationAggregateInput
 }
 
 export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -369,6 +406,9 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   analysisResetAt?: Prisma.DateTimeNullableFilter<"User"> | Date | string | null
   createdAt?: Prisma.DateTimeFilter<"User"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"User"> | Date | string
+  currentStreak?: Prisma.IntFilter<"User"> | number
+  maxStreak?: Prisma.IntFilter<"User"> | number
+  lastCheckInDate?: Prisma.DateTimeNullableFilter<"User"> | Date | string | null
   accounts?: Prisma.AccountListRelationFilter
   sessions?: Prisma.SessionListRelationFilter
   analyses?: Prisma.SkinAnalysisListRelationFilter
@@ -389,6 +429,7 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   digitalPurchases?: Prisma.DigitalProductPurchaseListRelationFilter
   affiliateClicks?: Prisma.AffiliateClickListRelationFilter
   evolution?: Prisma.XOR<Prisma.UserEvolutionNullableScalarRelationFilter, Prisma.UserEvolutionWhereInput> | null
+  checkIns?: Prisma.DailyCheckInListRelationFilter
 }, "id" | "email">
 
 export type UserOrderByWithAggregationInput = {
@@ -406,6 +447,9 @@ export type UserOrderByWithAggregationInput = {
   analysisResetAt?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  currentStreak?: Prisma.SortOrder
+  maxStreak?: Prisma.SortOrder
+  lastCheckInDate?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.UserCountOrderByAggregateInput
   _avg?: Prisma.UserAvgOrderByAggregateInput
   _max?: Prisma.UserMaxOrderByAggregateInput
@@ -431,6 +475,9 @@ export type UserScalarWhereWithAggregatesInput = {
   analysisResetAt?: Prisma.DateTimeNullableWithAggregatesFilter<"User"> | Date | string | null
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"User"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"User"> | Date | string
+  currentStreak?: Prisma.IntWithAggregatesFilter<"User"> | number
+  maxStreak?: Prisma.IntWithAggregatesFilter<"User"> | number
+  lastCheckInDate?: Prisma.DateTimeNullableWithAggregatesFilter<"User"> | Date | string | null
 }
 
 export type UserCreateInput = {
@@ -448,6 +495,9 @@ export type UserCreateInput = {
   analysisResetAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  currentStreak?: number
+  maxStreak?: number
+  lastCheckInDate?: Date | string | null
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
   analyses?: Prisma.SkinAnalysisCreateNestedManyWithoutUserInput
@@ -468,6 +518,7 @@ export type UserCreateInput = {
   digitalPurchases?: Prisma.DigitalProductPurchaseCreateNestedManyWithoutUserInput
   affiliateClicks?: Prisma.AffiliateClickCreateNestedManyWithoutUserInput
   evolution?: Prisma.UserEvolutionCreateNestedOneWithoutUserInput
+  checkIns?: Prisma.DailyCheckInCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateInput = {
@@ -485,6 +536,9 @@ export type UserUncheckedCreateInput = {
   analysisResetAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  currentStreak?: number
+  maxStreak?: number
+  lastCheckInDate?: Date | string | null
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   analyses?: Prisma.SkinAnalysisUncheckedCreateNestedManyWithoutUserInput
@@ -505,6 +559,7 @@ export type UserUncheckedCreateInput = {
   digitalPurchases?: Prisma.DigitalProductPurchaseUncheckedCreateNestedManyWithoutUserInput
   affiliateClicks?: Prisma.AffiliateClickUncheckedCreateNestedManyWithoutUserInput
   evolution?: Prisma.UserEvolutionUncheckedCreateNestedOneWithoutUserInput
+  checkIns?: Prisma.DailyCheckInUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserUpdateInput = {
@@ -522,6 +577,9 @@ export type UserUpdateInput = {
   analysisResetAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  currentStreak?: Prisma.IntFieldUpdateOperationsInput | number
+  maxStreak?: Prisma.IntFieldUpdateOperationsInput | number
+  lastCheckInDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
   sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
   analyses?: Prisma.SkinAnalysisUpdateManyWithoutUserNestedInput
@@ -542,6 +600,7 @@ export type UserUpdateInput = {
   digitalPurchases?: Prisma.DigitalProductPurchaseUpdateManyWithoutUserNestedInput
   affiliateClicks?: Prisma.AffiliateClickUpdateManyWithoutUserNestedInput
   evolution?: Prisma.UserEvolutionUpdateOneWithoutUserNestedInput
+  checkIns?: Prisma.DailyCheckInUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateInput = {
@@ -559,6 +618,9 @@ export type UserUncheckedUpdateInput = {
   analysisResetAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  currentStreak?: Prisma.IntFieldUpdateOperationsInput | number
+  maxStreak?: Prisma.IntFieldUpdateOperationsInput | number
+  lastCheckInDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   analyses?: Prisma.SkinAnalysisUncheckedUpdateManyWithoutUserNestedInput
@@ -579,6 +641,7 @@ export type UserUncheckedUpdateInput = {
   digitalPurchases?: Prisma.DigitalProductPurchaseUncheckedUpdateManyWithoutUserNestedInput
   affiliateClicks?: Prisma.AffiliateClickUncheckedUpdateManyWithoutUserNestedInput
   evolution?: Prisma.UserEvolutionUncheckedUpdateOneWithoutUserNestedInput
+  checkIns?: Prisma.DailyCheckInUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateManyInput = {
@@ -596,6 +659,9 @@ export type UserCreateManyInput = {
   analysisResetAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  currentStreak?: number
+  maxStreak?: number
+  lastCheckInDate?: Date | string | null
 }
 
 export type UserUpdateManyMutationInput = {
@@ -613,6 +679,9 @@ export type UserUpdateManyMutationInput = {
   analysisResetAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  currentStreak?: Prisma.IntFieldUpdateOperationsInput | number
+  maxStreak?: Prisma.IntFieldUpdateOperationsInput | number
+  lastCheckInDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 export type UserUncheckedUpdateManyInput = {
@@ -630,6 +699,9 @@ export type UserUncheckedUpdateManyInput = {
   analysisResetAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  currentStreak?: Prisma.IntFieldUpdateOperationsInput | number
+  maxStreak?: Prisma.IntFieldUpdateOperationsInput | number
+  lastCheckInDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 export type UserCountOrderByAggregateInput = {
@@ -647,11 +719,16 @@ export type UserCountOrderByAggregateInput = {
   analysisResetAt?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  currentStreak?: Prisma.SortOrder
+  maxStreak?: Prisma.SortOrder
+  lastCheckInDate?: Prisma.SortOrder
 }
 
 export type UserAvgOrderByAggregateInput = {
   analysisLimit?: Prisma.SortOrder
   analysisUsed?: Prisma.SortOrder
+  currentStreak?: Prisma.SortOrder
+  maxStreak?: Prisma.SortOrder
 }
 
 export type UserMaxOrderByAggregateInput = {
@@ -669,6 +746,9 @@ export type UserMaxOrderByAggregateInput = {
   analysisResetAt?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  currentStreak?: Prisma.SortOrder
+  maxStreak?: Prisma.SortOrder
+  lastCheckInDate?: Prisma.SortOrder
 }
 
 export type UserMinOrderByAggregateInput = {
@@ -686,11 +766,16 @@ export type UserMinOrderByAggregateInput = {
   analysisResetAt?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  currentStreak?: Prisma.SortOrder
+  maxStreak?: Prisma.SortOrder
+  lastCheckInDate?: Prisma.SortOrder
 }
 
 export type UserSumOrderByAggregateInput = {
   analysisLimit?: Prisma.SortOrder
   analysisUsed?: Prisma.SortOrder
+  currentStreak?: Prisma.SortOrder
+  maxStreak?: Prisma.SortOrder
 }
 
 export type UserScalarRelationFilter = {
@@ -1013,6 +1098,20 @@ export type UserUpdateOneRequiredWithoutDigitalPurchasesNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutDigitalPurchasesInput, Prisma.UserUpdateWithoutDigitalPurchasesInput>, Prisma.UserUncheckedUpdateWithoutDigitalPurchasesInput>
 }
 
+export type UserCreateNestedOneWithoutCheckInsInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutCheckInsInput, Prisma.UserUncheckedCreateWithoutCheckInsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutCheckInsInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneRequiredWithoutCheckInsNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutCheckInsInput, Prisma.UserUncheckedCreateWithoutCheckInsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutCheckInsInput
+  upsert?: Prisma.UserUpsertWithoutCheckInsInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutCheckInsInput, Prisma.UserUpdateWithoutCheckInsInput>, Prisma.UserUncheckedUpdateWithoutCheckInsInput>
+}
+
 export type UserCreateWithoutAccountsInput = {
   id?: string
   name?: string | null
@@ -1028,6 +1127,9 @@ export type UserCreateWithoutAccountsInput = {
   analysisResetAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  currentStreak?: number
+  maxStreak?: number
+  lastCheckInDate?: Date | string | null
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
   analyses?: Prisma.SkinAnalysisCreateNestedManyWithoutUserInput
   payments?: Prisma.PaymentCreateNestedManyWithoutUserInput
@@ -1047,6 +1149,7 @@ export type UserCreateWithoutAccountsInput = {
   digitalPurchases?: Prisma.DigitalProductPurchaseCreateNestedManyWithoutUserInput
   affiliateClicks?: Prisma.AffiliateClickCreateNestedManyWithoutUserInput
   evolution?: Prisma.UserEvolutionCreateNestedOneWithoutUserInput
+  checkIns?: Prisma.DailyCheckInCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutAccountsInput = {
@@ -1064,6 +1167,9 @@ export type UserUncheckedCreateWithoutAccountsInput = {
   analysisResetAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  currentStreak?: number
+  maxStreak?: number
+  lastCheckInDate?: Date | string | null
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   analyses?: Prisma.SkinAnalysisUncheckedCreateNestedManyWithoutUserInput
   payments?: Prisma.PaymentUncheckedCreateNestedManyWithoutUserInput
@@ -1083,6 +1189,7 @@ export type UserUncheckedCreateWithoutAccountsInput = {
   digitalPurchases?: Prisma.DigitalProductPurchaseUncheckedCreateNestedManyWithoutUserInput
   affiliateClicks?: Prisma.AffiliateClickUncheckedCreateNestedManyWithoutUserInput
   evolution?: Prisma.UserEvolutionUncheckedCreateNestedOneWithoutUserInput
+  checkIns?: Prisma.DailyCheckInUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutAccountsInput = {
@@ -1116,6 +1223,9 @@ export type UserUpdateWithoutAccountsInput = {
   analysisResetAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  currentStreak?: Prisma.IntFieldUpdateOperationsInput | number
+  maxStreak?: Prisma.IntFieldUpdateOperationsInput | number
+  lastCheckInDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
   analyses?: Prisma.SkinAnalysisUpdateManyWithoutUserNestedInput
   payments?: Prisma.PaymentUpdateManyWithoutUserNestedInput
@@ -1135,6 +1245,7 @@ export type UserUpdateWithoutAccountsInput = {
   digitalPurchases?: Prisma.DigitalProductPurchaseUpdateManyWithoutUserNestedInput
   affiliateClicks?: Prisma.AffiliateClickUpdateManyWithoutUserNestedInput
   evolution?: Prisma.UserEvolutionUpdateOneWithoutUserNestedInput
+  checkIns?: Prisma.DailyCheckInUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutAccountsInput = {
@@ -1152,6 +1263,9 @@ export type UserUncheckedUpdateWithoutAccountsInput = {
   analysisResetAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  currentStreak?: Prisma.IntFieldUpdateOperationsInput | number
+  maxStreak?: Prisma.IntFieldUpdateOperationsInput | number
+  lastCheckInDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   analyses?: Prisma.SkinAnalysisUncheckedUpdateManyWithoutUserNestedInput
   payments?: Prisma.PaymentUncheckedUpdateManyWithoutUserNestedInput
@@ -1171,6 +1285,7 @@ export type UserUncheckedUpdateWithoutAccountsInput = {
   digitalPurchases?: Prisma.DigitalProductPurchaseUncheckedUpdateManyWithoutUserNestedInput
   affiliateClicks?: Prisma.AffiliateClickUncheckedUpdateManyWithoutUserNestedInput
   evolution?: Prisma.UserEvolutionUncheckedUpdateOneWithoutUserNestedInput
+  checkIns?: Prisma.DailyCheckInUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutSessionsInput = {
@@ -1188,6 +1303,9 @@ export type UserCreateWithoutSessionsInput = {
   analysisResetAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  currentStreak?: number
+  maxStreak?: number
+  lastCheckInDate?: Date | string | null
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
   analyses?: Prisma.SkinAnalysisCreateNestedManyWithoutUserInput
   payments?: Prisma.PaymentCreateNestedManyWithoutUserInput
@@ -1207,6 +1325,7 @@ export type UserCreateWithoutSessionsInput = {
   digitalPurchases?: Prisma.DigitalProductPurchaseCreateNestedManyWithoutUserInput
   affiliateClicks?: Prisma.AffiliateClickCreateNestedManyWithoutUserInput
   evolution?: Prisma.UserEvolutionCreateNestedOneWithoutUserInput
+  checkIns?: Prisma.DailyCheckInCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutSessionsInput = {
@@ -1224,6 +1343,9 @@ export type UserUncheckedCreateWithoutSessionsInput = {
   analysisResetAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  currentStreak?: number
+  maxStreak?: number
+  lastCheckInDate?: Date | string | null
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
   analyses?: Prisma.SkinAnalysisUncheckedCreateNestedManyWithoutUserInput
   payments?: Prisma.PaymentUncheckedCreateNestedManyWithoutUserInput
@@ -1243,6 +1365,7 @@ export type UserUncheckedCreateWithoutSessionsInput = {
   digitalPurchases?: Prisma.DigitalProductPurchaseUncheckedCreateNestedManyWithoutUserInput
   affiliateClicks?: Prisma.AffiliateClickUncheckedCreateNestedManyWithoutUserInput
   evolution?: Prisma.UserEvolutionUncheckedCreateNestedOneWithoutUserInput
+  checkIns?: Prisma.DailyCheckInUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutSessionsInput = {
@@ -1276,6 +1399,9 @@ export type UserUpdateWithoutSessionsInput = {
   analysisResetAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  currentStreak?: Prisma.IntFieldUpdateOperationsInput | number
+  maxStreak?: Prisma.IntFieldUpdateOperationsInput | number
+  lastCheckInDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
   analyses?: Prisma.SkinAnalysisUpdateManyWithoutUserNestedInput
   payments?: Prisma.PaymentUpdateManyWithoutUserNestedInput
@@ -1295,6 +1421,7 @@ export type UserUpdateWithoutSessionsInput = {
   digitalPurchases?: Prisma.DigitalProductPurchaseUpdateManyWithoutUserNestedInput
   affiliateClicks?: Prisma.AffiliateClickUpdateManyWithoutUserNestedInput
   evolution?: Prisma.UserEvolutionUpdateOneWithoutUserNestedInput
+  checkIns?: Prisma.DailyCheckInUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutSessionsInput = {
@@ -1312,6 +1439,9 @@ export type UserUncheckedUpdateWithoutSessionsInput = {
   analysisResetAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  currentStreak?: Prisma.IntFieldUpdateOperationsInput | number
+  maxStreak?: Prisma.IntFieldUpdateOperationsInput | number
+  lastCheckInDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
   analyses?: Prisma.SkinAnalysisUncheckedUpdateManyWithoutUserNestedInput
   payments?: Prisma.PaymentUncheckedUpdateManyWithoutUserNestedInput
@@ -1331,6 +1461,7 @@ export type UserUncheckedUpdateWithoutSessionsInput = {
   digitalPurchases?: Prisma.DigitalProductPurchaseUncheckedUpdateManyWithoutUserNestedInput
   affiliateClicks?: Prisma.AffiliateClickUncheckedUpdateManyWithoutUserNestedInput
   evolution?: Prisma.UserEvolutionUncheckedUpdateOneWithoutUserNestedInput
+  checkIns?: Prisma.DailyCheckInUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutAnalysesInput = {
@@ -1348,6 +1479,9 @@ export type UserCreateWithoutAnalysesInput = {
   analysisResetAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  currentStreak?: number
+  maxStreak?: number
+  lastCheckInDate?: Date | string | null
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
   payments?: Prisma.PaymentCreateNestedManyWithoutUserInput
@@ -1367,6 +1501,7 @@ export type UserCreateWithoutAnalysesInput = {
   digitalPurchases?: Prisma.DigitalProductPurchaseCreateNestedManyWithoutUserInput
   affiliateClicks?: Prisma.AffiliateClickCreateNestedManyWithoutUserInput
   evolution?: Prisma.UserEvolutionCreateNestedOneWithoutUserInput
+  checkIns?: Prisma.DailyCheckInCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutAnalysesInput = {
@@ -1384,6 +1519,9 @@ export type UserUncheckedCreateWithoutAnalysesInput = {
   analysisResetAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  currentStreak?: number
+  maxStreak?: number
+  lastCheckInDate?: Date | string | null
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   payments?: Prisma.PaymentUncheckedCreateNestedManyWithoutUserInput
@@ -1403,6 +1541,7 @@ export type UserUncheckedCreateWithoutAnalysesInput = {
   digitalPurchases?: Prisma.DigitalProductPurchaseUncheckedCreateNestedManyWithoutUserInput
   affiliateClicks?: Prisma.AffiliateClickUncheckedCreateNestedManyWithoutUserInput
   evolution?: Prisma.UserEvolutionUncheckedCreateNestedOneWithoutUserInput
+  checkIns?: Prisma.DailyCheckInUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutAnalysesInput = {
@@ -1436,6 +1575,9 @@ export type UserUpdateWithoutAnalysesInput = {
   analysisResetAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  currentStreak?: Prisma.IntFieldUpdateOperationsInput | number
+  maxStreak?: Prisma.IntFieldUpdateOperationsInput | number
+  lastCheckInDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
   sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
   payments?: Prisma.PaymentUpdateManyWithoutUserNestedInput
@@ -1455,6 +1597,7 @@ export type UserUpdateWithoutAnalysesInput = {
   digitalPurchases?: Prisma.DigitalProductPurchaseUpdateManyWithoutUserNestedInput
   affiliateClicks?: Prisma.AffiliateClickUpdateManyWithoutUserNestedInput
   evolution?: Prisma.UserEvolutionUpdateOneWithoutUserNestedInput
+  checkIns?: Prisma.DailyCheckInUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutAnalysesInput = {
@@ -1472,6 +1615,9 @@ export type UserUncheckedUpdateWithoutAnalysesInput = {
   analysisResetAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  currentStreak?: Prisma.IntFieldUpdateOperationsInput | number
+  maxStreak?: Prisma.IntFieldUpdateOperationsInput | number
+  lastCheckInDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   payments?: Prisma.PaymentUncheckedUpdateManyWithoutUserNestedInput
@@ -1491,6 +1637,7 @@ export type UserUncheckedUpdateWithoutAnalysesInput = {
   digitalPurchases?: Prisma.DigitalProductPurchaseUncheckedUpdateManyWithoutUserNestedInput
   affiliateClicks?: Prisma.AffiliateClickUncheckedUpdateManyWithoutUserNestedInput
   evolution?: Prisma.UserEvolutionUncheckedUpdateOneWithoutUserNestedInput
+  checkIns?: Prisma.DailyCheckInUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutPaymentsInput = {
@@ -1508,6 +1655,9 @@ export type UserCreateWithoutPaymentsInput = {
   analysisResetAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  currentStreak?: number
+  maxStreak?: number
+  lastCheckInDate?: Date | string | null
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
   analyses?: Prisma.SkinAnalysisCreateNestedManyWithoutUserInput
@@ -1527,6 +1677,7 @@ export type UserCreateWithoutPaymentsInput = {
   digitalPurchases?: Prisma.DigitalProductPurchaseCreateNestedManyWithoutUserInput
   affiliateClicks?: Prisma.AffiliateClickCreateNestedManyWithoutUserInput
   evolution?: Prisma.UserEvolutionCreateNestedOneWithoutUserInput
+  checkIns?: Prisma.DailyCheckInCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutPaymentsInput = {
@@ -1544,6 +1695,9 @@ export type UserUncheckedCreateWithoutPaymentsInput = {
   analysisResetAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  currentStreak?: number
+  maxStreak?: number
+  lastCheckInDate?: Date | string | null
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   analyses?: Prisma.SkinAnalysisUncheckedCreateNestedManyWithoutUserInput
@@ -1563,6 +1717,7 @@ export type UserUncheckedCreateWithoutPaymentsInput = {
   digitalPurchases?: Prisma.DigitalProductPurchaseUncheckedCreateNestedManyWithoutUserInput
   affiliateClicks?: Prisma.AffiliateClickUncheckedCreateNestedManyWithoutUserInput
   evolution?: Prisma.UserEvolutionUncheckedCreateNestedOneWithoutUserInput
+  checkIns?: Prisma.DailyCheckInUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutPaymentsInput = {
@@ -1596,6 +1751,9 @@ export type UserUpdateWithoutPaymentsInput = {
   analysisResetAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  currentStreak?: Prisma.IntFieldUpdateOperationsInput | number
+  maxStreak?: Prisma.IntFieldUpdateOperationsInput | number
+  lastCheckInDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
   sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
   analyses?: Prisma.SkinAnalysisUpdateManyWithoutUserNestedInput
@@ -1615,6 +1773,7 @@ export type UserUpdateWithoutPaymentsInput = {
   digitalPurchases?: Prisma.DigitalProductPurchaseUpdateManyWithoutUserNestedInput
   affiliateClicks?: Prisma.AffiliateClickUpdateManyWithoutUserNestedInput
   evolution?: Prisma.UserEvolutionUpdateOneWithoutUserNestedInput
+  checkIns?: Prisma.DailyCheckInUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutPaymentsInput = {
@@ -1632,6 +1791,9 @@ export type UserUncheckedUpdateWithoutPaymentsInput = {
   analysisResetAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  currentStreak?: Prisma.IntFieldUpdateOperationsInput | number
+  maxStreak?: Prisma.IntFieldUpdateOperationsInput | number
+  lastCheckInDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   analyses?: Prisma.SkinAnalysisUncheckedUpdateManyWithoutUserNestedInput
@@ -1651,6 +1813,7 @@ export type UserUncheckedUpdateWithoutPaymentsInput = {
   digitalPurchases?: Prisma.DigitalProductPurchaseUncheckedUpdateManyWithoutUserNestedInput
   affiliateClicks?: Prisma.AffiliateClickUncheckedUpdateManyWithoutUserNestedInput
   evolution?: Prisma.UserEvolutionUncheckedUpdateOneWithoutUserNestedInput
+  checkIns?: Prisma.DailyCheckInUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutSubscriptionsInput = {
@@ -1668,6 +1831,9 @@ export type UserCreateWithoutSubscriptionsInput = {
   analysisResetAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  currentStreak?: number
+  maxStreak?: number
+  lastCheckInDate?: Date | string | null
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
   analyses?: Prisma.SkinAnalysisCreateNestedManyWithoutUserInput
@@ -1687,6 +1853,7 @@ export type UserCreateWithoutSubscriptionsInput = {
   digitalPurchases?: Prisma.DigitalProductPurchaseCreateNestedManyWithoutUserInput
   affiliateClicks?: Prisma.AffiliateClickCreateNestedManyWithoutUserInput
   evolution?: Prisma.UserEvolutionCreateNestedOneWithoutUserInput
+  checkIns?: Prisma.DailyCheckInCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutSubscriptionsInput = {
@@ -1704,6 +1871,9 @@ export type UserUncheckedCreateWithoutSubscriptionsInput = {
   analysisResetAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  currentStreak?: number
+  maxStreak?: number
+  lastCheckInDate?: Date | string | null
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   analyses?: Prisma.SkinAnalysisUncheckedCreateNestedManyWithoutUserInput
@@ -1723,6 +1893,7 @@ export type UserUncheckedCreateWithoutSubscriptionsInput = {
   digitalPurchases?: Prisma.DigitalProductPurchaseUncheckedCreateNestedManyWithoutUserInput
   affiliateClicks?: Prisma.AffiliateClickUncheckedCreateNestedManyWithoutUserInput
   evolution?: Prisma.UserEvolutionUncheckedCreateNestedOneWithoutUserInput
+  checkIns?: Prisma.DailyCheckInUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutSubscriptionsInput = {
@@ -1756,6 +1927,9 @@ export type UserUpdateWithoutSubscriptionsInput = {
   analysisResetAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  currentStreak?: Prisma.IntFieldUpdateOperationsInput | number
+  maxStreak?: Prisma.IntFieldUpdateOperationsInput | number
+  lastCheckInDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
   sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
   analyses?: Prisma.SkinAnalysisUpdateManyWithoutUserNestedInput
@@ -1775,6 +1949,7 @@ export type UserUpdateWithoutSubscriptionsInput = {
   digitalPurchases?: Prisma.DigitalProductPurchaseUpdateManyWithoutUserNestedInput
   affiliateClicks?: Prisma.AffiliateClickUpdateManyWithoutUserNestedInput
   evolution?: Prisma.UserEvolutionUpdateOneWithoutUserNestedInput
+  checkIns?: Prisma.DailyCheckInUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutSubscriptionsInput = {
@@ -1792,6 +1967,9 @@ export type UserUncheckedUpdateWithoutSubscriptionsInput = {
   analysisResetAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  currentStreak?: Prisma.IntFieldUpdateOperationsInput | number
+  maxStreak?: Prisma.IntFieldUpdateOperationsInput | number
+  lastCheckInDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   analyses?: Prisma.SkinAnalysisUncheckedUpdateManyWithoutUserNestedInput
@@ -1811,6 +1989,7 @@ export type UserUncheckedUpdateWithoutSubscriptionsInput = {
   digitalPurchases?: Prisma.DigitalProductPurchaseUncheckedUpdateManyWithoutUserNestedInput
   affiliateClicks?: Prisma.AffiliateClickUncheckedUpdateManyWithoutUserNestedInput
   evolution?: Prisma.UserEvolutionUncheckedUpdateOneWithoutUserNestedInput
+  checkIns?: Prisma.DailyCheckInUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutPurchasePacksInput = {
@@ -1828,6 +2007,9 @@ export type UserCreateWithoutPurchasePacksInput = {
   analysisResetAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  currentStreak?: number
+  maxStreak?: number
+  lastCheckInDate?: Date | string | null
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
   analyses?: Prisma.SkinAnalysisCreateNestedManyWithoutUserInput
@@ -1847,6 +2029,7 @@ export type UserCreateWithoutPurchasePacksInput = {
   digitalPurchases?: Prisma.DigitalProductPurchaseCreateNestedManyWithoutUserInput
   affiliateClicks?: Prisma.AffiliateClickCreateNestedManyWithoutUserInput
   evolution?: Prisma.UserEvolutionCreateNestedOneWithoutUserInput
+  checkIns?: Prisma.DailyCheckInCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutPurchasePacksInput = {
@@ -1864,6 +2047,9 @@ export type UserUncheckedCreateWithoutPurchasePacksInput = {
   analysisResetAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  currentStreak?: number
+  maxStreak?: number
+  lastCheckInDate?: Date | string | null
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   analyses?: Prisma.SkinAnalysisUncheckedCreateNestedManyWithoutUserInput
@@ -1883,6 +2069,7 @@ export type UserUncheckedCreateWithoutPurchasePacksInput = {
   digitalPurchases?: Prisma.DigitalProductPurchaseUncheckedCreateNestedManyWithoutUserInput
   affiliateClicks?: Prisma.AffiliateClickUncheckedCreateNestedManyWithoutUserInput
   evolution?: Prisma.UserEvolutionUncheckedCreateNestedOneWithoutUserInput
+  checkIns?: Prisma.DailyCheckInUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutPurchasePacksInput = {
@@ -1916,6 +2103,9 @@ export type UserUpdateWithoutPurchasePacksInput = {
   analysisResetAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  currentStreak?: Prisma.IntFieldUpdateOperationsInput | number
+  maxStreak?: Prisma.IntFieldUpdateOperationsInput | number
+  lastCheckInDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
   sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
   analyses?: Prisma.SkinAnalysisUpdateManyWithoutUserNestedInput
@@ -1935,6 +2125,7 @@ export type UserUpdateWithoutPurchasePacksInput = {
   digitalPurchases?: Prisma.DigitalProductPurchaseUpdateManyWithoutUserNestedInput
   affiliateClicks?: Prisma.AffiliateClickUpdateManyWithoutUserNestedInput
   evolution?: Prisma.UserEvolutionUpdateOneWithoutUserNestedInput
+  checkIns?: Prisma.DailyCheckInUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutPurchasePacksInput = {
@@ -1952,6 +2143,9 @@ export type UserUncheckedUpdateWithoutPurchasePacksInput = {
   analysisResetAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  currentStreak?: Prisma.IntFieldUpdateOperationsInput | number
+  maxStreak?: Prisma.IntFieldUpdateOperationsInput | number
+  lastCheckInDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   analyses?: Prisma.SkinAnalysisUncheckedUpdateManyWithoutUserNestedInput
@@ -1971,6 +2165,7 @@ export type UserUncheckedUpdateWithoutPurchasePacksInput = {
   digitalPurchases?: Prisma.DigitalProductPurchaseUncheckedUpdateManyWithoutUserNestedInput
   affiliateClicks?: Prisma.AffiliateClickUncheckedUpdateManyWithoutUserNestedInput
   evolution?: Prisma.UserEvolutionUncheckedUpdateOneWithoutUserNestedInput
+  checkIns?: Prisma.DailyCheckInUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutUsageRecordsInput = {
@@ -1988,6 +2183,9 @@ export type UserCreateWithoutUsageRecordsInput = {
   analysisResetAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  currentStreak?: number
+  maxStreak?: number
+  lastCheckInDate?: Date | string | null
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
   analyses?: Prisma.SkinAnalysisCreateNestedManyWithoutUserInput
@@ -2007,6 +2205,7 @@ export type UserCreateWithoutUsageRecordsInput = {
   digitalPurchases?: Prisma.DigitalProductPurchaseCreateNestedManyWithoutUserInput
   affiliateClicks?: Prisma.AffiliateClickCreateNestedManyWithoutUserInput
   evolution?: Prisma.UserEvolutionCreateNestedOneWithoutUserInput
+  checkIns?: Prisma.DailyCheckInCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutUsageRecordsInput = {
@@ -2024,6 +2223,9 @@ export type UserUncheckedCreateWithoutUsageRecordsInput = {
   analysisResetAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  currentStreak?: number
+  maxStreak?: number
+  lastCheckInDate?: Date | string | null
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   analyses?: Prisma.SkinAnalysisUncheckedCreateNestedManyWithoutUserInput
@@ -2043,6 +2245,7 @@ export type UserUncheckedCreateWithoutUsageRecordsInput = {
   digitalPurchases?: Prisma.DigitalProductPurchaseUncheckedCreateNestedManyWithoutUserInput
   affiliateClicks?: Prisma.AffiliateClickUncheckedCreateNestedManyWithoutUserInput
   evolution?: Prisma.UserEvolutionUncheckedCreateNestedOneWithoutUserInput
+  checkIns?: Prisma.DailyCheckInUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutUsageRecordsInput = {
@@ -2076,6 +2279,9 @@ export type UserUpdateWithoutUsageRecordsInput = {
   analysisResetAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  currentStreak?: Prisma.IntFieldUpdateOperationsInput | number
+  maxStreak?: Prisma.IntFieldUpdateOperationsInput | number
+  lastCheckInDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
   sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
   analyses?: Prisma.SkinAnalysisUpdateManyWithoutUserNestedInput
@@ -2095,6 +2301,7 @@ export type UserUpdateWithoutUsageRecordsInput = {
   digitalPurchases?: Prisma.DigitalProductPurchaseUpdateManyWithoutUserNestedInput
   affiliateClicks?: Prisma.AffiliateClickUpdateManyWithoutUserNestedInput
   evolution?: Prisma.UserEvolutionUpdateOneWithoutUserNestedInput
+  checkIns?: Prisma.DailyCheckInUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutUsageRecordsInput = {
@@ -2112,6 +2319,9 @@ export type UserUncheckedUpdateWithoutUsageRecordsInput = {
   analysisResetAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  currentStreak?: Prisma.IntFieldUpdateOperationsInput | number
+  maxStreak?: Prisma.IntFieldUpdateOperationsInput | number
+  lastCheckInDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   analyses?: Prisma.SkinAnalysisUncheckedUpdateManyWithoutUserNestedInput
@@ -2131,6 +2341,7 @@ export type UserUncheckedUpdateWithoutUsageRecordsInput = {
   digitalPurchases?: Prisma.DigitalProductPurchaseUncheckedUpdateManyWithoutUserNestedInput
   affiliateClicks?: Prisma.AffiliateClickUncheckedUpdateManyWithoutUserNestedInput
   evolution?: Prisma.UserEvolutionUncheckedUpdateOneWithoutUserNestedInput
+  checkIns?: Prisma.DailyCheckInUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutClinicInput = {
@@ -2148,6 +2359,9 @@ export type UserCreateWithoutClinicInput = {
   analysisResetAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  currentStreak?: number
+  maxStreak?: number
+  lastCheckInDate?: Date | string | null
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
   analyses?: Prisma.SkinAnalysisCreateNestedManyWithoutUserInput
@@ -2167,6 +2381,7 @@ export type UserCreateWithoutClinicInput = {
   digitalPurchases?: Prisma.DigitalProductPurchaseCreateNestedManyWithoutUserInput
   affiliateClicks?: Prisma.AffiliateClickCreateNestedManyWithoutUserInput
   evolution?: Prisma.UserEvolutionCreateNestedOneWithoutUserInput
+  checkIns?: Prisma.DailyCheckInCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutClinicInput = {
@@ -2184,6 +2399,9 @@ export type UserUncheckedCreateWithoutClinicInput = {
   analysisResetAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  currentStreak?: number
+  maxStreak?: number
+  lastCheckInDate?: Date | string | null
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   analyses?: Prisma.SkinAnalysisUncheckedCreateNestedManyWithoutUserInput
@@ -2203,6 +2421,7 @@ export type UserUncheckedCreateWithoutClinicInput = {
   digitalPurchases?: Prisma.DigitalProductPurchaseUncheckedCreateNestedManyWithoutUserInput
   affiliateClicks?: Prisma.AffiliateClickUncheckedCreateNestedManyWithoutUserInput
   evolution?: Prisma.UserEvolutionUncheckedCreateNestedOneWithoutUserInput
+  checkIns?: Prisma.DailyCheckInUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutClinicInput = {
@@ -2236,6 +2455,9 @@ export type UserUpdateWithoutClinicInput = {
   analysisResetAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  currentStreak?: Prisma.IntFieldUpdateOperationsInput | number
+  maxStreak?: Prisma.IntFieldUpdateOperationsInput | number
+  lastCheckInDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
   sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
   analyses?: Prisma.SkinAnalysisUpdateManyWithoutUserNestedInput
@@ -2255,6 +2477,7 @@ export type UserUpdateWithoutClinicInput = {
   digitalPurchases?: Prisma.DigitalProductPurchaseUpdateManyWithoutUserNestedInput
   affiliateClicks?: Prisma.AffiliateClickUpdateManyWithoutUserNestedInput
   evolution?: Prisma.UserEvolutionUpdateOneWithoutUserNestedInput
+  checkIns?: Prisma.DailyCheckInUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutClinicInput = {
@@ -2272,6 +2495,9 @@ export type UserUncheckedUpdateWithoutClinicInput = {
   analysisResetAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  currentStreak?: Prisma.IntFieldUpdateOperationsInput | number
+  maxStreak?: Prisma.IntFieldUpdateOperationsInput | number
+  lastCheckInDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   analyses?: Prisma.SkinAnalysisUncheckedUpdateManyWithoutUserNestedInput
@@ -2291,6 +2517,7 @@ export type UserUncheckedUpdateWithoutClinicInput = {
   digitalPurchases?: Prisma.DigitalProductPurchaseUncheckedUpdateManyWithoutUserNestedInput
   affiliateClicks?: Prisma.AffiliateClickUncheckedUpdateManyWithoutUserNestedInput
   evolution?: Prisma.UserEvolutionUncheckedUpdateOneWithoutUserNestedInput
+  checkIns?: Prisma.DailyCheckInUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutAffiliateClicksInput = {
@@ -2308,6 +2535,9 @@ export type UserCreateWithoutAffiliateClicksInput = {
   analysisResetAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  currentStreak?: number
+  maxStreak?: number
+  lastCheckInDate?: Date | string | null
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
   analyses?: Prisma.SkinAnalysisCreateNestedManyWithoutUserInput
@@ -2327,6 +2557,7 @@ export type UserCreateWithoutAffiliateClicksInput = {
   groupsOwned?: Prisma.GroupAnalyticsCreateNestedManyWithoutReferrerInput
   digitalPurchases?: Prisma.DigitalProductPurchaseCreateNestedManyWithoutUserInput
   evolution?: Prisma.UserEvolutionCreateNestedOneWithoutUserInput
+  checkIns?: Prisma.DailyCheckInCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutAffiliateClicksInput = {
@@ -2344,6 +2575,9 @@ export type UserUncheckedCreateWithoutAffiliateClicksInput = {
   analysisResetAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  currentStreak?: number
+  maxStreak?: number
+  lastCheckInDate?: Date | string | null
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   analyses?: Prisma.SkinAnalysisUncheckedCreateNestedManyWithoutUserInput
@@ -2363,6 +2597,7 @@ export type UserUncheckedCreateWithoutAffiliateClicksInput = {
   groupsOwned?: Prisma.GroupAnalyticsUncheckedCreateNestedManyWithoutReferrerInput
   digitalPurchases?: Prisma.DigitalProductPurchaseUncheckedCreateNestedManyWithoutUserInput
   evolution?: Prisma.UserEvolutionUncheckedCreateNestedOneWithoutUserInput
+  checkIns?: Prisma.DailyCheckInUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutAffiliateClicksInput = {
@@ -2396,6 +2631,9 @@ export type UserUpdateWithoutAffiliateClicksInput = {
   analysisResetAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  currentStreak?: Prisma.IntFieldUpdateOperationsInput | number
+  maxStreak?: Prisma.IntFieldUpdateOperationsInput | number
+  lastCheckInDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
   sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
   analyses?: Prisma.SkinAnalysisUpdateManyWithoutUserNestedInput
@@ -2415,6 +2653,7 @@ export type UserUpdateWithoutAffiliateClicksInput = {
   groupsOwned?: Prisma.GroupAnalyticsUpdateManyWithoutReferrerNestedInput
   digitalPurchases?: Prisma.DigitalProductPurchaseUpdateManyWithoutUserNestedInput
   evolution?: Prisma.UserEvolutionUpdateOneWithoutUserNestedInput
+  checkIns?: Prisma.DailyCheckInUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutAffiliateClicksInput = {
@@ -2432,6 +2671,9 @@ export type UserUncheckedUpdateWithoutAffiliateClicksInput = {
   analysisResetAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  currentStreak?: Prisma.IntFieldUpdateOperationsInput | number
+  maxStreak?: Prisma.IntFieldUpdateOperationsInput | number
+  lastCheckInDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   analyses?: Prisma.SkinAnalysisUncheckedUpdateManyWithoutUserNestedInput
@@ -2451,6 +2693,7 @@ export type UserUncheckedUpdateWithoutAffiliateClicksInput = {
   groupsOwned?: Prisma.GroupAnalyticsUncheckedUpdateManyWithoutReferrerNestedInput
   digitalPurchases?: Prisma.DigitalProductPurchaseUncheckedUpdateManyWithoutUserNestedInput
   evolution?: Prisma.UserEvolutionUncheckedUpdateOneWithoutUserNestedInput
+  checkIns?: Prisma.DailyCheckInUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutEvolutionInput = {
@@ -2468,6 +2711,9 @@ export type UserCreateWithoutEvolutionInput = {
   analysisResetAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  currentStreak?: number
+  maxStreak?: number
+  lastCheckInDate?: Date | string | null
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
   analyses?: Prisma.SkinAnalysisCreateNestedManyWithoutUserInput
@@ -2487,6 +2733,7 @@ export type UserCreateWithoutEvolutionInput = {
   groupsOwned?: Prisma.GroupAnalyticsCreateNestedManyWithoutReferrerInput
   digitalPurchases?: Prisma.DigitalProductPurchaseCreateNestedManyWithoutUserInput
   affiliateClicks?: Prisma.AffiliateClickCreateNestedManyWithoutUserInput
+  checkIns?: Prisma.DailyCheckInCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutEvolutionInput = {
@@ -2504,6 +2751,9 @@ export type UserUncheckedCreateWithoutEvolutionInput = {
   analysisResetAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  currentStreak?: number
+  maxStreak?: number
+  lastCheckInDate?: Date | string | null
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   analyses?: Prisma.SkinAnalysisUncheckedCreateNestedManyWithoutUserInput
@@ -2523,6 +2773,7 @@ export type UserUncheckedCreateWithoutEvolutionInput = {
   groupsOwned?: Prisma.GroupAnalyticsUncheckedCreateNestedManyWithoutReferrerInput
   digitalPurchases?: Prisma.DigitalProductPurchaseUncheckedCreateNestedManyWithoutUserInput
   affiliateClicks?: Prisma.AffiliateClickUncheckedCreateNestedManyWithoutUserInput
+  checkIns?: Prisma.DailyCheckInUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutEvolutionInput = {
@@ -2556,6 +2807,9 @@ export type UserUpdateWithoutEvolutionInput = {
   analysisResetAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  currentStreak?: Prisma.IntFieldUpdateOperationsInput | number
+  maxStreak?: Prisma.IntFieldUpdateOperationsInput | number
+  lastCheckInDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
   sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
   analyses?: Prisma.SkinAnalysisUpdateManyWithoutUserNestedInput
@@ -2575,6 +2829,7 @@ export type UserUpdateWithoutEvolutionInput = {
   groupsOwned?: Prisma.GroupAnalyticsUpdateManyWithoutReferrerNestedInput
   digitalPurchases?: Prisma.DigitalProductPurchaseUpdateManyWithoutUserNestedInput
   affiliateClicks?: Prisma.AffiliateClickUpdateManyWithoutUserNestedInput
+  checkIns?: Prisma.DailyCheckInUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutEvolutionInput = {
@@ -2592,6 +2847,9 @@ export type UserUncheckedUpdateWithoutEvolutionInput = {
   analysisResetAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  currentStreak?: Prisma.IntFieldUpdateOperationsInput | number
+  maxStreak?: Prisma.IntFieldUpdateOperationsInput | number
+  lastCheckInDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   analyses?: Prisma.SkinAnalysisUncheckedUpdateManyWithoutUserNestedInput
@@ -2611,6 +2869,7 @@ export type UserUncheckedUpdateWithoutEvolutionInput = {
   groupsOwned?: Prisma.GroupAnalyticsUncheckedUpdateManyWithoutReferrerNestedInput
   digitalPurchases?: Prisma.DigitalProductPurchaseUncheckedUpdateManyWithoutUserNestedInput
   affiliateClicks?: Prisma.AffiliateClickUncheckedUpdateManyWithoutUserNestedInput
+  checkIns?: Prisma.DailyCheckInUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutSurveyFeedbackInput = {
@@ -2628,6 +2887,9 @@ export type UserCreateWithoutSurveyFeedbackInput = {
   analysisResetAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  currentStreak?: number
+  maxStreak?: number
+  lastCheckInDate?: Date | string | null
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
   analyses?: Prisma.SkinAnalysisCreateNestedManyWithoutUserInput
@@ -2647,6 +2909,7 @@ export type UserCreateWithoutSurveyFeedbackInput = {
   digitalPurchases?: Prisma.DigitalProductPurchaseCreateNestedManyWithoutUserInput
   affiliateClicks?: Prisma.AffiliateClickCreateNestedManyWithoutUserInput
   evolution?: Prisma.UserEvolutionCreateNestedOneWithoutUserInput
+  checkIns?: Prisma.DailyCheckInCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutSurveyFeedbackInput = {
@@ -2664,6 +2927,9 @@ export type UserUncheckedCreateWithoutSurveyFeedbackInput = {
   analysisResetAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  currentStreak?: number
+  maxStreak?: number
+  lastCheckInDate?: Date | string | null
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   analyses?: Prisma.SkinAnalysisUncheckedCreateNestedManyWithoutUserInput
@@ -2683,6 +2949,7 @@ export type UserUncheckedCreateWithoutSurveyFeedbackInput = {
   digitalPurchases?: Prisma.DigitalProductPurchaseUncheckedCreateNestedManyWithoutUserInput
   affiliateClicks?: Prisma.AffiliateClickUncheckedCreateNestedManyWithoutUserInput
   evolution?: Prisma.UserEvolutionUncheckedCreateNestedOneWithoutUserInput
+  checkIns?: Prisma.DailyCheckInUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutSurveyFeedbackInput = {
@@ -2716,6 +2983,9 @@ export type UserUpdateWithoutSurveyFeedbackInput = {
   analysisResetAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  currentStreak?: Prisma.IntFieldUpdateOperationsInput | number
+  maxStreak?: Prisma.IntFieldUpdateOperationsInput | number
+  lastCheckInDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
   sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
   analyses?: Prisma.SkinAnalysisUpdateManyWithoutUserNestedInput
@@ -2735,6 +3005,7 @@ export type UserUpdateWithoutSurveyFeedbackInput = {
   digitalPurchases?: Prisma.DigitalProductPurchaseUpdateManyWithoutUserNestedInput
   affiliateClicks?: Prisma.AffiliateClickUpdateManyWithoutUserNestedInput
   evolution?: Prisma.UserEvolutionUpdateOneWithoutUserNestedInput
+  checkIns?: Prisma.DailyCheckInUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutSurveyFeedbackInput = {
@@ -2752,6 +3023,9 @@ export type UserUncheckedUpdateWithoutSurveyFeedbackInput = {
   analysisResetAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  currentStreak?: Prisma.IntFieldUpdateOperationsInput | number
+  maxStreak?: Prisma.IntFieldUpdateOperationsInput | number
+  lastCheckInDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   analyses?: Prisma.SkinAnalysisUncheckedUpdateManyWithoutUserNestedInput
@@ -2771,6 +3045,7 @@ export type UserUncheckedUpdateWithoutSurveyFeedbackInput = {
   digitalPurchases?: Prisma.DigitalProductPurchaseUncheckedUpdateManyWithoutUserNestedInput
   affiliateClicks?: Prisma.AffiliateClickUncheckedUpdateManyWithoutUserNestedInput
   evolution?: Prisma.UserEvolutionUncheckedUpdateOneWithoutUserNestedInput
+  checkIns?: Prisma.DailyCheckInUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutCommunityPostsInput = {
@@ -2788,6 +3063,9 @@ export type UserCreateWithoutCommunityPostsInput = {
   analysisResetAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  currentStreak?: number
+  maxStreak?: number
+  lastCheckInDate?: Date | string | null
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
   analyses?: Prisma.SkinAnalysisCreateNestedManyWithoutUserInput
@@ -2807,6 +3085,7 @@ export type UserCreateWithoutCommunityPostsInput = {
   digitalPurchases?: Prisma.DigitalProductPurchaseCreateNestedManyWithoutUserInput
   affiliateClicks?: Prisma.AffiliateClickCreateNestedManyWithoutUserInput
   evolution?: Prisma.UserEvolutionCreateNestedOneWithoutUserInput
+  checkIns?: Prisma.DailyCheckInCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutCommunityPostsInput = {
@@ -2824,6 +3103,9 @@ export type UserUncheckedCreateWithoutCommunityPostsInput = {
   analysisResetAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  currentStreak?: number
+  maxStreak?: number
+  lastCheckInDate?: Date | string | null
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   analyses?: Prisma.SkinAnalysisUncheckedCreateNestedManyWithoutUserInput
@@ -2843,6 +3125,7 @@ export type UserUncheckedCreateWithoutCommunityPostsInput = {
   digitalPurchases?: Prisma.DigitalProductPurchaseUncheckedCreateNestedManyWithoutUserInput
   affiliateClicks?: Prisma.AffiliateClickUncheckedCreateNestedManyWithoutUserInput
   evolution?: Prisma.UserEvolutionUncheckedCreateNestedOneWithoutUserInput
+  checkIns?: Prisma.DailyCheckInUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutCommunityPostsInput = {
@@ -2876,6 +3159,9 @@ export type UserUpdateWithoutCommunityPostsInput = {
   analysisResetAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  currentStreak?: Prisma.IntFieldUpdateOperationsInput | number
+  maxStreak?: Prisma.IntFieldUpdateOperationsInput | number
+  lastCheckInDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
   sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
   analyses?: Prisma.SkinAnalysisUpdateManyWithoutUserNestedInput
@@ -2895,6 +3181,7 @@ export type UserUpdateWithoutCommunityPostsInput = {
   digitalPurchases?: Prisma.DigitalProductPurchaseUpdateManyWithoutUserNestedInput
   affiliateClicks?: Prisma.AffiliateClickUpdateManyWithoutUserNestedInput
   evolution?: Prisma.UserEvolutionUpdateOneWithoutUserNestedInput
+  checkIns?: Prisma.DailyCheckInUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutCommunityPostsInput = {
@@ -2912,6 +3199,9 @@ export type UserUncheckedUpdateWithoutCommunityPostsInput = {
   analysisResetAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  currentStreak?: Prisma.IntFieldUpdateOperationsInput | number
+  maxStreak?: Prisma.IntFieldUpdateOperationsInput | number
+  lastCheckInDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   analyses?: Prisma.SkinAnalysisUncheckedUpdateManyWithoutUserNestedInput
@@ -2931,6 +3221,7 @@ export type UserUncheckedUpdateWithoutCommunityPostsInput = {
   digitalPurchases?: Prisma.DigitalProductPurchaseUncheckedUpdateManyWithoutUserNestedInput
   affiliateClicks?: Prisma.AffiliateClickUncheckedUpdateManyWithoutUserNestedInput
   evolution?: Prisma.UserEvolutionUncheckedUpdateOneWithoutUserNestedInput
+  checkIns?: Prisma.DailyCheckInUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutCommentsInput = {
@@ -2948,6 +3239,9 @@ export type UserCreateWithoutCommentsInput = {
   analysisResetAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  currentStreak?: number
+  maxStreak?: number
+  lastCheckInDate?: Date | string | null
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
   analyses?: Prisma.SkinAnalysisCreateNestedManyWithoutUserInput
@@ -2967,6 +3261,7 @@ export type UserCreateWithoutCommentsInput = {
   digitalPurchases?: Prisma.DigitalProductPurchaseCreateNestedManyWithoutUserInput
   affiliateClicks?: Prisma.AffiliateClickCreateNestedManyWithoutUserInput
   evolution?: Prisma.UserEvolutionCreateNestedOneWithoutUserInput
+  checkIns?: Prisma.DailyCheckInCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutCommentsInput = {
@@ -2984,6 +3279,9 @@ export type UserUncheckedCreateWithoutCommentsInput = {
   analysisResetAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  currentStreak?: number
+  maxStreak?: number
+  lastCheckInDate?: Date | string | null
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   analyses?: Prisma.SkinAnalysisUncheckedCreateNestedManyWithoutUserInput
@@ -3003,6 +3301,7 @@ export type UserUncheckedCreateWithoutCommentsInput = {
   digitalPurchases?: Prisma.DigitalProductPurchaseUncheckedCreateNestedManyWithoutUserInput
   affiliateClicks?: Prisma.AffiliateClickUncheckedCreateNestedManyWithoutUserInput
   evolution?: Prisma.UserEvolutionUncheckedCreateNestedOneWithoutUserInput
+  checkIns?: Prisma.DailyCheckInUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutCommentsInput = {
@@ -3036,6 +3335,9 @@ export type UserUpdateWithoutCommentsInput = {
   analysisResetAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  currentStreak?: Prisma.IntFieldUpdateOperationsInput | number
+  maxStreak?: Prisma.IntFieldUpdateOperationsInput | number
+  lastCheckInDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
   sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
   analyses?: Prisma.SkinAnalysisUpdateManyWithoutUserNestedInput
@@ -3055,6 +3357,7 @@ export type UserUpdateWithoutCommentsInput = {
   digitalPurchases?: Prisma.DigitalProductPurchaseUpdateManyWithoutUserNestedInput
   affiliateClicks?: Prisma.AffiliateClickUpdateManyWithoutUserNestedInput
   evolution?: Prisma.UserEvolutionUpdateOneWithoutUserNestedInput
+  checkIns?: Prisma.DailyCheckInUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutCommentsInput = {
@@ -3072,6 +3375,9 @@ export type UserUncheckedUpdateWithoutCommentsInput = {
   analysisResetAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  currentStreak?: Prisma.IntFieldUpdateOperationsInput | number
+  maxStreak?: Prisma.IntFieldUpdateOperationsInput | number
+  lastCheckInDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   analyses?: Prisma.SkinAnalysisUncheckedUpdateManyWithoutUserNestedInput
@@ -3091,6 +3397,7 @@ export type UserUncheckedUpdateWithoutCommentsInput = {
   digitalPurchases?: Prisma.DigitalProductPurchaseUncheckedUpdateManyWithoutUserNestedInput
   affiliateClicks?: Prisma.AffiliateClickUncheckedUpdateManyWithoutUserNestedInput
   evolution?: Prisma.UserEvolutionUncheckedUpdateOneWithoutUserNestedInput
+  checkIns?: Prisma.DailyCheckInUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutSkinDiaryInput = {
@@ -3108,6 +3415,9 @@ export type UserCreateWithoutSkinDiaryInput = {
   analysisResetAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  currentStreak?: number
+  maxStreak?: number
+  lastCheckInDate?: Date | string | null
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
   analyses?: Prisma.SkinAnalysisCreateNestedManyWithoutUserInput
@@ -3127,6 +3437,7 @@ export type UserCreateWithoutSkinDiaryInput = {
   digitalPurchases?: Prisma.DigitalProductPurchaseCreateNestedManyWithoutUserInput
   affiliateClicks?: Prisma.AffiliateClickCreateNestedManyWithoutUserInput
   evolution?: Prisma.UserEvolutionCreateNestedOneWithoutUserInput
+  checkIns?: Prisma.DailyCheckInCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutSkinDiaryInput = {
@@ -3144,6 +3455,9 @@ export type UserUncheckedCreateWithoutSkinDiaryInput = {
   analysisResetAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  currentStreak?: number
+  maxStreak?: number
+  lastCheckInDate?: Date | string | null
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   analyses?: Prisma.SkinAnalysisUncheckedCreateNestedManyWithoutUserInput
@@ -3163,6 +3477,7 @@ export type UserUncheckedCreateWithoutSkinDiaryInput = {
   digitalPurchases?: Prisma.DigitalProductPurchaseUncheckedCreateNestedManyWithoutUserInput
   affiliateClicks?: Prisma.AffiliateClickUncheckedCreateNestedManyWithoutUserInput
   evolution?: Prisma.UserEvolutionUncheckedCreateNestedOneWithoutUserInput
+  checkIns?: Prisma.DailyCheckInUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutSkinDiaryInput = {
@@ -3196,6 +3511,9 @@ export type UserUpdateWithoutSkinDiaryInput = {
   analysisResetAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  currentStreak?: Prisma.IntFieldUpdateOperationsInput | number
+  maxStreak?: Prisma.IntFieldUpdateOperationsInput | number
+  lastCheckInDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
   sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
   analyses?: Prisma.SkinAnalysisUpdateManyWithoutUserNestedInput
@@ -3215,6 +3533,7 @@ export type UserUpdateWithoutSkinDiaryInput = {
   digitalPurchases?: Prisma.DigitalProductPurchaseUpdateManyWithoutUserNestedInput
   affiliateClicks?: Prisma.AffiliateClickUpdateManyWithoutUserNestedInput
   evolution?: Prisma.UserEvolutionUpdateOneWithoutUserNestedInput
+  checkIns?: Prisma.DailyCheckInUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutSkinDiaryInput = {
@@ -3232,6 +3551,9 @@ export type UserUncheckedUpdateWithoutSkinDiaryInput = {
   analysisResetAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  currentStreak?: Prisma.IntFieldUpdateOperationsInput | number
+  maxStreak?: Prisma.IntFieldUpdateOperationsInput | number
+  lastCheckInDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   analyses?: Prisma.SkinAnalysisUncheckedUpdateManyWithoutUserNestedInput
@@ -3251,6 +3573,7 @@ export type UserUncheckedUpdateWithoutSkinDiaryInput = {
   digitalPurchases?: Prisma.DigitalProductPurchaseUncheckedUpdateManyWithoutUserNestedInput
   affiliateClicks?: Prisma.AffiliateClickUncheckedUpdateManyWithoutUserNestedInput
   evolution?: Prisma.UserEvolutionUncheckedUpdateOneWithoutUserNestedInput
+  checkIns?: Prisma.DailyCheckInUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutUserChallengesInput = {
@@ -3268,6 +3591,9 @@ export type UserCreateWithoutUserChallengesInput = {
   analysisResetAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  currentStreak?: number
+  maxStreak?: number
+  lastCheckInDate?: Date | string | null
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
   analyses?: Prisma.SkinAnalysisCreateNestedManyWithoutUserInput
@@ -3287,6 +3613,7 @@ export type UserCreateWithoutUserChallengesInput = {
   digitalPurchases?: Prisma.DigitalProductPurchaseCreateNestedManyWithoutUserInput
   affiliateClicks?: Prisma.AffiliateClickCreateNestedManyWithoutUserInput
   evolution?: Prisma.UserEvolutionCreateNestedOneWithoutUserInput
+  checkIns?: Prisma.DailyCheckInCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutUserChallengesInput = {
@@ -3304,6 +3631,9 @@ export type UserUncheckedCreateWithoutUserChallengesInput = {
   analysisResetAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  currentStreak?: number
+  maxStreak?: number
+  lastCheckInDate?: Date | string | null
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   analyses?: Prisma.SkinAnalysisUncheckedCreateNestedManyWithoutUserInput
@@ -3323,6 +3653,7 @@ export type UserUncheckedCreateWithoutUserChallengesInput = {
   digitalPurchases?: Prisma.DigitalProductPurchaseUncheckedCreateNestedManyWithoutUserInput
   affiliateClicks?: Prisma.AffiliateClickUncheckedCreateNestedManyWithoutUserInput
   evolution?: Prisma.UserEvolutionUncheckedCreateNestedOneWithoutUserInput
+  checkIns?: Prisma.DailyCheckInUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutUserChallengesInput = {
@@ -3356,6 +3687,9 @@ export type UserUpdateWithoutUserChallengesInput = {
   analysisResetAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  currentStreak?: Prisma.IntFieldUpdateOperationsInput | number
+  maxStreak?: Prisma.IntFieldUpdateOperationsInput | number
+  lastCheckInDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
   sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
   analyses?: Prisma.SkinAnalysisUpdateManyWithoutUserNestedInput
@@ -3375,6 +3709,7 @@ export type UserUpdateWithoutUserChallengesInput = {
   digitalPurchases?: Prisma.DigitalProductPurchaseUpdateManyWithoutUserNestedInput
   affiliateClicks?: Prisma.AffiliateClickUpdateManyWithoutUserNestedInput
   evolution?: Prisma.UserEvolutionUpdateOneWithoutUserNestedInput
+  checkIns?: Prisma.DailyCheckInUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutUserChallengesInput = {
@@ -3392,6 +3727,9 @@ export type UserUncheckedUpdateWithoutUserChallengesInput = {
   analysisResetAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  currentStreak?: Prisma.IntFieldUpdateOperationsInput | number
+  maxStreak?: Prisma.IntFieldUpdateOperationsInput | number
+  lastCheckInDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   analyses?: Prisma.SkinAnalysisUncheckedUpdateManyWithoutUserNestedInput
@@ -3411,6 +3749,7 @@ export type UserUncheckedUpdateWithoutUserChallengesInput = {
   digitalPurchases?: Prisma.DigitalProductPurchaseUncheckedUpdateManyWithoutUserNestedInput
   affiliateClicks?: Prisma.AffiliateClickUncheckedUpdateManyWithoutUserNestedInput
   evolution?: Prisma.UserEvolutionUncheckedUpdateOneWithoutUserNestedInput
+  checkIns?: Prisma.DailyCheckInUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutProductReviewsInput = {
@@ -3428,6 +3767,9 @@ export type UserCreateWithoutProductReviewsInput = {
   analysisResetAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  currentStreak?: number
+  maxStreak?: number
+  lastCheckInDate?: Date | string | null
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
   analyses?: Prisma.SkinAnalysisCreateNestedManyWithoutUserInput
@@ -3447,6 +3789,7 @@ export type UserCreateWithoutProductReviewsInput = {
   digitalPurchases?: Prisma.DigitalProductPurchaseCreateNestedManyWithoutUserInput
   affiliateClicks?: Prisma.AffiliateClickCreateNestedManyWithoutUserInput
   evolution?: Prisma.UserEvolutionCreateNestedOneWithoutUserInput
+  checkIns?: Prisma.DailyCheckInCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutProductReviewsInput = {
@@ -3464,6 +3807,9 @@ export type UserUncheckedCreateWithoutProductReviewsInput = {
   analysisResetAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  currentStreak?: number
+  maxStreak?: number
+  lastCheckInDate?: Date | string | null
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   analyses?: Prisma.SkinAnalysisUncheckedCreateNestedManyWithoutUserInput
@@ -3483,6 +3829,7 @@ export type UserUncheckedCreateWithoutProductReviewsInput = {
   digitalPurchases?: Prisma.DigitalProductPurchaseUncheckedCreateNestedManyWithoutUserInput
   affiliateClicks?: Prisma.AffiliateClickUncheckedCreateNestedManyWithoutUserInput
   evolution?: Prisma.UserEvolutionUncheckedCreateNestedOneWithoutUserInput
+  checkIns?: Prisma.DailyCheckInUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutProductReviewsInput = {
@@ -3516,6 +3863,9 @@ export type UserUpdateWithoutProductReviewsInput = {
   analysisResetAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  currentStreak?: Prisma.IntFieldUpdateOperationsInput | number
+  maxStreak?: Prisma.IntFieldUpdateOperationsInput | number
+  lastCheckInDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
   sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
   analyses?: Prisma.SkinAnalysisUpdateManyWithoutUserNestedInput
@@ -3535,6 +3885,7 @@ export type UserUpdateWithoutProductReviewsInput = {
   digitalPurchases?: Prisma.DigitalProductPurchaseUpdateManyWithoutUserNestedInput
   affiliateClicks?: Prisma.AffiliateClickUpdateManyWithoutUserNestedInput
   evolution?: Prisma.UserEvolutionUpdateOneWithoutUserNestedInput
+  checkIns?: Prisma.DailyCheckInUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutProductReviewsInput = {
@@ -3552,6 +3903,9 @@ export type UserUncheckedUpdateWithoutProductReviewsInput = {
   analysisResetAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  currentStreak?: Prisma.IntFieldUpdateOperationsInput | number
+  maxStreak?: Prisma.IntFieldUpdateOperationsInput | number
+  lastCheckInDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   analyses?: Prisma.SkinAnalysisUncheckedUpdateManyWithoutUserNestedInput
@@ -3571,6 +3925,7 @@ export type UserUncheckedUpdateWithoutProductReviewsInput = {
   digitalPurchases?: Prisma.DigitalProductPurchaseUncheckedUpdateManyWithoutUserNestedInput
   affiliateClicks?: Prisma.AffiliateClickUncheckedUpdateManyWithoutUserNestedInput
   evolution?: Prisma.UserEvolutionUncheckedUpdateOneWithoutUserNestedInput
+  checkIns?: Prisma.DailyCheckInUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutGroupsOwnedInput = {
@@ -3588,6 +3943,9 @@ export type UserCreateWithoutGroupsOwnedInput = {
   analysisResetAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  currentStreak?: number
+  maxStreak?: number
+  lastCheckInDate?: Date | string | null
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
   analyses?: Prisma.SkinAnalysisCreateNestedManyWithoutUserInput
@@ -3607,6 +3965,7 @@ export type UserCreateWithoutGroupsOwnedInput = {
   digitalPurchases?: Prisma.DigitalProductPurchaseCreateNestedManyWithoutUserInput
   affiliateClicks?: Prisma.AffiliateClickCreateNestedManyWithoutUserInput
   evolution?: Prisma.UserEvolutionCreateNestedOneWithoutUserInput
+  checkIns?: Prisma.DailyCheckInCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutGroupsOwnedInput = {
@@ -3624,6 +3983,9 @@ export type UserUncheckedCreateWithoutGroupsOwnedInput = {
   analysisResetAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  currentStreak?: number
+  maxStreak?: number
+  lastCheckInDate?: Date | string | null
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   analyses?: Prisma.SkinAnalysisUncheckedCreateNestedManyWithoutUserInput
@@ -3643,6 +4005,7 @@ export type UserUncheckedCreateWithoutGroupsOwnedInput = {
   digitalPurchases?: Prisma.DigitalProductPurchaseUncheckedCreateNestedManyWithoutUserInput
   affiliateClicks?: Prisma.AffiliateClickUncheckedCreateNestedManyWithoutUserInput
   evolution?: Prisma.UserEvolutionUncheckedCreateNestedOneWithoutUserInput
+  checkIns?: Prisma.DailyCheckInUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutGroupsOwnedInput = {
@@ -3676,6 +4039,9 @@ export type UserUpdateWithoutGroupsOwnedInput = {
   analysisResetAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  currentStreak?: Prisma.IntFieldUpdateOperationsInput | number
+  maxStreak?: Prisma.IntFieldUpdateOperationsInput | number
+  lastCheckInDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
   sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
   analyses?: Prisma.SkinAnalysisUpdateManyWithoutUserNestedInput
@@ -3695,6 +4061,7 @@ export type UserUpdateWithoutGroupsOwnedInput = {
   digitalPurchases?: Prisma.DigitalProductPurchaseUpdateManyWithoutUserNestedInput
   affiliateClicks?: Prisma.AffiliateClickUpdateManyWithoutUserNestedInput
   evolution?: Prisma.UserEvolutionUpdateOneWithoutUserNestedInput
+  checkIns?: Prisma.DailyCheckInUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutGroupsOwnedInput = {
@@ -3712,6 +4079,9 @@ export type UserUncheckedUpdateWithoutGroupsOwnedInput = {
   analysisResetAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  currentStreak?: Prisma.IntFieldUpdateOperationsInput | number
+  maxStreak?: Prisma.IntFieldUpdateOperationsInput | number
+  lastCheckInDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   analyses?: Prisma.SkinAnalysisUncheckedUpdateManyWithoutUserNestedInput
@@ -3731,6 +4101,7 @@ export type UserUncheckedUpdateWithoutGroupsOwnedInput = {
   digitalPurchases?: Prisma.DigitalProductPurchaseUncheckedUpdateManyWithoutUserNestedInput
   affiliateClicks?: Prisma.AffiliateClickUncheckedUpdateManyWithoutUserNestedInput
   evolution?: Prisma.UserEvolutionUncheckedUpdateOneWithoutUserNestedInput
+  checkIns?: Prisma.DailyCheckInUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutReferralsOwnedInput = {
@@ -3748,6 +4119,9 @@ export type UserCreateWithoutReferralsOwnedInput = {
   analysisResetAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  currentStreak?: number
+  maxStreak?: number
+  lastCheckInDate?: Date | string | null
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
   analyses?: Prisma.SkinAnalysisCreateNestedManyWithoutUserInput
@@ -3767,6 +4141,7 @@ export type UserCreateWithoutReferralsOwnedInput = {
   digitalPurchases?: Prisma.DigitalProductPurchaseCreateNestedManyWithoutUserInput
   affiliateClicks?: Prisma.AffiliateClickCreateNestedManyWithoutUserInput
   evolution?: Prisma.UserEvolutionCreateNestedOneWithoutUserInput
+  checkIns?: Prisma.DailyCheckInCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutReferralsOwnedInput = {
@@ -3784,6 +4159,9 @@ export type UserUncheckedCreateWithoutReferralsOwnedInput = {
   analysisResetAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  currentStreak?: number
+  maxStreak?: number
+  lastCheckInDate?: Date | string | null
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   analyses?: Prisma.SkinAnalysisUncheckedCreateNestedManyWithoutUserInput
@@ -3803,6 +4181,7 @@ export type UserUncheckedCreateWithoutReferralsOwnedInput = {
   digitalPurchases?: Prisma.DigitalProductPurchaseUncheckedCreateNestedManyWithoutUserInput
   affiliateClicks?: Prisma.AffiliateClickUncheckedCreateNestedManyWithoutUserInput
   evolution?: Prisma.UserEvolutionUncheckedCreateNestedOneWithoutUserInput
+  checkIns?: Prisma.DailyCheckInUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutReferralsOwnedInput = {
@@ -3825,6 +4204,9 @@ export type UserCreateWithoutReferralsReferredInput = {
   analysisResetAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  currentStreak?: number
+  maxStreak?: number
+  lastCheckInDate?: Date | string | null
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
   analyses?: Prisma.SkinAnalysisCreateNestedManyWithoutUserInput
@@ -3844,6 +4226,7 @@ export type UserCreateWithoutReferralsReferredInput = {
   digitalPurchases?: Prisma.DigitalProductPurchaseCreateNestedManyWithoutUserInput
   affiliateClicks?: Prisma.AffiliateClickCreateNestedManyWithoutUserInput
   evolution?: Prisma.UserEvolutionCreateNestedOneWithoutUserInput
+  checkIns?: Prisma.DailyCheckInCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutReferralsReferredInput = {
@@ -3861,6 +4244,9 @@ export type UserUncheckedCreateWithoutReferralsReferredInput = {
   analysisResetAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  currentStreak?: number
+  maxStreak?: number
+  lastCheckInDate?: Date | string | null
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   analyses?: Prisma.SkinAnalysisUncheckedCreateNestedManyWithoutUserInput
@@ -3880,6 +4266,7 @@ export type UserUncheckedCreateWithoutReferralsReferredInput = {
   digitalPurchases?: Prisma.DigitalProductPurchaseUncheckedCreateNestedManyWithoutUserInput
   affiliateClicks?: Prisma.AffiliateClickUncheckedCreateNestedManyWithoutUserInput
   evolution?: Prisma.UserEvolutionUncheckedCreateNestedOneWithoutUserInput
+  checkIns?: Prisma.DailyCheckInUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutReferralsReferredInput = {
@@ -3913,6 +4300,9 @@ export type UserUpdateWithoutReferralsOwnedInput = {
   analysisResetAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  currentStreak?: Prisma.IntFieldUpdateOperationsInput | number
+  maxStreak?: Prisma.IntFieldUpdateOperationsInput | number
+  lastCheckInDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
   sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
   analyses?: Prisma.SkinAnalysisUpdateManyWithoutUserNestedInput
@@ -3932,6 +4322,7 @@ export type UserUpdateWithoutReferralsOwnedInput = {
   digitalPurchases?: Prisma.DigitalProductPurchaseUpdateManyWithoutUserNestedInput
   affiliateClicks?: Prisma.AffiliateClickUpdateManyWithoutUserNestedInput
   evolution?: Prisma.UserEvolutionUpdateOneWithoutUserNestedInput
+  checkIns?: Prisma.DailyCheckInUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutReferralsOwnedInput = {
@@ -3949,6 +4340,9 @@ export type UserUncheckedUpdateWithoutReferralsOwnedInput = {
   analysisResetAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  currentStreak?: Prisma.IntFieldUpdateOperationsInput | number
+  maxStreak?: Prisma.IntFieldUpdateOperationsInput | number
+  lastCheckInDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   analyses?: Prisma.SkinAnalysisUncheckedUpdateManyWithoutUserNestedInput
@@ -3968,6 +4362,7 @@ export type UserUncheckedUpdateWithoutReferralsOwnedInput = {
   digitalPurchases?: Prisma.DigitalProductPurchaseUncheckedUpdateManyWithoutUserNestedInput
   affiliateClicks?: Prisma.AffiliateClickUncheckedUpdateManyWithoutUserNestedInput
   evolution?: Prisma.UserEvolutionUncheckedUpdateOneWithoutUserNestedInput
+  checkIns?: Prisma.DailyCheckInUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserUpsertWithoutReferralsReferredInput = {
@@ -3996,6 +4391,9 @@ export type UserUpdateWithoutReferralsReferredInput = {
   analysisResetAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  currentStreak?: Prisma.IntFieldUpdateOperationsInput | number
+  maxStreak?: Prisma.IntFieldUpdateOperationsInput | number
+  lastCheckInDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
   sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
   analyses?: Prisma.SkinAnalysisUpdateManyWithoutUserNestedInput
@@ -4015,6 +4413,7 @@ export type UserUpdateWithoutReferralsReferredInput = {
   digitalPurchases?: Prisma.DigitalProductPurchaseUpdateManyWithoutUserNestedInput
   affiliateClicks?: Prisma.AffiliateClickUpdateManyWithoutUserNestedInput
   evolution?: Prisma.UserEvolutionUpdateOneWithoutUserNestedInput
+  checkIns?: Prisma.DailyCheckInUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutReferralsReferredInput = {
@@ -4032,6 +4431,9 @@ export type UserUncheckedUpdateWithoutReferralsReferredInput = {
   analysisResetAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  currentStreak?: Prisma.IntFieldUpdateOperationsInput | number
+  maxStreak?: Prisma.IntFieldUpdateOperationsInput | number
+  lastCheckInDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   analyses?: Prisma.SkinAnalysisUncheckedUpdateManyWithoutUserNestedInput
@@ -4051,6 +4453,7 @@ export type UserUncheckedUpdateWithoutReferralsReferredInput = {
   digitalPurchases?: Prisma.DigitalProductPurchaseUncheckedUpdateManyWithoutUserNestedInput
   affiliateClicks?: Prisma.AffiliateClickUncheckedUpdateManyWithoutUserNestedInput
   evolution?: Prisma.UserEvolutionUncheckedUpdateOneWithoutUserNestedInput
+  checkIns?: Prisma.DailyCheckInUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutDigitalPurchasesInput = {
@@ -4068,6 +4471,9 @@ export type UserCreateWithoutDigitalPurchasesInput = {
   analysisResetAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  currentStreak?: number
+  maxStreak?: number
+  lastCheckInDate?: Date | string | null
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
   analyses?: Prisma.SkinAnalysisCreateNestedManyWithoutUserInput
@@ -4087,6 +4493,7 @@ export type UserCreateWithoutDigitalPurchasesInput = {
   groupsOwned?: Prisma.GroupAnalyticsCreateNestedManyWithoutReferrerInput
   affiliateClicks?: Prisma.AffiliateClickCreateNestedManyWithoutUserInput
   evolution?: Prisma.UserEvolutionCreateNestedOneWithoutUserInput
+  checkIns?: Prisma.DailyCheckInCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutDigitalPurchasesInput = {
@@ -4104,6 +4511,9 @@ export type UserUncheckedCreateWithoutDigitalPurchasesInput = {
   analysisResetAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  currentStreak?: number
+  maxStreak?: number
+  lastCheckInDate?: Date | string | null
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   analyses?: Prisma.SkinAnalysisUncheckedCreateNestedManyWithoutUserInput
@@ -4123,6 +4533,7 @@ export type UserUncheckedCreateWithoutDigitalPurchasesInput = {
   groupsOwned?: Prisma.GroupAnalyticsUncheckedCreateNestedManyWithoutReferrerInput
   affiliateClicks?: Prisma.AffiliateClickUncheckedCreateNestedManyWithoutUserInput
   evolution?: Prisma.UserEvolutionUncheckedCreateNestedOneWithoutUserInput
+  checkIns?: Prisma.DailyCheckInUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutDigitalPurchasesInput = {
@@ -4156,6 +4567,9 @@ export type UserUpdateWithoutDigitalPurchasesInput = {
   analysisResetAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  currentStreak?: Prisma.IntFieldUpdateOperationsInput | number
+  maxStreak?: Prisma.IntFieldUpdateOperationsInput | number
+  lastCheckInDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
   sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
   analyses?: Prisma.SkinAnalysisUpdateManyWithoutUserNestedInput
@@ -4175,6 +4589,7 @@ export type UserUpdateWithoutDigitalPurchasesInput = {
   groupsOwned?: Prisma.GroupAnalyticsUpdateManyWithoutReferrerNestedInput
   affiliateClicks?: Prisma.AffiliateClickUpdateManyWithoutUserNestedInput
   evolution?: Prisma.UserEvolutionUpdateOneWithoutUserNestedInput
+  checkIns?: Prisma.DailyCheckInUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutDigitalPurchasesInput = {
@@ -4192,6 +4607,9 @@ export type UserUncheckedUpdateWithoutDigitalPurchasesInput = {
   analysisResetAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  currentStreak?: Prisma.IntFieldUpdateOperationsInput | number
+  maxStreak?: Prisma.IntFieldUpdateOperationsInput | number
+  lastCheckInDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   analyses?: Prisma.SkinAnalysisUncheckedUpdateManyWithoutUserNestedInput
@@ -4209,6 +4627,183 @@ export type UserUncheckedUpdateWithoutDigitalPurchasesInput = {
   referralsOwned?: Prisma.ReferralUncheckedUpdateManyWithoutReferrerNestedInput
   referralsReferred?: Prisma.ReferralUncheckedUpdateManyWithoutReferredNestedInput
   groupsOwned?: Prisma.GroupAnalyticsUncheckedUpdateManyWithoutReferrerNestedInput
+  affiliateClicks?: Prisma.AffiliateClickUncheckedUpdateManyWithoutUserNestedInput
+  evolution?: Prisma.UserEvolutionUncheckedUpdateOneWithoutUserNestedInput
+  checkIns?: Prisma.DailyCheckInUncheckedUpdateManyWithoutUserNestedInput
+}
+
+export type UserCreateWithoutCheckInsInput = {
+  id?: string
+  name?: string | null
+  email: string
+  emailVerified?: Date | string | null
+  image?: string | null
+  password?: string | null
+  role?: string
+  plan?: string
+  qvapayId?: string | null
+  analysisLimit?: number
+  analysisUsed?: number
+  analysisResetAt?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  currentStreak?: number
+  maxStreak?: number
+  lastCheckInDate?: Date | string | null
+  accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
+  sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
+  analyses?: Prisma.SkinAnalysisCreateNestedManyWithoutUserInput
+  payments?: Prisma.PaymentCreateNestedManyWithoutUserInput
+  subscriptions?: Prisma.SubscriptionCreateNestedManyWithoutUserInput
+  purchasePacks?: Prisma.PurchasePackCreateNestedManyWithoutUserInput
+  usageRecords?: Prisma.UsageTrackingCreateNestedManyWithoutUserInput
+  clinic?: Prisma.ClinicCreateNestedOneWithoutOwnerInput
+  surveyFeedback?: Prisma.SurveyFeedbackCreateNestedManyWithoutUserInput
+  communityPosts?: Prisma.CommunityPostCreateNestedManyWithoutUserInput
+  comments?: Prisma.CommentCreateNestedManyWithoutUserInput
+  skinDiary?: Prisma.SkinDiaryCreateNestedManyWithoutUserInput
+  userChallenges?: Prisma.UserChallengeCreateNestedManyWithoutUserInput
+  productReviews?: Prisma.ProductReviewCreateNestedManyWithoutUserInput
+  referralsOwned?: Prisma.ReferralCreateNestedManyWithoutReferrerInput
+  referralsReferred?: Prisma.ReferralCreateNestedManyWithoutReferredInput
+  groupsOwned?: Prisma.GroupAnalyticsCreateNestedManyWithoutReferrerInput
+  digitalPurchases?: Prisma.DigitalProductPurchaseCreateNestedManyWithoutUserInput
+  affiliateClicks?: Prisma.AffiliateClickCreateNestedManyWithoutUserInput
+  evolution?: Prisma.UserEvolutionCreateNestedOneWithoutUserInput
+}
+
+export type UserUncheckedCreateWithoutCheckInsInput = {
+  id?: string
+  name?: string | null
+  email: string
+  emailVerified?: Date | string | null
+  image?: string | null
+  password?: string | null
+  role?: string
+  plan?: string
+  qvapayId?: string | null
+  analysisLimit?: number
+  analysisUsed?: number
+  analysisResetAt?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  currentStreak?: number
+  maxStreak?: number
+  lastCheckInDate?: Date | string | null
+  accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
+  sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
+  analyses?: Prisma.SkinAnalysisUncheckedCreateNestedManyWithoutUserInput
+  payments?: Prisma.PaymentUncheckedCreateNestedManyWithoutUserInput
+  subscriptions?: Prisma.SubscriptionUncheckedCreateNestedManyWithoutUserInput
+  purchasePacks?: Prisma.PurchasePackUncheckedCreateNestedManyWithoutUserInput
+  usageRecords?: Prisma.UsageTrackingUncheckedCreateNestedManyWithoutUserInput
+  clinic?: Prisma.ClinicUncheckedCreateNestedOneWithoutOwnerInput
+  surveyFeedback?: Prisma.SurveyFeedbackUncheckedCreateNestedManyWithoutUserInput
+  communityPosts?: Prisma.CommunityPostUncheckedCreateNestedManyWithoutUserInput
+  comments?: Prisma.CommentUncheckedCreateNestedManyWithoutUserInput
+  skinDiary?: Prisma.SkinDiaryUncheckedCreateNestedManyWithoutUserInput
+  userChallenges?: Prisma.UserChallengeUncheckedCreateNestedManyWithoutUserInput
+  productReviews?: Prisma.ProductReviewUncheckedCreateNestedManyWithoutUserInput
+  referralsOwned?: Prisma.ReferralUncheckedCreateNestedManyWithoutReferrerInput
+  referralsReferred?: Prisma.ReferralUncheckedCreateNestedManyWithoutReferredInput
+  groupsOwned?: Prisma.GroupAnalyticsUncheckedCreateNestedManyWithoutReferrerInput
+  digitalPurchases?: Prisma.DigitalProductPurchaseUncheckedCreateNestedManyWithoutUserInput
+  affiliateClicks?: Prisma.AffiliateClickUncheckedCreateNestedManyWithoutUserInput
+  evolution?: Prisma.UserEvolutionUncheckedCreateNestedOneWithoutUserInput
+}
+
+export type UserCreateOrConnectWithoutCheckInsInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutCheckInsInput, Prisma.UserUncheckedCreateWithoutCheckInsInput>
+}
+
+export type UserUpsertWithoutCheckInsInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutCheckInsInput, Prisma.UserUncheckedUpdateWithoutCheckInsInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutCheckInsInput, Prisma.UserUncheckedCreateWithoutCheckInsInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutCheckInsInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutCheckInsInput, Prisma.UserUncheckedUpdateWithoutCheckInsInput>
+}
+
+export type UserUpdateWithoutCheckInsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  emailVerified?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.StringFieldUpdateOperationsInput | string
+  plan?: Prisma.StringFieldUpdateOperationsInput | string
+  qvapayId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  analysisLimit?: Prisma.IntFieldUpdateOperationsInput | number
+  analysisUsed?: Prisma.IntFieldUpdateOperationsInput | number
+  analysisResetAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  currentStreak?: Prisma.IntFieldUpdateOperationsInput | number
+  maxStreak?: Prisma.IntFieldUpdateOperationsInput | number
+  lastCheckInDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
+  sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
+  analyses?: Prisma.SkinAnalysisUpdateManyWithoutUserNestedInput
+  payments?: Prisma.PaymentUpdateManyWithoutUserNestedInput
+  subscriptions?: Prisma.SubscriptionUpdateManyWithoutUserNestedInput
+  purchasePacks?: Prisma.PurchasePackUpdateManyWithoutUserNestedInput
+  usageRecords?: Prisma.UsageTrackingUpdateManyWithoutUserNestedInput
+  clinic?: Prisma.ClinicUpdateOneWithoutOwnerNestedInput
+  surveyFeedback?: Prisma.SurveyFeedbackUpdateManyWithoutUserNestedInput
+  communityPosts?: Prisma.CommunityPostUpdateManyWithoutUserNestedInput
+  comments?: Prisma.CommentUpdateManyWithoutUserNestedInput
+  skinDiary?: Prisma.SkinDiaryUpdateManyWithoutUserNestedInput
+  userChallenges?: Prisma.UserChallengeUpdateManyWithoutUserNestedInput
+  productReviews?: Prisma.ProductReviewUpdateManyWithoutUserNestedInput
+  referralsOwned?: Prisma.ReferralUpdateManyWithoutReferrerNestedInput
+  referralsReferred?: Prisma.ReferralUpdateManyWithoutReferredNestedInput
+  groupsOwned?: Prisma.GroupAnalyticsUpdateManyWithoutReferrerNestedInput
+  digitalPurchases?: Prisma.DigitalProductPurchaseUpdateManyWithoutUserNestedInput
+  affiliateClicks?: Prisma.AffiliateClickUpdateManyWithoutUserNestedInput
+  evolution?: Prisma.UserEvolutionUpdateOneWithoutUserNestedInput
+}
+
+export type UserUncheckedUpdateWithoutCheckInsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  emailVerified?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.StringFieldUpdateOperationsInput | string
+  plan?: Prisma.StringFieldUpdateOperationsInput | string
+  qvapayId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  analysisLimit?: Prisma.IntFieldUpdateOperationsInput | number
+  analysisUsed?: Prisma.IntFieldUpdateOperationsInput | number
+  analysisResetAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  currentStreak?: Prisma.IntFieldUpdateOperationsInput | number
+  maxStreak?: Prisma.IntFieldUpdateOperationsInput | number
+  lastCheckInDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
+  sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
+  analyses?: Prisma.SkinAnalysisUncheckedUpdateManyWithoutUserNestedInput
+  payments?: Prisma.PaymentUncheckedUpdateManyWithoutUserNestedInput
+  subscriptions?: Prisma.SubscriptionUncheckedUpdateManyWithoutUserNestedInput
+  purchasePacks?: Prisma.PurchasePackUncheckedUpdateManyWithoutUserNestedInput
+  usageRecords?: Prisma.UsageTrackingUncheckedUpdateManyWithoutUserNestedInput
+  clinic?: Prisma.ClinicUncheckedUpdateOneWithoutOwnerNestedInput
+  surveyFeedback?: Prisma.SurveyFeedbackUncheckedUpdateManyWithoutUserNestedInput
+  communityPosts?: Prisma.CommunityPostUncheckedUpdateManyWithoutUserNestedInput
+  comments?: Prisma.CommentUncheckedUpdateManyWithoutUserNestedInput
+  skinDiary?: Prisma.SkinDiaryUncheckedUpdateManyWithoutUserNestedInput
+  userChallenges?: Prisma.UserChallengeUncheckedUpdateManyWithoutUserNestedInput
+  productReviews?: Prisma.ProductReviewUncheckedUpdateManyWithoutUserNestedInput
+  referralsOwned?: Prisma.ReferralUncheckedUpdateManyWithoutReferrerNestedInput
+  referralsReferred?: Prisma.ReferralUncheckedUpdateManyWithoutReferredNestedInput
+  groupsOwned?: Prisma.GroupAnalyticsUncheckedUpdateManyWithoutReferrerNestedInput
+  digitalPurchases?: Prisma.DigitalProductPurchaseUncheckedUpdateManyWithoutUserNestedInput
   affiliateClicks?: Prisma.AffiliateClickUncheckedUpdateManyWithoutUserNestedInput
   evolution?: Prisma.UserEvolutionUncheckedUpdateOneWithoutUserNestedInput
 }
@@ -4237,6 +4832,7 @@ export type UserCountOutputType = {
   groupsOwned: number
   digitalPurchases: number
   affiliateClicks: number
+  checkIns: number
 }
 
 export type UserCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -4258,6 +4854,7 @@ export type UserCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.I
   groupsOwned?: boolean | UserCountOutputTypeCountGroupsOwnedArgs
   digitalPurchases?: boolean | UserCountOutputTypeCountDigitalPurchasesArgs
   affiliateClicks?: boolean | UserCountOutputTypeCountAffiliateClicksArgs
+  checkIns?: boolean | UserCountOutputTypeCountCheckInsArgs
 }
 
 /**
@@ -4396,6 +4993,13 @@ export type UserCountOutputTypeCountAffiliateClicksArgs<ExtArgs extends runtime.
   where?: Prisma.AffiliateClickWhereInput
 }
 
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountCheckInsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.DailyCheckInWhereInput
+}
+
 
 export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -4412,6 +5016,9 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   analysisResetAt?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  currentStreak?: boolean
+  maxStreak?: boolean
+  lastCheckInDate?: boolean
   accounts?: boolean | Prisma.User$accountsArgs<ExtArgs>
   sessions?: boolean | Prisma.User$sessionsArgs<ExtArgs>
   analyses?: boolean | Prisma.User$analysesArgs<ExtArgs>
@@ -4432,6 +5039,7 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   digitalPurchases?: boolean | Prisma.User$digitalPurchasesArgs<ExtArgs>
   affiliateClicks?: boolean | Prisma.User$affiliateClicksArgs<ExtArgs>
   evolution?: boolean | Prisma.User$evolutionArgs<ExtArgs>
+  checkIns?: boolean | Prisma.User$checkInsArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["user"]>
 
@@ -4450,6 +5058,9 @@ export type UserSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   analysisResetAt?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  currentStreak?: boolean
+  maxStreak?: boolean
+  lastCheckInDate?: boolean
 }, ExtArgs["result"]["user"]>
 
 export type UserSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -4467,6 +5078,9 @@ export type UserSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   analysisResetAt?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  currentStreak?: boolean
+  maxStreak?: boolean
+  lastCheckInDate?: boolean
 }, ExtArgs["result"]["user"]>
 
 export type UserSelectScalar = {
@@ -4484,9 +5098,12 @@ export type UserSelectScalar = {
   analysisResetAt?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  currentStreak?: boolean
+  maxStreak?: boolean
+  lastCheckInDate?: boolean
 }
 
-export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "email" | "emailVerified" | "image" | "password" | "role" | "plan" | "qvapayId" | "analysisLimit" | "analysisUsed" | "analysisResetAt" | "createdAt" | "updatedAt", ExtArgs["result"]["user"]>
+export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "email" | "emailVerified" | "image" | "password" | "role" | "plan" | "qvapayId" | "analysisLimit" | "analysisUsed" | "analysisResetAt" | "createdAt" | "updatedAt" | "currentStreak" | "maxStreak" | "lastCheckInDate", ExtArgs["result"]["user"]>
 export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   accounts?: boolean | Prisma.User$accountsArgs<ExtArgs>
   sessions?: boolean | Prisma.User$sessionsArgs<ExtArgs>
@@ -4508,6 +5125,7 @@ export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   digitalPurchases?: boolean | Prisma.User$digitalPurchasesArgs<ExtArgs>
   affiliateClicks?: boolean | Prisma.User$affiliateClicksArgs<ExtArgs>
   evolution?: boolean | Prisma.User$evolutionArgs<ExtArgs>
+  checkIns?: boolean | Prisma.User$checkInsArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type UserIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
@@ -4536,6 +5154,7 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     digitalPurchases: Prisma.$DigitalProductPurchasePayload<ExtArgs>[]
     affiliateClicks: Prisma.$AffiliateClickPayload<ExtArgs>[]
     evolution: Prisma.$UserEvolutionPayload<ExtArgs> | null
+    checkIns: Prisma.$DailyCheckInPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -4552,6 +5171,9 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     analysisResetAt: Date | null
     createdAt: Date
     updatedAt: Date
+    currentStreak: number
+    maxStreak: number
+    lastCheckInDate: Date | null
   }, ExtArgs["result"]["user"]>
   composites: {}
 }
@@ -4966,6 +5588,7 @@ export interface Prisma__UserClient<T, Null = never, ExtArgs extends runtime.Typ
   digitalPurchases<T extends Prisma.User$digitalPurchasesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$digitalPurchasesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$DigitalProductPurchasePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   affiliateClicks<T extends Prisma.User$affiliateClicksArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$affiliateClicksArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$AffiliateClickPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   evolution<T extends Prisma.User$evolutionArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$evolutionArgs<ExtArgs>>): Prisma.Prisma__UserEvolutionClient<runtime.Types.Result.GetResult<Prisma.$UserEvolutionPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  checkIns<T extends Prisma.User$checkInsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$checkInsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$DailyCheckInPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -5009,6 +5632,9 @@ export interface UserFieldRefs {
   readonly analysisResetAt: Prisma.FieldRef<"User", 'DateTime'>
   readonly createdAt: Prisma.FieldRef<"User", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"User", 'DateTime'>
+  readonly currentStreak: Prisma.FieldRef<"User", 'Int'>
+  readonly maxStreak: Prisma.FieldRef<"User", 'Int'>
+  readonly lastCheckInDate: Prisma.FieldRef<"User", 'DateTime'>
 }
     
 
@@ -5869,6 +6495,30 @@ export type User$evolutionArgs<ExtArgs extends runtime.Types.Extensions.Internal
    */
   include?: Prisma.UserEvolutionInclude<ExtArgs> | null
   where?: Prisma.UserEvolutionWhereInput
+}
+
+/**
+ * User.checkIns
+ */
+export type User$checkInsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the DailyCheckIn
+   */
+  select?: Prisma.DailyCheckInSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the DailyCheckIn
+   */
+  omit?: Prisma.DailyCheckInOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.DailyCheckInInclude<ExtArgs> | null
+  where?: Prisma.DailyCheckInWhereInput
+  orderBy?: Prisma.DailyCheckInOrderByWithRelationInput | Prisma.DailyCheckInOrderByWithRelationInput[]
+  cursor?: Prisma.DailyCheckInWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.DailyCheckInScalarFieldEnum | Prisma.DailyCheckInScalarFieldEnum[]
 }
 
 /**

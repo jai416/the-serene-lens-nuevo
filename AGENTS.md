@@ -1,19 +1,20 @@
 # AGENTS.md — The Serene Lens
 
-## Project Status (2026-06-25)
+## Project Status (2026-06-26)
 **Código completo.** Todas las features implementadas:
 - Landing page, análisis de piel con IA, historial, evolución
 - Sistema de pagos QvaPay (planes + packs), webhooks, suscripciones
 - Blog, productos, ingredientes, comunidad (con comentarios)
 - Diario de piel, desafíos gamificados (solo visualización, sin completar manual)
-- Panel admin: usuarios, pagos, mensajes, blog, productos, analytics, health check
-- Feature flags, health check, queue system, Sentry replays
+- Panel admin: usuarios, pagos, mensajes, blog, productos, guías, feature flags, analytics, health check
+- Feature flags, health check, queue system
 - SEO: 55 keywords con contexto para generación de artículos
 - **PRO+ plan** ($14.99/mes): informe PDF, rutina dinámica, comparativa mensual
 - **Modo Social**: comparación anónima de resultados con amigos
 - **Guías Digitales**: e-books descargables vendidos vía QvaPay
 - **Sistema de Referidos Grupal**: invita 3 amigos → análisis gratis
-- 174 tests, type check limpio, auditoría completa (0 issues pendientes)
+- **Predictor de Envejecimiento**: proyección a 5 años con IA + RAG de ingredientes
+- 174 tests, type check limpio, build exitoso (94 páginas estáticas)
 
 **Pendiente solo configuración manual:**
 1. `npx prisma db push` — eliminar campos Stripe + sync tablas nuevas
@@ -151,6 +152,7 @@ Clean, professional skincare platform inspired by Apple Health, Headspace, Calm,
 - **Cron retención**: Notifica 3 días antes de expiración + degrada suscripciones vencidas.
 - **Sidebar Ingredientes**: Link apunta a `/ingredients-analyzer`.
 - **QvaPay v2 only (Stripe fully removed)**: Deleted all Stripe code files and env vars.
+- **Lazy env loading in auth.ts/openrouter.ts**: `getAuthEnv()` with try/catch instead of module-level `getEnv()` crash. Providers use `process.env` directly.
 - **Lazy env loading in payments.ts**: `getPaymentsEnv()` instead of `getEnv()` at module level.
 - **In-memory queue over BullMQ**: No Redis dependency.
 - **Feature flags via AppConfig table**: No external service; cached 60s.
@@ -159,11 +161,16 @@ Clean, professional skincare platform inspired by Apple Health, Headspace, Calm,
 - **Sentry replays**: Session replay 0.1, error replay 1.0, text masking (DESHABILITADO — DSN inválido)
 - **Admin email sender**: Resend batch API (100 per call), segment targeting.
 - **Unsubscribe system**: CAN-SPAM/GDPR compliance. All email footers include `/unsubscribe`.
-- **Admin panel auth check**: Each API route uses `requireAdmin()` helper that checks `session.user.role !== "ADMIN"`. No middleware-level admin protection.
+- **Admin panel auth check**: Each API route uses `getServerSession()` + `role !== "ADMIN"` check. No middleware-level admin protection.
+- **Admin panel dark mode**: All admin pages support dark mode with `dark:` prefix classes.
+- **Admin stats real metrics**: `newUsersThisWeek` computed from DB (not hardcoded 0). `activeUsers` = paid users count.
 - **Mobile responsive CSS**: `@media (max-width: 640px)` and `(max-width: 480px)` breakpoints in `globals.css` for text sizes, buttons, inputs.
 - **Profile page**: Has both "Cerrar sesión" (signOut) and "Eliminar cuenta" (delete account) buttons, visually separated.
 - **Sentry init dedup**: `src/lib/sentry.ts` `initSentry()` is a no-op — Sentry auto-initializes via `sentry.client.config.ts`. Prevents replay rate override.
 - **Payments Zod strict**: `create` uses `z.enum(["FREE","PREMIUM","PRO","PRO_PLUS"])` to reject invalid plan IDs early. `create-guide` has granular error logging per step.
+- **Aging prediction prompt**: Positioned as "Modelo analítico avanzado de IA especializado en estética cosmética" — NOT a dermatologist. Summary avoids clinical language. Scores are visual-chart-only (0-100), not medical measurements.
+- **Structured outputs (aging)**: Uses OpenRouter `response_format.json_schema` with `strict: true` to enforce exact JSON shape. No fallback key guessing (`y5` vs `5` etc.).
+- **Static RAG ingredients**: `src/lib/ingredient-kb.ts` — 6 concern categories (manchas, arrugas, poros, sensibilidad, hidratación, acné), 22 ingredient entries with mechanism/evidence/concentration. `matchIngredientsToAnalysis()` matches user observations to relevant categories, `formatIngredientsForPrompt()` injects into aging prediction prompt.
 
 ## Performance Notes
 - `SessionProvider` uses `refetchOnWindowFocus={false}`
@@ -245,13 +252,15 @@ Prices defined in `src/lib/pricing.ts` — single source of truth.
 - `/pricing` — subscriptions + packs, USD/CUP, QvaPay payments
 - `/contact` — contact form
 - `/ingredients-analyzer` — SEO landing page
-- `/admin/` — admin panel: stats, users, payments, messages, blog, products, analytics, health check
-- `/admin/users` — user management with role/plan editing
+- `/admin/` — admin panel: stats, users, payments, messages, blog, products, guías, feature flags, analytics, health check
+- `/admin/users` — user management with role/plan editing (FREE/PREMIUM/PRO/PRO+/ESTHETICIAN)
 - `/admin/payments` — payment history
 - `/admin/blog` — blog post management
 - `/admin/products` — product management
 - `/admin/messages` — contact messages
-- `/admin/emails` — bulk email sender
+- `/admin/emails` — bulk email sender with segment targeting (all/free/premium/pro/proPlus/active/inactive/new)
+- `/admin/guides` — digital product CRUD (create/toggle/delete guides)
+- `/admin/feature-flags` — feature flag management (create/toggle ON/OFF)
 - `/unsubscribe` — unsubscribe page for marketing emails
 - `/api/admin/debug` — debug endpoint showing DB counts (admin only)
 
@@ -322,13 +331,17 @@ Prices defined in `src/lib/pricing.ts` — single source of truth.
 - `POST /api/payments/webhook` — QvaPay webhook
 - `GET /api/user/usage` — usage info for current user
 - `GET /api/admin/analytics` — revenue, plan distribution, conversion rate
-- `GET /api/admin/stats` — full dashboard stats (users, analyses, payments, etc.)
+- `GET /api/admin/stats` — full dashboard stats (users, analyses, payments, guides, referrals, etc.)
 - `GET /api/admin/users` — list all users (admin only)
 - `PUT /api/admin/users` — update user role/plan (admin only)
 - `GET /api/admin/payments` — list all payments (admin only)
 - `GET /api/admin/debug` — debug DB counts (admin only)
 - `GET /api/admin/notifications` — unread group completion notifications (admin only)
 - `POST /api/admin/notifications` — mark notification as read (admin only)
+- `GET /api/admin/guides` — list all digital products (admin only)
+- `POST /api/admin/guides` — create digital product (admin only)
+- `PATCH /api/admin/guides/[id]` — update digital product (admin only)
+- `DELETE /api/admin/guides/[id]` — delete digital product (admin only)
 
 ## API Routes (Referral Groups)
 - `GET /api/referral` — list user's referral groups
@@ -337,17 +350,22 @@ Prices defined in `src/lib/pricing.ts` — single source of truth.
 - `POST /api/referral/[code]` — join referral group (auth required)
 
 ## API Routes (PRO+ Features)
+- `POST /api/aging-predict` — aging prediction with structured outputs + RAG ingredient injection (requires auth + latest analysis)
 - `GET /api/user/monthly-comparison` — monthly analysis comparison (PRO+ only)
 - `GET /api/user/dynamic-routine` — dynamic routine based on season + skin type (PRO+ only)
 - `GET /api/user/social-comparison` — anonymous comparison with friends' results
 - `GET /api/guides` — list available digital products
 - `POST /api/payments/create-guide` — create QvaPay invoice for guide purchase
 
-## New Models (2026-06-25)
+## New Models (2026-06-26)
 - `GroupAnalytics` — tracks referral group progress (groupId, referrerId, invitedCount, completedCount, totalRevenue, status, expiresAt)
 - `Referral` — individual referral records (referrerId, referredId, code, groupId, status, discountPrice)
 - `DigitalProduct` — e-books and digital guides (title, slug, price, fileUrl, category)
 - `DigitalProductPurchase` — purchase records for digital products
+
+## New Files (2026-06-26)
+- `src/lib/ingredient-kb.ts` — Static ingredient knowledge base for RAG. 6 concern categories, 22 entries with mechanism/evidence/concentration. Functions: `matchIngredientsToAnalysis()`, `formatIngredientsForPrompt()`
+- `src/app/api/aging-predict/route.ts` — Aging prediction API. Structured outputs via OpenRouter JSON Schema. RAG ingredient injection. Sanitizes scores/trends.
 
 ## New Pages (2026-06-25)
 - `/pricing/success` — payment confirmation after QvaPay redirect

@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server"
 import type { NextRequest } from "next/server"
 import { generateCorrelationId, setCorrelationId } from "@/lib/logger"
+import { getToken } from "next-auth/jwt"
 
 const CSP_DIRECTIVES = [
   "default-src 'self'",
@@ -15,7 +16,7 @@ const CSP_DIRECTIVES = [
   "form-action 'self'",
 ].join("; ")
 
-export function middleware(request: NextRequest) {
+export async function middleware(request: NextRequest) {
   const correlationId = request.headers.get("x-correlation-id") || generateCorrelationId()
   setCorrelationId(correlationId)
 
@@ -30,6 +31,13 @@ export function middleware(request: NextRequest) {
   if (request.nextUrl.pathname.startsWith("/api/")) {
     const start = Date.now()
     response.headers.set("x-response-time", `${Date.now() - start}ms`)
+  }
+
+  if (request.nextUrl.pathname.startsWith("/admin")) {
+    const token = await getToken({ req: request })
+    if (!token || token.role !== "ADMIN") {
+      return NextResponse.redirect(new URL("/", request.url))
+    }
   }
 
   return response

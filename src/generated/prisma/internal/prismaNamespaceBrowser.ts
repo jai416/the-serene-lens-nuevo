@@ -83,7 +83,9 @@ export const ModelName = {
   GroupAnalytics: 'GroupAnalytics',
   Referral: 'Referral',
   DigitalProduct: 'DigitalProduct',
-  DigitalProductPurchase: 'DigitalProductPurchase'
+  DigitalProductPurchase: 'DigitalProductPurchase',
+  DailyCheckIn: 'DailyCheckIn',
+  IngredientKB: 'IngredientKB'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -116,7 +118,10 @@ export const UserScalarFieldEnum = {
   analysisUsed: 'analysisUsed',
   analysisResetAt: 'analysisResetAt',
   createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
+  updatedAt: 'updatedAt',
+  currentStreak: 'currentStreak',
+  maxStreak: 'maxStreak',
+  lastCheckInDate: 'lastCheckInDate'
 } as const
 
 export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum]
@@ -556,6 +561,32 @@ export const DigitalProductPurchaseScalarFieldEnum = {
 } as const
 
 export type DigitalProductPurchaseScalarFieldEnum = (typeof DigitalProductPurchaseScalarFieldEnum)[keyof typeof DigitalProductPurchaseScalarFieldEnum]
+
+
+export const DailyCheckInScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  date: 'date',
+  routine: 'routine',
+  createdAt: 'createdAt'
+} as const
+
+export type DailyCheckInScalarFieldEnum = (typeof DailyCheckInScalarFieldEnum)[keyof typeof DailyCheckInScalarFieldEnum]
+
+
+export const IngredientKBScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  category: 'category',
+  mechanism: 'mechanism',
+  concentration: 'concentration',
+  evidence: 'evidence',
+  pairsWith: 'pairsWith',
+  caution: 'caution',
+  createdAt: 'createdAt'
+} as const
+
+export type IngredientKBScalarFieldEnum = (typeof IngredientKBScalarFieldEnum)[keyof typeof IngredientKBScalarFieldEnum]
 
 
 export const SortOrder = {

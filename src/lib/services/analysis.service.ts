@@ -98,6 +98,38 @@ export const AnalysisService = {
       throw new AnalysisError("Error al guardar el resultado. El análisis se completó pero no se pudo registrar.", "DB_ERROR", e)
     }
 
+    // Auto-save diary entry after analysis completes
+    try {
+      const { db } = await import("@/lib/db")
+
+      const scoreFields = [
+        (result as Record<string, unknown>)?.texture,
+        (result as Record<string, unknown>)?.pores,
+        (result as Record<string, unknown>)?.shine,
+        (result as Record<string, unknown>)?.uniformity,
+        (result as Record<string, unknown>)?.apparentSensitivity,
+        (result as Record<string, unknown>)?.apparentOil,
+      ]
+
+      const positiveValues = ["uniform", "barely visible", "low", "baja", "uniforme", "poco visibles", "poco visible"]
+      const positiveCount = scoreFields.filter((f) => positiveValues.includes(String(f).toLowerCase())).length
+      const score = Math.round((positiveCount / scoreFields.length) * 100)
+
+      const topObservations = observations.slice(0, 3).join(", ")
+      const notes = `Análisis automático: tipo ${skinType || "desconocido"}, ${topObservations || "sin observaciones destacadas"}`
+
+      const today = new Date()
+      today.setHours(0, 0, 0, 0)
+
+      await db.skinDiary.upsert({
+        where: { userId_date: { userId, date: today } },
+        update: { feeling: score, notes },
+        create: { userId, date: today, feeling: score, notes },
+      })
+    } catch {
+      // Diary auto-save is optional — don't break the analysis flow
+    }
+
     return { analysis, result }
   },
 }

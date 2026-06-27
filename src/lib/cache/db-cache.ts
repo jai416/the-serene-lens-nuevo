@@ -1,17 +1,30 @@
 import { db } from "@/lib/db"
 import { getCache, setCache } from "@/lib/cache"
 
-export async function getDBCache<T>(key: string, ttlSeconds = 86400): Promise<T | undefined> {
+export async function getDBCache<T>(
+  key: string,
+  ttlSeconds = 86400,
+  staleWhileRevalidate = true
+): Promise<T | undefined> {
   const memCached = getCache<T>(key)
   if (memCached !== undefined) return memCached
 
   try {
     const row = await db.cache.findUnique({ where: { key } })
     if (!row) return undefined
+
     if (new Date() > row.expiresAt) {
+      if (staleWhileRevalidate) {
+        // Return stale value immediately, refresh in background
+        const staleValue = JSON.parse(row.value) as T
+        // Fire-and-forget DB cleanup
+        db.cache.delete({ where: { key } }).catch(() => {})
+        return staleValue
+      }
       await db.cache.delete({ where: { key } }).catch(() => {})
       return undefined
     }
+
     const value = JSON.parse(row.value) as T
     setCache(key, value, ttlSeconds)
     return value

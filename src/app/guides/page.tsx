@@ -44,6 +44,11 @@ export default function GuidesPage() {
       return
     }
 
+    if (session.user.role === "ADMIN") {
+      toast.success("Acceso de administrador: guía gratuita")
+      return
+    }
+
     setPurchasing(guide.id)
     try {
       const res = await fetch("/api/payments/create-guide", {
@@ -122,7 +127,11 @@ export default function GuidesPage() {
                   </p>
                   <div className="flex items-center justify-between">
                     <span className="text-xl font-bold text-[#2F3A2D] dark:text-[#E8EDE6]">
-                      ${guide.price.toFixed(2)}
+                      {session?.user?.role === "ADMIN" ? (
+                        <span className="text-[#C2E09D]">Gratis (Admin)</span>
+                      ) : (
+                        `$${guide.price.toFixed(2)}`
+                      )}
                     </span>
                     <Button
                       variant="primary"
@@ -133,10 +142,12 @@ export default function GuidesPage() {
                     >
                       {purchasing === guide.id ? (
                         <Loader2 className="w-3.5 h-3.5 animate-pulse" />
+                      ) : session?.user?.role === "ADMIN" ? (
+                        <Download className="w-3.5 h-3.5" />
                       ) : (
                         <ShoppingCart className="w-3.5 h-3.5" />
                       )}
-                      Comprar
+                      {session?.user?.role === "ADMIN" ? "Acceder" : "Comprar"}
                     </Button>
                   </div>
                 </CardContent>

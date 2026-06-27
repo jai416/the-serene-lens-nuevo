@@ -8,7 +8,7 @@ import { Card, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Users, ArrowLeft } from "lucide-react"
-import { formatDate } from "@/lib/utils"
+import { formatDate, getPlanLabel } from "@/lib/utils"
 import { toast } from "sonner"
 
 interface User {
@@ -68,16 +68,16 @@ export default function AdminUsersPage() {
             <Users className="w-3.5 h-3.5 mr-2" />
             Usuarios
           </Badge>
-          <h1 className="font-serif text-3xl font-semibold">
+          <h1 className="font-serif text-3xl font-semibold text-[#2F3A2D] dark:text-[#E8EDE6]">
             Gestionar <span className="gradient-text">Usuarios</span>
           </h1>
         </div>
 
-        <Card className="border-[#DDE7D3] overflow-hidden">
+        <Card className="border-[#DDE7D3] dark:border-[#3A4536] overflow-hidden">
           <div className="overflow-x-auto">
             <table className="w-full text-sm">
               <thead>
-                <tr className="border-b border-outline/20">
+                <tr className="border-b border-[#DDE7D3]/20 dark:border-[#3A4536]/20">
                   <th className="text-left p-4 font-medium text-muted-foreground">Usuario</th>
                   <th className="text-left p-4 font-medium text-muted-foreground">Email</th>
                   <th className="text-left p-4 font-medium text-muted-foreground">Rol</th>
@@ -90,21 +90,21 @@ export default function AdminUsersPage() {
               </thead>
               <tbody>
                 {users.map((user) => (
-                  <tr key={user.id} className="border-b border-outline/10 hover:bg-muted/50 transition-colors">
-                    <td className="p-4 font-medium">{user.name || "—"}</td>
+                  <tr key={user.id} className="border-b border-[#DDE7D3]/10 dark:border-[#3A4536]/10 hover:bg-muted/50 transition-colors">
+                    <td className="p-4 font-medium text-[#2F3A2D] dark:text-[#E8EDE6]">{user.name || "—"}</td>
                     <td className="p-4 text-muted-foreground">{user.email}</td>
                     <td className="p-4">
-                      <Badge className={user.role === "ADMIN" ? "bg-purple-500" : "bg-muted text-muted-foreground"}>
+                      <Badge className={user.role === "ADMIN" ? "bg-purple-500 text-white" : "bg-muted text-muted-foreground"}>
                         {user.role}
                       </Badge>
                     </td>
                     <td className="p-4">
                       <Badge variant={user.plan === "FREE" ? "outline" : "default"}>
-                        {user.plan === "PRO" ? "Pro" : user.plan === "PREMIUM" ? "Premium" : user.plan}
+                        {getPlanLabel(user.plan)}
                       </Badge>
                     </td>
-                    <td className="p-4">{user._count.analyses}</td>
-                    <td className="p-4">{user._count.payments}</td>
+                    <td className="p-4 text-[#2F3A2D] dark:text-[#E8EDE6]">{user._count.analyses}</td>
+                    <td className="p-4 text-[#2F3A2D] dark:text-[#E8EDE6]">{user._count.payments}</td>
                     <td className="p-4 text-muted-foreground text-xs">{formatDate(user.createdAt)}</td>
                     <td className="p-4">
                       {editing === user.id ? (
@@ -114,7 +114,7 @@ export default function AdminUsersPage() {
                               updateUser(user.id, { role: e.target.value })
                             }}
                             defaultValue={user.role}
-                            className="text-xs rounded-lg border border-input bg-background px-2 py-1"
+                            className="text-xs rounded-lg border border-[#DDE7D3] dark:border-[#3A4536] bg-background px-2 py-1 text-[#2F3A2D] dark:text-[#E8EDE6]"
                           >
                             <option value="USER">USER</option>
                             <option value="ADMIN">ADMIN</option>
@@ -124,11 +124,13 @@ export default function AdminUsersPage() {
                               updateUser(user.id, { plan: e.target.value })
                             }}
                             defaultValue={user.plan}
-                            className="text-xs rounded-lg border border-input bg-background px-2 py-1"
+                            className="text-xs rounded-lg border border-[#DDE7D3] dark:border-[#3A4536] bg-background px-2 py-1 text-[#2F3A2D] dark:text-[#E8EDE6]"
                           >
                             <option value="FREE">FREE</option>
                             <option value="PREMIUM">PREMIUM</option>
                             <option value="PRO">PRO</option>
+                            <option value="PRO_PLUS">PRO+</option>
+                            <option value="ESTHETICIAN">ESTHETICIAN</option>
                           </select>
                         </div>
                       ) : (

@@ -10,9 +10,10 @@ import {
   LayoutDashboard, Users, CreditCard, MessageSquare, Newspaper, Package,
   DollarSign, Activity, Eye, TrendingUp, UserPlus, BarChart3, ArrowUpRight,
   Calendar, Sparkles, CheckCircle2, Clock, Mail, BookOpen, Trophy, Heart,
-  ShoppingBag, MessageCircle, Settings, TrendingDown, Zap
+  ShoppingBag, MessageCircle, Settings, TrendingDown, Zap, Download, UsersRound
 } from "lucide-react"
 import { NewUserToast } from "@/components/admin/new-user-toast"
+import { getPlanLabel } from "@/lib/utils"
 
 interface Stats {
   users: number
@@ -42,6 +43,10 @@ interface Stats {
   completedPacks: number
   comments: number
   featureFlags: number
+  digitalProducts: number
+  guideSales: number
+  referralGroups: number
+  completedGroups: number
   avgAnalysesPerUser: number
   churnRate: number
   usersYesterday: number
@@ -143,6 +148,8 @@ export default function AdminPage() {
     { label: "Diario de Piel", value: stats?.diaryEntries ?? "—", icon: BookOpen, color: "text-[#2F3A2D] dark:text-[#C2E09D]", sub: "entradas totales" },
     { label: "Packs Vendidos", value: stats?.completedPacks ?? "—", icon: ShoppingBag, color: "text-[#2F3A2D] dark:text-[#C2E09D]", sub: `${stats?.packs ?? 0} total` },
     { label: "Comentarios", value: stats?.comments ?? "—", icon: MessageCircle, color: "text-[#2F3A2D] dark:text-[#C2E09D]" },
+    { label: "Guías Digitales", value: stats?.digitalProducts ?? "—", icon: Download, color: "text-[#2F3A2D] dark:text-[#C2E09D]", sub: `${stats?.guideSales ?? 0} ventas` },
+    { label: "Grupos de Referidos", value: stats?.referralGroups ?? "—", icon: UsersRound, color: "text-[#2F3A2D] dark:text-[#C2E09D]", sub: `${stats?.completedGroups ?? 0} completados` },
     { label: "Prom. Análisis/Usuario", value: stats?.avgAnalysesPerUser ?? "—", icon: Zap, color: "text-[#2F3A2D] dark:text-[#C2E09D]" },
     { label: "Pagos Pendientes", value: stats?.pendingPayments ?? "—", icon: Clock, color: "text-[#2F3A2D] dark:text-[#C2E09D]" },
   ]
@@ -289,7 +296,7 @@ export default function AdminPage() {
                 return (
                   <div key={plan}>
                     <div className="flex justify-between items-center mb-1">
-                      <span className="text-sm text-[#64705E] dark:text-[#9BAA93]">{plan}</span>
+                      <span className="text-sm text-[#64705E] dark:text-[#9BAA93]">{getPlanLabel(plan)}</span>
                       <span className="text-sm font-medium text-[#2F3A2D] dark:text-[#E8EDE6]">{count} ({percentage}%)</span>
                     </div>
                     <div className="w-full h-2 rounded-full bg-[#F0F5EC] dark:bg-[#2E3829]">
@@ -333,7 +340,7 @@ export default function AdminPage() {
             <Eye className="w-5 h-5 text-[#2F3A2D] dark:text-[#C2E09D]" />
             Acceso Rápido
           </h2>
-          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-2">
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-8 gap-2">
             {[
               { href: "/admin/users", label: "Usuarios", icon: Users },
               { href: "/admin/payments", label: "Pagos", icon: CreditCard },
@@ -341,6 +348,8 @@ export default function AdminPage() {
               { href: "/admin/emails", label: "Emails", icon: Mail },
               { href: "/admin/blog", label: "Blog", icon: Newspaper },
               { href: "/admin/products", label: "Productos", icon: Package },
+              { href: "/admin/guides", label: "Guías", icon: Download },
+              { href: "/admin/feature-flags", label: "Features", icon: Settings },
             ].map((item) => (
               <Link key={item.href} href={item.href}>
                 <div className="flex items-center gap-2 p-3 rounded-xl hover:bg-[#F8FAF5] dark:hover:bg-[#2A3228] transition-colors group">
@@ -368,7 +377,7 @@ export default function AdminPage() {
                     <p className="text-xs text-[#64705E] dark:text-[#9BAA93]">{user.email}</p>
                   </div>
                   <Badge variant={user.plan === "FREE" ? "secondary" : "primary"} className="text-[10px]">
-                    {user.plan}
+                    {getPlanLabel(user.plan)}
                   </Badge>
                 </div>
               )) : (

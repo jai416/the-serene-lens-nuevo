@@ -5,7 +5,15 @@ import GoogleProvider from "next-auth/providers/google"
 import GitHubProvider from "next-auth/providers/github"
 import { db } from "@/lib/db"
 import { getEnv } from "@/lib/env"
-const env = getEnv()
+
+function getAuthEnv() {
+  try {
+    return getEnv()
+  } catch (e) {
+    console.error("[Auth] Failed to load env vars:", e instanceof Error ? e.message : e)
+    return null
+  }
+}
 
 async function get_crypto() {
   return import("crypto")
@@ -37,7 +45,8 @@ export async function registerUser(email: string, password: string, name?: strin
   const existing = await db.user.findUnique({ where: { email } })
   if (existing) return { error: "Ya existe una cuenta con este email" }
 
-  const isAdmin = email === env.ROOT_ADMIN_EMAIL
+  const authEnv = getAuthEnv()
+  const isAdmin = email === authEnv?.ROOT_ADMIN_EMAIL
 
   const user = await db.user.create({
     data: {
@@ -45,7 +54,7 @@ export async function registerUser(email: string, password: string, name?: strin
       name: name || null,
       password: await hashPassword(password),
       role: isAdmin ? "ADMIN" : "USER",
-      plan: isAdmin ? "PRO" : "FREE",
+      plan: isAdmin ? "PRO_PLUS" : "FREE",
     },
   })
 
@@ -100,19 +109,19 @@ export const authOptions: NextAuthOptions = {
         }
       },
     }),
-    ...(env.GOOGLE_CLIENT_ID && env.GOOGLE_CLIENT_SECRET
+    ...(process.env.GOOGLE_CLIENT_ID && process.env.GOOGLE_CLIENT_SECRET
       ? [
           GoogleProvider({
-            clientId: env.GOOGLE_CLIENT_ID,
-            clientSecret: env.GOOGLE_CLIENT_SECRET,
+            clientId: process.env.GOOGLE_CLIENT_ID,
+            clientSecret: process.env.GOOGLE_CLIENT_SECRET,
           }),
         ]
       : []),
-    ...(env.GITHUB_CLIENT_ID && env.GITHUB_CLIENT_SECRET
+    ...(process.env.GITHUB_CLIENT_ID && process.env.GITHUB_CLIENT_SECRET
       ? [
           GitHubProvider({
-            clientId: env.GITHUB_CLIENT_ID,
-            clientSecret: env.GITHUB_CLIENT_SECRET,
+            clientId: process.env.GITHUB_CLIENT_ID,
+            clientSecret: process.env.GITHUB_CLIENT_SECRET,
           }),
         ]
       : []),
@@ -169,6 +178,12 @@ export const authOptions: NextAuthOptions = {
       if (user) {
         token.role = user.role || "USER"
         token.plan = user.plan || "FREE"
+      }
+      if (token.role === "ADMIN" && token.plan !== "PRO_PLUS") {
+        try {
+          await db.user.update({ where: { id: token.sub! }, data: { plan: "PRO_PLUS" } })
+          token.plan = "PRO_PLUS"
+        } catch {}
       }
       return token
     },

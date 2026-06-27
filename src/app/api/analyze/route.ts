@@ -1,7 +1,7 @@
-import { NextRequest } from "next/server"
+import { NextRequest, NextResponse } from "next/server"
 import { getServerSession } from "next-auth"
 import { authOptions } from "@/lib/auth"
-import { ok, error, serverError } from "@/lib/api-response"
+import { ok, error, serverError, unauthorized } from "@/lib/api-response"
 import { checkRateLimit } from "@/lib/rate-limit"
 import { AnalysisService, AnalysisError } from "@/lib/services/analysis.service"
 import { logger } from "@/lib/logger"
@@ -11,7 +11,7 @@ export async function POST(req: NextRequest) {
   const startTime = Date.now()
   try {
     const session = await getServerSession(authOptions)
-    if (!session?.user) return error("Debes iniciar sesión para realizar un análisis")
+    if (!session?.user) return unauthorized()
 
     const ip = req.headers.get("x-forwarded-for") || req.headers.get("x-real-ip") || "unknown"
     const rl = await checkRateLimit(`analyze:${session.user.id}:${ip}`, 5, 60 * 1000)
@@ -64,9 +64,12 @@ export async function POST(req: NextRequest) {
     }
     logger.error("Analysis failed", { duration, error: e })
     const msg = e instanceof Error ? e.message : String(e)
-    if (msg.includes("ETIMEDOUT") || msg.includes("fetch failed")) {
-      return error("El servicio de análisis IA está temporalmente no disponible. Intenta de nuevo.", 503)
+    if (msg.includes("ETIMEDOUT") || msg.includes("fetch failed") || msg.includes("timeout")) {
+      return error("El servicio de análisis IA está temporalmente no disponible. Intenta de nuevo en unos minutos.", 503)
     }
-    return serverError(e)
+    return NextResponse.json(
+      { success: false, error: "Error al analizar las imágenes. Intenta de nuevo." },
+      { status: 500 }
+    )
   }
 }

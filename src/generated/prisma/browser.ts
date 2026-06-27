@@ -182,3 +182,13 @@ export type DigitalProduct = Prisma.DigitalProductModel
  * 
  */
 export type DigitalProductPurchase = Prisma.DigitalProductPurchaseModel
+/**
+ * Model DailyCheckIn
+ * 
+ */
+export type DailyCheckIn = Prisma.DailyCheckInModel
+/**
+ * Model IngredientKB
+ * 
+ */
+export type IngredientKB = Prisma.IngredientKBModel

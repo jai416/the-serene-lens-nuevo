@@ -1,7 +1,11 @@
-import { getEnv } from "@/lib/env"
 import { withRetry } from "@/lib/retry"
+import { logger } from "@/lib/logger"
 
-const env = getEnv()
+function getApiKey(): string {
+  const key = process.env.OPENROUTER_API_KEY || ""
+  if (!key) logger.error("OPENROUTER_API_KEY is missing")
+  return key
+}
 
 const PERCENTAGE_REGEX = /\d+%/g
 
@@ -20,6 +24,8 @@ function stripPercentages(obj: unknown): unknown {
   }
   return obj
 }
+
+const APP_URL = process.env.NEXT_PUBLIC_APP_URL || "https://the-serene-lens-nuevo.onrender.com"
 
 interface AnalyzeOptions {
   imagesBase64: string[]
@@ -44,6 +50,9 @@ export async function analyzeSkin({
   routine,
   language = "es",
 }: AnalyzeOptions) {
+  const apiKey = getApiKey()
+  if (!apiKey) throw new Error("Servicio de IA no disponible. Intenta más tarde.")
+
   const isEnglish = language === "en"
   const ageContext = age
     ? isEnglish
@@ -152,12 +161,18 @@ Todas las observaciones deben estar basadas únicamente en lo que ves en la foto
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${env.OPENROUTER_API_KEY}`,
+          Authorization: `Bearer ${apiKey}`,
+          "HTTP-Referer": APP_URL,
+          "X-Title": "The Serene Lens",
         },
         body: JSON.stringify(body),
-        signal: AbortSignal.timeout(90000),
+        signal: AbortSignal.timeout(120000),
       }),
-    { maxRetries: 2, baseDelayMs: 2000 }
+    {
+      maxRetries: 2,
+      baseDelayMs: 2000,
+      onRetry: (attempt, err) => logger.warn("OpenRouter retry", { attempt, error: String(err) }),
+    }
   )
 
   if (!res.ok) {
@@ -185,6 +200,9 @@ Todas las observaciones deben estar basadas únicamente en lo que ves en la foto
 }
 
 export async function scanProductIngredients(imageBase64: string) {
+  const apiKey = getApiKey()
+  if (!apiKey) throw new Error("Servicio de análisis no disponible. Intenta más tarde.")
+
   const prompt = `Eres un experto en ingredientes cosméticos. Analiza esta imagen de un producto de skincare.
 
 Extrae la lista de ingredientes y analízalos.
@@ -204,6 +222,7 @@ Responde en formato JSON (sin markdown, solo JSON válido). Usa lenguaje descrip
 
   const body = {
     model: "google/gemini-2.0-flash-001",
+    max_tokens: 1000,
     messages: [
       {
         role: "user",
@@ -225,12 +244,18 @@ Responde en formato JSON (sin markdown, solo JSON válido). Usa lenguaje descrip
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${env.OPENROUTER_API_KEY}`,
+          Authorization: `Bearer ${apiKey}`,
+          "HTTP-Referer": APP_URL,
+          "X-Title": "The Serene Lens - Product Scanner",
         },
         body: JSON.stringify(body),
-        signal: AbortSignal.timeout(60000),
+        signal: AbortSignal.timeout(90000),
       }),
-    { maxRetries: 2, baseDelayMs: 2000 }
+    {
+      maxRetries: 1,
+      baseDelayMs: 2000,
+      onRetry: (attempt, err) => logger.warn("OpenRouter product scan retry", { attempt, error: String(err) }),
+    }
   )
 
   if (!res.ok) {

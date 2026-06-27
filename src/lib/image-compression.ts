@@ -44,7 +44,8 @@ export async function compressImage(file: File, maxSizeMB = 10): Promise<File> {
       "connection" in navigator &&
       ["slow-2g", "2g", "3g"].includes((navigator as any).connection?.effectiveType || "")
     const isOversized = file.size > maxSizeBytes
-    const maxDimension = isOversized ? 640 : isSlowConnection ? 480 : 768
+    // Max 1024px — more than enough for Gemini, keeps files under 100KB
+    const maxDimension = isOversized ? 640 : isSlowConnection ? 480 : 1024
     if (width > maxDimension || height > maxDimension) {
       const ratio = Math.min(maxDimension / width, maxDimension / height)
       width = Math.round(width * ratio)
@@ -56,7 +57,7 @@ export async function compressImage(file: File, maxSizeMB = 10): Promise<File> {
     ctx.drawImage(img, 0, 0, width, height)
     img.close()
 
-    let quality = isOversized ? 0.4 : isSlowConnection ? 0.5 : 0.7
+    let quality = isOversized ? 0.4 : isSlowConnection ? 0.5 : 0.75
     const mimeType = preferWebP ? "image/webp" : "image/jpeg"
     let blob = await canvasToBlob(canvas, quality, mimeType)
 

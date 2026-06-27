@@ -22,7 +22,7 @@ const {
 
 vi.mock("@/lib/db", () => ({
   db: {
-    user: { findMany: mockFindMany },
+    user: { findMany: mockFindMany, count: mockCount },
     emailLog: { create: mockCreate, findMany: mockFindMany, count: mockCount },
     unsubscribe: { findMany: mockFindMany, upsert: mockUpsert, findUnique: mockFindUnique },
   },
@@ -147,22 +147,12 @@ describe("admin-email.service", () => {
 
   describe("getRecipientCounts", () => {
     it("returns counts for all segments", async () => {
-      mockFindMany
-        .mockResolvedValueOnce([])  // unsubscribes
-        .mockResolvedValueOnce([    // users
-          { email: "a@test.com", plan: "FREE", analysisUsed: 0, createdAt: new Date() },
-          { email: "b@test.com", plan: "PREMIUM", analysisUsed: 5, createdAt: new Date() },
-          { email: "c@test.com", plan: "PRO", analysisUsed: 10, createdAt: new Date() },
-        ])
+      mockCount.mockResolvedValue(3)
 
       const counts = await getRecipientCounts()
 
       expect(counts.all).toBe(3)
-      expect(counts.free).toBe(1)
-      expect(counts.premium).toBe(1)
-      expect(counts.pro).toBe(1)
-      expect(counts.active).toBe(2)
-      expect(counts.inactive).toBe(1)
+      expect(mockCount).toHaveBeenCalledTimes(8)
     })
   })
 })

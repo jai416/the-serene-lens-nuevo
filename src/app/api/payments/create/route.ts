@@ -1,4 +1,4 @@
-import { NextRequest } from "next/server"
+import { NextRequest, NextResponse } from "next/server"
 import { getServerSession } from "next-auth"
 import { authOptions } from "@/lib/auth"
 import { db } from "@/lib/db"
@@ -37,47 +37,54 @@ export async function POST(req: NextRequest) {
       return error("Plan inválido o gratuito")
     }
 
+    const amount = planDef.priceUSD
+    let cupRate = 500
     try {
-      const amount = planDef.priceUSD
-      let cupRate = 500
-      try {
-        cupRate = await getCUPRate()
-      } catch {
-        logger.warn("CUP rate fetch failed, using default 500")
-      }
-      logger.info("Creating QvaPay payment", { plan: parsed.data.plan, amount, userId: session.user.id })
-      const qvapayPayment = await createQvaPayPayment({
-        amount,
-        description: `Plan ${planDef.name} - The Serene Lens`,
-        plan: parsed.data.plan,
-        userId: session.user.id,
-      })
-
-      const transactionUuid = qvapayPayment?.transaction_uuid
-      if (transactionUuid) {
-        await db.payment.create({
-          data: {
-            userId: session.user.id,
-            provider: "qvapay",
-            qvapayId: transactionUuid,
-            plan: parsed.data.plan,
-            amount,
-            amountUsd: amount,
-            amountCup: amount * cupRate,
-            remoteId: qvapayPayment.remote_id,
-          },
-        })
-      }
-
-      return ok({ url: qvapayPayment?.url, id: transactionUuid, provider: "qvapay" })
-    } catch (e) {
-      const errMsg = e instanceof Error ? e.message : String(e)
-      logger.error("Payment create inner error", { error: errMsg })
-      return error(`Error al crear pago: ${errMsg}`, 500)
+      cupRate = await getCUPRate()
+    } catch {
+      logger.warn("CUP rate fetch failed, using default 500")
     }
+
+    logger.info("Creating QvaPay payment", { plan: parsed.data.plan, amount, userId: session.user.id })
+
+    const qvapayPayment = await createQvaPayPayment({
+      amount,
+      description: `Plan ${planDef.name} - The Serene Lens`,
+      plan: parsed.data.plan,
+      userId: session.user.id,
+    })
+
+    const transactionUuid = qvapayPayment?.transaction_uuid
+    if (transactionUuid) {
+      await db.payment.create({
+        data: {
+          userId: session.user.id,
+          provider: "qvapay",
+          qvapayId: transactionUuid,
+          plan: parsed.data.plan,
+          amount,
+          amountUsd: amount,
+          amountCup: amount * cupRate,
+          remoteId: qvapayPayment.remote_id,
+        },
+      })
+    }
+
+    return ok({ url: qvapayPayment?.url, id: transactionUuid, provider: "qvapay" })
   } catch (e) {
     const errMsg = e instanceof Error ? e.message : String(e)
-    logger.error("Payment create outer error", { error: errMsg })
-    return error(`Error interno: ${errMsg}`, 500)
+    logger.error("Payment create error", { error: errMsg })
+
+    if (errMsg.includes("QvaPay credentials")) {
+      return error("Sistema de pagos no configurado. Contacta al soporte.", 503)
+    }
+    if (errMsg.includes("fetch failed") || errMsg.includes("ETIMEDOUT")) {
+      return error("El servicio de pagos no está disponible. Intenta de nuevo.", 503)
+    }
+
+    return NextResponse.json(
+      { success: false, error: "Error al procesar el pago. Intenta de nuevo." },
+      { status: 500 }
+    )
   }
 }

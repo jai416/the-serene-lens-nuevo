@@ -16,6 +16,7 @@ interface RecipientCounts {
   free: number
   premium: number
   pro: number
+  proPlus: number
   active: number
   inactive: number
   new: number
@@ -41,7 +42,7 @@ const SEGMENT_LABELS: Record<string, string> = {
   free: "Free",
   premium: "Premium",
   pro: "Pro",
-  pro_plus: "Pro+",
+  proPlus: "Pro+",
   active: "Activos",
   inactive: "Inactivos",
   new: "Nuevos (30 días)",
@@ -117,8 +118,9 @@ export default function AdminEmailsPage() {
     try {
       const res = await fetch("/api/admin/emails/history?limit=1")
       if (res.ok) {
-        const data = await res.json()
-        setCounts(data.recipientCounts)
+        const d = await res.json()
+        const body = d?.data || d
+        setCounts(body?.recipientCounts || null)
       }
     } catch {}
   }, [])
@@ -127,18 +129,20 @@ export default function AdminEmailsPage() {
     try {
       const res = await fetch(`/api/admin/emails/history?page=${page}&limit=15`)
       if (res.ok) {
-        const data = await res.json()
-        setHistory(data)
-        if (!counts) setCounts(data.recipientCounts)
+        const d = await res.json()
+        const body = d?.data || d
+        setHistory(body)
+        if (!counts) setCounts(body?.recipientCounts || null)
       }
     } catch {}
   }, [counts])
 
   useEffect(() => {
     if (status === "authenticated") {
+      loadCounts()
       loadHistory()
     }
-  }, [status, loadHistory])
+  }, [status, loadCounts, loadHistory])
 
   const applyTemplate = (template: (typeof TEMPLATES)[number]) => {
     setSubject(template.subject)
@@ -165,17 +169,18 @@ export default function AdminEmailsPage() {
         }),
       })
 
-      const data = await res.json()
+      const d = await res.json()
+      const body = d?.data || d
 
       if (res.ok) {
         if (isPreview) {
           toast.success("Vista previa enviada a tu correo")
         } else {
-          toast.success(`Emails enviados: ${data.sent}, fallidos: ${data.failed}`)
+          toast.success(`Emails enviados: ${body?.sent ?? 0}, fallidos: ${body?.failed ?? 0}`)
           loadHistory()
         }
       } else {
-        toast.error(data.error || "Error al enviar")
+        toast.error(body?.error?.message || body?.error || "Error al enviar")
       }
     } catch {
       toast.error("Error de conexión")
@@ -184,20 +189,22 @@ export default function AdminEmailsPage() {
     }
   }
 
-  if (status === "loading" || !counts) {
+  if (status === "loading") {
     return (
-      <div className="min-h-screen bg-[#F8FAF5] flex items-center justify-center">
-        <p className="text-[#64705E]">Cargando...</p>
+      <div className="min-h-screen bg-[#F8FAF5] dark:bg-[#1A1F19] flex items-center justify-center">
+        <p className="text-muted-foreground">Cargando...</p>
       </div>
     )
   }
 
+  const safeCounts = counts || { all: 0, free: 0, premium: 0, pro: 0, proPlus: 0, active: 0, inactive: 0, new: 0 }
+
   return (
-    <div className="min-h-screen bg-[#F8FAF5]">
+    <div className="min-h-screen bg-[#F8FAF5] dark:bg-[#1A1F19]">
       <div className="max-w-6xl mx-auto px-4 py-8">
         <Link
           href="/admin"
-          className="inline-flex items-center gap-2 text-[#64705E] hover:text-[#2F3A2D] mb-6"
+          className="inline-flex items-center gap-2 text-muted-foreground hover:text-[#2F3A2D] dark:hover:text-[#E8EDE6] mb-6"
         >
           <ArrowLeft className="w-4 h-4" />
           Volver al panel
@@ -205,31 +212,31 @@ export default function AdminEmailsPage() {
 
         <div className="flex items-center justify-between mb-8">
           <div>
-            <h1 className="text-3xl font-bold text-[#2F3A2D] flex items-center gap-3">
+            <h1 className="text-3xl font-bold text-[#2F3A2D] dark:text-[#E8EDE6] flex items-center gap-3">
               <Mail className="w-8 h-8 text-[#C2E09D]" />
               Envío de Emails
             </h1>
-            <p className="text-[#64705E] mt-1">
+            <p className="text-muted-foreground mt-1">
               Envía correos a tus usuarios por segmento
             </p>
           </div>
         </div>
 
         {/* Segment counts */}
-        <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-7 gap-3 mb-8">
-          {Object.entries(counts).map(([key, value]) => (
+        <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-8 gap-3 mb-8">
+          {Object.entries(safeCounts).map(([key, value]) => (
             <Card
               key={key}
               className={`cursor-pointer transition-all ${
                 segment === key
-                  ? "ring-2 ring-[#C2E09D] bg-[#F0F5EC]"
-                  : "hover:bg-[#F0F5EC]"
+                  ? "ring-2 ring-[#C2E09D] bg-[#F0F5EC] dark:bg-[#2A3228]"
+                  : "hover:bg-[#F0F5EC] dark:hover:bg-[#2A3228]"
               }`}
               onClick={() => setSegment(key)}
             >
               <CardContent className="p-3 text-center">
-                <p className="text-2xl font-bold text-[#2F3A2D]">{value}</p>
-                <p className="text-xs text-[#64705E]">{SEGMENT_LABELS[key]}</p>
+                <p className="text-2xl font-bold text-[#2F3A2D] dark:text-[#E8EDE6]">{value}</p>
+                <p className="text-xs text-muted-foreground">{SEGMENT_LABELS[key]}</p>
               </CardContent>
             </Card>
           ))}
@@ -261,42 +268,42 @@ export default function AdminEmailsPage() {
             <div className="lg:col-span-2">
               <Card>
                 <CardContent className="p-6">
-                  <h2 className="text-lg font-semibold text-[#2F3A2D] mb-4">
+                  <h2 className="text-lg font-semibold text-[#2F3A2D] dark:text-[#E8EDE6] mb-4">
                     Redactar email
                   </h2>
 
                   <div className="space-y-4">
                     <div>
-                      <label className="block text-sm font-medium text-[#2F3A2D] mb-1">
+                      <label className="block text-sm font-medium text-[#2F3A2D] dark:text-[#E8EDE6] mb-1">
                         Segmento destino
                       </label>
-                      <div className="px-3 py-2 bg-[#F8FAF5] border border-[#DDE7D3] rounded-lg text-[#2F3A2D]">
-                        {SEGMENT_LABELS[segment]} — {counts[segment as keyof RecipientCounts]} destinatarios
+                      <div className="px-3 py-2 bg-muted border border-[#DDE7D3] dark:border-[#3A4536] rounded-lg text-[#2F3A2D] dark:text-[#E8EDE6]">
+                        {SEGMENT_LABELS[segment]} — {safeCounts[segment as keyof RecipientCounts]} destinatarios
                       </div>
                     </div>
 
                     <div>
-                      <label className="block text-sm font-medium text-[#2F3A2D] mb-1">
+                      <label className="block text-sm font-medium text-[#2F3A2D] dark:text-[#E8EDE6] mb-1">
                         Asunto
                       </label>
                       <input
                         type="text"
                         value={subject}
                         onChange={(e) => setSubject(e.target.value)}
-                        className="w-full px-4 py-2 border border-[#DDE7D3] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#C2E09D] bg-white text-[#2F3A2D]"
+                        className="w-full px-4 py-2 border border-[#DDE7D3] dark:border-[#3A4536] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#C2E09D] bg-background text-[#2F3A2D] dark:text-[#E8EDE6]"
                         placeholder="Asunto del email"
                       />
                     </div>
 
                     <div>
-                      <label className="block text-sm font-medium text-[#2F3A2D] mb-1">
+                      <label className="block text-sm font-medium text-[#2F3A2D] dark:text-[#E8EDE6] mb-1">
                         Contenido (HTML)
                       </label>
                       <textarea
                         value={html}
                         onChange={(e) => setHtml(e.target.value)}
                         rows={12}
-                        className="w-full px-4 py-2 border border-[#DDE7D3] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#C2E09D] bg-white text-[#2F3A2D] font-mono text-sm resize-y"
+                        className="w-full px-4 py-2 border border-[#DDE7D3] dark:border-[#3A4536] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#C2E09D] bg-background text-[#2F3A2D] dark:text-[#E8EDE6] font-mono text-sm resize-y"
                         placeholder="<h1>Hola</h1><p>Escribe tu contenido aquí...</p>"
                       />
                     </div>
@@ -308,7 +315,7 @@ export default function AdminEmailsPage() {
                         className="bg-[#C2E09D] text-[#2F3A2D] hover:bg-[#B0D48E]"
                       >
                         <Send className="w-4 h-4 mr-2" />
-                        {sending ? "Enviando..." : `Enviar a ${counts[segment as keyof RecipientCounts]} usuarios`}
+                        {sending ? "Enviando..." : `Enviar a ${safeCounts[segment as keyof RecipientCounts]} usuarios`}
                       </Button>
                       <Button
                         variant="outline"
@@ -328,7 +335,7 @@ export default function AdminEmailsPage() {
             <div>
               <Card>
                 <CardContent className="p-6">
-                  <h2 className="text-lg font-semibold text-[#2F3A2D] mb-4">
+                  <h2 className="text-lg font-semibold text-[#2F3A2D] dark:text-[#E8EDE6] mb-4">
                     Plantillas
                   </h2>
                   <div className="space-y-3">
@@ -336,20 +343,20 @@ export default function AdminEmailsPage() {
                       <button
                         key={t.name}
                         onClick={() => applyTemplate(t)}
-                        className="w-full text-left p-3 border border-[#DDE7D3] rounded-lg hover:bg-[#F0F5EC] transition-colors"
+                        className="w-full text-left p-3 border border-[#DDE7D3] dark:border-[#3A4536] rounded-lg hover:bg-[#F0F5EC] dark:hover:bg-[#2A3228] transition-colors"
                       >
-                        <p className="font-medium text-[#2F3A2D] text-sm">{t.name}</p>
-                        <p className="text-xs text-[#64705E] mt-1 truncate">{t.subject}</p>
+                        <p className="font-medium text-[#2F3A2D] dark:text-[#E8EDE6] text-sm">{t.name}</p>
+                        <p className="text-xs text-muted-foreground mt-1 truncate">{t.subject}</p>
                       </button>
                     ))}
                   </div>
 
-                  <div className="mt-6 p-4 bg-[#F8FAF5] rounded-lg">
-                    <h3 className="text-sm font-medium text-[#2F3A2D] mb-2">
+                  <div className="mt-6 p-4 bg-muted rounded-lg">
+                    <h3 className="text-sm font-medium text-[#2F3A2D] dark:text-[#E8EDE6] mb-2">
                       Variables disponibles
                     </h3>
-                    <ul className="text-xs text-[#64705E] space-y-1">
-                      <li><code className="bg-white px-1 rounded">{'{name}'}</code> — Nombre del usuario</li>
+                    <ul className="text-xs text-muted-foreground space-y-1">
+                      <li><code className="bg-background dark:bg-[#1A1F19] px-1 rounded">{'{name}'}</code> — Nombre del usuario</li>
                     </ul>
                   </div>
                 </CardContent>
@@ -361,37 +368,37 @@ export default function AdminEmailsPage() {
         {activeTab === "history" && history && (
           <Card>
             <CardContent className="p-6">
-              <h2 className="text-lg font-semibold text-[#2F3A2D] mb-4">
+              <h2 className="text-lg font-semibold text-[#2F3A2D] dark:text-[#E8EDE6] mb-4">
                 Historial de envíos ({history.pagination.total})
               </h2>
 
               {history.logs.length === 0 ? (
-                <p className="text-[#64705E] text-center py-8">
+                <p className="text-muted-foreground text-center py-8">
                   No hay emails enviados aún
                 </p>
               ) : (
                 <div className="overflow-x-auto">
                   <table className="w-full text-sm">
                     <thead>
-                      <tr className="border-b border-[#DDE7D3]">
-                        <th className="text-left py-3 px-2 text-[#64705E] font-medium">Asunto</th>
-                        <th className="text-left py-3 px-2 text-[#64705E] font-medium">Destinatario</th>
-                        <th className="text-left py-3 px-2 text-[#64705E] font-medium">Segmento</th>
-                        <th className="text-left py-3 px-2 text-[#64705E] font-medium">Estado</th>
-                        <th className="text-left py-3 px-2 text-[#64705E] font-medium">Fecha</th>
+                      <tr className="border-b border-[#DDE7D3] dark:border-[#3A4536]">
+                        <th className="text-left py-3 px-2 text-muted-foreground font-medium">Asunto</th>
+                        <th className="text-left py-3 px-2 text-muted-foreground font-medium">Destinatario</th>
+                        <th className="text-left py-3 px-2 text-muted-foreground font-medium">Segmento</th>
+                        <th className="text-left py-3 px-2 text-muted-foreground font-medium">Estado</th>
+                        <th className="text-left py-3 px-2 text-muted-foreground font-medium">Fecha</th>
                       </tr>
                     </thead>
                     <tbody>
                       {history.logs.map((log) => (
-                        <tr key={log.id} className="border-b border-[#DDE7D3] last:border-0">
-                          <td className="py-3 px-2 text-[#2F3A2D] max-w-[200px] truncate">
+                        <tr key={log.id} className="border-b border-[#DDE7D3] dark:border-[#3A4536] last:border-0">
+                          <td className="py-3 px-2 text-[#2F3A2D] dark:text-[#E8EDE6] max-w-[200px] truncate">
                             {log.subject}
                           </td>
-                          <td className="py-3 px-2 text-[#64705E] max-w-[180px] truncate">
+                          <td className="py-3 px-2 text-muted-foreground max-w-[180px] truncate">
                             {log.recipient}
                           </td>
                           <td className="py-3 px-2">
-                            <span className="inline-block px-2 py-1 bg-[#F0F5EC] text-[#2F3A2D] rounded text-xs">
+                            <span className="inline-block px-2 py-1 bg-muted text-[#2F3A2D] dark:text-[#E8EDE6] rounded text-xs">
                               {SEGMENT_LABELS[log.segment] || log.segment}
                             </span>
                           </td>
@@ -402,7 +409,7 @@ export default function AdminEmailsPage() {
                               <XCircle className="w-4 h-4 text-red-500" />
                             )}
                           </td>
-                          <td className="py-3 px-2 text-[#64705E] text-xs">
+                          <td className="py-3 px-2 text-muted-foreground text-xs">
                             {new Date(log.sentAt).toLocaleDateString("es-ES", {
                               day: "numeric",
                               month: "short",

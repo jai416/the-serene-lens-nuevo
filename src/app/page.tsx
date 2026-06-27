@@ -30,6 +30,10 @@ const SkinTest = dynamic(() => import("@/components/skin-test").then((m) => ({ d
   loading: () => <div className="py-8 text-center text-muted-foreground text-sm">Cargando test...</div>,
 })
 
+const AgingDemo = dynamic(() => import("@/components/aging-demo").then((m) => ({ default: m.AgingDemo })), {
+  loading: () => <div className="py-16 text-center text-muted-foreground text-sm">Cargando...</div>,
+})
+
 const steps = [
   { icon: Eye, title: "Sube tus fotos", description: "Captura tu rostro desde varios ángulos. Sin filtros, sin maquillaje." },
   { icon: Beaker, title: "Observamos tu piel", description: "Analizamos textura, poros, brillo y más. Sin porcentajes, solo observaciones reales." },
@@ -159,6 +163,9 @@ export default function HomePage() {
           </div>
         </div>
       </section>
+
+      {/* ─── Prueba Rápida (Aging Demo) ─── */}
+      <AgingDemo />
 
       {/* ─── Action Cards ─── */}
       <section className="px-4 sm:px-8 pb-6">

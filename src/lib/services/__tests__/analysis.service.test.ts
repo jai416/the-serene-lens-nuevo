@@ -1,10 +1,15 @@
 import { describe, it, expect, vi, beforeEach } from "vitest"
 
-const { mockCheckAndDeductUsage, mockAnalyzeSkin, mockAnalysisRepository } = vi.hoisted(() => ({
+const { mockCheckAndDeductUsage, mockAnalyzeSkin, mockAnalysisRepository, mockDb } = vi.hoisted(() => ({
   mockCheckAndDeductUsage: vi.fn(),
   mockAnalyzeSkin: vi.fn(),
   mockAnalysisRepository: {
     create: vi.fn(),
+  },
+  mockDb: {
+    skinDiary: {
+      upsert: vi.fn().mockResolvedValue({ id: "diary-1" }),
+    },
   },
 }))
 
@@ -18,6 +23,10 @@ vi.mock("@/lib/openrouter", () => ({
 
 vi.mock("@/lib/repositories", () => ({
   AnalysisRepository: mockAnalysisRepository,
+}))
+
+vi.mock("@/lib/db", () => ({
+  db: mockDb,
 }))
 
 import { AnalysisService } from "../analysis.service"

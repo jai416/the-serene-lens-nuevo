@@ -12,6 +12,7 @@ export async function GET() {
 
     const now = new Date()
     const thirtyDaysAgo = new Date(now.getTime() - 30 * 24 * 60 * 60 * 1000)
+    const sevenDaysAgo = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000)
     const todayStart = new Date(now.getFullYear(), now.getMonth(), now.getDate())
     const yesterdayStart = new Date(now.getTime() - 24 * 60 * 60 * 1000)
 
@@ -35,17 +36,23 @@ export async function GET() {
 
     const usersYesterday = await db.user.count({ where: { createdAt: { gte: yesterdayStart, lt: todayStart } } })
     const analysesYesterday = await db.skinAnalysis.count({ where: { createdAt: { gte: yesterdayStart, lt: todayStart } } })
+    const newUsersThisWeek = await db.user.count({ where: { createdAt: { gte: sevenDaysAgo } } })
 
     let challenges = 0, diaryEntries = 0, subscriptions = 0, activeSubscriptions = 0
     let packs = 0, completedPacks = 0, comments = 0, featureFlags = 0
-    try { challenges = await db.challenge.count() } catch {}
-    try { diaryEntries = await db.skinDiary.count() } catch {}
-    try { subscriptions = await db.subscription.count() } catch {}
-    try { activeSubscriptions = await db.subscription.count({ where: { status: "active" } }) } catch {}
-    try { packs = await db.purchasePack.count() } catch {}
-    try { completedPacks = await db.purchasePack.count({ where: { status: "completed" } }) } catch {}
-    try { comments = await db.comment.count() } catch {}
-    try { featureFlags = await db.appConfig.count() } catch {}
+    let digitalProducts = 0, guideSales = 0, referralGroups = 0, completedGroups = 0
+    try { challenges = await db.challenge.count() } catch (e) { console.error("stats: challenge count failed", e) }
+    try { diaryEntries = await db.skinDiary.count() } catch (e) { console.error("stats: diary count failed", e) }
+    try { subscriptions = await db.subscription.count() } catch (e) { console.error("stats: subscription count failed", e) }
+    try { activeSubscriptions = await db.subscription.count({ where: { status: "active" } }) } catch (e) { console.error("stats: activeSubscription count failed", e) }
+    try { packs = await db.purchasePack.count() } catch (e) { console.error("stats: pack count failed", e) }
+    try { completedPacks = await db.purchasePack.count({ where: { status: "completed" } }) } catch (e) { console.error("stats: completedPack count failed", e) }
+    try { comments = await db.comment.count() } catch (e) { console.error("stats: comment count failed", e) }
+    try { featureFlags = await db.appConfig.count() } catch (e) { console.error("stats: featureFlag count failed", e) }
+    try { digitalProducts = await db.digitalProduct.count() } catch (e) { console.error("stats: digitalProduct count failed", e) }
+    try { guideSales = await db.digitalProductPurchase.count({ where: { status: "completed" } }) } catch (e) { console.error("stats: guideSale count failed", e) }
+    try { referralGroups = await db.groupAnalytics.count() } catch (e) { console.error("stats: referralGroup count failed", e) }
+    try { completedGroups = await db.groupAnalytics.count({ where: { status: "completed" } }) } catch (e) { console.error("stats: completedGroup count failed", e) }
 
     const conversionRate = users > 0 ? Math.round((paidUsers / users) * 10000) / 100 : 0
     const avgAnalyses = users > 0 ? Math.round((analyses / users) * 100) / 100 : 0
@@ -81,10 +88,11 @@ export async function GET() {
         messages, unreadMessages, posts, products,
         revenue: revenueResult._sum.amount || 0,
         revenueQvaPay: qvapayRevenue._sum.amount || 0,
-        activeUsers: 0, newUsersThisMonth, newUsersThisWeek: 0, newUsersToday,
+        activeUsers: paidUsers, newUsersThisMonth, newUsersThisWeek, newUsersToday,
         analysesThisMonth, analysesToday, conversionRate, paidUsers,
         challenges, diaryEntries, subscriptions, activeSubscriptions,
         packs, completedPacks, comments, featureFlags,
+        digitalProducts, guideSales, referralGroups, completedGroups,
         avgAnalysesPerUser: avgAnalyses, churnRate: 0,
         usersYesterday, analysesYesterday,
         timestamp: new Date().toISOString(),

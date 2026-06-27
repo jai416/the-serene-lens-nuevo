@@ -416,7 +416,9 @@ export const ModelName = {
   GroupAnalytics: 'GroupAnalytics',
   Referral: 'Referral',
   DigitalProduct: 'DigitalProduct',
-  DigitalProductPurchase: 'DigitalProductPurchase'
+  DigitalProductPurchase: 'DigitalProductPurchase',
+  DailyCheckIn: 'DailyCheckIn',
+  IngredientKB: 'IngredientKB'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -432,7 +434,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "user" | "account" | "session" | "verificationToken" | "skinAnalysis" | "blogPost" | "product" | "payment" | "subscription" | "purchasePack" | "usageTracking" | "feedback" | "clinic" | "affiliateClick" | "contactMessage" | "cache" | "webhookEvent" | "userEvolution" | "rateLimit" | "appConfig" | "surveyFeedback" | "communityPost" | "comment" | "skinDiary" | "challenge" | "userChallenge" | "productReview" | "emailLog" | "unsubscribe" | "groupAnalytics" | "referral" | "digitalProduct" | "digitalProductPurchase"
+    modelProps: "user" | "account" | "session" | "verificationToken" | "skinAnalysis" | "blogPost" | "product" | "payment" | "subscription" | "purchasePack" | "usageTracking" | "feedback" | "clinic" | "affiliateClick" | "contactMessage" | "cache" | "webhookEvent" | "userEvolution" | "rateLimit" | "appConfig" | "surveyFeedback" | "communityPost" | "comment" | "skinDiary" | "challenge" | "userChallenge" | "productReview" | "emailLog" | "unsubscribe" | "groupAnalytics" | "referral" | "digitalProduct" | "digitalProductPurchase" | "dailyCheckIn" | "ingredientKB"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -2878,6 +2880,154 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    DailyCheckIn: {
+      payload: Prisma.$DailyCheckInPayload<ExtArgs>
+      fields: Prisma.DailyCheckInFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.DailyCheckInFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DailyCheckInPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.DailyCheckInFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DailyCheckInPayload>
+        }
+        findFirst: {
+          args: Prisma.DailyCheckInFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DailyCheckInPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.DailyCheckInFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DailyCheckInPayload>
+        }
+        findMany: {
+          args: Prisma.DailyCheckInFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DailyCheckInPayload>[]
+        }
+        create: {
+          args: Prisma.DailyCheckInCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DailyCheckInPayload>
+        }
+        createMany: {
+          args: Prisma.DailyCheckInCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.DailyCheckInCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DailyCheckInPayload>[]
+        }
+        delete: {
+          args: Prisma.DailyCheckInDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DailyCheckInPayload>
+        }
+        update: {
+          args: Prisma.DailyCheckInUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DailyCheckInPayload>
+        }
+        deleteMany: {
+          args: Prisma.DailyCheckInDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.DailyCheckInUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.DailyCheckInUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DailyCheckInPayload>[]
+        }
+        upsert: {
+          args: Prisma.DailyCheckInUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DailyCheckInPayload>
+        }
+        aggregate: {
+          args: Prisma.DailyCheckInAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateDailyCheckIn>
+        }
+        groupBy: {
+          args: Prisma.DailyCheckInGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.DailyCheckInGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.DailyCheckInCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.DailyCheckInCountAggregateOutputType> | number
+        }
+      }
+    }
+    IngredientKB: {
+      payload: Prisma.$IngredientKBPayload<ExtArgs>
+      fields: Prisma.IngredientKBFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.IngredientKBFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$IngredientKBPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.IngredientKBFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$IngredientKBPayload>
+        }
+        findFirst: {
+          args: Prisma.IngredientKBFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$IngredientKBPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.IngredientKBFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$IngredientKBPayload>
+        }
+        findMany: {
+          args: Prisma.IngredientKBFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$IngredientKBPayload>[]
+        }
+        create: {
+          args: Prisma.IngredientKBCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$IngredientKBPayload>
+        }
+        createMany: {
+          args: Prisma.IngredientKBCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.IngredientKBCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$IngredientKBPayload>[]
+        }
+        delete: {
+          args: Prisma.IngredientKBDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$IngredientKBPayload>
+        }
+        update: {
+          args: Prisma.IngredientKBUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$IngredientKBPayload>
+        }
+        deleteMany: {
+          args: Prisma.IngredientKBDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.IngredientKBUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.IngredientKBUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$IngredientKBPayload>[]
+        }
+        upsert: {
+          args: Prisma.IngredientKBUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$IngredientKBPayload>
+        }
+        aggregate: {
+          args: Prisma.IngredientKBAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateIngredientKB>
+        }
+        groupBy: {
+          args: Prisma.IngredientKBGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.IngredientKBGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.IngredientKBCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.IngredientKBCountAggregateOutputType> | number
+        }
+      }
+    }
   }
 } & {
   other: {
@@ -2931,7 +3081,10 @@ export const UserScalarFieldEnum = {
   analysisUsed: 'analysisUsed',
   analysisResetAt: 'analysisResetAt',
   createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
+  updatedAt: 'updatedAt',
+  currentStreak: 'currentStreak',
+  maxStreak: 'maxStreak',
+  lastCheckInDate: 'lastCheckInDate'
 } as const
 
 export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum]
@@ -3373,6 +3526,32 @@ export const DigitalProductPurchaseScalarFieldEnum = {
 export type DigitalProductPurchaseScalarFieldEnum = (typeof DigitalProductPurchaseScalarFieldEnum)[keyof typeof DigitalProductPurchaseScalarFieldEnum]
 
 
+export const DailyCheckInScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  date: 'date',
+  routine: 'routine',
+  createdAt: 'createdAt'
+} as const
+
+export type DailyCheckInScalarFieldEnum = (typeof DailyCheckInScalarFieldEnum)[keyof typeof DailyCheckInScalarFieldEnum]
+
+
+export const IngredientKBScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  category: 'category',
+  mechanism: 'mechanism',
+  concentration: 'concentration',
+  evidence: 'evidence',
+  pairsWith: 'pairsWith',
+  caution: 'caution',
+  createdAt: 'createdAt'
+} as const
+
+export type IngredientKBScalarFieldEnum = (typeof IngredientKBScalarFieldEnum)[keyof typeof IngredientKBScalarFieldEnum]
+
+
 export const SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -3639,6 +3818,8 @@ export type GlobalOmitConfig = {
   referral?: Prisma.ReferralOmit
   digitalProduct?: Prisma.DigitalProductOmit
   digitalProductPurchase?: Prisma.DigitalProductPurchaseOmit
+  dailyCheckIn?: Prisma.DailyCheckInOmit
+  ingredientKB?: Prisma.IngredientKBOmit
 }
 
 /* Types for Logging */

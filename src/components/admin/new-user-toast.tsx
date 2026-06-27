@@ -11,8 +11,9 @@ export function NewUserToast() {
       try {
         const res = await fetch("/api/admin/stats")
         if (!res.ok) return
-        const data = await res.json()
-        const current = data?.stats?.users
+        const d = await res.json()
+        const body = d?.data || d
+        const current = body?.stats?.users
         if (current != null && lastCount.current != null && current > lastCount.current) {
           const diff = current - lastCount.current
           toast.success(`${diff} nuevo${diff > 1 ? "s" : ""} usuario${diff > 1 ? "s" : ""}`, {

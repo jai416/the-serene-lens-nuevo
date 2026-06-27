@@ -1,7 +1,16 @@
-import { getEnv } from "@/lib/env"
+import { logger } from "@/lib/logger"
 
 function getPaymentsEnv() {
-  return getEnv()
+  const QVAPAY_API_URL = process.env.QVAPAY_API_URL || "https://api.qvapay.com"
+  const QVAPAY_UUID = process.env.QVAPAY_UUID || ""
+  const QVAPAY_SECRET = process.env.QVAPAY_SECRET || ""
+  const NEXTAUTH_URL = process.env.NEXTAUTH_URL || "http://localhost:3000"
+
+  if (!QVAPAY_UUID || !QVAPAY_SECRET) {
+    throw new Error("QvaPay credentials not configured")
+  }
+
+  return { QVAPAY_API_URL, QVAPAY_UUID, QVAPAY_SECRET, NEXTAUTH_URL }
 }
 
 interface CreateQvaPayOptions {

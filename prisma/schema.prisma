@@ -43,6 +43,11 @@ model User {
   digitalPurchases DigitalProductPurchase[]
   affiliateClicks   AffiliateClick[]
   evolution         UserEvolution?
+  checkIns          DailyCheckIn[]
+
+  currentStreak     Int       @default(0)
+  maxStreak         Int       @default(0)
+  lastCheckInDate   DateTime?
 
   @@index([plan])
   @@index([role])
@@ -538,4 +543,32 @@ model DigitalProductPurchase {
   @@index([userId])
   @@index([digitalProductId])
   @@index([status])
+}
+
+model DailyCheckIn {
+  id        String   @id @default(cuid())
+  userId    String
+  date      DateTime @default(now())
+  routine   String   @default("morning") // morning, evening
+  createdAt DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, date, routine])
+  @@index([userId])
+  @@index([date])
+}
+
+model IngredientKB {
+  id            String   @id @default(cuid())
+  name          String   @unique
+  category      String   // manchas, arrugas, poros, sensibilidad, hidratacion, acne
+  mechanism     String
+  concentration String
+  evidence      String
+  pairsWith     String   @default("")
+  caution       String?
+  createdAt     DateTime @default(now())
+
+  @@index([category])
 }

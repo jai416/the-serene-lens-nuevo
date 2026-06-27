@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { useSession } from "next-auth/react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { MessageCircle, Send, ChevronDown, ChevronUp, Heart } from "lucide-react";
+import CommunityGuideBanner from "@/components/community-guide-banner";
 
 interface User {
   name: string | null;
@@ -228,6 +229,7 @@ export default function CommunityPage() {
                 </CardHeader>
                 <CardContent>
                   <p className="mb-4 text-[#64705E] dark:text-[#9BAA93] line-clamp-2">{post.content}</p>
+                  <CommunityGuideBanner content={post.content} />
                   <div className="flex justify-between items-center text-sm text-[#64705E] dark:text-[#9BAA93]">
                     <div className="flex items-center gap-4">
                       <span>{post.user.name || "Anónimo"}</span>

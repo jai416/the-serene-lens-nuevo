@@ -10,7 +10,7 @@ import { ok, error, unauthorized, serverError } from "@/lib/api-response"
 const sendEmailSchema = z.object({
   subject: z.string().min(1).max(200),
   html: z.string().min(1),
-  segment: z.enum(["all", "free", "premium", "pro", "pro_plus", "active", "inactive", "new"]),
+  segment: z.enum(["all", "free", "premium", "pro", "proPlus", "active", "inactive", "new"]),
   preview: z.boolean().optional(),
   previewEmail: z.string().email().optional(),
 })

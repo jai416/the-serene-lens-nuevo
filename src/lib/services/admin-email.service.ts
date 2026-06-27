@@ -157,7 +157,7 @@ export async function getRecipients(segment: string): Promise<{ email: string; n
     case "pro":
       where = { plan: "PRO" }
       break
-    case "pro_plus":
+    case "proPlus":
       where = { plan: "PRO_PLUS" }
       break
     case "active":
@@ -186,27 +186,28 @@ export async function getRecipients(segment: string): Promise<{ email: string; n
 }
 
 export async function getRecipientCounts(): Promise<Record<string, number>> {
-  const unsubscribed = await db.unsubscribe.findMany({
-    select: { email: true },
-  })
-  const unsubscribedSet = new Set(unsubscribed.map((u) => u.email))
-
-  const allUsers = await db.user.findMany({
-    select: { email: true, plan: true, analysisUsed: true, createdAt: true },
-  })
-
-  const activeUsers = allUsers.filter((u) => !unsubscribedSet.has(u.email))
   const thirtyDaysAgo = new Date()
   thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30)
 
+  const [all, free, premium, pro, proPlus, active, inactive, newUsers] = await Promise.all([
+    db.user.count(),
+    db.user.count({ where: { plan: "FREE" } }),
+    db.user.count({ where: { plan: "PREMIUM" } }),
+    db.user.count({ where: { plan: "PRO" } }),
+    db.user.count({ where: { plan: "PRO_PLUS" } }),
+    db.user.count({ where: { analysisUsed: { gt: 0 } } }),
+    db.user.count({ where: { analysisUsed: 0 } }),
+    db.user.count({ where: { createdAt: { gte: thirtyDaysAgo } } }),
+  ])
+
   return {
-    all: activeUsers.length,
-    free: activeUsers.filter((u) => u.plan === "FREE").length,
-    premium: activeUsers.filter((u) => u.plan === "PREMIUM").length,
-    pro: activeUsers.filter((u) => u.plan === "PRO").length,
-    proPlus: activeUsers.filter((u) => u.plan === "PRO_PLUS").length,
-    active: activeUsers.filter((u) => u.analysisUsed > 0).length,
-    inactive: activeUsers.filter((u) => u.analysisUsed === 0).length,
-    new: activeUsers.filter((u) => u.createdAt >= thirtyDaysAgo).length,
+    all,
+    free,
+    premium,
+    pro,
+    proPlus,
+    active,
+    inactive,
+    new: newUsers,
   }
 }
