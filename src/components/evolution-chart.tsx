@@ -56,7 +56,7 @@ function MiniBar({ value, max }: { value: number; max: number }) {
 }
 
 export function EvolutionChart({ data }: { data: EvolutionResult }) {
-  if (data.totalAnalyses < 2) {
+  if (!data || data.totalAnalyses < 2) {
     return (
       <Card className="p-6">
         <CardHeader className="p-0 mb-4">
@@ -86,12 +86,12 @@ export function EvolutionChart({ data }: { data: EvolutionResult }) {
       </CardHeader>
       <CardContent className="p-0">
         <p className="text-xs text-[#64705E] mb-4">
-          Basado en {data.totalAnalyses} análisis · {data.points[0]?.date} → {data.points[data.points.length - 1]?.date}
+          Basado en {data.totalAnalyses} análisis · {data.points?.[0]?.date} → {data.points?.[data.points.length - 1]?.date}
         </p>
         <div className="space-y-3">
           {Object.entries(CATEGORY_LABELS).map(([key, label]) => {
-            const trend = data.trends[key] || "insufficient_data"
-            const values = data.points.map((p) => (p as any)[key]).filter(Boolean)
+            const trend = data.trends?.[key] || "insufficient_data"
+            const values = (data.points || []).map((p) => (p as any)[key]).filter(Boolean)
             const maxSeverity = 4
 
             return (

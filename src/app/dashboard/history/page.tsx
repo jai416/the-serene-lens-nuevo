@@ -45,7 +45,7 @@ export default function HistoryPage() {
     if (session) {
       fetch("/api/user/evolution")
         .then((res) => res.ok ? res.json() : null)
-        .then((data) => setEvolution(data))
+        .then((d) => setEvolution(d?.data || d))
         .catch(() => {})
         .finally(() => setEvolutionLoading(false))
     }

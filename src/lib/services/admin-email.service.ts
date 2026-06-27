@@ -9,11 +9,14 @@ const CUSTOM_FROM = "The Serene Lens <noreply@theserenelens.com>"
 let resendClient: any = null
 
 async function getResend() {
-  if (resendClient) return resendClient
   if (!process.env.RESEND_API_KEY) {
-    logger.warn("RESEND_API_KEY not set, emails will be logged to console")
+    if (resendClient) {
+      logger.warn("RESEND_API_KEY removed, clearing cached client")
+      resendClient = null
+    }
     return null
   }
+  if (resendClient) return resendClient
   try {
     const { Resend } = await import("resend")
     resendClient = new Resend(process.env.RESEND_API_KEY)
@@ -38,8 +41,8 @@ export async function sendEmail(options: SendEmailOptions): Promise<{ id?: strin
   const resend = await getResend()
 
   if (!resend) {
-    logger.info("Email (no API key)", { to: options.to, subject: options.subject })
-    return { id: "console-log" }
+    logger.warn("Email skipped - RESEND_API_KEY not set", { to: options.to, subject: options.subject })
+    return { error: "RESEND_API_KEY no está configurado. Agrega RESEND_API_KEY en las variables de entorno de Render." }
   }
 
   try {
@@ -81,11 +84,11 @@ export async function sendBulkEmail(options: SendBulkEmailOptions): Promise<{
   let failed = 0
 
   if (!resend) {
-    logger.info("Bulk email (no API key)", {
+    logger.warn("Bulk email skipped - RESEND_API_KEY not set", {
       subject: options.subject,
       recipientCount: options.recipients.length,
     })
-    return { sent: options.recipients.length, failed: 0, errors: [] }
+    return { sent: 0, failed: options.recipients.length, errors: ["RESEND_API_KEY no está configurado. Los emails no se envían. Agrega RESEND_API_KEY en las variables de entorno de Render."] }
   }
 
   // Resend batch limit: 100 per call
@@ -107,7 +110,9 @@ export async function sendBulkEmail(options: SendBulkEmailOptions): Promise<{
       const result = await resend.batch.send(emails)
 
       if (result.error) {
-        errors.push(result.error.message)
+        const msg = result.error.message || JSON.stringify(result.error)
+        errors.push(msg)
+        logger.error("Resend batch error", { error: msg, batchSize: batch.length })
         failed += batch.length
       } else {
         // Log each email
@@ -126,6 +131,7 @@ export async function sendBulkEmail(options: SendBulkEmailOptions): Promise<{
       }
     } catch (error) {
       const message = error instanceof Error ? error.message : "Unknown error"
+      logger.error("Resend batch exception", { error: message, batchSize: batch.length })
       errors.push(message)
       failed += batch.length
     }

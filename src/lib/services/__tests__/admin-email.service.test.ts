@@ -51,12 +51,10 @@ describe("admin-email.service", () => {
   beforeEach(() => {
     vi.clearAllMocks()
     process.env.RESEND_API_KEY = "test-key"
-    // Reset the cached resend client by re-importing would be complex
-    // Instead, we test the "no API key" case first
   })
 
   describe("sendEmail", () => {
-    it("returns console-log when no API key", async () => {
+    it("returns error when no API key", async () => {
       const original = process.env.RESEND_API_KEY
       delete process.env.RESEND_API_KEY
 
@@ -66,7 +64,8 @@ describe("admin-email.service", () => {
         html: "<p>Hello</p>",
       })
 
-      expect(result.id).toBe("console-log")
+      expect(result.error).toBeDefined()
+      expect(result.id).toBeUndefined()
 
       process.env.RESEND_API_KEY = original
     })
@@ -101,7 +100,7 @@ describe("admin-email.service", () => {
       expect(mockCreate).toHaveBeenCalledTimes(2)
     })
 
-    it("returns console counts when no API key", async () => {
+    it("returns error counts when no API key", async () => {
       delete process.env.RESEND_API_KEY
 
       const result = await sendBulkEmail({
@@ -111,8 +110,9 @@ describe("admin-email.service", () => {
         recipients: [{ email: "a@test.com" }],
       })
 
-      expect(result.sent).toBe(1)
-      expect(result.failed).toBe(0)
+      expect(result.sent).toBe(0)
+      expect(result.failed).toBe(1)
+      expect(result.errors.length).toBeGreaterThan(0)
     })
   })
 
