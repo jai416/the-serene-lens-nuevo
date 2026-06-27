@@ -139,7 +139,7 @@ Sé específico pero honesto. No inventes diagnósticos ni condiciones médicas.
 Todas las observaciones deben estar basadas únicamente en lo que ves en la fotografía.`
 
   const body = {
-    model: "google/gemini-2.0-flash-001",
+    model: "google/gemini-2.5-flash",
     messages: [
       {
         role: "user",
@@ -221,7 +221,7 @@ Responde en formato JSON (sin markdown, solo JSON válido). Usa lenguaje descrip
 }`
 
   const body = {
-    model: "google/gemini-2.0-flash-001",
+    model: "google/gemini-2.5-flash",
     max_tokens: 1000,
     messages: [
       {

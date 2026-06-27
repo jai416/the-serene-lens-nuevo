@@ -103,7 +103,7 @@ export async function sendBulkEmail(options: SendBulkEmailOptions): Promise<{
       from: getFromAddress(),
       to: r.email,
       subject: options.subject,
-      html: options.html,
+      html: options.html.replace(/\{name\}/g, r.name || "usuario"),
     }))
 
     try {

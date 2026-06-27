@@ -37,7 +37,7 @@ export default function DashboardGuidesPage() {
   if (!session) redirect("/login?callbackUrl=/dashboard/guides")
 
   useEffect(() => {
-    fetch("/api/guides")
+    fetch("/api/user/guides")
       .then((r) => r.json())
       .then((d) => {
         setGuides(d?.data?.guides || [])

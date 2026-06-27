@@ -64,28 +64,30 @@ export default function ProductsPage() {
             Productos
           </Badge>
           <h1 className="font-serif text-3xl sm:text-4xl font-semibold mb-2 text-[#2F3A2D]">
-            Escáner de Productos
+            Catálogo de Productos
           </h1>
           <p className="text-[#64705E] max-w-lg mx-auto">
-            Descubre los ingredientes de tus productos cosméticos y su función.
+            Explora nuestra selección de productos de skincare.
           </p>
         </div>
 
-        {/* Redirect to ingredients analyzer */}
-        <Card className="p-6 mb-10">
+        {/* Link to ingredients analyzer */}
+        <Card className="p-5 mb-10">
           <CardContent className="p-0">
-            <div className="flex flex-col items-center text-center">
-              <div className="w-12 h-12 rounded-xl bg-[#C2E09D] flex items-center justify-center mb-4">
-                <Camera className="w-5 h-5 text-[#2F3A2D]" />
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-4">
+                <div className="w-10 h-10 rounded-xl bg-[#C2E09D] flex items-center justify-center shrink-0">
+                  <Camera className="w-5 h-5 text-[#2F3A2D]" />
+                </div>
+                <div>
+                  <h2 className="font-medium text-sm text-[#2F3A2D]">¿Tienes un producto?</h2>
+                  <p className="text-xs text-[#64705E]">Analiza sus ingredientes con IA</p>
+                </div>
               </div>
-              <h2 className="font-serif text-lg font-semibold mb-1 text-[#2F3A2D]">Escáner de Ingredientes</h2>
-              <p className="text-sm text-[#64705E] mb-4">
-                Sube una foto de la lista de ingredientes y obtén un análisis completo
-              </p>
               <Link href="/ingredients-analyzer">
-                <Button variant="primary">
-                  Ir al escáner de ingredientes
-                  <ArrowRight className="w-4 h-4 ml-2" />
+                <Button variant="primary" size="sm">
+                  Analizar
+                  <ArrowRight className="w-3.5 h-3.5 ml-1" />
                 </Button>
               </Link>
             </div>

@@ -165,27 +165,6 @@ body::before {
 
 /* Dark mode utility classes */
 @layer base {
-  h1 {
-    @apply text-4xl md:text-5xl font-extrabold tracking-tight;
-    color: var(--on-surface);
-  }
-  h2 {
-    @apply text-2xl md:text-3xl font-bold;
-    color: var(--on-surface);
-  }
-  h3 {
-    @apply text-xl font-semibold;
-    color: var(--on-surface);
-  }
-  p {
-    @apply text-base;
-    color: var(--on-surface);
-  }
-  .text-secondary {
-    @apply text-sm;
-    color: var(--on-surface-variant);
-  }
-
   /* Dark mode overrides for common patterns */
   .bg-white { @apply dark:bg-[#222920]; }
   .bg-\[\#F8FAF5\] { @apply dark:bg-[#1E251C]; }
