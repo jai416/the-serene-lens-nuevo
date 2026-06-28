@@ -54,37 +54,45 @@ export async function POST(req: NextRequest) {
 
     let qvapayData: Record<string, unknown>
     try {
-      const response = await fetch(`${QVAPAY_API_URL}/v2/create_invoice`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "app-id": QVAPAY_UUID,
-          "app-secret": QVAPAY_SECRET,
-        },
-        body: JSON.stringify({
-          title: guide.title,
-          description: `Guía: ${guide.title}`,
-          amount: guide.price,
-          currency: "USD",
-          reference_id: `guide-${guideId}-${session.user.id}`,
-          success_url: `${appUrl}/guides?success=${guideId}`,
-          cancel_url: `${appUrl}/guides`,
-        }),
-      })
-
-      const text = await response.text()
-      logger.info("QvaPay guide response", { status: response.status, body: text })
+      const controller = new AbortController()
+      const timeout = setTimeout(() => controller.abort(), 30000)
 
       try {
-        qvapayData = JSON.parse(text)
-      } catch {
-        logger.error("QvaPay guide invalid JSON", { body: text })
-        return error("Respuesta inválida del procesador de pagos")
-      }
+        const response = await fetch(`${QVAPAY_API_URL}/v2/create_invoice`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "app-id": QVAPAY_UUID,
+            "app-secret": QVAPAY_SECRET,
+          },
+          body: JSON.stringify({
+            title: guide.title,
+            description: `Guía: ${guide.title}`,
+            amount: guide.price,
+            currency: "USD",
+            reference_id: `guide-${guideId}-${session.user.id}`,
+            success_url: `${appUrl}/guides?success=${guideId}`,
+            cancel_url: `${appUrl}/guides`,
+          }),
+          signal: controller.signal,
+        })
 
-      if (!response.ok || !qvapayData.invoice_id) {
-        logger.error("QvaPay guide create failed", { status: response.status, data: qvapayData })
-        return error("Error al crear pago en el procesador")
+        const text = await response.text()
+        logger.info("QvaPay guide response", { status: response.status, body: text })
+
+        try {
+          qvapayData = JSON.parse(text)
+        } catch {
+          logger.error("QvaPay guide invalid JSON", { body: text })
+          return error("Respuesta inválida del procesador de pagos")
+        }
+
+        if (!response.ok || !qvapayData.invoice_id) {
+          logger.error("QvaPay guide create failed", { status: response.status, data: qvapayData })
+          return error("Error al crear pago en el procesador")
+        }
+      } finally {
+        clearTimeout(timeout)
       }
     } catch (e) {
       logger.error("QvaPay guide fetch error", { error: e instanceof Error ? e.message : "Unknown" })

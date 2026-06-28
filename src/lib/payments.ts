@@ -23,59 +23,75 @@ interface CreateQvaPayOptions {
 export async function createQvaPayPayment({ amount, description, plan, userId }: CreateQvaPayOptions) {
   const e = getPaymentsEnv()
   const appUrl = process.env.NEXT_PUBLIC_APP_URL || e.NEXTAUTH_URL
-  const res = await fetch(`${e.QVAPAY_API_URL}/v2/create_invoice`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      "app-id": e.QVAPAY_UUID,
-      "app-secret": e.QVAPAY_SECRET,
-    },
-    body: JSON.stringify({
-      amount,
-      description,
-      remote_id: `${userId}_${plan}_${Date.now()}`,
-      webhook: `${e.NEXTAUTH_URL}/api/payments/webhook`,
-      success_url: `${appUrl}/pricing/success?payment_id={invoice_id}`,
-      cancel_url: `${appUrl}/pricing/cancel`,
-    }),
-  })
+  const controller = new AbortController()
+  const timeout = setTimeout(() => controller.abort(), 30000)
 
-  if (!res.ok) {
-    const body = await res.text().catch(() => "")
-    console.error("[QvaPay] create_payment failed:", res.status, body)
-    throw new Error("Error al crear pago en QvaPay")
+  try {
+    const res = await fetch(`${e.QVAPAY_API_URL}/v2/create_invoice`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "app-id": e.QVAPAY_UUID,
+        "app-secret": e.QVAPAY_SECRET,
+      },
+      body: JSON.stringify({
+        amount,
+        description,
+        remote_id: `${userId}_${plan}_${Date.now()}`,
+        webhook: `${e.NEXTAUTH_URL}/api/payments/webhook`,
+        success_url: `${appUrl}/pricing/success?payment_id={invoice_id}`,
+        cancel_url: `${appUrl}/pricing/cancel`,
+      }),
+      signal: controller.signal,
+    })
+
+    if (!res.ok) {
+      const body = await res.text().catch(() => "")
+      console.error("[QvaPay] create_payment failed:", res.status, body)
+      throw new Error("Error al crear pago en QvaPay")
+    }
+
+    return res.json()
+  } finally {
+    clearTimeout(timeout)
   }
-
-  return res.json()
 }
 
 export async function createQvaPayPackPayment({ amount, description, packType, userId }: CreateQvaPayOptions & { packType: string }) {
   const e = getPaymentsEnv()
   const appUrl = process.env.NEXT_PUBLIC_APP_URL || e.NEXTAUTH_URL
-  const res = await fetch(`${e.QVAPAY_API_URL}/v2/create_invoice`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      "app-id": e.QVAPAY_UUID,
-      "app-secret": e.QVAPAY_SECRET,
-    },
-    body: JSON.stringify({
-      amount,
-      description,
-      remote_id: `${userId}_pack_${packType}_${Date.now()}`,
-      webhook: `${e.NEXTAUTH_URL}/api/payments/webhook`,
-      success_url: `${appUrl}/pricing/success?payment_id={invoice_id}`,
-      cancel_url: `${appUrl}/pricing/cancel`,
-    }),
-  })
+  const controller = new AbortController()
+  const timeout = setTimeout(() => controller.abort(), 30000)
 
-  if (!res.ok) {
-    const body = await res.text().catch(() => "")
-    console.error("[QvaPay] create_pack_payment failed:", res.status, body)
-    throw new Error("Error al crear pago en QvaPay")
+  try {
+    const res = await fetch(`${e.QVAPAY_API_URL}/v2/create_invoice`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "app-id": e.QVAPAY_UUID,
+        "app-secret": e.QVAPAY_SECRET,
+      },
+      body: JSON.stringify({
+        amount,
+        description,
+        remote_id: `${userId}_pack_${packType}_${Date.now()}`,
+        webhook: `${e.NEXTAUTH_URL}/api/payments/webhook`,
+        success_url: `${appUrl}/pricing/success?payment_id={invoice_id}`,
+        cancel_url: `${appUrl}/pricing/cancel`,
+      }),
+      signal: controller.signal,
+    })
+
+    if (!res.ok) {
+      const body = await res.text().catch(() => "")
+      console.error("[QvaPay] create_pack_payment failed:", res.status, body)
+      throw new Error("Error al crear pago en QvaPay")
+    }
+
+    return res.json()
+  } finally {
+    clearTimeout(timeout)
   }
-
-  return res.json()
 }
 
 export async function getQvaPayPaymentStatus(transactionUuid: string) {

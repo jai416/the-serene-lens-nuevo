@@ -36,7 +36,7 @@ export default function AdminPaymentsPage() {
     }
   }, [session])
 
-  if (status === "loading") return <div className="min-h-screen pt-24 flex items-center justify-center"><p className="text-muted-foreground">Cargando...</p></div>
+  if (status === "loading") return <div className="min-h-screen pt-24 flex items-center justify-center"><p className="text-[#64705E] dark:text-[#9BAA93]">Cargando...</p></div>
   if (!session || session.user.role !== "ADMIN") redirect("/")
 
   const totalRevenue = payments
@@ -44,10 +44,10 @@ export default function AdminPaymentsPage() {
     .reduce((sum, p) => sum + p.amount, 0)
 
   return (
-    <div className="min-h-screen pt-24 pb-16 px-4">
+    <div className="min-h-screen bg-[#F8FAF5] dark:bg-[#1A1F19] pt-24 pb-16 px-4">
       <div className="max-w-6xl mx-auto">
         <div className="mb-8">
-          <Link href="/admin" className="text-sm text-muted-foreground hover:text-primary inline-flex items-center gap-1 mb-4">
+          <Link href="/admin" className="text-sm text-[#64705E] dark:text-[#9BAA93] hover:text-[#2F3A2D] dark:hover:text-[#E8EDE6] inline-flex items-center gap-1 mb-4">
             <ArrowLeft className="w-3 h-3" /> Volver al panel
           </Link>
           <Badge variant="secondary" className="mb-4 rounded-full px-4 py-1.5">
@@ -57,8 +57,8 @@ export default function AdminPaymentsPage() {
           <h1 className="font-serif text-3xl font-semibold mb-2">
             Gestión de <span className="gradient-text">Pagos</span>
           </h1>
-          <p className="text-sm text-muted-foreground">
-            Total ingresos: <span className="font-semibold text-foreground">${totalRevenue.toFixed(2)}</span>
+          <p className="text-sm text-[#64705E] dark:text-[#9BAA93]">
+            Total ingresos: <span className="font-semibold text-[#2F3A2D] dark:text-[#E8EDE6]">${totalRevenue.toFixed(2)}</span>
           </p>
         </div>
 
@@ -66,21 +66,21 @@ export default function AdminPaymentsPage() {
           <div className="overflow-x-auto">
             <table className="w-full text-sm">
               <thead>
-                <tr className="border-b border-outline/20">
-                  <th className="text-left p-4 font-medium text-muted-foreground">Usuario</th>
-                  <th className="text-left p-4 font-medium text-muted-foreground">Email</th>
-                  <th className="text-left p-4 font-medium text-muted-foreground">Plan</th>
-                  <th className="text-left p-4 font-medium text-muted-foreground">Monto</th>
-                  <th className="text-left p-4 font-medium text-muted-foreground">Estado</th>
-                  <th className="text-left p-4 font-medium text-muted-foreground">Fecha</th>
-                  <th className="text-left p-4 font-medium text-muted-foreground">ID Transacción</th>
+                <tr className="border-b border-[#DDE7D3] dark:border-[#3A4536]/20">
+                  <th className="text-left p-4 font-medium text-[#64705E] dark:text-[#9BAA93]">Usuario</th>
+                  <th className="text-left p-4 font-medium text-[#64705E] dark:text-[#9BAA93]">Email</th>
+                  <th className="text-left p-4 font-medium text-[#64705E] dark:text-[#9BAA93]">Plan</th>
+                  <th className="text-left p-4 font-medium text-[#64705E] dark:text-[#9BAA93]">Monto</th>
+                  <th className="text-left p-4 font-medium text-[#64705E] dark:text-[#9BAA93]">Estado</th>
+                  <th className="text-left p-4 font-medium text-[#64705E] dark:text-[#9BAA93]">Fecha</th>
+                  <th className="text-left p-4 font-medium text-[#64705E] dark:text-[#9BAA93]">ID Transacción</th>
                 </tr>
               </thead>
               <tbody>
                 {payments.map((p) => (
-                  <tr key={p.id} className="border-b border-outline/10 hover:bg-muted/50 transition-colors">
+                  <tr key={p.id} className="border-b border-[#DDE7D3] dark:border-[#3A4536]/10 hover:bg-[#F0F5EC] dark:hover:bg-[#2A3228] transition-colors">
                     <td className="p-4 font-medium">{p.user.name || "—"}</td>
-                    <td className="p-4 text-muted-foreground">{p.user.email}</td>
+                    <td className="p-4 text-[#64705E] dark:text-[#9BAA93]">{p.user.email}</td>
                     <td className="p-4">{p.plan}</td>
                     <td className="p-4 font-medium">{formatPrice(p.amount, p.currency)}</td>
                     <td className="p-4">
@@ -98,15 +98,15 @@ export default function AdminPaymentsPage() {
                         </Badge>
                       )}
                     </td>
-                    <td className="p-4 text-xs text-muted-foreground">{formatDate(p.createdAt)}</td>
-                    <td className="p-4 text-xs text-muted-foreground font-mono">
+                    <td className="p-4 text-xs text-[#64705E] dark:text-[#9BAA93]">{formatDate(p.createdAt)}</td>
+                    <td className="p-4 text-xs text-[#64705E] dark:text-[#9BAA93] font-mono">
                       {p.qvapayId ? p.qvapayId.slice(0, 12) + "..." : "—"}
                     </td>
                   </tr>
                 ))}
                 {payments.length === 0 && (
                   <tr>
-                    <td colSpan={7} className="p-8 text-center text-muted-foreground">No hay pagos registrados</td>
+                    <td colSpan={7} className="p-8 text-center text-[#64705E] dark:text-[#9BAA93]">No hay pagos registrados</td>
                   </tr>
                 )}
               </tbody>

@@ -54,6 +54,14 @@ export async function POST(req: NextRequest) {
       userId: session.user.id,
     })
 
+    logger.info("QvaPay invoice created", {
+      invoice_id: qvapayPayment?.invoice_id,
+      transaction_uuid: qvapayPayment?.transaction_uuid,
+      hasUrl: !!qvapayPayment?.url,
+      url: qvapayPayment?.url,
+      keys: qvapayPayment ? Object.keys(qvapayPayment) : [],
+    })
+
     const transactionUuid = qvapayPayment?.invoice_id || qvapayPayment?.transaction_uuid
     if (transactionUuid) {
       await db.payment.create({

@@ -34,7 +34,7 @@ export default function AdminFeatureFlagsPage() {
     if (session?.user?.role === "ADMIN") loadFlags()
   }, [session, loadFlags])
 
-  if (status === "loading") return <div className="min-h-screen pt-24 flex items-center justify-center"><p className="text-muted-foreground">Cargando...</p></div>
+  if (status === "loading") return <div className="min-h-screen pt-24 flex items-center justify-center"><p className="text-[#64705E] dark:text-[#9BAA93]">Cargando...</p></div>
   if (!session || session.user.role !== "ADMIN") redirect("/")
 
   const toggleFlag = async (flag: string, enabled: boolean) => {
@@ -73,10 +73,10 @@ export default function AdminFeatureFlagsPage() {
   }
 
   return (
-    <div className="min-h-screen pt-24 pb-16 px-4">
+    <div className="min-h-screen bg-[#F8FAF5] dark:bg-[#1A1F19] pt-24 pb-16 px-4">
       <div className="max-w-4xl mx-auto">
         <div className="mb-8">
-          <Link href="/admin" className="text-sm text-muted-foreground hover:text-primary inline-flex items-center gap-1 mb-4">
+          <Link href="/admin" className="text-sm text-[#64705E] dark:text-[#9BAA93] hover:text-[#2F3A2D] dark:hover:text-[#E8EDE6] inline-flex items-center gap-1 mb-4">
             <ArrowLeft className="w-3 h-3" /> Volver al panel
           </Link>
           <Badge variant="secondary" className="mb-4 rounded-full px-4 py-1.5">
@@ -86,7 +86,7 @@ export default function AdminFeatureFlagsPage() {
           <h1 className="font-serif text-3xl font-semibold text-[#2F3A2D] dark:text-[#E8EDE6]">
             Gestionar <span className="gradient-text">Feature Flags</span>
           </h1>
-          <p className="text-sm text-muted-foreground mt-1">Activa o desactiva funciones de la plataforma</p>
+          <p className="text-sm text-[#64705E] dark:text-[#9BAA93] mt-1">Activa o desactiva funciones de la plataforma</p>
         </div>
 
         {/* Add new flag */}
@@ -107,13 +107,13 @@ export default function AdminFeatureFlagsPage() {
         </Card>
 
         {loading ? (
-          <p className="text-muted-foreground text-center py-8">Cargando...</p>
+          <p className="text-[#64705E] dark:text-[#9BAA93] text-center py-8">Cargando...</p>
         ) : Object.keys(flags).length === 0 ? (
-          <Card><CardContent className="p-8 text-center text-muted-foreground">No hay feature flags configurados</CardContent></Card>
+          <Card><CardContent className="p-8 text-center text-[#64705E] dark:text-[#9BAA93]">No hay feature flags configurados</CardContent></Card>
         ) : (
           <div className="space-y-2">
             {Object.entries(flags).sort(([a], [b]) => a.localeCompare(b)).map(([flag, enabled]) => (
-              <Card key={flag} className="hover:bg-muted/30 transition-colors">
+              <Card key={flag} className="hover:bg-[#F0F5EC] dark:bg-[#2A3228]/30 transition-colors">
                 <CardContent className="p-4 flex items-center justify-between">
                   <div>
                     <code className="text-sm font-mono text-[#2F3A2D] dark:text-[#C2E09D]">{flag}</code>

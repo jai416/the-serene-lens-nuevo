@@ -60,7 +60,7 @@ export default function AdminGuidesPage() {
     if (session?.user?.role === "ADMIN") loadGuides()
   }, [session, loadGuides])
 
-  if (status === "loading") return <div className="min-h-screen pt-24 flex items-center justify-center"><p className="text-muted-foreground">Cargando...</p></div>
+  if (status === "loading") return <div className="min-h-screen pt-24 flex items-center justify-center"><p className="text-[#64705E] dark:text-[#9BAA93]">Cargando...</p></div>
   if (!session || session.user.role !== "ADMIN") redirect("/")
 
   const createGuide = async () => {
@@ -123,11 +123,11 @@ export default function AdminGuidesPage() {
   }
 
   return (
-    <div className="min-h-screen pt-24 pb-16 px-4">
+    <div className="min-h-screen bg-[#F8FAF5] dark:bg-[#1A1F19] pt-24 pb-16 px-4">
       <div className="max-w-6xl mx-auto">
         <div className="mb-8 flex items-center justify-between">
           <div>
-            <Link href="/admin" className="text-sm text-muted-foreground hover:text-primary inline-flex items-center gap-1 mb-4">
+            <Link href="/admin" className="text-sm text-[#64705E] dark:text-[#9BAA93] hover:text-[#2F3A2D] dark:hover:text-[#E8EDE6] inline-flex items-center gap-1 mb-4">
               <ArrowLeft className="w-3 h-3" /> Volver al panel
             </Link>
             <Badge variant="secondary" className="mb-4 rounded-full px-4 py-1.5">
@@ -197,30 +197,30 @@ export default function AdminGuidesPage() {
         )}
 
         {loading ? (
-          <p className="text-muted-foreground text-center py-8">Cargando guías...</p>
+          <p className="text-[#64705E] dark:text-[#9BAA93] text-center py-8">Cargando guías...</p>
         ) : guides.length === 0 ? (
-          <Card><CardContent className="p-8 text-center text-muted-foreground">No hay guías creadas</CardContent></Card>
+          <Card><CardContent className="p-8 text-center text-[#64705E] dark:text-[#9BAA93]">No hay guías creadas</CardContent></Card>
         ) : (
           <Card className="border-[#DDE7D3] dark:border-[#3A4536] overflow-hidden">
             <div className="overflow-x-auto">
               <table className="w-full text-sm">
                 <thead>
                   <tr className="border-b border-[#DDE7D3] dark:border-[#3A4536]">
-                    <th className="text-left p-4 font-medium text-muted-foreground">Guía</th>
-                    <th className="text-left p-4 font-medium text-muted-foreground">Categoría</th>
-                    <th className="text-left p-4 font-medium text-muted-foreground">Precio</th>
-                    <th className="text-left p-4 font-medium text-muted-foreground">Ventas</th>
-                    <th className="text-left p-4 font-medium text-muted-foreground">Estado</th>
-                    <th className="text-left p-4 font-medium text-muted-foreground">Creada</th>
-                    <th className="text-left p-4 font-medium text-muted-foreground">Acciones</th>
+                    <th className="text-left p-4 font-medium text-[#64705E] dark:text-[#9BAA93]">Guía</th>
+                    <th className="text-left p-4 font-medium text-[#64705E] dark:text-[#9BAA93]">Categoría</th>
+                    <th className="text-left p-4 font-medium text-[#64705E] dark:text-[#9BAA93]">Precio</th>
+                    <th className="text-left p-4 font-medium text-[#64705E] dark:text-[#9BAA93]">Ventas</th>
+                    <th className="text-left p-4 font-medium text-[#64705E] dark:text-[#9BAA93]">Estado</th>
+                    <th className="text-left p-4 font-medium text-[#64705E] dark:text-[#9BAA93]">Creada</th>
+                    <th className="text-left p-4 font-medium text-[#64705E] dark:text-[#9BAA93]">Acciones</th>
                   </tr>
                 </thead>
                 <tbody>
                   {guides.map((guide) => (
-                    <tr key={guide.id} className="border-b border-[#DDE7D3]/10 dark:border-[#3A4536]/10 hover:bg-muted/50 transition-colors">
+                    <tr key={guide.id} className="border-b border-[#DDE7D3]/10 dark:border-[#3A4536]/10 hover:bg-[#F0F5EC] dark:bg-[#2A3228] transition-colors">
                       <td className="p-4">
                         <p className="font-medium text-[#2F3A2D] dark:text-[#E8EDE6]">{guide.title}</p>
-                        <p className="text-xs text-muted-foreground">/{guide.slug}</p>
+                        <p className="text-xs text-[#64705E] dark:text-[#9BAA93]">/{guide.slug}</p>
                       </td>
                       <td className="p-4">
                         <Badge variant="outline" className="text-xs">{guide.category}</Badge>
@@ -232,7 +232,7 @@ export default function AdminGuidesPage() {
                           {guide.isActive ? "Activa" : "Inactiva"}
                         </Badge>
                       </td>
-                      <td className="p-4 text-muted-foreground text-xs">{formatDate(guide.createdAt)}</td>
+                      <td className="p-4 text-[#64705E] dark:text-[#9BAA93] text-xs">{formatDate(guide.createdAt)}</td>
                       <td className="p-4">
                         <div className="flex gap-1">
                           <Button variant="ghost" size="sm" onClick={() => toggleGuide(guide.id, guide.isActive)}>

@@ -192,7 +192,7 @@ export default function AdminEmailsPage() {
   if (status === "loading") {
     return (
       <div className="min-h-screen bg-[#F8FAF5] dark:bg-[#1A1F19] flex items-center justify-center">
-        <p className="text-muted-foreground">Cargando...</p>
+        <p className="text-[#64705E] dark:text-[#9BAA93]">Cargando...</p>
       </div>
     )
   }
@@ -204,7 +204,7 @@ export default function AdminEmailsPage() {
       <div className="max-w-6xl mx-auto px-4 py-8">
         <Link
           href="/admin"
-          className="inline-flex items-center gap-2 text-muted-foreground hover:text-[#2F3A2D] dark:hover:text-[#E8EDE6] mb-6"
+          className="inline-flex items-center gap-2 text-[#64705E] dark:text-[#9BAA93] hover:text-[#2F3A2D] dark:hover:text-[#E8EDE6] mb-6"
         >
           <ArrowLeft className="w-4 h-4" />
           Volver al panel
@@ -216,7 +216,7 @@ export default function AdminEmailsPage() {
               <Mail className="w-8 h-8 text-[#C2E09D]" />
               Envío de Emails
             </h1>
-            <p className="text-muted-foreground mt-1">
+            <p className="text-[#64705E] dark:text-[#9BAA93] mt-1">
               Envía correos a tus usuarios por segmento
             </p>
           </div>
@@ -236,7 +236,7 @@ export default function AdminEmailsPage() {
             >
               <CardContent className="p-3 text-center">
                 <p className="text-2xl font-bold text-[#2F3A2D] dark:text-[#E8EDE6]">{value}</p>
-                <p className="text-xs text-muted-foreground">{SEGMENT_LABELS[key]}</p>
+                <p className="text-xs text-[#64705E] dark:text-[#9BAA93]">{SEGMENT_LABELS[key]}</p>
               </CardContent>
             </Card>
           ))}
@@ -277,7 +277,7 @@ export default function AdminEmailsPage() {
                       <label className="block text-sm font-medium text-[#2F3A2D] dark:text-[#E8EDE6] mb-1">
                         Segmento destino
                       </label>
-                      <div className="px-3 py-2 bg-muted border border-[#DDE7D3] dark:border-[#3A4536] rounded-lg text-[#2F3A2D] dark:text-[#E8EDE6]">
+                      <div className="px-3 py-2 bg-[#F0F5EC] dark:bg-[#2A3228] border border-[#DDE7D3] dark:border-[#3A4536] rounded-lg text-[#2F3A2D] dark:text-[#E8EDE6]">
                         {SEGMENT_LABELS[segment]} — {safeCounts[segment as keyof RecipientCounts]} destinatarios
                       </div>
                     </div>
@@ -346,16 +346,16 @@ export default function AdminEmailsPage() {
                         className="w-full text-left p-3 border border-[#DDE7D3] dark:border-[#3A4536] rounded-lg hover:bg-[#F0F5EC] dark:hover:bg-[#2A3228] transition-colors"
                       >
                         <p className="font-medium text-[#2F3A2D] dark:text-[#E8EDE6] text-sm">{t.name}</p>
-                        <p className="text-xs text-muted-foreground mt-1 truncate">{t.subject}</p>
+                        <p className="text-xs text-[#64705E] dark:text-[#9BAA93] mt-1 truncate">{t.subject}</p>
                       </button>
                     ))}
                   </div>
 
-                  <div className="mt-6 p-4 bg-muted rounded-lg">
+                  <div className="mt-6 p-4 bg-[#F0F5EC] dark:bg-[#2A3228] rounded-lg">
                     <h3 className="text-sm font-medium text-[#2F3A2D] dark:text-[#E8EDE6] mb-2">
                       Variables disponibles
                     </h3>
-                    <ul className="text-xs text-muted-foreground space-y-1">
+                    <ul className="text-xs text-[#64705E] dark:text-[#9BAA93] space-y-1">
                       <li><code className="bg-background dark:bg-[#1A1F19] px-1 rounded">{'{name}'}</code> — Nombre del usuario</li>
                     </ul>
                   </div>
@@ -373,7 +373,7 @@ export default function AdminEmailsPage() {
               </h2>
 
               {history.logs.length === 0 ? (
-                <p className="text-muted-foreground text-center py-8">
+                <p className="text-[#64705E] dark:text-[#9BAA93] text-center py-8">
                   No hay emails enviados aún
                 </p>
               ) : (
@@ -381,11 +381,11 @@ export default function AdminEmailsPage() {
                   <table className="w-full text-sm">
                     <thead>
                       <tr className="border-b border-[#DDE7D3] dark:border-[#3A4536]">
-                        <th className="text-left py-3 px-2 text-muted-foreground font-medium">Asunto</th>
-                        <th className="text-left py-3 px-2 text-muted-foreground font-medium">Destinatario</th>
-                        <th className="text-left py-3 px-2 text-muted-foreground font-medium">Segmento</th>
-                        <th className="text-left py-3 px-2 text-muted-foreground font-medium">Estado</th>
-                        <th className="text-left py-3 px-2 text-muted-foreground font-medium">Fecha</th>
+                        <th className="text-left py-3 px-2 text-[#64705E] dark:text-[#9BAA93] font-medium">Asunto</th>
+                        <th className="text-left py-3 px-2 text-[#64705E] dark:text-[#9BAA93] font-medium">Destinatario</th>
+                        <th className="text-left py-3 px-2 text-[#64705E] dark:text-[#9BAA93] font-medium">Segmento</th>
+                        <th className="text-left py-3 px-2 text-[#64705E] dark:text-[#9BAA93] font-medium">Estado</th>
+                        <th className="text-left py-3 px-2 text-[#64705E] dark:text-[#9BAA93] font-medium">Fecha</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -394,11 +394,11 @@ export default function AdminEmailsPage() {
                           <td className="py-3 px-2 text-[#2F3A2D] dark:text-[#E8EDE6] max-w-[200px] truncate">
                             {log.subject}
                           </td>
-                          <td className="py-3 px-2 text-muted-foreground max-w-[180px] truncate">
+                          <td className="py-3 px-2 text-[#64705E] dark:text-[#9BAA93] max-w-[180px] truncate">
                             {log.recipient}
                           </td>
                           <td className="py-3 px-2">
-                            <span className="inline-block px-2 py-1 bg-muted text-[#2F3A2D] dark:text-[#E8EDE6] rounded text-xs">
+                            <span className="inline-block px-2 py-1 bg-[#F0F5EC] dark:bg-[#2A3228] text-[#2F3A2D] dark:text-[#E8EDE6] rounded text-xs">
                               {SEGMENT_LABELS[log.segment] || log.segment}
                             </span>
                           </td>
@@ -409,7 +409,7 @@ export default function AdminEmailsPage() {
                               <XCircle className="w-4 h-4 text-red-500" />
                             )}
                           </td>
-                          <td className="py-3 px-2 text-muted-foreground text-xs">
+                          <td className="py-3 px-2 text-[#64705E] dark:text-[#9BAA93] text-xs">
                             {new Date(log.sentAt).toLocaleDateString("es-ES", {
                               day: "numeric",
                               month: "short",

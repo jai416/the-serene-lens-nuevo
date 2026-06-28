@@ -113,7 +113,7 @@ export default function AdminPage() {
     return () => clearInterval(interval)
   }, [session])
 
-  if (status === "loading") return <div className="min-h-screen pt-24 flex items-center justify-center"><p className="text-muted-foreground">Cargando...</p></div>
+  if (status === "loading") return <div className="min-h-screen pt-24 flex items-center justify-center"><p className="text-[#64705E] dark:text-[#9BAA93]">Cargando...</p></div>
   if (!session) redirect("/login?callbackUrl=/admin")
   if (session.user.role !== "ADMIN") {
     return (

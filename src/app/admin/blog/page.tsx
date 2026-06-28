@@ -36,7 +36,7 @@ export default function AdminBlogPage() {
     }
   }, [session])
 
-  if (status === "loading") return <div className="min-h-screen pt-24 flex items-center justify-center"><p className="text-muted-foreground">Cargando...</p></div>
+  if (status === "loading") return <div className="min-h-screen pt-24 flex items-center justify-center"><p className="text-[#64705E] dark:text-[#9BAA93]">Cargando...</p></div>
   if (!session || session.user.role !== "ADMIN") redirect("/")
 
   const resetForm = () => setForm({ title: "", slug: "", excerpt: "", content: "", category: "", image: "", published: false })
@@ -102,10 +102,10 @@ export default function AdminBlogPage() {
   }
 
   return (
-    <div className="min-h-screen pt-24 pb-16 px-4">
+    <div className="min-h-screen bg-[#F8FAF5] dark:bg-[#1A1F19] pt-24 pb-16 px-4">
       <div className="max-w-6xl mx-auto">
         <div className="mb-8">
-          <Link href="/admin" className="text-sm text-muted-foreground hover:text-primary inline-flex items-center gap-1 mb-4">
+          <Link href="/admin" className="text-sm text-[#64705E] dark:text-[#9BAA93] hover:text-[#2F3A2D] dark:hover:text-[#E8EDE6] inline-flex items-center gap-1 mb-4">
             <ArrowLeft className="w-3 h-3" /> Volver al panel
           </Link>
           <Badge variant="secondary" className="mb-4 rounded-full px-4 py-1.5">
@@ -190,7 +190,7 @@ export default function AdminBlogPage() {
                   <div className={`w-2 h-2 rounded-full ${post.published ? "bg-green-500" : "bg-amber-500"}`} />
                   <div className="min-w-0">
                     <p className="text-sm font-medium truncate">{post.title}</p>
-                    <p className="text-xs text-muted-foreground">
+                    <p className="text-xs text-[#64705E] dark:text-[#9BAA93]">
                       {post.category} · {post.views} vistas · {formatDate(post.createdAt)}
                     </p>
                   </div>
@@ -210,7 +210,7 @@ export default function AdminBlogPage() {
             </Card>
           ))}
           {posts.length === 0 && (
-            <p className="text-center text-muted-foreground py-10">No hay artículos aún</p>
+            <p className="text-center text-[#64705E] dark:text-[#9BAA93] py-10">No hay artículos aún</p>
           )}
         </div>
       </div>

@@ -55,6 +55,12 @@ export async function POST(req: NextRequest) {
       packType,
     })
 
+    logger.info("QvaPay pack invoice created", {
+      invoice_id: qvapayPayment?.invoice_id,
+      hasUrl: !!qvapayPayment?.url,
+      keys: qvapayPayment ? Object.keys(qvapayPayment) : [],
+    })
+
     const transactionUuid = qvapayPayment?.invoice_id || qvapayPayment?.transaction_uuid
     if (transactionUuid) {
       try {

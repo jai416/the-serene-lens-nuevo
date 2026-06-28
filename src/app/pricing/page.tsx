@@ -40,13 +40,16 @@ export default function PricingPage() {
       })
 
       const data = await res.json()
+      const payload = data?.data || data
 
       if (!res.ok) {
-        throw new Error(data.error?.message || data.error || "Error al crear pago")
+        throw new Error(data.error?.message || payload?.error || "Error al crear pago")
       }
 
-      if (data.url) {
-        window.location.href = data.url
+      if (payload?.url) {
+        window.location.href = payload.url
+      } else {
+        throw new Error("No se recibió URL de pago")
       }
     } catch (e: any) {
       const msg = e.message || "Error al procesar pago"
@@ -74,13 +77,16 @@ export default function PricingPage() {
       })
 
       const data = await res.json()
+      const payload = data?.data || data
 
       if (!res.ok) {
-        throw new Error(data.error?.message || data.error || "Error al crear pago")
+        throw new Error(data.error?.message || payload?.error || "Error al crear pago")
       }
 
-      if (data.url) {
-        window.location.href = data.url
+      if (payload?.url) {
+        window.location.href = payload.url
+      } else {
+        throw new Error("No se recibió URL de pago")
       }
     } catch (e: any) {
       const msg = e.message || "Error al procesar pago"
