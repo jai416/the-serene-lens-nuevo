@@ -85,7 +85,8 @@ export const ModelName = {
   DigitalProduct: 'DigitalProduct',
   DigitalProductPurchase: 'DigitalProductPurchase',
   DailyCheckIn: 'DailyCheckIn',
-  IngredientKB: 'IngredientKB'
+  IngredientKB: 'IngredientKB',
+  Client: 'Client'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -587,6 +588,20 @@ export const IngredientKBScalarFieldEnum = {
 } as const
 
 export type IngredientKBScalarFieldEnum = (typeof IngredientKBScalarFieldEnum)[keyof typeof IngredientKBScalarFieldEnum]
+
+
+export const ClientScalarFieldEnum = {
+  id: 'id',
+  estheticianId: 'estheticianId',
+  name: 'name',
+  email: 'email',
+  phone: 'phone',
+  notes: 'notes',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type ClientScalarFieldEnum = (typeof ClientScalarFieldEnum)[keyof typeof ClientScalarFieldEnum]
 
 
 export const SortOrder = {

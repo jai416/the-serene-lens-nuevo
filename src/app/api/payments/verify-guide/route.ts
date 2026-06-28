@@ -62,7 +62,6 @@ export async function POST(req: NextRequest) {
       data: {
         status: "completed",
         downloadUrl,
-        confirmedAt: new Date(),
       },
     })
 

@@ -76,7 +76,7 @@ export default function PricingSuccessPage() {
           </div>
 
           <div>
-            <Badge variant={error ? "destructive" : "primary"} className="mb-4 rounded-full px-4 py-1.5 border-0">
+            <Badge variant={error ? "default" : "primary"} className={`mb-4 rounded-full px-4 py-1.5 border-0 ${error ? "bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400" : ""}`}>
               <CreditCard className="w-3.5 h-3.5 mr-2" />
               {error ? "Pago Pendiente" : "Pago Exitoso"}
             </Badge>

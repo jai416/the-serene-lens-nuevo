@@ -192,3 +192,8 @@ export type DailyCheckIn = Prisma.DailyCheckInModel
  * 
  */
 export type IngredientKB = Prisma.IngredientKBModel
+/**
+ * Model Client
+ * 
+ */
+export type Client = Prisma.ClientModel
