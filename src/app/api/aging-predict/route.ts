@@ -324,7 +324,7 @@ REGLAS CRÍTICAS:
 Proporciona tu análisis en la estructura JSON exacta especificada.`
 
     const body_request = {
-      model: "google/gemini-2.0-flash-001",
+      model: "google/gemini-2.5-flash",
       messages: [
         {
           role: "user",

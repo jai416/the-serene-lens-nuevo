@@ -54,13 +54,13 @@ export async function POST(req: NextRequest) {
       userId: session.user.id,
     })
 
-    const transactionUuid = qvapayPayment?.transaction_uuid
+    const transactionUuid = qvapayPayment?.invoice_id || qvapayPayment?.transaction_uuid
     if (transactionUuid) {
       await db.payment.create({
         data: {
           userId: session.user.id,
           provider: "qvapay",
-          qvapayId: transactionUuid,
+          qvapayId: String(transactionUuid),
           plan: parsed.data.plan,
           amount,
           amountUsd: amount,

@@ -320,7 +320,7 @@ Proporciona tu análisis en la estructura JSON exacta especificada.`
         safeSend({ stage: "processing", message: "Generando predicción con IA..." })
 
         const apiBody = {
-          model: "google/gemini-2.0-flash-001",
+          model: "google/gemini-2.5-flash",
           messages: [
             {
               role: "user",

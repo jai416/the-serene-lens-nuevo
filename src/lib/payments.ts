@@ -22,6 +22,7 @@ interface CreateQvaPayOptions {
 
 export async function createQvaPayPayment({ amount, description, plan, userId }: CreateQvaPayOptions) {
   const e = getPaymentsEnv()
+  const appUrl = process.env.NEXT_PUBLIC_APP_URL || e.NEXTAUTH_URL
   const res = await fetch(`${e.QVAPAY_API_URL}/v2/create_invoice`, {
     method: "POST",
     headers: {
@@ -34,6 +35,8 @@ export async function createQvaPayPayment({ amount, description, plan, userId }:
       description,
       remote_id: `${userId}_${plan}_${Date.now()}`,
       webhook: `${e.NEXTAUTH_URL}/api/payments/webhook`,
+      success_url: `${appUrl}/pricing/success?payment_id={invoice_id}`,
+      cancel_url: `${appUrl}/pricing/cancel`,
     }),
   })
 
@@ -48,6 +51,7 @@ export async function createQvaPayPayment({ amount, description, plan, userId }:
 
 export async function createQvaPayPackPayment({ amount, description, packType, userId }: CreateQvaPayOptions & { packType: string }) {
   const e = getPaymentsEnv()
+  const appUrl = process.env.NEXT_PUBLIC_APP_URL || e.NEXTAUTH_URL
   const res = await fetch(`${e.QVAPAY_API_URL}/v2/create_invoice`, {
     method: "POST",
     headers: {
@@ -60,6 +64,8 @@ export async function createQvaPayPackPayment({ amount, description, packType, u
       description,
       remote_id: `${userId}_pack_${packType}_${Date.now()}`,
       webhook: `${e.NEXTAUTH_URL}/api/payments/webhook`,
+      success_url: `${appUrl}/pricing/success?payment_id={invoice_id}`,
+      cancel_url: `${appUrl}/pricing/cancel`,
     }),
   })
 

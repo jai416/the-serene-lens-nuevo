@@ -71,7 +71,7 @@ export async function POST(req: NextRequest) {
         "X-Title": "The Serene Lens - Aging Demo",
       },
       body: JSON.stringify({
-        model: "google/gemini-2.0-flash-001",
+        model: "google/gemini-2.5-flash",
         response_format: { type: "json_schema", json_schema: AGING_SCHEMA },
         messages: [
           {
