@@ -49,6 +49,7 @@ const authLinks = [
   { href: "/dashboard/referrals", label: "Referidos", icon: Users },
   { href: "/dashboard/social", label: "Social", icon: Users },
   { href: "/dashboard/guides", label: "Mis Guías", icon: BookOpen },
+  { href: "/dashboard/esthetician", label: "Esteticista", icon: Users },
   { href: "/dashboard/profile", label: "Cuenta", icon: User },
 ]
 
@@ -78,7 +79,14 @@ export function Sidebar() {
       </div>
 
       <nav className="flex-1 px-3 space-y-0.5 overflow-y-auto scrollbar-hide">
-        {links.map((link) => {
+        {links
+          .filter((link) => {
+            if (link.href === "/dashboard/esthetician") {
+              return session?.user?.plan === "ESTHETICIAN" || session?.user?.role === "ADMIN"
+            }
+            return true
+          })
+          .map((link) => {
           const active = isActive(link.href)
           return (
             <Link

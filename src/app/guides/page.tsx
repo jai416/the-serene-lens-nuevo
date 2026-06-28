@@ -1,13 +1,13 @@
 "use client"
 
-import { useEffect, useState } from "react"
+import { useEffect, useState, useCallback } from "react"
 import { useSession } from "next-auth/react"
-import { useRouter } from "next/navigation"
+import { useRouter, useSearchParams } from "next/navigation"
 import Link from "next/link"
 import { Card, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
-import { BookOpen, Download, Loader2, ShoppingCart } from "lucide-react"
+import { BookOpen, Download, Loader2, ShoppingCart, CheckCircle2 } from "lucide-react"
 import { toast } from "sonner"
 
 interface Guide {
@@ -21,12 +21,36 @@ interface Guide {
   price: number
 }
 
+interface PurchasedGuide {
+  id: string
+  digitalProductId: string
+  status: string
+  downloadUrl: string | null
+}
+
 export default function GuidesPage() {
   const { data: session } = useSession()
   const router = useRouter()
+  const searchParams = useSearchParams()
   const [guides, setGuides] = useState<Guide[]>([])
+  const [purchased, setPurchased] = useState<Record<string, PurchasedGuide>>({})
   const [loading, setLoading] = useState(true)
   const [purchasing, setPurchasing] = useState<string | null>(null)
+  const [verifyingGuide, setVerifyingGuide] = useState<string | null>(null)
+
+  const loadPurchased = useCallback(async () => {
+    if (!session) return
+    try {
+      const res = await fetch("/api/user/guides")
+      const data = await res.json()
+      const map: Record<string, PurchasedGuide> = {}
+      const items = data?.data?.purchases || data?.purchases || []
+      for (const item of items) {
+        map[item.digitalProductId] = item
+      }
+      setPurchased(map)
+    } catch {}
+  }, [session])
 
   useEffect(() => {
     fetch("/api/guides")
@@ -37,6 +61,35 @@ export default function GuidesPage() {
       })
       .catch(() => setLoading(false))
   }, [])
+
+  useEffect(() => {
+    loadPurchased()
+  }, [loadPurchased])
+
+  useEffect(() => {
+    const successGuideId = searchParams.get("success")
+    const qvapayId = searchParams.get("payment_id") || searchParams.get("transaction_uuid")
+
+    if (successGuideId && qvapayId) {
+      setVerifyingGuide(successGuideId)
+      fetch("/api/payments/verify-guide", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ qvapayId }),
+      })
+        .then((r) => r.json())
+        .then((d) => {
+          if (d?.data?.completed || d?.data?.alreadyCompleted) {
+            toast.success("¡Guía desbloqueada! Ya puedes descargarla.")
+            loadPurchased()
+          } else {
+            toast.info("Pago pendiente de confirmación. Espera unos minutos.")
+          }
+        })
+        .catch(() => toast.error("No se pudo verificar el pago"))
+        .finally(() => setVerifyingGuide(null))
+    }
+  }, [searchParams, loadPurchased])
 
   const handlePurchase = async (guide: Guide) => {
     if (!session) {
@@ -49,6 +102,12 @@ export default function GuidesPage() {
       return
     }
 
+    if (purchased[guide.id]?.status === "completed") {
+      const dl = purchased[guide.id].downloadUrl
+      if (dl) window.open(dl, "_blank")
+      return
+    }
+
     setPurchasing(guide.id)
     try {
       const res = await fetch("/api/payments/create-guide", {
@@ -57,6 +116,12 @@ export default function GuidesPage() {
         body: JSON.stringify({ guideId: guide.id }),
       })
       const data = await res.json()
+
+      if (data?.data?.alreadyPurchased) {
+        toast.success("Ya compraste esta guía")
+        loadPurchased()
+        return
+      }
 
       if (data?.data?.url || data.url) {
         window.location.href = data.data?.url || data.url
@@ -68,6 +133,27 @@ export default function GuidesPage() {
     } finally {
       setPurchasing(null)
     }
+  }
+
+  const getButtonState = (guide: Guide) => {
+    if (session?.user?.role === "ADMIN") {
+      return { label: "Acceder", icon: <Download className="w-3.5 h-3.5" />, disabled: false }
+    }
+
+    const p = purchased[guide.id]
+    if (p?.status === "completed") {
+      return { label: "Descargar", icon: <Download className="w-3.5 h-3.5" />, disabled: false }
+    }
+
+    if (p?.status === "pending") {
+      return { label: "Verificar", icon: <Loader2 className="w-3.5 h-3.5" />, disabled: false }
+    }
+
+    if (verifyingGuide === guide.id) {
+      return { label: "Verificando...", icon: <Loader2 className="w-3.5 h-3.5 animate-spin" />, disabled: true }
+    }
+
+    return { label: "Comprar", icon: <ShoppingCart className="w-3.5 h-3.5" />, disabled: purchasing === guide.id }
   }
 
   if (loading) {
@@ -106,53 +192,59 @@ export default function GuidesPage() {
           </Card>
         ) : (
           <div className="grid sm:grid-cols-2 gap-6">
-            {guides.map((guide) => (
-              <Card key={guide.id} className="overflow-hidden hover:shadow-lg transition-shadow">
-                <div className="aspect-[16/9] bg-[#F0F5EC] relative">
-                  <img
-                    src={guide.image}
-                    alt={guide.title}
-                    className="w-full h-full object-cover"
-                  />
-                  <Badge className="absolute top-3 left-3 bg-[#C2E09D] text-[#2F3A2D]">
-                    {guide.category}
-                  </Badge>
-                </div>
-                <CardContent className="p-5">
-                  <h3 className="font-serif text-lg font-semibold text-[#2F3A2D] dark:text-[#E8EDE6] mb-2">
-                    {guide.title}
-                  </h3>
-                  <p className="text-sm text-[#64705E] dark:text-[#9BAA93] mb-4 line-clamp-2">
-                    {guide.shortDesc || guide.description}
-                  </p>
-                  <div className="flex items-center justify-between">
-                    <span className="text-xl font-bold text-[#2F3A2D] dark:text-[#E8EDE6]">
-                      {session?.user?.role === "ADMIN" ? (
-                        <span className="text-[#C2E09D]">Gratis (Admin)</span>
-                      ) : (
-                        `$${guide.price.toFixed(2)}`
-                      )}
-                    </span>
-                    <Button
-                      variant="primary"
-                      size="sm"
-                      onClick={() => handlePurchase(guide)}
-                      disabled={purchasing === guide.id}
-                      className="gap-1"
-                    >
-                      {purchasing === guide.id ? (
-                        <Loader2 className="w-3.5 h-3.5 animate-pulse" />
-                      ) : session?.user?.role === "ADMIN" ? (
-                        <Download className="w-3.5 h-3.5" />
-                      ) : (
-                        <ShoppingCart className="w-3.5 h-3.5" />
-                      )}
-                      {session?.user?.role === "ADMIN" ? "Acceder" : "Comprar"}
-                    </Button>
+            {guides.map((guide) => {
+              const btn = getButtonState(guide)
+              const isPurchased = purchased[guide.id]?.status === "completed"
+
+              return (
+                <Card key={guide.id} className="overflow-hidden hover:shadow-lg transition-shadow">
+                  <div className="aspect-[16/9] bg-[#F0F5EC] relative">
+                    <img
+                      src={guide.image}
+                      alt={guide.title}
+                      className="w-full h-full object-cover"
+                    />
+                    <Badge className="absolute top-3 left-3 bg-[#C2E09D] text-[#2F3A2D]">
+                      {guide.category}
+                    </Badge>
+                    {isPurchased && (
+                      <div className="absolute top-3 right-3">
+                        <CheckCircle2 className="w-6 h-6 text-[#C2E09D] drop-shadow" />
+                      </div>
+                    )}
                   </div>
-                </CardContent>
-              </Card>
-            ))}
+                  <CardContent className="p-5">
+                    <h3 className="font-serif text-lg font-semibold text-[#2F3A2D] dark:text-[#E8EDE6] mb-2">
+                      {guide.title}
+                    </h3>
+                    <p className="text-sm text-[#64705E] dark:text-[#9BAA93] mb-4 line-clamp-2">
+                      {guide.shortDesc || guide.description}
+                    </p>
+                    <div className="flex items-center justify-between">
+                      <span className="text-xl font-bold text-[#2F3A2D] dark:text-[#E8EDE6]">
+                        {session?.user?.role === "ADMIN" ? (
+                          <span className="text-[#C2E09D]">Gratis (Admin)</span>
+                        ) : isPurchased ? (
+                          <span className="text-[#C2E09D] text-sm">Comprada</span>
+                        ) : (
+                          `$${guide.price.toFixed(2)}`
+                        )}
+                      </span>
+                      <Button
+                        variant={isPurchased ? "secondary" : "primary"}
+                        size="sm"
+                        onClick={() => handlePurchase(guide)}
+                        disabled={btn.disabled}
+                        className="gap-1"
+                      >
+                        {btn.icon}
+                        {btn.label}
+                      </Button>
+                    </div>
+                  </CardContent>
+                </Card>
+              )
+            })}
           </div>
         )}
       </div>

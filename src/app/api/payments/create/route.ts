@@ -10,7 +10,7 @@ import { z } from "zod"
 import { logger } from "@/lib/logger"
 
 const createPaymentSchema = z.object({
-  plan: z.enum(["FREE", "PREMIUM", "PRO", "PRO_PLUS"]),
+  plan: z.enum(["FREE", "PREMIUM", "PRO", "PRO_PLUS", "ESTHETICIAN"]),
   provider: z.string().optional(),
 })
 

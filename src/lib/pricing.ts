@@ -90,6 +90,25 @@ export const PLANS: PlanDef[] = [
     ],
     popular: false,
   },
+  {
+    id: "ESTHETICIAN",
+    name: "Esteticista",
+    priceUSD: 29.99,
+    priceCUP: toCUP(29.99),
+    period: "por mes",
+    analysesPerMonth: -1,
+    features: [
+      "Todo Pro+",
+      "Hasta 50 clientes por mes",
+      "Panel de gestión de clientes",
+      "Informes PDF con tu marca",
+      "Comparativas entre clientes",
+      "Exportar datos (CSV)",
+      "Soporte dedicado (24h)",
+      "Capacitación para tu equipo",
+    ],
+    popular: false,
+  },
 ]
 
 export const PACKS: PackDef[] = [

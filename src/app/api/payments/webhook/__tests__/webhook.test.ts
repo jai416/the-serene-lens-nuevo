@@ -2,6 +2,7 @@ import { describe, it, expect, vi, beforeEach } from "vitest"
 
 const {
   mockFindUnique,
+  mockfindFirst,
   mockUpdate,
   mockCreate,
   mockQvaPayStatus,
@@ -9,6 +10,7 @@ const {
   mockCheckRateLimit,
 } = vi.hoisted(() => ({
   mockFindUnique: vi.fn(),
+  mockfindFirst: vi.fn().mockResolvedValue(null),
   mockUpdate: vi.fn(),
   mockCreate: vi.fn(),
   mockQvaPayStatus: vi.fn(),
@@ -20,6 +22,10 @@ vi.mock("@/lib/db", () => ({
   db: {
     payment: {
       findUnique: mockFindUnique,
+      update: mockUpdate,
+    },
+    digitalProductPurchase: {
+      findFirst: mockfindFirst,
       update: mockUpdate,
     },
     purchasePack: {

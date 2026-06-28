@@ -4,6 +4,7 @@ import { ok, error, serverError } from "@/lib/api-response"
 import { getQvaPayPaymentStatus } from "@/lib/payments"
 import { getCUPRate } from "@/lib/cup-rate"
 import { checkRateLimit } from "@/lib/rate-limit"
+import { logger } from "@/lib/logger"
 
 const PACK_ANALYSES: Record<string, number> = {
   BASIC: 3,
@@ -22,8 +23,49 @@ export async function POST(req: NextRequest) {
     const body = await req.json()
     const transactionUuid = body.transaction_uuid || body.payment_id
 
+    logger.info("Webhook received", { transactionUuid, body })
+
     if (!transactionUuid || typeof transactionUuid !== "string") {
       return error("transaction_uuid requerido")
+    }
+
+    const guidePurchase = await db.digitalProductPurchase.findFirst({
+      where: { qvapayId: transactionUuid },
+      include: { digitalProduct: true },
+    })
+
+    if (guidePurchase) {
+      if (guidePurchase.status === "completed") {
+        return ok({ received: true, type: "guide" })
+      }
+
+      let qvapayStatus: any = null
+      try {
+        qvapayStatus = await getQvaPayPaymentStatus(transactionUuid)
+      } catch {
+        return error("No se pudo verificar el pago con QvaPay")
+      }
+
+      const remoteStatus = qvapayStatus?.status || qvapayStatus?.data?.status
+
+      if (remoteStatus !== "paid" && remoteStatus !== "completed") {
+        return ok({ received: true, verified: false, type: "guide" })
+      }
+
+      const downloadUrl = guidePurchase.digitalProduct?.fileUrl || ""
+
+      await db.digitalProductPurchase.update({
+        where: { id: guidePurchase.id },
+        data: {
+          status: "completed",
+          downloadUrl,
+          confirmedAt: new Date(),
+        },
+      })
+
+      logger.info("Guide purchase completed via webhook", { guideId: guidePurchase.digitalProductId })
+
+      return ok({ received: true, type: "guide" })
     }
 
     const payment = await db.payment.findUnique({
@@ -36,7 +78,7 @@ export async function POST(req: NextRequest) {
     }
 
     if (payment.status === "completed") {
-      return ok({ received: true })
+      return ok({ received: true, type: "plan" })
     }
 
     let qvapayStatus: any = null
@@ -49,7 +91,7 @@ export async function POST(req: NextRequest) {
     const remoteStatus = qvapayStatus?.status || qvapayStatus?.data?.status
 
     if (remoteStatus !== "paid" && remoteStatus !== "completed") {
-      return ok({ received: true, verified: false })
+      return ok({ received: true, verified: false, type: "plan" })
     }
 
     await db.payment.update({
@@ -62,7 +104,12 @@ export async function POST(req: NextRequest) {
 
     const isPack = ["BASIC", "POPULAR", "ADVANCED"].includes(payment.plan)
     const amountUsd = payment.amount
-    const cupRate = await getCUPRate()
+    let cupRate = 500
+    try {
+      cupRate = await getCUPRate()
+    } catch {
+      logger.warn("CUP rate failed in webhook, using default")
+    }
 
     if (isPack) {
       const analyses = PACK_ANALYSES[payment.plan] || 0
@@ -99,8 +146,9 @@ export async function POST(req: NextRequest) {
       })
     }
 
-    return ok({ received: true })
+    return ok({ received: true, type: "plan" })
   } catch (e) {
+    logger.error("Webhook error", { error: e instanceof Error ? e.message : "Unknown" })
     return serverError(e)
   }
 }

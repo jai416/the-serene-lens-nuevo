@@ -37,7 +37,6 @@ vi.mock("@/lib/logger", () => ({
   },
 }))
 
-// Mock resend
 vi.mock("resend", () => ({
   Resend: vi.fn().mockImplementation(() => ({
     emails: { send: vi.fn().mockResolvedValue({ data: { id: "email-1" }, error: null }) },
@@ -50,12 +49,15 @@ import { sendEmail, sendBulkEmail, getRecipients, getRecipientCounts } from "../
 describe("admin-email.service", () => {
   beforeEach(() => {
     vi.clearAllMocks()
+    delete process.env.MAILJET_API_KEY
+    delete process.env.MAILJET_API_SECRET
+    delete process.env.SENDGRID_API_KEY
+    delete process.env.BREVO_API_KEY
     process.env.RESEND_API_KEY = "test-key"
   })
 
   describe("sendEmail", () => {
     it("returns error when no API key", async () => {
-      const original = process.env.RESEND_API_KEY
       delete process.env.RESEND_API_KEY
 
       const result = await sendEmail({
@@ -66,11 +68,9 @@ describe("admin-email.service", () => {
 
       expect(result.error).toBeDefined()
       expect(result.id).toBeUndefined()
-
-      process.env.RESEND_API_KEY = original
     })
 
-    it("sends a single email successfully", async () => {
+    it("sends a single email via Resend", async () => {
       const result = await sendEmail({
         to: "test@example.com",
         subject: "Test",
@@ -119,8 +119,8 @@ describe("admin-email.service", () => {
   describe("getRecipients", () => {
     it("filters out unsubscribed users", async () => {
       mockFindMany
-        .mockResolvedValueOnce([{ email: "unsub@test.com" }])  // unsubscribes
-        .mockResolvedValueOnce([                                  // users
+        .mockResolvedValueOnce([{ email: "unsub@test.com" }])
+        .mockResolvedValueOnce([
           { email: "active@test.com", name: "Active" },
           { email: "unsub@test.com", name: "Unsub" },
         ])
