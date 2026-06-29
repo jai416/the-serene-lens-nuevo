@@ -1,6 +1,35 @@
-node_modules
-.next
+node_modules/
+.next/
 *.tsbuildinfo
 next-env.d.ts
-dev.log
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+bot-telegram/logs/
+scripts/__pycache__/
+
+# Environment
 .env
+.env.local
+.env.production
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+logs/
+
+# Build
+dist/
+build/
