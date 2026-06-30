@@ -26,7 +26,7 @@ services:
     env: python
     region: ohio
     plan: free
-    buildCommand: pip install python-telegram-bot>=20.0 asyncpg>=0.28 python-dotenv>=1.0 aiohttp>=3.8
+    buildCommand: pip install -r bot-telegram/requirements.txt
     startCommand: python bot-telegram/bot.py
     envVars:
       - key: TELEGRAM_TOKEN; sync: false
@@ -42,7 +42,7 @@ services:
     env: python
     plan: free
     schedule: "*/5 * * * *"
-    buildCommand: pip install python-telegram-bot>=20.0 asyncpg>=0.28 python-dotenv>=1.0 aiohttp>=3.8
+    buildCommand: pip install -r scripts/requirements.txt
     startCommand: python scripts/monitor_pagos.py
     envVars:
       - key: DATABASE_URL; sync: false
@@ -55,7 +55,7 @@ services:
     env: python
     plan: free
     schedule: "*/15 * * * *"
-    buildCommand: pip install python-telegram-bot>=20.0 asyncpg>=0.28 python-dotenv>=1.0 aiohttp>=3.8
+    buildCommand: pip install -r scripts/requirements.txt
     startCommand: python scripts/monitor_transfer.py
     envVars:
       - key: DATABASE_URL; sync: false
@@ -68,7 +68,7 @@ services:
     env: python
     plan: free
     schedule: "*/5 * * * *"
-    buildCommand: pip install python-telegram-bot>=20.0 asyncpg>=0.28 python-dotenv>=1.0 aiohttp>=3.8
+    buildCommand: pip install -r scripts/requirements.txt
     startCommand: python scripts/check_apis.py
     envVars:
       - key: TELEGRAM_TOKEN; sync: false
@@ -80,7 +80,7 @@ services:
     env: python
     plan: free
     schedule: "0 8 * * *"
-    buildCommand: pip install python-telegram-bot>=20.0 asyncpg>=0.28 python-dotenv>=1.0 aiohttp>=3.8
+    buildCommand: pip install -r scripts/requirements.txt
     startCommand: python scripts/send_daily_report.py
     envVars:
       - key: DATABASE_URL; sync: false
@@ -93,7 +93,7 @@ services:
     env: python
     plan: free
     schedule: "0 9 * * 1"
-    buildCommand: pip install python-telegram-bot>=20.0 asyncpg>=0.28 python-dotenv>=1.0 aiohttp>=3.8
+    buildCommand: pip install -r scripts/requirements.txt
     startCommand: python scripts/send_weekly_report.py
     envVars:
       - key: DATABASE_URL; sync: false
@@ -106,7 +106,7 @@ services:
     env: python
     plan: free
     schedule: "0 9 1 * *"
-    buildCommand: pip install python-telegram-bot>=20.0 asyncpg>=0.28 python-dotenv>=1.0 aiohttp>=3.8
+    buildCommand: pip install -r scripts/requirements.txt
     startCommand: python scripts/send_monthly_report.py
     envVars:
       - key: DATABASE_URL; sync: false
