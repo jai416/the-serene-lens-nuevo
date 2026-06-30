@@ -26,7 +26,7 @@ services:
     env: python
     region: ohio
     plan: free
-    buildCommand: pip install -r bot-telegram/requirements.txt
+    buildCommand: pip install -r requirements.txt
     startCommand: python bot-telegram/bot.py
     envVars:
       - key: TELEGRAM_TOKEN; sync: false
