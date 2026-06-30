@@ -51,6 +51,37 @@ export async function handleCliente(chatId: string, userId: string, args: string
   await sendTelegramMessage(chatId, text)
 }
 
+export async function handleValidar(chatId: string, userId: string, args: string[]) {
+  const role = getUserRole(userId)
+  if (!role || role === "USER") { await sendTelegramMessage(chatId, "❌ No autorizado."); return }
+  const ref = args[0]
+  if (!ref) { await sendTelegramMessage(chatId, "Uso: /validar TRF-..."); return }
+  const transfer = await db.transferPayment.findUnique({ where: { referenceCode: ref } })
+  if (!transfer) { await sendTelegramMessage(chatId, `❌ No encontrado: ${ref}`); return }
+  if (transfer.status !== "pending") { await sendTelegramMessage(chatId, `⚠️ Estado actual: ${transfer.status}`); return }
+  await db.$transaction([
+    db.transferPayment.update({ where: { id: transfer.id }, data: { status: "validated", validatedById: userId, validatedAt: new Date() } }),
+    db.auditLog.create({ data: { userId, action: "validate_transfer", targetId: transfer.id, targetType: "transfer", details: `Validated ${ref}` } }),
+  ])
+  await sendTelegramMessage(chatId, `✅ Pago validado: ${ref}\nAdmin debe activar con /activar ${ref}`)
+}
+
+export async function handleActivar(chatId: string, userId: string, args: string[]) {
+  if (getUserRole(userId) !== "ADMIN") { await sendTelegramMessage(chatId, "❌ Solo admin."); return }
+  const ref = args[0]
+  if (!ref) { await sendTelegramMessage(chatId, "Uso: /activar TRF-..."); return }
+  const transfer = await db.transferPayment.findUnique({ where: { referenceCode: ref }, include: { user: true } })
+  if (!transfer) { await sendTelegramMessage(chatId, `❌ No encontrado: ${ref}`); return }
+  if (transfer.status !== "validated") { await sendTelegramMessage(chatId, `⚠️ Estado actual: ${transfer.status}`); return }
+  await db.$transaction([
+    db.transferPayment.update({ where: { id: transfer.id }, data: { status: "activated", activatedById: userId, activatedAt: new Date() } }),
+    db.subscription.create({ data: { userId: transfer.userId, plan: transfer.plan, provider: "transfer", status: "active", currentPeriodStart: new Date(), currentPeriodEnd: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000) } }),
+    db.payment.create({ data: { userId: transfer.userId, provider: "transfer", plan: transfer.plan, amount: transfer.amount, status: "completed", confirmedAt: new Date(), remoteId: transfer.referenceCode } }),
+    db.auditLog.create({ data: { userId, action: "activate_transfer", targetId: transfer.id, targetType: "transfer", details: `Activated ${ref}` } }),
+  ])
+  await sendTelegramMessage(chatId, `✅ Acceso activado: ${ref}`)
+}
+
 export async function handleReporte(chatId: string, userId: string) {
   if (getUserRole(userId) !== "ADMIN") { await sendTelegramMessage(chatId, "❌ Solo admin."); return }
   const today = new Date(); today.setHours(0, 0, 0, 0)

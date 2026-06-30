@@ -55,6 +55,7 @@ export type UserMinAggregateOutputType = {
   analysisResetAt: Date | null
   createdAt: Date | null
   updatedAt: Date | null
+  telegramId: string | null
   currentStreak: number | null
   maxStreak: number | null
   lastCheckInDate: Date | null
@@ -75,6 +76,7 @@ export type UserMaxAggregateOutputType = {
   analysisResetAt: Date | null
   createdAt: Date | null
   updatedAt: Date | null
+  telegramId: string | null
   currentStreak: number | null
   maxStreak: number | null
   lastCheckInDate: Date | null
@@ -95,6 +97,7 @@ export type UserCountAggregateOutputType = {
   analysisResetAt: number
   createdAt: number
   updatedAt: number
+  telegramId: number
   currentStreak: number
   maxStreak: number
   lastCheckInDate: number
@@ -131,6 +134,7 @@ export type UserMinAggregateInputType = {
   analysisResetAt?: true
   createdAt?: true
   updatedAt?: true
+  telegramId?: true
   currentStreak?: true
   maxStreak?: true
   lastCheckInDate?: true
@@ -151,6 +155,7 @@ export type UserMaxAggregateInputType = {
   analysisResetAt?: true
   createdAt?: true
   updatedAt?: true
+  telegramId?: true
   currentStreak?: true
   maxStreak?: true
   lastCheckInDate?: true
@@ -171,6 +176,7 @@ export type UserCountAggregateInputType = {
   analysisResetAt?: true
   createdAt?: true
   updatedAt?: true
+  telegramId?: true
   currentStreak?: true
   maxStreak?: true
   lastCheckInDate?: true
@@ -278,6 +284,7 @@ export type UserGroupByOutputType = {
   analysisResetAt: Date | null
   createdAt: Date
   updatedAt: Date
+  telegramId: string | null
   currentStreak: number
   maxStreak: number
   lastCheckInDate: Date | null
@@ -321,6 +328,7 @@ export type UserWhereInput = {
   analysisResetAt?: Prisma.DateTimeNullableFilter<"User"> | Date | string | null
   createdAt?: Prisma.DateTimeFilter<"User"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"User"> | Date | string
+  telegramId?: Prisma.StringNullableFilter<"User"> | string | null
   currentStreak?: Prisma.IntFilter<"User"> | number
   maxStreak?: Prisma.IntFilter<"User"> | number
   lastCheckInDate?: Prisma.DateTimeNullableFilter<"User"> | Date | string | null
@@ -345,6 +353,10 @@ export type UserWhereInput = {
   affiliateClicks?: Prisma.AffiliateClickListRelationFilter
   evolution?: Prisma.XOR<Prisma.UserEvolutionNullableScalarRelationFilter, Prisma.UserEvolutionWhereInput> | null
   checkIns?: Prisma.DailyCheckInListRelationFilter
+  transferPayments?: Prisma.TransferPaymentListRelationFilter
+  validatedTransfers?: Prisma.TransferPaymentListRelationFilter
+  activatedTransfers?: Prisma.TransferPaymentListRelationFilter
+  auditLogs?: Prisma.AuditLogListRelationFilter
 }
 
 export type UserOrderByWithRelationInput = {
@@ -362,6 +374,7 @@ export type UserOrderByWithRelationInput = {
   analysisResetAt?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  telegramId?: Prisma.SortOrderInput | Prisma.SortOrder
   currentStreak?: Prisma.SortOrder
   maxStreak?: Prisma.SortOrder
   lastCheckInDate?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -386,6 +399,10 @@ export type UserOrderByWithRelationInput = {
   affiliateClicks?: Prisma.AffiliateClickOrderByRelationAggregateInput
   evolution?: Prisma.UserEvolutionOrderByWithRelationInput
   checkIns?: Prisma.DailyCheckInOrderByRelationAggregateInput
+  transferPayments?: Prisma.TransferPaymentOrderByRelationAggregateInput
+  validatedTransfers?: Prisma.TransferPaymentOrderByRelationAggregateInput
+  activatedTransfers?: Prisma.TransferPaymentOrderByRelationAggregateInput
+  auditLogs?: Prisma.AuditLogOrderByRelationAggregateInput
 }
 
 export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -406,6 +423,7 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   analysisResetAt?: Prisma.DateTimeNullableFilter<"User"> | Date | string | null
   createdAt?: Prisma.DateTimeFilter<"User"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"User"> | Date | string
+  telegramId?: Prisma.StringNullableFilter<"User"> | string | null
   currentStreak?: Prisma.IntFilter<"User"> | number
   maxStreak?: Prisma.IntFilter<"User"> | number
   lastCheckInDate?: Prisma.DateTimeNullableFilter<"User"> | Date | string | null
@@ -430,6 +448,10 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   affiliateClicks?: Prisma.AffiliateClickListRelationFilter
   evolution?: Prisma.XOR<Prisma.UserEvolutionNullableScalarRelationFilter, Prisma.UserEvolutionWhereInput> | null
   checkIns?: Prisma.DailyCheckInListRelationFilter
+  transferPayments?: Prisma.TransferPaymentListRelationFilter
+  validatedTransfers?: Prisma.TransferPaymentListRelationFilter
+  activatedTransfers?: Prisma.TransferPaymentListRelationFilter
+  auditLogs?: Prisma.AuditLogListRelationFilter
 }, "id" | "email">
 
 export type UserOrderByWithAggregationInput = {
@@ -447,6 +469,7 @@ export type UserOrderByWithAggregationInput = {
   analysisResetAt?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  telegramId?: Prisma.SortOrderInput | Prisma.SortOrder
   currentStreak?: Prisma.SortOrder
   maxStreak?: Prisma.SortOrder
   lastCheckInDate?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -475,6 +498,7 @@ export type UserScalarWhereWithAggregatesInput = {
   analysisResetAt?: Prisma.DateTimeNullableWithAggregatesFilter<"User"> | Date | string | null
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"User"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"User"> | Date | string
+  telegramId?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
   currentStreak?: Prisma.IntWithAggregatesFilter<"User"> | number
   maxStreak?: Prisma.IntWithAggregatesFilter<"User"> | number
   lastCheckInDate?: Prisma.DateTimeNullableWithAggregatesFilter<"User"> | Date | string | null
@@ -495,6 +519,7 @@ export type UserCreateInput = {
   analysisResetAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  telegramId?: string | null
   currentStreak?: number
   maxStreak?: number
   lastCheckInDate?: Date | string | null
@@ -519,6 +544,10 @@ export type UserCreateInput = {
   affiliateClicks?: Prisma.AffiliateClickCreateNestedManyWithoutUserInput
   evolution?: Prisma.UserEvolutionCreateNestedOneWithoutUserInput
   checkIns?: Prisma.DailyCheckInCreateNestedManyWithoutUserInput
+  transferPayments?: Prisma.TransferPaymentCreateNestedManyWithoutUserInput
+  validatedTransfers?: Prisma.TransferPaymentCreateNestedManyWithoutValidatorInput
+  activatedTransfers?: Prisma.TransferPaymentCreateNestedManyWithoutActivatorInput
+  auditLogs?: Prisma.AuditLogCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateInput = {
@@ -536,6 +565,7 @@ export type UserUncheckedCreateInput = {
   analysisResetAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  telegramId?: string | null
   currentStreak?: number
   maxStreak?: number
   lastCheckInDate?: Date | string | null
@@ -560,6 +590,10 @@ export type UserUncheckedCreateInput = {
   affiliateClicks?: Prisma.AffiliateClickUncheckedCreateNestedManyWithoutUserInput
   evolution?: Prisma.UserEvolutionUncheckedCreateNestedOneWithoutUserInput
   checkIns?: Prisma.DailyCheckInUncheckedCreateNestedManyWithoutUserInput
+  transferPayments?: Prisma.TransferPaymentUncheckedCreateNestedManyWithoutUserInput
+  validatedTransfers?: Prisma.TransferPaymentUncheckedCreateNestedManyWithoutValidatorInput
+  activatedTransfers?: Prisma.TransferPaymentUncheckedCreateNestedManyWithoutActivatorInput
+  auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserUpdateInput = {
@@ -577,6 +611,7 @@ export type UserUpdateInput = {
   analysisResetAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  telegramId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   currentStreak?: Prisma.IntFieldUpdateOperationsInput | number
   maxStreak?: Prisma.IntFieldUpdateOperationsInput | number
   lastCheckInDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -601,6 +636,10 @@ export type UserUpdateInput = {
   affiliateClicks?: Prisma.AffiliateClickUpdateManyWithoutUserNestedInput
   evolution?: Prisma.UserEvolutionUpdateOneWithoutUserNestedInput
   checkIns?: Prisma.DailyCheckInUpdateManyWithoutUserNestedInput
+  transferPayments?: Prisma.TransferPaymentUpdateManyWithoutUserNestedInput
+  validatedTransfers?: Prisma.TransferPaymentUpdateManyWithoutValidatorNestedInput
+  activatedTransfers?: Prisma.TransferPaymentUpdateManyWithoutActivatorNestedInput
+  auditLogs?: Prisma.AuditLogUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateInput = {
@@ -618,6 +657,7 @@ export type UserUncheckedUpdateInput = {
   analysisResetAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  telegramId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   currentStreak?: Prisma.IntFieldUpdateOperationsInput | number
   maxStreak?: Prisma.IntFieldUpdateOperationsInput | number
   lastCheckInDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -642,6 +682,10 @@ export type UserUncheckedUpdateInput = {
   affiliateClicks?: Prisma.AffiliateClickUncheckedUpdateManyWithoutUserNestedInput
   evolution?: Prisma.UserEvolutionUncheckedUpdateOneWithoutUserNestedInput
   checkIns?: Prisma.DailyCheckInUncheckedUpdateManyWithoutUserNestedInput
+  transferPayments?: Prisma.TransferPaymentUncheckedUpdateManyWithoutUserNestedInput
+  validatedTransfers?: Prisma.TransferPaymentUncheckedUpdateManyWithoutValidatorNestedInput
+  activatedTransfers?: Prisma.TransferPaymentUncheckedUpdateManyWithoutActivatorNestedInput
+  auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateManyInput = {
@@ -659,6 +703,7 @@ export type UserCreateManyInput = {
   analysisResetAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  telegramId?: string | null
   currentStreak?: number
   maxStreak?: number
   lastCheckInDate?: Date | string | null
@@ -679,6 +724,7 @@ export type UserUpdateManyMutationInput = {
   analysisResetAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  telegramId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   currentStreak?: Prisma.IntFieldUpdateOperationsInput | number
   maxStreak?: Prisma.IntFieldUpdateOperationsInput | number
   lastCheckInDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -699,6 +745,7 @@ export type UserUncheckedUpdateManyInput = {
   analysisResetAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  telegramId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   currentStreak?: Prisma.IntFieldUpdateOperationsInput | number
   maxStreak?: Prisma.IntFieldUpdateOperationsInput | number
   lastCheckInDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -719,6 +766,7 @@ export type UserCountOrderByAggregateInput = {
   analysisResetAt?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  telegramId?: Prisma.SortOrder
   currentStreak?: Prisma.SortOrder
   maxStreak?: Prisma.SortOrder
   lastCheckInDate?: Prisma.SortOrder
@@ -746,6 +794,7 @@ export type UserMaxOrderByAggregateInput = {
   analysisResetAt?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  telegramId?: Prisma.SortOrder
   currentStreak?: Prisma.SortOrder
   maxStreak?: Prisma.SortOrder
   lastCheckInDate?: Prisma.SortOrder
@@ -766,6 +815,7 @@ export type UserMinOrderByAggregateInput = {
   analysisResetAt?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  telegramId?: Prisma.SortOrder
   currentStreak?: Prisma.SortOrder
   maxStreak?: Prisma.SortOrder
   lastCheckInDate?: Prisma.SortOrder
@@ -868,6 +918,66 @@ export type UserUpdateOneRequiredWithoutPaymentsNestedInput = {
   upsert?: Prisma.UserUpsertWithoutPaymentsInput
   connect?: Prisma.UserWhereUniqueInput
   update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutPaymentsInput, Prisma.UserUpdateWithoutPaymentsInput>, Prisma.UserUncheckedUpdateWithoutPaymentsInput>
+}
+
+export type UserCreateNestedOneWithoutTransferPaymentsInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutTransferPaymentsInput, Prisma.UserUncheckedCreateWithoutTransferPaymentsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutTransferPaymentsInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserCreateNestedOneWithoutValidatedTransfersInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutValidatedTransfersInput, Prisma.UserUncheckedCreateWithoutValidatedTransfersInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutValidatedTransfersInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserCreateNestedOneWithoutActivatedTransfersInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutActivatedTransfersInput, Prisma.UserUncheckedCreateWithoutActivatedTransfersInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutActivatedTransfersInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneRequiredWithoutTransferPaymentsNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutTransferPaymentsInput, Prisma.UserUncheckedCreateWithoutTransferPaymentsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutTransferPaymentsInput
+  upsert?: Prisma.UserUpsertWithoutTransferPaymentsInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutTransferPaymentsInput, Prisma.UserUpdateWithoutTransferPaymentsInput>, Prisma.UserUncheckedUpdateWithoutTransferPaymentsInput>
+}
+
+export type UserUpdateOneWithoutValidatedTransfersNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutValidatedTransfersInput, Prisma.UserUncheckedCreateWithoutValidatedTransfersInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutValidatedTransfersInput
+  upsert?: Prisma.UserUpsertWithoutValidatedTransfersInput
+  disconnect?: Prisma.UserWhereInput | boolean
+  delete?: Prisma.UserWhereInput | boolean
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutValidatedTransfersInput, Prisma.UserUpdateWithoutValidatedTransfersInput>, Prisma.UserUncheckedUpdateWithoutValidatedTransfersInput>
+}
+
+export type UserUpdateOneWithoutActivatedTransfersNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutActivatedTransfersInput, Prisma.UserUncheckedCreateWithoutActivatedTransfersInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutActivatedTransfersInput
+  upsert?: Prisma.UserUpsertWithoutActivatedTransfersInput
+  disconnect?: Prisma.UserWhereInput | boolean
+  delete?: Prisma.UserWhereInput | boolean
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutActivatedTransfersInput, Prisma.UserUpdateWithoutActivatedTransfersInput>, Prisma.UserUncheckedUpdateWithoutActivatedTransfersInput>
+}
+
+export type UserCreateNestedOneWithoutAuditLogsInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutAuditLogsInput, Prisma.UserUncheckedCreateWithoutAuditLogsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutAuditLogsInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneRequiredWithoutAuditLogsNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutAuditLogsInput, Prisma.UserUncheckedCreateWithoutAuditLogsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutAuditLogsInput
+  upsert?: Prisma.UserUpsertWithoutAuditLogsInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutAuditLogsInput, Prisma.UserUpdateWithoutAuditLogsInput>, Prisma.UserUncheckedUpdateWithoutAuditLogsInput>
 }
 
 export type UserCreateNestedOneWithoutSubscriptionsInput = {
@@ -1127,6 +1237,7 @@ export type UserCreateWithoutAccountsInput = {
   analysisResetAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  telegramId?: string | null
   currentStreak?: number
   maxStreak?: number
   lastCheckInDate?: Date | string | null
@@ -1150,6 +1261,10 @@ export type UserCreateWithoutAccountsInput = {
   affiliateClicks?: Prisma.AffiliateClickCreateNestedManyWithoutUserInput
   evolution?: Prisma.UserEvolutionCreateNestedOneWithoutUserInput
   checkIns?: Prisma.DailyCheckInCreateNestedManyWithoutUserInput
+  transferPayments?: Prisma.TransferPaymentCreateNestedManyWithoutUserInput
+  validatedTransfers?: Prisma.TransferPaymentCreateNestedManyWithoutValidatorInput
+  activatedTransfers?: Prisma.TransferPaymentCreateNestedManyWithoutActivatorInput
+  auditLogs?: Prisma.AuditLogCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutAccountsInput = {
@@ -1167,6 +1282,7 @@ export type UserUncheckedCreateWithoutAccountsInput = {
   analysisResetAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  telegramId?: string | null
   currentStreak?: number
   maxStreak?: number
   lastCheckInDate?: Date | string | null
@@ -1190,6 +1306,10 @@ export type UserUncheckedCreateWithoutAccountsInput = {
   affiliateClicks?: Prisma.AffiliateClickUncheckedCreateNestedManyWithoutUserInput
   evolution?: Prisma.UserEvolutionUncheckedCreateNestedOneWithoutUserInput
   checkIns?: Prisma.DailyCheckInUncheckedCreateNestedManyWithoutUserInput
+  transferPayments?: Prisma.TransferPaymentUncheckedCreateNestedManyWithoutUserInput
+  validatedTransfers?: Prisma.TransferPaymentUncheckedCreateNestedManyWithoutValidatorInput
+  activatedTransfers?: Prisma.TransferPaymentUncheckedCreateNestedManyWithoutActivatorInput
+  auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutAccountsInput = {
@@ -1223,6 +1343,7 @@ export type UserUpdateWithoutAccountsInput = {
   analysisResetAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  telegramId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   currentStreak?: Prisma.IntFieldUpdateOperationsInput | number
   maxStreak?: Prisma.IntFieldUpdateOperationsInput | number
   lastCheckInDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -1246,6 +1367,10 @@ export type UserUpdateWithoutAccountsInput = {
   affiliateClicks?: Prisma.AffiliateClickUpdateManyWithoutUserNestedInput
   evolution?: Prisma.UserEvolutionUpdateOneWithoutUserNestedInput
   checkIns?: Prisma.DailyCheckInUpdateManyWithoutUserNestedInput
+  transferPayments?: Prisma.TransferPaymentUpdateManyWithoutUserNestedInput
+  validatedTransfers?: Prisma.TransferPaymentUpdateManyWithoutValidatorNestedInput
+  activatedTransfers?: Prisma.TransferPaymentUpdateManyWithoutActivatorNestedInput
+  auditLogs?: Prisma.AuditLogUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutAccountsInput = {
@@ -1263,6 +1388,7 @@ export type UserUncheckedUpdateWithoutAccountsInput = {
   analysisResetAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  telegramId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   currentStreak?: Prisma.IntFieldUpdateOperationsInput | number
   maxStreak?: Prisma.IntFieldUpdateOperationsInput | number
   lastCheckInDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -1286,6 +1412,10 @@ export type UserUncheckedUpdateWithoutAccountsInput = {
   affiliateClicks?: Prisma.AffiliateClickUncheckedUpdateManyWithoutUserNestedInput
   evolution?: Prisma.UserEvolutionUncheckedUpdateOneWithoutUserNestedInput
   checkIns?: Prisma.DailyCheckInUncheckedUpdateManyWithoutUserNestedInput
+  transferPayments?: Prisma.TransferPaymentUncheckedUpdateManyWithoutUserNestedInput
+  validatedTransfers?: Prisma.TransferPaymentUncheckedUpdateManyWithoutValidatorNestedInput
+  activatedTransfers?: Prisma.TransferPaymentUncheckedUpdateManyWithoutActivatorNestedInput
+  auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutSessionsInput = {
@@ -1303,6 +1433,7 @@ export type UserCreateWithoutSessionsInput = {
   analysisResetAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  telegramId?: string | null
   currentStreak?: number
   maxStreak?: number
   lastCheckInDate?: Date | string | null
@@ -1326,6 +1457,10 @@ export type UserCreateWithoutSessionsInput = {
   affiliateClicks?: Prisma.AffiliateClickCreateNestedManyWithoutUserInput
   evolution?: Prisma.UserEvolutionCreateNestedOneWithoutUserInput
   checkIns?: Prisma.DailyCheckInCreateNestedManyWithoutUserInput
+  transferPayments?: Prisma.TransferPaymentCreateNestedManyWithoutUserInput
+  validatedTransfers?: Prisma.TransferPaymentCreateNestedManyWithoutValidatorInput
+  activatedTransfers?: Prisma.TransferPaymentCreateNestedManyWithoutActivatorInput
+  auditLogs?: Prisma.AuditLogCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutSessionsInput = {
@@ -1343,6 +1478,7 @@ export type UserUncheckedCreateWithoutSessionsInput = {
   analysisResetAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  telegramId?: string | null
   currentStreak?: number
   maxStreak?: number
   lastCheckInDate?: Date | string | null
@@ -1366,6 +1502,10 @@ export type UserUncheckedCreateWithoutSessionsInput = {
   affiliateClicks?: Prisma.AffiliateClickUncheckedCreateNestedManyWithoutUserInput
   evolution?: Prisma.UserEvolutionUncheckedCreateNestedOneWithoutUserInput
   checkIns?: Prisma.DailyCheckInUncheckedCreateNestedManyWithoutUserInput
+  transferPayments?: Prisma.TransferPaymentUncheckedCreateNestedManyWithoutUserInput
+  validatedTransfers?: Prisma.TransferPaymentUncheckedCreateNestedManyWithoutValidatorInput
+  activatedTransfers?: Prisma.TransferPaymentUncheckedCreateNestedManyWithoutActivatorInput
+  auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutSessionsInput = {
@@ -1399,6 +1539,7 @@ export type UserUpdateWithoutSessionsInput = {
   analysisResetAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  telegramId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   currentStreak?: Prisma.IntFieldUpdateOperationsInput | number
   maxStreak?: Prisma.IntFieldUpdateOperationsInput | number
   lastCheckInDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -1422,6 +1563,10 @@ export type UserUpdateWithoutSessionsInput = {
   affiliateClicks?: Prisma.AffiliateClickUpdateManyWithoutUserNestedInput
   evolution?: Prisma.UserEvolutionUpdateOneWithoutUserNestedInput
   checkIns?: Prisma.DailyCheckInUpdateManyWithoutUserNestedInput
+  transferPayments?: Prisma.TransferPaymentUpdateManyWithoutUserNestedInput
+  validatedTransfers?: Prisma.TransferPaymentUpdateManyWithoutValidatorNestedInput
+  activatedTransfers?: Prisma.TransferPaymentUpdateManyWithoutActivatorNestedInput
+  auditLogs?: Prisma.AuditLogUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutSessionsInput = {
@@ -1439,6 +1584,7 @@ export type UserUncheckedUpdateWithoutSessionsInput = {
   analysisResetAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  telegramId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   currentStreak?: Prisma.IntFieldUpdateOperationsInput | number
   maxStreak?: Prisma.IntFieldUpdateOperationsInput | number
   lastCheckInDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -1462,6 +1608,10 @@ export type UserUncheckedUpdateWithoutSessionsInput = {
   affiliateClicks?: Prisma.AffiliateClickUncheckedUpdateManyWithoutUserNestedInput
   evolution?: Prisma.UserEvolutionUncheckedUpdateOneWithoutUserNestedInput
   checkIns?: Prisma.DailyCheckInUncheckedUpdateManyWithoutUserNestedInput
+  transferPayments?: Prisma.TransferPaymentUncheckedUpdateManyWithoutUserNestedInput
+  validatedTransfers?: Prisma.TransferPaymentUncheckedUpdateManyWithoutValidatorNestedInput
+  activatedTransfers?: Prisma.TransferPaymentUncheckedUpdateManyWithoutActivatorNestedInput
+  auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutAnalysesInput = {
@@ -1479,6 +1629,7 @@ export type UserCreateWithoutAnalysesInput = {
   analysisResetAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  telegramId?: string | null
   currentStreak?: number
   maxStreak?: number
   lastCheckInDate?: Date | string | null
@@ -1502,6 +1653,10 @@ export type UserCreateWithoutAnalysesInput = {
   affiliateClicks?: Prisma.AffiliateClickCreateNestedManyWithoutUserInput
   evolution?: Prisma.UserEvolutionCreateNestedOneWithoutUserInput
   checkIns?: Prisma.DailyCheckInCreateNestedManyWithoutUserInput
+  transferPayments?: Prisma.TransferPaymentCreateNestedManyWithoutUserInput
+  validatedTransfers?: Prisma.TransferPaymentCreateNestedManyWithoutValidatorInput
+  activatedTransfers?: Prisma.TransferPaymentCreateNestedManyWithoutActivatorInput
+  auditLogs?: Prisma.AuditLogCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutAnalysesInput = {
@@ -1519,6 +1674,7 @@ export type UserUncheckedCreateWithoutAnalysesInput = {
   analysisResetAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  telegramId?: string | null
   currentStreak?: number
   maxStreak?: number
   lastCheckInDate?: Date | string | null
@@ -1542,6 +1698,10 @@ export type UserUncheckedCreateWithoutAnalysesInput = {
   affiliateClicks?: Prisma.AffiliateClickUncheckedCreateNestedManyWithoutUserInput
   evolution?: Prisma.UserEvolutionUncheckedCreateNestedOneWithoutUserInput
   checkIns?: Prisma.DailyCheckInUncheckedCreateNestedManyWithoutUserInput
+  transferPayments?: Prisma.TransferPaymentUncheckedCreateNestedManyWithoutUserInput
+  validatedTransfers?: Prisma.TransferPaymentUncheckedCreateNestedManyWithoutValidatorInput
+  activatedTransfers?: Prisma.TransferPaymentUncheckedCreateNestedManyWithoutActivatorInput
+  auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutAnalysesInput = {
@@ -1575,6 +1735,7 @@ export type UserUpdateWithoutAnalysesInput = {
   analysisResetAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  telegramId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   currentStreak?: Prisma.IntFieldUpdateOperationsInput | number
   maxStreak?: Prisma.IntFieldUpdateOperationsInput | number
   lastCheckInDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -1598,6 +1759,10 @@ export type UserUpdateWithoutAnalysesInput = {
   affiliateClicks?: Prisma.AffiliateClickUpdateManyWithoutUserNestedInput
   evolution?: Prisma.UserEvolutionUpdateOneWithoutUserNestedInput
   checkIns?: Prisma.DailyCheckInUpdateManyWithoutUserNestedInput
+  transferPayments?: Prisma.TransferPaymentUpdateManyWithoutUserNestedInput
+  validatedTransfers?: Prisma.TransferPaymentUpdateManyWithoutValidatorNestedInput
+  activatedTransfers?: Prisma.TransferPaymentUpdateManyWithoutActivatorNestedInput
+  auditLogs?: Prisma.AuditLogUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutAnalysesInput = {
@@ -1615,6 +1780,7 @@ export type UserUncheckedUpdateWithoutAnalysesInput = {
   analysisResetAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  telegramId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   currentStreak?: Prisma.IntFieldUpdateOperationsInput | number
   maxStreak?: Prisma.IntFieldUpdateOperationsInput | number
   lastCheckInDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -1638,6 +1804,10 @@ export type UserUncheckedUpdateWithoutAnalysesInput = {
   affiliateClicks?: Prisma.AffiliateClickUncheckedUpdateManyWithoutUserNestedInput
   evolution?: Prisma.UserEvolutionUncheckedUpdateOneWithoutUserNestedInput
   checkIns?: Prisma.DailyCheckInUncheckedUpdateManyWithoutUserNestedInput
+  transferPayments?: Prisma.TransferPaymentUncheckedUpdateManyWithoutUserNestedInput
+  validatedTransfers?: Prisma.TransferPaymentUncheckedUpdateManyWithoutValidatorNestedInput
+  activatedTransfers?: Prisma.TransferPaymentUncheckedUpdateManyWithoutActivatorNestedInput
+  auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutPaymentsInput = {
@@ -1655,6 +1825,7 @@ export type UserCreateWithoutPaymentsInput = {
   analysisResetAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  telegramId?: string | null
   currentStreak?: number
   maxStreak?: number
   lastCheckInDate?: Date | string | null
@@ -1678,6 +1849,10 @@ export type UserCreateWithoutPaymentsInput = {
   affiliateClicks?: Prisma.AffiliateClickCreateNestedManyWithoutUserInput
   evolution?: Prisma.UserEvolutionCreateNestedOneWithoutUserInput
   checkIns?: Prisma.DailyCheckInCreateNestedManyWithoutUserInput
+  transferPayments?: Prisma.TransferPaymentCreateNestedManyWithoutUserInput
+  validatedTransfers?: Prisma.TransferPaymentCreateNestedManyWithoutValidatorInput
+  activatedTransfers?: Prisma.TransferPaymentCreateNestedManyWithoutActivatorInput
+  auditLogs?: Prisma.AuditLogCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutPaymentsInput = {
@@ -1695,6 +1870,7 @@ export type UserUncheckedCreateWithoutPaymentsInput = {
   analysisResetAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  telegramId?: string | null
   currentStreak?: number
   maxStreak?: number
   lastCheckInDate?: Date | string | null
@@ -1718,6 +1894,10 @@ export type UserUncheckedCreateWithoutPaymentsInput = {
   affiliateClicks?: Prisma.AffiliateClickUncheckedCreateNestedManyWithoutUserInput
   evolution?: Prisma.UserEvolutionUncheckedCreateNestedOneWithoutUserInput
   checkIns?: Prisma.DailyCheckInUncheckedCreateNestedManyWithoutUserInput
+  transferPayments?: Prisma.TransferPaymentUncheckedCreateNestedManyWithoutUserInput
+  validatedTransfers?: Prisma.TransferPaymentUncheckedCreateNestedManyWithoutValidatorInput
+  activatedTransfers?: Prisma.TransferPaymentUncheckedCreateNestedManyWithoutActivatorInput
+  auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutPaymentsInput = {
@@ -1751,6 +1931,7 @@ export type UserUpdateWithoutPaymentsInput = {
   analysisResetAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  telegramId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   currentStreak?: Prisma.IntFieldUpdateOperationsInput | number
   maxStreak?: Prisma.IntFieldUpdateOperationsInput | number
   lastCheckInDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -1774,6 +1955,10 @@ export type UserUpdateWithoutPaymentsInput = {
   affiliateClicks?: Prisma.AffiliateClickUpdateManyWithoutUserNestedInput
   evolution?: Prisma.UserEvolutionUpdateOneWithoutUserNestedInput
   checkIns?: Prisma.DailyCheckInUpdateManyWithoutUserNestedInput
+  transferPayments?: Prisma.TransferPaymentUpdateManyWithoutUserNestedInput
+  validatedTransfers?: Prisma.TransferPaymentUpdateManyWithoutValidatorNestedInput
+  activatedTransfers?: Prisma.TransferPaymentUpdateManyWithoutActivatorNestedInput
+  auditLogs?: Prisma.AuditLogUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutPaymentsInput = {
@@ -1791,6 +1976,7 @@ export type UserUncheckedUpdateWithoutPaymentsInput = {
   analysisResetAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  telegramId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   currentStreak?: Prisma.IntFieldUpdateOperationsInput | number
   maxStreak?: Prisma.IntFieldUpdateOperationsInput | number
   lastCheckInDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -1814,6 +2000,794 @@ export type UserUncheckedUpdateWithoutPaymentsInput = {
   affiliateClicks?: Prisma.AffiliateClickUncheckedUpdateManyWithoutUserNestedInput
   evolution?: Prisma.UserEvolutionUncheckedUpdateOneWithoutUserNestedInput
   checkIns?: Prisma.DailyCheckInUncheckedUpdateManyWithoutUserNestedInput
+  transferPayments?: Prisma.TransferPaymentUncheckedUpdateManyWithoutUserNestedInput
+  validatedTransfers?: Prisma.TransferPaymentUncheckedUpdateManyWithoutValidatorNestedInput
+  activatedTransfers?: Prisma.TransferPaymentUncheckedUpdateManyWithoutActivatorNestedInput
+  auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutUserNestedInput
+}
+
+export type UserCreateWithoutTransferPaymentsInput = {
+  id?: string
+  name?: string | null
+  email: string
+  emailVerified?: Date | string | null
+  image?: string | null
+  password?: string | null
+  role?: string
+  plan?: string
+  qvapayId?: string | null
+  analysisLimit?: number
+  analysisUsed?: number
+  analysisResetAt?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  telegramId?: string | null
+  currentStreak?: number
+  maxStreak?: number
+  lastCheckInDate?: Date | string | null
+  accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
+  sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
+  analyses?: Prisma.SkinAnalysisCreateNestedManyWithoutUserInput
+  payments?: Prisma.PaymentCreateNestedManyWithoutUserInput
+  subscriptions?: Prisma.SubscriptionCreateNestedManyWithoutUserInput
+  purchasePacks?: Prisma.PurchasePackCreateNestedManyWithoutUserInput
+  usageRecords?: Prisma.UsageTrackingCreateNestedManyWithoutUserInput
+  clinic?: Prisma.ClinicCreateNestedOneWithoutOwnerInput
+  surveyFeedback?: Prisma.SurveyFeedbackCreateNestedManyWithoutUserInput
+  communityPosts?: Prisma.CommunityPostCreateNestedManyWithoutUserInput
+  comments?: Prisma.CommentCreateNestedManyWithoutUserInput
+  skinDiary?: Prisma.SkinDiaryCreateNestedManyWithoutUserInput
+  userChallenges?: Prisma.UserChallengeCreateNestedManyWithoutUserInput
+  productReviews?: Prisma.ProductReviewCreateNestedManyWithoutUserInput
+  referralsOwned?: Prisma.ReferralCreateNestedManyWithoutReferrerInput
+  referralsReferred?: Prisma.ReferralCreateNestedManyWithoutReferredInput
+  groupsOwned?: Prisma.GroupAnalyticsCreateNestedManyWithoutReferrerInput
+  digitalPurchases?: Prisma.DigitalProductPurchaseCreateNestedManyWithoutUserInput
+  affiliateClicks?: Prisma.AffiliateClickCreateNestedManyWithoutUserInput
+  evolution?: Prisma.UserEvolutionCreateNestedOneWithoutUserInput
+  checkIns?: Prisma.DailyCheckInCreateNestedManyWithoutUserInput
+  validatedTransfers?: Prisma.TransferPaymentCreateNestedManyWithoutValidatorInput
+  activatedTransfers?: Prisma.TransferPaymentCreateNestedManyWithoutActivatorInput
+  auditLogs?: Prisma.AuditLogCreateNestedManyWithoutUserInput
+}
+
+export type UserUncheckedCreateWithoutTransferPaymentsInput = {
+  id?: string
+  name?: string | null
+  email: string
+  emailVerified?: Date | string | null
+  image?: string | null
+  password?: string | null
+  role?: string
+  plan?: string
+  qvapayId?: string | null
+  analysisLimit?: number
+  analysisUsed?: number
+  analysisResetAt?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  telegramId?: string | null
+  currentStreak?: number
+  maxStreak?: number
+  lastCheckInDate?: Date | string | null
+  accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
+  sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
+  analyses?: Prisma.SkinAnalysisUncheckedCreateNestedManyWithoutUserInput
+  payments?: Prisma.PaymentUncheckedCreateNestedManyWithoutUserInput
+  subscriptions?: Prisma.SubscriptionUncheckedCreateNestedManyWithoutUserInput
+  purchasePacks?: Prisma.PurchasePackUncheckedCreateNestedManyWithoutUserInput
+  usageRecords?: Prisma.UsageTrackingUncheckedCreateNestedManyWithoutUserInput
+  clinic?: Prisma.ClinicUncheckedCreateNestedOneWithoutOwnerInput
+  surveyFeedback?: Prisma.SurveyFeedbackUncheckedCreateNestedManyWithoutUserInput
+  communityPosts?: Prisma.CommunityPostUncheckedCreateNestedManyWithoutUserInput
+  comments?: Prisma.CommentUncheckedCreateNestedManyWithoutUserInput
+  skinDiary?: Prisma.SkinDiaryUncheckedCreateNestedManyWithoutUserInput
+  userChallenges?: Prisma.UserChallengeUncheckedCreateNestedManyWithoutUserInput
+  productReviews?: Prisma.ProductReviewUncheckedCreateNestedManyWithoutUserInput
+  referralsOwned?: Prisma.ReferralUncheckedCreateNestedManyWithoutReferrerInput
+  referralsReferred?: Prisma.ReferralUncheckedCreateNestedManyWithoutReferredInput
+  groupsOwned?: Prisma.GroupAnalyticsUncheckedCreateNestedManyWithoutReferrerInput
+  digitalPurchases?: Prisma.DigitalProductPurchaseUncheckedCreateNestedManyWithoutUserInput
+  affiliateClicks?: Prisma.AffiliateClickUncheckedCreateNestedManyWithoutUserInput
+  evolution?: Prisma.UserEvolutionUncheckedCreateNestedOneWithoutUserInput
+  checkIns?: Prisma.DailyCheckInUncheckedCreateNestedManyWithoutUserInput
+  validatedTransfers?: Prisma.TransferPaymentUncheckedCreateNestedManyWithoutValidatorInput
+  activatedTransfers?: Prisma.TransferPaymentUncheckedCreateNestedManyWithoutActivatorInput
+  auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutUserInput
+}
+
+export type UserCreateOrConnectWithoutTransferPaymentsInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutTransferPaymentsInput, Prisma.UserUncheckedCreateWithoutTransferPaymentsInput>
+}
+
+export type UserCreateWithoutValidatedTransfersInput = {
+  id?: string
+  name?: string | null
+  email: string
+  emailVerified?: Date | string | null
+  image?: string | null
+  password?: string | null
+  role?: string
+  plan?: string
+  qvapayId?: string | null
+  analysisLimit?: number
+  analysisUsed?: number
+  analysisResetAt?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  telegramId?: string | null
+  currentStreak?: number
+  maxStreak?: number
+  lastCheckInDate?: Date | string | null
+  accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
+  sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
+  analyses?: Prisma.SkinAnalysisCreateNestedManyWithoutUserInput
+  payments?: Prisma.PaymentCreateNestedManyWithoutUserInput
+  subscriptions?: Prisma.SubscriptionCreateNestedManyWithoutUserInput
+  purchasePacks?: Prisma.PurchasePackCreateNestedManyWithoutUserInput
+  usageRecords?: Prisma.UsageTrackingCreateNestedManyWithoutUserInput
+  clinic?: Prisma.ClinicCreateNestedOneWithoutOwnerInput
+  surveyFeedback?: Prisma.SurveyFeedbackCreateNestedManyWithoutUserInput
+  communityPosts?: Prisma.CommunityPostCreateNestedManyWithoutUserInput
+  comments?: Prisma.CommentCreateNestedManyWithoutUserInput
+  skinDiary?: Prisma.SkinDiaryCreateNestedManyWithoutUserInput
+  userChallenges?: Prisma.UserChallengeCreateNestedManyWithoutUserInput
+  productReviews?: Prisma.ProductReviewCreateNestedManyWithoutUserInput
+  referralsOwned?: Prisma.ReferralCreateNestedManyWithoutReferrerInput
+  referralsReferred?: Prisma.ReferralCreateNestedManyWithoutReferredInput
+  groupsOwned?: Prisma.GroupAnalyticsCreateNestedManyWithoutReferrerInput
+  digitalPurchases?: Prisma.DigitalProductPurchaseCreateNestedManyWithoutUserInput
+  affiliateClicks?: Prisma.AffiliateClickCreateNestedManyWithoutUserInput
+  evolution?: Prisma.UserEvolutionCreateNestedOneWithoutUserInput
+  checkIns?: Prisma.DailyCheckInCreateNestedManyWithoutUserInput
+  transferPayments?: Prisma.TransferPaymentCreateNestedManyWithoutUserInput
+  activatedTransfers?: Prisma.TransferPaymentCreateNestedManyWithoutActivatorInput
+  auditLogs?: Prisma.AuditLogCreateNestedManyWithoutUserInput
+}
+
+export type UserUncheckedCreateWithoutValidatedTransfersInput = {
+  id?: string
+  name?: string | null
+  email: string
+  emailVerified?: Date | string | null
+  image?: string | null
+  password?: string | null
+  role?: string
+  plan?: string
+  qvapayId?: string | null
+  analysisLimit?: number
+  analysisUsed?: number
+  analysisResetAt?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  telegramId?: string | null
+  currentStreak?: number
+  maxStreak?: number
+  lastCheckInDate?: Date | string | null
+  accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
+  sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
+  analyses?: Prisma.SkinAnalysisUncheckedCreateNestedManyWithoutUserInput
+  payments?: Prisma.PaymentUncheckedCreateNestedManyWithoutUserInput
+  subscriptions?: Prisma.SubscriptionUncheckedCreateNestedManyWithoutUserInput
+  purchasePacks?: Prisma.PurchasePackUncheckedCreateNestedManyWithoutUserInput
+  usageRecords?: Prisma.UsageTrackingUncheckedCreateNestedManyWithoutUserInput
+  clinic?: Prisma.ClinicUncheckedCreateNestedOneWithoutOwnerInput
+  surveyFeedback?: Prisma.SurveyFeedbackUncheckedCreateNestedManyWithoutUserInput
+  communityPosts?: Prisma.CommunityPostUncheckedCreateNestedManyWithoutUserInput
+  comments?: Prisma.CommentUncheckedCreateNestedManyWithoutUserInput
+  skinDiary?: Prisma.SkinDiaryUncheckedCreateNestedManyWithoutUserInput
+  userChallenges?: Prisma.UserChallengeUncheckedCreateNestedManyWithoutUserInput
+  productReviews?: Prisma.ProductReviewUncheckedCreateNestedManyWithoutUserInput
+  referralsOwned?: Prisma.ReferralUncheckedCreateNestedManyWithoutReferrerInput
+  referralsReferred?: Prisma.ReferralUncheckedCreateNestedManyWithoutReferredInput
+  groupsOwned?: Prisma.GroupAnalyticsUncheckedCreateNestedManyWithoutReferrerInput
+  digitalPurchases?: Prisma.DigitalProductPurchaseUncheckedCreateNestedManyWithoutUserInput
+  affiliateClicks?: Prisma.AffiliateClickUncheckedCreateNestedManyWithoutUserInput
+  evolution?: Prisma.UserEvolutionUncheckedCreateNestedOneWithoutUserInput
+  checkIns?: Prisma.DailyCheckInUncheckedCreateNestedManyWithoutUserInput
+  transferPayments?: Prisma.TransferPaymentUncheckedCreateNestedManyWithoutUserInput
+  activatedTransfers?: Prisma.TransferPaymentUncheckedCreateNestedManyWithoutActivatorInput
+  auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutUserInput
+}
+
+export type UserCreateOrConnectWithoutValidatedTransfersInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutValidatedTransfersInput, Prisma.UserUncheckedCreateWithoutValidatedTransfersInput>
+}
+
+export type UserCreateWithoutActivatedTransfersInput = {
+  id?: string
+  name?: string | null
+  email: string
+  emailVerified?: Date | string | null
+  image?: string | null
+  password?: string | null
+  role?: string
+  plan?: string
+  qvapayId?: string | null
+  analysisLimit?: number
+  analysisUsed?: number
+  analysisResetAt?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  telegramId?: string | null
+  currentStreak?: number
+  maxStreak?: number
+  lastCheckInDate?: Date | string | null
+  accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
+  sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
+  analyses?: Prisma.SkinAnalysisCreateNestedManyWithoutUserInput
+  payments?: Prisma.PaymentCreateNestedManyWithoutUserInput
+  subscriptions?: Prisma.SubscriptionCreateNestedManyWithoutUserInput
+  purchasePacks?: Prisma.PurchasePackCreateNestedManyWithoutUserInput
+  usageRecords?: Prisma.UsageTrackingCreateNestedManyWithoutUserInput
+  clinic?: Prisma.ClinicCreateNestedOneWithoutOwnerInput
+  surveyFeedback?: Prisma.SurveyFeedbackCreateNestedManyWithoutUserInput
+  communityPosts?: Prisma.CommunityPostCreateNestedManyWithoutUserInput
+  comments?: Prisma.CommentCreateNestedManyWithoutUserInput
+  skinDiary?: Prisma.SkinDiaryCreateNestedManyWithoutUserInput
+  userChallenges?: Prisma.UserChallengeCreateNestedManyWithoutUserInput
+  productReviews?: Prisma.ProductReviewCreateNestedManyWithoutUserInput
+  referralsOwned?: Prisma.ReferralCreateNestedManyWithoutReferrerInput
+  referralsReferred?: Prisma.ReferralCreateNestedManyWithoutReferredInput
+  groupsOwned?: Prisma.GroupAnalyticsCreateNestedManyWithoutReferrerInput
+  digitalPurchases?: Prisma.DigitalProductPurchaseCreateNestedManyWithoutUserInput
+  affiliateClicks?: Prisma.AffiliateClickCreateNestedManyWithoutUserInput
+  evolution?: Prisma.UserEvolutionCreateNestedOneWithoutUserInput
+  checkIns?: Prisma.DailyCheckInCreateNestedManyWithoutUserInput
+  transferPayments?: Prisma.TransferPaymentCreateNestedManyWithoutUserInput
+  validatedTransfers?: Prisma.TransferPaymentCreateNestedManyWithoutValidatorInput
+  auditLogs?: Prisma.AuditLogCreateNestedManyWithoutUserInput
+}
+
+export type UserUncheckedCreateWithoutActivatedTransfersInput = {
+  id?: string
+  name?: string | null
+  email: string
+  emailVerified?: Date | string | null
+  image?: string | null
+  password?: string | null
+  role?: string
+  plan?: string
+  qvapayId?: string | null
+  analysisLimit?: number
+  analysisUsed?: number
+  analysisResetAt?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  telegramId?: string | null
+  currentStreak?: number
+  maxStreak?: number
+  lastCheckInDate?: Date | string | null
+  accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
+  sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
+  analyses?: Prisma.SkinAnalysisUncheckedCreateNestedManyWithoutUserInput
+  payments?: Prisma.PaymentUncheckedCreateNestedManyWithoutUserInput
+  subscriptions?: Prisma.SubscriptionUncheckedCreateNestedManyWithoutUserInput
+  purchasePacks?: Prisma.PurchasePackUncheckedCreateNestedManyWithoutUserInput
+  usageRecords?: Prisma.UsageTrackingUncheckedCreateNestedManyWithoutUserInput
+  clinic?: Prisma.ClinicUncheckedCreateNestedOneWithoutOwnerInput
+  surveyFeedback?: Prisma.SurveyFeedbackUncheckedCreateNestedManyWithoutUserInput
+  communityPosts?: Prisma.CommunityPostUncheckedCreateNestedManyWithoutUserInput
+  comments?: Prisma.CommentUncheckedCreateNestedManyWithoutUserInput
+  skinDiary?: Prisma.SkinDiaryUncheckedCreateNestedManyWithoutUserInput
+  userChallenges?: Prisma.UserChallengeUncheckedCreateNestedManyWithoutUserInput
+  productReviews?: Prisma.ProductReviewUncheckedCreateNestedManyWithoutUserInput
+  referralsOwned?: Prisma.ReferralUncheckedCreateNestedManyWithoutReferrerInput
+  referralsReferred?: Prisma.ReferralUncheckedCreateNestedManyWithoutReferredInput
+  groupsOwned?: Prisma.GroupAnalyticsUncheckedCreateNestedManyWithoutReferrerInput
+  digitalPurchases?: Prisma.DigitalProductPurchaseUncheckedCreateNestedManyWithoutUserInput
+  affiliateClicks?: Prisma.AffiliateClickUncheckedCreateNestedManyWithoutUserInput
+  evolution?: Prisma.UserEvolutionUncheckedCreateNestedOneWithoutUserInput
+  checkIns?: Prisma.DailyCheckInUncheckedCreateNestedManyWithoutUserInput
+  transferPayments?: Prisma.TransferPaymentUncheckedCreateNestedManyWithoutUserInput
+  validatedTransfers?: Prisma.TransferPaymentUncheckedCreateNestedManyWithoutValidatorInput
+  auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutUserInput
+}
+
+export type UserCreateOrConnectWithoutActivatedTransfersInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutActivatedTransfersInput, Prisma.UserUncheckedCreateWithoutActivatedTransfersInput>
+}
+
+export type UserUpsertWithoutTransferPaymentsInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutTransferPaymentsInput, Prisma.UserUncheckedUpdateWithoutTransferPaymentsInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutTransferPaymentsInput, Prisma.UserUncheckedCreateWithoutTransferPaymentsInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutTransferPaymentsInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutTransferPaymentsInput, Prisma.UserUncheckedUpdateWithoutTransferPaymentsInput>
+}
+
+export type UserUpdateWithoutTransferPaymentsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  emailVerified?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.StringFieldUpdateOperationsInput | string
+  plan?: Prisma.StringFieldUpdateOperationsInput | string
+  qvapayId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  analysisLimit?: Prisma.IntFieldUpdateOperationsInput | number
+  analysisUsed?: Prisma.IntFieldUpdateOperationsInput | number
+  analysisResetAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  telegramId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  currentStreak?: Prisma.IntFieldUpdateOperationsInput | number
+  maxStreak?: Prisma.IntFieldUpdateOperationsInput | number
+  lastCheckInDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
+  sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
+  analyses?: Prisma.SkinAnalysisUpdateManyWithoutUserNestedInput
+  payments?: Prisma.PaymentUpdateManyWithoutUserNestedInput
+  subscriptions?: Prisma.SubscriptionUpdateManyWithoutUserNestedInput
+  purchasePacks?: Prisma.PurchasePackUpdateManyWithoutUserNestedInput
+  usageRecords?: Prisma.UsageTrackingUpdateManyWithoutUserNestedInput
+  clinic?: Prisma.ClinicUpdateOneWithoutOwnerNestedInput
+  surveyFeedback?: Prisma.SurveyFeedbackUpdateManyWithoutUserNestedInput
+  communityPosts?: Prisma.CommunityPostUpdateManyWithoutUserNestedInput
+  comments?: Prisma.CommentUpdateManyWithoutUserNestedInput
+  skinDiary?: Prisma.SkinDiaryUpdateManyWithoutUserNestedInput
+  userChallenges?: Prisma.UserChallengeUpdateManyWithoutUserNestedInput
+  productReviews?: Prisma.ProductReviewUpdateManyWithoutUserNestedInput
+  referralsOwned?: Prisma.ReferralUpdateManyWithoutReferrerNestedInput
+  referralsReferred?: Prisma.ReferralUpdateManyWithoutReferredNestedInput
+  groupsOwned?: Prisma.GroupAnalyticsUpdateManyWithoutReferrerNestedInput
+  digitalPurchases?: Prisma.DigitalProductPurchaseUpdateManyWithoutUserNestedInput
+  affiliateClicks?: Prisma.AffiliateClickUpdateManyWithoutUserNestedInput
+  evolution?: Prisma.UserEvolutionUpdateOneWithoutUserNestedInput
+  checkIns?: Prisma.DailyCheckInUpdateManyWithoutUserNestedInput
+  validatedTransfers?: Prisma.TransferPaymentUpdateManyWithoutValidatorNestedInput
+  activatedTransfers?: Prisma.TransferPaymentUpdateManyWithoutActivatorNestedInput
+  auditLogs?: Prisma.AuditLogUpdateManyWithoutUserNestedInput
+}
+
+export type UserUncheckedUpdateWithoutTransferPaymentsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  emailVerified?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.StringFieldUpdateOperationsInput | string
+  plan?: Prisma.StringFieldUpdateOperationsInput | string
+  qvapayId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  analysisLimit?: Prisma.IntFieldUpdateOperationsInput | number
+  analysisUsed?: Prisma.IntFieldUpdateOperationsInput | number
+  analysisResetAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  telegramId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  currentStreak?: Prisma.IntFieldUpdateOperationsInput | number
+  maxStreak?: Prisma.IntFieldUpdateOperationsInput | number
+  lastCheckInDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
+  sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
+  analyses?: Prisma.SkinAnalysisUncheckedUpdateManyWithoutUserNestedInput
+  payments?: Prisma.PaymentUncheckedUpdateManyWithoutUserNestedInput
+  subscriptions?: Prisma.SubscriptionUncheckedUpdateManyWithoutUserNestedInput
+  purchasePacks?: Prisma.PurchasePackUncheckedUpdateManyWithoutUserNestedInput
+  usageRecords?: Prisma.UsageTrackingUncheckedUpdateManyWithoutUserNestedInput
+  clinic?: Prisma.ClinicUncheckedUpdateOneWithoutOwnerNestedInput
+  surveyFeedback?: Prisma.SurveyFeedbackUncheckedUpdateManyWithoutUserNestedInput
+  communityPosts?: Prisma.CommunityPostUncheckedUpdateManyWithoutUserNestedInput
+  comments?: Prisma.CommentUncheckedUpdateManyWithoutUserNestedInput
+  skinDiary?: Prisma.SkinDiaryUncheckedUpdateManyWithoutUserNestedInput
+  userChallenges?: Prisma.UserChallengeUncheckedUpdateManyWithoutUserNestedInput
+  productReviews?: Prisma.ProductReviewUncheckedUpdateManyWithoutUserNestedInput
+  referralsOwned?: Prisma.ReferralUncheckedUpdateManyWithoutReferrerNestedInput
+  referralsReferred?: Prisma.ReferralUncheckedUpdateManyWithoutReferredNestedInput
+  groupsOwned?: Prisma.GroupAnalyticsUncheckedUpdateManyWithoutReferrerNestedInput
+  digitalPurchases?: Prisma.DigitalProductPurchaseUncheckedUpdateManyWithoutUserNestedInput
+  affiliateClicks?: Prisma.AffiliateClickUncheckedUpdateManyWithoutUserNestedInput
+  evolution?: Prisma.UserEvolutionUncheckedUpdateOneWithoutUserNestedInput
+  checkIns?: Prisma.DailyCheckInUncheckedUpdateManyWithoutUserNestedInput
+  validatedTransfers?: Prisma.TransferPaymentUncheckedUpdateManyWithoutValidatorNestedInput
+  activatedTransfers?: Prisma.TransferPaymentUncheckedUpdateManyWithoutActivatorNestedInput
+  auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutUserNestedInput
+}
+
+export type UserUpsertWithoutValidatedTransfersInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutValidatedTransfersInput, Prisma.UserUncheckedUpdateWithoutValidatedTransfersInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutValidatedTransfersInput, Prisma.UserUncheckedCreateWithoutValidatedTransfersInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutValidatedTransfersInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutValidatedTransfersInput, Prisma.UserUncheckedUpdateWithoutValidatedTransfersInput>
+}
+
+export type UserUpdateWithoutValidatedTransfersInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  emailVerified?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.StringFieldUpdateOperationsInput | string
+  plan?: Prisma.StringFieldUpdateOperationsInput | string
+  qvapayId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  analysisLimit?: Prisma.IntFieldUpdateOperationsInput | number
+  analysisUsed?: Prisma.IntFieldUpdateOperationsInput | number
+  analysisResetAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  telegramId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  currentStreak?: Prisma.IntFieldUpdateOperationsInput | number
+  maxStreak?: Prisma.IntFieldUpdateOperationsInput | number
+  lastCheckInDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
+  sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
+  analyses?: Prisma.SkinAnalysisUpdateManyWithoutUserNestedInput
+  payments?: Prisma.PaymentUpdateManyWithoutUserNestedInput
+  subscriptions?: Prisma.SubscriptionUpdateManyWithoutUserNestedInput
+  purchasePacks?: Prisma.PurchasePackUpdateManyWithoutUserNestedInput
+  usageRecords?: Prisma.UsageTrackingUpdateManyWithoutUserNestedInput
+  clinic?: Prisma.ClinicUpdateOneWithoutOwnerNestedInput
+  surveyFeedback?: Prisma.SurveyFeedbackUpdateManyWithoutUserNestedInput
+  communityPosts?: Prisma.CommunityPostUpdateManyWithoutUserNestedInput
+  comments?: Prisma.CommentUpdateManyWithoutUserNestedInput
+  skinDiary?: Prisma.SkinDiaryUpdateManyWithoutUserNestedInput
+  userChallenges?: Prisma.UserChallengeUpdateManyWithoutUserNestedInput
+  productReviews?: Prisma.ProductReviewUpdateManyWithoutUserNestedInput
+  referralsOwned?: Prisma.ReferralUpdateManyWithoutReferrerNestedInput
+  referralsReferred?: Prisma.ReferralUpdateManyWithoutReferredNestedInput
+  groupsOwned?: Prisma.GroupAnalyticsUpdateManyWithoutReferrerNestedInput
+  digitalPurchases?: Prisma.DigitalProductPurchaseUpdateManyWithoutUserNestedInput
+  affiliateClicks?: Prisma.AffiliateClickUpdateManyWithoutUserNestedInput
+  evolution?: Prisma.UserEvolutionUpdateOneWithoutUserNestedInput
+  checkIns?: Prisma.DailyCheckInUpdateManyWithoutUserNestedInput
+  transferPayments?: Prisma.TransferPaymentUpdateManyWithoutUserNestedInput
+  activatedTransfers?: Prisma.TransferPaymentUpdateManyWithoutActivatorNestedInput
+  auditLogs?: Prisma.AuditLogUpdateManyWithoutUserNestedInput
+}
+
+export type UserUncheckedUpdateWithoutValidatedTransfersInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  emailVerified?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.StringFieldUpdateOperationsInput | string
+  plan?: Prisma.StringFieldUpdateOperationsInput | string
+  qvapayId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  analysisLimit?: Prisma.IntFieldUpdateOperationsInput | number
+  analysisUsed?: Prisma.IntFieldUpdateOperationsInput | number
+  analysisResetAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  telegramId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  currentStreak?: Prisma.IntFieldUpdateOperationsInput | number
+  maxStreak?: Prisma.IntFieldUpdateOperationsInput | number
+  lastCheckInDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
+  sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
+  analyses?: Prisma.SkinAnalysisUncheckedUpdateManyWithoutUserNestedInput
+  payments?: Prisma.PaymentUncheckedUpdateManyWithoutUserNestedInput
+  subscriptions?: Prisma.SubscriptionUncheckedUpdateManyWithoutUserNestedInput
+  purchasePacks?: Prisma.PurchasePackUncheckedUpdateManyWithoutUserNestedInput
+  usageRecords?: Prisma.UsageTrackingUncheckedUpdateManyWithoutUserNestedInput
+  clinic?: Prisma.ClinicUncheckedUpdateOneWithoutOwnerNestedInput
+  surveyFeedback?: Prisma.SurveyFeedbackUncheckedUpdateManyWithoutUserNestedInput
+  communityPosts?: Prisma.CommunityPostUncheckedUpdateManyWithoutUserNestedInput
+  comments?: Prisma.CommentUncheckedUpdateManyWithoutUserNestedInput
+  skinDiary?: Prisma.SkinDiaryUncheckedUpdateManyWithoutUserNestedInput
+  userChallenges?: Prisma.UserChallengeUncheckedUpdateManyWithoutUserNestedInput
+  productReviews?: Prisma.ProductReviewUncheckedUpdateManyWithoutUserNestedInput
+  referralsOwned?: Prisma.ReferralUncheckedUpdateManyWithoutReferrerNestedInput
+  referralsReferred?: Prisma.ReferralUncheckedUpdateManyWithoutReferredNestedInput
+  groupsOwned?: Prisma.GroupAnalyticsUncheckedUpdateManyWithoutReferrerNestedInput
+  digitalPurchases?: Prisma.DigitalProductPurchaseUncheckedUpdateManyWithoutUserNestedInput
+  affiliateClicks?: Prisma.AffiliateClickUncheckedUpdateManyWithoutUserNestedInput
+  evolution?: Prisma.UserEvolutionUncheckedUpdateOneWithoutUserNestedInput
+  checkIns?: Prisma.DailyCheckInUncheckedUpdateManyWithoutUserNestedInput
+  transferPayments?: Prisma.TransferPaymentUncheckedUpdateManyWithoutUserNestedInput
+  activatedTransfers?: Prisma.TransferPaymentUncheckedUpdateManyWithoutActivatorNestedInput
+  auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutUserNestedInput
+}
+
+export type UserUpsertWithoutActivatedTransfersInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutActivatedTransfersInput, Prisma.UserUncheckedUpdateWithoutActivatedTransfersInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutActivatedTransfersInput, Prisma.UserUncheckedCreateWithoutActivatedTransfersInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutActivatedTransfersInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutActivatedTransfersInput, Prisma.UserUncheckedUpdateWithoutActivatedTransfersInput>
+}
+
+export type UserUpdateWithoutActivatedTransfersInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  emailVerified?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.StringFieldUpdateOperationsInput | string
+  plan?: Prisma.StringFieldUpdateOperationsInput | string
+  qvapayId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  analysisLimit?: Prisma.IntFieldUpdateOperationsInput | number
+  analysisUsed?: Prisma.IntFieldUpdateOperationsInput | number
+  analysisResetAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  telegramId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  currentStreak?: Prisma.IntFieldUpdateOperationsInput | number
+  maxStreak?: Prisma.IntFieldUpdateOperationsInput | number
+  lastCheckInDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
+  sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
+  analyses?: Prisma.SkinAnalysisUpdateManyWithoutUserNestedInput
+  payments?: Prisma.PaymentUpdateManyWithoutUserNestedInput
+  subscriptions?: Prisma.SubscriptionUpdateManyWithoutUserNestedInput
+  purchasePacks?: Prisma.PurchasePackUpdateManyWithoutUserNestedInput
+  usageRecords?: Prisma.UsageTrackingUpdateManyWithoutUserNestedInput
+  clinic?: Prisma.ClinicUpdateOneWithoutOwnerNestedInput
+  surveyFeedback?: Prisma.SurveyFeedbackUpdateManyWithoutUserNestedInput
+  communityPosts?: Prisma.CommunityPostUpdateManyWithoutUserNestedInput
+  comments?: Prisma.CommentUpdateManyWithoutUserNestedInput
+  skinDiary?: Prisma.SkinDiaryUpdateManyWithoutUserNestedInput
+  userChallenges?: Prisma.UserChallengeUpdateManyWithoutUserNestedInput
+  productReviews?: Prisma.ProductReviewUpdateManyWithoutUserNestedInput
+  referralsOwned?: Prisma.ReferralUpdateManyWithoutReferrerNestedInput
+  referralsReferred?: Prisma.ReferralUpdateManyWithoutReferredNestedInput
+  groupsOwned?: Prisma.GroupAnalyticsUpdateManyWithoutReferrerNestedInput
+  digitalPurchases?: Prisma.DigitalProductPurchaseUpdateManyWithoutUserNestedInput
+  affiliateClicks?: Prisma.AffiliateClickUpdateManyWithoutUserNestedInput
+  evolution?: Prisma.UserEvolutionUpdateOneWithoutUserNestedInput
+  checkIns?: Prisma.DailyCheckInUpdateManyWithoutUserNestedInput
+  transferPayments?: Prisma.TransferPaymentUpdateManyWithoutUserNestedInput
+  validatedTransfers?: Prisma.TransferPaymentUpdateManyWithoutValidatorNestedInput
+  auditLogs?: Prisma.AuditLogUpdateManyWithoutUserNestedInput
+}
+
+export type UserUncheckedUpdateWithoutActivatedTransfersInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  emailVerified?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.StringFieldUpdateOperationsInput | string
+  plan?: Prisma.StringFieldUpdateOperationsInput | string
+  qvapayId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  analysisLimit?: Prisma.IntFieldUpdateOperationsInput | number
+  analysisUsed?: Prisma.IntFieldUpdateOperationsInput | number
+  analysisResetAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  telegramId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  currentStreak?: Prisma.IntFieldUpdateOperationsInput | number
+  maxStreak?: Prisma.IntFieldUpdateOperationsInput | number
+  lastCheckInDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
+  sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
+  analyses?: Prisma.SkinAnalysisUncheckedUpdateManyWithoutUserNestedInput
+  payments?: Prisma.PaymentUncheckedUpdateManyWithoutUserNestedInput
+  subscriptions?: Prisma.SubscriptionUncheckedUpdateManyWithoutUserNestedInput
+  purchasePacks?: Prisma.PurchasePackUncheckedUpdateManyWithoutUserNestedInput
+  usageRecords?: Prisma.UsageTrackingUncheckedUpdateManyWithoutUserNestedInput
+  clinic?: Prisma.ClinicUncheckedUpdateOneWithoutOwnerNestedInput
+  surveyFeedback?: Prisma.SurveyFeedbackUncheckedUpdateManyWithoutUserNestedInput
+  communityPosts?: Prisma.CommunityPostUncheckedUpdateManyWithoutUserNestedInput
+  comments?: Prisma.CommentUncheckedUpdateManyWithoutUserNestedInput
+  skinDiary?: Prisma.SkinDiaryUncheckedUpdateManyWithoutUserNestedInput
+  userChallenges?: Prisma.UserChallengeUncheckedUpdateManyWithoutUserNestedInput
+  productReviews?: Prisma.ProductReviewUncheckedUpdateManyWithoutUserNestedInput
+  referralsOwned?: Prisma.ReferralUncheckedUpdateManyWithoutReferrerNestedInput
+  referralsReferred?: Prisma.ReferralUncheckedUpdateManyWithoutReferredNestedInput
+  groupsOwned?: Prisma.GroupAnalyticsUncheckedUpdateManyWithoutReferrerNestedInput
+  digitalPurchases?: Prisma.DigitalProductPurchaseUncheckedUpdateManyWithoutUserNestedInput
+  affiliateClicks?: Prisma.AffiliateClickUncheckedUpdateManyWithoutUserNestedInput
+  evolution?: Prisma.UserEvolutionUncheckedUpdateOneWithoutUserNestedInput
+  checkIns?: Prisma.DailyCheckInUncheckedUpdateManyWithoutUserNestedInput
+  transferPayments?: Prisma.TransferPaymentUncheckedUpdateManyWithoutUserNestedInput
+  validatedTransfers?: Prisma.TransferPaymentUncheckedUpdateManyWithoutValidatorNestedInput
+  auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutUserNestedInput
+}
+
+export type UserCreateWithoutAuditLogsInput = {
+  id?: string
+  name?: string | null
+  email: string
+  emailVerified?: Date | string | null
+  image?: string | null
+  password?: string | null
+  role?: string
+  plan?: string
+  qvapayId?: string | null
+  analysisLimit?: number
+  analysisUsed?: number
+  analysisResetAt?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  telegramId?: string | null
+  currentStreak?: number
+  maxStreak?: number
+  lastCheckInDate?: Date | string | null
+  accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
+  sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
+  analyses?: Prisma.SkinAnalysisCreateNestedManyWithoutUserInput
+  payments?: Prisma.PaymentCreateNestedManyWithoutUserInput
+  subscriptions?: Prisma.SubscriptionCreateNestedManyWithoutUserInput
+  purchasePacks?: Prisma.PurchasePackCreateNestedManyWithoutUserInput
+  usageRecords?: Prisma.UsageTrackingCreateNestedManyWithoutUserInput
+  clinic?: Prisma.ClinicCreateNestedOneWithoutOwnerInput
+  surveyFeedback?: Prisma.SurveyFeedbackCreateNestedManyWithoutUserInput
+  communityPosts?: Prisma.CommunityPostCreateNestedManyWithoutUserInput
+  comments?: Prisma.CommentCreateNestedManyWithoutUserInput
+  skinDiary?: Prisma.SkinDiaryCreateNestedManyWithoutUserInput
+  userChallenges?: Prisma.UserChallengeCreateNestedManyWithoutUserInput
+  productReviews?: Prisma.ProductReviewCreateNestedManyWithoutUserInput
+  referralsOwned?: Prisma.ReferralCreateNestedManyWithoutReferrerInput
+  referralsReferred?: Prisma.ReferralCreateNestedManyWithoutReferredInput
+  groupsOwned?: Prisma.GroupAnalyticsCreateNestedManyWithoutReferrerInput
+  digitalPurchases?: Prisma.DigitalProductPurchaseCreateNestedManyWithoutUserInput
+  affiliateClicks?: Prisma.AffiliateClickCreateNestedManyWithoutUserInput
+  evolution?: Prisma.UserEvolutionCreateNestedOneWithoutUserInput
+  checkIns?: Prisma.DailyCheckInCreateNestedManyWithoutUserInput
+  transferPayments?: Prisma.TransferPaymentCreateNestedManyWithoutUserInput
+  validatedTransfers?: Prisma.TransferPaymentCreateNestedManyWithoutValidatorInput
+  activatedTransfers?: Prisma.TransferPaymentCreateNestedManyWithoutActivatorInput
+}
+
+export type UserUncheckedCreateWithoutAuditLogsInput = {
+  id?: string
+  name?: string | null
+  email: string
+  emailVerified?: Date | string | null
+  image?: string | null
+  password?: string | null
+  role?: string
+  plan?: string
+  qvapayId?: string | null
+  analysisLimit?: number
+  analysisUsed?: number
+  analysisResetAt?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  telegramId?: string | null
+  currentStreak?: number
+  maxStreak?: number
+  lastCheckInDate?: Date | string | null
+  accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
+  sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
+  analyses?: Prisma.SkinAnalysisUncheckedCreateNestedManyWithoutUserInput
+  payments?: Prisma.PaymentUncheckedCreateNestedManyWithoutUserInput
+  subscriptions?: Prisma.SubscriptionUncheckedCreateNestedManyWithoutUserInput
+  purchasePacks?: Prisma.PurchasePackUncheckedCreateNestedManyWithoutUserInput
+  usageRecords?: Prisma.UsageTrackingUncheckedCreateNestedManyWithoutUserInput
+  clinic?: Prisma.ClinicUncheckedCreateNestedOneWithoutOwnerInput
+  surveyFeedback?: Prisma.SurveyFeedbackUncheckedCreateNestedManyWithoutUserInput
+  communityPosts?: Prisma.CommunityPostUncheckedCreateNestedManyWithoutUserInput
+  comments?: Prisma.CommentUncheckedCreateNestedManyWithoutUserInput
+  skinDiary?: Prisma.SkinDiaryUncheckedCreateNestedManyWithoutUserInput
+  userChallenges?: Prisma.UserChallengeUncheckedCreateNestedManyWithoutUserInput
+  productReviews?: Prisma.ProductReviewUncheckedCreateNestedManyWithoutUserInput
+  referralsOwned?: Prisma.ReferralUncheckedCreateNestedManyWithoutReferrerInput
+  referralsReferred?: Prisma.ReferralUncheckedCreateNestedManyWithoutReferredInput
+  groupsOwned?: Prisma.GroupAnalyticsUncheckedCreateNestedManyWithoutReferrerInput
+  digitalPurchases?: Prisma.DigitalProductPurchaseUncheckedCreateNestedManyWithoutUserInput
+  affiliateClicks?: Prisma.AffiliateClickUncheckedCreateNestedManyWithoutUserInput
+  evolution?: Prisma.UserEvolutionUncheckedCreateNestedOneWithoutUserInput
+  checkIns?: Prisma.DailyCheckInUncheckedCreateNestedManyWithoutUserInput
+  transferPayments?: Prisma.TransferPaymentUncheckedCreateNestedManyWithoutUserInput
+  validatedTransfers?: Prisma.TransferPaymentUncheckedCreateNestedManyWithoutValidatorInput
+  activatedTransfers?: Prisma.TransferPaymentUncheckedCreateNestedManyWithoutActivatorInput
+}
+
+export type UserCreateOrConnectWithoutAuditLogsInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutAuditLogsInput, Prisma.UserUncheckedCreateWithoutAuditLogsInput>
+}
+
+export type UserUpsertWithoutAuditLogsInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutAuditLogsInput, Prisma.UserUncheckedUpdateWithoutAuditLogsInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutAuditLogsInput, Prisma.UserUncheckedCreateWithoutAuditLogsInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutAuditLogsInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutAuditLogsInput, Prisma.UserUncheckedUpdateWithoutAuditLogsInput>
+}
+
+export type UserUpdateWithoutAuditLogsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  emailVerified?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.StringFieldUpdateOperationsInput | string
+  plan?: Prisma.StringFieldUpdateOperationsInput | string
+  qvapayId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  analysisLimit?: Prisma.IntFieldUpdateOperationsInput | number
+  analysisUsed?: Prisma.IntFieldUpdateOperationsInput | number
+  analysisResetAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  telegramId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  currentStreak?: Prisma.IntFieldUpdateOperationsInput | number
+  maxStreak?: Prisma.IntFieldUpdateOperationsInput | number
+  lastCheckInDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
+  sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
+  analyses?: Prisma.SkinAnalysisUpdateManyWithoutUserNestedInput
+  payments?: Prisma.PaymentUpdateManyWithoutUserNestedInput
+  subscriptions?: Prisma.SubscriptionUpdateManyWithoutUserNestedInput
+  purchasePacks?: Prisma.PurchasePackUpdateManyWithoutUserNestedInput
+  usageRecords?: Prisma.UsageTrackingUpdateManyWithoutUserNestedInput
+  clinic?: Prisma.ClinicUpdateOneWithoutOwnerNestedInput
+  surveyFeedback?: Prisma.SurveyFeedbackUpdateManyWithoutUserNestedInput
+  communityPosts?: Prisma.CommunityPostUpdateManyWithoutUserNestedInput
+  comments?: Prisma.CommentUpdateManyWithoutUserNestedInput
+  skinDiary?: Prisma.SkinDiaryUpdateManyWithoutUserNestedInput
+  userChallenges?: Prisma.UserChallengeUpdateManyWithoutUserNestedInput
+  productReviews?: Prisma.ProductReviewUpdateManyWithoutUserNestedInput
+  referralsOwned?: Prisma.ReferralUpdateManyWithoutReferrerNestedInput
+  referralsReferred?: Prisma.ReferralUpdateManyWithoutReferredNestedInput
+  groupsOwned?: Prisma.GroupAnalyticsUpdateManyWithoutReferrerNestedInput
+  digitalPurchases?: Prisma.DigitalProductPurchaseUpdateManyWithoutUserNestedInput
+  affiliateClicks?: Prisma.AffiliateClickUpdateManyWithoutUserNestedInput
+  evolution?: Prisma.UserEvolutionUpdateOneWithoutUserNestedInput
+  checkIns?: Prisma.DailyCheckInUpdateManyWithoutUserNestedInput
+  transferPayments?: Prisma.TransferPaymentUpdateManyWithoutUserNestedInput
+  validatedTransfers?: Prisma.TransferPaymentUpdateManyWithoutValidatorNestedInput
+  activatedTransfers?: Prisma.TransferPaymentUpdateManyWithoutActivatorNestedInput
+}
+
+export type UserUncheckedUpdateWithoutAuditLogsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  emailVerified?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.StringFieldUpdateOperationsInput | string
+  plan?: Prisma.StringFieldUpdateOperationsInput | string
+  qvapayId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  analysisLimit?: Prisma.IntFieldUpdateOperationsInput | number
+  analysisUsed?: Prisma.IntFieldUpdateOperationsInput | number
+  analysisResetAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  telegramId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  currentStreak?: Prisma.IntFieldUpdateOperationsInput | number
+  maxStreak?: Prisma.IntFieldUpdateOperationsInput | number
+  lastCheckInDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
+  sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
+  analyses?: Prisma.SkinAnalysisUncheckedUpdateManyWithoutUserNestedInput
+  payments?: Prisma.PaymentUncheckedUpdateManyWithoutUserNestedInput
+  subscriptions?: Prisma.SubscriptionUncheckedUpdateManyWithoutUserNestedInput
+  purchasePacks?: Prisma.PurchasePackUncheckedUpdateManyWithoutUserNestedInput
+  usageRecords?: Prisma.UsageTrackingUncheckedUpdateManyWithoutUserNestedInput
+  clinic?: Prisma.ClinicUncheckedUpdateOneWithoutOwnerNestedInput
+  surveyFeedback?: Prisma.SurveyFeedbackUncheckedUpdateManyWithoutUserNestedInput
+  communityPosts?: Prisma.CommunityPostUncheckedUpdateManyWithoutUserNestedInput
+  comments?: Prisma.CommentUncheckedUpdateManyWithoutUserNestedInput
+  skinDiary?: Prisma.SkinDiaryUncheckedUpdateManyWithoutUserNestedInput
+  userChallenges?: Prisma.UserChallengeUncheckedUpdateManyWithoutUserNestedInput
+  productReviews?: Prisma.ProductReviewUncheckedUpdateManyWithoutUserNestedInput
+  referralsOwned?: Prisma.ReferralUncheckedUpdateManyWithoutReferrerNestedInput
+  referralsReferred?: Prisma.ReferralUncheckedUpdateManyWithoutReferredNestedInput
+  groupsOwned?: Prisma.GroupAnalyticsUncheckedUpdateManyWithoutReferrerNestedInput
+  digitalPurchases?: Prisma.DigitalProductPurchaseUncheckedUpdateManyWithoutUserNestedInput
+  affiliateClicks?: Prisma.AffiliateClickUncheckedUpdateManyWithoutUserNestedInput
+  evolution?: Prisma.UserEvolutionUncheckedUpdateOneWithoutUserNestedInput
+  checkIns?: Prisma.DailyCheckInUncheckedUpdateManyWithoutUserNestedInput
+  transferPayments?: Prisma.TransferPaymentUncheckedUpdateManyWithoutUserNestedInput
+  validatedTransfers?: Prisma.TransferPaymentUncheckedUpdateManyWithoutValidatorNestedInput
+  activatedTransfers?: Prisma.TransferPaymentUncheckedUpdateManyWithoutActivatorNestedInput
 }
 
 export type UserCreateWithoutSubscriptionsInput = {
@@ -1831,6 +2805,7 @@ export type UserCreateWithoutSubscriptionsInput = {
   analysisResetAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  telegramId?: string | null
   currentStreak?: number
   maxStreak?: number
   lastCheckInDate?: Date | string | null
@@ -1854,6 +2829,10 @@ export type UserCreateWithoutSubscriptionsInput = {
   affiliateClicks?: Prisma.AffiliateClickCreateNestedManyWithoutUserInput
   evolution?: Prisma.UserEvolutionCreateNestedOneWithoutUserInput
   checkIns?: Prisma.DailyCheckInCreateNestedManyWithoutUserInput
+  transferPayments?: Prisma.TransferPaymentCreateNestedManyWithoutUserInput
+  validatedTransfers?: Prisma.TransferPaymentCreateNestedManyWithoutValidatorInput
+  activatedTransfers?: Prisma.TransferPaymentCreateNestedManyWithoutActivatorInput
+  auditLogs?: Prisma.AuditLogCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutSubscriptionsInput = {
@@ -1871,6 +2850,7 @@ export type UserUncheckedCreateWithoutSubscriptionsInput = {
   analysisResetAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  telegramId?: string | null
   currentStreak?: number
   maxStreak?: number
   lastCheckInDate?: Date | string | null
@@ -1894,6 +2874,10 @@ export type UserUncheckedCreateWithoutSubscriptionsInput = {
   affiliateClicks?: Prisma.AffiliateClickUncheckedCreateNestedManyWithoutUserInput
   evolution?: Prisma.UserEvolutionUncheckedCreateNestedOneWithoutUserInput
   checkIns?: Prisma.DailyCheckInUncheckedCreateNestedManyWithoutUserInput
+  transferPayments?: Prisma.TransferPaymentUncheckedCreateNestedManyWithoutUserInput
+  validatedTransfers?: Prisma.TransferPaymentUncheckedCreateNestedManyWithoutValidatorInput
+  activatedTransfers?: Prisma.TransferPaymentUncheckedCreateNestedManyWithoutActivatorInput
+  auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutSubscriptionsInput = {
@@ -1927,6 +2911,7 @@ export type UserUpdateWithoutSubscriptionsInput = {
   analysisResetAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  telegramId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   currentStreak?: Prisma.IntFieldUpdateOperationsInput | number
   maxStreak?: Prisma.IntFieldUpdateOperationsInput | number
   lastCheckInDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -1950,6 +2935,10 @@ export type UserUpdateWithoutSubscriptionsInput = {
   affiliateClicks?: Prisma.AffiliateClickUpdateManyWithoutUserNestedInput
   evolution?: Prisma.UserEvolutionUpdateOneWithoutUserNestedInput
   checkIns?: Prisma.DailyCheckInUpdateManyWithoutUserNestedInput
+  transferPayments?: Prisma.TransferPaymentUpdateManyWithoutUserNestedInput
+  validatedTransfers?: Prisma.TransferPaymentUpdateManyWithoutValidatorNestedInput
+  activatedTransfers?: Prisma.TransferPaymentUpdateManyWithoutActivatorNestedInput
+  auditLogs?: Prisma.AuditLogUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutSubscriptionsInput = {
@@ -1967,6 +2956,7 @@ export type UserUncheckedUpdateWithoutSubscriptionsInput = {
   analysisResetAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  telegramId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   currentStreak?: Prisma.IntFieldUpdateOperationsInput | number
   maxStreak?: Prisma.IntFieldUpdateOperationsInput | number
   lastCheckInDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -1990,6 +2980,10 @@ export type UserUncheckedUpdateWithoutSubscriptionsInput = {
   affiliateClicks?: Prisma.AffiliateClickUncheckedUpdateManyWithoutUserNestedInput
   evolution?: Prisma.UserEvolutionUncheckedUpdateOneWithoutUserNestedInput
   checkIns?: Prisma.DailyCheckInUncheckedUpdateManyWithoutUserNestedInput
+  transferPayments?: Prisma.TransferPaymentUncheckedUpdateManyWithoutUserNestedInput
+  validatedTransfers?: Prisma.TransferPaymentUncheckedUpdateManyWithoutValidatorNestedInput
+  activatedTransfers?: Prisma.TransferPaymentUncheckedUpdateManyWithoutActivatorNestedInput
+  auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutPurchasePacksInput = {
@@ -2007,6 +3001,7 @@ export type UserCreateWithoutPurchasePacksInput = {
   analysisResetAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  telegramId?: string | null
   currentStreak?: number
   maxStreak?: number
   lastCheckInDate?: Date | string | null
@@ -2030,6 +3025,10 @@ export type UserCreateWithoutPurchasePacksInput = {
   affiliateClicks?: Prisma.AffiliateClickCreateNestedManyWithoutUserInput
   evolution?: Prisma.UserEvolutionCreateNestedOneWithoutUserInput
   checkIns?: Prisma.DailyCheckInCreateNestedManyWithoutUserInput
+  transferPayments?: Prisma.TransferPaymentCreateNestedManyWithoutUserInput
+  validatedTransfers?: Prisma.TransferPaymentCreateNestedManyWithoutValidatorInput
+  activatedTransfers?: Prisma.TransferPaymentCreateNestedManyWithoutActivatorInput
+  auditLogs?: Prisma.AuditLogCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutPurchasePacksInput = {
@@ -2047,6 +3046,7 @@ export type UserUncheckedCreateWithoutPurchasePacksInput = {
   analysisResetAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  telegramId?: string | null
   currentStreak?: number
   maxStreak?: number
   lastCheckInDate?: Date | string | null
@@ -2070,6 +3070,10 @@ export type UserUncheckedCreateWithoutPurchasePacksInput = {
   affiliateClicks?: Prisma.AffiliateClickUncheckedCreateNestedManyWithoutUserInput
   evolution?: Prisma.UserEvolutionUncheckedCreateNestedOneWithoutUserInput
   checkIns?: Prisma.DailyCheckInUncheckedCreateNestedManyWithoutUserInput
+  transferPayments?: Prisma.TransferPaymentUncheckedCreateNestedManyWithoutUserInput
+  validatedTransfers?: Prisma.TransferPaymentUncheckedCreateNestedManyWithoutValidatorInput
+  activatedTransfers?: Prisma.TransferPaymentUncheckedCreateNestedManyWithoutActivatorInput
+  auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutPurchasePacksInput = {
@@ -2103,6 +3107,7 @@ export type UserUpdateWithoutPurchasePacksInput = {
   analysisResetAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  telegramId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   currentStreak?: Prisma.IntFieldUpdateOperationsInput | number
   maxStreak?: Prisma.IntFieldUpdateOperationsInput | number
   lastCheckInDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -2126,6 +3131,10 @@ export type UserUpdateWithoutPurchasePacksInput = {
   affiliateClicks?: Prisma.AffiliateClickUpdateManyWithoutUserNestedInput
   evolution?: Prisma.UserEvolutionUpdateOneWithoutUserNestedInput
   checkIns?: Prisma.DailyCheckInUpdateManyWithoutUserNestedInput
+  transferPayments?: Prisma.TransferPaymentUpdateManyWithoutUserNestedInput
+  validatedTransfers?: Prisma.TransferPaymentUpdateManyWithoutValidatorNestedInput
+  activatedTransfers?: Prisma.TransferPaymentUpdateManyWithoutActivatorNestedInput
+  auditLogs?: Prisma.AuditLogUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutPurchasePacksInput = {
@@ -2143,6 +3152,7 @@ export type UserUncheckedUpdateWithoutPurchasePacksInput = {
   analysisResetAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  telegramId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   currentStreak?: Prisma.IntFieldUpdateOperationsInput | number
   maxStreak?: Prisma.IntFieldUpdateOperationsInput | number
   lastCheckInDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -2166,6 +3176,10 @@ export type UserUncheckedUpdateWithoutPurchasePacksInput = {
   affiliateClicks?: Prisma.AffiliateClickUncheckedUpdateManyWithoutUserNestedInput
   evolution?: Prisma.UserEvolutionUncheckedUpdateOneWithoutUserNestedInput
   checkIns?: Prisma.DailyCheckInUncheckedUpdateManyWithoutUserNestedInput
+  transferPayments?: Prisma.TransferPaymentUncheckedUpdateManyWithoutUserNestedInput
+  validatedTransfers?: Prisma.TransferPaymentUncheckedUpdateManyWithoutValidatorNestedInput
+  activatedTransfers?: Prisma.TransferPaymentUncheckedUpdateManyWithoutActivatorNestedInput
+  auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutUsageRecordsInput = {
@@ -2183,6 +3197,7 @@ export type UserCreateWithoutUsageRecordsInput = {
   analysisResetAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  telegramId?: string | null
   currentStreak?: number
   maxStreak?: number
   lastCheckInDate?: Date | string | null
@@ -2206,6 +3221,10 @@ export type UserCreateWithoutUsageRecordsInput = {
   affiliateClicks?: Prisma.AffiliateClickCreateNestedManyWithoutUserInput
   evolution?: Prisma.UserEvolutionCreateNestedOneWithoutUserInput
   checkIns?: Prisma.DailyCheckInCreateNestedManyWithoutUserInput
+  transferPayments?: Prisma.TransferPaymentCreateNestedManyWithoutUserInput
+  validatedTransfers?: Prisma.TransferPaymentCreateNestedManyWithoutValidatorInput
+  activatedTransfers?: Prisma.TransferPaymentCreateNestedManyWithoutActivatorInput
+  auditLogs?: Prisma.AuditLogCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutUsageRecordsInput = {
@@ -2223,6 +3242,7 @@ export type UserUncheckedCreateWithoutUsageRecordsInput = {
   analysisResetAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  telegramId?: string | null
   currentStreak?: number
   maxStreak?: number
   lastCheckInDate?: Date | string | null
@@ -2246,6 +3266,10 @@ export type UserUncheckedCreateWithoutUsageRecordsInput = {
   affiliateClicks?: Prisma.AffiliateClickUncheckedCreateNestedManyWithoutUserInput
   evolution?: Prisma.UserEvolutionUncheckedCreateNestedOneWithoutUserInput
   checkIns?: Prisma.DailyCheckInUncheckedCreateNestedManyWithoutUserInput
+  transferPayments?: Prisma.TransferPaymentUncheckedCreateNestedManyWithoutUserInput
+  validatedTransfers?: Prisma.TransferPaymentUncheckedCreateNestedManyWithoutValidatorInput
+  activatedTransfers?: Prisma.TransferPaymentUncheckedCreateNestedManyWithoutActivatorInput
+  auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutUsageRecordsInput = {
@@ -2279,6 +3303,7 @@ export type UserUpdateWithoutUsageRecordsInput = {
   analysisResetAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  telegramId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   currentStreak?: Prisma.IntFieldUpdateOperationsInput | number
   maxStreak?: Prisma.IntFieldUpdateOperationsInput | number
   lastCheckInDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -2302,6 +3327,10 @@ export type UserUpdateWithoutUsageRecordsInput = {
   affiliateClicks?: Prisma.AffiliateClickUpdateManyWithoutUserNestedInput
   evolution?: Prisma.UserEvolutionUpdateOneWithoutUserNestedInput
   checkIns?: Prisma.DailyCheckInUpdateManyWithoutUserNestedInput
+  transferPayments?: Prisma.TransferPaymentUpdateManyWithoutUserNestedInput
+  validatedTransfers?: Prisma.TransferPaymentUpdateManyWithoutValidatorNestedInput
+  activatedTransfers?: Prisma.TransferPaymentUpdateManyWithoutActivatorNestedInput
+  auditLogs?: Prisma.AuditLogUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutUsageRecordsInput = {
@@ -2319,6 +3348,7 @@ export type UserUncheckedUpdateWithoutUsageRecordsInput = {
   analysisResetAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  telegramId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   currentStreak?: Prisma.IntFieldUpdateOperationsInput | number
   maxStreak?: Prisma.IntFieldUpdateOperationsInput | number
   lastCheckInDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -2342,6 +3372,10 @@ export type UserUncheckedUpdateWithoutUsageRecordsInput = {
   affiliateClicks?: Prisma.AffiliateClickUncheckedUpdateManyWithoutUserNestedInput
   evolution?: Prisma.UserEvolutionUncheckedUpdateOneWithoutUserNestedInput
   checkIns?: Prisma.DailyCheckInUncheckedUpdateManyWithoutUserNestedInput
+  transferPayments?: Prisma.TransferPaymentUncheckedUpdateManyWithoutUserNestedInput
+  validatedTransfers?: Prisma.TransferPaymentUncheckedUpdateManyWithoutValidatorNestedInput
+  activatedTransfers?: Prisma.TransferPaymentUncheckedUpdateManyWithoutActivatorNestedInput
+  auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutClinicInput = {
@@ -2359,6 +3393,7 @@ export type UserCreateWithoutClinicInput = {
   analysisResetAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  telegramId?: string | null
   currentStreak?: number
   maxStreak?: number
   lastCheckInDate?: Date | string | null
@@ -2382,6 +3417,10 @@ export type UserCreateWithoutClinicInput = {
   affiliateClicks?: Prisma.AffiliateClickCreateNestedManyWithoutUserInput
   evolution?: Prisma.UserEvolutionCreateNestedOneWithoutUserInput
   checkIns?: Prisma.DailyCheckInCreateNestedManyWithoutUserInput
+  transferPayments?: Prisma.TransferPaymentCreateNestedManyWithoutUserInput
+  validatedTransfers?: Prisma.TransferPaymentCreateNestedManyWithoutValidatorInput
+  activatedTransfers?: Prisma.TransferPaymentCreateNestedManyWithoutActivatorInput
+  auditLogs?: Prisma.AuditLogCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutClinicInput = {
@@ -2399,6 +3438,7 @@ export type UserUncheckedCreateWithoutClinicInput = {
   analysisResetAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  telegramId?: string | null
   currentStreak?: number
   maxStreak?: number
   lastCheckInDate?: Date | string | null
@@ -2422,6 +3462,10 @@ export type UserUncheckedCreateWithoutClinicInput = {
   affiliateClicks?: Prisma.AffiliateClickUncheckedCreateNestedManyWithoutUserInput
   evolution?: Prisma.UserEvolutionUncheckedCreateNestedOneWithoutUserInput
   checkIns?: Prisma.DailyCheckInUncheckedCreateNestedManyWithoutUserInput
+  transferPayments?: Prisma.TransferPaymentUncheckedCreateNestedManyWithoutUserInput
+  validatedTransfers?: Prisma.TransferPaymentUncheckedCreateNestedManyWithoutValidatorInput
+  activatedTransfers?: Prisma.TransferPaymentUncheckedCreateNestedManyWithoutActivatorInput
+  auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutClinicInput = {
@@ -2455,6 +3499,7 @@ export type UserUpdateWithoutClinicInput = {
   analysisResetAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  telegramId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   currentStreak?: Prisma.IntFieldUpdateOperationsInput | number
   maxStreak?: Prisma.IntFieldUpdateOperationsInput | number
   lastCheckInDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -2478,6 +3523,10 @@ export type UserUpdateWithoutClinicInput = {
   affiliateClicks?: Prisma.AffiliateClickUpdateManyWithoutUserNestedInput
   evolution?: Prisma.UserEvolutionUpdateOneWithoutUserNestedInput
   checkIns?: Prisma.DailyCheckInUpdateManyWithoutUserNestedInput
+  transferPayments?: Prisma.TransferPaymentUpdateManyWithoutUserNestedInput
+  validatedTransfers?: Prisma.TransferPaymentUpdateManyWithoutValidatorNestedInput
+  activatedTransfers?: Prisma.TransferPaymentUpdateManyWithoutActivatorNestedInput
+  auditLogs?: Prisma.AuditLogUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutClinicInput = {
@@ -2495,6 +3544,7 @@ export type UserUncheckedUpdateWithoutClinicInput = {
   analysisResetAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  telegramId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   currentStreak?: Prisma.IntFieldUpdateOperationsInput | number
   maxStreak?: Prisma.IntFieldUpdateOperationsInput | number
   lastCheckInDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -2518,6 +3568,10 @@ export type UserUncheckedUpdateWithoutClinicInput = {
   affiliateClicks?: Prisma.AffiliateClickUncheckedUpdateManyWithoutUserNestedInput
   evolution?: Prisma.UserEvolutionUncheckedUpdateOneWithoutUserNestedInput
   checkIns?: Prisma.DailyCheckInUncheckedUpdateManyWithoutUserNestedInput
+  transferPayments?: Prisma.TransferPaymentUncheckedUpdateManyWithoutUserNestedInput
+  validatedTransfers?: Prisma.TransferPaymentUncheckedUpdateManyWithoutValidatorNestedInput
+  activatedTransfers?: Prisma.TransferPaymentUncheckedUpdateManyWithoutActivatorNestedInput
+  auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutAffiliateClicksInput = {
@@ -2535,6 +3589,7 @@ export type UserCreateWithoutAffiliateClicksInput = {
   analysisResetAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  telegramId?: string | null
   currentStreak?: number
   maxStreak?: number
   lastCheckInDate?: Date | string | null
@@ -2558,6 +3613,10 @@ export type UserCreateWithoutAffiliateClicksInput = {
   digitalPurchases?: Prisma.DigitalProductPurchaseCreateNestedManyWithoutUserInput
   evolution?: Prisma.UserEvolutionCreateNestedOneWithoutUserInput
   checkIns?: Prisma.DailyCheckInCreateNestedManyWithoutUserInput
+  transferPayments?: Prisma.TransferPaymentCreateNestedManyWithoutUserInput
+  validatedTransfers?: Prisma.TransferPaymentCreateNestedManyWithoutValidatorInput
+  activatedTransfers?: Prisma.TransferPaymentCreateNestedManyWithoutActivatorInput
+  auditLogs?: Prisma.AuditLogCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutAffiliateClicksInput = {
@@ -2575,6 +3634,7 @@ export type UserUncheckedCreateWithoutAffiliateClicksInput = {
   analysisResetAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  telegramId?: string | null
   currentStreak?: number
   maxStreak?: number
   lastCheckInDate?: Date | string | null
@@ -2598,6 +3658,10 @@ export type UserUncheckedCreateWithoutAffiliateClicksInput = {
   digitalPurchases?: Prisma.DigitalProductPurchaseUncheckedCreateNestedManyWithoutUserInput
   evolution?: Prisma.UserEvolutionUncheckedCreateNestedOneWithoutUserInput
   checkIns?: Prisma.DailyCheckInUncheckedCreateNestedManyWithoutUserInput
+  transferPayments?: Prisma.TransferPaymentUncheckedCreateNestedManyWithoutUserInput
+  validatedTransfers?: Prisma.TransferPaymentUncheckedCreateNestedManyWithoutValidatorInput
+  activatedTransfers?: Prisma.TransferPaymentUncheckedCreateNestedManyWithoutActivatorInput
+  auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutAffiliateClicksInput = {
@@ -2631,6 +3695,7 @@ export type UserUpdateWithoutAffiliateClicksInput = {
   analysisResetAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  telegramId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   currentStreak?: Prisma.IntFieldUpdateOperationsInput | number
   maxStreak?: Prisma.IntFieldUpdateOperationsInput | number
   lastCheckInDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -2654,6 +3719,10 @@ export type UserUpdateWithoutAffiliateClicksInput = {
   digitalPurchases?: Prisma.DigitalProductPurchaseUpdateManyWithoutUserNestedInput
   evolution?: Prisma.UserEvolutionUpdateOneWithoutUserNestedInput
   checkIns?: Prisma.DailyCheckInUpdateManyWithoutUserNestedInput
+  transferPayments?: Prisma.TransferPaymentUpdateManyWithoutUserNestedInput
+  validatedTransfers?: Prisma.TransferPaymentUpdateManyWithoutValidatorNestedInput
+  activatedTransfers?: Prisma.TransferPaymentUpdateManyWithoutActivatorNestedInput
+  auditLogs?: Prisma.AuditLogUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutAffiliateClicksInput = {
@@ -2671,6 +3740,7 @@ export type UserUncheckedUpdateWithoutAffiliateClicksInput = {
   analysisResetAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  telegramId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   currentStreak?: Prisma.IntFieldUpdateOperationsInput | number
   maxStreak?: Prisma.IntFieldUpdateOperationsInput | number
   lastCheckInDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -2694,6 +3764,10 @@ export type UserUncheckedUpdateWithoutAffiliateClicksInput = {
   digitalPurchases?: Prisma.DigitalProductPurchaseUncheckedUpdateManyWithoutUserNestedInput
   evolution?: Prisma.UserEvolutionUncheckedUpdateOneWithoutUserNestedInput
   checkIns?: Prisma.DailyCheckInUncheckedUpdateManyWithoutUserNestedInput
+  transferPayments?: Prisma.TransferPaymentUncheckedUpdateManyWithoutUserNestedInput
+  validatedTransfers?: Prisma.TransferPaymentUncheckedUpdateManyWithoutValidatorNestedInput
+  activatedTransfers?: Prisma.TransferPaymentUncheckedUpdateManyWithoutActivatorNestedInput
+  auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutEvolutionInput = {
@@ -2711,6 +3785,7 @@ export type UserCreateWithoutEvolutionInput = {
   analysisResetAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  telegramId?: string | null
   currentStreak?: number
   maxStreak?: number
   lastCheckInDate?: Date | string | null
@@ -2734,6 +3809,10 @@ export type UserCreateWithoutEvolutionInput = {
   digitalPurchases?: Prisma.DigitalProductPurchaseCreateNestedManyWithoutUserInput
   affiliateClicks?: Prisma.AffiliateClickCreateNestedManyWithoutUserInput
   checkIns?: Prisma.DailyCheckInCreateNestedManyWithoutUserInput
+  transferPayments?: Prisma.TransferPaymentCreateNestedManyWithoutUserInput
+  validatedTransfers?: Prisma.TransferPaymentCreateNestedManyWithoutValidatorInput
+  activatedTransfers?: Prisma.TransferPaymentCreateNestedManyWithoutActivatorInput
+  auditLogs?: Prisma.AuditLogCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutEvolutionInput = {
@@ -2751,6 +3830,7 @@ export type UserUncheckedCreateWithoutEvolutionInput = {
   analysisResetAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  telegramId?: string | null
   currentStreak?: number
   maxStreak?: number
   lastCheckInDate?: Date | string | null
@@ -2774,6 +3854,10 @@ export type UserUncheckedCreateWithoutEvolutionInput = {
   digitalPurchases?: Prisma.DigitalProductPurchaseUncheckedCreateNestedManyWithoutUserInput
   affiliateClicks?: Prisma.AffiliateClickUncheckedCreateNestedManyWithoutUserInput
   checkIns?: Prisma.DailyCheckInUncheckedCreateNestedManyWithoutUserInput
+  transferPayments?: Prisma.TransferPaymentUncheckedCreateNestedManyWithoutUserInput
+  validatedTransfers?: Prisma.TransferPaymentUncheckedCreateNestedManyWithoutValidatorInput
+  activatedTransfers?: Prisma.TransferPaymentUncheckedCreateNestedManyWithoutActivatorInput
+  auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutEvolutionInput = {
@@ -2807,6 +3891,7 @@ export type UserUpdateWithoutEvolutionInput = {
   analysisResetAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  telegramId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   currentStreak?: Prisma.IntFieldUpdateOperationsInput | number
   maxStreak?: Prisma.IntFieldUpdateOperationsInput | number
   lastCheckInDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -2830,6 +3915,10 @@ export type UserUpdateWithoutEvolutionInput = {
   digitalPurchases?: Prisma.DigitalProductPurchaseUpdateManyWithoutUserNestedInput
   affiliateClicks?: Prisma.AffiliateClickUpdateManyWithoutUserNestedInput
   checkIns?: Prisma.DailyCheckInUpdateManyWithoutUserNestedInput
+  transferPayments?: Prisma.TransferPaymentUpdateManyWithoutUserNestedInput
+  validatedTransfers?: Prisma.TransferPaymentUpdateManyWithoutValidatorNestedInput
+  activatedTransfers?: Prisma.TransferPaymentUpdateManyWithoutActivatorNestedInput
+  auditLogs?: Prisma.AuditLogUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutEvolutionInput = {
@@ -2847,6 +3936,7 @@ export type UserUncheckedUpdateWithoutEvolutionInput = {
   analysisResetAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  telegramId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   currentStreak?: Prisma.IntFieldUpdateOperationsInput | number
   maxStreak?: Prisma.IntFieldUpdateOperationsInput | number
   lastCheckInDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -2870,6 +3960,10 @@ export type UserUncheckedUpdateWithoutEvolutionInput = {
   digitalPurchases?: Prisma.DigitalProductPurchaseUncheckedUpdateManyWithoutUserNestedInput
   affiliateClicks?: Prisma.AffiliateClickUncheckedUpdateManyWithoutUserNestedInput
   checkIns?: Prisma.DailyCheckInUncheckedUpdateManyWithoutUserNestedInput
+  transferPayments?: Prisma.TransferPaymentUncheckedUpdateManyWithoutUserNestedInput
+  validatedTransfers?: Prisma.TransferPaymentUncheckedUpdateManyWithoutValidatorNestedInput
+  activatedTransfers?: Prisma.TransferPaymentUncheckedUpdateManyWithoutActivatorNestedInput
+  auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutSurveyFeedbackInput = {
@@ -2887,6 +3981,7 @@ export type UserCreateWithoutSurveyFeedbackInput = {
   analysisResetAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  telegramId?: string | null
   currentStreak?: number
   maxStreak?: number
   lastCheckInDate?: Date | string | null
@@ -2910,6 +4005,10 @@ export type UserCreateWithoutSurveyFeedbackInput = {
   affiliateClicks?: Prisma.AffiliateClickCreateNestedManyWithoutUserInput
   evolution?: Prisma.UserEvolutionCreateNestedOneWithoutUserInput
   checkIns?: Prisma.DailyCheckInCreateNestedManyWithoutUserInput
+  transferPayments?: Prisma.TransferPaymentCreateNestedManyWithoutUserInput
+  validatedTransfers?: Prisma.TransferPaymentCreateNestedManyWithoutValidatorInput
+  activatedTransfers?: Prisma.TransferPaymentCreateNestedManyWithoutActivatorInput
+  auditLogs?: Prisma.AuditLogCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutSurveyFeedbackInput = {
@@ -2927,6 +4026,7 @@ export type UserUncheckedCreateWithoutSurveyFeedbackInput = {
   analysisResetAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  telegramId?: string | null
   currentStreak?: number
   maxStreak?: number
   lastCheckInDate?: Date | string | null
@@ -2950,6 +4050,10 @@ export type UserUncheckedCreateWithoutSurveyFeedbackInput = {
   affiliateClicks?: Prisma.AffiliateClickUncheckedCreateNestedManyWithoutUserInput
   evolution?: Prisma.UserEvolutionUncheckedCreateNestedOneWithoutUserInput
   checkIns?: Prisma.DailyCheckInUncheckedCreateNestedManyWithoutUserInput
+  transferPayments?: Prisma.TransferPaymentUncheckedCreateNestedManyWithoutUserInput
+  validatedTransfers?: Prisma.TransferPaymentUncheckedCreateNestedManyWithoutValidatorInput
+  activatedTransfers?: Prisma.TransferPaymentUncheckedCreateNestedManyWithoutActivatorInput
+  auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutSurveyFeedbackInput = {
@@ -2983,6 +4087,7 @@ export type UserUpdateWithoutSurveyFeedbackInput = {
   analysisResetAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  telegramId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   currentStreak?: Prisma.IntFieldUpdateOperationsInput | number
   maxStreak?: Prisma.IntFieldUpdateOperationsInput | number
   lastCheckInDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -3006,6 +4111,10 @@ export type UserUpdateWithoutSurveyFeedbackInput = {
   affiliateClicks?: Prisma.AffiliateClickUpdateManyWithoutUserNestedInput
   evolution?: Prisma.UserEvolutionUpdateOneWithoutUserNestedInput
   checkIns?: Prisma.DailyCheckInUpdateManyWithoutUserNestedInput
+  transferPayments?: Prisma.TransferPaymentUpdateManyWithoutUserNestedInput
+  validatedTransfers?: Prisma.TransferPaymentUpdateManyWithoutValidatorNestedInput
+  activatedTransfers?: Prisma.TransferPaymentUpdateManyWithoutActivatorNestedInput
+  auditLogs?: Prisma.AuditLogUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutSurveyFeedbackInput = {
@@ -3023,6 +4132,7 @@ export type UserUncheckedUpdateWithoutSurveyFeedbackInput = {
   analysisResetAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  telegramId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   currentStreak?: Prisma.IntFieldUpdateOperationsInput | number
   maxStreak?: Prisma.IntFieldUpdateOperationsInput | number
   lastCheckInDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -3046,6 +4156,10 @@ export type UserUncheckedUpdateWithoutSurveyFeedbackInput = {
   affiliateClicks?: Prisma.AffiliateClickUncheckedUpdateManyWithoutUserNestedInput
   evolution?: Prisma.UserEvolutionUncheckedUpdateOneWithoutUserNestedInput
   checkIns?: Prisma.DailyCheckInUncheckedUpdateManyWithoutUserNestedInput
+  transferPayments?: Prisma.TransferPaymentUncheckedUpdateManyWithoutUserNestedInput
+  validatedTransfers?: Prisma.TransferPaymentUncheckedUpdateManyWithoutValidatorNestedInput
+  activatedTransfers?: Prisma.TransferPaymentUncheckedUpdateManyWithoutActivatorNestedInput
+  auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutCommunityPostsInput = {
@@ -3063,6 +4177,7 @@ export type UserCreateWithoutCommunityPostsInput = {
   analysisResetAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  telegramId?: string | null
   currentStreak?: number
   maxStreak?: number
   lastCheckInDate?: Date | string | null
@@ -3086,6 +4201,10 @@ export type UserCreateWithoutCommunityPostsInput = {
   affiliateClicks?: Prisma.AffiliateClickCreateNestedManyWithoutUserInput
   evolution?: Prisma.UserEvolutionCreateNestedOneWithoutUserInput
   checkIns?: Prisma.DailyCheckInCreateNestedManyWithoutUserInput
+  transferPayments?: Prisma.TransferPaymentCreateNestedManyWithoutUserInput
+  validatedTransfers?: Prisma.TransferPaymentCreateNestedManyWithoutValidatorInput
+  activatedTransfers?: Prisma.TransferPaymentCreateNestedManyWithoutActivatorInput
+  auditLogs?: Prisma.AuditLogCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutCommunityPostsInput = {
@@ -3103,6 +4222,7 @@ export type UserUncheckedCreateWithoutCommunityPostsInput = {
   analysisResetAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  telegramId?: string | null
   currentStreak?: number
   maxStreak?: number
   lastCheckInDate?: Date | string | null
@@ -3126,6 +4246,10 @@ export type UserUncheckedCreateWithoutCommunityPostsInput = {
   affiliateClicks?: Prisma.AffiliateClickUncheckedCreateNestedManyWithoutUserInput
   evolution?: Prisma.UserEvolutionUncheckedCreateNestedOneWithoutUserInput
   checkIns?: Prisma.DailyCheckInUncheckedCreateNestedManyWithoutUserInput
+  transferPayments?: Prisma.TransferPaymentUncheckedCreateNestedManyWithoutUserInput
+  validatedTransfers?: Prisma.TransferPaymentUncheckedCreateNestedManyWithoutValidatorInput
+  activatedTransfers?: Prisma.TransferPaymentUncheckedCreateNestedManyWithoutActivatorInput
+  auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutCommunityPostsInput = {
@@ -3159,6 +4283,7 @@ export type UserUpdateWithoutCommunityPostsInput = {
   analysisResetAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  telegramId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   currentStreak?: Prisma.IntFieldUpdateOperationsInput | number
   maxStreak?: Prisma.IntFieldUpdateOperationsInput | number
   lastCheckInDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -3182,6 +4307,10 @@ export type UserUpdateWithoutCommunityPostsInput = {
   affiliateClicks?: Prisma.AffiliateClickUpdateManyWithoutUserNestedInput
   evolution?: Prisma.UserEvolutionUpdateOneWithoutUserNestedInput
   checkIns?: Prisma.DailyCheckInUpdateManyWithoutUserNestedInput
+  transferPayments?: Prisma.TransferPaymentUpdateManyWithoutUserNestedInput
+  validatedTransfers?: Prisma.TransferPaymentUpdateManyWithoutValidatorNestedInput
+  activatedTransfers?: Prisma.TransferPaymentUpdateManyWithoutActivatorNestedInput
+  auditLogs?: Prisma.AuditLogUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutCommunityPostsInput = {
@@ -3199,6 +4328,7 @@ export type UserUncheckedUpdateWithoutCommunityPostsInput = {
   analysisResetAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  telegramId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   currentStreak?: Prisma.IntFieldUpdateOperationsInput | number
   maxStreak?: Prisma.IntFieldUpdateOperationsInput | number
   lastCheckInDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -3222,6 +4352,10 @@ export type UserUncheckedUpdateWithoutCommunityPostsInput = {
   affiliateClicks?: Prisma.AffiliateClickUncheckedUpdateManyWithoutUserNestedInput
   evolution?: Prisma.UserEvolutionUncheckedUpdateOneWithoutUserNestedInput
   checkIns?: Prisma.DailyCheckInUncheckedUpdateManyWithoutUserNestedInput
+  transferPayments?: Prisma.TransferPaymentUncheckedUpdateManyWithoutUserNestedInput
+  validatedTransfers?: Prisma.TransferPaymentUncheckedUpdateManyWithoutValidatorNestedInput
+  activatedTransfers?: Prisma.TransferPaymentUncheckedUpdateManyWithoutActivatorNestedInput
+  auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutCommentsInput = {
@@ -3239,6 +4373,7 @@ export type UserCreateWithoutCommentsInput = {
   analysisResetAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  telegramId?: string | null
   currentStreak?: number
   maxStreak?: number
   lastCheckInDate?: Date | string | null
@@ -3262,6 +4397,10 @@ export type UserCreateWithoutCommentsInput = {
   affiliateClicks?: Prisma.AffiliateClickCreateNestedManyWithoutUserInput
   evolution?: Prisma.UserEvolutionCreateNestedOneWithoutUserInput
   checkIns?: Prisma.DailyCheckInCreateNestedManyWithoutUserInput
+  transferPayments?: Prisma.TransferPaymentCreateNestedManyWithoutUserInput
+  validatedTransfers?: Prisma.TransferPaymentCreateNestedManyWithoutValidatorInput
+  activatedTransfers?: Prisma.TransferPaymentCreateNestedManyWithoutActivatorInput
+  auditLogs?: Prisma.AuditLogCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutCommentsInput = {
@@ -3279,6 +4418,7 @@ export type UserUncheckedCreateWithoutCommentsInput = {
   analysisResetAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  telegramId?: string | null
   currentStreak?: number
   maxStreak?: number
   lastCheckInDate?: Date | string | null
@@ -3302,6 +4442,10 @@ export type UserUncheckedCreateWithoutCommentsInput = {
   affiliateClicks?: Prisma.AffiliateClickUncheckedCreateNestedManyWithoutUserInput
   evolution?: Prisma.UserEvolutionUncheckedCreateNestedOneWithoutUserInput
   checkIns?: Prisma.DailyCheckInUncheckedCreateNestedManyWithoutUserInput
+  transferPayments?: Prisma.TransferPaymentUncheckedCreateNestedManyWithoutUserInput
+  validatedTransfers?: Prisma.TransferPaymentUncheckedCreateNestedManyWithoutValidatorInput
+  activatedTransfers?: Prisma.TransferPaymentUncheckedCreateNestedManyWithoutActivatorInput
+  auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutCommentsInput = {
@@ -3335,6 +4479,7 @@ export type UserUpdateWithoutCommentsInput = {
   analysisResetAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  telegramId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   currentStreak?: Prisma.IntFieldUpdateOperationsInput | number
   maxStreak?: Prisma.IntFieldUpdateOperationsInput | number
   lastCheckInDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -3358,6 +4503,10 @@ export type UserUpdateWithoutCommentsInput = {
   affiliateClicks?: Prisma.AffiliateClickUpdateManyWithoutUserNestedInput
   evolution?: Prisma.UserEvolutionUpdateOneWithoutUserNestedInput
   checkIns?: Prisma.DailyCheckInUpdateManyWithoutUserNestedInput
+  transferPayments?: Prisma.TransferPaymentUpdateManyWithoutUserNestedInput
+  validatedTransfers?: Prisma.TransferPaymentUpdateManyWithoutValidatorNestedInput
+  activatedTransfers?: Prisma.TransferPaymentUpdateManyWithoutActivatorNestedInput
+  auditLogs?: Prisma.AuditLogUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutCommentsInput = {
@@ -3375,6 +4524,7 @@ export type UserUncheckedUpdateWithoutCommentsInput = {
   analysisResetAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  telegramId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   currentStreak?: Prisma.IntFieldUpdateOperationsInput | number
   maxStreak?: Prisma.IntFieldUpdateOperationsInput | number
   lastCheckInDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -3398,6 +4548,10 @@ export type UserUncheckedUpdateWithoutCommentsInput = {
   affiliateClicks?: Prisma.AffiliateClickUncheckedUpdateManyWithoutUserNestedInput
   evolution?: Prisma.UserEvolutionUncheckedUpdateOneWithoutUserNestedInput
   checkIns?: Prisma.DailyCheckInUncheckedUpdateManyWithoutUserNestedInput
+  transferPayments?: Prisma.TransferPaymentUncheckedUpdateManyWithoutUserNestedInput
+  validatedTransfers?: Prisma.TransferPaymentUncheckedUpdateManyWithoutValidatorNestedInput
+  activatedTransfers?: Prisma.TransferPaymentUncheckedUpdateManyWithoutActivatorNestedInput
+  auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutSkinDiaryInput = {
@@ -3415,6 +4569,7 @@ export type UserCreateWithoutSkinDiaryInput = {
   analysisResetAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  telegramId?: string | null
   currentStreak?: number
   maxStreak?: number
   lastCheckInDate?: Date | string | null
@@ -3438,6 +4593,10 @@ export type UserCreateWithoutSkinDiaryInput = {
   affiliateClicks?: Prisma.AffiliateClickCreateNestedManyWithoutUserInput
   evolution?: Prisma.UserEvolutionCreateNestedOneWithoutUserInput
   checkIns?: Prisma.DailyCheckInCreateNestedManyWithoutUserInput
+  transferPayments?: Prisma.TransferPaymentCreateNestedManyWithoutUserInput
+  validatedTransfers?: Prisma.TransferPaymentCreateNestedManyWithoutValidatorInput
+  activatedTransfers?: Prisma.TransferPaymentCreateNestedManyWithoutActivatorInput
+  auditLogs?: Prisma.AuditLogCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutSkinDiaryInput = {
@@ -3455,6 +4614,7 @@ export type UserUncheckedCreateWithoutSkinDiaryInput = {
   analysisResetAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  telegramId?: string | null
   currentStreak?: number
   maxStreak?: number
   lastCheckInDate?: Date | string | null
@@ -3478,6 +4638,10 @@ export type UserUncheckedCreateWithoutSkinDiaryInput = {
   affiliateClicks?: Prisma.AffiliateClickUncheckedCreateNestedManyWithoutUserInput
   evolution?: Prisma.UserEvolutionUncheckedCreateNestedOneWithoutUserInput
   checkIns?: Prisma.DailyCheckInUncheckedCreateNestedManyWithoutUserInput
+  transferPayments?: Prisma.TransferPaymentUncheckedCreateNestedManyWithoutUserInput
+  validatedTransfers?: Prisma.TransferPaymentUncheckedCreateNestedManyWithoutValidatorInput
+  activatedTransfers?: Prisma.TransferPaymentUncheckedCreateNestedManyWithoutActivatorInput
+  auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutSkinDiaryInput = {
@@ -3511,6 +4675,7 @@ export type UserUpdateWithoutSkinDiaryInput = {
   analysisResetAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  telegramId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   currentStreak?: Prisma.IntFieldUpdateOperationsInput | number
   maxStreak?: Prisma.IntFieldUpdateOperationsInput | number
   lastCheckInDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -3534,6 +4699,10 @@ export type UserUpdateWithoutSkinDiaryInput = {
   affiliateClicks?: Prisma.AffiliateClickUpdateManyWithoutUserNestedInput
   evolution?: Prisma.UserEvolutionUpdateOneWithoutUserNestedInput
   checkIns?: Prisma.DailyCheckInUpdateManyWithoutUserNestedInput
+  transferPayments?: Prisma.TransferPaymentUpdateManyWithoutUserNestedInput
+  validatedTransfers?: Prisma.TransferPaymentUpdateManyWithoutValidatorNestedInput
+  activatedTransfers?: Prisma.TransferPaymentUpdateManyWithoutActivatorNestedInput
+  auditLogs?: Prisma.AuditLogUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutSkinDiaryInput = {
@@ -3551,6 +4720,7 @@ export type UserUncheckedUpdateWithoutSkinDiaryInput = {
   analysisResetAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  telegramId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   currentStreak?: Prisma.IntFieldUpdateOperationsInput | number
   maxStreak?: Prisma.IntFieldUpdateOperationsInput | number
   lastCheckInDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -3574,6 +4744,10 @@ export type UserUncheckedUpdateWithoutSkinDiaryInput = {
   affiliateClicks?: Prisma.AffiliateClickUncheckedUpdateManyWithoutUserNestedInput
   evolution?: Prisma.UserEvolutionUncheckedUpdateOneWithoutUserNestedInput
   checkIns?: Prisma.DailyCheckInUncheckedUpdateManyWithoutUserNestedInput
+  transferPayments?: Prisma.TransferPaymentUncheckedUpdateManyWithoutUserNestedInput
+  validatedTransfers?: Prisma.TransferPaymentUncheckedUpdateManyWithoutValidatorNestedInput
+  activatedTransfers?: Prisma.TransferPaymentUncheckedUpdateManyWithoutActivatorNestedInput
+  auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutUserChallengesInput = {
@@ -3591,6 +4765,7 @@ export type UserCreateWithoutUserChallengesInput = {
   analysisResetAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  telegramId?: string | null
   currentStreak?: number
   maxStreak?: number
   lastCheckInDate?: Date | string | null
@@ -3614,6 +4789,10 @@ export type UserCreateWithoutUserChallengesInput = {
   affiliateClicks?: Prisma.AffiliateClickCreateNestedManyWithoutUserInput
   evolution?: Prisma.UserEvolutionCreateNestedOneWithoutUserInput
   checkIns?: Prisma.DailyCheckInCreateNestedManyWithoutUserInput
+  transferPayments?: Prisma.TransferPaymentCreateNestedManyWithoutUserInput
+  validatedTransfers?: Prisma.TransferPaymentCreateNestedManyWithoutValidatorInput
+  activatedTransfers?: Prisma.TransferPaymentCreateNestedManyWithoutActivatorInput
+  auditLogs?: Prisma.AuditLogCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutUserChallengesInput = {
@@ -3631,6 +4810,7 @@ export type UserUncheckedCreateWithoutUserChallengesInput = {
   analysisResetAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  telegramId?: string | null
   currentStreak?: number
   maxStreak?: number
   lastCheckInDate?: Date | string | null
@@ -3654,6 +4834,10 @@ export type UserUncheckedCreateWithoutUserChallengesInput = {
   affiliateClicks?: Prisma.AffiliateClickUncheckedCreateNestedManyWithoutUserInput
   evolution?: Prisma.UserEvolutionUncheckedCreateNestedOneWithoutUserInput
   checkIns?: Prisma.DailyCheckInUncheckedCreateNestedManyWithoutUserInput
+  transferPayments?: Prisma.TransferPaymentUncheckedCreateNestedManyWithoutUserInput
+  validatedTransfers?: Prisma.TransferPaymentUncheckedCreateNestedManyWithoutValidatorInput
+  activatedTransfers?: Prisma.TransferPaymentUncheckedCreateNestedManyWithoutActivatorInput
+  auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutUserChallengesInput = {
@@ -3687,6 +4871,7 @@ export type UserUpdateWithoutUserChallengesInput = {
   analysisResetAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  telegramId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   currentStreak?: Prisma.IntFieldUpdateOperationsInput | number
   maxStreak?: Prisma.IntFieldUpdateOperationsInput | number
   lastCheckInDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -3710,6 +4895,10 @@ export type UserUpdateWithoutUserChallengesInput = {
   affiliateClicks?: Prisma.AffiliateClickUpdateManyWithoutUserNestedInput
   evolution?: Prisma.UserEvolutionUpdateOneWithoutUserNestedInput
   checkIns?: Prisma.DailyCheckInUpdateManyWithoutUserNestedInput
+  transferPayments?: Prisma.TransferPaymentUpdateManyWithoutUserNestedInput
+  validatedTransfers?: Prisma.TransferPaymentUpdateManyWithoutValidatorNestedInput
+  activatedTransfers?: Prisma.TransferPaymentUpdateManyWithoutActivatorNestedInput
+  auditLogs?: Prisma.AuditLogUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutUserChallengesInput = {
@@ -3727,6 +4916,7 @@ export type UserUncheckedUpdateWithoutUserChallengesInput = {
   analysisResetAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  telegramId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   currentStreak?: Prisma.IntFieldUpdateOperationsInput | number
   maxStreak?: Prisma.IntFieldUpdateOperationsInput | number
   lastCheckInDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -3750,6 +4940,10 @@ export type UserUncheckedUpdateWithoutUserChallengesInput = {
   affiliateClicks?: Prisma.AffiliateClickUncheckedUpdateManyWithoutUserNestedInput
   evolution?: Prisma.UserEvolutionUncheckedUpdateOneWithoutUserNestedInput
   checkIns?: Prisma.DailyCheckInUncheckedUpdateManyWithoutUserNestedInput
+  transferPayments?: Prisma.TransferPaymentUncheckedUpdateManyWithoutUserNestedInput
+  validatedTransfers?: Prisma.TransferPaymentUncheckedUpdateManyWithoutValidatorNestedInput
+  activatedTransfers?: Prisma.TransferPaymentUncheckedUpdateManyWithoutActivatorNestedInput
+  auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutProductReviewsInput = {
@@ -3767,6 +4961,7 @@ export type UserCreateWithoutProductReviewsInput = {
   analysisResetAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  telegramId?: string | null
   currentStreak?: number
   maxStreak?: number
   lastCheckInDate?: Date | string | null
@@ -3790,6 +4985,10 @@ export type UserCreateWithoutProductReviewsInput = {
   affiliateClicks?: Prisma.AffiliateClickCreateNestedManyWithoutUserInput
   evolution?: Prisma.UserEvolutionCreateNestedOneWithoutUserInput
   checkIns?: Prisma.DailyCheckInCreateNestedManyWithoutUserInput
+  transferPayments?: Prisma.TransferPaymentCreateNestedManyWithoutUserInput
+  validatedTransfers?: Prisma.TransferPaymentCreateNestedManyWithoutValidatorInput
+  activatedTransfers?: Prisma.TransferPaymentCreateNestedManyWithoutActivatorInput
+  auditLogs?: Prisma.AuditLogCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutProductReviewsInput = {
@@ -3807,6 +5006,7 @@ export type UserUncheckedCreateWithoutProductReviewsInput = {
   analysisResetAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  telegramId?: string | null
   currentStreak?: number
   maxStreak?: number
   lastCheckInDate?: Date | string | null
@@ -3830,6 +5030,10 @@ export type UserUncheckedCreateWithoutProductReviewsInput = {
   affiliateClicks?: Prisma.AffiliateClickUncheckedCreateNestedManyWithoutUserInput
   evolution?: Prisma.UserEvolutionUncheckedCreateNestedOneWithoutUserInput
   checkIns?: Prisma.DailyCheckInUncheckedCreateNestedManyWithoutUserInput
+  transferPayments?: Prisma.TransferPaymentUncheckedCreateNestedManyWithoutUserInput
+  validatedTransfers?: Prisma.TransferPaymentUncheckedCreateNestedManyWithoutValidatorInput
+  activatedTransfers?: Prisma.TransferPaymentUncheckedCreateNestedManyWithoutActivatorInput
+  auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutProductReviewsInput = {
@@ -3863,6 +5067,7 @@ export type UserUpdateWithoutProductReviewsInput = {
   analysisResetAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  telegramId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   currentStreak?: Prisma.IntFieldUpdateOperationsInput | number
   maxStreak?: Prisma.IntFieldUpdateOperationsInput | number
   lastCheckInDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -3886,6 +5091,10 @@ export type UserUpdateWithoutProductReviewsInput = {
   affiliateClicks?: Prisma.AffiliateClickUpdateManyWithoutUserNestedInput
   evolution?: Prisma.UserEvolutionUpdateOneWithoutUserNestedInput
   checkIns?: Prisma.DailyCheckInUpdateManyWithoutUserNestedInput
+  transferPayments?: Prisma.TransferPaymentUpdateManyWithoutUserNestedInput
+  validatedTransfers?: Prisma.TransferPaymentUpdateManyWithoutValidatorNestedInput
+  activatedTransfers?: Prisma.TransferPaymentUpdateManyWithoutActivatorNestedInput
+  auditLogs?: Prisma.AuditLogUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutProductReviewsInput = {
@@ -3903,6 +5112,7 @@ export type UserUncheckedUpdateWithoutProductReviewsInput = {
   analysisResetAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  telegramId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   currentStreak?: Prisma.IntFieldUpdateOperationsInput | number
   maxStreak?: Prisma.IntFieldUpdateOperationsInput | number
   lastCheckInDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -3926,6 +5136,10 @@ export type UserUncheckedUpdateWithoutProductReviewsInput = {
   affiliateClicks?: Prisma.AffiliateClickUncheckedUpdateManyWithoutUserNestedInput
   evolution?: Prisma.UserEvolutionUncheckedUpdateOneWithoutUserNestedInput
   checkIns?: Prisma.DailyCheckInUncheckedUpdateManyWithoutUserNestedInput
+  transferPayments?: Prisma.TransferPaymentUncheckedUpdateManyWithoutUserNestedInput
+  validatedTransfers?: Prisma.TransferPaymentUncheckedUpdateManyWithoutValidatorNestedInput
+  activatedTransfers?: Prisma.TransferPaymentUncheckedUpdateManyWithoutActivatorNestedInput
+  auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutGroupsOwnedInput = {
@@ -3943,6 +5157,7 @@ export type UserCreateWithoutGroupsOwnedInput = {
   analysisResetAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  telegramId?: string | null
   currentStreak?: number
   maxStreak?: number
   lastCheckInDate?: Date | string | null
@@ -3966,6 +5181,10 @@ export type UserCreateWithoutGroupsOwnedInput = {
   affiliateClicks?: Prisma.AffiliateClickCreateNestedManyWithoutUserInput
   evolution?: Prisma.UserEvolutionCreateNestedOneWithoutUserInput
   checkIns?: Prisma.DailyCheckInCreateNestedManyWithoutUserInput
+  transferPayments?: Prisma.TransferPaymentCreateNestedManyWithoutUserInput
+  validatedTransfers?: Prisma.TransferPaymentCreateNestedManyWithoutValidatorInput
+  activatedTransfers?: Prisma.TransferPaymentCreateNestedManyWithoutActivatorInput
+  auditLogs?: Prisma.AuditLogCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutGroupsOwnedInput = {
@@ -3983,6 +5202,7 @@ export type UserUncheckedCreateWithoutGroupsOwnedInput = {
   analysisResetAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  telegramId?: string | null
   currentStreak?: number
   maxStreak?: number
   lastCheckInDate?: Date | string | null
@@ -4006,6 +5226,10 @@ export type UserUncheckedCreateWithoutGroupsOwnedInput = {
   affiliateClicks?: Prisma.AffiliateClickUncheckedCreateNestedManyWithoutUserInput
   evolution?: Prisma.UserEvolutionUncheckedCreateNestedOneWithoutUserInput
   checkIns?: Prisma.DailyCheckInUncheckedCreateNestedManyWithoutUserInput
+  transferPayments?: Prisma.TransferPaymentUncheckedCreateNestedManyWithoutUserInput
+  validatedTransfers?: Prisma.TransferPaymentUncheckedCreateNestedManyWithoutValidatorInput
+  activatedTransfers?: Prisma.TransferPaymentUncheckedCreateNestedManyWithoutActivatorInput
+  auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutGroupsOwnedInput = {
@@ -4039,6 +5263,7 @@ export type UserUpdateWithoutGroupsOwnedInput = {
   analysisResetAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  telegramId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   currentStreak?: Prisma.IntFieldUpdateOperationsInput | number
   maxStreak?: Prisma.IntFieldUpdateOperationsInput | number
   lastCheckInDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -4062,6 +5287,10 @@ export type UserUpdateWithoutGroupsOwnedInput = {
   affiliateClicks?: Prisma.AffiliateClickUpdateManyWithoutUserNestedInput
   evolution?: Prisma.UserEvolutionUpdateOneWithoutUserNestedInput
   checkIns?: Prisma.DailyCheckInUpdateManyWithoutUserNestedInput
+  transferPayments?: Prisma.TransferPaymentUpdateManyWithoutUserNestedInput
+  validatedTransfers?: Prisma.TransferPaymentUpdateManyWithoutValidatorNestedInput
+  activatedTransfers?: Prisma.TransferPaymentUpdateManyWithoutActivatorNestedInput
+  auditLogs?: Prisma.AuditLogUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutGroupsOwnedInput = {
@@ -4079,6 +5308,7 @@ export type UserUncheckedUpdateWithoutGroupsOwnedInput = {
   analysisResetAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  telegramId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   currentStreak?: Prisma.IntFieldUpdateOperationsInput | number
   maxStreak?: Prisma.IntFieldUpdateOperationsInput | number
   lastCheckInDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -4102,6 +5332,10 @@ export type UserUncheckedUpdateWithoutGroupsOwnedInput = {
   affiliateClicks?: Prisma.AffiliateClickUncheckedUpdateManyWithoutUserNestedInput
   evolution?: Prisma.UserEvolutionUncheckedUpdateOneWithoutUserNestedInput
   checkIns?: Prisma.DailyCheckInUncheckedUpdateManyWithoutUserNestedInput
+  transferPayments?: Prisma.TransferPaymentUncheckedUpdateManyWithoutUserNestedInput
+  validatedTransfers?: Prisma.TransferPaymentUncheckedUpdateManyWithoutValidatorNestedInput
+  activatedTransfers?: Prisma.TransferPaymentUncheckedUpdateManyWithoutActivatorNestedInput
+  auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutReferralsOwnedInput = {
@@ -4119,6 +5353,7 @@ export type UserCreateWithoutReferralsOwnedInput = {
   analysisResetAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  telegramId?: string | null
   currentStreak?: number
   maxStreak?: number
   lastCheckInDate?: Date | string | null
@@ -4142,6 +5377,10 @@ export type UserCreateWithoutReferralsOwnedInput = {
   affiliateClicks?: Prisma.AffiliateClickCreateNestedManyWithoutUserInput
   evolution?: Prisma.UserEvolutionCreateNestedOneWithoutUserInput
   checkIns?: Prisma.DailyCheckInCreateNestedManyWithoutUserInput
+  transferPayments?: Prisma.TransferPaymentCreateNestedManyWithoutUserInput
+  validatedTransfers?: Prisma.TransferPaymentCreateNestedManyWithoutValidatorInput
+  activatedTransfers?: Prisma.TransferPaymentCreateNestedManyWithoutActivatorInput
+  auditLogs?: Prisma.AuditLogCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutReferralsOwnedInput = {
@@ -4159,6 +5398,7 @@ export type UserUncheckedCreateWithoutReferralsOwnedInput = {
   analysisResetAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  telegramId?: string | null
   currentStreak?: number
   maxStreak?: number
   lastCheckInDate?: Date | string | null
@@ -4182,6 +5422,10 @@ export type UserUncheckedCreateWithoutReferralsOwnedInput = {
   affiliateClicks?: Prisma.AffiliateClickUncheckedCreateNestedManyWithoutUserInput
   evolution?: Prisma.UserEvolutionUncheckedCreateNestedOneWithoutUserInput
   checkIns?: Prisma.DailyCheckInUncheckedCreateNestedManyWithoutUserInput
+  transferPayments?: Prisma.TransferPaymentUncheckedCreateNestedManyWithoutUserInput
+  validatedTransfers?: Prisma.TransferPaymentUncheckedCreateNestedManyWithoutValidatorInput
+  activatedTransfers?: Prisma.TransferPaymentUncheckedCreateNestedManyWithoutActivatorInput
+  auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutReferralsOwnedInput = {
@@ -4204,6 +5448,7 @@ export type UserCreateWithoutReferralsReferredInput = {
   analysisResetAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  telegramId?: string | null
   currentStreak?: number
   maxStreak?: number
   lastCheckInDate?: Date | string | null
@@ -4227,6 +5472,10 @@ export type UserCreateWithoutReferralsReferredInput = {
   affiliateClicks?: Prisma.AffiliateClickCreateNestedManyWithoutUserInput
   evolution?: Prisma.UserEvolutionCreateNestedOneWithoutUserInput
   checkIns?: Prisma.DailyCheckInCreateNestedManyWithoutUserInput
+  transferPayments?: Prisma.TransferPaymentCreateNestedManyWithoutUserInput
+  validatedTransfers?: Prisma.TransferPaymentCreateNestedManyWithoutValidatorInput
+  activatedTransfers?: Prisma.TransferPaymentCreateNestedManyWithoutActivatorInput
+  auditLogs?: Prisma.AuditLogCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutReferralsReferredInput = {
@@ -4244,6 +5493,7 @@ export type UserUncheckedCreateWithoutReferralsReferredInput = {
   analysisResetAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  telegramId?: string | null
   currentStreak?: number
   maxStreak?: number
   lastCheckInDate?: Date | string | null
@@ -4267,6 +5517,10 @@ export type UserUncheckedCreateWithoutReferralsReferredInput = {
   affiliateClicks?: Prisma.AffiliateClickUncheckedCreateNestedManyWithoutUserInput
   evolution?: Prisma.UserEvolutionUncheckedCreateNestedOneWithoutUserInput
   checkIns?: Prisma.DailyCheckInUncheckedCreateNestedManyWithoutUserInput
+  transferPayments?: Prisma.TransferPaymentUncheckedCreateNestedManyWithoutUserInput
+  validatedTransfers?: Prisma.TransferPaymentUncheckedCreateNestedManyWithoutValidatorInput
+  activatedTransfers?: Prisma.TransferPaymentUncheckedCreateNestedManyWithoutActivatorInput
+  auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutReferralsReferredInput = {
@@ -4300,6 +5554,7 @@ export type UserUpdateWithoutReferralsOwnedInput = {
   analysisResetAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  telegramId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   currentStreak?: Prisma.IntFieldUpdateOperationsInput | number
   maxStreak?: Prisma.IntFieldUpdateOperationsInput | number
   lastCheckInDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -4323,6 +5578,10 @@ export type UserUpdateWithoutReferralsOwnedInput = {
   affiliateClicks?: Prisma.AffiliateClickUpdateManyWithoutUserNestedInput
   evolution?: Prisma.UserEvolutionUpdateOneWithoutUserNestedInput
   checkIns?: Prisma.DailyCheckInUpdateManyWithoutUserNestedInput
+  transferPayments?: Prisma.TransferPaymentUpdateManyWithoutUserNestedInput
+  validatedTransfers?: Prisma.TransferPaymentUpdateManyWithoutValidatorNestedInput
+  activatedTransfers?: Prisma.TransferPaymentUpdateManyWithoutActivatorNestedInput
+  auditLogs?: Prisma.AuditLogUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutReferralsOwnedInput = {
@@ -4340,6 +5599,7 @@ export type UserUncheckedUpdateWithoutReferralsOwnedInput = {
   analysisResetAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  telegramId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   currentStreak?: Prisma.IntFieldUpdateOperationsInput | number
   maxStreak?: Prisma.IntFieldUpdateOperationsInput | number
   lastCheckInDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -4363,6 +5623,10 @@ export type UserUncheckedUpdateWithoutReferralsOwnedInput = {
   affiliateClicks?: Prisma.AffiliateClickUncheckedUpdateManyWithoutUserNestedInput
   evolution?: Prisma.UserEvolutionUncheckedUpdateOneWithoutUserNestedInput
   checkIns?: Prisma.DailyCheckInUncheckedUpdateManyWithoutUserNestedInput
+  transferPayments?: Prisma.TransferPaymentUncheckedUpdateManyWithoutUserNestedInput
+  validatedTransfers?: Prisma.TransferPaymentUncheckedUpdateManyWithoutValidatorNestedInput
+  activatedTransfers?: Prisma.TransferPaymentUncheckedUpdateManyWithoutActivatorNestedInput
+  auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserUpsertWithoutReferralsReferredInput = {
@@ -4391,6 +5655,7 @@ export type UserUpdateWithoutReferralsReferredInput = {
   analysisResetAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  telegramId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   currentStreak?: Prisma.IntFieldUpdateOperationsInput | number
   maxStreak?: Prisma.IntFieldUpdateOperationsInput | number
   lastCheckInDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -4414,6 +5679,10 @@ export type UserUpdateWithoutReferralsReferredInput = {
   affiliateClicks?: Prisma.AffiliateClickUpdateManyWithoutUserNestedInput
   evolution?: Prisma.UserEvolutionUpdateOneWithoutUserNestedInput
   checkIns?: Prisma.DailyCheckInUpdateManyWithoutUserNestedInput
+  transferPayments?: Prisma.TransferPaymentUpdateManyWithoutUserNestedInput
+  validatedTransfers?: Prisma.TransferPaymentUpdateManyWithoutValidatorNestedInput
+  activatedTransfers?: Prisma.TransferPaymentUpdateManyWithoutActivatorNestedInput
+  auditLogs?: Prisma.AuditLogUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutReferralsReferredInput = {
@@ -4431,6 +5700,7 @@ export type UserUncheckedUpdateWithoutReferralsReferredInput = {
   analysisResetAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  telegramId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   currentStreak?: Prisma.IntFieldUpdateOperationsInput | number
   maxStreak?: Prisma.IntFieldUpdateOperationsInput | number
   lastCheckInDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -4454,6 +5724,10 @@ export type UserUncheckedUpdateWithoutReferralsReferredInput = {
   affiliateClicks?: Prisma.AffiliateClickUncheckedUpdateManyWithoutUserNestedInput
   evolution?: Prisma.UserEvolutionUncheckedUpdateOneWithoutUserNestedInput
   checkIns?: Prisma.DailyCheckInUncheckedUpdateManyWithoutUserNestedInput
+  transferPayments?: Prisma.TransferPaymentUncheckedUpdateManyWithoutUserNestedInput
+  validatedTransfers?: Prisma.TransferPaymentUncheckedUpdateManyWithoutValidatorNestedInput
+  activatedTransfers?: Prisma.TransferPaymentUncheckedUpdateManyWithoutActivatorNestedInput
+  auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutDigitalPurchasesInput = {
@@ -4471,6 +5745,7 @@ export type UserCreateWithoutDigitalPurchasesInput = {
   analysisResetAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  telegramId?: string | null
   currentStreak?: number
   maxStreak?: number
   lastCheckInDate?: Date | string | null
@@ -4494,6 +5769,10 @@ export type UserCreateWithoutDigitalPurchasesInput = {
   affiliateClicks?: Prisma.AffiliateClickCreateNestedManyWithoutUserInput
   evolution?: Prisma.UserEvolutionCreateNestedOneWithoutUserInput
   checkIns?: Prisma.DailyCheckInCreateNestedManyWithoutUserInput
+  transferPayments?: Prisma.TransferPaymentCreateNestedManyWithoutUserInput
+  validatedTransfers?: Prisma.TransferPaymentCreateNestedManyWithoutValidatorInput
+  activatedTransfers?: Prisma.TransferPaymentCreateNestedManyWithoutActivatorInput
+  auditLogs?: Prisma.AuditLogCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutDigitalPurchasesInput = {
@@ -4511,6 +5790,7 @@ export type UserUncheckedCreateWithoutDigitalPurchasesInput = {
   analysisResetAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  telegramId?: string | null
   currentStreak?: number
   maxStreak?: number
   lastCheckInDate?: Date | string | null
@@ -4534,6 +5814,10 @@ export type UserUncheckedCreateWithoutDigitalPurchasesInput = {
   affiliateClicks?: Prisma.AffiliateClickUncheckedCreateNestedManyWithoutUserInput
   evolution?: Prisma.UserEvolutionUncheckedCreateNestedOneWithoutUserInput
   checkIns?: Prisma.DailyCheckInUncheckedCreateNestedManyWithoutUserInput
+  transferPayments?: Prisma.TransferPaymentUncheckedCreateNestedManyWithoutUserInput
+  validatedTransfers?: Prisma.TransferPaymentUncheckedCreateNestedManyWithoutValidatorInput
+  activatedTransfers?: Prisma.TransferPaymentUncheckedCreateNestedManyWithoutActivatorInput
+  auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutDigitalPurchasesInput = {
@@ -4567,6 +5851,7 @@ export type UserUpdateWithoutDigitalPurchasesInput = {
   analysisResetAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  telegramId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   currentStreak?: Prisma.IntFieldUpdateOperationsInput | number
   maxStreak?: Prisma.IntFieldUpdateOperationsInput | number
   lastCheckInDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -4590,6 +5875,10 @@ export type UserUpdateWithoutDigitalPurchasesInput = {
   affiliateClicks?: Prisma.AffiliateClickUpdateManyWithoutUserNestedInput
   evolution?: Prisma.UserEvolutionUpdateOneWithoutUserNestedInput
   checkIns?: Prisma.DailyCheckInUpdateManyWithoutUserNestedInput
+  transferPayments?: Prisma.TransferPaymentUpdateManyWithoutUserNestedInput
+  validatedTransfers?: Prisma.TransferPaymentUpdateManyWithoutValidatorNestedInput
+  activatedTransfers?: Prisma.TransferPaymentUpdateManyWithoutActivatorNestedInput
+  auditLogs?: Prisma.AuditLogUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutDigitalPurchasesInput = {
@@ -4607,6 +5896,7 @@ export type UserUncheckedUpdateWithoutDigitalPurchasesInput = {
   analysisResetAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  telegramId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   currentStreak?: Prisma.IntFieldUpdateOperationsInput | number
   maxStreak?: Prisma.IntFieldUpdateOperationsInput | number
   lastCheckInDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -4630,6 +5920,10 @@ export type UserUncheckedUpdateWithoutDigitalPurchasesInput = {
   affiliateClicks?: Prisma.AffiliateClickUncheckedUpdateManyWithoutUserNestedInput
   evolution?: Prisma.UserEvolutionUncheckedUpdateOneWithoutUserNestedInput
   checkIns?: Prisma.DailyCheckInUncheckedUpdateManyWithoutUserNestedInput
+  transferPayments?: Prisma.TransferPaymentUncheckedUpdateManyWithoutUserNestedInput
+  validatedTransfers?: Prisma.TransferPaymentUncheckedUpdateManyWithoutValidatorNestedInput
+  activatedTransfers?: Prisma.TransferPaymentUncheckedUpdateManyWithoutActivatorNestedInput
+  auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutCheckInsInput = {
@@ -4647,6 +5941,7 @@ export type UserCreateWithoutCheckInsInput = {
   analysisResetAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  telegramId?: string | null
   currentStreak?: number
   maxStreak?: number
   lastCheckInDate?: Date | string | null
@@ -4670,6 +5965,10 @@ export type UserCreateWithoutCheckInsInput = {
   digitalPurchases?: Prisma.DigitalProductPurchaseCreateNestedManyWithoutUserInput
   affiliateClicks?: Prisma.AffiliateClickCreateNestedManyWithoutUserInput
   evolution?: Prisma.UserEvolutionCreateNestedOneWithoutUserInput
+  transferPayments?: Prisma.TransferPaymentCreateNestedManyWithoutUserInput
+  validatedTransfers?: Prisma.TransferPaymentCreateNestedManyWithoutValidatorInput
+  activatedTransfers?: Prisma.TransferPaymentCreateNestedManyWithoutActivatorInput
+  auditLogs?: Prisma.AuditLogCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutCheckInsInput = {
@@ -4687,6 +5986,7 @@ export type UserUncheckedCreateWithoutCheckInsInput = {
   analysisResetAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  telegramId?: string | null
   currentStreak?: number
   maxStreak?: number
   lastCheckInDate?: Date | string | null
@@ -4710,6 +6010,10 @@ export type UserUncheckedCreateWithoutCheckInsInput = {
   digitalPurchases?: Prisma.DigitalProductPurchaseUncheckedCreateNestedManyWithoutUserInput
   affiliateClicks?: Prisma.AffiliateClickUncheckedCreateNestedManyWithoutUserInput
   evolution?: Prisma.UserEvolutionUncheckedCreateNestedOneWithoutUserInput
+  transferPayments?: Prisma.TransferPaymentUncheckedCreateNestedManyWithoutUserInput
+  validatedTransfers?: Prisma.TransferPaymentUncheckedCreateNestedManyWithoutValidatorInput
+  activatedTransfers?: Prisma.TransferPaymentUncheckedCreateNestedManyWithoutActivatorInput
+  auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutCheckInsInput = {
@@ -4743,6 +6047,7 @@ export type UserUpdateWithoutCheckInsInput = {
   analysisResetAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  telegramId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   currentStreak?: Prisma.IntFieldUpdateOperationsInput | number
   maxStreak?: Prisma.IntFieldUpdateOperationsInput | number
   lastCheckInDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -4766,6 +6071,10 @@ export type UserUpdateWithoutCheckInsInput = {
   digitalPurchases?: Prisma.DigitalProductPurchaseUpdateManyWithoutUserNestedInput
   affiliateClicks?: Prisma.AffiliateClickUpdateManyWithoutUserNestedInput
   evolution?: Prisma.UserEvolutionUpdateOneWithoutUserNestedInput
+  transferPayments?: Prisma.TransferPaymentUpdateManyWithoutUserNestedInput
+  validatedTransfers?: Prisma.TransferPaymentUpdateManyWithoutValidatorNestedInput
+  activatedTransfers?: Prisma.TransferPaymentUpdateManyWithoutActivatorNestedInput
+  auditLogs?: Prisma.AuditLogUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutCheckInsInput = {
@@ -4783,6 +6092,7 @@ export type UserUncheckedUpdateWithoutCheckInsInput = {
   analysisResetAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  telegramId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   currentStreak?: Prisma.IntFieldUpdateOperationsInput | number
   maxStreak?: Prisma.IntFieldUpdateOperationsInput | number
   lastCheckInDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -4806,6 +6116,10 @@ export type UserUncheckedUpdateWithoutCheckInsInput = {
   digitalPurchases?: Prisma.DigitalProductPurchaseUncheckedUpdateManyWithoutUserNestedInput
   affiliateClicks?: Prisma.AffiliateClickUncheckedUpdateManyWithoutUserNestedInput
   evolution?: Prisma.UserEvolutionUncheckedUpdateOneWithoutUserNestedInput
+  transferPayments?: Prisma.TransferPaymentUncheckedUpdateManyWithoutUserNestedInput
+  validatedTransfers?: Prisma.TransferPaymentUncheckedUpdateManyWithoutValidatorNestedInput
+  activatedTransfers?: Prisma.TransferPaymentUncheckedUpdateManyWithoutActivatorNestedInput
+  auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutUserNestedInput
 }
 
 
@@ -4833,6 +6147,10 @@ export type UserCountOutputType = {
   digitalPurchases: number
   affiliateClicks: number
   checkIns: number
+  transferPayments: number
+  validatedTransfers: number
+  activatedTransfers: number
+  auditLogs: number
 }
 
 export type UserCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -4855,6 +6173,10 @@ export type UserCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.I
   digitalPurchases?: boolean | UserCountOutputTypeCountDigitalPurchasesArgs
   affiliateClicks?: boolean | UserCountOutputTypeCountAffiliateClicksArgs
   checkIns?: boolean | UserCountOutputTypeCountCheckInsArgs
+  transferPayments?: boolean | UserCountOutputTypeCountTransferPaymentsArgs
+  validatedTransfers?: boolean | UserCountOutputTypeCountValidatedTransfersArgs
+  activatedTransfers?: boolean | UserCountOutputTypeCountActivatedTransfersArgs
+  auditLogs?: boolean | UserCountOutputTypeCountAuditLogsArgs
 }
 
 /**
@@ -5000,6 +6322,34 @@ export type UserCountOutputTypeCountCheckInsArgs<ExtArgs extends runtime.Types.E
   where?: Prisma.DailyCheckInWhereInput
 }
 
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountTransferPaymentsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.TransferPaymentWhereInput
+}
+
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountValidatedTransfersArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.TransferPaymentWhereInput
+}
+
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountActivatedTransfersArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.TransferPaymentWhereInput
+}
+
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountAuditLogsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.AuditLogWhereInput
+}
+
 
 export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -5016,6 +6366,7 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   analysisResetAt?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  telegramId?: boolean
   currentStreak?: boolean
   maxStreak?: boolean
   lastCheckInDate?: boolean
@@ -5040,6 +6391,10 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   affiliateClicks?: boolean | Prisma.User$affiliateClicksArgs<ExtArgs>
   evolution?: boolean | Prisma.User$evolutionArgs<ExtArgs>
   checkIns?: boolean | Prisma.User$checkInsArgs<ExtArgs>
+  transferPayments?: boolean | Prisma.User$transferPaymentsArgs<ExtArgs>
+  validatedTransfers?: boolean | Prisma.User$validatedTransfersArgs<ExtArgs>
+  activatedTransfers?: boolean | Prisma.User$activatedTransfersArgs<ExtArgs>
+  auditLogs?: boolean | Prisma.User$auditLogsArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["user"]>
 
@@ -5058,6 +6413,7 @@ export type UserSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   analysisResetAt?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  telegramId?: boolean
   currentStreak?: boolean
   maxStreak?: boolean
   lastCheckInDate?: boolean
@@ -5078,6 +6434,7 @@ export type UserSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   analysisResetAt?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  telegramId?: boolean
   currentStreak?: boolean
   maxStreak?: boolean
   lastCheckInDate?: boolean
@@ -5098,12 +6455,13 @@ export type UserSelectScalar = {
   analysisResetAt?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  telegramId?: boolean
   currentStreak?: boolean
   maxStreak?: boolean
   lastCheckInDate?: boolean
 }
 
-export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "email" | "emailVerified" | "image" | "password" | "role" | "plan" | "qvapayId" | "analysisLimit" | "analysisUsed" | "analysisResetAt" | "createdAt" | "updatedAt" | "currentStreak" | "maxStreak" | "lastCheckInDate", ExtArgs["result"]["user"]>
+export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "email" | "emailVerified" | "image" | "password" | "role" | "plan" | "qvapayId" | "analysisLimit" | "analysisUsed" | "analysisResetAt" | "createdAt" | "updatedAt" | "telegramId" | "currentStreak" | "maxStreak" | "lastCheckInDate", ExtArgs["result"]["user"]>
 export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   accounts?: boolean | Prisma.User$accountsArgs<ExtArgs>
   sessions?: boolean | Prisma.User$sessionsArgs<ExtArgs>
@@ -5126,6 +6484,10 @@ export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   affiliateClicks?: boolean | Prisma.User$affiliateClicksArgs<ExtArgs>
   evolution?: boolean | Prisma.User$evolutionArgs<ExtArgs>
   checkIns?: boolean | Prisma.User$checkInsArgs<ExtArgs>
+  transferPayments?: boolean | Prisma.User$transferPaymentsArgs<ExtArgs>
+  validatedTransfers?: boolean | Prisma.User$validatedTransfersArgs<ExtArgs>
+  activatedTransfers?: boolean | Prisma.User$activatedTransfersArgs<ExtArgs>
+  auditLogs?: boolean | Prisma.User$auditLogsArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type UserIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
@@ -5155,6 +6517,10 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     affiliateClicks: Prisma.$AffiliateClickPayload<ExtArgs>[]
     evolution: Prisma.$UserEvolutionPayload<ExtArgs> | null
     checkIns: Prisma.$DailyCheckInPayload<ExtArgs>[]
+    transferPayments: Prisma.$TransferPaymentPayload<ExtArgs>[]
+    validatedTransfers: Prisma.$TransferPaymentPayload<ExtArgs>[]
+    activatedTransfers: Prisma.$TransferPaymentPayload<ExtArgs>[]
+    auditLogs: Prisma.$AuditLogPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -5171,6 +6537,7 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     analysisResetAt: Date | null
     createdAt: Date
     updatedAt: Date
+    telegramId: string | null
     currentStreak: number
     maxStreak: number
     lastCheckInDate: Date | null
@@ -5589,6 +6956,10 @@ export interface Prisma__UserClient<T, Null = never, ExtArgs extends runtime.Typ
   affiliateClicks<T extends Prisma.User$affiliateClicksArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$affiliateClicksArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$AffiliateClickPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   evolution<T extends Prisma.User$evolutionArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$evolutionArgs<ExtArgs>>): Prisma.Prisma__UserEvolutionClient<runtime.Types.Result.GetResult<Prisma.$UserEvolutionPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   checkIns<T extends Prisma.User$checkInsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$checkInsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$DailyCheckInPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  transferPayments<T extends Prisma.User$transferPaymentsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$transferPaymentsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$TransferPaymentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  validatedTransfers<T extends Prisma.User$validatedTransfersArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$validatedTransfersArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$TransferPaymentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  activatedTransfers<T extends Prisma.User$activatedTransfersArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$activatedTransfersArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$TransferPaymentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  auditLogs<T extends Prisma.User$auditLogsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$auditLogsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$AuditLogPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -5632,6 +7003,7 @@ export interface UserFieldRefs {
   readonly analysisResetAt: Prisma.FieldRef<"User", 'DateTime'>
   readonly createdAt: Prisma.FieldRef<"User", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"User", 'DateTime'>
+  readonly telegramId: Prisma.FieldRef<"User", 'String'>
   readonly currentStreak: Prisma.FieldRef<"User", 'Int'>
   readonly maxStreak: Prisma.FieldRef<"User", 'Int'>
   readonly lastCheckInDate: Prisma.FieldRef<"User", 'DateTime'>
@@ -6519,6 +7891,102 @@ export type User$checkInsArgs<ExtArgs extends runtime.Types.Extensions.InternalA
   take?: number
   skip?: number
   distinct?: Prisma.DailyCheckInScalarFieldEnum | Prisma.DailyCheckInScalarFieldEnum[]
+}
+
+/**
+ * User.transferPayments
+ */
+export type User$transferPaymentsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the TransferPayment
+   */
+  select?: Prisma.TransferPaymentSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the TransferPayment
+   */
+  omit?: Prisma.TransferPaymentOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.TransferPaymentInclude<ExtArgs> | null
+  where?: Prisma.TransferPaymentWhereInput
+  orderBy?: Prisma.TransferPaymentOrderByWithRelationInput | Prisma.TransferPaymentOrderByWithRelationInput[]
+  cursor?: Prisma.TransferPaymentWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.TransferPaymentScalarFieldEnum | Prisma.TransferPaymentScalarFieldEnum[]
+}
+
+/**
+ * User.validatedTransfers
+ */
+export type User$validatedTransfersArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the TransferPayment
+   */
+  select?: Prisma.TransferPaymentSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the TransferPayment
+   */
+  omit?: Prisma.TransferPaymentOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.TransferPaymentInclude<ExtArgs> | null
+  where?: Prisma.TransferPaymentWhereInput
+  orderBy?: Prisma.TransferPaymentOrderByWithRelationInput | Prisma.TransferPaymentOrderByWithRelationInput[]
+  cursor?: Prisma.TransferPaymentWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.TransferPaymentScalarFieldEnum | Prisma.TransferPaymentScalarFieldEnum[]
+}
+
+/**
+ * User.activatedTransfers
+ */
+export type User$activatedTransfersArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the TransferPayment
+   */
+  select?: Prisma.TransferPaymentSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the TransferPayment
+   */
+  omit?: Prisma.TransferPaymentOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.TransferPaymentInclude<ExtArgs> | null
+  where?: Prisma.TransferPaymentWhereInput
+  orderBy?: Prisma.TransferPaymentOrderByWithRelationInput | Prisma.TransferPaymentOrderByWithRelationInput[]
+  cursor?: Prisma.TransferPaymentWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.TransferPaymentScalarFieldEnum | Prisma.TransferPaymentScalarFieldEnum[]
+}
+
+/**
+ * User.auditLogs
+ */
+export type User$auditLogsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the AuditLog
+   */
+  select?: Prisma.AuditLogSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the AuditLog
+   */
+  omit?: Prisma.AuditLogOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.AuditLogInclude<ExtArgs> | null
+  where?: Prisma.AuditLogWhereInput
+  orderBy?: Prisma.AuditLogOrderByWithRelationInput | Prisma.AuditLogOrderByWithRelationInput[]
+  cursor?: Prisma.AuditLogWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.AuditLogScalarFieldEnum | Prisma.AuditLogScalarFieldEnum[]
 }
 
 /**

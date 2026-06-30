@@ -16,12 +16,20 @@ import { toast } from "sonner"
 
 type Tab = "subscriptions" | "packs"
 
+interface TransferData {
+  reference: string
+  accountNumber?: string
+  holder?: string
+  amount: number
+}
+
 export default function PricingPage() {
   const { data: session } = useSession()
   const router = useRouter()
   const [tab, setTab] = useState<Tab>("subscriptions")
   const [loading, setLoading] = useState<string | null>(null)
   const [error, setError] = useState("")
+  const [selectedTransfer, setSelectedTransfer] = useState<TransferData | null>(null)
 
   const handleSubscribe = async (planId: string) => {
     if (!session) {
@@ -29,7 +37,7 @@ export default function PricingPage() {
       return
     }
 
-    setLoading(planId)
+    setLoading(`${planId}-qvapay`)
     setError("")
 
     try {
@@ -66,7 +74,7 @@ export default function PricingPage() {
       return
     }
 
-    setLoading(packId)
+    setLoading(`${packId}-qvapay`)
     setError("")
 
     try {
@@ -97,8 +105,124 @@ export default function PricingPage() {
     }
   }
 
+  const handlePayPal = async (id: string, amount: number) => {
+    if (!session) {
+      router.push("/login?callbackUrl=/pricing")
+      return
+    }
+
+    setLoading(`${id}-paypal`)
+    setError("")
+
+    try {
+      const res = await fetch("/api/payments/create-paypal", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ plan: id, amount }),
+      })
+
+      const data = await res.json()
+      const payload = data?.data || data
+
+      if (!res.ok) {
+        throw new Error(data.error?.message || payload?.error || "Error al crear pago con PayPal")
+      }
+
+      if (payload?.url) {
+        window.location.href = payload.url
+      } else {
+        throw new Error("No se recibió URL de pago")
+      }
+    } catch (e: any) {
+      const msg = e.message || "Error al procesar pago con PayPal"
+      setError(msg)
+      toast.error(msg)
+    } finally {
+      setLoading(null)
+    }
+  }
+
+  const handleTransfer = async (id: string, amount: number) => {
+    if (!session) {
+      router.push("/login?callbackUrl=/pricing")
+      return
+    }
+
+    setLoading(`${id}-transfer`)
+    setError("")
+
+    try {
+      const res = await fetch("/api/payments/create-transfer", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ plan: id, amount }),
+      })
+
+      const data = await res.json()
+      const payload = data?.data || data
+
+      if (!res.ok) {
+        throw new Error(data.error?.message || payload?.error || "Error al crear transferencia")
+      }
+
+      setSelectedTransfer(payload)
+    } catch (e: any) {
+      const msg = e.message || "Error al crear transferencia"
+      setError(msg)
+      toast.error(msg)
+    } finally {
+      setLoading(null)
+    }
+  }
+
+  const isLoadingPlan = (id: string) =>
+    loading === `${id}-paypal` || loading === `${id}-qvapay` || loading === `${id}-transfer`
+
   return (
     <div className="min-h-screen pt-24 pb-16 px-4 bg-[#F8FAF5]">
+      {/* Transfer Modal */}
+      {selectedTransfer && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 px-4">
+          <div className="bg-white rounded-2xl p-6 max-w-sm w-full shadow-xl">
+            <h3 className="text-lg font-semibold text-[#2F3A2D] mb-4">
+              Transferencia por Transfermovil
+            </h3>
+            <div className="space-y-3 text-sm">
+              <div className="flex justify-between py-2 border-b border-[#DDE7D3]">
+                <span className="text-[#64705E]">Codigo de referencia</span>
+                <span className="font-mono font-medium text-[#2F3A2D]">{selectedTransfer.reference}</span>
+              </div>
+              {selectedTransfer.accountNumber && (
+                <div className="flex justify-between py-2 border-b border-[#DDE7D3]">
+                  <span className="text-[#64705E]">Numero de cuenta</span>
+                  <span className="font-medium text-[#2F3A2D]">{selectedTransfer.accountNumber}</span>
+                </div>
+              )}
+              {selectedTransfer.holder && (
+                <div className="flex justify-between py-2 border-b border-[#DDE7D3]">
+                  <span className="text-[#64705E]">Titular</span>
+                  <span className="font-medium text-[#2F3A2D]">{selectedTransfer.holder}</span>
+                </div>
+              )}
+              <div className="flex justify-between py-2 border-b border-[#DDE7D3]">
+                <span className="text-[#64705E]">Monto a enviar</span>
+                <span className="font-medium text-[#2F3A2D]">${selectedTransfer.amount?.toFixed(2)}</span>
+              </div>
+            </div>
+            <p className="text-xs text-[#8A9A82] mt-4 text-center">
+              Realiza la transferencia y tu plan se activara manualmente.
+            </p>
+            <Button
+              onClick={() => setSelectedTransfer(null)}
+              variant="primary"
+              className="w-full mt-4 py-3"
+            >
+              Entendido
+            </Button>
+          </div>
+        </div>
+      )}
+
       <div className="max-w-6xl mx-auto">
         <div className="text-center mb-10">
           <Badge variant="primary" className="mb-4 rounded-full px-4 py-1.5 border-0">
@@ -109,7 +233,7 @@ export default function PricingPage() {
             Un Plan para Cada Objetivo
           </h1>
           <p className="text-[#64705E] max-w-lg mx-auto">
-            Desde análisis individuales hasta suscripciones ilimitadas. Tú eliges.
+            Desde analisis individuales hasta suscripciones ilimitadas. Tu eliges.
           </p>
           <div className="flex items-center justify-center gap-4 mt-4 text-xs text-[#64705E]">
             <span className="flex items-center gap-1"><Lock className="w-3 h-3 text-[#C2E09D]" /> Pago seguro</span>
@@ -162,7 +286,7 @@ export default function PricingPage() {
                 {plan.popular && (
                   <div className="mb-4">
                     <Badge variant="primary" className="rounded-full px-4 py-1 text-xs font-bold">
-                      Más Popular
+                      Mas Popular
                     </Badge>
                   </div>
                 )}
@@ -198,20 +322,49 @@ export default function PricingPage() {
                 </ul>
 
                 {plan.priceUSD > 0 ? (
-                  <Button
-                    onClick={() => handleSubscribe(plan.id)}
-                    disabled={loading === plan.id}
-                    variant={plan.popular ? "primary" : "secondary"}
-                    className="w-full py-5"
-                    aria-label={`${plan.name} - QvaPay`}
-                  >
-                    {loading === plan.id ? (
-                      <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-                    ) : (
-                      <WalletCards className="w-4 h-4 mr-2" />
-                    )}
-                    {loading === plan.id ? "Procesando..." : "Pagar con QvaPay"}
-                  </Button>
+                  <div className="flex flex-col gap-2">
+                    <Button
+                      onClick={() => handlePayPal(plan.id, plan.priceUSD)}
+                      disabled={isLoadingPlan(plan.id)}
+                      className="w-full py-4 bg-blue-500 hover:bg-blue-600 text-white"
+                      aria-label={`${plan.name} - PayPal`}
+                    >
+                      {loading === `${plan.id}-paypal` ? (
+                        <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                      ) : (
+                        <DollarSign className="w-4 h-4 mr-2" />
+                      )}
+                      {loading === `${plan.id}-paypal` ? "Procesando..." : "Pagar con PayPal"}
+                    </Button>
+                    <Button
+                      onClick={() => handleSubscribe(plan.id)}
+                      disabled={isLoadingPlan(plan.id)}
+                      variant={plan.popular ? "primary" : "secondary"}
+                      className="w-full py-4"
+                      aria-label={`${plan.name} - QvaPay`}
+                    >
+                      {loading === `${plan.id}-qvapay` ? (
+                        <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                      ) : (
+                        <WalletCards className="w-4 h-4 mr-2" />
+                      )}
+                      {loading === `${plan.id}-qvapay` ? "Procesando..." : "Pagar con QvaPay"}
+                    </Button>
+                    <Button
+                      onClick={() => handleTransfer(plan.id, plan.priceUSD)}
+                      disabled={isLoadingPlan(plan.id)}
+                      variant="outline"
+                      className="w-full py-4"
+                      aria-label={`${plan.name} - Transfermovil`}
+                    >
+                      {loading === `${plan.id}-transfer` ? (
+                        <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                      ) : (
+                        <CreditCard className="w-4 h-4 mr-2" />
+                      )}
+                      {loading === `${plan.id}-transfer` ? "Procesando..." : "Pagar con Transfermovil"}
+                    </Button>
+                  </div>
                 ) : (
                   <Button
                     onClick={() => router.push("/analysis")}
@@ -241,7 +394,7 @@ export default function PricingPage() {
                 {pack.popular && (
                   <div className="mb-4">
                     <Badge variant="primary" className="rounded-full px-4 py-1 text-xs font-bold">
-                      Más Popular
+                      Mas Popular
                     </Badge>
                   </div>
                 )}
@@ -249,7 +402,7 @@ export default function PricingPage() {
                 {!pack.popular && (
                   <div className="mb-4">
                     <Badge variant="outline" className="rounded-full px-3 py-1 text-xs">
-                      {pack.analyses} análisis
+                      {pack.analyses} analisis
                     </Badge>
                   </div>
                 )}
@@ -269,7 +422,7 @@ export default function PricingPage() {
                     ≈ {pack.priceCUP.toLocaleString("es-CU")} CUP
                   </p>
                   <p className="text-xs text-[#64705E] mt-2">
-                    <span className="text-[#2F3A2D] font-medium">{pack.analyses}</span> análisis · Válido por 30 días
+                    <span className="text-[#2F3A2D] font-medium">{pack.analyses}</span> analisis · Valido por 30 dias
                   </p>
                 </div>
 
@@ -282,20 +435,49 @@ export default function PricingPage() {
                   ))}
                 </ul>
 
-                <Button
-                  onClick={() => handleBuyPack(pack.id)}
-                  disabled={loading === pack.id}
-                  variant={pack.popular ? "primary" : "secondary"}
-                  className="w-full py-5"
-                  aria-label={`${pack.name} - QvaPay`}
-                >
-                  {loading === pack.id ? (
-                    <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-                  ) : (
-                    <WalletCards className="w-4 h-4 mr-2" />
-                  )}
-                  {loading === pack.id ? "Procesando..." : "Pagar con QvaPay"}
-                </Button>
+                <div className="flex flex-col gap-2">
+                  <Button
+                    onClick={() => handlePayPal(pack.id, pack.priceUSD)}
+                    disabled={isLoadingPlan(pack.id)}
+                    className="w-full py-4 bg-blue-500 hover:bg-blue-600 text-white"
+                    aria-label={`${pack.name} - PayPal`}
+                  >
+                    {loading === `${pack.id}-paypal` ? (
+                      <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                    ) : (
+                      <DollarSign className="w-4 h-4 mr-2" />
+                    )}
+                    {loading === `${pack.id}-paypal` ? "Procesando..." : "Pagar con PayPal"}
+                  </Button>
+                  <Button
+                    onClick={() => handleBuyPack(pack.id)}
+                    disabled={isLoadingPlan(pack.id)}
+                    variant={pack.popular ? "primary" : "secondary"}
+                    className="w-full py-4"
+                    aria-label={`${pack.name} - QvaPay`}
+                  >
+                    {loading === `${pack.id}-qvapay` ? (
+                      <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                    ) : (
+                      <WalletCards className="w-4 h-4 mr-2" />
+                    )}
+                    {loading === `${pack.id}-qvapay` ? "Procesando..." : "Pagar con QvaPay"}
+                  </Button>
+                  <Button
+                    onClick={() => handleTransfer(pack.id, pack.priceUSD)}
+                    disabled={isLoadingPlan(pack.id)}
+                    variant="outline"
+                    className="w-full py-4"
+                    aria-label={`${pack.name} - Transfermovil`}
+                  >
+                    {loading === `${pack.id}-transfer` ? (
+                      <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                    ) : (
+                      <CreditCard className="w-4 h-4 mr-2" />
+                    )}
+                    {loading === `${pack.id}-transfer` ? "Procesando..." : "Pagar con Transfermovil"}
+                  </Button>
+                </div>
               </Card>
             ))}
           </div>
@@ -316,8 +498,8 @@ export default function PricingPage() {
         </div>
 
         <p className="text-xs text-[#8A9A82] text-center max-w-md mx-auto mt-6">
-          Pagos procesados de forma segura a través de QvaPay.
-          No almacenamos información de pago.
+          Pagos procesados de forma segura a traves de QvaPay, PayPal y Transfermovil.
+          No almacenamos informacion de pago.
         </p>
       </div>
     </div>

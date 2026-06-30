@@ -59,6 +59,8 @@ export const ModelName = {
   BlogPost: 'BlogPost',
   Product: 'Product',
   Payment: 'Payment',
+  TransferPayment: 'TransferPayment',
+  AuditLog: 'AuditLog',
   Subscription: 'Subscription',
   PurchasePack: 'PurchasePack',
   UsageTracking: 'UsageTracking',
@@ -120,6 +122,7 @@ export const UserScalarFieldEnum = {
   analysisResetAt: 'analysisResetAt',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
+  telegramId: 'telegramId',
   currentStreak: 'currentStreak',
   maxStreak: 'maxStreak',
   lastCheckInDate: 'lastCheckInDate'
@@ -236,6 +239,38 @@ export const PaymentScalarFieldEnum = {
 } as const
 
 export type PaymentScalarFieldEnum = (typeof PaymentScalarFieldEnum)[keyof typeof PaymentScalarFieldEnum]
+
+
+export const TransferPaymentScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  plan: 'plan',
+  amount: 'amount',
+  referenceCode: 'referenceCode',
+  status: 'status',
+  transferAccount: 'transferAccount',
+  transferHolder: 'transferHolder',
+  validatedById: 'validatedById',
+  activatedById: 'activatedById',
+  validatedAt: 'validatedAt',
+  activatedAt: 'activatedAt',
+  createdAt: 'createdAt'
+} as const
+
+export type TransferPaymentScalarFieldEnum = (typeof TransferPaymentScalarFieldEnum)[keyof typeof TransferPaymentScalarFieldEnum]
+
+
+export const AuditLogScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  action: 'action',
+  targetId: 'targetId',
+  targetType: 'targetType',
+  details: 'details',
+  createdAt: 'createdAt'
+} as const
+
+export type AuditLogScalarFieldEnum = (typeof AuditLogScalarFieldEnum)[keyof typeof AuditLogScalarFieldEnum]
 
 
 export const SubscriptionScalarFieldEnum = {

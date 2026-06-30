@@ -40,3 +40,13 @@ services:
         sync: false
       - key: VALIDATOR_TELEGRAM_IDS
         sync: false
+      - key: PAYPAL_CLIENT_ID
+        sync: false
+      - key: PAYPAL_CLIENT_SECRET
+        sync: false
+      - key: PAYPAL_WEBHOOK_ID
+        sync: false
+      - key: TRANSFER_ACCOUNT
+        sync: false
+      - key: TRANSFER_HOLDER
+        sync: false

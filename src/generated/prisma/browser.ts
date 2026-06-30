@@ -58,6 +58,16 @@ export type Product = Prisma.ProductModel
  */
 export type Payment = Prisma.PaymentModel
 /**
+ * Model TransferPayment
+ * 
+ */
+export type TransferPayment = Prisma.TransferPaymentModel
+/**
+ * Model AuditLog
+ * 
+ */
+export type AuditLog = Prisma.AuditLogModel
+/**
  * Model Subscription
  * 
  */

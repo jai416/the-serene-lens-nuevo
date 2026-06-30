@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server"
-import { handleStart, handleStatus, handlePending, handleCliente, handleReporte } from "@/lib/telegram-handlers"
+import { handleStart, handleStatus, handlePending, handleCliente, handleValidar, handleActivar, handleReporte } from "@/lib/telegram-handlers"
 
 type TelegramUpdate = {
   message?: {
@@ -36,6 +36,12 @@ export async function POST(req: NextRequest) {
       break
     case "/cliente":
       await handleCliente(chatId, userId, rest)
+      break
+    case "/validar":
+      await handleValidar(chatId, userId, rest)
+      break
+    case "/activar":
+      await handleActivar(chatId, userId, rest)
       break
     case "/reporte":
       await handleReporte(chatId, userId)

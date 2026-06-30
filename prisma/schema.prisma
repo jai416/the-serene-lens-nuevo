@@ -44,7 +44,12 @@ model User {
   affiliateClicks   AffiliateClick[]
   evolution         UserEvolution?
   checkIns          DailyCheckIn[]
+  transferPayments  TransferPayment[]
+  validatedTransfers TransferPayment[] @relation("TransferValidator")
+  activatedTransfers TransferPayment[] @relation("TransferActivator")
+  auditLogs         AuditLog[]
 
+  telegramId        String?
   currentStreak     Int       @default(0)
   maxStreak         Int       @default(0)
   lastCheckInDate   DateTime?
@@ -173,6 +178,47 @@ model Payment {
   @@index([status])
   @@index([createdAt])
   @@index([userId, status])
+}
+
+model TransferPayment {
+  id              String    @id @default(cuid())
+  userId          String
+  plan            String
+  amount          Float
+  referenceCode   String    @unique
+  status          String    @default("pending") // pending, validated, activated, cancelled
+  transferAccount String?
+  transferHolder  String?
+  validatedById   String?
+  activatedById   String?
+  validatedAt     DateTime?
+  activatedAt     DateTime?
+  createdAt       DateTime  @default(now())
+
+  user          User  @relation(fields: [userId], references: [id], onDelete: Cascade)
+  validator     User? @relation("TransferValidator", fields: [validatedById], references: [id], onDelete: SetNull)
+  activator     User? @relation("TransferActivator", fields: [activatedById], references: [id], onDelete: SetNull)
+
+  @@index([userId])
+  @@index([status])
+  @@index([referenceCode])
+  @@index([createdAt])
+}
+
+model AuditLog {
+  id          String   @id @default(cuid())
+  userId      String
+  action      String   // validate_transfer, activate_transfer, cancel_transfer
+  targetId    String   // ID of the affected payment/transfer
+  targetType  String   // "transfer", "payment"
+  details     String?
+  createdAt   DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([targetId])
+  @@index([createdAt])
 }
 
 model Subscription {
