@@ -7,8 +7,6 @@ next-env.d.ts
 __pycache__/
 *.pyc
 *.pyo
-bot-telegram/logs/
-scripts/__pycache__/
 
 # Environment
 .env
