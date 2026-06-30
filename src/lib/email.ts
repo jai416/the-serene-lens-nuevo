@@ -37,7 +37,7 @@ export async function sendPasswordResetEmail(email: string, resetUrl: string) {
   }
 
   await client.emails.send({
-    from: "The Serene Lens <noreply@theserenelens.com>",
+    from: "The Serene Lens <onboarding@resend.dev>",
     to: email,
     subject: "Recupera tu contraseña - The Serene Lens",
     html: `

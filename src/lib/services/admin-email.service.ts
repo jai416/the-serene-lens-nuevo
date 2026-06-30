@@ -3,7 +3,7 @@ import { db } from "@/lib/db"
 import type { Prisma } from "@/generated/prisma/client"
 
 const DEFAULT_FROM_NAME = "The Serene Lens"
-const DEFAULT_FROM_EMAIL = "noreply@theserenelens.com"
+const DEFAULT_FROM_EMAIL = "onboarding@resend.dev"
 
 type EmailProvider = "mailjet" | "sendgrid" | "brevo" | "resend" | null
 
