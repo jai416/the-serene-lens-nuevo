@@ -34,7 +34,7 @@
 - PostHog: Conectado (errores de red por proxy, no del código)
 - Sentry: DSN inválido (403 Forbidden), configs deshabilitadas
 - CRON_SECRET: Generado en `.env` (pendiente en Render Dashboard)
-- **Resend**: ⚠️ NO se usa para registro. Solo para admin bulk emails. Dominio NO verificado.
+- **Resend**: ✅ Clave actualizada (`re_ML6bsVSK_...`). Usando `onboarding@resend.dev` como from. Solo admin bulk emails.
 
 ## Test Commands
 - `npm test` — run Vitest (174 tests across 16 suites)
@@ -436,4 +436,24 @@ Prices defined in `src/lib/pricing.ts` — single source of truth.
 - **Guías sin PDF real**: Seed usa placeholder de W3C. Subir PDFs reales y actualizar `fileUrl` en admin.
 - **CSRF saltado en dev**: `validateCsrf()` retorna `true` si `NODE_ENV=development`
 - **Cancel-transfer endpoint**: Creado pero requiere deploy para estar disponible en producción
-- **Bot getQvaPayPaymentStatus sin AbortController**: Pendiente agregar timeout (ver auditoría) 
+- **Bot getQvaPayPaymentStatus sin AbortController**: Pendiente agregar timeout (ver auditoría)
+
+## Changelog (2026-07-01) — Resend + Styling + Subscription Buttons
+
+### Email (Resend)
+- **`src/lib/email.ts`**: Already used `onboarding@resend.dev` — verified correct
+- **`.env`**: `RESEND_API_KEY` actualizada con clave del usuario
+- All email files (`cron/email-sequence`, `email-sequence.ts`, `admin-email.service.ts`) already fallback to `onboarding@resend.dev`
+
+### Admin Email Panel Styling
+- **`src/app/admin/emails/page.tsx`**: Segment count labels changed from `text-[#64705E]` (barely visible) to `text-[#2F3A2D]` (dark/readable)
+- **Table headers**: Changed from `text-[#64705E]` to `text-[#2F3A2D] font-semibold`
+
+### Payment Buttons — Unificado
+- **`src/app/pricing/page.tsx`**: PayPal buttons now use same `variant` prop as QvaPay instead of hardcoded `bg-blue-500`. Todos los botones (PayPal, QvaPay, Transfermóvil) usan el theme verde consistente.
+- **`src/app/dashboard/subscription/page.tsx`**: Added inline 3-button payment section (QvaPay, PayPal, Transfermóvil) for FREE users to upgrade to Premium. Includes loading states and error handling.
+- Also added `useRouter`, `DollarSign`, `WalletCards` imports and `handleSubscribe`/`handlePayPal`/`handleTransfer` handlers.
+
+### Git
+- Commit `4adb53a`: "Auditoría y mejoras: CSRF, seguridad, Transfermóvil, guías, estilos, tests, email"
+- Pushed to `origin/main`
