@@ -53,7 +53,7 @@ export async function handleCliente(chatId: string, userId: string, args: string
 
 export async function handleValidar(chatId: string, userId: string, args: string[]) {
   const role = getUserRole(userId)
-  if (!role || role === "USER") { await sendTelegramMessage(chatId, "❌ No autorizado."); return }
+  if (!role) { await sendTelegramMessage(chatId, "❌ No autorizado."); return }
   const ref = args[0]
   if (!ref) { await sendTelegramMessage(chatId, "Uso: /validar TRF-..."); return }
   const transfer = await db.transferPayment.findUnique({ where: { referenceCode: ref } })
