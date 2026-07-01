@@ -1,13 +1,14 @@
-import { NextRequest, NextResponse } from "next/server"
+import { NextRequest } from "next/server"
 import { getServerSession } from "next-auth"
 import { authOptions } from "@/lib/auth"
 import { db } from "@/lib/db"
 import { ok, error, serverError, unauthorized } from "@/lib/api-response"
-import { createQvaPayPackPayment, getPaymentError } from "@/lib/payments"
+import { createQvaPayPackPayment } from "@/lib/payments"
 import { getPack } from "@/lib/pricing"
 import { getCUPRate } from "@/lib/cup-rate"
 import { z } from "zod"
 import { logger } from "@/lib/logger"
+import { validateCsrf } from "@/lib/csrf-middleware"
 
 const packSchema = z.object({
   packType: z.enum(["BASIC", "POPULAR", "ADVANCED"]),
@@ -15,6 +16,8 @@ const packSchema = z.object({
 
 export async function POST(req: NextRequest) {
   try {
+    if (!validateCsrf(req)) return error("CSRF token inválido", 403)
+
     const session = await getServerSession(authOptions)
     if (!session?.user) return unauthorized()
 
@@ -98,9 +101,6 @@ export async function POST(req: NextRequest) {
       return error("El servicio de pagos no está disponible. Intenta de nuevo.", 503)
     }
 
-    return NextResponse.json(
-      { success: false, error: "Error al procesar el pago. Intenta de nuevo." },
-      { status: 500 }
-    )
+    return error("Error al procesar el pago. Intenta de nuevo.", 500)
   }
 }

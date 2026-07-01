@@ -11,32 +11,34 @@ export async function POST(req: NextRequest) {
 
     const session = await getServerSession(authOptions)
     if (!session?.user?.id) return unauthorized()
-    if (session.user.role !== "ADMIN" && session.user.role !== "VALIDATOR") return forbidden()
+    if (session.user.role !== "ADMIN") return forbidden()
 
     const { referenceCode } = await req.json()
     if (!referenceCode) return error("Falta código de referencia")
 
     const transfer = await db.transferPayment.findUnique({ where: { referenceCode } })
     if (!transfer) return error("Transferencia no encontrada")
-    if (transfer.status !== "pending") return error("La transferencia ya fue procesada")
+    if (transfer.status === "activated" || transfer.status === "cancelled") {
+      return error("No se puede cancelar una transferencia activada o ya cancelada")
+    }
 
     await db.$transaction([
       db.transferPayment.update({
         where: { id: transfer.id },
-        data: { status: "validated", validatedById: session.user.id, validatedAt: new Date() },
+        data: { status: "cancelled" },
       }),
       db.auditLog.create({
         data: {
           userId: session.user.id,
-          action: "validate_transfer",
+          action: "cancel_transfer",
           targetId: transfer.id,
           targetType: "transfer",
-          details: `Validated transfer ${referenceCode} for ${transfer.plan}`,
+          details: `Cancelled transfer ${referenceCode}`,
         },
       }),
     ])
 
-    return ok({ message: "Pago validado correctamente" })
+    return ok({ message: "Transferencia cancelada correctamente" })
   } catch (e) {
     return serverError(e)
   }

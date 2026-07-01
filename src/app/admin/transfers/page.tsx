@@ -44,12 +44,13 @@ export default function AdminTransfersPage() {
   const isAdmin = userRole === "ADMIN"
   const canValidate = isAdmin || userRole === "VALIDATOR"
 
-  const getTransfers = useCallback(async () => {
+  const getTransfers = useCallback(async (pg = 1) => {
     try {
-      const res = await fetch("/api/admin/transfers")
+      const res = await fetch(`/api/admin/transfers?page=${pg}&limit=50`)
       if (!res.ok) throw new Error("Error al cargar")
       const d = await res.json()
-      setTransfers(d?.data || d || [])
+      const payload = d?.data || d
+      setTransfers(payload?.transfers || payload || [])
     } catch {
       toast.error("Error al cargar transferencias")
     } finally {

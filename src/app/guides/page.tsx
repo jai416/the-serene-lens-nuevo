@@ -19,6 +19,7 @@ interface Guide {
   image: string
   category: string
   price: number
+  fileUrl?: string | null
 }
 
 interface PurchasedGuide {
@@ -98,7 +99,11 @@ export default function GuidesPage() {
     }
 
     if (session.user.role === "ADMIN") {
-      toast.success("Acceso de administrador: guía gratuita")
+      if (guide.fileUrl) {
+        window.open(guide.fileUrl, "_blank")
+      } else {
+        toast.error("Esta guía no tiene archivo para descargar")
+      }
       return
     }
 

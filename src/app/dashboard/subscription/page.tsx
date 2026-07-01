@@ -7,9 +7,10 @@ import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
-import { CreditCard, CheckCircle2, XCircle, Clock, ShoppingBag, Repeat, BarChart3, AlertCircle, Loader2 } from "lucide-react"
+import { CreditCard, CheckCircle2, XCircle, Clock, ShoppingBag, Repeat, BarChart3, AlertCircle, Loader2, DollarSign, WalletCards } from "lucide-react"
 import { getPlanLabel, formatPrice, formatDate } from "@/lib/utils"
 import { toast } from "sonner"
+import { useRouter } from "next/navigation"
 
 interface Payment {
   id: string
@@ -43,10 +44,73 @@ interface Pack {
 
 export default function SubscriptionPage() {
   const pathname = usePathname()
+  const router = useRouter()
   const { data: session, status, update } = useSession()
   const [payments, setPayments] = useState<Payment[]>([])
   const [usage, setUsage] = useState<Usage | null>(null)
   const [packs, setPacks] = useState<Pack[]>([])
+  const [loadingPayment, setLoadingPayment] = useState<string | null>(null)
+
+  const handleSubscribe = async (planId: string) => {
+    setLoadingPayment(`qvapay-${planId}`)
+    try {
+      const res = await fetch("/api/payments/create", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ plan: planId, provider: "qvapay" }),
+      })
+      const data = await res.json()
+      const payload = data?.data || data
+      if (payload?.url) window.location.href = payload.url
+      else toast.error("No se recibió URL de pago")
+    } catch {
+      toast.error("Error al procesar pago")
+    } finally {
+      setLoadingPayment(null)
+    }
+  }
+
+  const handlePayPal = async (planId: string) => {
+    setLoadingPayment(`paypal-${planId}`)
+    try {
+      const res = await fetch("/api/payments/create-paypal", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ plan: planId, amount: 0 }),
+      })
+      const data = await res.json()
+      const payload = data?.data || data
+      if (payload?.url) window.location.href = payload.url
+      else toast.error("No se recibió URL de pago")
+    } catch {
+      toast.error("Error al procesar pago con PayPal")
+    } finally {
+      setLoadingPayment(null)
+    }
+  }
+
+  const handleTransfer = async (planId: string) => {
+    setLoadingPayment(`transfer-${planId}`)
+    try {
+      const res = await fetch("/api/payments/create-transfer", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ plan: planId, amount: 0 }),
+      })
+      const data = await res.json()
+      const payload = data?.data || data
+      if (payload?.account) {
+        toast.success("Datos de transferencia generados")
+        router.push("/pricing")
+      } else {
+        toast.error(payload?.error || "Error al crear transferencia")
+      }
+    } catch {
+      toast.error("Error al crear transferencia")
+    } finally {
+      setLoadingPayment(null)
+    }
+  }
 
   useEffect(() => {
     if (session) {
@@ -113,12 +177,53 @@ export default function SubscriptionPage() {
               </div>
             )}
             {!isPaid && (
-              <Link href="/pricing">
-                <Button variant="primary" className="w-full mt-4">
-                  <CreditCard className="w-4 h-4 mr-2" />
-                  Actualizar plan
-                </Button>
-              </Link>
+              <div className="mt-4 space-y-2">
+                <p className="text-sm font-medium text-[#2F3A2D]">Actualizar a Premium — $4.99/mes</p>
+                <div className="flex flex-col gap-2">
+                  <Button
+                    onClick={() => handleSubscribe("PREMIUM")}
+                    disabled={!!loadingPayment}
+                    variant="primary"
+                    className="w-full py-3"
+                  >
+                    {loadingPayment === "qvapay-PREMIUM" ? (
+                      <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                    ) : (
+                      <WalletCards className="w-4 h-4 mr-2" />
+                    )}
+                    {loadingPayment === "qvapay-PREMIUM" ? "Procesando..." : "Pagar con QvaPay"}
+                  </Button>
+                  <Button
+                    onClick={() => handlePayPal("PREMIUM")}
+                    disabled={!!loadingPayment}
+                    variant="secondary"
+                    className="w-full py-3"
+                  >
+                    {loadingPayment === "paypal-PREMIUM" ? (
+                      <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                    ) : (
+                      <DollarSign className="w-4 h-4 mr-2" />
+                    )}
+                    {loadingPayment === "paypal-PREMIUM" ? "Procesando..." : "Pagar con PayPal"}
+                  </Button>
+                  <Button
+                    onClick={() => handleTransfer("PREMIUM")}
+                    disabled={!!loadingPayment}
+                    variant="outline"
+                    className="w-full py-3"
+                  >
+                    {loadingPayment === "transfer-PREMIUM" ? (
+                      <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                    ) : (
+                      <CreditCard className="w-4 h-4 mr-2" />
+                    )}
+                    {loadingPayment === "transfer-PREMIUM" ? "Procesando..." : "Pagar con Transfermovil"}
+                  </Button>
+                </div>
+                <Link href="/pricing" className="block text-center text-xs text-[#64705E] hover:text-[#2F3A2D] mt-2">
+                  Ver todos los planes
+                </Link>
+              </div>
             )}
           </CardContent>
         </Card>

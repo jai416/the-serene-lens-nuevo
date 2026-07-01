@@ -2,12 +2,15 @@ import { NextRequest } from "next/server"
 import { getServerSession } from "next-auth"
 import { authOptions } from "@/lib/auth"
 import { db } from "@/lib/db"
-import { ok, error, unauthorized, serverError } from "@/lib/api-response"
+import { ok, error, unauthorized, forbidden, serverError } from "@/lib/api-response"
 import { getQvaPayPaymentStatus } from "@/lib/payments"
 import { logger } from "@/lib/logger"
+import { validateCsrf } from "@/lib/csrf-middleware"
 
 export async function POST(req: NextRequest) {
   try {
+    if (!validateCsrf(req)) return error("CSRF token inválido", 403)
+
     const session = await getServerSession(authOptions)
     if (!session?.user) return unauthorized()
 
@@ -33,7 +36,7 @@ export async function POST(req: NextRequest) {
     }
 
     if (purchase.userId !== session.user.id && session.user.role !== "ADMIN") {
-      return error("No autorizado", 403)
+      return forbidden("No autorizado")
     }
 
     if (purchase.status === "completed") {

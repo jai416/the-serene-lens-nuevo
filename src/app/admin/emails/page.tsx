@@ -234,9 +234,9 @@ export default function AdminEmailsPage() {
               }`}
               onClick={() => setSegment(key)}
             >
-              <CardContent className="p-3 text-center">
-                <p className="text-2xl font-bold text-[#2F3A2D] dark:text-[#E8EDE6]">{value}</p>
-                <p className="text-xs text-[#64705E] dark:text-[#9BAA93]">{SEGMENT_LABELS[key]}</p>
+                  <CardContent className="p-3 text-center">
+                    <p className="text-2xl font-bold text-[#2F3A2D] dark:text-[#E8EDE6]">{value}</p>
+                    <p className="text-xs font-medium text-[#2F3A2D] dark:text-[#E8EDE6]">{SEGMENT_LABELS[key]}</p>
               </CardContent>
             </Card>
           ))}
@@ -381,11 +381,11 @@ export default function AdminEmailsPage() {
                   <table className="w-full text-sm">
                     <thead>
                       <tr className="border-b border-[#DDE7D3] dark:border-[#3A4536]">
-                        <th className="text-left py-3 px-2 text-[#64705E] dark:text-[#9BAA93] font-medium">Asunto</th>
-                        <th className="text-left py-3 px-2 text-[#64705E] dark:text-[#9BAA93] font-medium">Destinatario</th>
-                        <th className="text-left py-3 px-2 text-[#64705E] dark:text-[#9BAA93] font-medium">Segmento</th>
-                        <th className="text-left py-3 px-2 text-[#64705E] dark:text-[#9BAA93] font-medium">Estado</th>
-                        <th className="text-left py-3 px-2 text-[#64705E] dark:text-[#9BAA93] font-medium">Fecha</th>
+                        <th className="text-left py-3 px-2 text-[#2F3A2D] dark:text-[#E8EDE6] font-semibold">Asunto</th>
+                        <th className="text-left py-3 px-2 text-[#2F3A2D] dark:text-[#E8EDE6] font-semibold">Destinatario</th>
+                        <th className="text-left py-3 px-2 text-[#2F3A2D] dark:text-[#E8EDE6] font-semibold">Segmento</th>
+                        <th className="text-left py-3 px-2 text-[#2F3A2D] dark:text-[#E8EDE6] font-semibold">Estado</th>
+                        <th className="text-left py-3 px-2 text-[#2F3A2D] dark:text-[#E8EDE6] font-semibold">Fecha</th>
                       </tr>
                     </thead>
                     <tbody>

@@ -1,9 +1,10 @@
 # AGENTS.md — The Serene Lens
 
-## Project Status (2026-06-26)
-**Código completo.** Todas las features implementadas:
+## Project Status (2026-07-01)
+**Código completo + auditoría + mejoras implementadas.**
 - Landing page, análisis de piel con IA, historial, evolución
 - Sistema de pagos QvaPay (planes + packs), webhooks, suscripciones
+- **3 métodos de pago**: QvaPay, Transfermóvil (validar/activar), PayPal (mock)
 - Blog, productos, ingredientes, comunidad (con comentarios)
 - Diario de piel, desafíos gamificados (solo visualización, sin completar manual)
 - Panel admin: usuarios, pagos, mensajes, blog, productos, guías, feature flags, analytics, health check
@@ -11,23 +12,26 @@
 - SEO: 55 keywords con contexto para generación de artículos
 - **PRO+ plan** ($14.99/mes): informe PDF, rutina dinámica, comparativa mensual
 - **Modo Social**: comparación anónima de resultados con amigos
-- **Guías Digitales**: e-books descargables vendidos vía QvaPay
+- **Guías Digitales**: e-books descargables vendidos vía QvaPay (con fileUrl en seed)
 - **Sistema de Referidos Grupal**: invita 3 amigos → análisis gratis
 - **Predictor de Envejecimiento**: proyección a 5 años con IA + RAG de ingredientes
+- **Telegram Bot integrado como webhook**: /start, /status, /pending, /cliente, /validar, /activar, /reporte
 - 174 tests, type check limpio, build exitoso (94 páginas estáticas)
 
 **Pendiente solo configuración manual:**
-1. `npx prisma db push` — eliminar campos Stripe + sync tablas nuevas
+1. `npx prisma db push` — sync tablas nuevas + enums
 2. `CRON_SECRET` — agregar env var en Render Dashboard
 3. Google/GitHub OAuth — configurar callbacks (opcional)
-4. `npm run seed` en producción — poblar productos, guías y desafíos
+4. `npm run seed` en producción — poblar productos, guías y desafíos (ahora incluye fileUrl)
+5. Subir PDFs reales a hosting y actualizar `fileUrl` en admin de guías
 
-**Verificado en producción (2026-06-25):**
+**Verificado en producción (2026-07-01 live tests):**
+- 23/23 tests pasados en sitio en vivo
 - Render: `https://the-serene-lens-nuevo.onrender.com` respondiendo OK
 - QvaPay API: Conexión exitosa
 - QvaPay Webhook: Endpoint funcionando
 - OpenRouter API: Conectado
-- PostHog: Conectado
+- PostHog: Conectado (errores de red por proxy, no del código)
 - Sentry: DSN inválido (403 Forbidden), configs deshabilitadas
 - CRON_SECRET: Generado en `.env` (pendiente en Render Dashboard)
 - **Resend**: ⚠️ NO se usa para registro. Solo para admin bulk emails. Dominio NO verificado.
@@ -375,6 +379,53 @@ Prices defined in `src/lib/pricing.ts` — single source of truth.
 - `/dashboard/report` — PDF report generator (PRO+ only)
 - `/dashboard/referrals` — referral group management
 
+## Changelog (2026-07-01) — Auditoría + Mejoras
+
+### Bugs Fixeados
+- **`src/middleware.ts`**: `x-response-time` siempre mostraba 0ms (cálculo después de respuesta). Fix: mover `start` antes de `NextResponse.next()`.
+- **`src/middleware.ts`**: Admin guard no cubría `/api/admin/*` routes. Fix: agregado `request.nextUrl.pathname.startsWith("/api/admin")`.
+- **`src/app/pricing/page.tsx`**: `TransferData` interface usaba `reference` y `accountNumber` pero API devuelve `referenceCode` y `account`. Fix: ambos campos aceptados con fallback.
+- **`src/lib/telegram-handlers.ts`**: HTML injection por interpolación directa en `formatPaymentRow()` y `/cliente`. Fix: usar `sanitizeHtml()` de `@/lib/sanitize`.
+
+### Seguridad
+- **CSRF implementado**: Nueva `src/lib/csrf-middleware.ts` — validación en todas las mutations POST de pagos:
+  - `/api/payments/create-transfer`, `create`, `create-pack`, `create-paypal`, `create-guide`, `verify-guide`
+  - `/api/payments/validate-transfer`, `activate-transfer`, `cancel-transfer`
+  - Se salta en desarrollo (`NODE_ENV=development`)
+- **Security headers agregados** en `middleware.ts`: `X-Frame-Options: DENY`, `X-Content-Type-Options: nosniff`, `Referrer-Policy: strict-origin-when-cross-origin`
+- **CSP actualizado**: Incluye `https://api.telegram.org` en `connect-src`
+- **Rate limit**: Pendiente migrar a in-memory (ver #1 en Top 10 mejoras)
+
+### Transfermóvil
+- **Zod validation**: `create-transfer/route.ts` ahora valida plan y amount contra `getPlan()`/`getPack()`, rechaza montos que no coinciden
+- **Race condition fix**: `generateReferenceCode()` usa `crypto.randomBytes(3)` en vez de `count()` race-prone
+- **Cancelación**: Nuevo endpoint `POST /api/payments/cancel-transfer` para admins
+- **Paginación**: `GET /api/admin/transfers` acepta `?page=&limit=` (default 50, max 100)
+
+### Guías Digitales
+- **fileUrl en seed**: Todas las guías incluyen `fileUrl` (placeholder PDF de W3C). Admin puede actualizar desde panel.
+- **Admin download**: `GET /api/admin/guides/download?slug=X` para admins. Botón en `/guides` para admin abre `fileUrl` directamente.
+- **API pública incluye fileUrl**: `/api/guides` ahora devuelve `fileUrl` para que admins puedan descargar sin comprar.
+
+### Telegram Bot
+- **HTML sanitization**: `formatPaymentRow()` y `/cliente` usan `sanitizeHtml()` existente
+- **Nueva función**: `getUserByTelegramId()` para consultar DB por telegramId
+
+### General
+- **Consistencia API**: Todas las rutas de pagos ahora usan `ok()`/`error()`/`serverError()` en vez de `NextResponse.json` directo
+- **try/catch en todas las rutas**: create-transfer, validate-transfer, activate-transfer, cancel-transfer ahora manejan errores con `serverError()`
+- **Nuevo endpoint admin**: `GET /api/admin/guides/download?slug=X` para admins
+
+### Tests
+- **174 tests pasan** (Vitest, 16 suites)
+- **Type check limpio** (`tsc --noEmit`)
+- **Live tests**: 23/23 tests pasan en `https://the-serene-lens-nuevo.onrender.com`
+  - 9 páginas cargan (200)
+  - 4 APIs GET retornan datos válidos
+  - 8 APIs POST rechazan sin auth (401)
+  - 2 páginas 404 funcionan
+  - Script: `scripts/test-live.sh`
+
 ## Known Issues
 - **Resend domain NO verificado**: Only used for admin bulk emails. Registration uses on-screen welcome banner.
 - **npm install falla**: `rm -rf node_modules .next && npm install --legacy-peer-deps`
@@ -382,3 +433,7 @@ Prices defined in `src/lib/pricing.ts` — single source of truth.
 - **DB push pendiente**: `npx prisma db push` for Stripe field removal + new tables + `@relation` to UserEvolution/AffiliateClick
 - **CRON_SECRET pendiente**: Add env var in Render Dashboard
 - **Seed en producción**: Ejecutar `npm run seed` después de deploy para poblar productos, guías y desafíos
+- **Guías sin PDF real**: Seed usa placeholder de W3C. Subir PDFs reales y actualizar `fileUrl` en admin.
+- **CSRF saltado en dev**: `validateCsrf()` retorna `true` si `NODE_ENV=development`
+- **Cancel-transfer endpoint**: Creado pero requiere deploy para estar disponible en producción
+- **Bot getQvaPayPaymentStatus sin AbortController**: Pendiente agregar timeout (ver auditoría) 

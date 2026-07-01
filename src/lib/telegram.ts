@@ -1,3 +1,5 @@
+import { db } from "@/lib/db"
+
 const TELEGRAM_API = `https://api.telegram.org/bot${process.env.TELEGRAM_TOKEN || ""}`
 
 export async function sendTelegramMessage(chatId: string | number, text: string, parseMode: "HTML" | "Markdown" = "HTML"): Promise<boolean> {
@@ -34,4 +36,12 @@ export function getUserRole(telegramId: string): "ADMIN" | "VALIDATOR" | null {
   if (isAdminTelegram(telegramId)) return "ADMIN"
   if (isValidatorTelegram(telegramId)) return "VALIDATOR"
   return null
+}
+
+export async function getUserByTelegramId(telegramId: string) {
+  try {
+    return await db.user.findFirst({ where: { telegramId } })
+  } catch {
+    return null
+  }
 }

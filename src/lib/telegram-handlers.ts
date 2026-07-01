@@ -1,8 +1,9 @@
 import { db } from "@/lib/db"
 import { sendTelegramMessage, getUserRole } from "@/lib/telegram"
+import { sanitizeHtml } from "@/lib/sanitize"
 
 function formatPaymentRow(p: { id: string; amount: number; status: string; plan: string; provider: string; createdAt: Date }): string {
-  return `• #${p.id.slice(-6)} | ${p.provider} | ${p.plan} | $${p.amount.toFixed(2)} | ${p.status}`
+  return `• #${p.id.slice(-6)} | ${sanitizeHtml(p.provider)} | ${sanitizeHtml(p.plan)} | $${p.amount.toFixed(2)} | ${sanitizeHtml(p.status)}`
 }
 
 export async function handleStart(chatId: string, userId: string) {
@@ -46,7 +47,7 @@ export async function handleCliente(chatId: string, userId: string, args: string
   if (!email) { await sendTelegramMessage(chatId, "Uso: /cliente email@ejemplo.com"); return }
   const user = await db.user.findUnique({ where: { email }, include: { payments: { orderBy: { createdAt: "desc" }, take: 10 } } })
   if (!user) { await sendTelegramMessage(chatId, `❌ Usuario no encontrado: ${email}`); return }
-  let text = `👤 <b>Cliente:</b> ${user.name || "?"} (${email})\n📋 Plan: ${user.plan} | Rol: ${user.role}\n\n<b>Pagos (${user.payments.length}):</b>\n`
+  let text = `👤 <b>Cliente:</b> ${sanitizeHtml(user.name || "?")} (${sanitizeHtml(email)})\n📋 Plan: ${sanitizeHtml(user.plan)} | Rol: ${sanitizeHtml(user.role)}\n\n<b>Pagos (${user.payments.length}):</b>\n`
   for (const p of user.payments) text += formatPaymentRow(p) + "\n"
   await sendTelegramMessage(chatId, text)
 }

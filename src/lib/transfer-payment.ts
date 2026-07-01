@@ -1,12 +1,11 @@
 import { db } from "@/lib/db"
+import crypto from "crypto"
 
 export async function generateReferenceCode(): Promise<string> {
   const now = new Date()
   const date = now.toISOString().slice(0, 10).replace(/-/g, "")
-  const count = await db.transferPayment.count({
-    where: { createdAt: { gte: new Date(now.getFullYear(), now.getMonth(), now.getDate()) } },
-  })
-  return `TRF-${date}-${String(count + 1).padStart(3, "0")}`
+  const suffix = crypto.randomBytes(3).toString("hex").toUpperCase()
+  return `TRF-${date}-${suffix}`
 }
 
 export function getTransferConfig() {

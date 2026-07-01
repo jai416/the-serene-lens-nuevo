@@ -17,7 +17,9 @@ import { toast } from "sonner"
 type Tab = "subscriptions" | "packs"
 
 interface TransferData {
-  reference: string
+  referenceCode: string
+  reference?: string
+  account?: string
   accountNumber?: string
   holder?: string
   amount: number
@@ -187,28 +189,28 @@ export default function PricingPage() {
             <h3 className="text-lg font-semibold text-[#2F3A2D] mb-4">
               Transferencia por Transfermovil
             </h3>
-            <div className="space-y-3 text-sm">
-              <div className="flex justify-between py-2 border-b border-[#DDE7D3]">
-                <span className="text-[#64705E]">Codigo de referencia</span>
-                <span className="font-mono font-medium text-[#2F3A2D]">{selectedTransfer.reference}</span>
-              </div>
-              {selectedTransfer.accountNumber && (
+              <div className="space-y-3 text-sm">
                 <div className="flex justify-between py-2 border-b border-[#DDE7D3]">
-                  <span className="text-[#64705E]">Numero de cuenta</span>
-                  <span className="font-medium text-[#2F3A2D]">{selectedTransfer.accountNumber}</span>
+                  <span className="text-[#64705E]">Codigo de referencia</span>
+                  <span className="font-mono font-medium text-[#2F3A2D]">{selectedTransfer.referenceCode || selectedTransfer.reference}</span>
                 </div>
-              )}
-              {selectedTransfer.holder && (
+                {(selectedTransfer.account || selectedTransfer.accountNumber) && (
+                  <div className="flex justify-between py-2 border-b border-[#DDE7D3]">
+                    <span className="text-[#64705E]">Numero de cuenta</span>
+                    <span className="font-medium text-[#2F3A2D]">{selectedTransfer.account || selectedTransfer.accountNumber}</span>
+                  </div>
+                )}
+                {selectedTransfer.holder && (
+                  <div className="flex justify-between py-2 border-b border-[#DDE7D3]">
+                    <span className="text-[#64705E]">Titular</span>
+                    <span className="font-medium text-[#2F3A2D]">{selectedTransfer.holder}</span>
+                  </div>
+                )}
                 <div className="flex justify-between py-2 border-b border-[#DDE7D3]">
-                  <span className="text-[#64705E]">Titular</span>
-                  <span className="font-medium text-[#2F3A2D]">{selectedTransfer.holder}</span>
+                  <span className="text-[#64705E]">Monto a enviar</span>
+                  <span className="font-medium text-[#2F3A2D]">${selectedTransfer.amount?.toFixed(2)}</span>
                 </div>
-              )}
-              <div className="flex justify-between py-2 border-b border-[#DDE7D3]">
-                <span className="text-[#64705E]">Monto a enviar</span>
-                <span className="font-medium text-[#2F3A2D]">${selectedTransfer.amount?.toFixed(2)}</span>
               </div>
-            </div>
             <p className="text-xs text-[#8A9A82] mt-4 text-center">
               Realiza la transferencia y tu plan se activara manualmente.
             </p>
@@ -326,7 +328,8 @@ export default function PricingPage() {
                     <Button
                       onClick={() => handlePayPal(plan.id, plan.priceUSD)}
                       disabled={isLoadingPlan(plan.id)}
-                      className="w-full py-4 bg-blue-500 hover:bg-blue-600 text-white"
+                      variant={plan.popular ? "primary" : "secondary"}
+                      className="w-full py-4"
                       aria-label={`${plan.name} - PayPal`}
                     >
                       {loading === `${plan.id}-paypal` ? (
@@ -439,7 +442,8 @@ export default function PricingPage() {
                   <Button
                     onClick={() => handlePayPal(pack.id, pack.priceUSD)}
                     disabled={isLoadingPlan(pack.id)}
-                    className="w-full py-4 bg-blue-500 hover:bg-blue-600 text-white"
+                    variant={pack.popular ? "primary" : "secondary"}
+                    className="w-full py-4"
                     aria-label={`${pack.name} - PayPal`}
                   >
                     {loading === `${pack.id}-paypal` ? (
