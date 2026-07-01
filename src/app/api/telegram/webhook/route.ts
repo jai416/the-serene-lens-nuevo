@@ -15,6 +15,13 @@ type TelegramUpdate = {
 }
 
 export async function POST(req: NextRequest) {
+  const secret = req.headers.get("x-telegram-bot-api-secret-token")
+  if (secret !== process.env.TELEGRAM_WEBHOOK_SECRET) {
+    if (process.env.NODE_ENV === "production") {
+      return NextResponse.json({ ok: false }, { status: 403 })
+    }
+  }
+
   const update: TelegramUpdate = await req.json()
   const msg = update.message
   if (!msg?.text) return NextResponse.json({ ok: true })
