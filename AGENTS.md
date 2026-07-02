@@ -27,6 +27,8 @@
 
 **Verificado en producción (2026-07-01 live tests):**
 - 23/23 tests pasados en sitio en vivo
+- **Telegram Bot**: Webhook configurado ✅ — `GET /getWebhookInfo` → URL activa, 0 pending updates
+- **Telegram Webhook Secret**: Generado y configurado en bot API + `.env` ✅
 - Render: `https://the-serene-lens-nuevo.onrender.com` respondiendo OK
 - QvaPay API: Conexión exitosa
 - QvaPay Webhook: Endpoint funcionando
@@ -454,6 +456,17 @@ Prices defined in `src/lib/pricing.ts` — single source of truth.
 - **`src/app/dashboard/subscription/page.tsx`**: Added inline 3-button payment section (QvaPay, PayPal, Transfermóvil) for FREE users to upgrade to Premium. Includes loading states and error handling.
 - Also added `useRouter`, `DollarSign`, `WalletCards` imports and `handleSubscribe`/`handlePayPal`/`handleTransfer` handlers.
 
+### Telegram Bot — Webhook + Secret
+- **`src/app/api/telegram/webhook/route.ts`**: Added `x-telegram-bot-api-secret-token` verification. Only enforced when `TELEGRAM_WEBHOOK_SECRET` env var is set (safe for deploy without config).
+- **`.env`**: Added `TELEGRAM_WEBHOOK_SECRET=f896ab7f054d734e34cade6c39269b152b418042`
+- **`render.yaml`**: Added `TELEGRAM_WEBHOOK_SECRET` env var entry
+- **`.env.example`**: Added `TELEGRAM_WEBHOOK_SECRET` placeholder
+- **Webhook URL set**: `curl -X POST "https://api.telegram.org/bot{TOKEN}/setWebhook"` con `secret_token`
+- **Verificado**: `getWebhookInfo` → URL activa, 0 pending updates
+
 ### Git
 - Commit `4adb53a`: "Auditoría y mejoras: CSRF, seguridad, Transfermóvil, guías, estilos, tests, email"
-- Pushed to `origin/main`
+- Commit `e605c77`: "Update AGENTS.md with Resend key, styling fixes, subscription buttons"
+- Commit `a0e19f6`: "Add TELEGRAM_WEBHOOK_SECRET to webhook, render.yaml, .env.example"
+- Commit `66b76d0`: "Fix webhook secret check: only enforce when env var is set"
+- All pushed to `origin/main`

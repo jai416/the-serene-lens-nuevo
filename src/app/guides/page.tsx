@@ -9,6 +9,7 @@ import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { BookOpen, Download, Loader2, ShoppingCart, CheckCircle2 } from "lucide-react"
 import { toast } from "sonner"
+import { getCsrfToken } from "@/lib/csrf-client"
 
 interface Guide {
   id: string
@@ -75,7 +76,7 @@ export default function GuidesPage() {
       setVerifyingGuide(successGuideId)
       fetch("/api/payments/verify-guide", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: { "Content-Type": "application/json", "x-csrf-token": getCsrfToken() },
         body: JSON.stringify({ qvapayId }),
       })
         .then((r) => r.json())
@@ -117,7 +118,7 @@ export default function GuidesPage() {
     try {
       const res = await fetch("/api/payments/create-guide", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: { "Content-Type": "application/json", "x-csrf-token": getCsrfToken() },
         body: JSON.stringify({ guideId: guide.id }),
       })
       const data = await res.json()

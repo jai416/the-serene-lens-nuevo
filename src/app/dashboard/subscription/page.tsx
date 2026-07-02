@@ -11,6 +11,7 @@ import { CreditCard, CheckCircle2, XCircle, Clock, ShoppingBag, Repeat, BarChart
 import { getPlanLabel, formatPrice, formatDate } from "@/lib/utils"
 import { toast } from "sonner"
 import { useRouter } from "next/navigation"
+import { getCsrfToken } from "@/lib/csrf-client"
 
 interface Payment {
   id: string
@@ -56,7 +57,7 @@ export default function SubscriptionPage() {
     try {
       const res = await fetch("/api/payments/create", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: { "Content-Type": "application/json", "x-csrf-token": getCsrfToken() },
         body: JSON.stringify({ plan: planId, provider: "qvapay" }),
       })
       const data = await res.json()
@@ -75,7 +76,7 @@ export default function SubscriptionPage() {
     try {
       const res = await fetch("/api/payments/create-paypal", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: { "Content-Type": "application/json", "x-csrf-token": getCsrfToken() },
         body: JSON.stringify({ plan: planId, amount: 0 }),
       })
       const data = await res.json()
@@ -94,7 +95,7 @@ export default function SubscriptionPage() {
     try {
       const res = await fetch("/api/payments/create-transfer", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: { "Content-Type": "application/json", "x-csrf-token": getCsrfToken() },
         body: JSON.stringify({ plan: planId, amount: 0 }),
       })
       const data = await res.json()

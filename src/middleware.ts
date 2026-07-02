@@ -28,6 +28,16 @@ export async function middleware(request: NextRequest) {
     response.headers.set("x-response-time", `${(performance.now() - start).toFixed(0)}ms`)
   }
 
+  if (!request.cookies.get("csrf-token")) {
+    const token = crypto.randomUUID().replace(/-/g, "")
+    response.cookies.set("csrf-token", token, {
+      path: "/",
+      sameSite: "strict",
+      maxAge: 3600,
+      secure: process.env.NODE_ENV === "production",
+    })
+  }
+
   const existingCsp = response.headers.get("content-security-policy")
   if (!existingCsp) {
     response.headers.set("Content-Security-Policy", CSP_DIRECTIVES)

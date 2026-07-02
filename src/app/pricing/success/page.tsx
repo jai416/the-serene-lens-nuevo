@@ -8,6 +8,7 @@ import { Card, CardContent } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { CheckCircle2, ArrowRight, CreditCard, Loader2, AlertCircle } from "lucide-react"
+import { getCsrfToken } from "@/lib/csrf-client"
 
 export default function PricingSuccessPage() {
   const { data: session } = useSession()
@@ -24,7 +25,7 @@ export default function PricingSuccessPage() {
       try {
         const res = await fetch("/api/payments/verify", {
           method: "POST",
-          headers: { "Content-Type": "application/json" },
+          headers: { "Content-Type": "application/json", "x-csrf-token": getCsrfToken() },
           body: JSON.stringify({ qvapayId }),
         })
         const data = await res.json()

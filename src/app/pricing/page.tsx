@@ -13,6 +13,7 @@ import {
 } from "lucide-react"
 import { PLANS, PACKS, CUP_RATE } from "@/lib/pricing"
 import { toast } from "sonner"
+import { getCsrfToken } from "@/lib/csrf-client"
 
 type Tab = "subscriptions" | "packs"
 
@@ -45,7 +46,7 @@ export default function PricingPage() {
     try {
       const res = await fetch("/api/payments/create", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: { "Content-Type": "application/json", "x-csrf-token": getCsrfToken() },
         body: JSON.stringify({ plan: planId, provider: "qvapay" }),
       })
 
@@ -82,7 +83,7 @@ export default function PricingPage() {
     try {
       const res = await fetch("/api/payments/create-pack", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: { "Content-Type": "application/json", "x-csrf-token": getCsrfToken() },
         body: JSON.stringify({ packType: packId, provider: "qvapay" }),
       })
 
@@ -119,7 +120,7 @@ export default function PricingPage() {
     try {
       const res = await fetch("/api/payments/create-paypal", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: { "Content-Type": "application/json", "x-csrf-token": getCsrfToken() },
         body: JSON.stringify({ plan: id, amount }),
       })
 
@@ -156,7 +157,7 @@ export default function PricingPage() {
     try {
       const res = await fetch("/api/payments/create-transfer", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: { "Content-Type": "application/json", "x-csrf-token": getCsrfToken() },
         body: JSON.stringify({ plan: id, amount }),
       })
 
