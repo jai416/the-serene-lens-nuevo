@@ -554,7 +554,7 @@ Con esta guía podrás leer cualquier etiqueta y tomar decisiones informadas sob
   }
   console.log(`${communityPosts.length} community posts seeded`)
 
-  const PLACEHOLDER_PDF = "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf"
+  const BASE_GUIDE_URL = `${process.env.NEXT_PUBLIC_APP_URL || "https://the-serene-lens-nuevo.onrender.com"}/guides`
 
   const digitalProducts = [
     {
@@ -565,7 +565,7 @@ Con esta guía podrás leer cualquier etiqueta y tomar decisiones informadas sob
       image: "data:image/svg+xml," + encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" width="400" height="225" viewBox="0 0 400 225"><rect width="400" height="225" rx="8" fill="#FEF3C7"/><text x="200" y="90" text-anchor="middle" font-size="48">🧴</text><text x="200" y="140" text-anchor="middle" font-family="system-ui" font-size="18" font-weight="600" fill="#1F2937">Piel Grasa</text><text x="200" y="170" text-anchor="middle" font-family="system-ui" font-size="12" fill="#6B7280">Guía completa</text></svg>'),
       category: "piel-grasa",
       price: 6.99,
-      fileUrl: PLACEHOLDER_PDF,
+      fileUrl: `${BASE_GUIDE_URL}/guia-piel-grasa.pdf`,
     },
     {
       title: "Cómo eliminar manchas en 30 días",
@@ -575,7 +575,7 @@ Con esta guía podrás leer cualquier etiqueta y tomar decisiones informadas sob
       image: "data:image/svg+xml," + encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" width="400" height="225" viewBox="0 0 400 225"><rect width="400" height="225" rx="8" fill="#FCE7F3"/><text x="200" y="90" text-anchor="middle" font-size="48">✨</text><text x="200" y="140" text-anchor="middle" font-family="system-ui" font-size="18" font-weight="600" fill="#1F2937">Eliminar Manchas</text><text x="200" y="170" text-anchor="middle" font-family="system-ui" font-size="12" fill="#6B7280">30 días</text></svg>'),
       category: "manchas",
       price: 8.99,
-      fileUrl: PLACEHOLDER_PDF,
+      fileUrl: `${BASE_GUIDE_URL}/eliminar-manchas-30-dias.pdf`,
     },
     {
       title: "Rutina antiedad para 40+",
@@ -585,7 +585,7 @@ Con esta guía podrás leer cualquier etiqueta y tomar decisiones informadas sob
       image: "data:image/svg+xml," + encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" width="400" height="225" viewBox="0 0 400 225"><rect width="400" height="225" rx="8" fill="#EDE9FE"/><text x="200" y="90" text-anchor="middle" font-size="48">👩‍🔬</text><text x="200" y="140" text-anchor="middle" font-family="system-ui" font-size="18" font-weight="600" fill="#1F2937">Antiedad 40+</text><text x="200" y="170" text-anchor="middle" font-family="system-ui" font-size="12" fill="#6B7280">Rutina completa</text></svg>'),
       category: "antiedad",
       price: 7.99,
-      fileUrl: PLACEHOLDER_PDF,
+      fileUrl: `${BASE_GUIDE_URL}/rutina-antiedad-40.pdf`,
     },
     {
       title: "Ingredientes que debes evitar",
@@ -595,7 +595,7 @@ Con esta guía podrás leer cualquier etiqueta y tomar decisiones informadas sob
       image: "data:image/svg+xml," + encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" width="400" height="225" viewBox="0 0 400 225"><rect width="400" height="225" rx="8" fill="#FEE2E2"/><text x="200" y="90" text-anchor="middle" font-size="48">🔬</text><text x="200" y="140" text-anchor="middle" font-family="system-ui" font-size="18" font-weight="600" fill="#1F2937">Ingredientes</text><text x="200" y="170" text-anchor="middle" font-family="system-ui" font-size="12" fill="#6B7280">Qué evitar</text></svg>'),
       category: "ingredientes",
       price: 5.99,
-      fileUrl: PLACEHOLDER_PDF,
+      fileUrl: `${BASE_GUIDE_URL}/ingredientes-evitar.pdf`,
     },
     {
       title: "Guía de protección solar todo el año",
@@ -605,7 +605,7 @@ Con esta guía podrás leer cualquier etiqueta y tomar decisiones informadas sob
       image: "data:image/svg+xml," + encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" width="400" height="225" viewBox="0 0 400 225"><rect width="400" height="225" rx="8" fill="#FED7AA"/><text x="200" y="90" text-anchor="middle" font-size="48">☀️</text><text x="200" y="140" text-anchor="middle" font-family="system-ui" font-size="18" font-weight="600" fill="#1F2937">Protección Solar</text><text x="200" y="170" text-anchor="middle" font-family="system-ui" font-size="12" fill="#6B7280">Guía anual</text></svg>'),
       category: "proteccion-solar",
       price: 6.99,
-      fileUrl: PLACEHOLDER_PDF,
+      fileUrl: `${BASE_GUIDE_URL}/proteccion-solar-anual.pdf`,
     },
     {
       title: "Rutina de skincare para principiantes",
@@ -615,7 +615,7 @@ Con esta guía podrás leer cualquier etiqueta y tomar decisiones informadas sob
       image: "data:image/svg+xml," + encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" width="400" height="225" viewBox="0 0 400 225"><rect width="400" height="225" rx="8" fill="#DBEAFE"/><text x="200" y="90" text-anchor="middle" font-size="48">🌱</text><text x="200" y="140" text-anchor="middle" font-family="system-ui" font-size="18" font-weight="600" fill="#1F2937">Principiantes</text><text x="200" y="170" text-anchor="middle" font-family="system-ui" font-size="12" fill="#6B7280">Rutina paso a paso</text></svg>'),
       category: "rutinas",
       price: 4.99,
-      fileUrl: PLACEHOLDER_PDF,
+      fileUrl: `${BASE_GUIDE_URL}/rutina-principiantes.pdf`,
     },
     {
       title: "Acné: causas, tratamientos y mitos",
@@ -625,7 +625,7 @@ Con esta guía podrás leer cualquier etiqueta y tomar decisiones informadas sob
       image: "data:image/svg+xml," + encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" width="400" height="225" viewBox="0 0 400 225"><rect width="400" height="225" rx="8" fill="#FEF9C3"/><text x="200" y="90" text-anchor="middle" font-size="48">🎯</text><text x="200" y="140" text-anchor="middle" font-family="system-ui" font-size="18" font-weight="600" fill="#1F2937">Guía Acné</text><text x="200" y="170" text-anchor="middle" font-family="system-ui" font-size="12" fill="#6B7280">Causas y tratamientos</text></svg>'),
       category: "acne",
       price: 7.99,
-      fileUrl: PLACEHOLDER_PDF,
+      fileUrl: `${BASE_GUIDE_URL}/guia-acne-completa.pdf`,
     },
     {
       title: "Ingredientes activos: retinol, vitamina C, niacinamida",
@@ -635,7 +635,7 @@ Con esta guía podrás leer cualquier etiqueta y tomar decisiones informadas sob
       image: "data:image/svg+xml," + encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" width="400" height="225" viewBox="0 0 400 225"><rect width="400" height="225" rx="8" fill="#E0E7FF"/><text x="200" y="90" text-anchor="middle" font-size="48">⚗️</text><text x="200" y="140" text-anchor="middle" font-family="system-ui" font-size="18" font-weight="600" fill="#1F2937">Ingredientes Activos</text><text x="200" y="170" text-anchor="middle" font-family="system-ui" font-size="12" fill="#6B7280">Retinol, Vit C, Niacinamida</text></svg>'),
       category: "ingredientes",
       price: 8.99,
-      fileUrl: PLACEHOLDER_PDF,
+      fileUrl: `${BASE_GUIDE_URL}/ingredientes-activos.pdf`,
     },
     {
       title: "Cuidado de la piel en el clima tropical",
@@ -645,7 +645,7 @@ Con esta guía podrás leer cualquier etiqueta y tomar decisiones informadas sob
       image: "data:image/svg+xml," + encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" width="400" height="225" viewBox="0 0 400 225"><rect width="400" height="225" rx="8" fill="#CCFBF1"/><text x="200" y="90" text-anchor="middle" font-size="48">🌴</text><text x="200" y="140" text-anchor="middle" font-family="system-ui" font-size="18" font-weight="600" fill="#1F2937">Clima Tropical</text><text x="200" y="170" text-anchor="middle" font-family="system-ui" font-size="12" fill="#6B7280">Skincare en calor</text></svg>'),
       category: "clima",
       price: 5.99,
-      fileUrl: PLACEHOLDER_PDF,
+      fileUrl: `${BASE_GUIDE_URL}/skincare-tropical.pdf`,
     },
     {
       title: "Guía de exfoliación: ácidos y peelings",
@@ -655,7 +655,7 @@ Con esta guía podrás leer cualquier etiqueta y tomar decisiones informadas sob
       image: "data:image/svg+xml," + encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" width="400" height="225" viewBox="0 0 400 225"><rect width="400" height="225" rx="8" fill="#FDF2F8"/><text x="200" y="90" text-anchor="middle" font-size="48">🧪</text><text x="200" y="140" text-anchor="middle" font-family="system-ui" font-size="18" font-weight="600" fill="#1F2937">Exfoliación</text><text x="200" y="170" text-anchor="middle" font-family="system-ui" font-size="12" fill="#6B7280">Ácidos y peelings</text></svg>'),
       category: "ingredientes",
       price: 7.99,
-      fileUrl: PLACEHOLDER_PDF,
+      fileUrl: `${BASE_GUIDE_URL}/guia-exfoliacion.pdf`,
     },
     {
       title: "Skincare masculino: guía completa",
@@ -665,7 +665,7 @@ Con esta guía podrás leer cualquier etiqueta y tomar decisiones informadas sob
       image: "data:image/svg+xml," + encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" width="400" height="225" viewBox="0 0 400 225"><rect width="400" height="225" rx="8" fill="#F1F5F9"/><text x="200" y="90" text-anchor="middle" font-size="48">👨</text><text x="200" y="140" text-anchor="middle" font-family="system-ui" font-size="18" font-weight="600" fill="#1F2937">Skincare Masculino</text><text x="200" y="170" text-anchor="middle" font-family="system-ui" font-size="12" fill="#6B7280">Guía completa</text></svg>'),
       category: "rutinas",
       price: 5.99,
-      fileUrl: PLACEHOLDER_PDF,
+      fileUrl: `${BASE_GUIDE_URL}/skincare-masculino.pdf`,
     },
   ]
 

@@ -436,7 +436,7 @@ Prices defined in `src/lib/pricing.ts` — single source of truth.
 - **CRON_SECRET pendiente**: Add env var in Render Dashboard
 - **Seed en producción**: Ejecutar `npm run seed` después de deploy para poblar productos, guías y desafíos
 - **Guías sin PDF real**: Seed usa placeholder de W3C. Subir PDFs reales y actualizar `fileUrl` en admin.
-- **CSRF saltado en dev**: `validateCsrf()` retorna `true` si `NODE_ENV=development`
+- **CSRF (fixed)**: Token generado en `middleware.ts` via Web Crypto API, cookie `csrf-token` seteada. Frontend lee con `getCsrfToken()` y envía en header `x-csrf-token`.
 - **Cancel-transfer endpoint**: Creado pero requiere deploy para estar disponible en producción
 - **Bot getQvaPayPaymentStatus sin AbortController**: Pendiente agregar timeout (ver auditoría)
 
@@ -464,9 +464,16 @@ Prices defined in `src/lib/pricing.ts` — single source of truth.
 - **Webhook URL set**: `curl -X POST "https://api.telegram.org/bot{TOKEN}/setWebhook"` con `secret_token`
 - **Verificado**: `getWebhookInfo` → URL activa, 0 pending updates
 
+### CSRF Fix — Token Flow Completo
+- **Causa raíz**: `validateCsrf()` se agregó a 9 endpoints de pago pero nunca se generó ni sirvió el token al cliente → 403 en producción
+- **`src/middleware.ts`**: Genera `csrf-token` cookie via `crypto.randomUUID()` (Edge-compatible) si no existe. `SameSite=Strict`, expira 1h.
+- **`src/lib/csrf-client.ts`**: Nueva función `getCsrfToken()` que lee la cookie desde `document.cookie`
+- **Páginas actualizadas**: `pricing/page.tsx`, `dashboard/subscription/page.tsx`, `guides/page.tsx`, `pricing/success/page.tsx` — todas agregan `x-csrf-token: getCsrfToken()` en cada `fetch()` POST de pagos
+
 ### Git
 - Commit `4adb53a`: "Auditoría y mejoras: CSRF, seguridad, Transfermóvil, guías, estilos, tests, email"
 - Commit `e605c77`: "Update AGENTS.md with Resend key, styling fixes, subscription buttons"
 - Commit `a0e19f6`: "Add TELEGRAM_WEBHOOK_SECRET to webhook, render.yaml, .env.example"
 - Commit `66b76d0`: "Fix webhook secret check: only enforce when env var is set"
+- Commit `1c11757`: "Fix CSRF bloqueando pagos: generar token en middleware, enviar desde frontend"
 - All pushed to `origin/main`

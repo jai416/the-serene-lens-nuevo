@@ -81,7 +81,7 @@ export default function SubscriptionPage() {
       })
       const data = await res.json()
       const payload = data?.data || data
-      if (payload?.url) window.location.href = payload.url
+      if (payload?.url || payload?.approvalUrl) window.location.href = payload.url || payload.approvalUrl
       else toast.error("No se recibió URL de pago")
     } catch {
       toast.error("Error al procesar pago con PayPal")
@@ -93,10 +93,11 @@ export default function SubscriptionPage() {
   const handleTransfer = async (planId: string) => {
     setLoadingPayment(`transfer-${planId}`)
     try {
+      const amount = planId === "PREMIUM" ? 4.99 : planId === "PRO" ? 9.99 : planId === "PRO_PLUS" ? 14.99 : 0
       const res = await fetch("/api/payments/create-transfer", {
         method: "POST",
         headers: { "Content-Type": "application/json", "x-csrf-token": getCsrfToken() },
-        body: JSON.stringify({ plan: planId, amount: 0 }),
+        body: JSON.stringify({ plan: planId, amount }),
       })
       const data = await res.json()
       const payload = data?.data || data

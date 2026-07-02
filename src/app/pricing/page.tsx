@@ -131,8 +131,8 @@ export default function PricingPage() {
         throw new Error(data.error?.message || payload?.error || "Error al crear pago con PayPal")
       }
 
-      if (payload?.url) {
-        window.location.href = payload.url
+      if (payload?.url || payload?.approvalUrl) {
+        window.location.href = payload.url || payload.approvalUrl
       } else {
         throw new Error("No se recibió URL de pago")
       }
