@@ -29,7 +29,9 @@ export async function middleware(request: NextRequest) {
   }
 
   if (!request.cookies.get("csrf-token")) {
-    const token = crypto.randomUUID().replace(/-/g, "")
+    const buf = new Uint8Array(32)
+    crypto.getRandomValues(buf)
+    const token = Array.from(buf).map(b => b.toString(16).padStart(2, "0")).join("")
     response.cookies.set("csrf-token", token, {
       path: "/",
       sameSite: "strict",
