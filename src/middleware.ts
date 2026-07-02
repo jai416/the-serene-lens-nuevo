@@ -50,7 +50,7 @@ export async function middleware(request: NextRequest) {
   response.headers.set("Referrer-Policy", "strict-origin-when-cross-origin")
 
   if (request.nextUrl.pathname.startsWith("/admin") || request.nextUrl.pathname.startsWith("/api/admin")) {
-    const token = await getToken({ req: request })
+    const token = await getToken({ req: request, cookieName: "next-auth.session-token" })
     if (!token || token.role !== "ADMIN") {
       return NextResponse.redirect(new URL("/", request.url))
     }
