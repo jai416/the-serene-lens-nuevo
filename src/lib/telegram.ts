@@ -2,7 +2,7 @@ import { db } from "@/lib/db"
 
 const TELEGRAM_API = `https://api.telegram.org/bot${process.env.TELEGRAM_TOKEN || ""}`
 
-type InlineButton = { text: string; callback_data: string }
+type InlineButton = { text: string; callback_data?: string; url?: string }
 type InlineKeyboard = InlineButton[][]
 type KeyboardButton = { text: string }
 type ReplyKeyboard = KeyboardButton[][]
