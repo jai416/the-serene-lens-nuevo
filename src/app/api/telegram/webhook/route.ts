@@ -1,15 +1,19 @@
 import { NextRequest, NextResponse } from "next/server"
 import {
-  handleStart, handleHelp, handleStatus, handlePending,
-  handleCliente, handleValidar, handleActivar, handleReporte,
-  handleUsers, handleRevenue, handleAnalytics, handleBroadcast,
-  handleCallback, handleBroadcastGo,
+  handleStart, handleWeb, handlePrecios, handleStatusPublic,
+  handleAyuda, handleSkincare, handleContacto,
+  handleValidatorAuth, handleValidar, handlePendientes,
+  handleBuscar, handleHistorial, handleValidatorHelp,
+  handleAdminAuth, handleActivar, handleCliente,
+  handleReporte, handleUsuarios, handleAdminHelp,
+  handleBroadcast, handleLogs,
+  handleCallback,
 } from "@/lib/telegram-handlers"
 
 type TelegramUpdate = {
   message?: {
     chat: { id: number }
-    from?: { id: number }
+    from?: { id: number; username?: string; first_name?: string }
     text?: string
   }
   callback_query?: {
@@ -39,25 +43,6 @@ export async function POST(req: NextRequest) {
     const callbackId = cb.id
     const data = cb.data
 
-    if (data === "broadcast_go") {
-      await handleBroadcastGo(chatId, userId)
-      return NextResponse.json({ ok: true })
-    }
-
-    if (data === "broadcast_write") {
-      const { sendTelegramMessage } = await import("@/lib/telegram")
-      await sendTelegramMessage(chatId, "✏️ Escribe el mensaje que quieres enviar a todos los usuarios:")
-      return NextResponse.json({ ok: true })
-    }
-
-    if (data.startsWith("activar_")) {
-      const ref = data.replace("activar_", "")
-      await handleActivar(chatId, userId, [ref, "--confirm"])
-      const { answerCallback } = await import("@/lib/telegram")
-      await answerCallback(chatId, callbackId, "✅ Activando...")
-      return NextResponse.json({ ok: true })
-    }
-
     await handleCallback(data, chatId, userId, messageId, callbackId)
     return NextResponse.json({ ok: true })
   }
@@ -71,42 +56,90 @@ export async function POST(req: NextRequest) {
   const rest = args.slice(1)
 
   switch (command) {
+    // ─── Public ──────────────────────────────
     case "/start":
       await handleStart(chatId, userId)
       break
-    case "/help":
-      await handleHelp(chatId, userId)
+    case "/web":
+      await handleWeb(chatId, userId)
+      break
+    case "/precios":
+      await handlePrecios(chatId, userId)
       break
     case "/status":
-      await handleStatus(chatId, userId)
+      await handleStatusPublic(chatId, userId)
       break
-    case "/pending":
-      await handlePending(chatId, userId)
+    case "/ayuda":
+    case "/help":
+      await handleAyuda(chatId, userId)
       break
-    case "/cliente":
-      await handleCliente(chatId, userId, rest)
+    case "/skincare":
+    case "/tip":
+      await handleSkincare(chatId, userId)
       break
+    case "/contacto":
+    case "/contact":
+      await handleContacto(chatId, userId)
+      break
+
+    // ─── Validator Auth ───────────────────────
+    case "/validator":
+      await handleValidatorAuth(chatId, userId, rest)
+      break
+    case "/validatorhelp":
+      await handleValidatorHelp(chatId, userId)
+      break
+
+    // ─── Validator / Admin ────────────────────
     case "/validar":
       await handleValidar(chatId, userId, rest)
       break
+    case "/pendientes":
+    case "/pending":
+      await handlePendientes(chatId, userId)
+      break
+    case "/buscar":
+    case "/search":
+      await handleBuscar(chatId, userId, rest)
+      break
+    case "/historial":
+    case "/history":
+      await handleHistorial(chatId, userId, rest)
+      break
+
+    // ─── Admin Auth ───────────────────────────
+    case "/admin":
+      await handleAdminAuth(chatId, userId, rest)
+      break
+    case "/adminhelp":
+      await handleAdminHelp(chatId, userId)
+      break
+
+    // ─── Admin only ───────────────────────────
     case "/activar":
+    case "/activate":
       await handleActivar(chatId, userId, rest)
       break
+    case "/cliente":
+    case "/client":
+      await handleCliente(chatId, userId, rest)
+      break
     case "/reporte":
+    case "/report":
       await handleReporte(chatId, userId)
       break
+    case "/usuarios":
     case "/users":
-      await handleUsers(chatId, userId)
-      break
-    case "/revenue":
-      await handleRevenue(chatId, userId)
-      break
-    case "/analytics":
-      await handleAnalytics(chatId, userId)
+      await handleUsuarios(chatId, userId)
       break
     case "/broadcast":
       await handleBroadcast(chatId, userId, rest)
       break
+    case "/logs":
+    case "/log":
+      await handleLogs(chatId, userId, rest)
+      break
+
     default:
       await handleStart(chatId, userId)
   }

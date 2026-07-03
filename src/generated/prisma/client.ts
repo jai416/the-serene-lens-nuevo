@@ -222,6 +222,16 @@ export type IngredientKB = Prisma.IngredientKBModel
  */
 export type Client = Prisma.ClientModel
 /**
+ * Model TelegramAuth
+ * 
+ */
+export type TelegramAuth = Prisma.TelegramAuthModel
+/**
+ * Model TelegramLog
+ * 
+ */
+export type TelegramLog = Prisma.TelegramLogModel
+/**
  * Model Notification
  * 
  */

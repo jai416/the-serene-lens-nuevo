@@ -87,6 +87,8 @@ export const ModelName = {
   DailyCheckIn: 'DailyCheckIn',
   IngredientKB: 'IngredientKB',
   Client: 'Client',
+  TelegramAuth: 'TelegramAuth',
+  TelegramLog: 'TelegramLog',
   Notification: 'Notification'
 } as const
 
@@ -612,6 +614,29 @@ export const ClientScalarFieldEnum = {
 } as const
 
 export type ClientScalarFieldEnum = (typeof ClientScalarFieldEnum)[keyof typeof ClientScalarFieldEnum]
+
+
+export const TelegramAuthScalarFieldEnum = {
+  id: 'id',
+  chatId: 'chatId',
+  role: 'role',
+  createdAt: 'createdAt'
+} as const
+
+export type TelegramAuthScalarFieldEnum = (typeof TelegramAuthScalarFieldEnum)[keyof typeof TelegramAuthScalarFieldEnum]
+
+
+export const TelegramLogScalarFieldEnum = {
+  id: 'id',
+  chatId: 'chatId',
+  username: 'username',
+  command: 'command',
+  args: 'args',
+  role: 'role',
+  createdAt: 'createdAt'
+} as const
+
+export type TelegramLogScalarFieldEnum = (typeof TelegramLogScalarFieldEnum)[keyof typeof TelegramLogScalarFieldEnum]
 
 
 export const NotificationScalarFieldEnum = {

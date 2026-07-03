@@ -36,9 +36,9 @@ services:
         sync: false
       - key: TELEGRAM_GROUP_ID
         sync: false
-      - key: ADMIN_TELEGRAM_IDS
+      - key: TELEGRAM_ADMIN_TOKEN
         sync: false
-      - key: VALIDATOR_TELEGRAM_IDS
+      - key: TELEGRAM_VALIDATOR_TOKEN
         sync: false
       - key: TELEGRAM_WEBHOOK_SECRET
         sync: false

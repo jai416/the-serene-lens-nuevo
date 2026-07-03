@@ -89,26 +89,72 @@ export async function sendTelegramToGroup(text: string, parseMode: "HTML" | "Mar
   return sendTelegramMessage(groupId, text, parseMode)
 }
 
-export function isAdminTelegram(telegramId: string): boolean {
-  const ids = (process.env.ADMIN_TELEGRAM_IDS || "").split(",").map(s => s.trim())
-  return ids.includes(telegramId)
-}
-
-export function isValidatorTelegram(telegramId: string): boolean {
-  const ids = (process.env.VALIDATOR_TELEGRAM_IDS || "").split(",").map(s => s.trim())
-  return ids.includes(telegramId)
-}
-
-export function getUserRole(telegramId: string): "ADMIN" | "VALIDATOR" | null {
-  if (isAdminTelegram(telegramId)) return "ADMIN"
-  if (isValidatorTelegram(telegramId)) return "VALIDATOR"
-  return null
-}
-
-export async function getUserByTelegramId(telegramId: string) {
+export async function authAdmin(chatId: string, token: string): Promise<boolean> {
+  const adminToken = process.env.TELEGRAM_ADMIN_TOKEN
+  if (!adminToken || token !== adminToken) return false
   try {
-    return await db.user.findFirst({ where: { telegramId } })
+    await db.telegramAuth.upsert({
+      where: { chatId },
+      update: { role: "ADMIN" },
+      create: { chatId, role: "ADMIN" },
+    })
+    return true
+  } catch {
+    return false
+  }
+}
+
+export async function authValidator(chatId: string, token: string): Promise<boolean> {
+  const validatorToken = process.env.TELEGRAM_VALIDATOR_TOKEN
+  if (!validatorToken || token !== validatorToken) return false
+  try {
+    await db.telegramAuth.upsert({
+      where: { chatId },
+      update: { role: "VALIDATOR" },
+      create: { chatId, role: "VALIDATOR" },
+    })
+    return true
+  } catch {
+    return false
+  }
+}
+
+export async function getUserRole(chatId: string): Promise<"ADMIN" | "VALIDATOR" | null> {
+  try {
+    const auth = await db.telegramAuth.findUnique({ where: { chatId } })
+    return auth?.role as "ADMIN" | "VALIDATOR" | null
   } catch {
     return null
+  }
+}
+
+export async function logTelegramCommand(chatId: string, command: string, args: string | null, role: string | null, username?: string) {
+  try {
+    await db.telegramLog.create({
+      data: { chatId, command, args, role, username: username || null },
+    })
+  } catch {
+  }
+}
+
+export async function getTelegramLogs(fecha?: string): Promise<string[]> {
+  try {
+    const where: any = {}
+    if (fecha) {
+      const start = new Date(fecha)
+      const end = new Date(start)
+      end.setDate(end.getDate() + 1)
+      where.createdAt = { gte: start, lt: end }
+    }
+    const logs = await db.telegramLog.findMany({
+      where,
+      orderBy: { createdAt: "desc" },
+      take: 50,
+    })
+    return logs.map(l =>
+      `[${l.createdAt.toLocaleString("es-ES")}] ${l.role || "PUBLIC"} ${l.chatId}: /${l.command}${l.args ? " " + l.args : ""}`
+    )
+  } catch {
+    return ["Error al obtener logs"]
   }
 }

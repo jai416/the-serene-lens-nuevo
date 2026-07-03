@@ -611,6 +611,29 @@ model Client {
   @@index([estheticianId])
 }
 
+model TelegramAuth {
+  id        String   @id @default(cuid())
+  chatId    String   @unique
+  role      String   // "ADMIN" | "VALIDATOR"
+  createdAt DateTime @default(now())
+
+  @@index([chatId])
+  @@index([role])
+}
+
+model TelegramLog {
+  id        String   @id @default(cuid())
+  chatId    String
+  username  String?
+  command   String
+  args      String?
+  role      String?
+  createdAt DateTime @default(now())
+
+  @@index([chatId])
+  @@index([createdAt])
+}
+
 model Notification {
   id        String   @id @default(cuid())
   userId    String
