@@ -10,9 +10,9 @@ import { sanitizeHtml } from "@/lib/sanitize"
 import * as R from "@/lib/telegram-responses"
 
 const MENU_BACK_ROW = [{ text: "🔙 Menú principal", callback_data: "menu_main" }]
-const USER_KEYBOARD: string[][] = [
-  ["🌐 Web", "💰 Precios"],
-  ["📈 Mi Estado", "🆘 Ayuda"],
+const USER_KEYBOARD: { text: string }[][] = [
+  [{ text: "🌐 Web" }, { text: "💰 Precios" }],
+  [{ text: "📈 Mi Estado" }, { text: "🆘 Ayuda" }],
 ]
 
 type MenuContext = { chatId: string; userId: string; messageId?: number; callbackId?: string }
