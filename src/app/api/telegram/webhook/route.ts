@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server"
 import {
   handleStart, handleWeb, handlePrecios, handleStatusPublic,
   handleAyuda, handleSkincare, handleContacto,
-  handleMeme, handleFeedback, handleReminder,
+  handleMeme, handleFeedback, handleReminder, handleRecomendar,
   handleValidatorAuth, handleValidar, handlePendientes,
   handleBuscar, handleHistorial, handleValidatorHelp,
   handleAdminAuth, handleActivar, handleCliente,
@@ -86,6 +86,10 @@ export async function POST(req: NextRequest) {
       break
     case "/meme":
       await handleMeme(chatId, userId)
+      break
+    case "/recomendar":
+    case "/recommend":
+      await handleRecomendar(chatId, userId)
       break
     case "/feedback":
       await handleFeedback(chatId, userId, rest)
