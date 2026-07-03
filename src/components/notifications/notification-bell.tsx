@@ -108,13 +108,13 @@ export function NotificationBell() {
     <div ref={ref} className="relative">
       <button
         onClick={() => setOpen(!open)}
-        className="relative flex items-center justify-center w-9 h-9 rounded-xl text-[#64705E] dark:text-[#9BAA93] hover:bg-[#F0F5EC] dark:hover:bg-[#2E3829] hover:text-[#2F3A2D] dark:hover:text-[#E8EDE6] transition-all duration-200"
+        className="relative flex items-center justify-center w-10 h-10 rounded-2xl bg-white dark:bg-[#222920] border border-[#DDE7D3] dark:border-[#3A4536] text-[#64705E] dark:text-[#9BAA93] hover:bg-[#F0F5EC] dark:hover:bg-[#2E3829] hover:text-[#2F3A2D] dark:hover:text-[#E8EDE6] hover:border-[#C2E09D] dark:hover:border-[#C2E09D] shadow-sm hover:shadow-md transition-all duration-200"
         aria-label="Notificaciones"
       >
         {unread > 0 ? (
           <>
             <BellDot className="w-4.5 h-4.5" />
-            <span className="absolute -top-0.5 -right-0.5 w-4 h-4 rounded-full bg-[#E07070] text-white text-[9px] font-semibold flex items-center justify-center">
+            <span className="absolute -top-1 -right-1 w-4.5 h-4.5 rounded-full bg-[#E07070] text-white text-[9px] font-bold flex items-center justify-center ring-2 ring-white dark:ring-[#222920]">
               {unread > 9 ? "9+" : unread}
             </span>
           </>
@@ -126,7 +126,7 @@ export function NotificationBell() {
       {open && (
         <div
           className={cn(
-            "absolute left-0 md:left-auto md:right-0 top-full mt-2 w-[340px] rounded-2xl bg-white dark:bg-[#222920] border border-[#DDE7D3] dark:border-[#3A4536] shadow-[0_8px_32px_rgba(47,58,45,0.12)] dark:shadow-[0_8px_32px_rgba(0,0,0,0.4)] overflow-hidden z-50"
+            "absolute right-0 top-full mt-3 w-[360px] rounded-2xl bg-white dark:bg-[#222920] border border-[#DDE7D3] dark:border-[#3A4536] shadow-[0_12px_40px_rgba(47,58,45,0.15)] dark:shadow-[0_12px_40px_rgba(0,0,0,0.5)] overflow-hidden z-50"
           )}
         >
           <div className="flex items-center justify-between px-4 py-3 border-b border-[#DDE7D3] dark:border-[#3A4536]">

@@ -10,6 +10,7 @@ import { Card, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { formatDate } from "@/lib/utils"
 import { toast } from "sonner"
+import { getCsrfToken } from "@/lib/csrf-client"
 
 interface Transfer {
   id: string
@@ -67,7 +68,7 @@ export default function AdminTransfersPage() {
     try {
       const res = await fetch("/api/payments/validate-transfer", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: { "Content-Type": "application/json", "x-csrf-token": getCsrfToken() },
         body: JSON.stringify({ referenceCode }),
       })
       const d = await res.json()
@@ -83,7 +84,7 @@ export default function AdminTransfersPage() {
     try {
       const res = await fetch("/api/payments/activate-transfer", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: { "Content-Type": "application/json", "x-csrf-token": getCsrfToken() },
         body: JSON.stringify({ referenceCode }),
       })
       const d = await res.json()
