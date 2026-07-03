@@ -25,7 +25,7 @@ export async function POST(req: NextRequest) {
     await db.feedback.upsert({
       where: { analysisId: parsed.data.analysisId },
       update: { rating: parsed.data.helpful ? 5 : 1, wouldRecommend: parsed.data.helpful },
-      create: { analysisId: parsed.data.analysisId, userId: session.user.id, rating: parsed.data.helpful ? 5 : 1, wouldRecommend: parsed.data.helpful },
+      create: { analysisId: parsed.data.analysisId, rating: parsed.data.helpful ? 5 : 1, wouldRecommend: parsed.data.helpful },
     })
 
     return ok({ success: true })
