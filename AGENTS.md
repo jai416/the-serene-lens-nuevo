@@ -381,6 +381,77 @@ Prices defined in `src/lib/pricing.ts` — single source of truth.
 - `/dashboard/report` — PDF report generator (PRO+ only)
 - `/dashboard/referrals` — referral group management
 
+## Changelog (2026-07-03) — Telegram 3-roles + 15 mejoras + Personalidad + Live Chat + Tickets + Tour + Modo Experto
+
+### Telegram Bot — Sistema Completo de Gestión (3 Roles)
+
+**Rol 1 — Usuario Normal** (sin token):
+- `/start`, `/web`, `/precios`, `/status`, `/ayuda`, `/skincare`, `/contacto`, `/meme`, `/feedback`, `/recordatorio`, `/recomendar`
+- ReplyKeyboard con botones abajo del chat (como Binance/Spotify)
+
+**Rol 2 — Validador** (token vía `/validator TOKEN`):
+- `/validar REF`, `/validar 1,2,3`, `/validar todos` (batch), `/pendientes`, `/buscar`, `/historial`, `/validatorhelp`
+- Botones inline en `/pendientes` para validar con 1 clic
+
+**Rol 3 — Admin** (token vía `/admin TOKEN`):
+- Todo lo de validador + `/activar`, `/cliente` (con enlace admin), `/reporte` (tabla markdown), `/usuarios`, `/trending`, `/analisis ID`, `/broadcast`, `/logs`, `/alerta`, `/promocion`, `/whois`, `/adminhelp`
+
+**Tokens**: `TELEGRAM_ADMIN_TOKEN`, `TELEGRAM_VALIDATOR_TOKEN` en `.env` (reemplazan `ADMIN_TELEGRAM_IDS`/`VALIDATOR_TELEGRAM_IDS`)
+**Modelos nuevos**: `TelegramAuth` (chatId+role en DB), `TelegramLog` (actividad), `TelegramAlert` (suscripción eventos), `DiscountCode`, `TelegramReminder`, `BotFeedback`
+
+### Personality Engine (telegram-responses.ts)
+- Tono de marca cálido, cercano, profesional
+- Multi-variant picker (3-4 variantes aleatorias por respuesta)
+- Time-of-day greetings (🌅/☀️/🌆/🌙 + nombre)
+- Role-aware: admin ve stats al entrar, validador ve cola, user normal ve bienvenida simple
+- Multi-step flows: `/validar REF` → pide "confirmar" → ejecuta
+- Conversational memory: `conversationState` Map para diálogos multi-paso
+- Smart links: enlaces descriptivos sin URLs crudas
+- Recomendación personalizada vía `/recomendar` según último skinType
+- Fallback conversacional: detecta keywords en texto libre (precio, web, hola, etc.)
+
+### Live Chat Widget
+- `src/components/chat/live-chat-widget.tsx` — Botón flotante 💬 + panel de chat
+- Session persistida en localStorage, polling cada 5s
+- API: `POST /api/chat/session`, `GET/POST /api/chat/messages`
+- Admin panel: `GET /api/admin/chat/sessions`, reply, view messages
+- Telegram fallback: si admin no responde en 5 minutos, `notifyAdmins("new_chat", msg)`
+- Modelo: `ChatMessage` (sessionId, userId, message, isAdmin, read)
+
+### Support Tickets
+- `src/app/dashboard/support/` — Página de tickets con formulario + lista
+- `src/app/dashboard/support/[id]/` — Detalle con hilo de respuestas
+- API: CRUD completo + admin respond + notificaciones in-app
+- Modelos: `SupportTicket` (userId, subject, message, status, priority), `SupportTicketResponse`
+
+### Quick Feedback Post-Análisis
+- `src/components/feedback/quick-feedback.tsx` — 👍/👎 después del análisis
+- API: `POST /api/feedback/quick`
+- Guarda en tabla `Feedback` existente (rating 5/1)
+
+### Interactive Tour
+- `src/components/tour/app-tour.tsx` — Tour de 4 pasos al primer ingreso al dashboard
+- Overlay con backdrop, progreso, navegación
+- Persistencia en localStorage `tour_completed`
+
+### Modo Experto (AI)
+- `src/app/api/analysis/[id]/explain-observation/route.ts` — Explica observación con IA
+- `src/components/analysis/expert-mode.tsx` — Componente modal con causas, ingredientes, ajuste rutina
+- Cada observación es clickeable → modal explicativo con OpenRouter
+
+### Ruta de Mejora (AI)
+- `src/app/api/analysis/[id]/improvement-plan/route.ts` — Plan 30 días con IA
+- `src/components/analysis/improvement-plan.tsx` — 4 semanas con metas, tips, productos
+- Botón "🚀 Generar mi Ruta de Mejora" en resultados
+
+### Conversational Bot
+- Keywords detection en mensajes de texto libre (precio→handlePrecios, etc.)
+- Mensaje amigable cuando no entiende
+
+### Modelos Nuevos Prisma
+- `TelegramAuth`, `TelegramLog`, `TelegramAlert`, `DiscountCode`, `TelegramReminder`, `BotFeedback`
+- `SupportTicket`, `SupportTicketResponse`, `ChatMessage`
+
 ## Changelog (2026-07-01) — Auditoría + Mejoras
 
 ### Bugs Fixeados

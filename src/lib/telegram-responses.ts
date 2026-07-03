@@ -28,9 +28,10 @@ function pick<T>(variants: T[]): T {
 export function welcomePublic(name?: string | null): string {
   const g = timeGreeting(name)
   return pick([
-    `${g}\n\n🌿 Soy el asistente de <b>The Serene Lens</b>.\n\nEstoy aquí para ayudarte a descubrir cómo es tu piel realmente. Sin trucos, sin porcentajes inventados. Solo observación honesta.\n\n¿Qué necesitas? Puedes empezar con /web, /precios o /ayuda.\n\n¡Cuida tu piel! ✨`,
-    `${g}\n\n🧴 Bienvenido a <b>The Serene Lens</b>.\n\nTu asistente personal de skincare con IA. Analizamos tu piel de forma honesta y te damos recomendaciones reales.\n\nUsa los botones de abajo o escribe /ayuda para ver qué puedo hacer por ti. 🌿`,
-    `${g}\n\n🔬 <b>The Serene Lens</b> — Descubre tu piel sin engaños.\n\nSoy tu guía de skincare inteligente. ¿Quieres saber tu tipo de piel? ¿Necesitas una rutina? ¿O solo curiosidad?\n\nEmpieza con /web, /precios o /status. ¡Estoy aquí para ayudarte!`,
+    `${g} 👋\n\nSoy el asistente de <b>The Serene Lens</b>. Puedes hablarme normal, sin comandos raros. ¿Qué se te ofrece?\n\n🔍 <i>Ejemplos:</i> "Quiero ver los precios", "¿Qué planes tienen?", "Muéstrame mi estado"`,
+    `${g}\n\n🌿 ¡Qué bueno verte por aquí! Soy el asistente de <b>The Serene Lens</b>. Háblame natural, como a un amigo. ¿En qué te ayudo?\n\n💬 <i>Por ejemplo:</i> "Dame tips de skincare", "Quiero contactarlos", "Muéstrame la web"`,
+    `${g}\n\n🧴 Bienvenido a <b>The Serene Lens</b>. Soy tu asistente de skincare con IA. Puedes pedirme cosas con tus palabras, no necesitas comandos especiales.\n\n✨ <i>Ejemplo:</i> "Hola" para empezar, "gracias" si necesitas ayuda, o directamente dime qué quieres saber.`,
+    `${g}\n\n🔬 <b>The Serene Lens</b> — Descubre tu piel sin engaños.\n\nPregúntame lo que sea: "¿Cuánto cuesta?", "¿Qué planes tienen?", "¿Cómo está mi cuenta?". Te entiendo aunque hables como tú quieras. ¡Inténtalo!`,
   ])
 }
 
@@ -41,16 +42,16 @@ export function welcomeAdmin(name?: string | null, pending?: number, newUsers?: 
   if (newUsers && newUsers > 0) stats.push(`👤 ${newUsers} usuario${newUsers > 1 ? "s" : ""} nuevo${newUsers > 1 ? "s" : ""} hoy`)
   const statsText = stats.length > 0 ? `\n\n${stats.join(" y ")}.` : ""
   return pick([
-    `${g} 👑\n\nBienvenido, admin.${statsText}\n\n¿Qué quieres hacer?\n- /pendientes → Ver pagos\n- /reporte → Resumen del día\n- /trending → Tendencias`,
-    `👑 ${g}\n\nPanel de control listo.${statsText}\n\n/reporte — Resumen\n/pendientes — Pagos\n/usuarios — Estadísticas\n/trending — Tendencias`,
+    `${g} 👑\n\nBienvenido, jefe. El reino te necesita.${statsText}\n\n¿Qué quieres hacer?\n- /pendientes → Ver pagos\n- /reporte → Resumen del día\n- /trending → Tendencias\n\nPuedes hablarme natural: "muéstrame los pagos", "cómo vamos hoy"`,
+    `👑 ${g}\n\nPanel de control listo, capitán.${statsText}\n\n/reporte — Resumen\n/pendientes — Pagos\n/usuarios — Estadísticas\n/trending — Tendencias\n\nTambién puedes decirme: "¿cómo van las ventas?" o "dame el reporte"`,
   ])
 }
 
 export function welcomeValidator(name?: string | null): string {
   const g = timeGreeting(name)
   return pick([
-    `${g} 🛡️\n\nBienvenido, validador. Los pagos Transfermóvil te esperan.\n\n/pendientes — Ver pendientes\n/validar REF — Validar uno\n/validar todos — Validar todos`,
-    `🛡️ ${g}\n\nModo validador activado. Revisa los pagos pendientes:\n\n/pendientes — Lista de pagos\n/validar REF — Validar por referencia`,
+    `${g} 🛡️\n\nBienvenido, validador. Los pagos Transfermóvil te esperan.\n\n/pendientes — Ver pendientes\n/validar REF — Validar uno\n/validar todos — Validar todos\n\nO simplemente dime: "muéstrame los pendientes"`,
+    `🛡️ ${g}\n\nModo validador activado, guardián de los pagos. Revisa los pendientes:\n\n/pendientes — Lista de pagos\n/validar REF — Validar por referencia\n\nHáblame natural: "¿qué hay pendiente?"`,
   ])
 }
 

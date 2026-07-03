@@ -93,7 +93,10 @@ export const ModelName = {
   TelegramAlert: 'TelegramAlert',
   DiscountCode: 'DiscountCode',
   TelegramReminder: 'TelegramReminder',
-  BotFeedback: 'BotFeedback'
+  BotFeedback: 'BotFeedback',
+  SupportTicket: 'SupportTicket',
+  SupportTicketResponse: 'SupportTicketResponse',
+  ChatMessage: 'ChatMessage'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -704,6 +707,45 @@ export const BotFeedbackScalarFieldEnum = {
 } as const
 
 export type BotFeedbackScalarFieldEnum = (typeof BotFeedbackScalarFieldEnum)[keyof typeof BotFeedbackScalarFieldEnum]
+
+
+export const SupportTicketScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  subject: 'subject',
+  message: 'message',
+  status: 'status',
+  priority: 'priority',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type SupportTicketScalarFieldEnum = (typeof SupportTicketScalarFieldEnum)[keyof typeof SupportTicketScalarFieldEnum]
+
+
+export const SupportTicketResponseScalarFieldEnum = {
+  id: 'id',
+  ticketId: 'ticketId',
+  userId: 'userId',
+  message: 'message',
+  isAdmin: 'isAdmin',
+  createdAt: 'createdAt'
+} as const
+
+export type SupportTicketResponseScalarFieldEnum = (typeof SupportTicketResponseScalarFieldEnum)[keyof typeof SupportTicketResponseScalarFieldEnum]
+
+
+export const ChatMessageScalarFieldEnum = {
+  id: 'id',
+  sessionId: 'sessionId',
+  userId: 'userId',
+  message: 'message',
+  isAdmin: 'isAdmin',
+  read: 'read',
+  createdAt: 'createdAt'
+} as const
+
+export type ChatMessageScalarFieldEnum = (typeof ChatMessageScalarFieldEnum)[keyof typeof ChatMessageScalarFieldEnum]
 
 
 export const SortOrder = {

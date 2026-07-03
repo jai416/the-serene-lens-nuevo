@@ -232,3 +232,18 @@ export type TelegramReminder = Prisma.TelegramReminderModel
  * 
  */
 export type BotFeedback = Prisma.BotFeedbackModel
+/**
+ * Model SupportTicket
+ * 
+ */
+export type SupportTicket = Prisma.SupportTicketModel
+/**
+ * Model SupportTicketResponse
+ * 
+ */
+export type SupportTicketResponse = Prisma.SupportTicketResponseModel
+/**
+ * Model ChatMessage
+ * 
+ */
+export type ChatMessage = Prisma.ChatMessageModel

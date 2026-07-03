@@ -12,6 +12,7 @@ import {
   handleWhois,
   handleCallback,
 } from "@/lib/telegram-handlers"
+import { sendTelegramMessage } from "@/lib/telegram"
 
 type TelegramUpdate = {
   message?: {
@@ -173,8 +174,26 @@ export async function POST(req: NextRequest) {
       await handleWhois(chatId, userId, rest)
       break
 
-    default:
-      await handleStart(chatId, userId, username)
+    default: {
+      const text = (msg.text || "").toLowerCase()
+      if (/precio|plan|cuesta|cuanto|cuesta/.test(text)) {
+        await handlePrecios(chatId, userId)
+      } else if (/web|sitio|página/.test(text)) {
+        await handleWeb(chatId, userId)
+      } else if (/hola|buenos|buenas/.test(text)) {
+        await handleStart(chatId, userId, username)
+      } else if (/gracias|ayuda|puedes/.test(text)) {
+        await handleAyuda(chatId, userId)
+      } else if (/estado|mi cuenta|cómo voy/.test(text)) {
+        await handleStatusPublic(chatId, userId)
+      } else if (/contacto|email|whatsapp|escribir/.test(text)) {
+        await handleContacto(chatId, userId)
+      } else {
+        await sendTelegramMessage(chatId, "😅 No entendí bien. Puedes usar los botones o escribir /ayuda para ver qué puedo hacer.")
+        await handleStart(chatId, userId, username)
+      }
+      break
+    }
   }
   return NextResponse.json({ ok: true })
 }

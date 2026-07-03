@@ -233,9 +233,10 @@ export async function handleValidatorAuth(chatId: string, userId: string, args: 
   if (ok) {
     await logTelegramCommand(chatId, "validator", "success", "VALIDATOR")
     await sendTelegramMessage(chatId, R.welcomeValidator())
+    await sendTelegramMessage(chatId, "🎉 ¡Token válido! Bienvenido al equipo, guardián de los pagos. Ya puedes revisar los pendientes con /pendientes.")
   } else {
     await logTelegramCommand(chatId, "validator", "failed", null)
-    await sendTelegramMessage(chatId, "❌ Token inválido. Solicita uno al administrador.")
+    await sendTelegramMessage(chatId, "❌ Ese token no es válido, amigo. Pídele uno nuevo al administrador. Si crees que es un error, contacta a soporte.")
   }
 }
 
@@ -414,9 +415,10 @@ export async function handleAdminAuth(chatId: string, userId: string, args: stri
       db.user.count({ where: { createdAt: { gte: today } } }),
     ])
     await sendTelegramMessage(chatId, R.welcomeAdmin(undefined, pending, newUsers))
+    await sendTelegramMessage(chatId, "🎉 ¡Token correcto! Bienvenido, administrador. El panel está listo para ti. Usa /adminhelp para ver todo lo que puedes hacer.")
   } else {
     await logTelegramCommand(chatId, "admin", "failed", null)
-    await sendTelegramMessage(chatId, "❌ Token inválido. Contacta al administrador.")
+    await sendTelegramMessage(chatId, "❌ Token inválido. ¿Seguro que escribiste bien? Pídele uno nuevo al súper admin si lo perdiste.")
   }
 }
 
