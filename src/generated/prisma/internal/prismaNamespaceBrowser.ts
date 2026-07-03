@@ -89,7 +89,11 @@ export const ModelName = {
   Client: 'Client',
   TelegramAuth: 'TelegramAuth',
   TelegramLog: 'TelegramLog',
-  Notification: 'Notification'
+  Notification: 'Notification',
+  TelegramAlert: 'TelegramAlert',
+  DiscountCode: 'DiscountCode',
+  TelegramReminder: 'TelegramReminder',
+  BotFeedback: 'BotFeedback'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -650,6 +654,56 @@ export const NotificationScalarFieldEnum = {
 } as const
 
 export type NotificationScalarFieldEnum = (typeof NotificationScalarFieldEnum)[keyof typeof NotificationScalarFieldEnum]
+
+
+export const TelegramAlertScalarFieldEnum = {
+  id: 'id',
+  chatId: 'chatId',
+  events: 'events',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type TelegramAlertScalarFieldEnum = (typeof TelegramAlertScalarFieldEnum)[keyof typeof TelegramAlertScalarFieldEnum]
+
+
+export const DiscountCodeScalarFieldEnum = {
+  id: 'id',
+  code: 'code',
+  discount: 'discount',
+  maxUses: 'maxUses',
+  usedCount: 'usedCount',
+  active: 'active',
+  createdBy: 'createdBy',
+  expiresAt: 'expiresAt',
+  createdAt: 'createdAt'
+} as const
+
+export type DiscountCodeScalarFieldEnum = (typeof DiscountCodeScalarFieldEnum)[keyof typeof DiscountCodeScalarFieldEnum]
+
+
+export const TelegramReminderScalarFieldEnum = {
+  id: 'id',
+  chatId: 'chatId',
+  userId: 'userId',
+  active: 'active',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type TelegramReminderScalarFieldEnum = (typeof TelegramReminderScalarFieldEnum)[keyof typeof TelegramReminderScalarFieldEnum]
+
+
+export const BotFeedbackScalarFieldEnum = {
+  id: 'id',
+  chatId: 'chatId',
+  userId: 'userId',
+  rating: 'rating',
+  comment: 'comment',
+  createdAt: 'createdAt'
+} as const
+
+export type BotFeedbackScalarFieldEnum = (typeof BotFeedbackScalarFieldEnum)[keyof typeof BotFeedbackScalarFieldEnum]
 
 
 export const SortOrder = {

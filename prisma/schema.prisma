@@ -648,3 +648,52 @@ model Notification {
   @@index([userId, read])
   @@index([createdAt])
 }
+
+model TelegramAlert {
+  id        String   @id @default(cuid())
+  chatId    String   @unique
+  events    String   @default("[]") // JSON array: ["new_user","new_analysis","pending_24h","critical_error"]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([chatId])
+}
+
+model DiscountCode {
+  id        String    @id @default(cuid())
+  code      String    @unique
+  discount  Int       // percentage 0-100
+  maxUses   Int       @default(1)
+  usedCount Int       @default(0)
+  active    Boolean   @default(true)
+  createdBy String    // telegram chatId
+  expiresAt DateTime?
+  createdAt DateTime  @default(now())
+
+  @@index([code])
+  @@index([active])
+}
+
+model TelegramReminder {
+  id        String   @id @default(cuid())
+  chatId    String   @unique
+  userId    String?
+  active    Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([chatId])
+  @@index([active])
+}
+
+model BotFeedback {
+  id        String   @id @default(cuid())
+  chatId    String
+  userId    String?
+  rating    Int      // 1-10
+  comment   String?
+  createdAt DateTime @default(now())
+
+  @@index([chatId])
+  @@index([createdAt])
+}

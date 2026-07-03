@@ -422,7 +422,11 @@ export const ModelName = {
   Client: 'Client',
   TelegramAuth: 'TelegramAuth',
   TelegramLog: 'TelegramLog',
-  Notification: 'Notification'
+  Notification: 'Notification',
+  TelegramAlert: 'TelegramAlert',
+  DiscountCode: 'DiscountCode',
+  TelegramReminder: 'TelegramReminder',
+  BotFeedback: 'BotFeedback'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -438,7 +442,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "user" | "account" | "session" | "verificationToken" | "skinAnalysis" | "blogPost" | "product" | "payment" | "transferPayment" | "auditLog" | "subscription" | "purchasePack" | "usageTracking" | "feedback" | "clinic" | "affiliateClick" | "contactMessage" | "cache" | "webhookEvent" | "userEvolution" | "rateLimit" | "appConfig" | "surveyFeedback" | "communityPost" | "comment" | "skinDiary" | "challenge" | "userChallenge" | "productReview" | "groupAnalytics" | "referral" | "digitalProduct" | "digitalProductPurchase" | "dailyCheckIn" | "ingredientKB" | "client" | "telegramAuth" | "telegramLog" | "notification"
+    modelProps: "user" | "account" | "session" | "verificationToken" | "skinAnalysis" | "blogPost" | "product" | "payment" | "transferPayment" | "auditLog" | "subscription" | "purchasePack" | "usageTracking" | "feedback" | "clinic" | "affiliateClick" | "contactMessage" | "cache" | "webhookEvent" | "userEvolution" | "rateLimit" | "appConfig" | "surveyFeedback" | "communityPost" | "comment" | "skinDiary" | "challenge" | "userChallenge" | "productReview" | "groupAnalytics" | "referral" | "digitalProduct" | "digitalProductPurchase" | "dailyCheckIn" | "ingredientKB" | "client" | "telegramAuth" | "telegramLog" | "notification" | "telegramAlert" | "discountCode" | "telegramReminder" | "botFeedback"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -3328,6 +3332,302 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    TelegramAlert: {
+      payload: Prisma.$TelegramAlertPayload<ExtArgs>
+      fields: Prisma.TelegramAlertFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.TelegramAlertFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TelegramAlertPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.TelegramAlertFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TelegramAlertPayload>
+        }
+        findFirst: {
+          args: Prisma.TelegramAlertFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TelegramAlertPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.TelegramAlertFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TelegramAlertPayload>
+        }
+        findMany: {
+          args: Prisma.TelegramAlertFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TelegramAlertPayload>[]
+        }
+        create: {
+          args: Prisma.TelegramAlertCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TelegramAlertPayload>
+        }
+        createMany: {
+          args: Prisma.TelegramAlertCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.TelegramAlertCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TelegramAlertPayload>[]
+        }
+        delete: {
+          args: Prisma.TelegramAlertDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TelegramAlertPayload>
+        }
+        update: {
+          args: Prisma.TelegramAlertUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TelegramAlertPayload>
+        }
+        deleteMany: {
+          args: Prisma.TelegramAlertDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.TelegramAlertUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.TelegramAlertUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TelegramAlertPayload>[]
+        }
+        upsert: {
+          args: Prisma.TelegramAlertUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TelegramAlertPayload>
+        }
+        aggregate: {
+          args: Prisma.TelegramAlertAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateTelegramAlert>
+        }
+        groupBy: {
+          args: Prisma.TelegramAlertGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.TelegramAlertGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.TelegramAlertCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.TelegramAlertCountAggregateOutputType> | number
+        }
+      }
+    }
+    DiscountCode: {
+      payload: Prisma.$DiscountCodePayload<ExtArgs>
+      fields: Prisma.DiscountCodeFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.DiscountCodeFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DiscountCodePayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.DiscountCodeFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DiscountCodePayload>
+        }
+        findFirst: {
+          args: Prisma.DiscountCodeFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DiscountCodePayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.DiscountCodeFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DiscountCodePayload>
+        }
+        findMany: {
+          args: Prisma.DiscountCodeFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DiscountCodePayload>[]
+        }
+        create: {
+          args: Prisma.DiscountCodeCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DiscountCodePayload>
+        }
+        createMany: {
+          args: Prisma.DiscountCodeCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.DiscountCodeCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DiscountCodePayload>[]
+        }
+        delete: {
+          args: Prisma.DiscountCodeDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DiscountCodePayload>
+        }
+        update: {
+          args: Prisma.DiscountCodeUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DiscountCodePayload>
+        }
+        deleteMany: {
+          args: Prisma.DiscountCodeDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.DiscountCodeUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.DiscountCodeUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DiscountCodePayload>[]
+        }
+        upsert: {
+          args: Prisma.DiscountCodeUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DiscountCodePayload>
+        }
+        aggregate: {
+          args: Prisma.DiscountCodeAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateDiscountCode>
+        }
+        groupBy: {
+          args: Prisma.DiscountCodeGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.DiscountCodeGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.DiscountCodeCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.DiscountCodeCountAggregateOutputType> | number
+        }
+      }
+    }
+    TelegramReminder: {
+      payload: Prisma.$TelegramReminderPayload<ExtArgs>
+      fields: Prisma.TelegramReminderFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.TelegramReminderFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TelegramReminderPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.TelegramReminderFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TelegramReminderPayload>
+        }
+        findFirst: {
+          args: Prisma.TelegramReminderFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TelegramReminderPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.TelegramReminderFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TelegramReminderPayload>
+        }
+        findMany: {
+          args: Prisma.TelegramReminderFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TelegramReminderPayload>[]
+        }
+        create: {
+          args: Prisma.TelegramReminderCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TelegramReminderPayload>
+        }
+        createMany: {
+          args: Prisma.TelegramReminderCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.TelegramReminderCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TelegramReminderPayload>[]
+        }
+        delete: {
+          args: Prisma.TelegramReminderDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TelegramReminderPayload>
+        }
+        update: {
+          args: Prisma.TelegramReminderUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TelegramReminderPayload>
+        }
+        deleteMany: {
+          args: Prisma.TelegramReminderDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.TelegramReminderUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.TelegramReminderUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TelegramReminderPayload>[]
+        }
+        upsert: {
+          args: Prisma.TelegramReminderUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TelegramReminderPayload>
+        }
+        aggregate: {
+          args: Prisma.TelegramReminderAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateTelegramReminder>
+        }
+        groupBy: {
+          args: Prisma.TelegramReminderGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.TelegramReminderGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.TelegramReminderCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.TelegramReminderCountAggregateOutputType> | number
+        }
+      }
+    }
+    BotFeedback: {
+      payload: Prisma.$BotFeedbackPayload<ExtArgs>
+      fields: Prisma.BotFeedbackFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.BotFeedbackFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$BotFeedbackPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.BotFeedbackFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$BotFeedbackPayload>
+        }
+        findFirst: {
+          args: Prisma.BotFeedbackFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$BotFeedbackPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.BotFeedbackFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$BotFeedbackPayload>
+        }
+        findMany: {
+          args: Prisma.BotFeedbackFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$BotFeedbackPayload>[]
+        }
+        create: {
+          args: Prisma.BotFeedbackCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$BotFeedbackPayload>
+        }
+        createMany: {
+          args: Prisma.BotFeedbackCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.BotFeedbackCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$BotFeedbackPayload>[]
+        }
+        delete: {
+          args: Prisma.BotFeedbackDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$BotFeedbackPayload>
+        }
+        update: {
+          args: Prisma.BotFeedbackUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$BotFeedbackPayload>
+        }
+        deleteMany: {
+          args: Prisma.BotFeedbackDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.BotFeedbackUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.BotFeedbackUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$BotFeedbackPayload>[]
+        }
+        upsert: {
+          args: Prisma.BotFeedbackUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$BotFeedbackPayload>
+        }
+        aggregate: {
+          args: Prisma.BotFeedbackAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateBotFeedback>
+        }
+        groupBy: {
+          args: Prisma.BotFeedbackGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.BotFeedbackGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.BotFeedbackCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.BotFeedbackCountAggregateOutputType> | number
+        }
+      }
+    }
   }
 } & {
   other: {
@@ -3911,6 +4211,56 @@ export const NotificationScalarFieldEnum = {
 export type NotificationScalarFieldEnum = (typeof NotificationScalarFieldEnum)[keyof typeof NotificationScalarFieldEnum]
 
 
+export const TelegramAlertScalarFieldEnum = {
+  id: 'id',
+  chatId: 'chatId',
+  events: 'events',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type TelegramAlertScalarFieldEnum = (typeof TelegramAlertScalarFieldEnum)[keyof typeof TelegramAlertScalarFieldEnum]
+
+
+export const DiscountCodeScalarFieldEnum = {
+  id: 'id',
+  code: 'code',
+  discount: 'discount',
+  maxUses: 'maxUses',
+  usedCount: 'usedCount',
+  active: 'active',
+  createdBy: 'createdBy',
+  expiresAt: 'expiresAt',
+  createdAt: 'createdAt'
+} as const
+
+export type DiscountCodeScalarFieldEnum = (typeof DiscountCodeScalarFieldEnum)[keyof typeof DiscountCodeScalarFieldEnum]
+
+
+export const TelegramReminderScalarFieldEnum = {
+  id: 'id',
+  chatId: 'chatId',
+  userId: 'userId',
+  active: 'active',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type TelegramReminderScalarFieldEnum = (typeof TelegramReminderScalarFieldEnum)[keyof typeof TelegramReminderScalarFieldEnum]
+
+
+export const BotFeedbackScalarFieldEnum = {
+  id: 'id',
+  chatId: 'chatId',
+  userId: 'userId',
+  rating: 'rating',
+  comment: 'comment',
+  createdAt: 'createdAt'
+} as const
+
+export type BotFeedbackScalarFieldEnum = (typeof BotFeedbackScalarFieldEnum)[keyof typeof BotFeedbackScalarFieldEnum]
+
+
 export const SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -4183,6 +4533,10 @@ export type GlobalOmitConfig = {
   telegramAuth?: Prisma.TelegramAuthOmit
   telegramLog?: Prisma.TelegramLogOmit
   notification?: Prisma.NotificationOmit
+  telegramAlert?: Prisma.TelegramAlertOmit
+  discountCode?: Prisma.DiscountCodeOmit
+  telegramReminder?: Prisma.TelegramReminderOmit
+  botFeedback?: Prisma.BotFeedbackOmit
 }
 
 /* Types for Logging */

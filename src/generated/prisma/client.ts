@@ -236,3 +236,23 @@ export type TelegramLog = Prisma.TelegramLogModel
  * 
  */
 export type Notification = Prisma.NotificationModel
+/**
+ * Model TelegramAlert
+ * 
+ */
+export type TelegramAlert = Prisma.TelegramAlertModel
+/**
+ * Model DiscountCode
+ * 
+ */
+export type DiscountCode = Prisma.DiscountCodeModel
+/**
+ * Model TelegramReminder
+ * 
+ */
+export type TelegramReminder = Prisma.TelegramReminderModel
+/**
+ * Model BotFeedback
+ * 
+ */
+export type BotFeedback = Prisma.BotFeedbackModel

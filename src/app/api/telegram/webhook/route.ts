@@ -2,11 +2,14 @@ import { NextRequest, NextResponse } from "next/server"
 import {
   handleStart, handleWeb, handlePrecios, handleStatusPublic,
   handleAyuda, handleSkincare, handleContacto,
+  handleMeme, handleFeedback, handleReminder,
   handleValidatorAuth, handleValidar, handlePendientes,
   handleBuscar, handleHistorial, handleValidatorHelp,
   handleAdminAuth, handleActivar, handleCliente,
   handleReporte, handleUsuarios, handleAdminHelp,
-  handleBroadcast, handleLogs,
+  handleBroadcast, handleLogs, handleAlerta,
+  handleTrending, handleAnalisis, handlePromocion,
+  handleWhois,
   handleCallback,
 } from "@/lib/telegram-handlers"
 
@@ -42,7 +45,6 @@ export async function POST(req: NextRequest) {
     const messageId = cb.message.message_id
     const callbackId = cb.id
     const data = cb.data
-
     await handleCallback(data, chatId, userId, messageId, callbackId)
     return NextResponse.json({ ok: true })
   }
@@ -51,6 +53,7 @@ export async function POST(req: NextRequest) {
   if (!msg?.text) return NextResponse.json({ ok: true })
   const chatId = String(msg.chat.id)
   const userId = String(msg.from?.id || "")
+  const username = msg.from?.username
   const args = msg.text.split(/\s+/)
   const command = args[0].toLowerCase()
   const rest = args.slice(1)
@@ -58,7 +61,7 @@ export async function POST(req: NextRequest) {
   switch (command) {
     // ─── Public ──────────────────────────────
     case "/start":
-      await handleStart(chatId, userId)
+      await handleStart(chatId, userId, username)
       break
     case "/web":
       await handleWeb(chatId, userId)
@@ -80,6 +83,15 @@ export async function POST(req: NextRequest) {
     case "/contacto":
     case "/contact":
       await handleContacto(chatId, userId)
+      break
+    case "/meme":
+      await handleMeme(chatId, userId)
+      break
+    case "/feedback":
+      await handleFeedback(chatId, userId, rest)
+      break
+    case "/recordatorio":
+      await handleReminder(chatId, userId, rest)
       break
 
     // ─── Validator Auth ───────────────────────
@@ -139,9 +151,26 @@ export async function POST(req: NextRequest) {
     case "/log":
       await handleLogs(chatId, userId, rest)
       break
+    case "/alerta":
+      await handleAlerta(chatId, userId, rest)
+      break
+    case "/trending":
+      await handleTrending(chatId, userId)
+      break
+    case "/analisis":
+    case "/analysis":
+      await handleAnalisis(chatId, userId, rest)
+      break
+    case "/promocion":
+    case "/promo":
+      await handlePromocion(chatId, userId, rest)
+      break
+    case "/whois":
+      await handleWhois(chatId, userId, rest)
+      break
 
     default:
-      await handleStart(chatId, userId)
+      await handleStart(chatId, userId, username)
   }
   return NextResponse.json({ ok: true })
 }
