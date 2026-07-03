@@ -386,27 +386,24 @@ Con esta guía podrás leer cualquier etiqueta y tomar decisiones informadas sob
   }
   console.log(`${posts.length} blog posts created`)
 
-  const categoryConfig: Record<string, { bg: string; icon: string }> = {
-    limpiadores: { bg: "#DBEAFE", icon: "💧" },
-    hidratantes: { bg: "#D1FAE5", icon: "🌿" },
-    serums: { bg: "#FEF3C7", icon: "✨" },
-    "proteccion-solar": { bg: "#FED7AA", icon: "☀️" },
-    exfoliantes: { bg: "#EDE9FE", icon: "🔬" },
-    mascarillas: { bg: "#FCE7F3", icon: "🧖" },
-    aceites: { bg: "#FEF9C3", icon: "🫧" },
-    contornos: { bg: "#CCFBF1", icon: "👁️" },
+  const CATEGORY_IMAGES: Record<string, string[]> = {
+    limpiadores: ["/images/products/product-01.jpg", "/images/products/product-02.jpg"],
+    serums: ["/images/products/product-03.jpg", "/images/products/product-04.jpg"],
+    hidratantes: ["/images/products/product-05.jpg", "/images/products/product-06.jpg"],
+    "proteccion-solar": ["/images/products/product-07.jpg", "/images/products/product-08.jpg"],
+    contornos: ["/images/products/product-09.jpg", "/images/products/product-10.jpg"],
+    exfoliantes: ["/images/products/product-11.jpg", "/images/products/product-12.jpg"],
+    mascarillas: ["/images/products/product-13.jpg", "/images/products/product-14.jpg"],
+    aceites: ["/images/products/product-15.jpg", "/images/products/product-16.jpg"],
   }
-
+  const catCounters: Record<string, number> = {}
   function productImage(name: string, category: string): string {
-    const c = categoryConfig[category] || { bg: "#F3F4F6", icon: "🧴" }
-    const initials = name.split(" ").slice(0, 2).map(w => w[0]).join("").toUpperCase()
-    const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="400" height="400" viewBox="0 0 400 400">
-  <rect width="400" height="400" rx="12" fill="${c.bg}"/>
-  <text x="200" y="170" text-anchor="middle" font-size="64">${c.icon}</text>
-  <text x="200" y="250" text-anchor="middle" font-family="system-ui,sans-serif" font-size="28" font-weight="600" fill="#1F2937">${initials}</text>
-  <text x="200" y="320" text-anchor="middle" font-family="system-ui,sans-serif" font-size="14" fill="#6B7280">${category.charAt(0).toUpperCase() + category.slice(1)}</text>
-</svg>`
-    return `data:image/svg+xml,${encodeURIComponent(svg)}`
+    const images = CATEGORY_IMAGES[category]
+    if (!images || images.length === 0) return `/images/products/product-01.jpg`
+    if (!catCounters[category]) catCounters[category] = 0
+    const idx = catCounters[category] % images.length
+    catCounters[category]++
+    return images[idx]
   }
 
   const products = [
