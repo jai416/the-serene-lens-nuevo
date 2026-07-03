@@ -80,15 +80,14 @@ export const ModelName = {
   Challenge: 'Challenge',
   UserChallenge: 'UserChallenge',
   ProductReview: 'ProductReview',
-  EmailLog: 'EmailLog',
-  Unsubscribe: 'Unsubscribe',
   GroupAnalytics: 'GroupAnalytics',
   Referral: 'Referral',
   DigitalProduct: 'DigitalProduct',
   DigitalProductPurchase: 'DigitalProductPurchase',
   DailyCheckIn: 'DailyCheckIn',
   IngredientKB: 'IngredientKB',
-  Client: 'Client'
+  Client: 'Client',
+  Notification: 'Notification'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -508,30 +507,6 @@ export const ProductReviewScalarFieldEnum = {
 export type ProductReviewScalarFieldEnum = (typeof ProductReviewScalarFieldEnum)[keyof typeof ProductReviewScalarFieldEnum]
 
 
-export const EmailLogScalarFieldEnum = {
-  id: 'id',
-  subject: 'subject',
-  body: 'body',
-  recipient: 'recipient',
-  segment: 'segment',
-  status: 'status',
-  batchId: 'batchId',
-  sentAt: 'sentAt'
-} as const
-
-export type EmailLogScalarFieldEnum = (typeof EmailLogScalarFieldEnum)[keyof typeof EmailLogScalarFieldEnum]
-
-
-export const UnsubscribeScalarFieldEnum = {
-  id: 'id',
-  email: 'email',
-  reason: 'reason',
-  createdAt: 'createdAt'
-} as const
-
-export type UnsubscribeScalarFieldEnum = (typeof UnsubscribeScalarFieldEnum)[keyof typeof UnsubscribeScalarFieldEnum]
-
-
 export const GroupAnalyticsScalarFieldEnum = {
   id: 'id',
   groupId: 'groupId',
@@ -637,6 +612,19 @@ export const ClientScalarFieldEnum = {
 } as const
 
 export type ClientScalarFieldEnum = (typeof ClientScalarFieldEnum)[keyof typeof ClientScalarFieldEnum]
+
+
+export const NotificationScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  title: 'title',
+  message: 'message',
+  link: 'link',
+  read: 'read',
+  createdAt: 'createdAt'
+} as const
+
+export type NotificationScalarFieldEnum = (typeof NotificationScalarFieldEnum)[keyof typeof NotificationScalarFieldEnum]
 
 
 export const SortOrder = {

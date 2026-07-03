@@ -49,6 +49,8 @@ model User {
   activatedTransfers TransferPayment[] @relation("TransferActivator")
   auditLogs         AuditLog[]
 
+  notifications     Notification[]
+
   telegramId        String?
   currentStreak     Int       @default(0)
   maxStreak         Int       @default(0)
@@ -487,29 +489,6 @@ model ProductReview {
   @@index([productId])
 }
 
-model EmailLog {
-  id        String   @id @default(cuid())
-  subject   String
-  body      String
-  recipient String
-  segment   String
-  status    String   @default("sent")
-  batchId   String?
-  sentAt    DateTime @default(now())
-
-  @@index([sentAt])
-  @@index([recipient])
-}
-
-model Unsubscribe {
-  id        String   @id @default(cuid())
-  email     String   @unique
-  reason    String?
-  createdAt DateTime @default(now())
-
-  @@index([email])
-}
-
 model GroupAnalytics {
   id             String   @id @default(cuid())
   groupId        String   @unique
@@ -630,4 +609,19 @@ model Client {
   updatedAt       DateTime @updatedAt
 
   @@index([estheticianId])
+}
+
+model Notification {
+  id        String   @id @default(cuid())
+  userId    String
+  title     String
+  message   String
+  link      String?
+  read      Boolean  @default(false)
+  createdAt DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, read])
+  @@index([createdAt])
 }

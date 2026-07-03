@@ -32,6 +32,13 @@ export async function GET() {
 
     const revenueResult = await db.payment.aggregate({ where: { status: "completed" }, _sum: { amount: true } })
     const qvapayRevenue = await db.payment.aggregate({ where: { status: "completed", provider: "qvapay" }, _sum: { amount: true } })
+    const paypalRevenue = await db.payment.aggregate({ where: { status: "completed", provider: "paypal" }, _sum: { amount: true } })
+    const transferRevenue = await db.payment.aggregate({ where: { status: "completed", provider: "transfer" }, _sum: { amount: true } })
+    let transferDirectRevenue = 0
+    try {
+      const td = await db.transferPayment.aggregate({ where: { status: "activated" }, _sum: { amount: true } })
+      transferDirectRevenue = td._sum.amount || 0
+    } catch {}
     const paidUsers = await db.user.count({ where: { plan: { not: "FREE" } } })
 
     const usersYesterday = await db.user.count({ where: { createdAt: { gte: yesterdayStart, lt: todayStart } } })
@@ -53,6 +60,13 @@ export async function GET() {
     try { guideSales = await db.digitalProductPurchase.count({ where: { status: "completed" } }) } catch (e) { console.error("stats: guideSale count failed", e) }
     try { referralGroups = await db.groupAnalytics.count() } catch (e) { console.error("stats: referralGroup count failed", e) }
     try { completedGroups = await db.groupAnalytics.count({ where: { status: "completed" } }) } catch (e) { console.error("stats: completedGroup count failed", e) }
+    let guidesSold = 0
+    try { guidesSold = await db.digitalProductPurchase.count({ where: { status: "completed" } }) } catch {}
+    let referralRevenue = 0
+    try {
+      const rr = await db.groupAnalytics.aggregate({ _sum: { totalRevenue: true } })
+      referralRevenue = rr._sum.totalRevenue || 0
+    } catch {}
 
     const conversionRate = users > 0 ? Math.round((paidUsers / users) * 10000) / 100 : 0
     const avgAnalyses = users > 0 ? Math.round((analyses / users) * 100) / 100 : 0
@@ -88,11 +102,20 @@ export async function GET() {
         messages, unreadMessages, posts, products,
         revenue: revenueResult._sum.amount || 0,
         revenueQvaPay: qvapayRevenue._sum.amount || 0,
+        revenuePayPal: paypalRevenue._sum.amount || 0,
+        revenueTransfer: transferRevenue._sum.amount || 0,
+        revenueByProvider: {
+          qvapay: qvapayRevenue._sum.amount || 0,
+          paypal: paypalRevenue._sum.amount || 0,
+          transfer: transferRevenue._sum.amount || 0,
+          transferDirect: transferDirectRevenue || 0,
+        },
         activeUsers: paidUsers, newUsersThisMonth, newUsersThisWeek, newUsersToday,
         analysesThisMonth, analysesToday, conversionRate, paidUsers,
         challenges, diaryEntries, subscriptions, activeSubscriptions,
         packs, completedPacks, comments, featureFlags,
         digitalProducts, guideSales, referralGroups, completedGroups,
+        guidesSold, referralRevenue,
         avgAnalysesPerUser: avgAnalyses, churnRate: 0,
         usersYesterday, analysesYesterday,
         timestamp: new Date().toISOString(),

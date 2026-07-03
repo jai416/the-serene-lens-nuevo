@@ -1,0 +1,201 @@
+"use client"
+
+import { useEffect, useState, useRef, useCallback } from "react"
+import { useSession } from "next-auth/react"
+import { Bell, BellDot, CheckCheck, X } from "lucide-react"
+import { cn } from "@/lib/utils"
+import { useRouter } from "next/navigation"
+
+type Notification = {
+  id: string
+  title: string
+  message: string
+  link: string | null
+  read: boolean
+  createdAt: string
+}
+
+type NotifData = {
+  notifications: Notification[]
+  unreadCount: number
+}
+
+function timeAgo(dateStr: string) {
+  const now = Date.now()
+  const date = new Date(dateStr).getTime()
+  const diff = now - date
+  const mins = Math.floor(diff / 60000)
+  if (mins < 1) return "ahora"
+  if (mins < 60) return `hace ${mins} min`
+  const hrs = Math.floor(mins / 60)
+  if (hrs < 24) return `hace ${hrs}h`
+  const days = Math.floor(hrs / 24)
+  if (days < 7) return `hace ${days}d`
+  return new Date(dateStr).toLocaleDateString("es-ES", { day: "numeric", month: "short" })
+}
+
+export function NotificationBell() {
+  const { data: session } = useSession()
+  const router = useRouter()
+  const [open, setOpen] = useState(false)
+  const [data, setData] = useState<NotifData | null>(null)
+  const [loading, setLoading] = useState(false)
+  const ref = useRef<HTMLDivElement>(null)
+
+  const fetchNotifs = useCallback(async () => {
+    if (!session?.user) return
+    setLoading(true)
+    try {
+      const res = await fetch("/api/notifications?page=1&limit=5")
+      const d = await res.json()
+      if (d.success) setData(d.data)
+    } catch {
+    } finally {
+      setLoading(false)
+    }
+  }, [session])
+
+  useEffect(() => {
+    fetchNotifs()
+    const interval = setInterval(fetchNotifs, 30000)
+    return () => clearInterval(interval)
+  }, [fetchNotifs])
+
+  useEffect(() => {
+    function handleClickOutside(e: MouseEvent) {
+      if (ref.current && !ref.current.contains(e.target as Node)) setOpen(false)
+    }
+    if (open) document.addEventListener("mousedown", handleClickOutside)
+    return () => document.removeEventListener("mousedown", handleClickOutside)
+  }, [open])
+
+  if (!session?.user) return null
+
+  async function markAsRead(id: string, link?: string | null) {
+    try {
+      await fetch(`/api/notifications/${id}`, { method: "PATCH" })
+      setData((prev) => {
+        if (!prev) return prev
+        return {
+          ...prev,
+          unreadCount: Math.max(0, prev.unreadCount - 1),
+          notifications: prev.notifications.map((n) =>
+            n.id === id ? { ...n, read: true } : n
+          ),
+        }
+      })
+      if (link) router.push(link)
+    } catch {}
+  }
+
+  async function markAllRead() {
+    try {
+      await fetch("/api/notifications/read-all", { method: "POST" })
+      setData((prev) => {
+        if (!prev) return prev
+        return {
+          ...prev,
+          unreadCount: 0,
+          notifications: prev.notifications.map((n) => ({ ...n, read: true })),
+        }
+      })
+    } catch {}
+  }
+
+  const unread = data?.unreadCount ?? 0
+
+  return (
+    <div ref={ref} className="relative">
+      <button
+        onClick={() => setOpen(!open)}
+        className="relative flex items-center justify-center w-9 h-9 rounded-xl text-[#64705E] dark:text-[#9BAA93] hover:bg-[#F0F5EC] dark:hover:bg-[#2E3829] hover:text-[#2F3A2D] dark:hover:text-[#E8EDE6] transition-all duration-200"
+        aria-label="Notificaciones"
+      >
+        {unread > 0 ? (
+          <>
+            <BellDot className="w-4.5 h-4.5" />
+            <span className="absolute -top-0.5 -right-0.5 w-4 h-4 rounded-full bg-[#E07070] text-white text-[9px] font-semibold flex items-center justify-center">
+              {unread > 9 ? "9+" : unread}
+            </span>
+          </>
+        ) : (
+          <Bell className="w-4.5 h-4.5" />
+        )}
+      </button>
+
+      {open && (
+        <div
+          className={cn(
+            "absolute left-0 md:left-auto md:right-0 top-full mt-2 w-[340px] rounded-2xl bg-white dark:bg-[#222920] border border-[#DDE7D3] dark:border-[#3A4536] shadow-[0_8px_32px_rgba(47,58,45,0.12)] dark:shadow-[0_8px_32px_rgba(0,0,0,0.4)] overflow-hidden z-50"
+          )}
+        >
+          <div className="flex items-center justify-between px-4 py-3 border-b border-[#DDE7D3] dark:border-[#3A4536]">
+            <span className="text-sm font-semibold text-[#2F3A2D] dark:text-[#E8EDE6]">
+              Notificaciones
+            </span>
+            {unread > 0 && (
+              <button
+                onClick={markAllRead}
+                className="flex items-center gap-1 text-xs font-medium text-[#64705E] dark:text-[#9BAA93] hover:text-[#2F3A2D] dark:hover:text-[#E8EDE6] transition-colors"
+              >
+                <CheckCheck className="w-3.5 h-3.5" />
+                Marcar todo como leído
+              </button>
+            )}
+          </div>
+
+          <div className="max-h-[340px] overflow-y-auto">
+            {loading && !data ? (
+              <div className="p-6 text-center text-sm text-[#8A9A82] dark:text-[#7A8A72]">
+                Cargando...
+              </div>
+            ) : !data?.notifications.length ? (
+              <div className="p-6 text-center text-sm text-[#8A9A82] dark:text-[#7A8A72]">
+                No tienes notificaciones
+              </div>
+            ) : (
+              data.notifications.map((n) => (
+                <button
+                  key={n.id}
+                  onClick={() => markAsRead(n.id, n.link)}
+                  className={cn(
+                    "w-full text-left px-4 py-3 flex items-start gap-3 transition-colors hover:bg-[#F8FAF5] dark:hover:bg-[#2A3228] border-b border-[#DDE7D3]/50 dark:border-[#3A4536]/50 last:border-b-0",
+                    !n.read && "bg-[#F8FAF5] dark:bg-[#2A3228]"
+                  )}
+                >
+                  <div
+                    className={cn(
+                      "w-2 h-2 rounded-full mt-1.5 shrink-0",
+                      n.read ? "bg-transparent" : "bg-[#C2E09D]"
+                    )}
+                  />
+                  <div className="flex-1 min-w-0">
+                    <p className="text-sm font-medium text-[#2F3A2D] dark:text-[#E8EDE6] truncate">
+                      {n.title}
+                    </p>
+                    <p className="text-xs text-[#64705E] dark:text-[#9BAA93] mt-0.5 line-clamp-2">
+                      {n.message}
+                    </p>
+                    <p className="text-[10px] text-[#8A9A82] dark:text-[#7A8A72] mt-1">
+                      {timeAgo(n.createdAt)}
+                    </p>
+                  </div>
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation()
+                      markAsRead(n.id)
+                    }}
+                    className="shrink-0 p-1 rounded-lg text-[#8A9A82] dark:text-[#7A8A72] hover:text-[#64705E] dark:hover:text-[#9BAA93] hover:bg-[#F0F5EC] dark:hover:bg-[#2E3829] transition-colors"
+                    aria-label="Eliminar"
+                  >
+                    <X className="w-3.5 h-3.5" />
+                  </button>
+                </button>
+              ))
+            )}
+          </div>
+        </div>
+      )}
+    </div>
+  )
+}

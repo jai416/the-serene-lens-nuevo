@@ -357,6 +357,7 @@ export type UserWhereInput = {
   validatedTransfers?: Prisma.TransferPaymentListRelationFilter
   activatedTransfers?: Prisma.TransferPaymentListRelationFilter
   auditLogs?: Prisma.AuditLogListRelationFilter
+  notifications?: Prisma.NotificationListRelationFilter
 }
 
 export type UserOrderByWithRelationInput = {
@@ -403,6 +404,7 @@ export type UserOrderByWithRelationInput = {
   validatedTransfers?: Prisma.TransferPaymentOrderByRelationAggregateInput
   activatedTransfers?: Prisma.TransferPaymentOrderByRelationAggregateInput
   auditLogs?: Prisma.AuditLogOrderByRelationAggregateInput
+  notifications?: Prisma.NotificationOrderByRelationAggregateInput
 }
 
 export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -452,6 +454,7 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   validatedTransfers?: Prisma.TransferPaymentListRelationFilter
   activatedTransfers?: Prisma.TransferPaymentListRelationFilter
   auditLogs?: Prisma.AuditLogListRelationFilter
+  notifications?: Prisma.NotificationListRelationFilter
 }, "id" | "email">
 
 export type UserOrderByWithAggregationInput = {
@@ -548,6 +551,7 @@ export type UserCreateInput = {
   validatedTransfers?: Prisma.TransferPaymentCreateNestedManyWithoutValidatorInput
   activatedTransfers?: Prisma.TransferPaymentCreateNestedManyWithoutActivatorInput
   auditLogs?: Prisma.AuditLogCreateNestedManyWithoutUserInput
+  notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateInput = {
@@ -594,6 +598,7 @@ export type UserUncheckedCreateInput = {
   validatedTransfers?: Prisma.TransferPaymentUncheckedCreateNestedManyWithoutValidatorInput
   activatedTransfers?: Prisma.TransferPaymentUncheckedCreateNestedManyWithoutActivatorInput
   auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutUserInput
+  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserUpdateInput = {
@@ -640,6 +645,7 @@ export type UserUpdateInput = {
   validatedTransfers?: Prisma.TransferPaymentUpdateManyWithoutValidatorNestedInput
   activatedTransfers?: Prisma.TransferPaymentUpdateManyWithoutActivatorNestedInput
   auditLogs?: Prisma.AuditLogUpdateManyWithoutUserNestedInput
+  notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateInput = {
@@ -686,6 +692,7 @@ export type UserUncheckedUpdateInput = {
   validatedTransfers?: Prisma.TransferPaymentUncheckedUpdateManyWithoutValidatorNestedInput
   activatedTransfers?: Prisma.TransferPaymentUncheckedUpdateManyWithoutActivatorNestedInput
   auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutUserNestedInput
+  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateManyInput = {
@@ -1222,6 +1229,20 @@ export type UserUpdateOneRequiredWithoutCheckInsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutCheckInsInput, Prisma.UserUpdateWithoutCheckInsInput>, Prisma.UserUncheckedUpdateWithoutCheckInsInput>
 }
 
+export type UserCreateNestedOneWithoutNotificationsInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutNotificationsInput, Prisma.UserUncheckedCreateWithoutNotificationsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutNotificationsInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneRequiredWithoutNotificationsNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutNotificationsInput, Prisma.UserUncheckedCreateWithoutNotificationsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutNotificationsInput
+  upsert?: Prisma.UserUpsertWithoutNotificationsInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutNotificationsInput, Prisma.UserUpdateWithoutNotificationsInput>, Prisma.UserUncheckedUpdateWithoutNotificationsInput>
+}
+
 export type UserCreateWithoutAccountsInput = {
   id?: string
   name?: string | null
@@ -1265,6 +1286,7 @@ export type UserCreateWithoutAccountsInput = {
   validatedTransfers?: Prisma.TransferPaymentCreateNestedManyWithoutValidatorInput
   activatedTransfers?: Prisma.TransferPaymentCreateNestedManyWithoutActivatorInput
   auditLogs?: Prisma.AuditLogCreateNestedManyWithoutUserInput
+  notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutAccountsInput = {
@@ -1310,6 +1332,7 @@ export type UserUncheckedCreateWithoutAccountsInput = {
   validatedTransfers?: Prisma.TransferPaymentUncheckedCreateNestedManyWithoutValidatorInput
   activatedTransfers?: Prisma.TransferPaymentUncheckedCreateNestedManyWithoutActivatorInput
   auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutUserInput
+  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutAccountsInput = {
@@ -1371,6 +1394,7 @@ export type UserUpdateWithoutAccountsInput = {
   validatedTransfers?: Prisma.TransferPaymentUpdateManyWithoutValidatorNestedInput
   activatedTransfers?: Prisma.TransferPaymentUpdateManyWithoutActivatorNestedInput
   auditLogs?: Prisma.AuditLogUpdateManyWithoutUserNestedInput
+  notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutAccountsInput = {
@@ -1416,6 +1440,7 @@ export type UserUncheckedUpdateWithoutAccountsInput = {
   validatedTransfers?: Prisma.TransferPaymentUncheckedUpdateManyWithoutValidatorNestedInput
   activatedTransfers?: Prisma.TransferPaymentUncheckedUpdateManyWithoutActivatorNestedInput
   auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutUserNestedInput
+  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutSessionsInput = {
@@ -1461,6 +1486,7 @@ export type UserCreateWithoutSessionsInput = {
   validatedTransfers?: Prisma.TransferPaymentCreateNestedManyWithoutValidatorInput
   activatedTransfers?: Prisma.TransferPaymentCreateNestedManyWithoutActivatorInput
   auditLogs?: Prisma.AuditLogCreateNestedManyWithoutUserInput
+  notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutSessionsInput = {
@@ -1506,6 +1532,7 @@ export type UserUncheckedCreateWithoutSessionsInput = {
   validatedTransfers?: Prisma.TransferPaymentUncheckedCreateNestedManyWithoutValidatorInput
   activatedTransfers?: Prisma.TransferPaymentUncheckedCreateNestedManyWithoutActivatorInput
   auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutUserInput
+  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutSessionsInput = {
@@ -1567,6 +1594,7 @@ export type UserUpdateWithoutSessionsInput = {
   validatedTransfers?: Prisma.TransferPaymentUpdateManyWithoutValidatorNestedInput
   activatedTransfers?: Prisma.TransferPaymentUpdateManyWithoutActivatorNestedInput
   auditLogs?: Prisma.AuditLogUpdateManyWithoutUserNestedInput
+  notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutSessionsInput = {
@@ -1612,6 +1640,7 @@ export type UserUncheckedUpdateWithoutSessionsInput = {
   validatedTransfers?: Prisma.TransferPaymentUncheckedUpdateManyWithoutValidatorNestedInput
   activatedTransfers?: Prisma.TransferPaymentUncheckedUpdateManyWithoutActivatorNestedInput
   auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutUserNestedInput
+  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutAnalysesInput = {
@@ -1657,6 +1686,7 @@ export type UserCreateWithoutAnalysesInput = {
   validatedTransfers?: Prisma.TransferPaymentCreateNestedManyWithoutValidatorInput
   activatedTransfers?: Prisma.TransferPaymentCreateNestedManyWithoutActivatorInput
   auditLogs?: Prisma.AuditLogCreateNestedManyWithoutUserInput
+  notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutAnalysesInput = {
@@ -1702,6 +1732,7 @@ export type UserUncheckedCreateWithoutAnalysesInput = {
   validatedTransfers?: Prisma.TransferPaymentUncheckedCreateNestedManyWithoutValidatorInput
   activatedTransfers?: Prisma.TransferPaymentUncheckedCreateNestedManyWithoutActivatorInput
   auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutUserInput
+  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutAnalysesInput = {
@@ -1763,6 +1794,7 @@ export type UserUpdateWithoutAnalysesInput = {
   validatedTransfers?: Prisma.TransferPaymentUpdateManyWithoutValidatorNestedInput
   activatedTransfers?: Prisma.TransferPaymentUpdateManyWithoutActivatorNestedInput
   auditLogs?: Prisma.AuditLogUpdateManyWithoutUserNestedInput
+  notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutAnalysesInput = {
@@ -1808,6 +1840,7 @@ export type UserUncheckedUpdateWithoutAnalysesInput = {
   validatedTransfers?: Prisma.TransferPaymentUncheckedUpdateManyWithoutValidatorNestedInput
   activatedTransfers?: Prisma.TransferPaymentUncheckedUpdateManyWithoutActivatorNestedInput
   auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutUserNestedInput
+  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutPaymentsInput = {
@@ -1853,6 +1886,7 @@ export type UserCreateWithoutPaymentsInput = {
   validatedTransfers?: Prisma.TransferPaymentCreateNestedManyWithoutValidatorInput
   activatedTransfers?: Prisma.TransferPaymentCreateNestedManyWithoutActivatorInput
   auditLogs?: Prisma.AuditLogCreateNestedManyWithoutUserInput
+  notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutPaymentsInput = {
@@ -1898,6 +1932,7 @@ export type UserUncheckedCreateWithoutPaymentsInput = {
   validatedTransfers?: Prisma.TransferPaymentUncheckedCreateNestedManyWithoutValidatorInput
   activatedTransfers?: Prisma.TransferPaymentUncheckedCreateNestedManyWithoutActivatorInput
   auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutUserInput
+  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutPaymentsInput = {
@@ -1959,6 +1994,7 @@ export type UserUpdateWithoutPaymentsInput = {
   validatedTransfers?: Prisma.TransferPaymentUpdateManyWithoutValidatorNestedInput
   activatedTransfers?: Prisma.TransferPaymentUpdateManyWithoutActivatorNestedInput
   auditLogs?: Prisma.AuditLogUpdateManyWithoutUserNestedInput
+  notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutPaymentsInput = {
@@ -2004,6 +2040,7 @@ export type UserUncheckedUpdateWithoutPaymentsInput = {
   validatedTransfers?: Prisma.TransferPaymentUncheckedUpdateManyWithoutValidatorNestedInput
   activatedTransfers?: Prisma.TransferPaymentUncheckedUpdateManyWithoutActivatorNestedInput
   auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutUserNestedInput
+  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutTransferPaymentsInput = {
@@ -2049,6 +2086,7 @@ export type UserCreateWithoutTransferPaymentsInput = {
   validatedTransfers?: Prisma.TransferPaymentCreateNestedManyWithoutValidatorInput
   activatedTransfers?: Prisma.TransferPaymentCreateNestedManyWithoutActivatorInput
   auditLogs?: Prisma.AuditLogCreateNestedManyWithoutUserInput
+  notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutTransferPaymentsInput = {
@@ -2094,6 +2132,7 @@ export type UserUncheckedCreateWithoutTransferPaymentsInput = {
   validatedTransfers?: Prisma.TransferPaymentUncheckedCreateNestedManyWithoutValidatorInput
   activatedTransfers?: Prisma.TransferPaymentUncheckedCreateNestedManyWithoutActivatorInput
   auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutUserInput
+  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutTransferPaymentsInput = {
@@ -2144,6 +2183,7 @@ export type UserCreateWithoutValidatedTransfersInput = {
   transferPayments?: Prisma.TransferPaymentCreateNestedManyWithoutUserInput
   activatedTransfers?: Prisma.TransferPaymentCreateNestedManyWithoutActivatorInput
   auditLogs?: Prisma.AuditLogCreateNestedManyWithoutUserInput
+  notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutValidatedTransfersInput = {
@@ -2189,6 +2229,7 @@ export type UserUncheckedCreateWithoutValidatedTransfersInput = {
   transferPayments?: Prisma.TransferPaymentUncheckedCreateNestedManyWithoutUserInput
   activatedTransfers?: Prisma.TransferPaymentUncheckedCreateNestedManyWithoutActivatorInput
   auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutUserInput
+  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutValidatedTransfersInput = {
@@ -2239,6 +2280,7 @@ export type UserCreateWithoutActivatedTransfersInput = {
   transferPayments?: Prisma.TransferPaymentCreateNestedManyWithoutUserInput
   validatedTransfers?: Prisma.TransferPaymentCreateNestedManyWithoutValidatorInput
   auditLogs?: Prisma.AuditLogCreateNestedManyWithoutUserInput
+  notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutActivatedTransfersInput = {
@@ -2284,6 +2326,7 @@ export type UserUncheckedCreateWithoutActivatedTransfersInput = {
   transferPayments?: Prisma.TransferPaymentUncheckedCreateNestedManyWithoutUserInput
   validatedTransfers?: Prisma.TransferPaymentUncheckedCreateNestedManyWithoutValidatorInput
   auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutUserInput
+  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutActivatedTransfersInput = {
@@ -2345,6 +2388,7 @@ export type UserUpdateWithoutTransferPaymentsInput = {
   validatedTransfers?: Prisma.TransferPaymentUpdateManyWithoutValidatorNestedInput
   activatedTransfers?: Prisma.TransferPaymentUpdateManyWithoutActivatorNestedInput
   auditLogs?: Prisma.AuditLogUpdateManyWithoutUserNestedInput
+  notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutTransferPaymentsInput = {
@@ -2390,6 +2434,7 @@ export type UserUncheckedUpdateWithoutTransferPaymentsInput = {
   validatedTransfers?: Prisma.TransferPaymentUncheckedUpdateManyWithoutValidatorNestedInput
   activatedTransfers?: Prisma.TransferPaymentUncheckedUpdateManyWithoutActivatorNestedInput
   auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutUserNestedInput
+  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserUpsertWithoutValidatedTransfersInput = {
@@ -2446,6 +2491,7 @@ export type UserUpdateWithoutValidatedTransfersInput = {
   transferPayments?: Prisma.TransferPaymentUpdateManyWithoutUserNestedInput
   activatedTransfers?: Prisma.TransferPaymentUpdateManyWithoutActivatorNestedInput
   auditLogs?: Prisma.AuditLogUpdateManyWithoutUserNestedInput
+  notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutValidatedTransfersInput = {
@@ -2491,6 +2537,7 @@ export type UserUncheckedUpdateWithoutValidatedTransfersInput = {
   transferPayments?: Prisma.TransferPaymentUncheckedUpdateManyWithoutUserNestedInput
   activatedTransfers?: Prisma.TransferPaymentUncheckedUpdateManyWithoutActivatorNestedInput
   auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutUserNestedInput
+  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserUpsertWithoutActivatedTransfersInput = {
@@ -2547,6 +2594,7 @@ export type UserUpdateWithoutActivatedTransfersInput = {
   transferPayments?: Prisma.TransferPaymentUpdateManyWithoutUserNestedInput
   validatedTransfers?: Prisma.TransferPaymentUpdateManyWithoutValidatorNestedInput
   auditLogs?: Prisma.AuditLogUpdateManyWithoutUserNestedInput
+  notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutActivatedTransfersInput = {
@@ -2592,6 +2640,7 @@ export type UserUncheckedUpdateWithoutActivatedTransfersInput = {
   transferPayments?: Prisma.TransferPaymentUncheckedUpdateManyWithoutUserNestedInput
   validatedTransfers?: Prisma.TransferPaymentUncheckedUpdateManyWithoutValidatorNestedInput
   auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutUserNestedInput
+  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutAuditLogsInput = {
@@ -2637,6 +2686,7 @@ export type UserCreateWithoutAuditLogsInput = {
   transferPayments?: Prisma.TransferPaymentCreateNestedManyWithoutUserInput
   validatedTransfers?: Prisma.TransferPaymentCreateNestedManyWithoutValidatorInput
   activatedTransfers?: Prisma.TransferPaymentCreateNestedManyWithoutActivatorInput
+  notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutAuditLogsInput = {
@@ -2682,6 +2732,7 @@ export type UserUncheckedCreateWithoutAuditLogsInput = {
   transferPayments?: Prisma.TransferPaymentUncheckedCreateNestedManyWithoutUserInput
   validatedTransfers?: Prisma.TransferPaymentUncheckedCreateNestedManyWithoutValidatorInput
   activatedTransfers?: Prisma.TransferPaymentUncheckedCreateNestedManyWithoutActivatorInput
+  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutAuditLogsInput = {
@@ -2743,6 +2794,7 @@ export type UserUpdateWithoutAuditLogsInput = {
   transferPayments?: Prisma.TransferPaymentUpdateManyWithoutUserNestedInput
   validatedTransfers?: Prisma.TransferPaymentUpdateManyWithoutValidatorNestedInput
   activatedTransfers?: Prisma.TransferPaymentUpdateManyWithoutActivatorNestedInput
+  notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutAuditLogsInput = {
@@ -2788,6 +2840,7 @@ export type UserUncheckedUpdateWithoutAuditLogsInput = {
   transferPayments?: Prisma.TransferPaymentUncheckedUpdateManyWithoutUserNestedInput
   validatedTransfers?: Prisma.TransferPaymentUncheckedUpdateManyWithoutValidatorNestedInput
   activatedTransfers?: Prisma.TransferPaymentUncheckedUpdateManyWithoutActivatorNestedInput
+  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutSubscriptionsInput = {
@@ -2833,6 +2886,7 @@ export type UserCreateWithoutSubscriptionsInput = {
   validatedTransfers?: Prisma.TransferPaymentCreateNestedManyWithoutValidatorInput
   activatedTransfers?: Prisma.TransferPaymentCreateNestedManyWithoutActivatorInput
   auditLogs?: Prisma.AuditLogCreateNestedManyWithoutUserInput
+  notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutSubscriptionsInput = {
@@ -2878,6 +2932,7 @@ export type UserUncheckedCreateWithoutSubscriptionsInput = {
   validatedTransfers?: Prisma.TransferPaymentUncheckedCreateNestedManyWithoutValidatorInput
   activatedTransfers?: Prisma.TransferPaymentUncheckedCreateNestedManyWithoutActivatorInput
   auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutUserInput
+  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutSubscriptionsInput = {
@@ -2939,6 +2994,7 @@ export type UserUpdateWithoutSubscriptionsInput = {
   validatedTransfers?: Prisma.TransferPaymentUpdateManyWithoutValidatorNestedInput
   activatedTransfers?: Prisma.TransferPaymentUpdateManyWithoutActivatorNestedInput
   auditLogs?: Prisma.AuditLogUpdateManyWithoutUserNestedInput
+  notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutSubscriptionsInput = {
@@ -2984,6 +3040,7 @@ export type UserUncheckedUpdateWithoutSubscriptionsInput = {
   validatedTransfers?: Prisma.TransferPaymentUncheckedUpdateManyWithoutValidatorNestedInput
   activatedTransfers?: Prisma.TransferPaymentUncheckedUpdateManyWithoutActivatorNestedInput
   auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutUserNestedInput
+  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutPurchasePacksInput = {
@@ -3029,6 +3086,7 @@ export type UserCreateWithoutPurchasePacksInput = {
   validatedTransfers?: Prisma.TransferPaymentCreateNestedManyWithoutValidatorInput
   activatedTransfers?: Prisma.TransferPaymentCreateNestedManyWithoutActivatorInput
   auditLogs?: Prisma.AuditLogCreateNestedManyWithoutUserInput
+  notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutPurchasePacksInput = {
@@ -3074,6 +3132,7 @@ export type UserUncheckedCreateWithoutPurchasePacksInput = {
   validatedTransfers?: Prisma.TransferPaymentUncheckedCreateNestedManyWithoutValidatorInput
   activatedTransfers?: Prisma.TransferPaymentUncheckedCreateNestedManyWithoutActivatorInput
   auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutUserInput
+  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutPurchasePacksInput = {
@@ -3135,6 +3194,7 @@ export type UserUpdateWithoutPurchasePacksInput = {
   validatedTransfers?: Prisma.TransferPaymentUpdateManyWithoutValidatorNestedInput
   activatedTransfers?: Prisma.TransferPaymentUpdateManyWithoutActivatorNestedInput
   auditLogs?: Prisma.AuditLogUpdateManyWithoutUserNestedInput
+  notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutPurchasePacksInput = {
@@ -3180,6 +3240,7 @@ export type UserUncheckedUpdateWithoutPurchasePacksInput = {
   validatedTransfers?: Prisma.TransferPaymentUncheckedUpdateManyWithoutValidatorNestedInput
   activatedTransfers?: Prisma.TransferPaymentUncheckedUpdateManyWithoutActivatorNestedInput
   auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutUserNestedInput
+  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutUsageRecordsInput = {
@@ -3225,6 +3286,7 @@ export type UserCreateWithoutUsageRecordsInput = {
   validatedTransfers?: Prisma.TransferPaymentCreateNestedManyWithoutValidatorInput
   activatedTransfers?: Prisma.TransferPaymentCreateNestedManyWithoutActivatorInput
   auditLogs?: Prisma.AuditLogCreateNestedManyWithoutUserInput
+  notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutUsageRecordsInput = {
@@ -3270,6 +3332,7 @@ export type UserUncheckedCreateWithoutUsageRecordsInput = {
   validatedTransfers?: Prisma.TransferPaymentUncheckedCreateNestedManyWithoutValidatorInput
   activatedTransfers?: Prisma.TransferPaymentUncheckedCreateNestedManyWithoutActivatorInput
   auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutUserInput
+  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutUsageRecordsInput = {
@@ -3331,6 +3394,7 @@ export type UserUpdateWithoutUsageRecordsInput = {
   validatedTransfers?: Prisma.TransferPaymentUpdateManyWithoutValidatorNestedInput
   activatedTransfers?: Prisma.TransferPaymentUpdateManyWithoutActivatorNestedInput
   auditLogs?: Prisma.AuditLogUpdateManyWithoutUserNestedInput
+  notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutUsageRecordsInput = {
@@ -3376,6 +3440,7 @@ export type UserUncheckedUpdateWithoutUsageRecordsInput = {
   validatedTransfers?: Prisma.TransferPaymentUncheckedUpdateManyWithoutValidatorNestedInput
   activatedTransfers?: Prisma.TransferPaymentUncheckedUpdateManyWithoutActivatorNestedInput
   auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutUserNestedInput
+  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutClinicInput = {
@@ -3421,6 +3486,7 @@ export type UserCreateWithoutClinicInput = {
   validatedTransfers?: Prisma.TransferPaymentCreateNestedManyWithoutValidatorInput
   activatedTransfers?: Prisma.TransferPaymentCreateNestedManyWithoutActivatorInput
   auditLogs?: Prisma.AuditLogCreateNestedManyWithoutUserInput
+  notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutClinicInput = {
@@ -3466,6 +3532,7 @@ export type UserUncheckedCreateWithoutClinicInput = {
   validatedTransfers?: Prisma.TransferPaymentUncheckedCreateNestedManyWithoutValidatorInput
   activatedTransfers?: Prisma.TransferPaymentUncheckedCreateNestedManyWithoutActivatorInput
   auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutUserInput
+  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutClinicInput = {
@@ -3527,6 +3594,7 @@ export type UserUpdateWithoutClinicInput = {
   validatedTransfers?: Prisma.TransferPaymentUpdateManyWithoutValidatorNestedInput
   activatedTransfers?: Prisma.TransferPaymentUpdateManyWithoutActivatorNestedInput
   auditLogs?: Prisma.AuditLogUpdateManyWithoutUserNestedInput
+  notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutClinicInput = {
@@ -3572,6 +3640,7 @@ export type UserUncheckedUpdateWithoutClinicInput = {
   validatedTransfers?: Prisma.TransferPaymentUncheckedUpdateManyWithoutValidatorNestedInput
   activatedTransfers?: Prisma.TransferPaymentUncheckedUpdateManyWithoutActivatorNestedInput
   auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutUserNestedInput
+  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutAffiliateClicksInput = {
@@ -3617,6 +3686,7 @@ export type UserCreateWithoutAffiliateClicksInput = {
   validatedTransfers?: Prisma.TransferPaymentCreateNestedManyWithoutValidatorInput
   activatedTransfers?: Prisma.TransferPaymentCreateNestedManyWithoutActivatorInput
   auditLogs?: Prisma.AuditLogCreateNestedManyWithoutUserInput
+  notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutAffiliateClicksInput = {
@@ -3662,6 +3732,7 @@ export type UserUncheckedCreateWithoutAffiliateClicksInput = {
   validatedTransfers?: Prisma.TransferPaymentUncheckedCreateNestedManyWithoutValidatorInput
   activatedTransfers?: Prisma.TransferPaymentUncheckedCreateNestedManyWithoutActivatorInput
   auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutUserInput
+  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutAffiliateClicksInput = {
@@ -3723,6 +3794,7 @@ export type UserUpdateWithoutAffiliateClicksInput = {
   validatedTransfers?: Prisma.TransferPaymentUpdateManyWithoutValidatorNestedInput
   activatedTransfers?: Prisma.TransferPaymentUpdateManyWithoutActivatorNestedInput
   auditLogs?: Prisma.AuditLogUpdateManyWithoutUserNestedInput
+  notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutAffiliateClicksInput = {
@@ -3768,6 +3840,7 @@ export type UserUncheckedUpdateWithoutAffiliateClicksInput = {
   validatedTransfers?: Prisma.TransferPaymentUncheckedUpdateManyWithoutValidatorNestedInput
   activatedTransfers?: Prisma.TransferPaymentUncheckedUpdateManyWithoutActivatorNestedInput
   auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutUserNestedInput
+  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutEvolutionInput = {
@@ -3813,6 +3886,7 @@ export type UserCreateWithoutEvolutionInput = {
   validatedTransfers?: Prisma.TransferPaymentCreateNestedManyWithoutValidatorInput
   activatedTransfers?: Prisma.TransferPaymentCreateNestedManyWithoutActivatorInput
   auditLogs?: Prisma.AuditLogCreateNestedManyWithoutUserInput
+  notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutEvolutionInput = {
@@ -3858,6 +3932,7 @@ export type UserUncheckedCreateWithoutEvolutionInput = {
   validatedTransfers?: Prisma.TransferPaymentUncheckedCreateNestedManyWithoutValidatorInput
   activatedTransfers?: Prisma.TransferPaymentUncheckedCreateNestedManyWithoutActivatorInput
   auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutUserInput
+  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutEvolutionInput = {
@@ -3919,6 +3994,7 @@ export type UserUpdateWithoutEvolutionInput = {
   validatedTransfers?: Prisma.TransferPaymentUpdateManyWithoutValidatorNestedInput
   activatedTransfers?: Prisma.TransferPaymentUpdateManyWithoutActivatorNestedInput
   auditLogs?: Prisma.AuditLogUpdateManyWithoutUserNestedInput
+  notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutEvolutionInput = {
@@ -3964,6 +4040,7 @@ export type UserUncheckedUpdateWithoutEvolutionInput = {
   validatedTransfers?: Prisma.TransferPaymentUncheckedUpdateManyWithoutValidatorNestedInput
   activatedTransfers?: Prisma.TransferPaymentUncheckedUpdateManyWithoutActivatorNestedInput
   auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutUserNestedInput
+  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutSurveyFeedbackInput = {
@@ -4009,6 +4086,7 @@ export type UserCreateWithoutSurveyFeedbackInput = {
   validatedTransfers?: Prisma.TransferPaymentCreateNestedManyWithoutValidatorInput
   activatedTransfers?: Prisma.TransferPaymentCreateNestedManyWithoutActivatorInput
   auditLogs?: Prisma.AuditLogCreateNestedManyWithoutUserInput
+  notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutSurveyFeedbackInput = {
@@ -4054,6 +4132,7 @@ export type UserUncheckedCreateWithoutSurveyFeedbackInput = {
   validatedTransfers?: Prisma.TransferPaymentUncheckedCreateNestedManyWithoutValidatorInput
   activatedTransfers?: Prisma.TransferPaymentUncheckedCreateNestedManyWithoutActivatorInput
   auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutUserInput
+  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutSurveyFeedbackInput = {
@@ -4115,6 +4194,7 @@ export type UserUpdateWithoutSurveyFeedbackInput = {
   validatedTransfers?: Prisma.TransferPaymentUpdateManyWithoutValidatorNestedInput
   activatedTransfers?: Prisma.TransferPaymentUpdateManyWithoutActivatorNestedInput
   auditLogs?: Prisma.AuditLogUpdateManyWithoutUserNestedInput
+  notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutSurveyFeedbackInput = {
@@ -4160,6 +4240,7 @@ export type UserUncheckedUpdateWithoutSurveyFeedbackInput = {
   validatedTransfers?: Prisma.TransferPaymentUncheckedUpdateManyWithoutValidatorNestedInput
   activatedTransfers?: Prisma.TransferPaymentUncheckedUpdateManyWithoutActivatorNestedInput
   auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutUserNestedInput
+  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutCommunityPostsInput = {
@@ -4205,6 +4286,7 @@ export type UserCreateWithoutCommunityPostsInput = {
   validatedTransfers?: Prisma.TransferPaymentCreateNestedManyWithoutValidatorInput
   activatedTransfers?: Prisma.TransferPaymentCreateNestedManyWithoutActivatorInput
   auditLogs?: Prisma.AuditLogCreateNestedManyWithoutUserInput
+  notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutCommunityPostsInput = {
@@ -4250,6 +4332,7 @@ export type UserUncheckedCreateWithoutCommunityPostsInput = {
   validatedTransfers?: Prisma.TransferPaymentUncheckedCreateNestedManyWithoutValidatorInput
   activatedTransfers?: Prisma.TransferPaymentUncheckedCreateNestedManyWithoutActivatorInput
   auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutUserInput
+  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutCommunityPostsInput = {
@@ -4311,6 +4394,7 @@ export type UserUpdateWithoutCommunityPostsInput = {
   validatedTransfers?: Prisma.TransferPaymentUpdateManyWithoutValidatorNestedInput
   activatedTransfers?: Prisma.TransferPaymentUpdateManyWithoutActivatorNestedInput
   auditLogs?: Prisma.AuditLogUpdateManyWithoutUserNestedInput
+  notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutCommunityPostsInput = {
@@ -4356,6 +4440,7 @@ export type UserUncheckedUpdateWithoutCommunityPostsInput = {
   validatedTransfers?: Prisma.TransferPaymentUncheckedUpdateManyWithoutValidatorNestedInput
   activatedTransfers?: Prisma.TransferPaymentUncheckedUpdateManyWithoutActivatorNestedInput
   auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutUserNestedInput
+  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutCommentsInput = {
@@ -4401,6 +4486,7 @@ export type UserCreateWithoutCommentsInput = {
   validatedTransfers?: Prisma.TransferPaymentCreateNestedManyWithoutValidatorInput
   activatedTransfers?: Prisma.TransferPaymentCreateNestedManyWithoutActivatorInput
   auditLogs?: Prisma.AuditLogCreateNestedManyWithoutUserInput
+  notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutCommentsInput = {
@@ -4446,6 +4532,7 @@ export type UserUncheckedCreateWithoutCommentsInput = {
   validatedTransfers?: Prisma.TransferPaymentUncheckedCreateNestedManyWithoutValidatorInput
   activatedTransfers?: Prisma.TransferPaymentUncheckedCreateNestedManyWithoutActivatorInput
   auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutUserInput
+  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutCommentsInput = {
@@ -4507,6 +4594,7 @@ export type UserUpdateWithoutCommentsInput = {
   validatedTransfers?: Prisma.TransferPaymentUpdateManyWithoutValidatorNestedInput
   activatedTransfers?: Prisma.TransferPaymentUpdateManyWithoutActivatorNestedInput
   auditLogs?: Prisma.AuditLogUpdateManyWithoutUserNestedInput
+  notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutCommentsInput = {
@@ -4552,6 +4640,7 @@ export type UserUncheckedUpdateWithoutCommentsInput = {
   validatedTransfers?: Prisma.TransferPaymentUncheckedUpdateManyWithoutValidatorNestedInput
   activatedTransfers?: Prisma.TransferPaymentUncheckedUpdateManyWithoutActivatorNestedInput
   auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutUserNestedInput
+  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutSkinDiaryInput = {
@@ -4597,6 +4686,7 @@ export type UserCreateWithoutSkinDiaryInput = {
   validatedTransfers?: Prisma.TransferPaymentCreateNestedManyWithoutValidatorInput
   activatedTransfers?: Prisma.TransferPaymentCreateNestedManyWithoutActivatorInput
   auditLogs?: Prisma.AuditLogCreateNestedManyWithoutUserInput
+  notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutSkinDiaryInput = {
@@ -4642,6 +4732,7 @@ export type UserUncheckedCreateWithoutSkinDiaryInput = {
   validatedTransfers?: Prisma.TransferPaymentUncheckedCreateNestedManyWithoutValidatorInput
   activatedTransfers?: Prisma.TransferPaymentUncheckedCreateNestedManyWithoutActivatorInput
   auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutUserInput
+  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutSkinDiaryInput = {
@@ -4703,6 +4794,7 @@ export type UserUpdateWithoutSkinDiaryInput = {
   validatedTransfers?: Prisma.TransferPaymentUpdateManyWithoutValidatorNestedInput
   activatedTransfers?: Prisma.TransferPaymentUpdateManyWithoutActivatorNestedInput
   auditLogs?: Prisma.AuditLogUpdateManyWithoutUserNestedInput
+  notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutSkinDiaryInput = {
@@ -4748,6 +4840,7 @@ export type UserUncheckedUpdateWithoutSkinDiaryInput = {
   validatedTransfers?: Prisma.TransferPaymentUncheckedUpdateManyWithoutValidatorNestedInput
   activatedTransfers?: Prisma.TransferPaymentUncheckedUpdateManyWithoutActivatorNestedInput
   auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutUserNestedInput
+  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutUserChallengesInput = {
@@ -4793,6 +4886,7 @@ export type UserCreateWithoutUserChallengesInput = {
   validatedTransfers?: Prisma.TransferPaymentCreateNestedManyWithoutValidatorInput
   activatedTransfers?: Prisma.TransferPaymentCreateNestedManyWithoutActivatorInput
   auditLogs?: Prisma.AuditLogCreateNestedManyWithoutUserInput
+  notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutUserChallengesInput = {
@@ -4838,6 +4932,7 @@ export type UserUncheckedCreateWithoutUserChallengesInput = {
   validatedTransfers?: Prisma.TransferPaymentUncheckedCreateNestedManyWithoutValidatorInput
   activatedTransfers?: Prisma.TransferPaymentUncheckedCreateNestedManyWithoutActivatorInput
   auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutUserInput
+  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutUserChallengesInput = {
@@ -4899,6 +4994,7 @@ export type UserUpdateWithoutUserChallengesInput = {
   validatedTransfers?: Prisma.TransferPaymentUpdateManyWithoutValidatorNestedInput
   activatedTransfers?: Prisma.TransferPaymentUpdateManyWithoutActivatorNestedInput
   auditLogs?: Prisma.AuditLogUpdateManyWithoutUserNestedInput
+  notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutUserChallengesInput = {
@@ -4944,6 +5040,7 @@ export type UserUncheckedUpdateWithoutUserChallengesInput = {
   validatedTransfers?: Prisma.TransferPaymentUncheckedUpdateManyWithoutValidatorNestedInput
   activatedTransfers?: Prisma.TransferPaymentUncheckedUpdateManyWithoutActivatorNestedInput
   auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutUserNestedInput
+  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutProductReviewsInput = {
@@ -4989,6 +5086,7 @@ export type UserCreateWithoutProductReviewsInput = {
   validatedTransfers?: Prisma.TransferPaymentCreateNestedManyWithoutValidatorInput
   activatedTransfers?: Prisma.TransferPaymentCreateNestedManyWithoutActivatorInput
   auditLogs?: Prisma.AuditLogCreateNestedManyWithoutUserInput
+  notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutProductReviewsInput = {
@@ -5034,6 +5132,7 @@ export type UserUncheckedCreateWithoutProductReviewsInput = {
   validatedTransfers?: Prisma.TransferPaymentUncheckedCreateNestedManyWithoutValidatorInput
   activatedTransfers?: Prisma.TransferPaymentUncheckedCreateNestedManyWithoutActivatorInput
   auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutUserInput
+  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutProductReviewsInput = {
@@ -5095,6 +5194,7 @@ export type UserUpdateWithoutProductReviewsInput = {
   validatedTransfers?: Prisma.TransferPaymentUpdateManyWithoutValidatorNestedInput
   activatedTransfers?: Prisma.TransferPaymentUpdateManyWithoutActivatorNestedInput
   auditLogs?: Prisma.AuditLogUpdateManyWithoutUserNestedInput
+  notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutProductReviewsInput = {
@@ -5140,6 +5240,7 @@ export type UserUncheckedUpdateWithoutProductReviewsInput = {
   validatedTransfers?: Prisma.TransferPaymentUncheckedUpdateManyWithoutValidatorNestedInput
   activatedTransfers?: Prisma.TransferPaymentUncheckedUpdateManyWithoutActivatorNestedInput
   auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutUserNestedInput
+  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutGroupsOwnedInput = {
@@ -5185,6 +5286,7 @@ export type UserCreateWithoutGroupsOwnedInput = {
   validatedTransfers?: Prisma.TransferPaymentCreateNestedManyWithoutValidatorInput
   activatedTransfers?: Prisma.TransferPaymentCreateNestedManyWithoutActivatorInput
   auditLogs?: Prisma.AuditLogCreateNestedManyWithoutUserInput
+  notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutGroupsOwnedInput = {
@@ -5230,6 +5332,7 @@ export type UserUncheckedCreateWithoutGroupsOwnedInput = {
   validatedTransfers?: Prisma.TransferPaymentUncheckedCreateNestedManyWithoutValidatorInput
   activatedTransfers?: Prisma.TransferPaymentUncheckedCreateNestedManyWithoutActivatorInput
   auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutUserInput
+  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutGroupsOwnedInput = {
@@ -5291,6 +5394,7 @@ export type UserUpdateWithoutGroupsOwnedInput = {
   validatedTransfers?: Prisma.TransferPaymentUpdateManyWithoutValidatorNestedInput
   activatedTransfers?: Prisma.TransferPaymentUpdateManyWithoutActivatorNestedInput
   auditLogs?: Prisma.AuditLogUpdateManyWithoutUserNestedInput
+  notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutGroupsOwnedInput = {
@@ -5336,6 +5440,7 @@ export type UserUncheckedUpdateWithoutGroupsOwnedInput = {
   validatedTransfers?: Prisma.TransferPaymentUncheckedUpdateManyWithoutValidatorNestedInput
   activatedTransfers?: Prisma.TransferPaymentUncheckedUpdateManyWithoutActivatorNestedInput
   auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutUserNestedInput
+  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutReferralsOwnedInput = {
@@ -5381,6 +5486,7 @@ export type UserCreateWithoutReferralsOwnedInput = {
   validatedTransfers?: Prisma.TransferPaymentCreateNestedManyWithoutValidatorInput
   activatedTransfers?: Prisma.TransferPaymentCreateNestedManyWithoutActivatorInput
   auditLogs?: Prisma.AuditLogCreateNestedManyWithoutUserInput
+  notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutReferralsOwnedInput = {
@@ -5426,6 +5532,7 @@ export type UserUncheckedCreateWithoutReferralsOwnedInput = {
   validatedTransfers?: Prisma.TransferPaymentUncheckedCreateNestedManyWithoutValidatorInput
   activatedTransfers?: Prisma.TransferPaymentUncheckedCreateNestedManyWithoutActivatorInput
   auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutUserInput
+  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutReferralsOwnedInput = {
@@ -5476,6 +5583,7 @@ export type UserCreateWithoutReferralsReferredInput = {
   validatedTransfers?: Prisma.TransferPaymentCreateNestedManyWithoutValidatorInput
   activatedTransfers?: Prisma.TransferPaymentCreateNestedManyWithoutActivatorInput
   auditLogs?: Prisma.AuditLogCreateNestedManyWithoutUserInput
+  notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutReferralsReferredInput = {
@@ -5521,6 +5629,7 @@ export type UserUncheckedCreateWithoutReferralsReferredInput = {
   validatedTransfers?: Prisma.TransferPaymentUncheckedCreateNestedManyWithoutValidatorInput
   activatedTransfers?: Prisma.TransferPaymentUncheckedCreateNestedManyWithoutActivatorInput
   auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutUserInput
+  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutReferralsReferredInput = {
@@ -5582,6 +5691,7 @@ export type UserUpdateWithoutReferralsOwnedInput = {
   validatedTransfers?: Prisma.TransferPaymentUpdateManyWithoutValidatorNestedInput
   activatedTransfers?: Prisma.TransferPaymentUpdateManyWithoutActivatorNestedInput
   auditLogs?: Prisma.AuditLogUpdateManyWithoutUserNestedInput
+  notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutReferralsOwnedInput = {
@@ -5627,6 +5737,7 @@ export type UserUncheckedUpdateWithoutReferralsOwnedInput = {
   validatedTransfers?: Prisma.TransferPaymentUncheckedUpdateManyWithoutValidatorNestedInput
   activatedTransfers?: Prisma.TransferPaymentUncheckedUpdateManyWithoutActivatorNestedInput
   auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutUserNestedInput
+  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserUpsertWithoutReferralsReferredInput = {
@@ -5683,6 +5794,7 @@ export type UserUpdateWithoutReferralsReferredInput = {
   validatedTransfers?: Prisma.TransferPaymentUpdateManyWithoutValidatorNestedInput
   activatedTransfers?: Prisma.TransferPaymentUpdateManyWithoutActivatorNestedInput
   auditLogs?: Prisma.AuditLogUpdateManyWithoutUserNestedInput
+  notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutReferralsReferredInput = {
@@ -5728,6 +5840,7 @@ export type UserUncheckedUpdateWithoutReferralsReferredInput = {
   validatedTransfers?: Prisma.TransferPaymentUncheckedUpdateManyWithoutValidatorNestedInput
   activatedTransfers?: Prisma.TransferPaymentUncheckedUpdateManyWithoutActivatorNestedInput
   auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutUserNestedInput
+  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutDigitalPurchasesInput = {
@@ -5773,6 +5886,7 @@ export type UserCreateWithoutDigitalPurchasesInput = {
   validatedTransfers?: Prisma.TransferPaymentCreateNestedManyWithoutValidatorInput
   activatedTransfers?: Prisma.TransferPaymentCreateNestedManyWithoutActivatorInput
   auditLogs?: Prisma.AuditLogCreateNestedManyWithoutUserInput
+  notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutDigitalPurchasesInput = {
@@ -5818,6 +5932,7 @@ export type UserUncheckedCreateWithoutDigitalPurchasesInput = {
   validatedTransfers?: Prisma.TransferPaymentUncheckedCreateNestedManyWithoutValidatorInput
   activatedTransfers?: Prisma.TransferPaymentUncheckedCreateNestedManyWithoutActivatorInput
   auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutUserInput
+  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutDigitalPurchasesInput = {
@@ -5879,6 +5994,7 @@ export type UserUpdateWithoutDigitalPurchasesInput = {
   validatedTransfers?: Prisma.TransferPaymentUpdateManyWithoutValidatorNestedInput
   activatedTransfers?: Prisma.TransferPaymentUpdateManyWithoutActivatorNestedInput
   auditLogs?: Prisma.AuditLogUpdateManyWithoutUserNestedInput
+  notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutDigitalPurchasesInput = {
@@ -5924,6 +6040,7 @@ export type UserUncheckedUpdateWithoutDigitalPurchasesInput = {
   validatedTransfers?: Prisma.TransferPaymentUncheckedUpdateManyWithoutValidatorNestedInput
   activatedTransfers?: Prisma.TransferPaymentUncheckedUpdateManyWithoutActivatorNestedInput
   auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutUserNestedInput
+  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutCheckInsInput = {
@@ -5969,6 +6086,7 @@ export type UserCreateWithoutCheckInsInput = {
   validatedTransfers?: Prisma.TransferPaymentCreateNestedManyWithoutValidatorInput
   activatedTransfers?: Prisma.TransferPaymentCreateNestedManyWithoutActivatorInput
   auditLogs?: Prisma.AuditLogCreateNestedManyWithoutUserInput
+  notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutCheckInsInput = {
@@ -6014,6 +6132,7 @@ export type UserUncheckedCreateWithoutCheckInsInput = {
   validatedTransfers?: Prisma.TransferPaymentUncheckedCreateNestedManyWithoutValidatorInput
   activatedTransfers?: Prisma.TransferPaymentUncheckedCreateNestedManyWithoutActivatorInput
   auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutUserInput
+  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutCheckInsInput = {
@@ -6075,6 +6194,7 @@ export type UserUpdateWithoutCheckInsInput = {
   validatedTransfers?: Prisma.TransferPaymentUpdateManyWithoutValidatorNestedInput
   activatedTransfers?: Prisma.TransferPaymentUpdateManyWithoutActivatorNestedInput
   auditLogs?: Prisma.AuditLogUpdateManyWithoutUserNestedInput
+  notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutCheckInsInput = {
@@ -6120,6 +6240,207 @@ export type UserUncheckedUpdateWithoutCheckInsInput = {
   validatedTransfers?: Prisma.TransferPaymentUncheckedUpdateManyWithoutValidatorNestedInput
   activatedTransfers?: Prisma.TransferPaymentUncheckedUpdateManyWithoutActivatorNestedInput
   auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutUserNestedInput
+  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
+}
+
+export type UserCreateWithoutNotificationsInput = {
+  id?: string
+  name?: string | null
+  email: string
+  emailVerified?: Date | string | null
+  image?: string | null
+  password?: string | null
+  role?: string
+  plan?: string
+  qvapayId?: string | null
+  analysisLimit?: number
+  analysisUsed?: number
+  analysisResetAt?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  telegramId?: string | null
+  currentStreak?: number
+  maxStreak?: number
+  lastCheckInDate?: Date | string | null
+  accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
+  sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
+  analyses?: Prisma.SkinAnalysisCreateNestedManyWithoutUserInput
+  payments?: Prisma.PaymentCreateNestedManyWithoutUserInput
+  subscriptions?: Prisma.SubscriptionCreateNestedManyWithoutUserInput
+  purchasePacks?: Prisma.PurchasePackCreateNestedManyWithoutUserInput
+  usageRecords?: Prisma.UsageTrackingCreateNestedManyWithoutUserInput
+  clinic?: Prisma.ClinicCreateNestedOneWithoutOwnerInput
+  surveyFeedback?: Prisma.SurveyFeedbackCreateNestedManyWithoutUserInput
+  communityPosts?: Prisma.CommunityPostCreateNestedManyWithoutUserInput
+  comments?: Prisma.CommentCreateNestedManyWithoutUserInput
+  skinDiary?: Prisma.SkinDiaryCreateNestedManyWithoutUserInput
+  userChallenges?: Prisma.UserChallengeCreateNestedManyWithoutUserInput
+  productReviews?: Prisma.ProductReviewCreateNestedManyWithoutUserInput
+  referralsOwned?: Prisma.ReferralCreateNestedManyWithoutReferrerInput
+  referralsReferred?: Prisma.ReferralCreateNestedManyWithoutReferredInput
+  groupsOwned?: Prisma.GroupAnalyticsCreateNestedManyWithoutReferrerInput
+  digitalPurchases?: Prisma.DigitalProductPurchaseCreateNestedManyWithoutUserInput
+  affiliateClicks?: Prisma.AffiliateClickCreateNestedManyWithoutUserInput
+  evolution?: Prisma.UserEvolutionCreateNestedOneWithoutUserInput
+  checkIns?: Prisma.DailyCheckInCreateNestedManyWithoutUserInput
+  transferPayments?: Prisma.TransferPaymentCreateNestedManyWithoutUserInput
+  validatedTransfers?: Prisma.TransferPaymentCreateNestedManyWithoutValidatorInput
+  activatedTransfers?: Prisma.TransferPaymentCreateNestedManyWithoutActivatorInput
+  auditLogs?: Prisma.AuditLogCreateNestedManyWithoutUserInput
+}
+
+export type UserUncheckedCreateWithoutNotificationsInput = {
+  id?: string
+  name?: string | null
+  email: string
+  emailVerified?: Date | string | null
+  image?: string | null
+  password?: string | null
+  role?: string
+  plan?: string
+  qvapayId?: string | null
+  analysisLimit?: number
+  analysisUsed?: number
+  analysisResetAt?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  telegramId?: string | null
+  currentStreak?: number
+  maxStreak?: number
+  lastCheckInDate?: Date | string | null
+  accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
+  sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
+  analyses?: Prisma.SkinAnalysisUncheckedCreateNestedManyWithoutUserInput
+  payments?: Prisma.PaymentUncheckedCreateNestedManyWithoutUserInput
+  subscriptions?: Prisma.SubscriptionUncheckedCreateNestedManyWithoutUserInput
+  purchasePacks?: Prisma.PurchasePackUncheckedCreateNestedManyWithoutUserInput
+  usageRecords?: Prisma.UsageTrackingUncheckedCreateNestedManyWithoutUserInput
+  clinic?: Prisma.ClinicUncheckedCreateNestedOneWithoutOwnerInput
+  surveyFeedback?: Prisma.SurveyFeedbackUncheckedCreateNestedManyWithoutUserInput
+  communityPosts?: Prisma.CommunityPostUncheckedCreateNestedManyWithoutUserInput
+  comments?: Prisma.CommentUncheckedCreateNestedManyWithoutUserInput
+  skinDiary?: Prisma.SkinDiaryUncheckedCreateNestedManyWithoutUserInput
+  userChallenges?: Prisma.UserChallengeUncheckedCreateNestedManyWithoutUserInput
+  productReviews?: Prisma.ProductReviewUncheckedCreateNestedManyWithoutUserInput
+  referralsOwned?: Prisma.ReferralUncheckedCreateNestedManyWithoutReferrerInput
+  referralsReferred?: Prisma.ReferralUncheckedCreateNestedManyWithoutReferredInput
+  groupsOwned?: Prisma.GroupAnalyticsUncheckedCreateNestedManyWithoutReferrerInput
+  digitalPurchases?: Prisma.DigitalProductPurchaseUncheckedCreateNestedManyWithoutUserInput
+  affiliateClicks?: Prisma.AffiliateClickUncheckedCreateNestedManyWithoutUserInput
+  evolution?: Prisma.UserEvolutionUncheckedCreateNestedOneWithoutUserInput
+  checkIns?: Prisma.DailyCheckInUncheckedCreateNestedManyWithoutUserInput
+  transferPayments?: Prisma.TransferPaymentUncheckedCreateNestedManyWithoutUserInput
+  validatedTransfers?: Prisma.TransferPaymentUncheckedCreateNestedManyWithoutValidatorInput
+  activatedTransfers?: Prisma.TransferPaymentUncheckedCreateNestedManyWithoutActivatorInput
+  auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutUserInput
+}
+
+export type UserCreateOrConnectWithoutNotificationsInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutNotificationsInput, Prisma.UserUncheckedCreateWithoutNotificationsInput>
+}
+
+export type UserUpsertWithoutNotificationsInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutNotificationsInput, Prisma.UserUncheckedUpdateWithoutNotificationsInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutNotificationsInput, Prisma.UserUncheckedCreateWithoutNotificationsInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutNotificationsInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutNotificationsInput, Prisma.UserUncheckedUpdateWithoutNotificationsInput>
+}
+
+export type UserUpdateWithoutNotificationsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  emailVerified?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.StringFieldUpdateOperationsInput | string
+  plan?: Prisma.StringFieldUpdateOperationsInput | string
+  qvapayId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  analysisLimit?: Prisma.IntFieldUpdateOperationsInput | number
+  analysisUsed?: Prisma.IntFieldUpdateOperationsInput | number
+  analysisResetAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  telegramId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  currentStreak?: Prisma.IntFieldUpdateOperationsInput | number
+  maxStreak?: Prisma.IntFieldUpdateOperationsInput | number
+  lastCheckInDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
+  sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
+  analyses?: Prisma.SkinAnalysisUpdateManyWithoutUserNestedInput
+  payments?: Prisma.PaymentUpdateManyWithoutUserNestedInput
+  subscriptions?: Prisma.SubscriptionUpdateManyWithoutUserNestedInput
+  purchasePacks?: Prisma.PurchasePackUpdateManyWithoutUserNestedInput
+  usageRecords?: Prisma.UsageTrackingUpdateManyWithoutUserNestedInput
+  clinic?: Prisma.ClinicUpdateOneWithoutOwnerNestedInput
+  surveyFeedback?: Prisma.SurveyFeedbackUpdateManyWithoutUserNestedInput
+  communityPosts?: Prisma.CommunityPostUpdateManyWithoutUserNestedInput
+  comments?: Prisma.CommentUpdateManyWithoutUserNestedInput
+  skinDiary?: Prisma.SkinDiaryUpdateManyWithoutUserNestedInput
+  userChallenges?: Prisma.UserChallengeUpdateManyWithoutUserNestedInput
+  productReviews?: Prisma.ProductReviewUpdateManyWithoutUserNestedInput
+  referralsOwned?: Prisma.ReferralUpdateManyWithoutReferrerNestedInput
+  referralsReferred?: Prisma.ReferralUpdateManyWithoutReferredNestedInput
+  groupsOwned?: Prisma.GroupAnalyticsUpdateManyWithoutReferrerNestedInput
+  digitalPurchases?: Prisma.DigitalProductPurchaseUpdateManyWithoutUserNestedInput
+  affiliateClicks?: Prisma.AffiliateClickUpdateManyWithoutUserNestedInput
+  evolution?: Prisma.UserEvolutionUpdateOneWithoutUserNestedInput
+  checkIns?: Prisma.DailyCheckInUpdateManyWithoutUserNestedInput
+  transferPayments?: Prisma.TransferPaymentUpdateManyWithoutUserNestedInput
+  validatedTransfers?: Prisma.TransferPaymentUpdateManyWithoutValidatorNestedInput
+  activatedTransfers?: Prisma.TransferPaymentUpdateManyWithoutActivatorNestedInput
+  auditLogs?: Prisma.AuditLogUpdateManyWithoutUserNestedInput
+}
+
+export type UserUncheckedUpdateWithoutNotificationsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  emailVerified?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.StringFieldUpdateOperationsInput | string
+  plan?: Prisma.StringFieldUpdateOperationsInput | string
+  qvapayId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  analysisLimit?: Prisma.IntFieldUpdateOperationsInput | number
+  analysisUsed?: Prisma.IntFieldUpdateOperationsInput | number
+  analysisResetAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  telegramId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  currentStreak?: Prisma.IntFieldUpdateOperationsInput | number
+  maxStreak?: Prisma.IntFieldUpdateOperationsInput | number
+  lastCheckInDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
+  sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
+  analyses?: Prisma.SkinAnalysisUncheckedUpdateManyWithoutUserNestedInput
+  payments?: Prisma.PaymentUncheckedUpdateManyWithoutUserNestedInput
+  subscriptions?: Prisma.SubscriptionUncheckedUpdateManyWithoutUserNestedInput
+  purchasePacks?: Prisma.PurchasePackUncheckedUpdateManyWithoutUserNestedInput
+  usageRecords?: Prisma.UsageTrackingUncheckedUpdateManyWithoutUserNestedInput
+  clinic?: Prisma.ClinicUncheckedUpdateOneWithoutOwnerNestedInput
+  surveyFeedback?: Prisma.SurveyFeedbackUncheckedUpdateManyWithoutUserNestedInput
+  communityPosts?: Prisma.CommunityPostUncheckedUpdateManyWithoutUserNestedInput
+  comments?: Prisma.CommentUncheckedUpdateManyWithoutUserNestedInput
+  skinDiary?: Prisma.SkinDiaryUncheckedUpdateManyWithoutUserNestedInput
+  userChallenges?: Prisma.UserChallengeUncheckedUpdateManyWithoutUserNestedInput
+  productReviews?: Prisma.ProductReviewUncheckedUpdateManyWithoutUserNestedInput
+  referralsOwned?: Prisma.ReferralUncheckedUpdateManyWithoutReferrerNestedInput
+  referralsReferred?: Prisma.ReferralUncheckedUpdateManyWithoutReferredNestedInput
+  groupsOwned?: Prisma.GroupAnalyticsUncheckedUpdateManyWithoutReferrerNestedInput
+  digitalPurchases?: Prisma.DigitalProductPurchaseUncheckedUpdateManyWithoutUserNestedInput
+  affiliateClicks?: Prisma.AffiliateClickUncheckedUpdateManyWithoutUserNestedInput
+  evolution?: Prisma.UserEvolutionUncheckedUpdateOneWithoutUserNestedInput
+  checkIns?: Prisma.DailyCheckInUncheckedUpdateManyWithoutUserNestedInput
+  transferPayments?: Prisma.TransferPaymentUncheckedUpdateManyWithoutUserNestedInput
+  validatedTransfers?: Prisma.TransferPaymentUncheckedUpdateManyWithoutValidatorNestedInput
+  activatedTransfers?: Prisma.TransferPaymentUncheckedUpdateManyWithoutActivatorNestedInput
+  auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutUserNestedInput
 }
 
 
@@ -6151,6 +6472,7 @@ export type UserCountOutputType = {
   validatedTransfers: number
   activatedTransfers: number
   auditLogs: number
+  notifications: number
 }
 
 export type UserCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -6177,6 +6499,7 @@ export type UserCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.I
   validatedTransfers?: boolean | UserCountOutputTypeCountValidatedTransfersArgs
   activatedTransfers?: boolean | UserCountOutputTypeCountActivatedTransfersArgs
   auditLogs?: boolean | UserCountOutputTypeCountAuditLogsArgs
+  notifications?: boolean | UserCountOutputTypeCountNotificationsArgs
 }
 
 /**
@@ -6350,6 +6673,13 @@ export type UserCountOutputTypeCountAuditLogsArgs<ExtArgs extends runtime.Types.
   where?: Prisma.AuditLogWhereInput
 }
 
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountNotificationsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.NotificationWhereInput
+}
+
 
 export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -6395,6 +6725,7 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   validatedTransfers?: boolean | Prisma.User$validatedTransfersArgs<ExtArgs>
   activatedTransfers?: boolean | Prisma.User$activatedTransfersArgs<ExtArgs>
   auditLogs?: boolean | Prisma.User$auditLogsArgs<ExtArgs>
+  notifications?: boolean | Prisma.User$notificationsArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["user"]>
 
@@ -6488,6 +6819,7 @@ export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   validatedTransfers?: boolean | Prisma.User$validatedTransfersArgs<ExtArgs>
   activatedTransfers?: boolean | Prisma.User$activatedTransfersArgs<ExtArgs>
   auditLogs?: boolean | Prisma.User$auditLogsArgs<ExtArgs>
+  notifications?: boolean | Prisma.User$notificationsArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type UserIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
@@ -6521,6 +6853,7 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     validatedTransfers: Prisma.$TransferPaymentPayload<ExtArgs>[]
     activatedTransfers: Prisma.$TransferPaymentPayload<ExtArgs>[]
     auditLogs: Prisma.$AuditLogPayload<ExtArgs>[]
+    notifications: Prisma.$NotificationPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -6960,6 +7293,7 @@ export interface Prisma__UserClient<T, Null = never, ExtArgs extends runtime.Typ
   validatedTransfers<T extends Prisma.User$validatedTransfersArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$validatedTransfersArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$TransferPaymentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   activatedTransfers<T extends Prisma.User$activatedTransfersArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$activatedTransfersArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$TransferPaymentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   auditLogs<T extends Prisma.User$auditLogsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$auditLogsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$AuditLogPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  notifications<T extends Prisma.User$notificationsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$notificationsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$NotificationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -7987,6 +8321,30 @@ export type User$auditLogsArgs<ExtArgs extends runtime.Types.Extensions.Internal
   take?: number
   skip?: number
   distinct?: Prisma.AuditLogScalarFieldEnum | Prisma.AuditLogScalarFieldEnum[]
+}
+
+/**
+ * User.notifications
+ */
+export type User$notificationsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Notification
+   */
+  select?: Prisma.NotificationSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Notification
+   */
+  omit?: Prisma.NotificationOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.NotificationInclude<ExtArgs> | null
+  where?: Prisma.NotificationWhereInput
+  orderBy?: Prisma.NotificationOrderByWithRelationInput | Prisma.NotificationOrderByWithRelationInput[]
+  cursor?: Prisma.NotificationWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.NotificationScalarFieldEnum | Prisma.NotificationScalarFieldEnum[]
 }
 
 /**

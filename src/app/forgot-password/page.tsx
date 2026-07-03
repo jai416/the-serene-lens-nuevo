@@ -72,19 +72,24 @@ export default function ForgotPasswordPage() {
             )}
 
             {success ? (
-              <div className="text-center">
-                <div className="w-14 h-14 rounded-2xl gradient-primary flex items-center justify-center mx-auto mb-4">
-                  <CheckCircle2 className="w-6 h-6 text-[#2F3A2D]" />
-                </div>
-                <p className="text-sm text-[#64705E] mb-4">
-                  Si existe una cuenta con ese email, recibirás un enlace de recuperación.
-                </p>
-                {resetLink && (
-                  <div className="p-3 rounded-xl bg-[#F0F5EC] border border-[#C2E09D] mb-4 break-all">
-                    <p className="text-xs text-[#64705E] mb-2">Modo desarrollo — enlace de prueba:</p>
-                    <a href={resetLink} className="text-xs text-[#2F3A2D] underline">{resetLink}</a>
+                <div className="text-center">
+                  <div className="w-14 h-14 rounded-2xl gradient-primary flex items-center justify-center mx-auto mb-4">
+                    <CheckCircle2 className="w-6 h-6 text-[#2F3A2D]" />
                   </div>
-                )}
+                  {resetLink ? (
+                    <>
+                      <p className="text-sm text-[#64705E] mb-2">
+                        Tu enlace de recuperación:
+                      </p>
+                      <div className="p-3 rounded-xl bg-[#F0F5EC] border border-[#C2E09D] mb-4 break-all">
+                        <a href={resetLink} className="text-sm text-[#2F3A2D] underline font-medium">{resetLink}</a>
+                      </div>
+                    </>
+                  ) : (
+                    <p className="text-sm text-[#64705E] mb-4">
+                      Si existe una cuenta con ese email, recibirás un enlace de recuperación.
+                    </p>
+                  )}
                 <Link href="/login">
                   <Button variant="primary" className="w-full py-5 h-auto">
                     Volver a iniciar sesión

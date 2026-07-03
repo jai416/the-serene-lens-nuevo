@@ -9,7 +9,7 @@ import { Badge } from "@/components/ui/badge"
 import {
   LayoutDashboard, Users, CreditCard, MessageSquare, Newspaper, Package,
   DollarSign, Activity, Eye, TrendingUp, UserPlus, BarChart3, ArrowUpRight,
-  Calendar, Sparkles, CheckCircle2, Clock, Mail, BookOpen, Trophy, Heart,
+  Calendar, Sparkles, CheckCircle2, Clock, Bell, BookOpen, Trophy, Heart,
   ShoppingBag, MessageCircle, Settings, TrendingDown, Zap, Download, UsersRound,
   ShieldCheck
 } from "lucide-react"
@@ -346,7 +346,7 @@ export default function AdminPage() {
               { href: "/admin/users", label: "Usuarios", icon: Users },
               { href: "/admin/payments", label: "Pagos", icon: CreditCard },
               { href: "/admin/messages", label: "Mensajes", icon: MessageSquare },
-              { href: "/admin/emails", label: "Emails", icon: Mail },
+              { href: "/admin/emails", label: "Notificaciones", icon: Bell },
               { href: "/admin/blog", label: "Blog", icon: Newspaper },
               { href: "/admin/products", label: "Productos", icon: Package },
               { href: "/admin/guides", label: "Guías", icon: Download },

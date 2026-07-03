@@ -435,7 +435,7 @@ Prices defined in `src/lib/pricing.ts` — single source of truth.
 - **DB push pendiente**: `npx prisma db push` for Stripe field removal + new tables + `@relation` to UserEvolution/AffiliateClick
 - **CRON_SECRET pendiente**: Add env var in Render Dashboard
 - **Seed en producción**: Ejecutar `npm run seed` después de deploy para poblar productos, guías y desafíos
-- **Guías sin PDF real**: Seed usa placeholder de W3C. Subir PDFs reales y actualizar `fileUrl` en admin.
+- **Guías PDF reales**: 11 PDFs generados en `public/guides/`. Seed actualizado. Pendiente deploy + `npm run seed` para actualizar DB.
 - **CSRF (fixed)**: Token generado en `middleware.ts` via Web Crypto API, cookie `csrf-token` seteada. Frontend lee con `getCsrfToken()` y envía en header `x-csrf-token`.
 - **Cancel-transfer endpoint**: Creado pero requiere deploy para estar disponible en producción
 - **Bot getQvaPayPaymentStatus sin AbortController**: Pendiente agregar timeout (ver auditoría)
@@ -470,10 +470,48 @@ Prices defined in `src/lib/pricing.ts` — single source of truth.
 - **`src/lib/csrf-client.ts`**: Nueva función `getCsrfToken()` que lee la cookie desde `document.cookie`
 - **Páginas actualizadas**: `pricing/page.tsx`, `dashboard/subscription/page.tsx`, `guides/page.tsx`, `pricing/success/page.tsx` — todas agregan `x-csrf-token: getCsrfToken()` en cada `fetch()` POST de pagos
 
+### Guías PDF Reales
+- **`scripts/generate-guides-pdf.mjs`**: Script Node.js que genera 11 PDFs con `pdf-lib`, contenido real en español, word-wrap, portada, footer, numeración.
+- **`public/guides/*.pdf`**: 11 PDFs (2.6-3.5 KB c/u) almacenados en `public/guides/` → servidos estáticamente en `/guides/slug.pdf`
+- **`prisma/seed.ts`**: `PLACEHOLDER_PDF` (W3C dummy) reemplazado por `BASE_GUIDE_URL = APP_URL + "/guides"`, cada guía apunta a su PDF real
+- **`scripts/generate-guides-pdf.ts`**: Versión TypeScript (requiere tsx)
+
+### Bugs Fixeados
+- **PayPal redirige bien** (`pricing/page.tsx`): Ahora acepta `payload.url || payload.approvalUrl` — antes solo leía `url` pero API devuelve `approvalUrl`
+- **Dashboard Transfer funciona** (`dashboard/subscription/page.tsx`): `handleTransfer` ahora envía `amount: 4.99` (PREMIUM) en vez de `amount: 0` que fallaba validación
+- **Dashboard PayPal** (`dashboard/subscription/page.tsx`): Mismo fix que pricing — acepta `approvalUrl`
+
+### Live Tests (2026-07-02 — VERIFICACIÓN COMPLETA)
+```
+=== Pages (9/9 ✅ 200) ===
+/ → 200  /about → 200  /pricing → 200  /guides → 200
+/blog → 200  /contact → 200  /login → 200  /dashboard → 200
+/ingredients-analyzer → 200
+
+=== APIs GET (3/3 ✅ 200) ===
+/api/guides → 200  /api/health → 200  /api/community/posts → 200
+
+=== APIs POST sin auth (4/4 ✅ 403 CSRF bloquea) ===
+create → 403  create-paypal → 403  create-transfer → 403  create-guide → 403
+
+=== Guías PDF (11/11 ✅ 200) ===
+guia-piel-grasa.pdf → 200  eliminar-manchas-30-dias.pdf → 200
+rutina-antiedad-40.pdf → 200  ingredientes-evitar.pdf → 200
+proteccion-solar-anual.pdf → 200  rutina-principiantes.pdf → 200
+guia-acne-completa.pdf → 200  ingredientes-activos.pdf → 200
+skincare-tropical.pdf → 200  guia-exfoliacion.pdf → 200
+skincare-masculino.pdf → 200
+
+=== Telegram Webhook ===
+URL activa ✅ (https://the-serene-lens-nuevo.onrender.com/api/telegram/webhook)
+Pending updates: 0
+```
+
 ### Git
 - Commit `4adb53a`: "Auditoría y mejoras: CSRF, seguridad, Transfermóvil, guías, estilos, tests, email"
 - Commit `e605c77`: "Update AGENTS.md with Resend key, styling fixes, subscription buttons"
 - Commit `a0e19f6`: "Add TELEGRAM_WEBHOOK_SECRET to webhook, render.yaml, .env.example"
 - Commit `66b76d0`: "Fix webhook secret check: only enforce when env var is set"
 - Commit `1c11757`: "Fix CSRF bloqueando pagos: generar token en middleware, enviar desde frontend"
+- Commit `40b9f03`: "Guías PDF reales + fix PayPal/Transfer dashboard + seed"
 - All pushed to `origin/main`

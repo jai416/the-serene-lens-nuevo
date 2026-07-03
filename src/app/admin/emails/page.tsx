@@ -3,110 +3,36 @@
 import { useSession } from "next-auth/react"
 import { redirect } from "next/navigation"
 import { useEffect, useState, useCallback } from "react"
-import Link from "next/link"
 import { Card, CardContent } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
-import {
-  Mail, Send, Users, Eye, ArrowLeft, CheckCircle, XCircle, Clock
-} from "lucide-react"
+import { Bell, Send, Users, CheckCircle } from "lucide-react"
 import { toast } from "sonner"
 
-interface RecipientCounts {
-  all: number
-  free: number
-  premium: number
-  pro: number
-  proPlus: number
-  active: number
-  inactive: number
-  new: number
-}
-
-interface EmailLog {
-  id: string
-  subject: string
-  recipient: string
-  segment: string
-  status: string
-  sentAt: string
-}
-
-interface EmailHistory {
-  logs: EmailLog[]
-  pagination: { page: number; limit: number; total: number; pages: number }
-  recipientCounts: RecipientCounts
-}
-
-const SEGMENT_LABELS: Record<string, string> = {
-  all: "Todos",
-  free: "Free",
-  premium: "Premium",
-  pro: "Pro",
-  proPlus: "Pro+",
-  active: "Activos",
-  inactive: "Inactivos",
-  new: "Nuevos (30 días)",
-}
-
-const TEMPLATES = [
-  {
-    name: "Anuncio general",
-    subject: "Novedades de The Serene Lens",
-    html: `<div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px;">
-<h1 style="color: #2F3A2D; font-size: 24px;">Hola {name},</h1>
-<p style="color: #64705E; font-size: 16px; line-height: 1.6;">Tenemos novedades emocionantes para compartir contigo.</p>
-<div style="background: #F8FAF5; border-radius: 12px; padding: 20px; margin: 20px 0;">
-<p style="color: #2F3A2D; font-size: 16px; line-height: 1.6;">[Escribe tu mensaje aquí]</p>
-</div>
-<a href="https://the-serene-lens-nuevo.onrender.com" style="display: inline-block; background: #C2E09D; color: #2F3A2D; padding: 12px 24px; border-radius: 8px; text-decoration: none; font-weight: 600; margin-top: 16px;">Descubrir más</a>
-<p style="color: #64705E; font-size: 14px; margin-top: 24px;">The Serene Lens — Observación cosmética, no diagnóstico médico.</p>
-</div>`,
-  },
-  {
-    name: "Promoción",
-    subject: "Oferta especial para ti",
-    html: `<div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px;">
-<div style="background: linear-gradient(135deg, #C2E09D, #DAF0B8); border-radius: 12px; padding: 24px; text-align: center; margin-bottom: 20px;">
-<h1 style="color: #2F3A2D; font-size: 24px; margin: 0;">Oferta especial</h1>
-<p style="color: #2F3A2D; font-size: 18px; margin: 8px 0 0;">[Descuento o beneficio]</p>
-</div>
-<p style="color: #64705E; font-size: 16px; line-height: 1.6;">Hola {name},</p>
-<p style="color: #64705E; font-size: 16px; line-height: 1.6;">[Describe la oferta aquí]</p>
-<a href="https://the-serene-lens-nuevo.onrender.com/pricing" style="display: inline-block; background: #C2E09D; color: #2F3A2D; padding: 12px 24px; border-radius: 8px; text-decoration: none; font-weight: 600; margin-top: 16px;">Aprovechar oferta</a>
-<p style="color: #64705E; font-size: 14px; margin-top: 24px;">The Serene Lens — Observación cosmética, no diagnóstico médico.</p>
-</div>`,
-  },
-  {
-    name: "Newsletter",
-    subject: "Tu guía de skincare del mes",
-    html: `<div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px;">
-<h1 style="color: #2F3A2D; font-size: 24px;">Guía de skincare</h1>
-<p style="color: #64705E; font-size: 16px; line-height: 1.6;">Hola {name},</p>
-<p style="color: #64705E; font-size: 16px; line-height: 1.6;">Aquí tienes los mejores consejos del mes:</p>
-<div style="background: #F8FAF5; border-radius: 12px; padding: 20px; margin: 20px 0;">
-<h3 style="color: #2F3A2D; margin-top: 0;">[Título del consejo]</h3>
-<p style="color: #64705E; line-height: 1.6;">[Contenido del consejo]</p>
-</div>
-<div style="background: #F8FAF5; border-radius: 12px; padding: 20px; margin: 20px 0;">
-<h3 style="color: #2F3A2D; margin-top: 0;">[Otro consejo]</h3>
-<p style="color: #64705E; line-height: 1.6;">[Contenido del consejo]</p>
-</div>
-<a href="https://the-serene-lens-nuevo.onrender.com/blog" style="display: inline-block; background: #C2E09D; color: #2F3A2D; padding: 12px 24px; border-radius: 8px; text-decoration: none; font-weight: 600; margin-top: 16px;">Leer más artículos</a>
-<p style="color: #64705E; font-size: 14px; margin-top: 24px;">The Serene Lens — Observación cosmética, no diagnóstico médico.</p>
-</div>`,
-  },
+const SEGMENTS = [
+  { value: "all", label: "Todos" },
+  { value: "free", label: "Usuarios Free" },
+  { value: "premium", label: "Premium" },
+  { value: "pro", label: "Pro" },
+  { value: "proPlus", label: "Pro+" },
+  { value: "new", label: "Usuarios Nuevos" },
 ]
+
+interface NotificationBatch {
+  id: string
+  title: string
+  message: string
+  createdAt: string
+  segment?: string
+}
 
 export default function AdminEmailsPage() {
   const { data: session, status } = useSession()
-  const [counts, setCounts] = useState<RecipientCounts | null>(null)
-  const [history, setHistory] = useState<EmailHistory | null>(null)
+  const [title, setTitle] = useState("")
+  const [message, setMessage] = useState("")
+  const [link, setLink] = useState("")
   const [segment, setSegment] = useState("all")
-  const [subject, setSubject] = useState("")
-  const [html, setHtml] = useState("")
   const [sending, setSending] = useState(false)
-  const [previewMode, setPreviewMode] = useState(false)
-  const [activeTab, setActiveTab] = useState<"compose" | "history">("compose")
+  const [history, setHistory] = useState<NotificationBatch[]>([])
 
   useEffect(() => {
     if (status === "authenticated" && session.user.role !== "ADMIN") {
@@ -114,58 +40,39 @@ export default function AdminEmailsPage() {
     }
   }, [session, status])
 
-  const loadCounts = useCallback(async () => {
+  const loadHistory = useCallback(async () => {
     try {
-      const res = await fetch("/api/admin/emails/history?limit=1")
+      const res = await fetch("/api/admin/emails/history?limit=50")
       if (res.ok) {
         const d = await res.json()
         const body = d?.data || d
-        setCounts(body?.recipientCounts || null)
+        setHistory(body?.notifications || [])
       }
     } catch {}
   }, [])
 
-  const loadHistory = useCallback(async (page = 1) => {
-    try {
-      const res = await fetch(`/api/admin/emails/history?page=${page}&limit=15`)
-      if (res.ok) {
-        const d = await res.json()
-        const body = d?.data || d
-        setHistory(body)
-        if (!counts) setCounts(body?.recipientCounts || null)
-      }
-    } catch {}
-  }, [counts])
-
   useEffect(() => {
     if (status === "authenticated") {
-      loadCounts()
       loadHistory()
     }
-  }, [status, loadCounts, loadHistory])
+  }, [status, loadHistory])
 
-  const applyTemplate = (template: (typeof TEMPLATES)[number]) => {
-    setSubject(template.subject)
-    setHtml(template.html)
-  }
-
-  const handleSend = async (isPreview: boolean) => {
-    if (!subject.trim() || !html.trim()) {
-      toast.error("Asunto y contenido son requeridos")
+  const handleSend = async () => {
+    if (!title.trim() || !message.trim()) {
+      toast.error("Título y mensaje son requeridos")
       return
     }
 
     setSending(true)
     try {
-      const res = await fetch("/api/admin/emails/send", {
+      const res = await fetch("/api/admin/notifications/send", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          subject,
-          html,
+          title: title.trim(),
+          message: message.trim(),
           segment,
-          preview: isPreview,
-          previewEmail: isPreview ? session?.user?.email : undefined,
+          link: link.trim() || undefined,
         }),
       })
 
@@ -173,12 +80,11 @@ export default function AdminEmailsPage() {
       const body = d?.data || d
 
       if (res.ok) {
-        if (isPreview) {
-          toast.success("Vista previa enviada a tu correo")
-        } else {
-          toast.success(`Emails enviados: ${body?.sent ?? 0}, fallidos: ${body?.failed ?? 0}`)
-          loadHistory()
-        }
+        toast.success(`Notificaciones enviadas: ${body?.sent ?? 0}, fallidas: ${body?.failed ?? 0}`)
+        setTitle("")
+        setMessage("")
+        setLink("")
+        loadHistory()
       } else {
         toast.error(body?.error?.message || body?.error || "Error al enviar")
       }
@@ -197,254 +103,154 @@ export default function AdminEmailsPage() {
     )
   }
 
-  const safeCounts = counts || { all: 0, free: 0, premium: 0, pro: 0, proPlus: 0, active: 0, inactive: 0, new: 0 }
-
   return (
     <div className="min-h-screen bg-[#F8FAF5] dark:bg-[#1A1F19]">
-      <div className="max-w-6xl mx-auto px-4 py-8">
-        <Link
-          href="/admin"
-          className="inline-flex items-center gap-2 text-[#64705E] dark:text-[#9BAA93] hover:text-[#2F3A2D] dark:hover:text-[#E8EDE6] mb-6"
-        >
-          <ArrowLeft className="w-4 h-4" />
-          Volver al panel
-        </Link>
-
+      <div className="max-w-4xl mx-auto px-4 py-8">
         <div className="flex items-center justify-between mb-8">
           <div>
             <h1 className="text-3xl font-bold text-[#2F3A2D] dark:text-[#E8EDE6] flex items-center gap-3">
-              <Mail className="w-8 h-8 text-[#C2E09D]" />
-              Envío de Emails
+              <Bell className="w-8 h-8 text-[#C2E09D]" />
+              Notificaciones
             </h1>
             <p className="text-[#64705E] dark:text-[#9BAA93] mt-1">
-              Envía correos a tus usuarios por segmento
+              Envía notificaciones a tus usuarios por segmento
             </p>
           </div>
         </div>
 
-        {/* Segment counts */}
-        <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-8 gap-3 mb-8">
-          {Object.entries(safeCounts).map(([key, value]) => (
-            <Card
-              key={key}
-              className={`cursor-pointer transition-all ${
-                segment === key
-                  ? "ring-2 ring-[#C2E09D] bg-[#F0F5EC] dark:bg-[#2A3228]"
-                  : "hover:bg-[#F0F5EC] dark:hover:bg-[#2A3228]"
-              }`}
-              onClick={() => setSegment(key)}
-            >
-                  <CardContent className="p-3 text-center">
-                    <p className="text-2xl font-bold text-[#2F3A2D] dark:text-[#E8EDE6]">{value}</p>
-                    <p className="text-xs font-medium text-[#2F3A2D] dark:text-[#E8EDE6]">{SEGMENT_LABELS[key]}</p>
-              </CardContent>
-            </Card>
-          ))}
-        </div>
+        <Card className="mb-8">
+          <CardContent className="p-6">
+            <h2 className="text-lg font-semibold text-[#2F3A2D] dark:text-[#E8EDE6] mb-4">
+              Nueva notificación
+            </h2>
 
-        {/* Tabs */}
-        <div className="flex gap-2 mb-6">
-          <Button
-            variant={activeTab === "compose" ? "default" : "outline"}
-            onClick={() => setActiveTab("compose")}
-            className={activeTab === "compose" ? "bg-[#C2E09D] text-[#2F3A2D]" : ""}
-          >
-            <Send className="w-4 h-4 mr-2" />
-            Redactar
-          </Button>
-          <Button
-            variant={activeTab === "history" ? "default" : "outline"}
-            onClick={() => setActiveTab("history")}
-            className={activeTab === "history" ? "bg-[#C2E09D] text-[#2F3A2D]" : ""}
-          >
-            <Clock className="w-4 h-4 mr-2" />
-            Historial
-          </Button>
-        </div>
+            <div className="space-y-4">
+              <div>
+                <label className="block text-sm font-medium text-[#2F3A2D] dark:text-[#E8EDE6] mb-1">
+                  Segmento destino
+                </label>
+                <select
+                  value={segment}
+                  onChange={(e) => setSegment(e.target.value)}
+                  className="w-full px-4 py-2 border border-[#DDE7D3] dark:border-[#3A4536] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#C2E09D] bg-background text-[#2F3A2D] dark:text-[#E8EDE6]"
+                >
+                  {SEGMENTS.map((s) => (
+                    <option key={s.value} value={s.value}>{s.label}</option>
+                  ))}
+                </select>
+              </div>
 
-        {activeTab === "compose" && (
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-            {/* Compose form */}
-            <div className="lg:col-span-2">
-              <Card>
-                <CardContent className="p-6">
-                  <h2 className="text-lg font-semibold text-[#2F3A2D] dark:text-[#E8EDE6] mb-4">
-                    Redactar email
-                  </h2>
+              <div>
+                <label className="block text-sm font-medium text-[#2F3A2D] dark:text-[#E8EDE6] mb-1">
+                  Título (máx. 100 caracteres)
+                </label>
+                <input
+                  type="text"
+                  value={title}
+                  onChange={(e) => setTitle(e.target.value.slice(0, 100))}
+                  className="w-full px-4 py-2 border border-[#DDE7D3] dark:border-[#3A4536] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#C2E09D] bg-background text-[#2F3A2D] dark:text-[#E8EDE6]"
+                  placeholder="Título de la notificación"
+                  maxLength={100}
+                />
+                <p className="text-xs text-[#64705E] dark:text-[#9BAA93] mt-1">{title.length}/100</p>
+              </div>
 
-                  <div className="space-y-4">
-                    <div>
-                      <label className="block text-sm font-medium text-[#2F3A2D] dark:text-[#E8EDE6] mb-1">
-                        Segmento destino
-                      </label>
-                      <div className="px-3 py-2 bg-[#F0F5EC] dark:bg-[#2A3228] border border-[#DDE7D3] dark:border-[#3A4536] rounded-lg text-[#2F3A2D] dark:text-[#E8EDE6]">
-                        {SEGMENT_LABELS[segment]} — {safeCounts[segment as keyof RecipientCounts]} destinatarios
-                      </div>
-                    </div>
+              <div>
+                <label className="block text-sm font-medium text-[#2F3A2D] dark:text-[#E8EDE6] mb-1">
+                  Mensaje
+                </label>
+                <textarea
+                  value={message}
+                  onChange={(e) => setMessage(e.target.value)}
+                  rows={5}
+                  className="w-full px-4 py-2 border border-[#DDE7D3] dark:border-[#3A4536] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#C2E09D] bg-background text-[#2F3A2D] dark:text-[#E8EDE6] resize-y"
+                  placeholder="Escribe el mensaje de la notificación..."
+                />
+              </div>
 
-                    <div>
-                      <label className="block text-sm font-medium text-[#2F3A2D] dark:text-[#E8EDE6] mb-1">
-                        Asunto
-                      </label>
-                      <input
-                        type="text"
-                        value={subject}
-                        onChange={(e) => setSubject(e.target.value)}
-                        className="w-full px-4 py-2 border border-[#DDE7D3] dark:border-[#3A4536] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#C2E09D] bg-background text-[#2F3A2D] dark:text-[#E8EDE6]"
-                        placeholder="Asunto del email"
-                      />
-                    </div>
+              <div>
+                <label className="block text-sm font-medium text-[#2F3A2D] dark:text-[#E8EDE6] mb-1">
+                  Link (opcional)
+                </label>
+                <input
+                  type="url"
+                  value={link}
+                  onChange={(e) => setLink(e.target.value)}
+                  className="w-full px-4 py-2 border border-[#DDE7D3] dark:border-[#3A4536] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#C2E09D] bg-background text-[#2F3A2D] dark:text-[#E8EDE6]"
+                  placeholder="https://ejemplo.com"
+                />
+              </div>
 
-                    <div>
-                      <label className="block text-sm font-medium text-[#2F3A2D] dark:text-[#E8EDE6] mb-1">
-                        Contenido (HTML)
-                      </label>
-                      <textarea
-                        value={html}
-                        onChange={(e) => setHtml(e.target.value)}
-                        rows={12}
-                        className="w-full px-4 py-2 border border-[#DDE7D3] dark:border-[#3A4536] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#C2E09D] bg-background text-[#2F3A2D] dark:text-[#E8EDE6] font-mono text-sm resize-y"
-                        placeholder="<h1>Hola</h1><p>Escribe tu contenido aquí...</p>"
-                      />
-                    </div>
+              <div className="flex items-center justify-between p-4 bg-[#F0F5EC] dark:bg-[#2A3228] rounded-lg">
+                <div className="flex items-center gap-2 text-[#2F3A2D] dark:text-[#E8EDE6]">
+                  <Users className="w-5 h-5 text-[#C2E09D]" />
+                  <span className="font-medium">
+                    Los usuarios del segmento seleccionado recibirán esta notificación
+                  </span>
+                </div>
+              </div>
 
-                    <div className="flex gap-3">
-                      <Button
-                        onClick={() => handleSend(false)}
-                        disabled={sending || !subject.trim() || !html.trim()}
-                        className="bg-[#C2E09D] text-[#2F3A2D] hover:bg-[#B0D48E]"
-                      >
-                        <Send className="w-4 h-4 mr-2" />
-                        {sending ? "Enviando..." : `Enviar a ${safeCounts[segment as keyof RecipientCounts]} usuarios`}
-                      </Button>
-                      <Button
-                        variant="outline"
-                        onClick={() => handleSend(true)}
-                        disabled={sending}
-                      >
-                        <Eye className="w-4 h-4 mr-2" />
-                        Vista previa
-                      </Button>
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
+              <Button
+                onClick={handleSend}
+                disabled={sending || !title.trim() || !message.trim()}
+                className="bg-[#C2E09D] text-[#2F3A2D] hover:bg-[#B0D48E]"
+              >
+                <Send className="w-4 h-4 mr-2" />
+                {sending ? "Enviando..." : "Enviar"}
+              </Button>
             </div>
+          </CardContent>
+        </Card>
 
-            {/* Templates sidebar */}
-            <div>
-              <Card>
-                <CardContent className="p-6">
-                  <h2 className="text-lg font-semibold text-[#2F3A2D] dark:text-[#E8EDE6] mb-4">
-                    Plantillas
-                  </h2>
-                  <div className="space-y-3">
-                    {TEMPLATES.map((t) => (
-                      <button
-                        key={t.name}
-                        onClick={() => applyTemplate(t)}
-                        className="w-full text-left p-3 border border-[#DDE7D3] dark:border-[#3A4536] rounded-lg hover:bg-[#F0F5EC] dark:hover:bg-[#2A3228] transition-colors"
-                      >
-                        <p className="font-medium text-[#2F3A2D] dark:text-[#E8EDE6] text-sm">{t.name}</p>
-                        <p className="text-xs text-[#64705E] dark:text-[#9BAA93] mt-1 truncate">{t.subject}</p>
-                      </button>
-                    ))}
-                  </div>
+        <Card>
+          <CardContent className="p-6">
+            <h2 className="text-lg font-semibold text-[#2F3A2D] dark:text-[#E8EDE6] mb-4">
+              Historial de notificaciones
+            </h2>
 
-                  <div className="mt-6 p-4 bg-[#F0F5EC] dark:bg-[#2A3228] rounded-lg">
-                    <h3 className="text-sm font-medium text-[#2F3A2D] dark:text-[#E8EDE6] mb-2">
-                      Variables disponibles
-                    </h3>
-                    <ul className="text-xs text-[#64705E] dark:text-[#9BAA93] space-y-1">
-                      <li><code className="bg-background dark:bg-[#1A1F19] px-1 rounded">{'{name}'}</code> — Nombre del usuario</li>
-                    </ul>
-                  </div>
-                </CardContent>
-              </Card>
-            </div>
-          </div>
-        )}
-
-        {activeTab === "history" && history && (
-          <Card>
-            <CardContent className="p-6">
-              <h2 className="text-lg font-semibold text-[#2F3A2D] dark:text-[#E8EDE6] mb-4">
-                Historial de envíos ({history.pagination.total})
-              </h2>
-
-              {history.logs.length === 0 ? (
-                <p className="text-[#64705E] dark:text-[#9BAA93] text-center py-8">
-                  No hay emails enviados aún
-                </p>
-              ) : (
-                <div className="overflow-x-auto">
-                  <table className="w-full text-sm">
-                    <thead>
-                      <tr className="border-b border-[#DDE7D3] dark:border-[#3A4536]">
-                        <th className="text-left py-3 px-2 text-[#2F3A2D] dark:text-[#E8EDE6] font-semibold">Asunto</th>
-                        <th className="text-left py-3 px-2 text-[#2F3A2D] dark:text-[#E8EDE6] font-semibold">Destinatario</th>
-                        <th className="text-left py-3 px-2 text-[#2F3A2D] dark:text-[#E8EDE6] font-semibold">Segmento</th>
-                        <th className="text-left py-3 px-2 text-[#2F3A2D] dark:text-[#E8EDE6] font-semibold">Estado</th>
-                        <th className="text-left py-3 px-2 text-[#2F3A2D] dark:text-[#E8EDE6] font-semibold">Fecha</th>
+            {history.length === 0 ? (
+              <p className="text-[#64705E] dark:text-[#9BAA93] text-center py-8">
+                No hay notificaciones enviadas aún
+              </p>
+            ) : (
+              <div className="overflow-x-auto">
+                <table className="w-full text-sm">
+                  <thead>
+                    <tr className="border-b border-[#DDE7D3] dark:border-[#3A4536]">
+                      <th className="text-left py-3 px-2 text-[#2F3A2D] dark:text-[#E8EDE6] font-semibold">Título</th>
+                      <th className="text-left py-3 px-2 text-[#2F3A2D] dark:text-[#E8EDE6] font-semibold">Mensaje</th>
+                      <th className="text-left py-3 px-2 text-[#2F3A2D] dark:text-[#E8EDE6] font-semibold">Fecha</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {history.map((n) => (
+                      <tr key={n.id} className="border-b border-[#DDE7D3] dark:border-[#3A4536] last:border-0">
+                        <td className="py-3 px-2 text-[#2F3A2D] dark:text-[#E8EDE6] font-medium max-w-[200px] truncate">
+                          <div className="flex items-center gap-2">
+                            <CheckCircle className="w-4 h-4 text-[#C2E09D] shrink-0" />
+                            {n.title}
+                          </div>
+                        </td>
+                        <td className="py-3 px-2 text-[#64705E] dark:text-[#9BAA93] max-w-[250px] truncate">
+                          {n.message}
+                        </td>
+                        <td className="py-3 px-2 text-[#64705E] dark:text-[#9BAA93] text-xs whitespace-nowrap">
+                          {new Date(n.createdAt).toLocaleDateString("es-ES", {
+                            day: "numeric",
+                            month: "short",
+                            year: "numeric",
+                            hour: "2-digit",
+                            minute: "2-digit",
+                          })}
+                        </td>
                       </tr>
-                    </thead>
-                    <tbody>
-                      {history.logs.map((log) => (
-                        <tr key={log.id} className="border-b border-[#DDE7D3] dark:border-[#3A4536] last:border-0">
-                          <td className="py-3 px-2 text-[#2F3A2D] dark:text-[#E8EDE6] max-w-[200px] truncate">
-                            {log.subject}
-                          </td>
-                          <td className="py-3 px-2 text-[#64705E] dark:text-[#9BAA93] max-w-[180px] truncate">
-                            {log.recipient}
-                          </td>
-                          <td className="py-3 px-2">
-                            <span className="inline-block px-2 py-1 bg-[#F0F5EC] dark:bg-[#2A3228] text-[#2F3A2D] dark:text-[#E8EDE6] rounded text-xs">
-                              {SEGMENT_LABELS[log.segment] || log.segment}
-                            </span>
-                          </td>
-                          <td className="py-3 px-2">
-                            {log.status === "sent" ? (
-                              <CheckCircle className="w-4 h-4 text-green-600" />
-                            ) : (
-                              <XCircle className="w-4 h-4 text-red-500" />
-                            )}
-                          </td>
-                          <td className="py-3 px-2 text-[#64705E] dark:text-[#9BAA93] text-xs">
-                            {new Date(log.sentAt).toLocaleDateString("es-ES", {
-                              day: "numeric",
-                              month: "short",
-                              year: "numeric",
-                              hour: "2-digit",
-                              minute: "2-digit",
-                            })}
-                          </td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
-                </div>
-              )}
-
-              {history.pagination.pages > 1 && (
-                <div className="flex justify-center gap-2 mt-4">
-                  {Array.from({ length: history.pagination.pages }, (_, i) => i + 1).map(
-                    (p) => (
-                      <Button
-                        key={p}
-                        variant={p === history.pagination.page ? "default" : "outline"}
-                        size="sm"
-                        onClick={() => loadHistory(p)}
-                        className={p === history.pagination.page ? "bg-[#C2E09D] text-[#2F3A2D]" : ""}
-                      >
-                        {p}
-                      </Button>
-                    )
-                  )}
-                </div>
-              )}
-            </CardContent>
-          </Card>
-        )}
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            )}
+          </CardContent>
+        </Card>
       </div>
     </div>
   )

@@ -1,6 +1,5 @@
 import { db } from "@/lib/db"
 import { logger } from "@/lib/logger"
-import { sendGroupCompletionEmail } from "@/lib/services/email-sequence"
 
 export const GROUP_REQUIRED = 3
 export const GROUP_DISCOUNT_PRICE = 2.99
@@ -140,7 +139,14 @@ async function completeGroup(
     })
 
     if (referrer) {
-      await sendGroupCompletionEmail(referrer.email, referrer.name || "Usuario", groupId)
+      await db.notification.create({
+        data: {
+          userId: referrerId,
+          title: "🎉 Grupo completado",
+          message: `Tu código ${groupId} completó los 3 referidos. Recibiste un análisis gratis.`,
+          link: "/dashboard/referrals",
+        },
+      })
     }
 
     logger.info("Referral group completed", {

@@ -1,7 +1,6 @@
 import { NextRequest } from "next/server"
 import crypto from "crypto"
 import { db } from "@/lib/db"
-import { sendPasswordResetEmail } from "@/lib/email"
 import { checkRateLimit } from "@/lib/rate-limit"
 import { ok, error, serverError } from "@/lib/api-response"
 
@@ -41,11 +40,9 @@ export async function POST(req: NextRequest) {
     const baseUrl = process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000"
     const resetUrl = `${baseUrl}/reset-password?token=${token}&email=${encodeURIComponent(email)}`
 
-    const result = await sendPasswordResetEmail(email, resetUrl)
-
     return ok({
-      message: "Si el email existe, recibirás un enlace de recuperación.",
-      ...(result && "devUrl" in result ? { resetUrl: result.devUrl } : {}),
+      message: "Enlace de recuperación generado.",
+      resetUrl,
     })
   } catch {
     return serverError()

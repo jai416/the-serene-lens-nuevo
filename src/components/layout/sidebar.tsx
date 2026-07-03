@@ -27,6 +27,7 @@ import {
 } from "lucide-react"
 import { useState } from "react"
 import { ThemeToggle } from "@/components/theme-toggle"
+import { NotificationBell } from "@/components/notifications/notification-bell"
 
 const guestLinks = [
   { href: "/", label: "Inicio", icon: Home },
@@ -76,6 +77,10 @@ export function Sidebar() {
             <span className="text-[10px] text-[#64705E] dark:text-[#9BAA93] block leading-tight">Observación Cosmética</span>
           </div>
         </Link>
+      </div>
+
+      <div className="px-3 mb-1">
+        <NotificationBell />
       </div>
 
       <nav className="flex-1 px-3 space-y-0.5 overflow-y-auto scrollbar-hide">
