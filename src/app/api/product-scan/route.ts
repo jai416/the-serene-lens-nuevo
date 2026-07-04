@@ -4,6 +4,8 @@ import { authOptions } from "@/lib/auth"
 import { scanProductIngredients } from "@/lib/openrouter"
 import { ok, error, serverError, unauthorized } from "@/lib/api-response"
 import { logger } from "@/lib/logger"
+import { createHash } from "crypto"
+import { db } from "@/lib/db"
 
 const alarmistTerms = [
   "tóxico", "toxina", "veneno", "venenoso", "cancerígeno", "carcinógeno",
@@ -18,6 +20,14 @@ function sanitizeSummary(summary: string): string {
   })
   return sanitized
 }
+
+async function getCacheKey(base64: string): Promise<string> {
+  const hash = createHash("sha256")
+  hash.update(base64.slice(0, 1000))
+  return "product_scan:" + hash.digest("hex").slice(0, 32)
+}
+
+const CACHE_TTL_MS = 7 * 24 * 60 * 60 * 1000
 
 export async function POST(req: NextRequest) {
   const session = await getServerSession(authOptions)
@@ -39,13 +49,29 @@ export async function POST(req: NextRequest) {
     const buffer = Buffer.from(bytes)
     const base64 = buffer.toString("base64")
 
+    // Check cache
+    const cacheKey = await getCacheKey(base64)
+    const cached = await db.cache.findUnique({ where: { key: cacheKey } })
+    if (cached && cached.expiresAt > new Date()) {
+      const parsed = JSON.parse(cached.value)
+      if (parsed.summary) parsed.summary = sanitizeSummary(parsed.summary)
+      return ok({ result: parsed, cached: true })
+    }
+
     const result = await scanProductIngredients(base64)
+
+    // Save to cache
+    await db.cache.upsert({
+      where: { key: cacheKey },
+      update: { value: JSON.stringify(result), expiresAt: new Date(Date.now() + CACHE_TTL_MS) },
+      create: { key: cacheKey, value: JSON.stringify(result), expiresAt: new Date(Date.now() + CACHE_TTL_MS) },
+    }).catch(() => {})
 
     if (result.summary) {
       result.summary = sanitizeSummary(result.summary as string)
     }
 
-    return ok({ result })
+    return ok({ result, cached: false })
   } catch (e: unknown) {
     logger.error("Product scan error", { error: e, userId: session.user.id })
 

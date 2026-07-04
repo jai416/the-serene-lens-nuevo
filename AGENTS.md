@@ -1,29 +1,32 @@
 # AGENTS.md — The Serene Lens
 
-## Project Status (2026-07-01)
-**Código completo + auditoría + mejoras implementadas.**
-- Landing page, análisis de piel con IA, historial, evolución
+## Project Status (2026-07-04)
+**Código completo + Gemini directo + Bot RAG + Admin slate + Validator role.**
+- Landing page, análisis de piel con IA (Gemini directo, 7 keys round-robin), historial, evolución
 - Sistema de pagos QvaPay (planes + packs), webhooks, suscripciones
 - **3 métodos de pago**: QvaPay, Transfermóvil (validar/activar), PayPal (mock)
 - Blog, productos, ingredientes, comunidad (con comentarios)
 - Diario de piel, desafíos gamificados (solo visualización, sin completar manual)
-- Panel admin: usuarios, pagos, mensajes, blog, productos, guías, feature flags, analytics, health check
-- Feature flags, health check, queue system
+- Panel admin tema oscuro slate/navy: usuarios con rol VALIDADOR, pagos, mensajes agrupados por plan, blog, productos, guías, feature flags (JSON configurable), analytics, health check (extendido), conocimiento (Bot RAG), Telegram (broadcast)
 - SEO: 55 keywords con contexto para generación de artículos
 - **PRO+ plan** ($14.99/mes): informe PDF, rutina dinámica, comparativa mensual
 - **Modo Social**: comparación anónima de resultados con amigos
 - **Guías Digitales**: e-books descargables vendidos vía QvaPay (con fileUrl en seed)
 - **Sistema de Referidos Grupal**: invita 3 amigos → análisis gratis
-- **Predictor de Envejecimiento**: proyección a 5 años con IA + RAG de ingredientes
-- **Telegram Bot integrado como webhook**: /start, /status, /pending, /cliente, /validar, /activar, /reporte
-- 174 tests, type check limpio, build exitoso (94 páginas estáticas)
+- **Predictor de Envejecimiento**: proyección a 5 años con IA + RAG de ingredientes (OpenRouter con fallback Gemini)
+- **Telegram Bot**: webhook integrado, DB-based auth (sin tokens), RAG con knowledge base (18 entradas), menús por rol (USER/VALIDATOR/ADMIN)
+- **Bot RAG**: `searchKnowledge()` con scoring por keywords/sinónimos/prioridad + `generateBotResponse()` con Gemini Flash
+- **Caché**: Análisis (SHA-256, 7 días) + Product scanner (SHA-256, 7 días)
+- **Sin bloqueo por país**: todas las API calls server-side
+- 174 tests, type check limpio, build exitoso
 
-**Pendiente solo configuración manual:**
-1. `npx prisma db push` — sync tablas nuevas + enums
-2. `CRON_SECRET` — agregar env var en Render Dashboard
-3. Google/GitHub OAuth — configurar callbacks (opcional)
-4. `npm run seed` en producción — poblar productos, guías y desafíos (ahora incluye fileUrl)
-5. Subir PDFs reales a hosting y actualizar `fileUrl` en admin de guías
+**Pendiente configuración manual:**
+1. `npx prisma db push` — sync tablas nuevas (BotKnowledge, BotFeedback, BotLog, TelegramAuth, etc.)
+2. `npx tsx prisma/seed-knowledge.ts` — poblar base de conocimiento del bot (18 entradas)
+3. `CRON_SECRET` — agregar env var en Render Dashboard
+4. Google/GitHub OAuth — configurar callbacks (opcional)
+5. `npm run seed` en producción — poblar productos, guías y desafíos
+6. Configurar 7 Gemini keys en Render Dashboard (GEMINI_API_KEY_1 a _7)
 
 **Verificado en producción (2026-07-01 live tests):**
 - 23/23 tests pasados en sitio en vivo
@@ -577,6 +580,61 @@ skincare-masculino.pdf → 200
 URL activa ✅ (https://the-serene-lens-nuevo.onrender.com/api/telegram/webhook)
 Pending updates: 0
 ```
+
+## Changelog (2026-07-04) — Gemini Directo + Admin Theme + Bot RAG + Validator Role
+
+### Gemini Directo + Keys Round-Robin
+- **`src/lib/gemini-keys.ts`**: Sistema round-robin con `getNextGeminiKey()`. Soporta `GEMINI_API_KEY_1` a `_10`. Key count: `getGeminiKeyCount()`.
+- **`src/lib/gemini.ts`**: `analyzeSkinWithGemini()` — análisis de piel directo a Gemini (NO OpenRouter). Compresión 512px, retry backoff, prompt JSON-only.
+- **`src/app/api/analyze/stream/route.ts`**: Migrado de OpenRouter a Gemini directo + caché (`getCachedAnalysis`/`setCachedAnalysis`) + límite diario (`checkAndDeductUsage`)
+- **`.env`**: 7 Gemini keys configuradas (6 keys `AQ.*` + 1 key `AIzaSy*`). Rotación automática round-robin.
+- **`.env.example`**: Actualizado con sección Gemini completa.
+- **Cuba workaround eliminado**: `src/lib/country-detect.ts` eliminado. OpenRouter fallback a Gemini es genérico.
+
+### Admin Panel — Tema Oscuro Slate/Navy
+- **All admin pages**: Migradas de verde oliva a `#0F1117` fondo / `#22263A` cards / `#7C8CFF` accent / `#E2E8F0` texto / `#8892B0` secondary
+- **Style approach**: `style={}` objects instead of Tailwind dark: prefixes for admin-specific theme
+
+### Base de Conocimiento (Bot RAG)
+- **Nuevo modelo Prisma**: `BotKnowledge` con hierarchy/subcategory/source/sourceUrl/priority/synonyms/versioning (validFrom/validUntil/version/updatedBy) + confidence tracking (helpfulCount/unhelpfulCount/lastUsedAt)
+- **Nuevo modelo**: `BotFeedback` (knowledgeId, userId, chatId, helpful boolean)
+- **Nuevo modelo**: `BotLog` (chatId, userId, command, message)
+- **`src/lib/bot-knowledge.ts`**: `searchKnowledge()` con scoring (title 10pts, keywords 8pts, synonyms 6pts, content 4pts + bonus frase exacta)
+- **`src/lib/bot-rag.ts`**: `generateBotResponse()` busca en knowledge base, construye prompt con contexto, llama Gemini Flash. Fallback a respuesta directa sin IA.
+- **`prisma/seed-knowledge.ts`**: 18 entradas completas con toda la documentación del sitio (qué es, análisis, precios, pagos, modo experto, ruta mejora, predictor, comunidad, soporte, blog, guías, referidos, Transfermóvil, diario, desafíos, ingredientes, privacidad)
+- **Knowledge sync**: `POST /api/admin/knowledge/sync` — lee sitemap de 14 páginas, extrae contenido, crea/actualiza BotKnowledge
+- **Knowledge API**: `GET/POST /api/admin/knowledge`, `PATCH/DELETE /api/admin/knowledge/[id]`
+- **Admin knowledge page**: `src/app/admin/knowledge/page.tsx` — CRUD + sync + toggle activación + badges
+
+### Admin Telegram Page
+- **`src/app/admin/telegram/page.tsx`**: Broadcast masivo, lista usuarios vinculados con desvincular
+- **`POST /api/admin/telegram/broadcast`**: Envía mensaje a todos los `telegramId` en DB, batch 30 msg/s, devuelve sent/failed
+
+### Messages Page Overhaul
+- **`src/app/admin/messages/page.tsx`**: Agrupa por plan (PRO/PRO+ primero → ESTHETICIAN → otros). Muestra nombre, email, plan, fecha. Selección con detalle expandido.
+- **`ContactMessage`**: Ahora vinculado a `User` via `userId` (relación opcional)
+
+### Product Scanner Caché
+- **`src/app/api/product-scan/route.ts`**: SHA-256 hash de imagen, caché 7 días en tabla `Cache`. Devuelve `cached: true/false`
+
+### Health Check Extendido
+- **`src/app/api/health/route.ts`**: Verifica DB, Gemini keys count, Cache status, Rate limit, Feature flags. Devuelve uptime, versión, memoria, queue stats
+
+### Feature Flags Overhaul
+- **`src/lib/feature-flags.ts`**: JSON config `{ enabled, message, redirectUrl }`. Admin page con editor de mensaje y redirección personalizados
+
+### Revenue por Proveedor
+- **Admin dashboard**: Muestra QvaPay + Transfermóvil + PayPal con barra de colores proporcional
+
+### Rol VALIDADOR
+- **`src/app/admin/users/page.tsx`**: Rediseñada con tema slate, agrega selector VALIDATOR al dropdown de roles, info box explicando qué hace un validador
+- **`src/lib/validations/index.ts`**: `adminUserUpdateSchema` ahora acepta `"VALIDATOR"` en el enum de roles
+- **`src/app/api/admin/users/route.ts`**: `GET` ahora incluye `telegramId` en la respuesta
+
+### Live Chat + Tour (de changelog anterior)
+- `LiveChatWidget` movido a Client Component wrapper (`live-chat-wrapper.tsx`) para evitar error `ssr: false`
+- `next.config.ts` fix: `__dirname` reemplazado por `fileURLToPath(import.meta.url)` para ESM
+- Interactive Tour, Quick Feedback, Modo Experto, Ruta de Mejora, Personality Engine del changelog anterior
 
 ### Git
 - Commit `4adb53a`: "Auditoría y mejoras: CSRF, seguridad, Transfermóvil, guías, estilos, tests, email"

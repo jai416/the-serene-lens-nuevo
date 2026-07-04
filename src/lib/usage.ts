@@ -50,6 +50,28 @@ export async function getUsageInfo(userId: string) {
   }
 }
 
+const DAILY_LIMIT = 3
+
+export async function checkDailyLimit(userId: string): Promise<{ allowed: boolean; error?: string }> {
+  const today = new Date()
+  today.setHours(0, 0, 0, 0)
+  const tomorrow = new Date(today)
+  tomorrow.setDate(tomorrow.getDate() + 1)
+
+  const todayCount = await db.usageTracking.count({
+    where: {
+      userId,
+      type: "analysis",
+      createdAt: { gte: today, lt: tomorrow },
+    },
+  })
+
+  if (todayCount >= DAILY_LIMIT) {
+    return { allowed: false, error: `Has alcanzado el límite diario de ${DAILY_LIMIT} análisis. Vuelve mañana.` }
+  }
+  return { allowed: true }
+}
+
 export async function checkAndDeductUsage(userId: string): Promise<{ allowed: boolean; error?: string }> {
   const user = await db.user.findUnique({
     where: { id: userId },
@@ -67,11 +89,16 @@ export async function checkAndDeductUsage(userId: string): Promise<{ allowed: bo
   const isUnlimited = plan?.analysesPerMonth === -1
 
   if (isUnlimited) {
+    const daily = await checkDailyLimit(userId)
+    if (!daily.allowed) return daily
     await db.usageTracking.create({
       data: { userId, type: "analysis" },
     })
     return { allowed: true }
   }
+
+  const daily = await checkDailyLimit(userId)
+  if (!daily.allowed) return daily
 
   const now = new Date()
   if (user.analysisResetAt && now > user.analysisResetAt) {

@@ -1,5 +1,4 @@
 import type { Metadata } from "next"
-import dynamic from "next/dynamic"
 import "./globals.css"
 import { Toaster } from "sonner"
 import { AuthProvider } from "@/components/auth-provider"
@@ -9,8 +8,7 @@ import { Sidebar } from "@/components/layout/sidebar"
 import { MobileNav } from "@/components/layout/mobile-nav"
 import { ClientInit } from "@/components/client-init"
 import { NotificationBell } from "@/components/notifications/notification-bell"
-
-const LiveChatWidget = dynamic(() => import("@/components/chat/live-chat-widget"), { ssr: false })
+import { LiveChatWrapper } from "@/components/chat/live-chat-wrapper"
 
 export const metadata: Metadata = {
   metadataBase: new URL(process.env.NEXT_PUBLIC_APP_URL || "https://the-serene-lens-nuevo.onrender.com"),
@@ -81,7 +79,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
               <div className="fixed top-4 right-4 z-50">
                 <NotificationBell />
               </div>
-              <LiveChatWidget />
+              <LiveChatWrapper />
               <Toaster
                 position="top-center"
                 toastOptions={{

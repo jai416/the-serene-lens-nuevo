@@ -12,7 +12,6 @@ export async function GET() {
     const flags = await getAllFeatureFlags()
     return ok({ flags })
   } catch (e) {
-    console.error("Feature flags GET error:", e)
     return serverError(e)
   }
 }
@@ -23,14 +22,17 @@ export async function POST(req: NextRequest) {
     if (!session?.user || session.user.role !== "ADMIN") return unauthorized()
 
     const body = await req.json().catch(() => null)
-    if (!body?.flag || typeof body.enabled !== "boolean") {
-      return error("Se requiere 'flag' (string) y 'enabled' (boolean)")
+    if (!body?.flag) return error("Se requiere 'flag' (string)")
+
+    const config = {
+      enabled: body.enabled !== undefined ? body.enabled : true,
+      message: body.message || undefined,
+      redirectUrl: body.redirectUrl || undefined,
     }
 
-    await setFeatureFlag(body.flag, body.enabled)
-    return ok({ flag: body.flag, enabled: body.enabled })
+    await setFeatureFlag(body.flag, config)
+    return ok({ flag: body.flag, ...config })
   } catch (e) {
-    console.error("Feature flags POST error:", e)
     return serverError(e)
   }
 }

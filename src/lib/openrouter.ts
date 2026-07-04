@@ -1,5 +1,6 @@
 import { withRetry } from "@/lib/retry"
 import { logger } from "@/lib/logger"
+import { createHash } from "crypto"
 
 function getApiKey(): string {
   const key = process.env.OPENROUTER_API_KEY || ""
@@ -203,26 +204,27 @@ export async function scanProductIngredients(imageBase64: string) {
   const apiKey = getApiKey()
   if (!apiKey) throw new Error("Servicio de análisis no disponible. Intenta más tarde.")
 
-  const prompt = `Eres un experto en ingredientes cosméticos. Analiza esta imagen de un producto de skincare.
+  // Cache check
+  const cacheKey = "product_scan:" + createHash("sha256").update(imageBase64.slice(0, 500)).digest("hex").slice(0, 24)
+  try {
+    const { db } = await import("@/lib/db")
+    const cached = await db.cache.findUnique({ where: { key: cacheKey } })
+    if (cached && cached.expiresAt > new Date()) {
+      return JSON.parse(cached.value)
+    }
+  } catch {}
 
-Extrae la lista de ingredientes y analízalos.
-
-Responde en formato JSON (sin markdown, solo JSON válido). Usa lenguaje descriptivo y neutral. No uses términos alarmistas como "tóxico", "venenoso", "peligroso" a menos que el ingrediente esté explícitamente prohibido por regulaciones cosméticas.
-
+  const prompt = `Analiza esta imagen de producto skincare. Responde SOLO JSON:
 {
-  "productName": "nombre del producto (si es visible)",
-  "ingredients": ["ingrediente 1", "ingrediente 2", ...],
-  "analysis": {
-    "good": ["ingredientes con función cosmética beneficiosa"],
-    "caution": ["ingredientes que pueden requerir precaución según tipo de piel"],
-    "avoid": ["ingredientes comúnmente evitados en cosmética"]
-  },
-  "summary": "resumen breve del análisis en tono neutral e informativo"
+  "productName": "nombre del producto",
+  "ingredients": ["ingredientes"],
+  "analysis": {"good":[],"caution":[],"avoid":[]},
+  "summary": "resumen breve"
 }`
 
   const body = {
-    model: "google/gemini-2.5-flash",
-    max_tokens: 1000,
+    model: "google/gemini-1.5-flash",
+    max_tokens: 800,
     messages: [
       {
         role: "user",
@@ -246,20 +248,62 @@ Responde en formato JSON (sin markdown, solo JSON válido). Usa lenguaje descrip
           "Content-Type": "application/json",
           Authorization: `Bearer ${apiKey}`,
           "HTTP-Referer": APP_URL,
-          "X-Title": "The Serene Lens - Product Scanner",
+          "X-Title": "The Serene Lens",
         },
         body: JSON.stringify(body),
-        signal: AbortSignal.timeout(90000),
+        signal: AbortSignal.timeout(60000),
       }),
     {
       maxRetries: 1,
       baseDelayMs: 2000,
-      onRetry: (attempt, err) => logger.warn("OpenRouter product scan retry", { attempt, error: String(err) }),
+      onRetry: (attempt, err) => logger.warn("Product scan retry", { attempt, error: String(err) }),
     }
   )
 
   if (!res.ok) {
     const text = await res.text()
+    logger.warn("OpenRouter product scan failed, falling back to Gemini", { status: res.status })
+    try {
+      const { getNextGeminiKey } = await import("@/lib/gemini-keys")
+      const geminiKey = getNextGeminiKey()
+      const geminiRes = await fetch(
+        `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${geminiKey}`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            contents: [{
+              parts: [
+                { text: prompt },
+                { inline_data: { mime_type: "image/jpeg", data: imageBase64 } },
+              ],
+            }],
+            generationConfig: { temperature: 0.2, maxOutputTokens: 800 },
+          }),
+          signal: AbortSignal.timeout(30000),
+        }
+      )
+      if (geminiRes.ok) {
+        const geminiData = await geminiRes.json()
+        const geminiContent = geminiData?.candidates?.[0]?.content?.parts?.[0]?.text
+        if (geminiContent) {
+          const geminiParsed = JSON.parse(geminiContent.replace(/```json|```/g, "").trim())
+          if (!containsPercentages(geminiParsed)) {
+            try {
+              const { db } = await import("@/lib/db")
+              await db.cache.upsert({
+                where: { key: cacheKey },
+                create: { key: cacheKey, value: JSON.stringify(geminiParsed), expiresAt: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000) },
+                update: { value: JSON.stringify(geminiParsed), expiresAt: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000) },
+              })
+            } catch {}
+            return geminiParsed
+          }
+        }
+      }
+    } catch (geminiErr) {
+      logger.warn("Gemini fallback also failed", { error: String(geminiErr) })
+    }
     throw new Error(`OpenRouter error ${res.status}: ${text}`)
   }
 
@@ -271,12 +315,23 @@ Responde en formato JSON (sin markdown, solo JSON válido). Usa lenguaje descrip
   try {
     parsed = JSON.parse(content)
   } catch {
-    throw new Error("The AI returned an invalid response for the product. Please try again with a clearer photo of the ingredient label.")
+    throw new Error("Invalid AI response. Try again with a clearer photo.")
   }
 
   if (containsPercentages(parsed)) {
     parsed = stripPercentages(parsed) as Record<string, unknown>
   }
+
+  // Save to cache
+  try {
+    const { db } = await import("@/lib/db")
+    await db.cache.upsert({
+      where: { key: cacheKey },
+      create: { key: cacheKey, value: JSON.stringify(parsed), expiresAt: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000) },
+      update: { value: JSON.stringify(parsed), expiresAt: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000) },
+    })
+  } catch {}
+
   return parsed
 }
 

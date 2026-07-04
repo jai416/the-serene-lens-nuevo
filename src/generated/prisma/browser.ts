@@ -103,6 +103,21 @@ export type AffiliateClick = Prisma.AffiliateClickModel
  */
 export type ContactMessage = Prisma.ContactMessageModel
 /**
+ * Model BotLog
+ * 
+ */
+export type BotLog = Prisma.BotLogModel
+/**
+ * Model BotKnowledge
+ * 
+ */
+export type BotKnowledge = Prisma.BotKnowledgeModel
+/**
+ * Model BotFeedback
+ * 
+ */
+export type BotFeedback = Prisma.BotFeedbackModel
+/**
  * Model Cache
  * 
  */
@@ -227,11 +242,6 @@ export type DiscountCode = Prisma.DiscountCodeModel
  * 
  */
 export type TelegramReminder = Prisma.TelegramReminderModel
-/**
- * Model BotFeedback
- * 
- */
-export type BotFeedback = Prisma.BotFeedbackModel
 /**
  * Model SupportTicket
  * 

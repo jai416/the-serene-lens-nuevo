@@ -1,6 +1,6 @@
-import { analyzeSkin } from "@/lib/openrouter"
-import { ImageCompressionError } from "@/lib/image-compression"
+import { analyzeSkinWithGemini } from "@/lib/gemini"
 import { checkAndDeductUsage } from "@/lib/usage"
+import { getCachedAnalysis, setCachedAnalysis } from "@/lib/analysis-cache"
 import { AnalysisRepository } from "@/lib/repositories"
 
 export class AnalysisError extends Error {
@@ -21,60 +21,48 @@ export const AnalysisService = {
       throw new AnalysisError(usage.error || "Límite de análisis alcanzado", "USAGE_LIMIT")
     }
 
-    const imagesBase64 = await Promise.all(
-      files.map(async (file) => {
-        if (file.size > 10 * 1024 * 1024) {
-          throw new AnalysisError("Una imagen supera los 10MB. Reduce el tamaño o toma una foto con menor resolución.", "VALIDATION")
-        }
-
-        let buffer: Buffer
-        try {
-          const bytes = await file.arrayBuffer()
-          buffer = Buffer.from(bytes)
-        } catch {
-          throw new AnalysisError("No se pudo leer el archivo de imagen. Inténtalo de nuevo.", "VALIDATION")
-        }
-
-        const base64 = buffer.toString("base64")
-        if (!base64) {
-          throw new AnalysisError("La imagen parece estar corrupta o vacía. Toma una nueva foto.", "VALIDATION")
-        }
-
-        return base64
+    // Cache check
+    const cacheKeyFiles = files.slice(0, 2)
+    const cacheKeyBase64 = (await Promise.all(
+      cacheKeyFiles.map(async (f) => {
+        const buf = Buffer.from(await f.arrayBuffer())
+        return buf.toString("base64").slice(0, 200)
       })
-    )
+    )).join("|")
+
+    const cached = await getCachedAnalysis([cacheKeyBase64], body.concerns, body.age)
+    if (cached) {
+      const skinType = (cached as { skinType?: string })?.skinType || null
+      const observations = (cached as { observations?: string[] })?.observations || []
+      const recommendations = (cached as { recommendations?: string[] })?.recommendations || []
+      const routine = (cached as { routine?: { morning?: string[]; evening?: string[] } })?.routine || null
+
+      const analysis = await AnalysisRepository.create({
+        userId,
+        skinType,
+        concerns: body.concerns || null,
+        observations: JSON.stringify(observations),
+        recommendations: JSON.stringify(recommendations),
+        routine: routine ? JSON.stringify(routine) : null,
+      })
+
+      return { analysis, result: cached }
+    }
 
     let result: Record<string, unknown>
     try {
-      result = await analyzeSkin({
-        imagesBase64,
-        concerns: body.concerns || undefined,
-        age: body.age || undefined,
-        gender: body.gender || undefined,
-        climate: body.climate || undefined,
-        routine: body.routine || undefined,
-        language: body.language || undefined,
-      })
+      result = await analyzeSkinWithGemini(files)
+      await setCachedAnalysis([cacheKeyBase64], body.concerns, body.age, result).catch(() => {})
     } catch (e) {
-      if (e instanceof Error) {
-        if (e.message.includes("OpenRouter error 429")) {
-          throw new AnalysisError("Demasiadas solicitudes. Espera un momento e intenta de nuevo.", "AI_ERROR", e)
-        }
-        if (e.message.includes("OpenRouter error 401")) {
-          throw new AnalysisError("Error de autenticación con el servicio de IA. Contacta al soporte.", "AI_ERROR", e)
-        }
-        if (e.message.includes("OpenRouter error 5")) {
-          throw new AnalysisError("El servicio de IA no está disponible temporalmente. Intenta más tarde.", "AI_ERROR", e)
-        }
-        if (e.message.includes("timeout") || e.message.includes("AbortError")) {
-          throw new AnalysisError("La solicitud tardó demasiado. Intenta con menos fotos o más tarde.", "AI_ERROR", e)
-        }
-        if (e.message.includes("No response from AI")) {
-          throw new AnalysisError("La IA no pudo generar un análisis. Intenta con fotos más claras.", "AI_ERROR", e)
-        }
-        if (e.message.includes("invalid response")) {
-          throw new AnalysisError("La IA devolvió una respuesta inesperada. Intenta de nuevo.", "AI_ERROR", e)
-        }
+      const msg = e instanceof Error ? e.message : String(e)
+      if (msg.includes("429")) {
+        throw new AnalysisError("Demasiadas solicitudes. Espera un momento e intenta de nuevo.", "AI_ERROR", e)
+      }
+      if (msg.includes("empty response") || msg.includes("invalid JSON")) {
+        throw new AnalysisError("La IA no pudo generar un análisis válido. Intenta con fotos más claras.", "AI_ERROR", e)
+      }
+      if (msg.includes("timeout") || msg.includes("AbortError")) {
+        throw new AnalysisError("La solicitud tardó demasiado. Intenta con menos fotos o más tarde.", "AI_ERROR", e)
       }
       throw new AnalysisError("Error al analizar la imagen. Intenta de nuevo.", "AI_ERROR", e)
     }

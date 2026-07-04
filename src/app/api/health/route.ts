@@ -1,11 +1,12 @@
 import { NextResponse } from "next/server"
 import { db } from "@/lib/db"
 import { analysisQueue } from "@/lib/queue"
+import { getGeminiKeyCount } from "@/lib/gemini-keys"
 
 export const dynamic = "force-dynamic"
 
 export async function GET() {
-  const checks: Record<string, { status: string; latencyMs?: number }> = {}
+  const checks: Record<string, { status: string; latencyMs?: number; detail?: string }> = {}
   let overallStatus = "ok"
   const start = Date.now()
 
@@ -25,10 +26,52 @@ export async function GET() {
     checks.users = { status: "error" }
   }
 
+  // Gemini keys check
+  try {
+    const keyCount = getGeminiKeyCount()
+    checks.gemini = {
+      status: keyCount > 0 ? "ok" : "degraded",
+      detail: `${keyCount} clave(s) configurada(s)`,
+    }
+    if (keyCount === 0) overallStatus = "degraded"
+  } catch {
+    checks.gemini = { status: "error", detail: "No se pudo verificar" }
+    overallStatus = "degraded"
+  }
+
+  // Cache check
+  try {
+    const cacheCount = await db.cache.count()
+    const expiredCount = await db.cache.count({ where: { expiresAt: { lt: new Date() } } })
+    checks.cache = {
+      status: "ok",
+      detail: `${cacheCount} entradas (${expiredCount} expiradas)`,
+    }
+  } catch {
+    checks.cache = { status: "degraded", detail: "No disponible" }
+  }
+
+  // Rate limit check
+  try {
+    const rateLimitCount = await db.rateLimit.count()
+    checks.rateLimit = { status: "ok", detail: `${rateLimitCount} entradas` }
+  } catch {
+    checks.rateLimit = { status: "degraded", detail: "No disponible" }
+  }
+
+  // Feature flags check
+  try {
+    const flagsCount = await db.appConfig.count({ where: { key: { startsWith: "feature:" } } })
+    checks.featureFlags = { status: "ok", detail: `${flagsCount} flags configurados` }
+  } catch {
+    checks.featureFlags = { status: "degraded", detail: "No disponible" }
+  }
+
   const queueStats = analysisQueue.getStats()
   checks.queue = {
     status: queueStats.failed > 0 ? "degraded" : "ok",
     latencyMs: queueStats.pending,
+    detail: `${queueStats.pending} pendientes, ${queueStats.processing} procesando, ${queueStats.failed} fallidos`,
   }
 
   const memUsage = process.memoryUsage()
@@ -37,12 +80,13 @@ export async function GET() {
   checks.memory = {
     status: heapUsedMB > 500 ? "degraded" : "ok",
     latencyMs: heapUsedMB,
+    detail: `${heapUsedMB}MB / ${heapTotalMB}MB`,
   }
 
   const response = {
     status: overallStatus,
     version: process.env.npm_package_version || "3.0.0",
-    buildTime: "2026-06-25T-fix-csp-payments",
+    buildTime: "2026-07-04-final",
     uptime: Math.round(process.uptime()),
     timestamp: new Date().toISOString(),
     totalLatencyMs: Date.now() - start,

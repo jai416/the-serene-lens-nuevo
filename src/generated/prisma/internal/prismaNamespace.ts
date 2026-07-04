@@ -401,6 +401,9 @@ export const ModelName = {
   Clinic: 'Clinic',
   AffiliateClick: 'AffiliateClick',
   ContactMessage: 'ContactMessage',
+  BotLog: 'BotLog',
+  BotKnowledge: 'BotKnowledge',
+  BotFeedback: 'BotFeedback',
   Cache: 'Cache',
   WebhookEvent: 'WebhookEvent',
   UserEvolution: 'UserEvolution',
@@ -426,7 +429,6 @@ export const ModelName = {
   TelegramAlert: 'TelegramAlert',
   DiscountCode: 'DiscountCode',
   TelegramReminder: 'TelegramReminder',
-  BotFeedback: 'BotFeedback',
   SupportTicket: 'SupportTicket',
   SupportTicketResponse: 'SupportTicketResponse',
   ChatMessage: 'ChatMessage'
@@ -445,7 +447,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "user" | "account" | "session" | "verificationToken" | "skinAnalysis" | "blogPost" | "product" | "payment" | "transferPayment" | "auditLog" | "subscription" | "purchasePack" | "usageTracking" | "feedback" | "clinic" | "affiliateClick" | "contactMessage" | "cache" | "webhookEvent" | "userEvolution" | "rateLimit" | "appConfig" | "surveyFeedback" | "communityPost" | "comment" | "skinDiary" | "challenge" | "userChallenge" | "productReview" | "groupAnalytics" | "referral" | "digitalProduct" | "digitalProductPurchase" | "dailyCheckIn" | "ingredientKB" | "client" | "telegramAuth" | "telegramLog" | "notification" | "telegramAlert" | "discountCode" | "telegramReminder" | "botFeedback" | "supportTicket" | "supportTicketResponse" | "chatMessage"
+    modelProps: "user" | "account" | "session" | "verificationToken" | "skinAnalysis" | "blogPost" | "product" | "payment" | "transferPayment" | "auditLog" | "subscription" | "purchasePack" | "usageTracking" | "feedback" | "clinic" | "affiliateClick" | "contactMessage" | "botLog" | "botKnowledge" | "botFeedback" | "cache" | "webhookEvent" | "userEvolution" | "rateLimit" | "appConfig" | "surveyFeedback" | "communityPost" | "comment" | "skinDiary" | "challenge" | "userChallenge" | "productReview" | "groupAnalytics" | "referral" | "digitalProduct" | "digitalProductPurchase" | "dailyCheckIn" | "ingredientKB" | "client" | "telegramAuth" | "telegramLog" | "notification" | "telegramAlert" | "discountCode" | "telegramReminder" | "supportTicket" | "supportTicketResponse" | "chatMessage"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -1704,6 +1706,228 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         count: {
           args: Prisma.ContactMessageCountArgs<ExtArgs>
           result: runtime.Types.Utils.Optional<Prisma.ContactMessageCountAggregateOutputType> | number
+        }
+      }
+    }
+    BotLog: {
+      payload: Prisma.$BotLogPayload<ExtArgs>
+      fields: Prisma.BotLogFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.BotLogFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$BotLogPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.BotLogFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$BotLogPayload>
+        }
+        findFirst: {
+          args: Prisma.BotLogFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$BotLogPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.BotLogFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$BotLogPayload>
+        }
+        findMany: {
+          args: Prisma.BotLogFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$BotLogPayload>[]
+        }
+        create: {
+          args: Prisma.BotLogCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$BotLogPayload>
+        }
+        createMany: {
+          args: Prisma.BotLogCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.BotLogCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$BotLogPayload>[]
+        }
+        delete: {
+          args: Prisma.BotLogDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$BotLogPayload>
+        }
+        update: {
+          args: Prisma.BotLogUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$BotLogPayload>
+        }
+        deleteMany: {
+          args: Prisma.BotLogDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.BotLogUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.BotLogUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$BotLogPayload>[]
+        }
+        upsert: {
+          args: Prisma.BotLogUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$BotLogPayload>
+        }
+        aggregate: {
+          args: Prisma.BotLogAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateBotLog>
+        }
+        groupBy: {
+          args: Prisma.BotLogGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.BotLogGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.BotLogCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.BotLogCountAggregateOutputType> | number
+        }
+      }
+    }
+    BotKnowledge: {
+      payload: Prisma.$BotKnowledgePayload<ExtArgs>
+      fields: Prisma.BotKnowledgeFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.BotKnowledgeFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$BotKnowledgePayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.BotKnowledgeFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$BotKnowledgePayload>
+        }
+        findFirst: {
+          args: Prisma.BotKnowledgeFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$BotKnowledgePayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.BotKnowledgeFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$BotKnowledgePayload>
+        }
+        findMany: {
+          args: Prisma.BotKnowledgeFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$BotKnowledgePayload>[]
+        }
+        create: {
+          args: Prisma.BotKnowledgeCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$BotKnowledgePayload>
+        }
+        createMany: {
+          args: Prisma.BotKnowledgeCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.BotKnowledgeCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$BotKnowledgePayload>[]
+        }
+        delete: {
+          args: Prisma.BotKnowledgeDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$BotKnowledgePayload>
+        }
+        update: {
+          args: Prisma.BotKnowledgeUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$BotKnowledgePayload>
+        }
+        deleteMany: {
+          args: Prisma.BotKnowledgeDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.BotKnowledgeUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.BotKnowledgeUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$BotKnowledgePayload>[]
+        }
+        upsert: {
+          args: Prisma.BotKnowledgeUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$BotKnowledgePayload>
+        }
+        aggregate: {
+          args: Prisma.BotKnowledgeAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateBotKnowledge>
+        }
+        groupBy: {
+          args: Prisma.BotKnowledgeGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.BotKnowledgeGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.BotKnowledgeCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.BotKnowledgeCountAggregateOutputType> | number
+        }
+      }
+    }
+    BotFeedback: {
+      payload: Prisma.$BotFeedbackPayload<ExtArgs>
+      fields: Prisma.BotFeedbackFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.BotFeedbackFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$BotFeedbackPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.BotFeedbackFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$BotFeedbackPayload>
+        }
+        findFirst: {
+          args: Prisma.BotFeedbackFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$BotFeedbackPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.BotFeedbackFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$BotFeedbackPayload>
+        }
+        findMany: {
+          args: Prisma.BotFeedbackFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$BotFeedbackPayload>[]
+        }
+        create: {
+          args: Prisma.BotFeedbackCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$BotFeedbackPayload>
+        }
+        createMany: {
+          args: Prisma.BotFeedbackCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.BotFeedbackCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$BotFeedbackPayload>[]
+        }
+        delete: {
+          args: Prisma.BotFeedbackDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$BotFeedbackPayload>
+        }
+        update: {
+          args: Prisma.BotFeedbackUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$BotFeedbackPayload>
+        }
+        deleteMany: {
+          args: Prisma.BotFeedbackDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.BotFeedbackUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.BotFeedbackUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$BotFeedbackPayload>[]
+        }
+        upsert: {
+          args: Prisma.BotFeedbackUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$BotFeedbackPayload>
+        }
+        aggregate: {
+          args: Prisma.BotFeedbackAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateBotFeedback>
+        }
+        groupBy: {
+          args: Prisma.BotFeedbackGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.BotFeedbackGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.BotFeedbackCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.BotFeedbackCountAggregateOutputType> | number
         }
       }
     }
@@ -3557,80 +3781,6 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
-    BotFeedback: {
-      payload: Prisma.$BotFeedbackPayload<ExtArgs>
-      fields: Prisma.BotFeedbackFieldRefs
-      operations: {
-        findUnique: {
-          args: Prisma.BotFeedbackFindUniqueArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$BotFeedbackPayload> | null
-        }
-        findUniqueOrThrow: {
-          args: Prisma.BotFeedbackFindUniqueOrThrowArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$BotFeedbackPayload>
-        }
-        findFirst: {
-          args: Prisma.BotFeedbackFindFirstArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$BotFeedbackPayload> | null
-        }
-        findFirstOrThrow: {
-          args: Prisma.BotFeedbackFindFirstOrThrowArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$BotFeedbackPayload>
-        }
-        findMany: {
-          args: Prisma.BotFeedbackFindManyArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$BotFeedbackPayload>[]
-        }
-        create: {
-          args: Prisma.BotFeedbackCreateArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$BotFeedbackPayload>
-        }
-        createMany: {
-          args: Prisma.BotFeedbackCreateManyArgs<ExtArgs>
-          result: BatchPayload
-        }
-        createManyAndReturn: {
-          args: Prisma.BotFeedbackCreateManyAndReturnArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$BotFeedbackPayload>[]
-        }
-        delete: {
-          args: Prisma.BotFeedbackDeleteArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$BotFeedbackPayload>
-        }
-        update: {
-          args: Prisma.BotFeedbackUpdateArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$BotFeedbackPayload>
-        }
-        deleteMany: {
-          args: Prisma.BotFeedbackDeleteManyArgs<ExtArgs>
-          result: BatchPayload
-        }
-        updateMany: {
-          args: Prisma.BotFeedbackUpdateManyArgs<ExtArgs>
-          result: BatchPayload
-        }
-        updateManyAndReturn: {
-          args: Prisma.BotFeedbackUpdateManyAndReturnArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$BotFeedbackPayload>[]
-        }
-        upsert: {
-          args: Prisma.BotFeedbackUpsertArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$BotFeedbackPayload>
-        }
-        aggregate: {
-          args: Prisma.BotFeedbackAggregateArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.AggregateBotFeedback>
-        }
-        groupBy: {
-          args: Prisma.BotFeedbackGroupByArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.BotFeedbackGroupByOutputType>[]
-        }
-        count: {
-          args: Prisma.BotFeedbackCountArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.BotFeedbackCountAggregateOutputType> | number
-        }
-      }
-    }
     SupportTicket: {
       payload: Prisma.$SupportTicketPayload<ExtArgs>
       fields: Prisma.SupportTicketFieldRefs
@@ -4142,15 +4292,67 @@ export type AffiliateClickScalarFieldEnum = (typeof AffiliateClickScalarFieldEnu
 
 export const ContactMessageScalarFieldEnum = {
   id: 'id',
-  name: 'name',
-  email: 'email',
-  subject: 'subject',
+  userId: 'userId',
   message: 'message',
-  read: 'read',
-  createdAt: 'createdAt'
+  status: 'status',
+  reply: 'reply',
+  repliedAt: 'repliedAt',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
 } as const
 
 export type ContactMessageScalarFieldEnum = (typeof ContactMessageScalarFieldEnum)[keyof typeof ContactMessageScalarFieldEnum]
+
+
+export const BotLogScalarFieldEnum = {
+  id: 'id',
+  chatId: 'chatId',
+  userId: 'userId',
+  command: 'command',
+  message: 'message',
+  createdAt: 'createdAt'
+} as const
+
+export type BotLogScalarFieldEnum = (typeof BotLogScalarFieldEnum)[keyof typeof BotLogScalarFieldEnum]
+
+
+export const BotKnowledgeScalarFieldEnum = {
+  id: 'id',
+  title: 'title',
+  content: 'content',
+  category: 'category',
+  subcategory: 'subcategory',
+  source: 'source',
+  sourceUrl: 'sourceUrl',
+  priority: 'priority',
+  keywords: 'keywords',
+  synonyms: 'synonyms',
+  validFrom: 'validFrom',
+  validUntil: 'validUntil',
+  version: 'version',
+  updatedBy: 'updatedBy',
+  helpfulCount: 'helpfulCount',
+  unhelpfulCount: 'unhelpfulCount',
+  lastUsedAt: 'lastUsedAt',
+  enabled: 'enabled',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type BotKnowledgeScalarFieldEnum = (typeof BotKnowledgeScalarFieldEnum)[keyof typeof BotKnowledgeScalarFieldEnum]
+
+
+export const BotFeedbackScalarFieldEnum = {
+  id: 'id',
+  knowledgeId: 'knowledgeId',
+  userId: 'userId',
+  chatId: 'chatId',
+  helpful: 'helpful',
+  comment: 'comment',
+  createdAt: 'createdAt'
+} as const
+
+export type BotFeedbackScalarFieldEnum = (typeof BotFeedbackScalarFieldEnum)[keyof typeof BotFeedbackScalarFieldEnum]
 
 
 export const CacheScalarFieldEnum = {
@@ -4474,18 +4676,6 @@ export const TelegramReminderScalarFieldEnum = {
 export type TelegramReminderScalarFieldEnum = (typeof TelegramReminderScalarFieldEnum)[keyof typeof TelegramReminderScalarFieldEnum]
 
 
-export const BotFeedbackScalarFieldEnum = {
-  id: 'id',
-  chatId: 'chatId',
-  userId: 'userId',
-  rating: 'rating',
-  comment: 'comment',
-  createdAt: 'createdAt'
-} as const
-
-export type BotFeedbackScalarFieldEnum = (typeof BotFeedbackScalarFieldEnum)[keyof typeof BotFeedbackScalarFieldEnum]
-
-
 export const SupportTicketScalarFieldEnum = {
   id: 'id',
   userId: 'userId',
@@ -4775,6 +4965,9 @@ export type GlobalOmitConfig = {
   clinic?: Prisma.ClinicOmit
   affiliateClick?: Prisma.AffiliateClickOmit
   contactMessage?: Prisma.ContactMessageOmit
+  botLog?: Prisma.BotLogOmit
+  botKnowledge?: Prisma.BotKnowledgeOmit
+  botFeedback?: Prisma.BotFeedbackOmit
   cache?: Prisma.CacheOmit
   webhookEvent?: Prisma.WebhookEventOmit
   userEvolution?: Prisma.UserEvolutionOmit
@@ -4800,7 +4993,6 @@ export type GlobalOmitConfig = {
   telegramAlert?: Prisma.TelegramAlertOmit
   discountCode?: Prisma.DiscountCodeOmit
   telegramReminder?: Prisma.TelegramReminderOmit
-  botFeedback?: Prisma.BotFeedbackOmit
   supportTicket?: Prisma.SupportTicketOmit
   supportTicketResponse?: Prisma.SupportTicketResponseOmit
   chatMessage?: Prisma.ChatMessageOmit

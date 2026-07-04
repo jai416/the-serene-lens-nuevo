@@ -112,8 +112,9 @@ export const adminProductUpdateSchema = z.object({
 
 export const adminUserUpdateSchema = z.object({
   id: z.string().min(1),
-  role: z.enum(["USER", "ADMIN"]).optional(),
+  role: z.enum(["USER", "VALIDATOR", "ADMIN"]).optional(),
   plan: z.enum(["FREE", "PREMIUM", "PRO", "PRO_PLUS", "ESTHETICIAN"]).optional(),
+  telegramId: z.string().nullable().optional(),
 }).strict()
 
 export const adminMessageUpdateSchema = z.object({

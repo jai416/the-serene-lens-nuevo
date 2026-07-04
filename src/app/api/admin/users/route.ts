@@ -11,19 +11,26 @@ async function requireAdmin() {
   return session.user
 }
 
-export async function GET() {
+export async function GET(req: NextRequest) {
   try {
     const admin = await requireAdmin()
     if (!admin) return unauthorized()
 
+    const { searchParams } = new URL(req.url)
+    const telegramLinked = searchParams.get("telegramLinked") === "true"
+
+    const where = telegramLinked ? { telegramId: { not: null } } : {}
+
     const users = await db.user.findMany({
-      orderBy: { createdAt: "desc" },
+      where,
+      orderBy: telegramLinked ? { telegramId: "asc" } : { createdAt: "desc" },
       select: {
         id: true,
         name: true,
         email: true,
         role: true,
         plan: true,
+        telegramId: true,
         createdAt: true,
         _count: { select: { analyses: true, payments: true } },
       },
@@ -46,15 +53,16 @@ export async function PUT(req: NextRequest) {
       return error(parsed.error.issues.map((i) => i.message).join(", "), 400)
     }
 
-    const { id, role, plan } = parsed.data
+    const { id, role, plan, telegramId } = parsed.data
 
     const user = await db.user.update({
       where: { id },
       data: {
         ...(role !== undefined && { role }),
         ...(plan !== undefined && { plan }),
+        ...(telegramId !== undefined && { telegramId }),
       },
-      select: { id: true, name: true, email: true, role: true, plan: true },
+      select: { id: true, name: true, email: true, role: true, plan: true, telegramId: true },
     })
 
     return ok({ user })

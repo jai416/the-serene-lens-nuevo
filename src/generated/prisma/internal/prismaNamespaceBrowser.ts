@@ -68,6 +68,9 @@ export const ModelName = {
   Clinic: 'Clinic',
   AffiliateClick: 'AffiliateClick',
   ContactMessage: 'ContactMessage',
+  BotLog: 'BotLog',
+  BotKnowledge: 'BotKnowledge',
+  BotFeedback: 'BotFeedback',
   Cache: 'Cache',
   WebhookEvent: 'WebhookEvent',
   UserEvolution: 'UserEvolution',
@@ -93,7 +96,6 @@ export const ModelName = {
   TelegramAlert: 'TelegramAlert',
   DiscountCode: 'DiscountCode',
   TelegramReminder: 'TelegramReminder',
-  BotFeedback: 'BotFeedback',
   SupportTicket: 'SupportTicket',
   SupportTicketResponse: 'SupportTicketResponse',
   ChatMessage: 'ChatMessage'
@@ -365,15 +367,67 @@ export type AffiliateClickScalarFieldEnum = (typeof AffiliateClickScalarFieldEnu
 
 export const ContactMessageScalarFieldEnum = {
   id: 'id',
-  name: 'name',
-  email: 'email',
-  subject: 'subject',
+  userId: 'userId',
   message: 'message',
-  read: 'read',
-  createdAt: 'createdAt'
+  status: 'status',
+  reply: 'reply',
+  repliedAt: 'repliedAt',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
 } as const
 
 export type ContactMessageScalarFieldEnum = (typeof ContactMessageScalarFieldEnum)[keyof typeof ContactMessageScalarFieldEnum]
+
+
+export const BotLogScalarFieldEnum = {
+  id: 'id',
+  chatId: 'chatId',
+  userId: 'userId',
+  command: 'command',
+  message: 'message',
+  createdAt: 'createdAt'
+} as const
+
+export type BotLogScalarFieldEnum = (typeof BotLogScalarFieldEnum)[keyof typeof BotLogScalarFieldEnum]
+
+
+export const BotKnowledgeScalarFieldEnum = {
+  id: 'id',
+  title: 'title',
+  content: 'content',
+  category: 'category',
+  subcategory: 'subcategory',
+  source: 'source',
+  sourceUrl: 'sourceUrl',
+  priority: 'priority',
+  keywords: 'keywords',
+  synonyms: 'synonyms',
+  validFrom: 'validFrom',
+  validUntil: 'validUntil',
+  version: 'version',
+  updatedBy: 'updatedBy',
+  helpfulCount: 'helpfulCount',
+  unhelpfulCount: 'unhelpfulCount',
+  lastUsedAt: 'lastUsedAt',
+  enabled: 'enabled',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type BotKnowledgeScalarFieldEnum = (typeof BotKnowledgeScalarFieldEnum)[keyof typeof BotKnowledgeScalarFieldEnum]
+
+
+export const BotFeedbackScalarFieldEnum = {
+  id: 'id',
+  knowledgeId: 'knowledgeId',
+  userId: 'userId',
+  chatId: 'chatId',
+  helpful: 'helpful',
+  comment: 'comment',
+  createdAt: 'createdAt'
+} as const
+
+export type BotFeedbackScalarFieldEnum = (typeof BotFeedbackScalarFieldEnum)[keyof typeof BotFeedbackScalarFieldEnum]
 
 
 export const CacheScalarFieldEnum = {
@@ -695,18 +749,6 @@ export const TelegramReminderScalarFieldEnum = {
 } as const
 
 export type TelegramReminderScalarFieldEnum = (typeof TelegramReminderScalarFieldEnum)[keyof typeof TelegramReminderScalarFieldEnum]
-
-
-export const BotFeedbackScalarFieldEnum = {
-  id: 'id',
-  chatId: 'chatId',
-  userId: 'userId',
-  rating: 'rating',
-  comment: 'comment',
-  createdAt: 'createdAt'
-} as const
-
-export type BotFeedbackScalarFieldEnum = (typeof BotFeedbackScalarFieldEnum)[keyof typeof BotFeedbackScalarFieldEnum]
 
 
 export const SupportTicketScalarFieldEnum = {

@@ -53,6 +53,7 @@ model User {
   supportTickets    SupportTicket[]
   ticketResponses   SupportTicketResponse[]
   chatMessages      ChatMessage[]
+  contactMessages   ContactMessage[]
 
   telegramId        String?
   currentStreak     Int       @default(0)
@@ -117,6 +118,7 @@ model SkinAnalysis {
   @@index([userId])
   @@index([createdAt])
   @@index([userId, createdAt])
+  @@index([skinType])
 }
 
 model BlogPost {
@@ -322,15 +324,71 @@ model AffiliateClick {
 
 model ContactMessage {
   id        String   @id @default(cuid())
-  name      String
-  email     String
-  subject   String
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   message   String
-  read      Boolean  @default(false)
+  status    String   @default("pending")
+  reply     String?
+  repliedAt DateTime?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model BotLog {
+  id        String   @id @default(cuid())
+  chatId    String
+  userId    String?
+  command   String
+  message   String?
   createdAt DateTime @default(now())
 
-  @@index([read])
+  @@index([chatId])
+  @@index([userId])
   @@index([createdAt])
+}
+
+model BotKnowledge {
+  id             String    @id @default(cuid())
+  title          String
+  content        String
+  category       String    // "general", "pricing", "analysis", "blog", "product", "support"
+  subcategory    String?   // "faq", "tutorial", "review", "guide"
+  source         String    @default("web")   // "web", "blog", "admin", "manual"
+  sourceUrl      String?   // URL original de la página
+  priority       Int       @default(0)       // 0-10 (más alto = más importante)
+  keywords       String[]
+  synonyms       String[]  @default([])      // formas alternativas de preguntar
+  validFrom      DateTime  @default(now())
+  validUntil     DateTime? // NULL = indefinido
+  version        Int       @default(1)
+  updatedBy      String?   // ID del admin
+  helpfulCount   Int       @default(0)
+  unhelpfulCount Int       @default(0)
+  lastUsedAt     DateTime?
+  enabled        Boolean   @default(true)
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
+
+  feedback BotFeedback[]
+
+  @@index([category])
+  @@index([enabled])
+  @@index([priority])
+  @@index([source])
+}
+
+model BotFeedback {
+  id          String       @id @default(cuid())
+  knowledgeId String
+  knowledge   BotKnowledge @relation(fields: [knowledgeId], references: [id], onDelete: Cascade)
+  userId      String?
+  chatId      String
+  helpful     Boolean
+  comment     String?
+  createdAt   DateTime     @default(now())
+
+  @@index([knowledgeId])
+  @@index([helpful])
 }
 
 model Cache {
@@ -687,18 +745,6 @@ model TelegramReminder {
 
   @@index([chatId])
   @@index([active])
-}
-
-model BotFeedback {
-  id        String   @id @default(cuid())
-  chatId    String
-  userId    String?
-  rating    Int      // 1-10
-  comment   String?
-  createdAt DateTime @default(now())
-
-  @@index([chatId])
-  @@index([createdAt])
 }
 
 model SupportTicket {

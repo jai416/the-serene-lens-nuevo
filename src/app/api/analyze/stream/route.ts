@@ -4,6 +4,9 @@ import { db } from "@/lib/db"
 import { AnalysisStream } from "@/lib/streaming"
 import { unauthorized, serverError, error } from "@/lib/api-response"
 import { checkRateLimit } from "@/lib/rate-limit"
+import { checkAndDeductUsage } from "@/lib/usage"
+import { analyzeSkinWithGemini } from "@/lib/gemini"
+import { getCachedAnalysis, setCachedAnalysis } from "@/lib/analysis-cache"
 
 export async function POST(req: Request) {
   try {
@@ -16,6 +19,9 @@ export async function POST(req: Request) {
       return error("Demasiadas solicitudes. Espera un minuto.")
     }
 
+    const usage = await checkAndDeductUsage(session.user.id)
+    if (!usage.allowed) return error(usage.error || "Límite alcanzado", 403)
+
     const stream = new AnalysisStream()
     const webStream = stream.createStream()
 
@@ -25,10 +31,6 @@ export async function POST(req: Request) {
     const files = formData.getAll("photos") as File[]
     const concerns = formData.get("concerns") as string || ""
     const age = formData.get("age") as string || ""
-    const gender = formData.get("gender") as string || ""
-    const climate = formData.get("climate") as string || ""
-    const routine = formData.get("routine") as string || ""
-    const language = formData.get("language") as string || "es"
 
     if (files.length === 0) {
       stream.sendError("No se recibieron fotos")
@@ -37,37 +39,42 @@ export async function POST(req: Request) {
       })
     }
 
-    stream.sendProgress("compressing", "Comprimiendo imágenes...")
-
-    const imagesBase64 = await Promise.all(
-      files.map(async (file) => {
-        if (!file.type.startsWith("image/")) {
-          throw new Error("Solo se aceptan archivos de imagen")
-        }
-        if (file.size > 10 * 1024 * 1024) {
-          throw new Error("Una imagen supera los 10MB")
-        }
-        const bytes = await file.arrayBuffer()
-        const buffer = Buffer.from(bytes)
-        return buffer.toString("base64")
+    // Cache check
+    const cacheKeyFiles = files.slice(0, 2)
+    const cacheKeyBase64 = (await Promise.all(
+      cacheKeyFiles.map(async (f) => {
+        const buf = Buffer.from(await f.arrayBuffer())
+        return buf.toString("base64").slice(0, 200)
       })
-    )
+    )).join("|")
+
+    const cached = await getCachedAnalysis([cacheKeyBase64], concerns || undefined, age || undefined)
+    if (cached) {
+      stream.sendProgress("saving", "Usando análisis en caché...")
+      const analysis = await db.skinAnalysis.create({
+        data: {
+          userId: session.user.id,
+          skinType: (cached.skinType as string) || null,
+          concerns: concerns || null,
+          observations: JSON.stringify(cached.observations || []),
+          recommendations: JSON.stringify(cached.recommendations || []),
+          routine: cached.routine ? JSON.stringify(cached.routine) : null,
+        },
+      })
+      const { recalculateAndSaveEvolution } = await import("@/lib/services/evolution-calculator")
+      recalculateAndSaveEvolution(session.user.id).catch(() => {})
+      stream.sendComplete({ analysisId: analysis.id, result: cached })
+      return new Response(webStream, {
+        headers: { "Content-Type": "text/event-stream", "Cache-Control": "no-cache", Connection: "keep-alive" },
+      })
+    }
+
+    stream.sendProgress("compressing", "Comprimiendo imágenes...")
 
     stream.sendProgress("analyzing-texture", "Analizando textura de la piel...")
 
-    const { callOpenRouterWithStream } = await import("@/lib/openrouter")
-    const result = await callOpenRouterWithStream({
-      imagesBase64,
-      concerns: concerns || undefined,
-      age: age || undefined,
-      gender: gender || undefined,
-      climate: climate || undefined,
-      routine: routine || undefined,
-      language: language || undefined,
-      onProgress: (stage, message) => {
-        stream.sendProgress(stage, message)
-      },
-    })
+    const result = await analyzeSkinWithGemini(files)
+    await setCachedAnalysis([cacheKeyBase64], concerns || undefined, age || undefined, result).catch(() => {})
 
     stream.sendProgress("saving", "Guardando resultados...")
 

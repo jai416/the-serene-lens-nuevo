@@ -20,80 +20,68 @@ export type BotFeedbackModel = runtime.Types.Result.DefaultSelection<Prisma.$Bot
 
 export type AggregateBotFeedback = {
   _count: BotFeedbackCountAggregateOutputType | null
-  _avg: BotFeedbackAvgAggregateOutputType | null
-  _sum: BotFeedbackSumAggregateOutputType | null
   _min: BotFeedbackMinAggregateOutputType | null
   _max: BotFeedbackMaxAggregateOutputType | null
 }
 
-export type BotFeedbackAvgAggregateOutputType = {
-  rating: number | null
-}
-
-export type BotFeedbackSumAggregateOutputType = {
-  rating: number | null
-}
-
 export type BotFeedbackMinAggregateOutputType = {
   id: string | null
-  chatId: string | null
+  knowledgeId: string | null
   userId: string | null
-  rating: number | null
+  chatId: string | null
+  helpful: boolean | null
   comment: string | null
   createdAt: Date | null
 }
 
 export type BotFeedbackMaxAggregateOutputType = {
   id: string | null
-  chatId: string | null
+  knowledgeId: string | null
   userId: string | null
-  rating: number | null
+  chatId: string | null
+  helpful: boolean | null
   comment: string | null
   createdAt: Date | null
 }
 
 export type BotFeedbackCountAggregateOutputType = {
   id: number
-  chatId: number
+  knowledgeId: number
   userId: number
-  rating: number
+  chatId: number
+  helpful: number
   comment: number
   createdAt: number
   _all: number
 }
 
 
-export type BotFeedbackAvgAggregateInputType = {
-  rating?: true
-}
-
-export type BotFeedbackSumAggregateInputType = {
-  rating?: true
-}
-
 export type BotFeedbackMinAggregateInputType = {
   id?: true
-  chatId?: true
+  knowledgeId?: true
   userId?: true
-  rating?: true
+  chatId?: true
+  helpful?: true
   comment?: true
   createdAt?: true
 }
 
 export type BotFeedbackMaxAggregateInputType = {
   id?: true
-  chatId?: true
+  knowledgeId?: true
   userId?: true
-  rating?: true
+  chatId?: true
+  helpful?: true
   comment?: true
   createdAt?: true
 }
 
 export type BotFeedbackCountAggregateInputType = {
   id?: true
-  chatId?: true
+  knowledgeId?: true
   userId?: true
-  rating?: true
+  chatId?: true
+  helpful?: true
   comment?: true
   createdAt?: true
   _all?: true
@@ -137,18 +125,6 @@ export type BotFeedbackAggregateArgs<ExtArgs extends runtime.Types.Extensions.In
   /**
    * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
    * 
-   * Select which fields to average
-  **/
-  _avg?: BotFeedbackAvgAggregateInputType
-  /**
-   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-   * 
-   * Select which fields to sum
-  **/
-  _sum?: BotFeedbackSumAggregateInputType
-  /**
-   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-   * 
    * Select which fields to find the minimum value
   **/
   _min?: BotFeedbackMinAggregateInputType
@@ -179,22 +155,19 @@ export type BotFeedbackGroupByArgs<ExtArgs extends runtime.Types.Extensions.Inte
   take?: number
   skip?: number
   _count?: BotFeedbackCountAggregateInputType | true
-  _avg?: BotFeedbackAvgAggregateInputType
-  _sum?: BotFeedbackSumAggregateInputType
   _min?: BotFeedbackMinAggregateInputType
   _max?: BotFeedbackMaxAggregateInputType
 }
 
 export type BotFeedbackGroupByOutputType = {
   id: string
-  chatId: string
+  knowledgeId: string
   userId: string | null
-  rating: number
+  chatId: string
+  helpful: boolean
   comment: string | null
   createdAt: Date
   _count: BotFeedbackCountAggregateOutputType | null
-  _avg: BotFeedbackAvgAggregateOutputType | null
-  _sum: BotFeedbackSumAggregateOutputType | null
   _min: BotFeedbackMinAggregateOutputType | null
   _max: BotFeedbackMaxAggregateOutputType | null
 }
@@ -219,20 +192,24 @@ export type BotFeedbackWhereInput = {
   OR?: Prisma.BotFeedbackWhereInput[]
   NOT?: Prisma.BotFeedbackWhereInput | Prisma.BotFeedbackWhereInput[]
   id?: Prisma.StringFilter<"BotFeedback"> | string
-  chatId?: Prisma.StringFilter<"BotFeedback"> | string
+  knowledgeId?: Prisma.StringFilter<"BotFeedback"> | string
   userId?: Prisma.StringNullableFilter<"BotFeedback"> | string | null
-  rating?: Prisma.IntFilter<"BotFeedback"> | number
+  chatId?: Prisma.StringFilter<"BotFeedback"> | string
+  helpful?: Prisma.BoolFilter<"BotFeedback"> | boolean
   comment?: Prisma.StringNullableFilter<"BotFeedback"> | string | null
   createdAt?: Prisma.DateTimeFilter<"BotFeedback"> | Date | string
+  knowledge?: Prisma.XOR<Prisma.BotKnowledgeScalarRelationFilter, Prisma.BotKnowledgeWhereInput>
 }
 
 export type BotFeedbackOrderByWithRelationInput = {
   id?: Prisma.SortOrder
-  chatId?: Prisma.SortOrder
+  knowledgeId?: Prisma.SortOrder
   userId?: Prisma.SortOrderInput | Prisma.SortOrder
-  rating?: Prisma.SortOrder
+  chatId?: Prisma.SortOrder
+  helpful?: Prisma.SortOrder
   comment?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
+  knowledge?: Prisma.BotKnowledgeOrderByWithRelationInput
 }
 
 export type BotFeedbackWhereUniqueInput = Prisma.AtLeast<{
@@ -240,25 +217,26 @@ export type BotFeedbackWhereUniqueInput = Prisma.AtLeast<{
   AND?: Prisma.BotFeedbackWhereInput | Prisma.BotFeedbackWhereInput[]
   OR?: Prisma.BotFeedbackWhereInput[]
   NOT?: Prisma.BotFeedbackWhereInput | Prisma.BotFeedbackWhereInput[]
-  chatId?: Prisma.StringFilter<"BotFeedback"> | string
+  knowledgeId?: Prisma.StringFilter<"BotFeedback"> | string
   userId?: Prisma.StringNullableFilter<"BotFeedback"> | string | null
-  rating?: Prisma.IntFilter<"BotFeedback"> | number
+  chatId?: Prisma.StringFilter<"BotFeedback"> | string
+  helpful?: Prisma.BoolFilter<"BotFeedback"> | boolean
   comment?: Prisma.StringNullableFilter<"BotFeedback"> | string | null
   createdAt?: Prisma.DateTimeFilter<"BotFeedback"> | Date | string
+  knowledge?: Prisma.XOR<Prisma.BotKnowledgeScalarRelationFilter, Prisma.BotKnowledgeWhereInput>
 }, "id">
 
 export type BotFeedbackOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
-  chatId?: Prisma.SortOrder
+  knowledgeId?: Prisma.SortOrder
   userId?: Prisma.SortOrderInput | Prisma.SortOrder
-  rating?: Prisma.SortOrder
+  chatId?: Prisma.SortOrder
+  helpful?: Prisma.SortOrder
   comment?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   _count?: Prisma.BotFeedbackCountOrderByAggregateInput
-  _avg?: Prisma.BotFeedbackAvgOrderByAggregateInput
   _max?: Prisma.BotFeedbackMaxOrderByAggregateInput
   _min?: Prisma.BotFeedbackMinOrderByAggregateInput
-  _sum?: Prisma.BotFeedbackSumOrderByAggregateInput
 }
 
 export type BotFeedbackScalarWhereWithAggregatesInput = {
@@ -266,159 +244,325 @@ export type BotFeedbackScalarWhereWithAggregatesInput = {
   OR?: Prisma.BotFeedbackScalarWhereWithAggregatesInput[]
   NOT?: Prisma.BotFeedbackScalarWhereWithAggregatesInput | Prisma.BotFeedbackScalarWhereWithAggregatesInput[]
   id?: Prisma.StringWithAggregatesFilter<"BotFeedback"> | string
-  chatId?: Prisma.StringWithAggregatesFilter<"BotFeedback"> | string
+  knowledgeId?: Prisma.StringWithAggregatesFilter<"BotFeedback"> | string
   userId?: Prisma.StringNullableWithAggregatesFilter<"BotFeedback"> | string | null
-  rating?: Prisma.IntWithAggregatesFilter<"BotFeedback"> | number
+  chatId?: Prisma.StringWithAggregatesFilter<"BotFeedback"> | string
+  helpful?: Prisma.BoolWithAggregatesFilter<"BotFeedback"> | boolean
   comment?: Prisma.StringNullableWithAggregatesFilter<"BotFeedback"> | string | null
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"BotFeedback"> | Date | string
 }
 
 export type BotFeedbackCreateInput = {
   id?: string
-  chatId: string
   userId?: string | null
-  rating: number
+  chatId: string
+  helpful: boolean
   comment?: string | null
   createdAt?: Date | string
+  knowledge: Prisma.BotKnowledgeCreateNestedOneWithoutFeedbackInput
 }
 
 export type BotFeedbackUncheckedCreateInput = {
   id?: string
-  chatId: string
+  knowledgeId: string
   userId?: string | null
-  rating: number
+  chatId: string
+  helpful: boolean
   comment?: string | null
   createdAt?: Date | string
 }
 
 export type BotFeedbackUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  chatId?: Prisma.StringFieldUpdateOperationsInput | string
   userId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  rating?: Prisma.IntFieldUpdateOperationsInput | number
+  chatId?: Prisma.StringFieldUpdateOperationsInput | string
+  helpful?: Prisma.BoolFieldUpdateOperationsInput | boolean
   comment?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  knowledge?: Prisma.BotKnowledgeUpdateOneRequiredWithoutFeedbackNestedInput
 }
 
 export type BotFeedbackUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  chatId?: Prisma.StringFieldUpdateOperationsInput | string
+  knowledgeId?: Prisma.StringFieldUpdateOperationsInput | string
   userId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  rating?: Prisma.IntFieldUpdateOperationsInput | number
+  chatId?: Prisma.StringFieldUpdateOperationsInput | string
+  helpful?: Prisma.BoolFieldUpdateOperationsInput | boolean
   comment?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type BotFeedbackCreateManyInput = {
   id?: string
-  chatId: string
+  knowledgeId: string
   userId?: string | null
-  rating: number
+  chatId: string
+  helpful: boolean
   comment?: string | null
   createdAt?: Date | string
 }
 
 export type BotFeedbackUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  chatId?: Prisma.StringFieldUpdateOperationsInput | string
   userId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  rating?: Prisma.IntFieldUpdateOperationsInput | number
+  chatId?: Prisma.StringFieldUpdateOperationsInput | string
+  helpful?: Prisma.BoolFieldUpdateOperationsInput | boolean
   comment?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type BotFeedbackUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  chatId?: Prisma.StringFieldUpdateOperationsInput | string
+  knowledgeId?: Prisma.StringFieldUpdateOperationsInput | string
   userId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  rating?: Prisma.IntFieldUpdateOperationsInput | number
+  chatId?: Prisma.StringFieldUpdateOperationsInput | string
+  helpful?: Prisma.BoolFieldUpdateOperationsInput | boolean
   comment?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
+export type BotFeedbackListRelationFilter = {
+  every?: Prisma.BotFeedbackWhereInput
+  some?: Prisma.BotFeedbackWhereInput
+  none?: Prisma.BotFeedbackWhereInput
+}
+
+export type BotFeedbackOrderByRelationAggregateInput = {
+  _count?: Prisma.SortOrder
+}
+
 export type BotFeedbackCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
-  chatId?: Prisma.SortOrder
+  knowledgeId?: Prisma.SortOrder
   userId?: Prisma.SortOrder
-  rating?: Prisma.SortOrder
+  chatId?: Prisma.SortOrder
+  helpful?: Prisma.SortOrder
   comment?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
 }
 
-export type BotFeedbackAvgOrderByAggregateInput = {
-  rating?: Prisma.SortOrder
-}
-
 export type BotFeedbackMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
-  chatId?: Prisma.SortOrder
+  knowledgeId?: Prisma.SortOrder
   userId?: Prisma.SortOrder
-  rating?: Prisma.SortOrder
+  chatId?: Prisma.SortOrder
+  helpful?: Prisma.SortOrder
   comment?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
 }
 
 export type BotFeedbackMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
-  chatId?: Prisma.SortOrder
+  knowledgeId?: Prisma.SortOrder
   userId?: Prisma.SortOrder
-  rating?: Prisma.SortOrder
+  chatId?: Prisma.SortOrder
+  helpful?: Prisma.SortOrder
   comment?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
 }
 
-export type BotFeedbackSumOrderByAggregateInput = {
-  rating?: Prisma.SortOrder
+export type BotFeedbackCreateNestedManyWithoutKnowledgeInput = {
+  create?: Prisma.XOR<Prisma.BotFeedbackCreateWithoutKnowledgeInput, Prisma.BotFeedbackUncheckedCreateWithoutKnowledgeInput> | Prisma.BotFeedbackCreateWithoutKnowledgeInput[] | Prisma.BotFeedbackUncheckedCreateWithoutKnowledgeInput[]
+  connectOrCreate?: Prisma.BotFeedbackCreateOrConnectWithoutKnowledgeInput | Prisma.BotFeedbackCreateOrConnectWithoutKnowledgeInput[]
+  createMany?: Prisma.BotFeedbackCreateManyKnowledgeInputEnvelope
+  connect?: Prisma.BotFeedbackWhereUniqueInput | Prisma.BotFeedbackWhereUniqueInput[]
+}
+
+export type BotFeedbackUncheckedCreateNestedManyWithoutKnowledgeInput = {
+  create?: Prisma.XOR<Prisma.BotFeedbackCreateWithoutKnowledgeInput, Prisma.BotFeedbackUncheckedCreateWithoutKnowledgeInput> | Prisma.BotFeedbackCreateWithoutKnowledgeInput[] | Prisma.BotFeedbackUncheckedCreateWithoutKnowledgeInput[]
+  connectOrCreate?: Prisma.BotFeedbackCreateOrConnectWithoutKnowledgeInput | Prisma.BotFeedbackCreateOrConnectWithoutKnowledgeInput[]
+  createMany?: Prisma.BotFeedbackCreateManyKnowledgeInputEnvelope
+  connect?: Prisma.BotFeedbackWhereUniqueInput | Prisma.BotFeedbackWhereUniqueInput[]
+}
+
+export type BotFeedbackUpdateManyWithoutKnowledgeNestedInput = {
+  create?: Prisma.XOR<Prisma.BotFeedbackCreateWithoutKnowledgeInput, Prisma.BotFeedbackUncheckedCreateWithoutKnowledgeInput> | Prisma.BotFeedbackCreateWithoutKnowledgeInput[] | Prisma.BotFeedbackUncheckedCreateWithoutKnowledgeInput[]
+  connectOrCreate?: Prisma.BotFeedbackCreateOrConnectWithoutKnowledgeInput | Prisma.BotFeedbackCreateOrConnectWithoutKnowledgeInput[]
+  upsert?: Prisma.BotFeedbackUpsertWithWhereUniqueWithoutKnowledgeInput | Prisma.BotFeedbackUpsertWithWhereUniqueWithoutKnowledgeInput[]
+  createMany?: Prisma.BotFeedbackCreateManyKnowledgeInputEnvelope
+  set?: Prisma.BotFeedbackWhereUniqueInput | Prisma.BotFeedbackWhereUniqueInput[]
+  disconnect?: Prisma.BotFeedbackWhereUniqueInput | Prisma.BotFeedbackWhereUniqueInput[]
+  delete?: Prisma.BotFeedbackWhereUniqueInput | Prisma.BotFeedbackWhereUniqueInput[]
+  connect?: Prisma.BotFeedbackWhereUniqueInput | Prisma.BotFeedbackWhereUniqueInput[]
+  update?: Prisma.BotFeedbackUpdateWithWhereUniqueWithoutKnowledgeInput | Prisma.BotFeedbackUpdateWithWhereUniqueWithoutKnowledgeInput[]
+  updateMany?: Prisma.BotFeedbackUpdateManyWithWhereWithoutKnowledgeInput | Prisma.BotFeedbackUpdateManyWithWhereWithoutKnowledgeInput[]
+  deleteMany?: Prisma.BotFeedbackScalarWhereInput | Prisma.BotFeedbackScalarWhereInput[]
+}
+
+export type BotFeedbackUncheckedUpdateManyWithoutKnowledgeNestedInput = {
+  create?: Prisma.XOR<Prisma.BotFeedbackCreateWithoutKnowledgeInput, Prisma.BotFeedbackUncheckedCreateWithoutKnowledgeInput> | Prisma.BotFeedbackCreateWithoutKnowledgeInput[] | Prisma.BotFeedbackUncheckedCreateWithoutKnowledgeInput[]
+  connectOrCreate?: Prisma.BotFeedbackCreateOrConnectWithoutKnowledgeInput | Prisma.BotFeedbackCreateOrConnectWithoutKnowledgeInput[]
+  upsert?: Prisma.BotFeedbackUpsertWithWhereUniqueWithoutKnowledgeInput | Prisma.BotFeedbackUpsertWithWhereUniqueWithoutKnowledgeInput[]
+  createMany?: Prisma.BotFeedbackCreateManyKnowledgeInputEnvelope
+  set?: Prisma.BotFeedbackWhereUniqueInput | Prisma.BotFeedbackWhereUniqueInput[]
+  disconnect?: Prisma.BotFeedbackWhereUniqueInput | Prisma.BotFeedbackWhereUniqueInput[]
+  delete?: Prisma.BotFeedbackWhereUniqueInput | Prisma.BotFeedbackWhereUniqueInput[]
+  connect?: Prisma.BotFeedbackWhereUniqueInput | Prisma.BotFeedbackWhereUniqueInput[]
+  update?: Prisma.BotFeedbackUpdateWithWhereUniqueWithoutKnowledgeInput | Prisma.BotFeedbackUpdateWithWhereUniqueWithoutKnowledgeInput[]
+  updateMany?: Prisma.BotFeedbackUpdateManyWithWhereWithoutKnowledgeInput | Prisma.BotFeedbackUpdateManyWithWhereWithoutKnowledgeInput[]
+  deleteMany?: Prisma.BotFeedbackScalarWhereInput | Prisma.BotFeedbackScalarWhereInput[]
+}
+
+export type BotFeedbackCreateWithoutKnowledgeInput = {
+  id?: string
+  userId?: string | null
+  chatId: string
+  helpful: boolean
+  comment?: string | null
+  createdAt?: Date | string
+}
+
+export type BotFeedbackUncheckedCreateWithoutKnowledgeInput = {
+  id?: string
+  userId?: string | null
+  chatId: string
+  helpful: boolean
+  comment?: string | null
+  createdAt?: Date | string
+}
+
+export type BotFeedbackCreateOrConnectWithoutKnowledgeInput = {
+  where: Prisma.BotFeedbackWhereUniqueInput
+  create: Prisma.XOR<Prisma.BotFeedbackCreateWithoutKnowledgeInput, Prisma.BotFeedbackUncheckedCreateWithoutKnowledgeInput>
+}
+
+export type BotFeedbackCreateManyKnowledgeInputEnvelope = {
+  data: Prisma.BotFeedbackCreateManyKnowledgeInput | Prisma.BotFeedbackCreateManyKnowledgeInput[]
+  skipDuplicates?: boolean
+}
+
+export type BotFeedbackUpsertWithWhereUniqueWithoutKnowledgeInput = {
+  where: Prisma.BotFeedbackWhereUniqueInput
+  update: Prisma.XOR<Prisma.BotFeedbackUpdateWithoutKnowledgeInput, Prisma.BotFeedbackUncheckedUpdateWithoutKnowledgeInput>
+  create: Prisma.XOR<Prisma.BotFeedbackCreateWithoutKnowledgeInput, Prisma.BotFeedbackUncheckedCreateWithoutKnowledgeInput>
+}
+
+export type BotFeedbackUpdateWithWhereUniqueWithoutKnowledgeInput = {
+  where: Prisma.BotFeedbackWhereUniqueInput
+  data: Prisma.XOR<Prisma.BotFeedbackUpdateWithoutKnowledgeInput, Prisma.BotFeedbackUncheckedUpdateWithoutKnowledgeInput>
+}
+
+export type BotFeedbackUpdateManyWithWhereWithoutKnowledgeInput = {
+  where: Prisma.BotFeedbackScalarWhereInput
+  data: Prisma.XOR<Prisma.BotFeedbackUpdateManyMutationInput, Prisma.BotFeedbackUncheckedUpdateManyWithoutKnowledgeInput>
+}
+
+export type BotFeedbackScalarWhereInput = {
+  AND?: Prisma.BotFeedbackScalarWhereInput | Prisma.BotFeedbackScalarWhereInput[]
+  OR?: Prisma.BotFeedbackScalarWhereInput[]
+  NOT?: Prisma.BotFeedbackScalarWhereInput | Prisma.BotFeedbackScalarWhereInput[]
+  id?: Prisma.StringFilter<"BotFeedback"> | string
+  knowledgeId?: Prisma.StringFilter<"BotFeedback"> | string
+  userId?: Prisma.StringNullableFilter<"BotFeedback"> | string | null
+  chatId?: Prisma.StringFilter<"BotFeedback"> | string
+  helpful?: Prisma.BoolFilter<"BotFeedback"> | boolean
+  comment?: Prisma.StringNullableFilter<"BotFeedback"> | string | null
+  createdAt?: Prisma.DateTimeFilter<"BotFeedback"> | Date | string
+}
+
+export type BotFeedbackCreateManyKnowledgeInput = {
+  id?: string
+  userId?: string | null
+  chatId: string
+  helpful: boolean
+  comment?: string | null
+  createdAt?: Date | string
+}
+
+export type BotFeedbackUpdateWithoutKnowledgeInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  userId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  chatId?: Prisma.StringFieldUpdateOperationsInput | string
+  helpful?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  comment?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
+export type BotFeedbackUncheckedUpdateWithoutKnowledgeInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  userId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  chatId?: Prisma.StringFieldUpdateOperationsInput | string
+  helpful?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  comment?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
+export type BotFeedbackUncheckedUpdateManyWithoutKnowledgeInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  userId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  chatId?: Prisma.StringFieldUpdateOperationsInput | string
+  helpful?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  comment?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 
 
 export type BotFeedbackSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
-  chatId?: boolean
+  knowledgeId?: boolean
   userId?: boolean
-  rating?: boolean
+  chatId?: boolean
+  helpful?: boolean
   comment?: boolean
   createdAt?: boolean
+  knowledge?: boolean | Prisma.BotKnowledgeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["botFeedback"]>
 
 export type BotFeedbackSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
-  chatId?: boolean
+  knowledgeId?: boolean
   userId?: boolean
-  rating?: boolean
+  chatId?: boolean
+  helpful?: boolean
   comment?: boolean
   createdAt?: boolean
+  knowledge?: boolean | Prisma.BotKnowledgeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["botFeedback"]>
 
 export type BotFeedbackSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
-  chatId?: boolean
+  knowledgeId?: boolean
   userId?: boolean
-  rating?: boolean
+  chatId?: boolean
+  helpful?: boolean
   comment?: boolean
   createdAt?: boolean
+  knowledge?: boolean | Prisma.BotKnowledgeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["botFeedback"]>
 
 export type BotFeedbackSelectScalar = {
   id?: boolean
-  chatId?: boolean
+  knowledgeId?: boolean
   userId?: boolean
-  rating?: boolean
+  chatId?: boolean
+  helpful?: boolean
   comment?: boolean
   createdAt?: boolean
 }
 
-export type BotFeedbackOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "chatId" | "userId" | "rating" | "comment" | "createdAt", ExtArgs["result"]["botFeedback"]>
+export type BotFeedbackOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "knowledgeId" | "userId" | "chatId" | "helpful" | "comment" | "createdAt", ExtArgs["result"]["botFeedback"]>
+export type BotFeedbackInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  knowledge?: boolean | Prisma.BotKnowledgeDefaultArgs<ExtArgs>
+}
+export type BotFeedbackIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  knowledge?: boolean | Prisma.BotKnowledgeDefaultArgs<ExtArgs>
+}
+export type BotFeedbackIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  knowledge?: boolean | Prisma.BotKnowledgeDefaultArgs<ExtArgs>
+}
 
 export type $BotFeedbackPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "BotFeedback"
-  objects: {}
+  objects: {
+    knowledge: Prisma.$BotKnowledgePayload<ExtArgs>
+  }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
-    chatId: string
+    knowledgeId: string
     userId: string | null
-    rating: number
+    chatId: string
+    helpful: boolean
     comment: string | null
     createdAt: Date
   }, ExtArgs["result"]["botFeedback"]>
@@ -815,6 +959,7 @@ readonly fields: BotFeedbackFieldRefs;
  */
 export interface Prisma__BotFeedbackClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
+  knowledge<T extends Prisma.BotKnowledgeDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.BotKnowledgeDefaultArgs<ExtArgs>>): Prisma.Prisma__BotKnowledgeClient<runtime.Types.Result.GetResult<Prisma.$BotKnowledgePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -845,9 +990,10 @@ export interface Prisma__BotFeedbackClient<T, Null = never, ExtArgs extends runt
  */
 export interface BotFeedbackFieldRefs {
   readonly id: Prisma.FieldRef<"BotFeedback", 'String'>
-  readonly chatId: Prisma.FieldRef<"BotFeedback", 'String'>
+  readonly knowledgeId: Prisma.FieldRef<"BotFeedback", 'String'>
   readonly userId: Prisma.FieldRef<"BotFeedback", 'String'>
-  readonly rating: Prisma.FieldRef<"BotFeedback", 'Int'>
+  readonly chatId: Prisma.FieldRef<"BotFeedback", 'String'>
+  readonly helpful: Prisma.FieldRef<"BotFeedback", 'Boolean'>
   readonly comment: Prisma.FieldRef<"BotFeedback", 'String'>
   readonly createdAt: Prisma.FieldRef<"BotFeedback", 'DateTime'>
 }
@@ -867,6 +1013,10 @@ export type BotFeedbackFindUniqueArgs<ExtArgs extends runtime.Types.Extensions.I
    */
   omit?: Prisma.BotFeedbackOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.BotFeedbackInclude<ExtArgs> | null
+  /**
    * Filter, which BotFeedback to fetch.
    */
   where: Prisma.BotFeedbackWhereUniqueInput
@@ -885,6 +1035,10 @@ export type BotFeedbackFindUniqueOrThrowArgs<ExtArgs extends runtime.Types.Exten
    */
   omit?: Prisma.BotFeedbackOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.BotFeedbackInclude<ExtArgs> | null
+  /**
    * Filter, which BotFeedback to fetch.
    */
   where: Prisma.BotFeedbackWhereUniqueInput
@@ -902,6 +1056,10 @@ export type BotFeedbackFindFirstArgs<ExtArgs extends runtime.Types.Extensions.In
    * Omit specific fields from the BotFeedback
    */
   omit?: Prisma.BotFeedbackOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.BotFeedbackInclude<ExtArgs> | null
   /**
    * Filter, which BotFeedback to fetch.
    */
@@ -951,6 +1109,10 @@ export type BotFeedbackFindFirstOrThrowArgs<ExtArgs extends runtime.Types.Extens
    */
   omit?: Prisma.BotFeedbackOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.BotFeedbackInclude<ExtArgs> | null
+  /**
    * Filter, which BotFeedback to fetch.
    */
   where?: Prisma.BotFeedbackWhereInput
@@ -998,6 +1160,10 @@ export type BotFeedbackFindManyArgs<ExtArgs extends runtime.Types.Extensions.Int
    * Omit specific fields from the BotFeedback
    */
   omit?: Prisma.BotFeedbackOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.BotFeedbackInclude<ExtArgs> | null
   /**
    * Filter, which BotFeedbacks to fetch.
    */
@@ -1047,6 +1213,10 @@ export type BotFeedbackCreateArgs<ExtArgs extends runtime.Types.Extensions.Inter
    */
   omit?: Prisma.BotFeedbackOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.BotFeedbackInclude<ExtArgs> | null
+  /**
    * The data needed to create a BotFeedback.
    */
   data: Prisma.XOR<Prisma.BotFeedbackCreateInput, Prisma.BotFeedbackUncheckedCreateInput>
@@ -1080,6 +1250,10 @@ export type BotFeedbackCreateManyAndReturnArgs<ExtArgs extends runtime.Types.Ext
    */
   data: Prisma.BotFeedbackCreateManyInput | Prisma.BotFeedbackCreateManyInput[]
   skipDuplicates?: boolean
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.BotFeedbackIncludeCreateManyAndReturn<ExtArgs> | null
 }
 
 /**
@@ -1094,6 +1268,10 @@ export type BotFeedbackUpdateArgs<ExtArgs extends runtime.Types.Extensions.Inter
    * Omit specific fields from the BotFeedback
    */
   omit?: Prisma.BotFeedbackOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.BotFeedbackInclude<ExtArgs> | null
   /**
    * The data needed to update a BotFeedback.
    */
@@ -1146,6 +1324,10 @@ export type BotFeedbackUpdateManyAndReturnArgs<ExtArgs extends runtime.Types.Ext
    * Limit how many BotFeedbacks to update.
    */
   limit?: number
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.BotFeedbackIncludeUpdateManyAndReturn<ExtArgs> | null
 }
 
 /**
@@ -1160,6 +1342,10 @@ export type BotFeedbackUpsertArgs<ExtArgs extends runtime.Types.Extensions.Inter
    * Omit specific fields from the BotFeedback
    */
   omit?: Prisma.BotFeedbackOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.BotFeedbackInclude<ExtArgs> | null
   /**
    * The filter to search for the BotFeedback to update in case it exists.
    */
@@ -1186,6 +1372,10 @@ export type BotFeedbackDeleteArgs<ExtArgs extends runtime.Types.Extensions.Inter
    * Omit specific fields from the BotFeedback
    */
   omit?: Prisma.BotFeedbackOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.BotFeedbackInclude<ExtArgs> | null
   /**
    * Filter which BotFeedback to delete.
    */
@@ -1218,4 +1408,8 @@ export type BotFeedbackDefaultArgs<ExtArgs extends runtime.Types.Extensions.Inte
    * Omit specific fields from the BotFeedback
    */
   omit?: Prisma.BotFeedbackOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.BotFeedbackInclude<ExtArgs> | null
 }

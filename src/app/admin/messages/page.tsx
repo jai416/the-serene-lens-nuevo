@@ -7,14 +7,17 @@ import Link from "next/link"
 import { Card, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
-import { MessageSquare, ArrowLeft, Eye, EyeOff } from "lucide-react"
+import { MessageSquare, ArrowLeft, Eye, EyeOff, Star, Crown } from "lucide-react"
 import { formatDate } from "@/lib/utils"
 import { toast } from "sonner"
 
-interface Message {
+interface ContactMessage {
   id: string
+  userId: string
   name: string
   email: string
+  plan: string
+  role: string
   subject: string
   message: string
   read: boolean
@@ -23,8 +26,8 @@ interface Message {
 
 export default function AdminMessagesPage() {
   const { data: session, status } = useSession()
-  const [messages, setMessages] = useState<Message[]>([])
-  const [selected, setSelected] = useState<Message | null>(null)
+  const [messages, setMessages] = useState<ContactMessage[]>([])
+  const [selected, setSelected] = useState<ContactMessage | null>(null)
 
   useEffect(() => {
     if (session?.user?.role === "ADMIN") {
@@ -35,7 +38,7 @@ export default function AdminMessagesPage() {
     }
   }, [session])
 
-  if (status === "loading") return <div className="min-h-screen pt-24 flex items-center justify-center"><p className="text-[#64705E] dark:text-[#9BAA93]">Cargando...</p></div>
+  if (status === "loading") return <div className="flex items-center justify-center py-20"><p className="text-[#8892B0]">Cargando...</p></div>
   if (!session || session.user.role !== "ADMIN") redirect("/")
 
   const markRead = async (id: string, read: boolean) => {
@@ -55,93 +58,144 @@ export default function AdminMessagesPage() {
 
   const unread = messages.filter((m) => !m.read).length
 
+  // Sort: Pro+/Pro first, then Esthetician, then rest
+  const sortedMessages = [...messages].sort((a, b) => {
+    const planOrder: Record<string, number> = { "PRO_PLUS": 0, "PRO": 1, "ESTHETICIAN": 2, "PREMIUM": 3, "FREE": 4 }
+    return (planOrder[a.plan] ?? 5) - (planOrder[b.plan] ?? 5)
+  })
+
+  const proMessages = sortedMessages.filter((m) => m.plan === "PRO_PLUS" || m.plan === "PRO")
+  const estheticianMessages = sortedMessages.filter((m) => m.plan === "ESTHETICIAN")
+  const otherMessages = sortedMessages.filter((m) => m.plan !== "PRO_PLUS" && m.plan !== "PRO" && m.plan !== "ESTHETICIAN")
+
   return (
-    <div className="min-h-screen bg-[#F8FAF5] dark:bg-[#1A1F19] pt-24 pb-16 px-4">
-      <div className="max-w-6xl mx-auto">
-        <div className="mb-8">
-          <Link href="/admin" className="text-sm text-[#64705E] dark:text-[#9BAA93] hover:text-[#2F3A2D] dark:hover:text-[#E8EDE6] inline-flex items-center gap-1 mb-4">
-            <ArrowLeft className="w-3 h-3" /> Volver al panel
-          </Link>
-          <Badge variant="secondary" className="mb-4 rounded-full px-4 py-1.5">
-            <MessageSquare className="w-3.5 h-3.5 mr-2" />
-            Mensajes
-          </Badge>
-          <h1 className="font-serif text-3xl font-semibold mb-2 text-[#2F3A2D] dark:text-[#E8EDE6]">
-            Buzón de <span className="text-[#C2E09D]">Mensajes</span>
-          </h1>
-          <p className="text-sm text-[#64705E] dark:text-[#9BAA93]">
-            {unread > 0 ? `${unread} mensajes sin leer` : "Todos los mensajes leídos"}
-          </p>
-        </div>
-
-        <div className="grid lg:grid-cols-2 gap-6">
-          <div className="space-y-2">
-            {messages.length === 0 ? (
-              <p className="text-center text-[#64705E] dark:text-[#9BAA93] py-10">No hay mensajes</p>
-            ) : (
-              messages.map((m) => (
-                <Card
-                  key={m.id}
-                  className={`cursor-pointer transition-all ${
-                    !m.read ? "ring-1 ring-[#C2E09D]/30" : ""
-                  }`}
-                  onClick={() => {
-                    setSelected(m)
-                    if (!m.read) markRead(m.id, true)
-                  }}
-                >
-                  <CardContent className="p-4">
-                    <div className="flex items-center justify-between mb-1">
-                      <div className="flex items-center gap-2">
-                        {!m.read && <span className="w-2 h-2 rounded-full bg-[#C2E09D]" />}
-                        <p className="font-medium text-sm text-[#2F3A2D] dark:text-[#E8EDE6]">{m.name}</p>
-                      </div>
-                      <span className="text-xs text-[#64705E] dark:text-[#9BAA93]">{formatDate(m.createdAt)}</span>
-                    </div>
-                    <p className="text-xs text-[#64705E] dark:text-[#9BAA93]">{m.subject}</p>
-                    <p className="text-sm text-[#64705E] dark:text-[#9BAA93] mt-1 line-clamp-2">{m.message}</p>
-                  </CardContent>
-                </Card>
-              ))
-            )}
-          </div>
-
-          <div>
-            {selected ? (
-              <Card>
-                <CardContent className="p-6">
-                  <div className="flex items-center justify-between mb-4">
-                    <div>
-                      <h2 className="font-serif text-lg font-semibold text-[#2F3A2D] dark:text-[#E8EDE6]">{selected.name}</h2>
-                      <p className="text-sm text-[#64705E] dark:text-[#9BAA93]">{selected.email}</p>
-                    </div>
-                    <div className="flex gap-2">
-                      <Button
-                        variant="ghost"
-                        size="sm"
-                        onClick={() => markRead(selected.id, !selected.read)}
-                      >
-                        {selected.read ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
-                      </Button>
-                    </div>
-                  </div>
-                  <Badge variant="secondary" className="mb-4">{selected.subject}</Badge>
-                  <p className="text-sm text-[#2F3A2D] dark:text-[#E8EDE6] leading-relaxed whitespace-pre-wrap">
-                    {selected.message}
-                  </p>
-                  <p className="text-xs text-[#64705E] dark:text-[#9BAA93] mt-6">
-                    Recibido: {formatDate(selected.createdAt)}
-                  </p>
-                </CardContent>
-              </Card>
-            ) : (
-              <div className="flex items-center justify-center h-full min-h-[200px]">
-                <p className="text-[#64705E] dark:text-[#9BAA93] text-sm">Selecciona un mensaje para verlo</p>
-              </div>
-            )}
-          </div>
-        </div>
+    <div className="overflow-x-hidden">
+      <div className="mb-8">
+        <Link href="/admin" className="text-xs text-[#8892B0] hover:text-[#E2E8F0] inline-flex items-center gap-1 mb-4">
+          <ArrowLeft className="w-3 h-3" /> Volver al panel
+        </Link>
+        <Badge className="bg-[#7C8CFF]/20 text-[#7C8CFF] border-0 rounded-full px-3 py-1 text-[10px] font-medium">
+          <MessageSquare className="w-3 h-3 mr-1.5" />
+          Mensajes
+        </Badge>
+        <h1 className="text-2xl sm:text-3xl font-bold text-[#E2E8F0] mt-3">
+          Buzón de <span style={{ color: "#7C8CFF" }}>Mensajes</span>
+        </h1>
+        <p className="text-sm text-[#8892B0] mt-1">
+          {unread > 0 ? `${unread} mensajes sin leer` : "Todos los mensajes leídos"}
+        </p>
       </div>
+
+      {proMessages.length > 0 && (
+        <div className="mb-4">
+          <div className="flex items-center gap-2 mb-2">
+            <Crown className="w-4 h-4 text-[#FBBF24]" />
+            <span className="text-sm font-semibold text-[#E2E8F0]">PRO / PRO+</span>
+            <span className="text-[10px] text-[#5A6485]">({proMessages.length})</span>
+          </div>
+          <MessageList messages={proMessages} selected={selected} onSelect={setSelected} onMarkRead={markRead} />
+        </div>
+      )}
+
+      {estheticianMessages.length > 0 && (
+        <div className="mb-4">
+          <div className="flex items-center gap-2 mb-2">
+            <Star className="w-4 h-4 text-[#4ADE80]" />
+            <span className="text-sm font-semibold text-[#E2E8F0]">Esteticistas</span>
+            <span className="text-[10px] text-[#5A6485]">({estheticianMessages.length})</span>
+          </div>
+          <MessageList messages={estheticianMessages} selected={selected} onSelect={setSelected} onMarkRead={markRead} />
+        </div>
+      )}
+
+      <div className="mb-4">
+        <div className="flex items-center gap-2 mb-2">
+          <MessageSquare className="w-4 h-4 text-[#8892B0]" />
+          <span className="text-sm font-semibold text-[#E2E8F0]">Otros</span>
+          <span className="text-[10px] text-[#5A6485]">({otherMessages.length})</span>
+        </div>
+        <MessageList messages={otherMessages} selected={selected} onSelect={setSelected} onMarkRead={markRead} />
+      </div>
+
+      {/* Selected message detail */}
+      {selected && (
+        <Card className="mt-4" style={{ backgroundColor: "#22263A", borderColor: "#2D3350" }}>
+          <CardContent className="p-6">
+            <div className="flex items-center justify-between mb-4">
+              <div>
+                <h2 className="text-lg font-semibold text-[#E2E8F0]">{selected.name}</h2>
+                <p className="text-sm text-[#8892B0]">{selected.email}</p>
+                <Badge className="mt-1 text-[10px]" style={{ backgroundColor: "#2D3350", color: selected.plan === "PRO_PLUS" || selected.plan === "PRO" ? "#FBBF24" : "#8892B0" }}>
+                  {selected.plan}
+                </Badge>
+              </div>
+              <div className="flex gap-2">
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={() => markRead(selected.id, !selected.read)}
+                  style={{ color: "#8892B0" }}
+                >
+                  {selected.read ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                </Button>
+              </div>
+            </div>
+            <Badge className="mb-4" style={{ backgroundColor: "#2D3350", color: "#8892B0" }}>{selected.subject}</Badge>
+            <p className="text-sm text-[#E2E8F0] leading-relaxed whitespace-pre-wrap">
+              {selected.message}
+            </p>
+            <p className="text-xs text-[#5A6485] mt-6">
+              Recibido: {formatDate(selected.createdAt)}
+            </p>
+          </CardContent>
+        </Card>
+      )}
+    </div>
+  )
+}
+
+function MessageList({
+  messages,
+  selected,
+  onSelect,
+  onMarkRead,
+}: {
+  messages: ContactMessage[]
+  selected: ContactMessage | null
+  onSelect: (m: ContactMessage) => void
+  onMarkRead: (id: string, read: boolean) => void
+}) {
+  if (messages.length === 0) return null
+  return (
+    <div className="space-y-2">
+      {messages.map((m) => (
+        <div
+          key={m.id}
+          onClick={() => {
+            onSelect(m)
+            if (!m.read) onMarkRead(m.id, true)
+          }}
+          className="p-4 rounded-xl cursor-pointer transition-all"
+          style={{
+            backgroundColor: selected?.id === m.id ? "#2D3350" : "#1A1D27",
+            border: `1px solid ${!m.read ? "#7C8CFF" : "#2D3350"}`,
+          }}
+        >
+          <div className="flex items-center justify-between mb-1">
+            <div className="flex items-center gap-2">
+              {!m.read && <span className="w-2 h-2 rounded-full" style={{ backgroundColor: "#7C8CFF" }} />}
+              <p className="font-medium text-sm text-[#E2E8F0]">{m.name}</p>
+              <Badge className="text-[10px]" style={{ backgroundColor: "#2D3350", color: "#8892B0" }}>
+                {m.plan}
+              </Badge>
+            </div>
+            <span className="text-xs text-[#5A6485]">{formatDate(m.createdAt)}</span>
+          </div>
+          <p className="text-xs text-[#5A6485]">{m.email}</p>
+          <p className="text-xs text-[#8892B0] mt-1">{m.subject}</p>
+          <p className="text-sm text-[#8892B0] mt-1 line-clamp-2">{m.message}</p>
+        </div>
+      ))}
     </div>
   )
 }

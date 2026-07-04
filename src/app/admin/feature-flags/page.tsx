@@ -7,21 +7,39 @@ import Link from "next/link"
 import { Card, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
-import { Settings, ArrowLeft, Plus } from "lucide-react"
+import { Settings, ArrowLeft, Plus, Trash2 } from "lucide-react"
 import { toast } from "sonner"
+
+interface FlagConfig {
+  enabled: boolean
+  message?: string
+  redirectUrl?: string
+}
 
 export default function AdminFeatureFlagsPage() {
   const { data: session, status } = useSession()
-  const [flags, setFlags] = useState<Record<string, boolean>>({})
+  const [flags, setFlags] = useState<Record<string, FlagConfig>>({})
   const [loading, setLoading] = useState(true)
   const [newFlag, setNewFlag] = useState("")
+  const [newMessage, setNewMessage] = useState("")
+  const [newRedirect, setNewRedirect] = useState("")
+  const [editingFlag, setEditingFlag] = useState<string | null>(null)
+  const [editMessage, setEditMessage] = useState("")
+  const [editRedirect, setEditRedirect] = useState("")
 
   const loadFlags = useCallback(async () => {
     try {
       const res = await fetch("/api/admin/feature-flags")
       if (res.ok) {
         const d = await res.json()
-        setFlags(d?.data?.flags || d.flags || {})
+        const raw = d?.data?.flags || d.flags || {}
+        const parsed: Record<string, FlagConfig> = {}
+        for (const [key, val] of Object.entries(raw)) {
+          if (typeof val === "boolean") parsed[key] = { enabled: val }
+          else if (typeof val === "object" && val !== null) parsed[key] = val as FlagConfig
+          else parsed[key] = { enabled: val === "true" }
+        }
+        setFlags(parsed)
       }
     } catch {
       toast.error("Error al cargar feature flags")
@@ -34,19 +52,19 @@ export default function AdminFeatureFlagsPage() {
     if (session?.user?.role === "ADMIN") loadFlags()
   }, [session, loadFlags])
 
-  if (status === "loading") return <div className="min-h-screen pt-24 flex items-center justify-center"><p className="text-[#64705E] dark:text-[#9BAA93]">Cargando...</p></div>
+  if (status === "loading") return <div className="min-h-screen flex items-center justify-center"><p className="text-[#8892B0]">Cargando...</p></div>
   if (!session || session.user.role !== "ADMIN") redirect("/")
 
-  const toggleFlag = async (flag: string, enabled: boolean) => {
+  const toggleFlag = async (flag: string, config: FlagConfig) => {
     try {
       const res = await fetch("/api/admin/feature-flags", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ flag, enabled }),
+        body: JSON.stringify({ flag, ...config }),
       })
       if (res.ok) {
-        setFlags({ ...flags, [flag]: enabled })
-        toast.success(`Flag ${flag} ${enabled ? "activado" : "desactivado"}`)
+        setFlags({ ...flags, [flag]: config })
+        toast.success(`Flag ${flag} ${config.enabled ? "activado" : "desactivado"}`)
       }
     } catch {
       toast.error("Error al actualizar flag")
@@ -56,15 +74,18 @@ export default function AdminFeatureFlagsPage() {
   const addFlag = async () => {
     if (!newFlag.trim()) return
     const flag = newFlag.trim().toLowerCase().replace(/\s+/g, "-")
+    const config: FlagConfig = { enabled: false, message: newMessage || undefined, redirectUrl: newRedirect || undefined }
     try {
       const res = await fetch("/api/admin/feature-flags", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ flag, enabled: false }),
+        body: JSON.stringify({ flag, ...config }),
       })
       if (res.ok) {
-        setFlags({ ...flags, [flag]: false })
+        setFlags({ ...flags, [flag]: config })
         setNewFlag("")
+        setNewMessage("")
+        setNewRedirect("")
         toast.success(`Flag "${flag}" creado`)
       }
     } catch {
@@ -72,66 +93,137 @@ export default function AdminFeatureFlagsPage() {
     }
   }
 
-  return (
-    <div className="min-h-screen bg-[#F8FAF5] dark:bg-[#1A1F19] pt-24 pb-16 px-4">
-      <div className="max-w-4xl mx-auto">
-        <div className="mb-8">
-          <Link href="/admin" className="text-sm text-[#64705E] dark:text-[#9BAA93] hover:text-[#2F3A2D] dark:hover:text-[#E8EDE6] inline-flex items-center gap-1 mb-4">
-            <ArrowLeft className="w-3 h-3" /> Volver al panel
-          </Link>
-          <Badge variant="secondary" className="mb-4 rounded-full px-4 py-1.5">
-            <Settings className="w-3.5 h-3.5 mr-2" />
-            Feature Flags
-          </Badge>
-          <h1 className="font-serif text-3xl font-semibold text-[#2F3A2D] dark:text-[#E8EDE6]">
-            Gestionar <span className="gradient-text">Feature Flags</span>
-          </h1>
-          <p className="text-sm text-[#64705E] dark:text-[#9BAA93] mt-1">Activa o desactiva funciones de la plataforma</p>
-        </div>
+  const startEdit = (flag: string, config: FlagConfig) => {
+    setEditingFlag(flag)
+    setEditMessage(config.message || "")
+    setEditRedirect(config.redirectUrl || "")
+  }
 
-        {/* Add new flag */}
-        <Card className="mb-6">
-          <CardContent className="p-4 flex gap-3">
+  const saveEdit = async (flag: string) => {
+    const config = flags[flag]
+    const updated: FlagConfig = { ...config, message: editMessage || undefined, redirectUrl: editRedirect || undefined }
+    await toggleFlag(flag, updated)
+    setEditingFlag(null)
+  }
+
+  return (
+    <div className="overflow-x-hidden">
+      <div className="mb-8">
+        <Link href="/admin" className="text-xs text-[#8892B0] hover:text-[#E2E8F0] inline-flex items-center gap-1 mb-4">
+          <ArrowLeft className="w-3 h-3" /> Volver al panel
+        </Link>
+        <Badge className="bg-[#7C8CFF]/20 text-[#7C8CFF] border-0 rounded-full px-3 py-1 text-[10px] font-medium">
+          <Settings className="w-3 h-3 mr-1.5" />
+          Feature Flags
+        </Badge>
+        <h1 className="text-2xl sm:text-3xl font-bold text-[#E2E8F0] mt-3">
+          Gestionar <span style={{ color: "#7C8CFF" }}>Funciones</span>
+        </h1>
+        <p className="text-sm text-[#8892B0] mt-1">Activa/desactiva funciones, configura mensajes y redirecciones</p>
+      </div>
+
+      {/* Add new flag */}
+      <Card className="mb-6" style={{ backgroundColor: "#22263A", borderColor: "#2D3350" }}>
+        <CardContent className="p-4">
+          <div className="flex gap-3 mb-3">
             <input
               value={newFlag}
               onChange={(e) => setNewFlag(e.target.value)}
-              placeholder="Nombre del flag (ej: new-feature)"
-              className="flex-1 px-4 py-2 border border-[#DDE7D3] dark:border-[#3A4536] rounded-lg bg-background text-[#2F3A2D] dark:text-[#E8EDE6]"
+              placeholder="Nombre (ej: product-analyzer)"
+              className="flex-1 px-4 py-2 rounded-lg text-sm"
+              style={{ backgroundColor: "#2D3350", border: "1px solid #3D4270", color: "#E2E8F0" }}
               onKeyDown={(e) => e.key === "Enter" && addFlag()}
             />
-            <Button onClick={addFlag} className="bg-[#C2E09D] text-[#2F3A2D]">
+            <Button onClick={addFlag} style={{ backgroundColor: "#7C8CFF", color: "#fff" }}>
               <Plus className="w-4 h-4 mr-2" />
               Crear
             </Button>
+          </div>
+          <div className="flex gap-3">
+            <input
+              value={newMessage}
+              onChange={(e) => setNewMessage(e.target.value)}
+              placeholder="Mensaje personalizado (opcional)"
+              className="flex-1 px-4 py-2 rounded-lg text-sm"
+              style={{ backgroundColor: "#2D3350", border: "1px solid #3D4270", color: "#E2E8F0" }}
+            />
+            <input
+              value={newRedirect}
+              onChange={(e) => setNewRedirect(e.target.value)}
+              placeholder="URL de redirección (opcional, ej: /products)"
+              className="flex-1 px-4 py-2 rounded-lg text-sm"
+              style={{ backgroundColor: "#2D3350", border: "1px solid #3D4270", color: "#E2E8F0" }}
+            />
+          </div>
+        </CardContent>
+      </Card>
+
+      {loading ? (
+        <p className="text-[#8892B0] text-center py-8">Cargando...</p>
+      ) : Object.keys(flags).length === 0 ? (
+        <Card style={{ backgroundColor: "#22263A", borderColor: "#2D3350" }}>
+          <CardContent className="p-8 text-center" style={{ color: "#8892B0" }}>
+            No hay feature flags configurados
           </CardContent>
         </Card>
-
-        {loading ? (
-          <p className="text-[#64705E] dark:text-[#9BAA93] text-center py-8">Cargando...</p>
-        ) : Object.keys(flags).length === 0 ? (
-          <Card><CardContent className="p-8 text-center text-[#64705E] dark:text-[#9BAA93]">No hay feature flags configurados</CardContent></Card>
-        ) : (
-          <div className="space-y-2">
-            {Object.entries(flags).sort(([a], [b]) => a.localeCompare(b)).map(([flag, enabled]) => (
-              <Card key={flag} className="hover:bg-[#F0F5EC] dark:bg-[#2A3228]/30 transition-colors">
-                <CardContent className="p-4 flex items-center justify-between">
+      ) : (
+        <div className="space-y-2">
+          {Object.entries(flags).sort(([a], [b]) => a.localeCompare(b)).map(([flag, config]) => (
+            <Card key={flag} style={{ backgroundColor: "#22263A", borderColor: "#2D3350" }}>
+              <CardContent className="p-4">
+                <div className="flex items-center justify-between mb-2">
                   <div>
-                    <code className="text-sm font-mono text-[#2F3A2D] dark:text-[#C2E09D]">{flag}</code>
+                    <code className="text-sm font-mono" style={{ color: "#E2E8F0" }}>{flag}</code>
+                    {config.message && <p className="text-xs mt-1" style={{ color: "#8892B0" }}>📝 {config.message}</p>}
+                    {config.redirectUrl && <p className="text-xs" style={{ color: "#5A6485" }}>↪ {config.redirectUrl}</p>}
                   </div>
                   <Button
-                    variant={enabled ? "default" : "outline"}
                     size="sm"
-                    onClick={() => toggleFlag(flag, !enabled)}
-                    className={enabled ? "bg-[#C2E09D] text-[#2F3A2D] hover:bg-[#B0D48E]" : ""}
+                    onClick={() => toggleFlag(flag, { ...config, enabled: !config.enabled })}
+                    style={{
+                      backgroundColor: config.enabled ? "#4ADE80" : "#3D4270",
+                      color: config.enabled ? "#0F1117" : "#8892B0",
+                      border: "none",
+                    }}
                   >
-                    {enabled ? "ON" : "OFF"}
+                    {config.enabled ? "ON" : "OFF"}
                   </Button>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-        )}
-      </div>
+                </div>
+
+                {editingFlag === flag ? (
+                  <div className="flex gap-2 mt-2">
+                    <input
+                      value={editMessage}
+                      onChange={(e) => setEditMessage(e.target.value)}
+                      placeholder="Mensaje"
+                      className="flex-1 px-3 py-1.5 rounded-lg text-xs"
+                      style={{ backgroundColor: "#2D3350", border: "1px solid #3D4270", color: "#E2E8F0" }}
+                    />
+                    <input
+                      value={editRedirect}
+                      onChange={(e) => setEditRedirect(e.target.value)}
+                      placeholder="URL redirección"
+                      className="flex-1 px-3 py-1.5 rounded-lg text-xs"
+                      style={{ backgroundColor: "#2D3350", border: "1px solid #3D4270", color: "#E2E8F0" }}
+                    />
+                    <Button size="sm" onClick={() => saveEdit(flag)} style={{ backgroundColor: "#7C8CFF", color: "#fff" }}>
+                      Guardar
+                    </Button>
+                  </div>
+                ) : (
+                  <button
+                    onClick={() => startEdit(flag, config)}
+                    className="text-xs mt-1 opacity-50 hover:opacity-100"
+                    style={{ color: "#8892B0" }}
+                  >
+                    ✏️ Editar mensaje y redirección
+                  </button>
+                )}
+              </CardContent>
+            </Card>
+          ))}
+        </div>
+      )}
     </div>
   )
 }

@@ -18,6 +18,7 @@
     "db:migrate": "prisma migrate dev",
     "db:studio": "prisma studio",
     "seed": "tsx prisma/seed.ts",
+    "seed:knowledge": "tsx prisma/seed-knowledge.ts",
     "postinstall": "prisma generate"
   },
   "lint-staged": {
