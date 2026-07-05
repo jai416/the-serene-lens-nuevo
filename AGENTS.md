@@ -20,13 +20,14 @@
 - **Sin bloqueo por país**: todas las API calls server-side
 - 174 tests, type check limpio, build exitoso
 
-**Pendiente configuración manual:**
-1. `npx prisma db push` — sync tablas nuevas (BotKnowledge, BotFeedback, BotLog, TelegramAuth, etc.)
-2. `npx tsx prisma/seed-knowledge.ts` — poblar base de conocimiento del bot (18 entradas)
-3. `CRON_SECRET` — agregar env var en Render Dashboard
-4. Google/GitHub OAuth — configurar callbacks (opcional)
-5. `npm run seed` en producción — poblar productos, guías y desafíos
+**Pendiente post-deploy (commit ce61fa2 en build de Render):**
+1. Build de Render complete el deploy (free tier puede tardar varios minutos)
+2. `npx prisma db push --accept-data-loss` — sincronizar schema (BotKnowledge, BotFeedback, BotLog, etc.)
+3. `npm run seed:knowledge` — poblar 18 entradas de base de conocimiento del bot
+4. `npm run seed` — poblar productos, guías y desafíos (si no existen)
+5. Usar admin → `/admin/knowledge` → botón "Sincronizar con la web"
 6. Configurar 7 Gemini keys en Render Dashboard (GEMINI_API_KEY_1 a _7)
+7. Google/GitHub OAuth — configurar callbacks (opcional)
 
 **Verificado en producción (2026-07-01 live tests):**
 - 23/23 tests pasados en sitio en vivo
@@ -643,4 +644,64 @@ Pending updates: 0
 - Commit `66b76d0`: "Fix webhook secret check: only enforce when env var is set"
 - Commit `1c11757`: "Fix CSRF bloqueando pagos: generar token en middleware, enviar desde frontend"
 - Commit `40b9f03`: "Guías PDF reales + fix PayPal/Transfer dashboard + seed"
+- Commit `ce61fa2` (2026-07-04): "Gemini directo + Bot RAG + Admin slate + Validator role + fixes"
 - All pushed to `origin/main`
+
+## Test Results (2026-07-04 — Verificación Completa en Producción)
+
+### Estado del Deploy
+- Código más reciente commit `ce61fa2` PUESHEADO a GitHub ✅
+- Render (free tier) aún no completa el build — la versión anterior sigue sirviendo contenido
+- El build en Render hará `npm install && npm run build` (Turbopack nativo en Render sí funciona)
+
+### Páginas Públicas (todas 200 ✅)
+```
+/ → 200  /about → 200  /pricing → 200  /blog → 200
+/contact → 200  /login → 200  /products → 200  /guides → 200
+/ingredients-analyzer → 200  /terms → 200  /privacy → 200
+```
+
+### APIs Públicas (todas OK ✅)
+- `/api/health` → `status: ok`, DB ok, uptime registrado
+- `/api/guides` → 11 guías digitales con fileUrl
+- `/api/products` → 10 productos
+- `/api/blog` → 10 artículos
+- `/api/community/posts` → 6 posts
+
+### APIs Autenticadas (con sesión de newtest@gmail.com ✅)
+- `/api/analysis` → `analyses: []` (sin análisis aún)
+- `/api/user/usage` → FREE plan, 1 análisis restante
+- `/api/user/monthly-comparison` → `hasData: false`
+- `/api/user/social-comparison` → `hasComparison: false`
+- `/api/referral` → `groups: []`
+- `/api/skin-diary` → `[]`
+- `/api/challenges` → 30 desafíos, 0 completados
+- `/api/feedback/survey` → funciona (rating 5)
+- `/dashboard` → 200
+- `/dashboard/history` → 200
+- `/dashboard/profile` → 200
+- `/dashboard/subscription` → 200
+
+### Control de Acceso Admin ✅
+- `/admin` → 307 redirect a `/` (usuario no admin)
+- `/admin/users` → 307 redirect a `/`
+- `/api/admin/stats` → 307 redirect
+
+### Type Check
+- `tsc --noEmit` → solo error preexistente `trusted-types` (no bloqueante)
+- Sin nuevos errores de tipo introducidos
+
+### Issues Corregidos
+1. **Admin layout**: Template literal roto — `className="... ${adminColors.accentBg} ..."` estaba en string normal, no template literal. Fix: usar backticks.
+2. **Telegram admin page**: `handleUnlink()` enviaba `telegramId: null` pero Zod schema `.strict()` lo rechazaba. Fix: agregar `telegramId: z.string().nullable().optional()` al schema.
+3. **Admin users GET no filtraba telegramLinked**: La página de Telegram cargaba TODOS los usuarios. Fix: agregar query param `?telegramLinked=true` al GET handler.
+4. **Falta seed:knowledge script**: Agregado `"seed:knowledge": "tsx prisma/seed-knowledge.ts"` a package.json.
+
+### Pendiente Post-Deploy (ejecutar en Render Shell o local con acceso DB)
+1. Render termine el build y deploy automático (commit `ce61fa2`)
+2. `npx prisma db push --accept-data-loss` — sincronizar schema (BotKnowledge, BotFeedback, BotLog, etc.)
+3. `npm run seed:knowledge` — poblar 18 entradas de base de conocimiento
+4. `npm run seed` — poblar productos/guías/desafíos si no existen
+5. Usar admin → `/admin/knowledge` → "Sincronizar con la web" para auto-generar entradas desde sitemap
+6. Usar admin → `/admin/users` → cambiar rol de validador a usuarios
+7. Configurar `GEMINI_API_KEY_1` a `_7` en Render Dashboard (ya en .env local)

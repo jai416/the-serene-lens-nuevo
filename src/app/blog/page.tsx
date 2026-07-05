@@ -5,7 +5,7 @@ import Link from "next/link"
 import Head from "next/head"
 import { Card, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
-import { Newspaper, ArrowRight, Clock, Eye } from "lucide-react"
+import { Newspaper, ArrowRight, Clock, Eye, Search } from "lucide-react"
 import Image from "next/image"
 import { toast } from "sonner"
 
@@ -28,6 +28,7 @@ export default function BlogPage() {
   const [page, setPage] = useState(1)
   const [totalPages, setTotalPages] = useState(1)
   const POSTS_PER_PAGE = 9
+  const [searchQuery, setSearchQuery] = useState("")
 
   useEffect(() => {
     const fetchPosts = async () => {
@@ -54,6 +55,15 @@ export default function BlogPage() {
     if (!acc.includes(p.category)) acc.push(p.category)
     return acc
   }, [])
+
+  const filteredPosts = posts.filter((post) => {
+    if (!searchQuery.trim()) return true
+    const q = searchQuery.toLowerCase()
+    return (
+      post.title.toLowerCase().includes(q) ||
+      post.excerpt.toLowerCase().includes(q)
+    )
+  })
 
   return (
     <div className="min-h-screen pt-24 pb-16 px-4">
@@ -101,6 +111,17 @@ export default function BlogPage() {
           </div>
         )}
 
+        <div className="relative max-w-md mx-auto mb-8">
+          <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
+          <input
+            type="text"
+            placeholder="Buscar artículos..."
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            className="w-full pl-10 pr-4 py-2 text-sm rounded-full border border-[#DDE7D3] dark:border-[#3A4536] bg-background text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-[#C2E09D] transition-colors"
+          />
+        </div>
+
         {loading ? (
           <div className="text-center py-16">
             <p className="text-muted-foreground">Cargando artículos...</p>
@@ -109,9 +130,13 @@ export default function BlogPage() {
           <div className="text-center py-16">
             <p className="text-muted-foreground">No hay artículos publicados aún.</p>
           </div>
+        ) : filteredPosts.length === 0 ? (
+          <div className="text-center py-16">
+            <p className="text-muted-foreground">No se encontraron artículos para "{searchQuery}".</p>
+          </div>
         ) : (
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {posts.map((post) => (
+            {filteredPosts.map((post) => (
               <Link key={post.id} href={`/blog/${post.slug}`}>
                 <Card className="h-full group overflow-hidden">
                   <div className="relative aspect-[16/10] bg-muted overflow-hidden">

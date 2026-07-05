@@ -22,6 +22,7 @@ import {
 import { useSession } from "next-auth/react"
 import { SeasonalHero } from "@/components/seasonal-hero"
 
+const TestimonialsSection = dynamic(() => import("./testimonials-section"), { ssr: false })
 const FAQSection = dynamic(() => import("@/components/faq-section").then((m) => ({ default: m.FAQSection })), {
   loading: () => <div className="py-16 text-center text-muted-foreground text-sm">Cargando...</div>,
 })
@@ -358,6 +359,9 @@ export default function HomePage() {
       </section>
 
       <FAQSection />
+
+      {/* ─── Testimonials ─── */}
+      <TestimonialsSection />
 
       {/* ─── Disclaimer ─── */}
       <section className="pb-20 text-center px-4">

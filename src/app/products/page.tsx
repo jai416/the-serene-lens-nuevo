@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useState } from "react"
+import { useEffect, useState, useMemo } from "react"
 import Link from "next/link"
 import Head from "next/head"
 import { Button } from "@/components/ui/button"
@@ -21,19 +21,18 @@ interface Product {
 }
 
 export default function ProductsPage() {
-  const [products, setProducts] = useState<Product[]>([])
+  const [allProducts, setAllProducts] = useState<Product[]>([])
   const [loading, setLoading] = useState(true)
-  const [category, setCategory] = useState("")
+  const [selectedCategory, setSelectedCategory] = useState("")
 
   useEffect(() => {
     const fetchProducts = async () => {
       setLoading(true)
-      const url = category ? `/api/products?limit=50&category=${category}` : "/api/products?limit=50"
       try {
-        const res = await fetch(url)
+        const res = await fetch("/api/products?limit=50")
         if (res.ok) {
           const data = await res.json()
-          setProducts(data?.data?.products || data.products || [])
+          setAllProducts(data?.data?.products || data.products || [])
         }
       } catch {
         toast.error("Error al cargar productos")
@@ -42,12 +41,19 @@ export default function ProductsPage() {
       }
     }
     fetchProducts()
-  }, [category])
-
-  const categories = products.reduce<string[]>((acc, p) => {
-    if (!acc.includes(p.category)) acc.push(p.category)
-    return acc
   }, [])
+
+  const categories = useMemo(() => {
+    return allProducts.reduce<string[]>((acc, p) => {
+      if (!acc.includes(p.category)) acc.push(p.category)
+      return acc
+    }, [])
+  }, [allProducts])
+
+  const products = useMemo(() => {
+    if (!selectedCategory) return allProducts
+    return allProducts.filter((p) => p.category === selectedCategory)
+  }, [allProducts, selectedCategory])
 
   return (
     <div className="min-h-screen px-4 py-8">
@@ -94,15 +100,16 @@ export default function ProductsPage() {
           </CardContent>
         </Card>
 
-        {/* Catalog */}
-        <div className="mb-8">
-          <div className="flex items-center justify-between mb-6">
-            <h2 className="font-serif text-2xl font-semibold text-[#2F3A2D]">Catálogo de Productos</h2>
-            <div className="flex gap-2 overflow-x-auto scrollbar-hide">
+        {/* Category filter */}
+        {!loading && (
+          <div className="mb-8">
+            <div className="flex items-center gap-2 overflow-x-auto scrollbar-hide pb-1">
               <button
-                onClick={() => setCategory("")}
-                className={`px-3 py-1.5 text-xs rounded-full whitespace-nowrap transition-colors ${
-                  !category ? "bg-[#C2E09D] text-[#2F3A2D]" : "bg-[#F0F5EC] hover:bg-[#E8F0E0] text-[#64705E]"
+                onClick={() => setSelectedCategory("")}
+                className={`px-4 py-2 text-sm rounded-full whitespace-nowrap transition-colors font-medium ${
+                  !selectedCategory
+                    ? "bg-[#C2E09D] text-[#2F3A2D]"
+                    : "bg-[#F0F5EC] hover:bg-[#E8F0E0] text-[#64705E]"
                 }`}
               >
                 Todos
@@ -110,9 +117,11 @@ export default function ProductsPage() {
               {categories.map((cat) => (
                 <button
                   key={cat}
-                  onClick={() => setCategory(cat)}
-                  className={`px-3 py-1.5 text-xs rounded-full whitespace-nowrap transition-colors ${
-                    category === cat ? "bg-[#C2E09D] text-[#2F3A2D]" : "bg-[#F0F5EC] hover:bg-[#E8F0E0] text-[#64705E]"
+                  onClick={() => setSelectedCategory(cat)}
+                  className={`px-4 py-2 text-sm rounded-full whitespace-nowrap transition-colors font-medium ${
+                    selectedCategory === cat
+                      ? "bg-[#C2E09D] text-[#2F3A2D]"
+                      : "bg-[#F0F5EC] hover:bg-[#E8F0E0] text-[#64705E]"
                   }`}
                 >
                   {cat}
@@ -120,6 +129,11 @@ export default function ProductsPage() {
               ))}
             </div>
           </div>
+        )}
+
+        {/* Catalog */}
+        <div className="mb-8">
+          <h2 className="font-serif text-2xl font-semibold text-[#2F3A2D] mb-6">Catálogo de Productos</h2>
 
           {loading ? (
             <p className="text-center text-[#64705E] py-10">Cargando productos...</p>

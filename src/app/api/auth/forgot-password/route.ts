@@ -40,9 +40,11 @@ export async function POST(req: NextRequest) {
     const baseUrl = process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000"
     const resetUrl = `${baseUrl}/reset-password?token=${token}&email=${encodeURIComponent(email)}`
 
+    const isDev = process.env.NODE_ENV === "development"
+
     return ok({
       message: "Enlace de recuperación generado.",
-      resetUrl,
+      ...(isDev && { resetUrl }),
     })
   } catch {
     return serverError()

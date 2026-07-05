@@ -25,13 +25,13 @@ export async function checkRateLimit(
     }
 
     await db.rateLimit.update({
-      where: { key },
+      where: { key, count: existing.count },
       data: { count: existing.count + 1 },
     })
 
     return { allowed: true, remaining: maxRequests - existing.count - 1 }
   } catch {
-    return { allowed: false, remaining: maxRequests - 1 }
+    return { allowed: true, remaining: maxRequests - 1 }
   }
 }
 
@@ -40,5 +40,16 @@ export async function clearRateLimit(key: string): Promise<void> {
     await db.rateLimit.delete({ where: { key } })
   } catch {
     // ignore
+  }
+}
+
+export async function cleanupExpiredRateLimits(): Promise<number> {
+  try {
+    const result = await db.rateLimit.deleteMany({
+      where: { resetAt: { lt: new Date() } },
+    })
+    return result.count
+  } catch {
+    return 0
   }
 }

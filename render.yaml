@@ -25,7 +25,21 @@ services:
       - key: QVAPAY_SECRET
         sync: false
       - key: QVAPAY_API_URL
-        value: https://qvapay.com
+        value: https://api.qvapay.com
+      - key: GEMINI_API_KEY_1
+        sync: false
+      - key: GEMINI_API_KEY_2
+        sync: false
+      - key: GEMINI_API_KEY_3
+        sync: false
+      - key: GEMINI_API_KEY_4
+        sync: false
+      - key: GEMINI_API_KEY_5
+        sync: false
+      - key: GEMINI_API_KEY_6
+        sync: false
+      - key: GEMINI_API_KEY_7
+        sync: false
       - key: RESEND_API_KEY
         sync: false
       - key: CRON_SECRET

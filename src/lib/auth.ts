@@ -5,6 +5,7 @@ import GoogleProvider from "next-auth/providers/google"
 import GitHubProvider from "next-auth/providers/github"
 import { db } from "@/lib/db"
 import { getEnv } from "@/lib/env"
+import { checkRateLimit } from "@/lib/rate-limit"
 
 function getAuthEnv() {
   try {
@@ -87,8 +88,15 @@ export const authOptions: NextAuthOptions = {
         email: { label: "Email", type: "email" },
         password: { label: "Password", type: "password" },
       },
-      async authorize(credentials) {
+      async authorize(credentials, req) {
         if (!credentials?.email || !credentials?.password) return null
+
+        const ip = typeof req?.headers?.["x-forwarded-for"] === "string"
+          ? req.headers["x-forwarded-for"].split(",")[0].trim()
+          : "unknown"
+
+        const { allowed } = await checkRateLimit(`login:${ip}`, 10, 60000)
+        if (!allowed) return null
 
         const user = await db.user.findUnique({
           where: { email: credentials.email },
