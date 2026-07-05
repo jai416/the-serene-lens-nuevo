@@ -13,7 +13,7 @@ export async function POST(req: Request) {
 
     if (!telegramId) return error("El chatId de Telegram es requerido")
 
-    const existing = await db.user.findUnique({ where: { telegramId } })
+    const existing = await db.user.findFirst({ where: { telegramId } })
     if (existing && existing.id !== session.user.id) {
       return error("Este chatId ya está vinculado a otro usuario")
     }
