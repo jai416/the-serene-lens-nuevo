@@ -53,7 +53,6 @@ async function compressImage(file: File, maxDim = 512): Promise<Buffer> {
     }
   } catch {}
   return Buffer.from(bytes)
-  return buffer
 }
 
 function sleep(ms: number) {
