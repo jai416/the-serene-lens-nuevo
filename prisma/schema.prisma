@@ -54,6 +54,9 @@ model User {
   ticketResponses   SupportTicketResponse[]
   chatMessages      ChatMessage[]
   contactMessages   ContactMessage[]
+  communityGroups    CommunityGroup[]   @relation("GroupCreator")
+  communityMemberships CommunityMember[]
+  postReactions      PostReaction[]
 
   telegramId        String?
   currentStreak     Int       @default(0)
@@ -503,7 +506,7 @@ model CommunityGroup {
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 
-  creator  User             @relation(fields: [createdById], references: [id], onDelete: Cascade)
+  creator  User             @relation("GroupCreator", fields: [createdById], references: [id], onDelete: Cascade)
   members  CommunityMember[]
   posts    CommunityPost[]
 
