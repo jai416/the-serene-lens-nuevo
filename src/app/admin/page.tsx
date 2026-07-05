@@ -30,6 +30,8 @@ interface Stats {
   products: number
   revenue: number
   revenueQvaPay: number
+  revenueTransfer: number
+  revenuePayPal: number
   activeUsers: number
   newUsersThisMonth: number
   newUsersThisWeek: number
