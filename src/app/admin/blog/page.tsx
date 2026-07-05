@@ -10,6 +10,7 @@ import { Button } from "@/components/ui/button"
 import { Newspaper, ArrowLeft, Plus, Trash2, ExternalLink } from "lucide-react"
 import { formatDate } from "@/lib/utils"
 import { toast } from "sonner"
+import { ListSkeleton } from "@/components/ui/skeleton"
 
 interface BlogPost {
   id: string
@@ -36,7 +37,7 @@ export default function AdminBlogPage() {
     }
   }, [session])
 
-  if (status === "loading") return <div className="min-h-screen pt-24 flex items-center justify-center"><p className="text-[#64705E] dark:text-[#9BAA93]">Cargando...</p></div>
+  if (status === "loading") return <div className="min-h-screen pt-24 flex items-center justify-center"><ListSkeleton rows={5} /></div>
   if (!session || session.user.role !== "ADMIN") redirect("/")
 
   const resetForm = () => setForm({ title: "", slug: "", excerpt: "", content: "", category: "", image: "", published: false })

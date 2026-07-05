@@ -9,6 +9,7 @@ import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Package, ArrowLeft, Plus, Trash2 } from "lucide-react"
 import { toast } from "sonner"
+import { ListSkeleton } from "@/components/ui/skeleton"
 
 interface Product {
   id: string
@@ -37,7 +38,7 @@ export default function AdminProductsPage() {
     }
   }, [session])
 
-  if (status === "loading") return <div className="min-h-screen pt-24 flex items-center justify-center"><p className="text-[#64705E] dark:text-[#9BAA93]">Cargando...</p></div>
+  if (status === "loading") return <div className="min-h-screen pt-24 flex items-center justify-center"><ListSkeleton rows={5} /></div>
   if (!session || session.user.role !== "ADMIN") redirect("/")
 
   const resetForm = () => setForm({

@@ -19,6 +19,7 @@
     "db:studio": "prisma studio",
     "seed": "tsx prisma/seed.ts",
     "seed:knowledge": "tsx prisma/seed-knowledge.ts",
+    "seed:guides": "tsx prisma/seed-guides.ts",
     "postinstall": "prisma generate"
   },
   "lint-staged": {

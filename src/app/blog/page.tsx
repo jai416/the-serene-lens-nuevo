@@ -8,6 +8,7 @@ import { Badge } from "@/components/ui/badge"
 import { Newspaper, ArrowRight, Clock, Eye, Search } from "lucide-react"
 import Image from "next/image"
 import { toast } from "sonner"
+import { ListSkeleton } from "@/components/ui/skeleton"
 
 interface BlogPost {
   id: string
@@ -31,12 +32,13 @@ export default function BlogPage() {
   const [searchQuery, setSearchQuery] = useState("")
 
   useEffect(() => {
+    const controller = new AbortController()
     const fetchPosts = async () => {
       setLoading(true)
       try {
         const params = new URLSearchParams({ page: page.toString(), limit: POSTS_PER_PAGE.toString() })
         if (category) params.set("category", category)
-        const res = await fetch(`/api/blog?${params}`)
+        const res = await fetch(`/api/blog?${params}`, { signal: controller.signal })
         if (res.ok) {
           const data = await res.json()
           setPosts(data?.data?.posts || data.posts || [])
@@ -49,6 +51,7 @@ export default function BlogPage() {
       }
     }
     fetchPosts()
+    return () => controller.abort()
   }, [category, page])
 
   const categories = posts.reduce<string[]>((acc, p) => {
@@ -115,17 +118,16 @@ export default function BlogPage() {
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
           <input
             type="text"
+            aria-label="Buscar artículos"
             placeholder="Buscar artículos..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full pl-10 pr-4 py-2 text-sm rounded-full border border-[#DDE7D3] dark:border-[#3A4536] bg-background text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-[#C2E09D] transition-colors"
+            className="w-full pl-10 pr-4 py-2 text-sm rounded-full border border-[#E8DDD0] dark:border-[#3A3330] bg-background text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-[#C2E09D] transition-colors"
           />
         </div>
 
         {loading ? (
-          <div className="text-center py-16">
-            <p className="text-muted-foreground">Cargando artículos...</p>
-          </div>
+          <ListSkeleton rows={6} />
         ) : posts.length === 0 ? (
           <div className="text-center py-16">
             <p className="text-muted-foreground">No hay artículos publicados aún.</p>
@@ -179,7 +181,7 @@ export default function BlogPage() {
             <button
               onClick={() => setPage((p) => Math.max(1, p - 1))}
               disabled={page === 1}
-              className="px-4 py-2 text-sm rounded-full border border-[#DDE7D3] dark:border-[#3A4536] text-[#64705E] dark:text-[#9BAA93] hover:bg-[#F0F5EC] dark:hover:bg-[#2E3829] disabled:opacity-40 transition-colors"
+              className="px-4 py-2 text-sm rounded-full border border-[#E8DDD0] dark:border-[#3A3330] text-[#8A7A6A] dark:text-[#A89888] hover:bg-[#F0F5EC] dark:hover:bg-[#2E3829] disabled:opacity-40 transition-colors"
             >
               Anterior
             </button>
@@ -189,8 +191,8 @@ export default function BlogPage() {
                 onClick={() => setPage(p)}
                 className={`w-9 h-9 rounded-full text-sm font-medium transition-colors ${
                   page === p
-                    ? "bg-[#C2E09D] text-[#2F3A2D]"
-                    : "border border-[#DDE7D3] dark:border-[#3A4536] text-[#64705E] dark:text-[#9BAA93] hover:bg-[#F0F5EC] dark:hover:bg-[#2E3829]"
+                    ? "bg-[#E8D5C4] text-[#3D3229]"
+                    : "border border-[#E8DDD0] dark:border-[#3A3330] text-[#8A7A6A] dark:text-[#A89888] hover:bg-[#F0F5EC] dark:hover:bg-[#2E3829]"
                 }`}
               >
                 {p}
@@ -199,7 +201,7 @@ export default function BlogPage() {
             <button
               onClick={() => setPage((p) => Math.min(totalPages, p + 1))}
               disabled={page === totalPages}
-              className="px-4 py-2 text-sm rounded-full border border-[#DDE7D3] dark:border-[#3A4536] text-[#64705E] dark:text-[#9BAA93] hover:bg-[#F0F5EC] dark:hover:bg-[#2E3829] disabled:opacity-40 transition-colors"
+              className="px-4 py-2 text-sm rounded-full border border-[#E8DDD0] dark:border-[#3A3330] text-[#8A7A6A] dark:text-[#A89888] hover:bg-[#F0F5EC] dark:hover:bg-[#2E3829] disabled:opacity-40 transition-colors"
             >
               Siguiente
             </button>

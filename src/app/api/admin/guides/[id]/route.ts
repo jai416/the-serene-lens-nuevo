@@ -1,7 +1,8 @@
-import { NextRequest } from "next/server"
+import { NextRequest, NextResponse } from "next/server"
 import { getServerSession } from "next-auth"
 import { authOptions } from "@/lib/auth"
 import { db } from "@/lib/db"
+import { checkRateLimit } from "@/lib/rate-limit"
 import { ok, error, unauthorized, notFound, serverError } from "@/lib/api-response"
 import { revalidateTag } from "next/cache"
 
@@ -12,6 +13,9 @@ export async function PATCH(
   try {
     const session = await getServerSession(authOptions)
     if (!session?.user || session.user.role !== "ADMIN") return unauthorized()
+
+    const { allowed } = await checkRateLimit(`admin:guides:${session.user.id}`, 30, 60000)
+    if (!allowed) return NextResponse.json({ success: false, error: "Demasiadas solicitudes" }, { status: 429 })
 
     const { id } = await params
     const body = await request.json()
@@ -48,6 +52,9 @@ export async function DELETE(
   try {
     const session = await getServerSession(authOptions)
     if (!session?.user || session.user.role !== "ADMIN") return unauthorized()
+
+    const { allowed } = await checkRateLimit(`admin:guides:${session.user.id}`, 30, 60000)
+    if (!allowed) return NextResponse.json({ success: false, error: "Demasiadas solicitudes" }, { status: 429 })
 
     const { id } = await params
     const guide = await db.digitalProduct.findUnique({ where: { id } })

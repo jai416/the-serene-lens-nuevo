@@ -80,26 +80,26 @@ export default function AboutPage() {
           </h1>
         </div>
 
-        <Card className="bg-white border-[#DDE7D3] mb-10">
+        <Card className="bg-white border-[#E8DDD0] mb-10">
           <CardContent className="p-6 sm:p-10">
             <div className="prose prose-sm sm:prose-base max-w-none prose-headings:font-serif prose-headings:font-semibold">
-              <p className="text-lg text-[#2F3A2D] leading-relaxed">
+              <p className="text-lg text-[#3D3229] leading-relaxed">
                 Soy un programador que se hartó de apps de skincare que inventaban
                 porcentajes.
               </p>
-              <p className="text-[#64705E] leading-relaxed">
+              <p className="text-[#8A7A6A] leading-relaxed">
                 Cada día aparecían nuevas aplicaciones prometiendo que tu piel tenía
                 un &quot;problema&quot; con un porcentaje inventado, solo para venderte
                 un producto. Porcentajes que no significaban nada. Diagnósticos que no
                 eran reales. Datos que nadie podía verificar.
               </p>
-              <p className="text-[#64705E] leading-relaxed">
-                Creé <strong className="text-[#2F3A2D]">The Serene Lens</strong> para
+              <p className="text-[#8A7A6A] leading-relaxed">
+                Creé <strong className="text-[#3D3229]">The Serene Lens</strong> para
                 ser honesto: observación cosmética, sin diagnósticos falsos. Una
                 herramienta que te dice lo que realmente puede observarse en tu piel a
                 través de fotos, con recomendaciones educativas, no comerciales.
               </p>
-              <p className="text-[#64705E] leading-relaxed">
+              <p className="text-[#8A7A6A] leading-relaxed">
                 Sin porcentajes mágicos. Sin promesas de cura. Sin vender productos
                 inventados. Solo observación, honestidad y transparencia.
               </p>
@@ -115,34 +115,34 @@ export default function AboutPage() {
             {values.map((value) => (
               <Card
                 key={value.title}
-                className="bg-white border-[#DDE7D3] text-center"
+                className="bg-white border-[#E8DDD0] text-center"
               >
                 <CardContent className="p-6">
-                  <div className="w-12 h-12 rounded-2xl bg-[#C2E09D]/20 flex items-center justify-center mx-auto mb-4">
-                    <value.icon className="w-5 h-5 text-[#2F3A2D]" />
+                  <div className="w-12 h-12 rounded-2xl bg-[#E8D5C4]/20 flex items-center justify-center mx-auto mb-4">
+                    <value.icon className="w-5 h-5 text-[#3D3229]" />
                   </div>
-                  <h3 className="font-serif text-lg font-semibold mb-2 text-[#2F3A2D]">
+                  <h3 className="font-serif text-lg font-semibold mb-2 text-[#3D3229]">
                     {value.title}
                   </h3>
-                  <p className="text-sm text-[#64705E]">{value.description}</p>
+                  <p className="text-sm text-[#8A7A6A]">{value.description}</p>
                 </CardContent>
               </Card>
             ))}
           </div>
         </div>
 
-        <Card className="bg-[#C2E09D]/10 border-[#C2E09D]">
+        <Card className="bg-[#E8D5C4]/10 border-[#E8D5C4]">
           <CardContent className="p-6 sm:p-10 text-center">
-            <Sparkles className="w-8 h-8 text-[#2F3A2D] mx-auto mb-4" />
-            <h2 className="font-serif text-xl sm:text-2xl font-semibold mb-3 text-[#2F3A2D]">
+            <Sparkles className="w-8 h-8 text-[#3D3229] mx-auto mb-4" />
+            <h2 className="font-serif text-xl sm:text-2xl font-semibold mb-3 text-[#3D3229]">
               Prueba el análisis
             </h2>
-            <p className="text-sm text-[#64705E] max-w-lg mx-auto mb-6">
+            <p className="text-sm text-[#8A7A6A] max-w-lg mx-auto mb-6">
               Sube una foto de tu piel y recibe observaciones cosméticas honestas.
               Sin compromisos, sin porcentajes inventados.
             </p>
             <Link href="/analysis">
-              <Button className="rounded-full bg-[#C2E09D] hover:bg-[#B0D48E] text-[#2F3A2D] font-medium">
+              <Button className="rounded-full bg-[#E8D5C4] hover:bg-[#B0D48E] text-[#3D3229] font-medium">
                 <Eye className="w-4 h-4 mr-2" />
                 Analizar mi piel
                 <ArrowRight className="w-4 h-4 ml-2" />

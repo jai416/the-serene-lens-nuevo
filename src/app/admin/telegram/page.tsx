@@ -9,6 +9,7 @@ import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { MessageCircle, ArrowLeft, Send, Users } from "lucide-react"
 import { toast } from "sonner"
+import { ListSkeleton } from "@/components/ui/skeleton"
 
 interface LinkedUser {
   id: string
@@ -45,7 +46,7 @@ export default function AdminTelegramPage() {
     if (session?.user?.role === "ADMIN") loadLinkedUsers()
   }, [session, loadLinkedUsers])
 
-  if (status === "loading") return <div className="flex items-center justify-center py-20"><p className="text-[#8892B0]">Cargando...</p></div>
+  if (status === "loading") return <div className="flex items-center justify-center py-20"><ListSkeleton rows={4} /></div>
   if (!session || session.user.role !== "ADMIN") redirect("/")
 
   const handleUnlink = async (userId: string) => {
@@ -151,7 +152,7 @@ POST /api/admin/telegram/broadcast {'{"message":"tu mensaje"}'}
               Usuarios Vinculados ({linkedUsers.length})
             </h2>
             {loading ? (
-              <p className="text-[#8892B0] text-center py-4">Cargando...</p>
+              <ListSkeleton rows={4} />
             ) : linkedUsers.length === 0 ? (
               <p className="text-[#8892B0] text-center py-4">Ningún usuario vinculado a Telegram</p>
             ) : (

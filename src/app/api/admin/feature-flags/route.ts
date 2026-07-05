@@ -1,7 +1,8 @@
-import { NextRequest } from "next/server"
+import { NextRequest, NextResponse } from "next/server"
 import { getServerSession } from "next-auth"
 import { authOptions } from "@/lib/auth"
 import { getAllFeatureFlags, setFeatureFlag } from "@/lib/feature-flags"
+import { checkRateLimit } from "@/lib/rate-limit"
 import { ok, unauthorized, error, serverError } from "@/lib/api-response"
 
 export async function GET() {
@@ -22,6 +23,10 @@ export async function POST(req: NextRequest) {
     if (!session?.user || session.user.role !== "ADMIN") return unauthorized()
 
     const body = await req.json().catch(() => null)
+    const { allowed } = await checkRateLimit(`admin:feature-flags:${session.user.id}`, 30, 60000)
+    if (!allowed) {
+      return NextResponse.json({ success: false, error: "Demasiadas solicitudes" }, { status: 429 })
+    }
     if (!body?.flag) return error("Se requiere 'flag' (string)")
 
     const config = {

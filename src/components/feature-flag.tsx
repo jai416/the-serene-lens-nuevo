@@ -1,24 +1,15 @@
 "use client"
 
-import { useEffect, useState } from "react"
+import { useFeatureFlags } from "./feature-flag-provider"
 
 export function FeatureFlag({ flag, fallback = null, children }: {
   flag: string
   fallback?: React.ReactNode
   children: React.ReactNode
 }) {
-  const [enabled, setEnabled] = useState<boolean | null>(null)
+  const { isEnabled } = useFeatureFlags()
+  const enabled = isEnabled(flag)
 
-  useEffect(() => {
-    fetch(`/api/admin/feature-flags`)
-      .then((r) => r.json())
-      .then((d) => {
-        setEnabled(d?.data?.flags?.[flag] ?? false)
-      })
-      .catch(() => setEnabled(false))
-  }, [flag])
-
-  if (enabled === null) return fallback
   if (!enabled) return fallback
   return <>{children}</>
 }

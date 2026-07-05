@@ -1,7 +1,8 @@
 import { getServerSession } from "next-auth"
 import { authOptions } from "@/lib/auth"
 import { db } from "@/lib/db"
-import { NextRequest } from "next/server"
+import { NextRequest, NextResponse } from "next/server"
+import { checkRateLimit } from "@/lib/rate-limit"
 import { ok, unauthorized, serverError, error } from "@/lib/api-response"
 import { adminUserUpdateSchema } from "@/lib/validations"
 
@@ -48,6 +49,10 @@ export async function PUT(req: NextRequest) {
     if (!admin) return unauthorized()
 
     const body = await req.json()
+    const { allowed } = await checkRateLimit(`admin:users:${admin.id}`, 30, 60000)
+    if (!allowed) {
+      return NextResponse.json({ success: false, error: "Demasiadas solicitudes" }, { status: 429 })
+    }
     const parsed = adminUserUpdateSchema.safeParse(body)
     if (!parsed.success) {
       return error(parsed.error.issues.map((i) => i.message).join(", "), 400)

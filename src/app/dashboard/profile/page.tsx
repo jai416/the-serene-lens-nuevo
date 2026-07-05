@@ -8,6 +8,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { User, Save, AlertCircle, Trash2, LogOut } from "lucide-react"
 import { toast } from "sonner"
+import { ProfileSkeleton } from "@/components/ui/skeleton"
 
 export default function ProfilePage() {
   const pathname = usePathname()
@@ -19,11 +20,7 @@ export default function ProfilePage() {
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false)
 
   if (status === "loading") {
-    return (
-      <div className="min-h-screen flex items-center justify-center">
-        <p className="text-[#64705E]">Cargando...</p>
-      </div>
-    )
+    return <ProfileSkeleton />
   }
 
   if (!session) redirect("/login?callbackUrl=" + encodeURIComponent(pathname))
@@ -70,7 +67,7 @@ export default function ProfilePage() {
             <User className="w-3.5 h-3.5 mr-2" />
             Perfil
           </Badge>
-          <h1 className="font-serif text-3xl sm:text-4xl font-semibold text-[#2F3A2D]">
+          <h1 className="font-serif text-3xl sm:text-4xl font-semibold text-[#3D3229]">
             Mi Perfil
           </h1>
         </div>
@@ -78,33 +75,33 @@ export default function ProfilePage() {
         <Card className="p-6">
           <CardContent className="p-0 space-y-5">
             <div>
-              <label className="text-sm font-medium mb-1.5 block text-[#2F3A2D]">Nombre</label>
+              <label className="text-sm font-medium mb-1.5 block text-[#3D3229]">Nombre</label>
               <input
                 type="text"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
-                className="w-full rounded-xl border border-[#DDE7D3] bg-white px-4 py-2.5 text-sm focus:outline-none focus:ring-1 focus:ring-[#C2E09D] text-[#2F3A2D]"
+                className="w-full rounded-xl border border-[#E8DDD0] bg-white px-4 py-2.5 text-sm focus:outline-none focus:ring-1 focus:ring-[#E8D5C4] text-[#3D3229]"
                 placeholder="Tu nombre"
               />
             </div>
 
             <div>
-              <label className="text-sm font-medium mb-1.5 block text-[#2F3A2D]">Email</label>
+              <label className="text-sm font-medium mb-1.5 block text-[#3D3229]">Email</label>
               <input
                 type="email"
                 value={session.user.email || ""}
                 disabled
-                className="w-full rounded-xl border border-[#DDE7D3] bg-[#F0F5EC] px-4 py-2.5 text-sm text-[#64705E] cursor-not-allowed"
+                className="w-full rounded-xl border border-[#E8DDD0] bg-[#F0F5EC] px-4 py-2.5 text-sm text-[#8A7A6A] cursor-not-allowed"
               />
             </div>
 
             <div>
-              <label className="text-sm font-medium mb-1.5 block text-[#2F3A2D]">Plan</label>
+              <label className="text-sm font-medium mb-1.5 block text-[#3D3229]">Plan</label>
               <input
                 type="text"
                 value={(session.user as any).plan === "PREMIUM" ? "Premium" : (session.user as any).plan === "PRO" ? "Pro" : "Gratuito"}
                 disabled
-                className="w-full rounded-xl border border-[#DDE7D3] bg-[#F0F5EC] px-4 py-2.5 text-sm text-[#64705E] cursor-not-allowed"
+                className="w-full rounded-xl border border-[#E8DDD0] bg-[#F0F5EC] px-4 py-2.5 text-sm text-[#8A7A6A] cursor-not-allowed"
               />
             </div>
 
@@ -116,7 +113,7 @@ export default function ProfilePage() {
             )}
 
             {success && (
-              <p className="text-sm text-[#2F3A2D]">Perfil actualizado</p>
+              <p className="text-sm text-[#3D3229]">Perfil actualizado</p>
             )}
 
             <Button onClick={handleSave} disabled={saving} variant="primary">
@@ -129,7 +126,7 @@ export default function ProfilePage() {
         {/* ── Cerrar sesión ── */}
         <Card className="p-6 mt-6">
           <CardContent className="p-0">
-            <p className="text-sm text-[#64705E] mb-4">
+            <p className="text-sm text-[#8A7A6A] mb-4">
               Cierra sesión en este dispositivo. Podrás volver a iniciar sesión cuando quieras.
             </p>
             <Button
@@ -151,7 +148,7 @@ export default function ProfilePage() {
             </CardTitle>
           </CardHeader>
           <CardContent className="p-0">
-            <p className="text-sm text-[#64705E] mb-4">
+            <p className="text-sm text-[#8A7A6A] mb-4">
               Esta acción eliminará permanentemente tu cuenta y todos tus datos. No se puede deshacer.
             </p>
             {showDeleteConfirm ? (

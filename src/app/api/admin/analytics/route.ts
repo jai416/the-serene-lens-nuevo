@@ -2,6 +2,8 @@ import { getServerSession } from "next-auth"
 import { authOptions } from "@/lib/auth"
 import { db } from "@/lib/db"
 import { ok, unauthorized, serverError } from "@/lib/api-response"
+import { checkRateLimit } from "@/lib/rate-limit"
+import { NextResponse } from "next/server"
 
 async function requireAdmin() {
   const session = await getServerSession(authOptions)
@@ -13,6 +15,11 @@ export async function GET() {
   try {
     const admin = await requireAdmin()
     if (!admin) return unauthorized()
+
+    const { allowed } = await checkRateLimit(`admin:analytics:${admin.id}`, 10, 60000)
+    if (!allowed) {
+      return NextResponse.json({ success: false, error: "Demasiadas solicitudes" }, { status: 429 })
+    }
 
     const [totalPayments, qvapayPayments, recentSubscriptions, recentPacks] = await db.$transaction([
       db.payment.findMany({ where: { status: "completed" } }),

@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server"
+import { logger } from "@/lib/logger"
 import {
   handleStart, handleWeb, handlePrecios, handleStatusPublic,
   handleAyuda, handleSkincare, handleContacto,
@@ -13,6 +14,22 @@ import {
   handleCallback,
 } from "@/lib/telegram-handlers"
 import { sendTelegramMessage } from "@/lib/telegram"
+
+const commandLimits = new Map<string, { count: number; resetAt: number }>()
+const COMMAND_WINDOW = 60 * 1000
+const COMMAND_MAX = 10
+
+function checkCommandLimit(chatId: string): boolean {
+  const now = Date.now()
+  const entry = commandLimits.get(chatId)
+  if (!entry || now > entry.resetAt) {
+    commandLimits.set(chatId, { count: 1, resetAt: now + COMMAND_WINDOW })
+    return true
+  }
+  if (entry.count >= COMMAND_MAX) return false
+  entry.count++
+  return true
+}
 
 type TelegramUpdate = {
   message?: {
@@ -29,30 +46,36 @@ type TelegramUpdate = {
 }
 
 export async function POST(req: NextRequest) {
-  const expectedSecret = process.env.TELEGRAM_WEBHOOK_SECRET
-  if (expectedSecret) {
-    const actualSecret = req.headers.get("x-telegram-bot-api-secret-token")
-    if (actualSecret !== expectedSecret) {
-      return NextResponse.json({ ok: false }, { status: 403 })
+  try {
+    const expectedSecret = process.env.TELEGRAM_WEBHOOK_SECRET
+    if (expectedSecret) {
+      const actualSecret = req.headers.get("x-telegram-bot-api-secret-token")
+      if (actualSecret !== expectedSecret) {
+        return NextResponse.json({ ok: false }, { status: 403 })
+      }
     }
-  }
 
-  const update: TelegramUpdate = await req.json()
+    const update: TelegramUpdate = await req.json()
 
-  if (update.callback_query) {
-    const cb = update.callback_query
-    const chatId = String(cb.message.chat.id)
-    const userId = String(cb.from?.id || "")
-    const messageId = cb.message.message_id
-    const callbackId = cb.id
-    const data = cb.data
-    await handleCallback(data, chatId, userId, messageId, callbackId)
-    return NextResponse.json({ ok: true })
-  }
+    if (update.callback_query) {
+      const cb = update.callback_query
+      const chatId = String(cb.message.chat.id)
+      const userId = String(cb.from?.id || "")
+      const messageId = cb.message.message_id
+      const callbackId = cb.id
+      const data = cb.data
+      await handleCallback(data, chatId, userId, messageId, callbackId)
+      return NextResponse.json({ ok: true })
+    }
 
-  const msg = update.message
+     const msg = update.message
   if (!msg?.text) return NextResponse.json({ ok: true })
   const chatId = String(msg.chat.id)
+
+  if (!checkCommandLimit(chatId)) {
+    logger.warn("Telegram rate limit exceeded", { chatId })
+    return NextResponse.json({ ok: true })
+  }
   const userId = String(msg.from?.id || "")
   const username = msg.from?.username
   const args = msg.text.split(/\s+/)
@@ -196,4 +219,8 @@ export async function POST(req: NextRequest) {
     }
   }
   return NextResponse.json({ ok: true })
+  } catch (e) {
+    console.error("Telegram webhook error:", e)
+    return NextResponse.json({ ok: false }, { status: 500 })
+  }
 }

@@ -1,5 +1,6 @@
 import { db } from "@/lib/db"
 import { getPlan, PACK_EXPIRY_DAYS } from "@/lib/pricing"
+import { getFeatureFlag } from "@/lib/feature-flags"
 
 function getPackCutoff(): Date {
   return new Date(Date.now() - PACK_EXPIRY_DAYS * 24 * 60 * 60 * 1000)
@@ -50,9 +51,9 @@ export async function getUsageInfo(userId: string) {
   }
 }
 
-const DAILY_LIMIT = 3
-
 export async function checkDailyLimit(userId: string): Promise<{ allowed: boolean; error?: string }> {
+  const flag = await getFeatureFlag("daily_analysis_limit")
+  const DAILY_LIMIT = flag?.enabled && flag?.message ? parseInt(flag.message, 10) : 3
   const today = new Date()
   today.setHours(0, 0, 0, 0)
   const tomorrow = new Date(today)

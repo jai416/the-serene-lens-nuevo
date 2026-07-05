@@ -1,7 +1,8 @@
 import { getServerSession } from "next-auth"
 import { authOptions } from "@/lib/auth"
 import { db } from "@/lib/db"
-import { NextRequest } from "next/server"
+import { NextRequest, NextResponse } from "next/server"
+import { checkRateLimit } from "@/lib/rate-limit"
 import { ok, error, unauthorized, serverError } from "@/lib/api-response"
 
 export async function POST(
@@ -13,6 +14,9 @@ export async function POST(
     if (!session?.user || session.user.role !== "ADMIN") {
       return unauthorized()
     }
+
+    const { allowed } = await checkRateLimit(`admin:chat:${session.user.id}`, 30, 60000)
+    if (!allowed) return NextResponse.json({ success: false, error: "Demasiadas solicitudes" }, { status: 429 })
 
     const { sessionId } = await params
     const body = await req.json()

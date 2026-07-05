@@ -11,6 +11,7 @@ import { Badge } from "@/components/ui/badge"
 import { formatDate } from "@/lib/utils"
 import { toast } from "sonner"
 import { getCsrfToken } from "@/lib/csrf-client"
+import { ListSkeleton } from "@/components/ui/skeleton"
 
 interface Transfer {
   id: string
@@ -96,7 +97,7 @@ export default function AdminTransfersPage() {
     }
   }, [getTransfers])
 
-  if (status === "loading") return <div className="min-h-screen pt-24 flex items-center justify-center"><p className="text-[#64705E] dark:text-[#9BAA93]">Cargando...</p></div>
+  if (status === "loading") return <div className="min-h-screen pt-24 flex items-center justify-center"><ListSkeleton rows={5} /></div>
   if (!session || !canValidate) redirect("/")
 
   const showActions = (t: Transfer) => {

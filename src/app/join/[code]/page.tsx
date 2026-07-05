@@ -40,6 +40,7 @@ export default function JoinPage() {
           setLoading(false)
         })
         .catch(() => {
+          toast.error("Error al cargar datos")
           setLoading(false)
         })
     }

@@ -46,8 +46,9 @@ export function SocialComparison() {
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
+    const controller = new AbortController()
     if (session) {
-      fetch("/api/user/social-comparison")
+      fetch("/api/user/social-comparison", { signal: controller.signal })
         .then((r) => r.json())
         .then((d) => {
           setData(d?.data || d)
@@ -55,6 +56,7 @@ export function SocialComparison() {
         })
         .catch(() => setLoading(false))
     }
+    return () => controller.abort()
   }, [session])
 
   const shareComparison = () => {

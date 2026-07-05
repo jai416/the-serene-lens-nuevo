@@ -14,6 +14,7 @@ const CSP_DIRECTIVES = [
   "object-src 'none'",
   "base-uri 'self'",
   "form-action 'self'",
+  "frame-ancestors 'none'",
 ].join("; ")
 
 export async function middleware(request: NextRequest) {
@@ -40,6 +41,21 @@ export async function middleware(request: NextRequest) {
     })
   }
 
+  if (["POST", "PATCH", "DELETE"].includes(request.method) &&
+      request.nextUrl.pathname.startsWith("/api/") &&
+      !request.nextUrl.pathname.startsWith("/api/telegram/webhook")) {
+    if (!request.headers.get("x-csrf-skip")) {
+      const headerToken = request.headers.get("x-csrf-token")
+      const cookieToken = request.cookies.get("csrf-token")?.value
+      if (!headerToken || !cookieToken || headerToken !== cookieToken) {
+        return NextResponse.json(
+          { success: false, error: "CSRF token inválido" },
+          { status: 403 }
+        )
+      }
+    }
+  }
+
   const existingCsp = response.headers.get("content-security-policy")
   if (!existingCsp) {
     response.headers.set("Content-Security-Policy", CSP_DIRECTIVES)
@@ -52,7 +68,10 @@ export async function middleware(request: NextRequest) {
   if (request.nextUrl.pathname.startsWith("/admin") || request.nextUrl.pathname.startsWith("/api/admin")) {
     const token = await getToken({ req: request, cookieName: "next-auth.session-token" })
     if (!token || token.role !== "ADMIN") {
-      return NextResponse.redirect(new URL("/", request.url))
+      if (request.nextUrl.pathname.startsWith("/api/admin")) {
+        return NextResponse.json({ success: false, error: "No autorizado" }, { status: 401 })
+      }
+      return NextResponse.redirect(new URL("/login", request.url))
     }
   }
 
@@ -60,5 +79,5 @@ export async function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/((?!_next/static|_next/image|favicon.ico|icons|fonts|css|js).*)"],
+  matcher: ["/((?!_next/static|_next/image|favicon.ico|icons|fonts|css|js|guides|images).*)"],
 }

@@ -51,10 +51,10 @@ export default function PricingSuccessPage() {
           <CardContent className="p-0 space-y-6">
             <Loader2 className="w-12 h-12 text-[#C2E09D] mx-auto animate-spin" />
             <div>
-              <h1 className="font-serif text-2xl font-semibold text-[#2F3A2D] dark:text-[#E8EDE6] mb-2">
+              <h1 className="font-serif text-2xl font-semibold text-[#3D3229] dark:text-[#E8DED5] mb-2">
                 Verificando tu pago...
               </h1>
-              <p className="text-sm text-[#64705E] dark:text-[#9BAA93]">
+              <p className="text-sm text-[#8A7A6A] dark:text-[#A89888]">
                 Esto solo toma unos segundos.
               </p>
             </div>
@@ -81,10 +81,10 @@ export default function PricingSuccessPage() {
               <CreditCard className="w-3.5 h-3.5 mr-2" />
               {error ? "Pago Pendiente" : "Pago Exitoso"}
             </Badge>
-            <h1 className="font-serif text-2xl font-semibold text-[#2F3A2D] dark:text-[#E8EDE6] mb-2">
+            <h1 className="font-serif text-2xl font-semibold text-[#3D3229] dark:text-[#E8DED5] mb-2">
               {error ? "Pago recibido" : "¡Gracias por tu compra!"}
             </h1>
-            <p className="text-sm text-[#64705E] dark:text-[#9BAA93]">
+            <p className="text-sm text-[#8A7A6A] dark:text-[#A89888]">
               {error
                 ? error
                 : "Tu plan ha sido activado. Ya puedes disfrutar de todas las funciones."}
@@ -108,7 +108,7 @@ export default function PricingSuccessPage() {
           </div>
 
           {session && (
-            <p className="text-xs text-[#8A9A82] dark:text-[#7A8A72]">
+            <p className="text-xs text-[#A89888] dark:text-[#7A8A72]">
               Sesión activa como {session.user.email}
             </p>
           )}

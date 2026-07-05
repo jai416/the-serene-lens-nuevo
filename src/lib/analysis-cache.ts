@@ -1,13 +1,16 @@
 import { db } from "@/lib/db"
 import { createHash } from "crypto"
+import { logger } from "@/lib/logger"
 
 const CACHE_TTL_MS = 7 * 24 * 60 * 60 * 1000
+const PROMPT_VERSION = "v3"
 
 function hashKey(imagesBase64: string[], concerns?: string, age?: string): string {
   const hash = createHash("sha256")
-  for (const img of imagesBase64) hash.update(img.slice(0, 500))
+  for (const img of imagesBase64) hash.update(img)
   if (concerns) hash.update(concerns)
   if (age) hash.update(age)
+  hash.update(PROMPT_VERSION)
   return "skin_cache:" + hash.digest("hex").slice(0, 32)
 }
 
@@ -50,7 +53,7 @@ export async function setCachedAnalysis(
         expiresAt: new Date(Date.now() + CACHE_TTL_MS),
       },
     })
-  } catch {
-    // cache is optional, don't break the flow
+  } catch (e) {
+    logger.warn("Cache write failed", { error: e instanceof Error ? e.message : String(e) })
   }
 }

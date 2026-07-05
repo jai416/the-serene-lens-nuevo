@@ -9,6 +9,7 @@ import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Settings, ArrowLeft, Plus, Trash2 } from "lucide-react"
 import { toast } from "sonner"
+import { ListSkeleton } from "@/components/ui/skeleton"
 
 interface FlagConfig {
   enabled: boolean
@@ -52,7 +53,7 @@ export default function AdminFeatureFlagsPage() {
     if (session?.user?.role === "ADMIN") loadFlags()
   }, [session, loadFlags])
 
-  if (status === "loading") return <div className="min-h-screen flex items-center justify-center"><p className="text-[#8892B0]">Cargando...</p></div>
+  if (status === "loading") return <div className="min-h-screen flex items-center justify-center"><ListSkeleton rows={4} /></div>
   if (!session || session.user.role !== "ADMIN") redirect("/")
 
   const toggleFlag = async (flag: string, config: FlagConfig) => {
@@ -159,7 +160,7 @@ export default function AdminFeatureFlagsPage() {
       </Card>
 
       {loading ? (
-        <p className="text-[#8892B0] text-center py-8">Cargando...</p>
+        <ListSkeleton rows={4} />
       ) : Object.keys(flags).length === 0 ? (
         <Card style={{ backgroundColor: "#22263A", borderColor: "#2D3350" }}>
           <CardContent className="p-8 text-center" style={{ color: "#8892B0" }}>

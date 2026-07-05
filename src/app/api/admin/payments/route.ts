@@ -1,6 +1,8 @@
 import { getServerSession } from "next-auth"
 import { authOptions } from "@/lib/auth"
 import { db } from "@/lib/db"
+import { checkRateLimit } from "@/lib/rate-limit"
+import { NextResponse } from "next/server"
 import { ok, unauthorized, serverError } from "@/lib/api-response"
 
 async function requireAdmin() {
@@ -13,6 +15,9 @@ export async function GET() {
   try {
     const admin = await requireAdmin()
     if (!admin) return unauthorized()
+
+    const { allowed } = await checkRateLimit(`admin:payments:${admin.id}`, 10, 60000)
+    if (!allowed) return NextResponse.json({ success: false, error: "Demasiadas solicitudes" }, { status: 429 })
 
     const payments = await db.payment.findMany({
       orderBy: { createdAt: "desc" },

@@ -9,6 +9,7 @@ import { MobileNav } from "@/components/layout/mobile-nav"
 import { ClientInit } from "@/components/client-init"
 import { NotificationBell } from "@/components/notifications/notification-bell"
 import { LiveChatWrapper } from "@/components/chat/live-chat-wrapper"
+import { FeatureFlagProvider } from "@/components/feature-flag-provider"
 
 export const metadata: Metadata = {
   metadataBase: new URL(process.env.NEXT_PUBLIC_APP_URL || "https://the-serene-lens-nuevo.onrender.com"),
@@ -71,27 +72,29 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <ThemeProvider>
           <QueryProvider>
             <AuthProvider>
-              <Sidebar />
-              <main id="main-content" className="md:ml-[280px] min-h-screen pb-20 md:pb-0 bg-[var(--background)]">
-                {children}
-              </main>
-              <MobileNav />
-              <div className="fixed top-4 right-4 z-50">
-                <NotificationBell />
-              </div>
-              <LiveChatWrapper />
-              <Toaster
-                position="top-center"
-                toastOptions={{
-                  className:
-                    "!bg-white dark:!bg-[#222920] !border-[#DDE7D3] dark:!border-[#3A4536] !rounded-2xl !shadow-[0_4px_12px_rgba(47,58,45,0.08)] dark:!shadow-[0_4px_12px_rgba(0,0,0,0.3)] !text-[#2F3A2D] dark:!text-[#E8EDE6]",
-                  duration: 4000,
-                  style: {
-                    borderLeft: "4px solid #C2E09D",
-                  },
-                }}
-              />
-              <ClientInit />
+              <FeatureFlagProvider>
+                <Sidebar />
+                <main id="main-content" className="md:ml-[280px] min-h-screen pb-20 md:pb-0 bg-[var(--background)]">
+                  {children}
+                </main>
+                <MobileNav />
+                <div className="fixed top-4 right-4 z-50">
+                  <NotificationBell />
+                </div>
+                <LiveChatWrapper />
+                <Toaster
+                  position="top-center"
+                  toastOptions={{
+                    className:
+                      "!bg-white dark:!bg-[#222920] !border-[#DDE7D3] dark:!border-[#3A4536] !rounded-2xl !shadow-[0_4px_12px_rgba(47,58,45,0.08)] dark:!shadow-[0_4px_12px_rgba(0,0,0,0.3)] !text-[#2F3A2D] dark:!text-[#E8EDE6]",
+                    duration: 4000,
+                    style: {
+                      borderLeft: "4px solid #C2E09D",
+                    },
+                  }}
+                />
+                <ClientInit />
+              </FeatureFlagProvider>
             </AuthProvider>
           </QueryProvider>
         </ThemeProvider>

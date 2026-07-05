@@ -1,12 +1,17 @@
 import { getServerSession } from "next-auth"
 import { authOptions } from "@/lib/auth"
 import { db } from "@/lib/db"
+import { checkRateLimit } from "@/lib/rate-limit"
+import { NextResponse } from "next/server"
 import { ok, unauthorized, error, serverError } from "@/lib/api-response"
 
 export async function PATCH(req: Request, { params }: { params: Promise<{ id: string }> }) {
   try {
     const session = await getServerSession(authOptions)
     if (!session?.user || session.user.role !== "ADMIN") return unauthorized()
+
+    const { allowed } = await checkRateLimit(`admin:knowledge:${session.user.id}`, 30, 60000)
+    if (!allowed) return NextResponse.json({ success: false, error: "Demasiadas solicitudes" }, { status: 429 })
 
     const { id } = await params
     const body = await req.json().catch(() => ({}))
@@ -41,6 +46,9 @@ export async function DELETE(req: Request, { params }: { params: Promise<{ id: s
   try {
     const session = await getServerSession(authOptions)
     if (!session?.user || session.user.role !== "ADMIN") return unauthorized()
+
+    const { allowed } = await checkRateLimit(`admin:knowledge:${session.user.id}`, 30, 60000)
+    if (!allowed) return NextResponse.json({ success: false, error: "Demasiadas solicitudes" }, { status: 429 })
 
     const { id } = await params
     await db.botKnowledge.delete({ where: { id } })

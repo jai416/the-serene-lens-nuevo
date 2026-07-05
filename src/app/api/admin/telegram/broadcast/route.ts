@@ -1,6 +1,8 @@
 import { getServerSession } from "next-auth"
 import { authOptions } from "@/lib/auth"
 import { db } from "@/lib/db"
+import { NextResponse } from "next/server"
+import { checkRateLimit } from "@/lib/rate-limit"
 import { ok, unauthorized, error, serverError } from "@/lib/api-response"
 import { logger } from "@/lib/logger"
 
@@ -8,6 +10,9 @@ export async function POST(req: Request) {
   try {
     const session = await getServerSession(authOptions)
     if (!session?.user || session.user.role !== "ADMIN") return unauthorized()
+
+    const { allowed } = await checkRateLimit(`admin:telegram:${session.user.id}`, 30, 60000)
+    if (!allowed) return NextResponse.json({ success: false, error: "Demasiadas solicitudes" }, { status: 429 })
 
     const body = await req.json().catch(() => ({}))
     const message = body.message?.trim()

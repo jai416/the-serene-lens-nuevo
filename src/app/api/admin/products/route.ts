@@ -1,8 +1,9 @@
 import { getServerSession } from "next-auth"
 import { authOptions } from "@/lib/auth"
 import { db } from "@/lib/db"
-import { NextRequest } from "next/server"
+import { NextRequest, NextResponse } from "next/server"
 import { revalidateTag } from "next/cache"
+import { checkRateLimit } from "@/lib/rate-limit"
 import { ok, unauthorized, serverError, error } from "@/lib/api-response"
 import { adminProductSchema, adminProductUpdateSchema, adminDeleteSchema } from "@/lib/validations"
 
@@ -33,6 +34,10 @@ export async function POST(req: NextRequest) {
     if (!admin) return unauthorized()
 
     const body = await req.json()
+    const { allowed } = await checkRateLimit(`admin:products:${admin.id}`, 30, 60000)
+    if (!allowed) {
+      return NextResponse.json({ success: false, error: "Demasiadas solicitudes" }, { status: 429 })
+    }
     const parsed = adminProductSchema.safeParse(body)
     if (!parsed.success) {
       return error(parsed.error.issues.map((i) => i.message).join(", "), 400)
@@ -67,6 +72,10 @@ export async function PUT(req: NextRequest) {
     if (!admin) return unauthorized()
 
     const body = await req.json()
+    const { allowed } = await checkRateLimit(`admin:products:${admin.id}`, 30, 60000)
+    if (!allowed) {
+      return NextResponse.json({ success: false, error: "Demasiadas solicitudes" }, { status: 429 })
+    }
     const parsed = adminProductUpdateSchema.safeParse(body)
     if (!parsed.success) {
       return error(parsed.error.issues.map((i) => i.message).join(", "), 400)
@@ -93,6 +102,10 @@ export async function DELETE(req: NextRequest) {
     if (!admin) return unauthorized()
 
     const body = await req.json()
+    const { allowed } = await checkRateLimit(`admin:products:${admin.id}`, 30, 60000)
+    if (!allowed) {
+      return NextResponse.json({ success: false, error: "Demasiadas solicitudes" }, { status: 429 })
+    }
     const parsed = adminDeleteSchema.safeParse(body)
     if (!parsed.success) {
       return error(parsed.error.issues.map((i) => i.message).join(", "), 400)

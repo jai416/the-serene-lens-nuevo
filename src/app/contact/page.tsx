@@ -4,7 +4,7 @@ import { useState } from "react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
-import { MessageSquare, Send, AlertCircle, CheckCircle2, Mail, MapPin, Clock } from "lucide-react"
+import { MessageCircle, Send, AlertCircle, CheckCircle2, Mail, Clock, ExternalLink } from "lucide-react"
 import { toast } from "sonner"
 
 export default function ContactPage() {
@@ -42,63 +42,140 @@ export default function ContactPage() {
   }
 
   return (
-    <div className="min-h-screen pt-24 pb-16 px-4">
-      <div className="max-w-4xl mx-auto">
-        <div className="text-center mb-10">
-          <Badge variant="secondary" className="mb-4 rounded-full px-4 py-1.5">
-            <MessageSquare className="w-3.5 h-3.5 mr-2" />
+    <div className="min-h-screen pt-24 pb-16 px-4" style={{ background: "#FFF8F0" }}>
+      <div className="max-w-5xl mx-auto">
+        <div className="text-center mb-12">
+          <Badge
+            variant="secondary"
+            className="mb-4 rounded-full px-4 py-1.5"
+            style={{ borderColor: "#E8DDD0", background: "#FFF8F0", color: "#8A7A6A" }}
+          >
+            <MessageCircle className="w-3.5 h-3.5 mr-2" />
             Contacto
           </Badge>
-          <h1 className="font-serif text-3xl sm:text-4xl font-semibold mb-2">
+          <h1 className="font-serif text-3xl sm:text-4xl font-semibold mb-2" style={{ color: "#3D3229" }}>
             Contácta<span className="gradient-text">nos</span>
           </h1>
-          <p className="text-muted-foreground max-w-lg mx-auto">
+          <p style={{ color: "#8A7A6A" }} className="max-w-lg mx-auto">
             ¿Tienes preguntas, sugerencias o necesitas ayuda? Estamos aquí para ti.
           </p>
         </div>
 
-        <div className="grid md:grid-cols-3 gap-8">
-          <div className="space-y-4">
-            <Card>
-              <CardContent className="p-5">
-                <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center mb-3">
-                  <Mail className="w-5 h-5 text-primary" />
+        <div className="grid md:grid-cols-2 gap-8">
+          {/* Left: Contact Info */}
+          <div className="space-y-6">
+            <Card style={{ borderColor: "#E8DDD0", background: "#FFFFFF" }}>
+              <CardContent className="p-6 space-y-6">
+                <div className="flex items-start gap-4">
+                  <div
+                    className="w-11 h-11 rounded-xl flex items-center justify-center flex-shrink-0"
+                    style={{ background: "#E8D5C4" }}
+                  >
+                    <Mail className="w-5 h-5" style={{ color: "#3D3229" }} />
+                  </div>
+                  <div>
+                    <h3 className="font-medium text-sm mb-1" style={{ color: "#3D3229" }}>Email</h3>
+                    <p className="text-sm" style={{ color: "#8A7A6A" }}>contact@theserenelens.com</p>
+                  </div>
                 </div>
-                <h3 className="font-medium text-sm mb-1">Email</h3>
-                <p className="text-xs text-muted-foreground">contact@theserenelens.com</p>
+
+                <div className="border-t" style={{ borderColor: "#E8DDD0" }} />
+
+                <div className="flex items-start gap-4">
+                  <div
+                    className="w-11 h-11 rounded-xl flex items-center justify-center flex-shrink-0"
+                    style={{ background: "#E8D5C4" }}
+                  >
+                    <Clock className="w-5 h-5" style={{ color: "#3D3229" }} />
+                  </div>
+                  <div>
+                    <h3 className="font-medium text-sm mb-1" style={{ color: "#3D3229" }}>Tiempo de respuesta</h3>
+                    <p className="text-sm" style={{ color: "#8A7A6A" }}>Te respondemos en 24-48 horas hábiles</p>
+                  </div>
+                </div>
+
+                <div className="border-t" style={{ borderColor: "#E8DDD0" }} />
+
+                <div className="flex items-start gap-4">
+                  <div
+                    className="w-11 h-11 rounded-xl flex items-center justify-center flex-shrink-0"
+                    style={{ background: "#E8D5C4" }}
+                  >
+                    <MessageCircle className="w-5 h-5" style={{ color: "#3D3229" }} />
+                  </div>
+                  <div>
+                    <h3 className="font-medium text-sm mb-1" style={{ color: "#3D3229" }}>Redes sociales</h3>
+                    <div className="flex flex-wrap gap-x-4 gap-y-2 mt-2">
+                      <a
+                        href="#"
+                        className="text-sm flex items-center gap-1.5 hover:underline"
+                        style={{ color: "#8A7A6A" }}
+                      >
+                        Instagram <ExternalLink className="w-3 h-3" />
+                      </a>
+                      <a
+                        href="#"
+                        className="text-sm flex items-center gap-1.5 hover:underline"
+                        style={{ color: "#8A7A6A" }}
+                      >
+                        Facebook <ExternalLink className="w-3 h-3" />
+                      </a>
+                      <a
+                        href="#"
+                        className="text-sm flex items-center gap-1.5 hover:underline"
+                        style={{ color: "#8A7A6A" }}
+                      >
+                        Twitter <ExternalLink className="w-3 h-3" />
+                      </a>
+                    </div>
+                  </div>
+                </div>
               </CardContent>
             </Card>
-            <Card>
-              <CardContent className="p-5">
-                <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center mb-3">
-                  <Clock className="w-5 h-5 text-primary" />
-                </div>
-                <h3 className="font-medium text-sm mb-1">Respuesta</h3>
-                <p className="text-xs text-muted-foreground">Te respondemos en 24-48 horas hábiles</p>
-              </CardContent>
-            </Card>
+
+            <div className="rounded-xl p-5" style={{ background: "#E8D5C4" }}>
+              <p className="text-sm font-medium" style={{ color: "#3D3229" }}>Horario de atención</p>
+              <p className="text-sm mt-1.5 leading-relaxed" style={{ color: "#8A7A6A" }}>
+                Lunes a viernes: 9:00 – 18:00<br />
+                Sábados: 10:00 – 14:00
+              </p>
+            </div>
           </div>
 
-          <div className="md:col-span-2">
-            <Card>
+          {/* Right: Form */}
+          <div>
+            <Card style={{ borderColor: "#E8DDD0", background: "#FFFFFF" }}>
               <CardContent className="p-6 sm:p-8">
                 {sent ? (
                   <div className="text-center py-10">
-                    <div className="w-14 h-14 rounded-2xl bg-green-500/10 flex items-center justify-center mx-auto mb-4">
-                      <CheckCircle2 className="w-7 h-7 text-green-500" />
+                    <div
+                      className="w-14 h-14 rounded-2xl flex items-center justify-center mx-auto mb-4"
+                      style={{ background: "#E8D5C4" }}
+                    >
+                      <CheckCircle2 className="w-7 h-7" style={{ color: "#3D3229" }} />
                     </div>
-                    <h2 className="font-serif text-xl font-semibold mb-2">¡Mensaje enviado!</h2>
-                    <p className="text-sm text-muted-foreground mb-6">
+                    <h2 className="font-serif text-xl font-semibold mb-2" style={{ color: "#3D3229" }}>
+                      ¡Mensaje enviado!
+                    </h2>
+                    <p className="text-sm mb-6" style={{ color: "#8A7A6A" }}>
                       Gracias por contactarnos. Te responderemos pronto.
                     </p>
-                    <Button onClick={() => setSent(false)} variant="outline" className="rounded-full">
+                    <Button
+                      onClick={() => setSent(false)}
+                      variant="outline"
+                      className="rounded-full"
+                      style={{ borderColor: "#E8DDD0", color: "#3D3229" }}
+                    >
                       Enviar otro mensaje
                     </Button>
                   </div>
                 ) : (
-                  <form onSubmit={handleSubmit} className="space-y-4">
+                  <form onSubmit={handleSubmit} className="space-y-5">
                     {error && (
-                      <div className="flex items-center gap-2 p-4 rounded-xl bg-destructive/10 text-destructive text-sm">
+                      <div
+                        className="flex items-center gap-2 p-4 rounded-xl text-sm"
+                        style={{ background: "#FFF0F0", color: "#D32F2F" }}
+                      >
                         <AlertCircle className="w-4 h-4 flex-shrink-0" />
                         {error}
                       </div>
@@ -106,55 +183,72 @@ export default function ContactPage() {
 
                     <div className="grid sm:grid-cols-2 gap-4">
                       <div>
-                        <label className="text-sm font-medium mb-1.5 block">Nombre</label>
+                        <label className="text-sm font-medium mb-1.5 block" style={{ color: "#3D3229" }}>
+                          Nombre
+                        </label>
                         <input
+                          aria-label="Tu nombre"
                           placeholder="Tu nombre"
                           value={form.name}
                           onChange={(e) => setForm({ ...form, name: e.target.value })}
                           required
-                          className="w-full rounded-xl border border-input bg-background px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-ring"
+                          className="w-full rounded-xl border px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#E8D5C4]"
+                          style={{ borderColor: "#E8DDD0", background: "#FFF8F0", color: "#3D3229" }}
                         />
                       </div>
                       <div>
-                        <label className="text-sm font-medium mb-1.5 block">Email</label>
+                        <label className="text-sm font-medium mb-1.5 block" style={{ color: "#3D3229" }}>
+                          Email
+                        </label>
                         <input
                           type="email"
+                          aria-label="Tu email"
                           placeholder="tu@email.com"
                           value={form.email}
                           onChange={(e) => setForm({ ...form, email: e.target.value })}
                           required
-                          className="w-full rounded-xl border border-input bg-background px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-ring"
+                          className="w-full rounded-xl border px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#E8D5C4]"
+                          style={{ borderColor: "#E8DDD0", background: "#FFF8F0", color: "#3D3229" }}
                         />
                       </div>
                     </div>
 
                     <div>
-                      <label className="text-sm font-medium mb-1.5 block">Asunto</label>
+                      <label className="text-sm font-medium mb-1.5 block" style={{ color: "#3D3229" }}>
+                        Asunto
+                      </label>
                       <input
+                        aria-label="Asunto"
                         placeholder="¿Sobre qué quieres hablar?"
                         value={form.subject}
                         onChange={(e) => setForm({ ...form, subject: e.target.value })}
                         required
-                        className="w-full rounded-xl border border-input bg-background px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-ring"
+                        className="w-full rounded-xl border px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#E8D5C4]"
+                        style={{ borderColor: "#E8DDD0", background: "#FFF8F0", color: "#3D3229" }}
                       />
                     </div>
 
                     <div>
-                      <label className="text-sm font-medium mb-1.5 block">Mensaje</label>
+                      <label className="text-sm font-medium mb-1.5 block" style={{ color: "#3D3229" }}>
+                        Mensaje
+                      </label>
                       <textarea
+                        aria-label="Mensaje"
                         placeholder="Escribe tu mensaje aquí..."
                         value={form.message}
                         onChange={(e) => setForm({ ...form, message: e.target.value })}
                         required
                         rows={5}
-                        className="w-full rounded-xl border border-input bg-background px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-ring min-h-[120px] resize-none"
+                        className="w-full rounded-xl border px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#E8D5C4] min-h-[120px] resize-none"
+                        style={{ borderColor: "#E8DDD0", background: "#FFF8F0", color: "#3D3229" }}
                       />
                     </div>
 
                     <Button
                       type="submit"
                       disabled={sending}
-                      className="rounded-full gradient-primary text-white w-full sm:w-auto"
+                      className="rounded-full w-full sm:w-auto border-0"
+                      style={{ background: "#3D3229", color: "#FFF8F0" }}
                     >
                       <Send className="w-4 h-4 mr-2" />
                       {sending ? "Enviando..." : "Enviar mensaje"}

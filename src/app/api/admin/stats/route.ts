@@ -1,7 +1,10 @@
 import { getServerSession } from "next-auth"
 import { authOptions } from "@/lib/auth"
 import { db } from "@/lib/db"
+import { checkRateLimit } from "@/lib/rate-limit"
+import { NextResponse } from "next/server"
 import { ok, unauthorized, serverError } from "@/lib/api-response"
+import { logger } from "@/lib/logger"
 
 export const dynamic = "force-dynamic"
 
@@ -9,6 +12,11 @@ export async function GET() {
   try {
     const session = await getServerSession(authOptions)
     if (!session?.user || session.user.role !== "ADMIN") return unauthorized()
+
+    const { allowed } = await checkRateLimit(`admin:stats:${session.user.id}`, 10, 60000)
+    if (!allowed) {
+      return NextResponse.json({ success: false, error: "Demasiadas solicitudes" }, { status: 429 })
+    }
 
     const now = new Date()
     const thirtyDaysAgo = new Date(now.getTime() - 30 * 24 * 60 * 60 * 1000)
@@ -38,7 +46,7 @@ export async function GET() {
     try {
       const td = await db.transferPayment.aggregate({ where: { status: "activated" }, _sum: { amount: true } })
       transferDirectRevenue = td._sum.amount || 0
-    } catch {}
+    } catch (e) { logger.error("stats: transferDirectRevenue failed", { error: e instanceof Error ? e.message : String(e) }) }
     const paidUsers = await db.user.count({ where: { plan: { not: "FREE" } } })
 
     const usersYesterday = await db.user.count({ where: { createdAt: { gte: yesterdayStart, lt: todayStart } } })
@@ -48,18 +56,18 @@ export async function GET() {
     let challenges = 0, diaryEntries = 0, subscriptions = 0, activeSubscriptions = 0
     let packs = 0, completedPacks = 0, comments = 0, featureFlags = 0
     let digitalProducts = 0, guideSales = 0, referralGroups = 0, completedGroups = 0
-    try { challenges = await db.challenge.count() } catch (e) { console.error("stats: challenge count failed", e) }
-    try { diaryEntries = await db.skinDiary.count() } catch (e) { console.error("stats: diary count failed", e) }
-    try { subscriptions = await db.subscription.count() } catch (e) { console.error("stats: subscription count failed", e) }
-    try { activeSubscriptions = await db.subscription.count({ where: { status: "active" } }) } catch (e) { console.error("stats: activeSubscription count failed", e) }
-    try { packs = await db.purchasePack.count() } catch (e) { console.error("stats: pack count failed", e) }
-    try { completedPacks = await db.purchasePack.count({ where: { status: "completed" } }) } catch (e) { console.error("stats: completedPack count failed", e) }
-    try { comments = await db.comment.count() } catch (e) { console.error("stats: comment count failed", e) }
-    try { featureFlags = await db.appConfig.count() } catch (e) { console.error("stats: featureFlag count failed", e) }
-    try { digitalProducts = await db.digitalProduct.count() } catch (e) { console.error("stats: digitalProduct count failed", e) }
-    try { guideSales = await db.digitalProductPurchase.count({ where: { status: "completed" } }) } catch (e) { console.error("stats: guideSale count failed", e) }
-    try { referralGroups = await db.groupAnalytics.count() } catch (e) { console.error("stats: referralGroup count failed", e) }
-    try { completedGroups = await db.groupAnalytics.count({ where: { status: "completed" } }) } catch (e) { console.error("stats: completedGroup count failed", e) }
+    try { challenges = await db.challenge.count()     } catch (e) { logger.error("stats: challenge count failed", { error: e instanceof Error ? e.message : String(e) }) }
+    try { diaryEntries = await db.skinDiary.count() } catch (e) { logger.error("stats: diary count failed", { error: e instanceof Error ? e.message : String(e) }) }
+    try { subscriptions = await db.subscription.count() } catch (e) { logger.error("stats: subscription count failed", { error: e instanceof Error ? e.message : String(e) }) }
+    try { activeSubscriptions = await db.subscription.count({ where: { status: "active" } }) } catch (e) { logger.error("stats: activeSubscription count failed", { error: e instanceof Error ? e.message : String(e) }) }
+    try { packs = await db.purchasePack.count() } catch (e) { logger.error("stats: pack count failed", { error: e instanceof Error ? e.message : String(e) }) }
+    try { completedPacks = await db.purchasePack.count({ where: { status: "completed" } }) } catch (e) { logger.error("stats: completedPack count failed", { error: e instanceof Error ? e.message : String(e) }) }
+    try { comments = await db.comment.count() } catch (e) { logger.error("stats: comment count failed", { error: e instanceof Error ? e.message : String(e) }) }
+    try { featureFlags = await db.appConfig.count() } catch (e) { logger.error("stats: featureFlag count failed", { error: e instanceof Error ? e.message : String(e) }) }
+    try { digitalProducts = await db.digitalProduct.count() } catch (e) { logger.error("stats: digitalProduct count failed", { error: e instanceof Error ? e.message : String(e) }) }
+    try { guideSales = await db.digitalProductPurchase.count({ where: { status: "completed" } }) } catch (e) { logger.error("stats: guideSale count failed", { error: e instanceof Error ? e.message : String(e) }) }
+    try { referralGroups = await db.groupAnalytics.count() } catch (e) { logger.error("stats: referralGroup count failed", { error: e instanceof Error ? e.message : String(e) }) }
+    try { completedGroups = await db.groupAnalytics.count({ where: { status: "completed" } }) } catch (e) { logger.error("stats: completedGroup count failed", { error: e instanceof Error ? e.message : String(e) }) }
     let guidesSold = 0
     try { guidesSold = await db.digitalProductPurchase.count({ where: { status: "completed" } }) } catch {}
     let referralRevenue = 0
@@ -123,7 +131,7 @@ export async function GET() {
       recentUsers, recentAnalyses, planDistribution, skinTypeDistribution,
     })
   } catch (e) {
-    console.error("Admin stats error:", e)
+    logger.error("Admin stats error:", { error: e instanceof Error ? e.message : String(e) })
     return serverError(e)
   }
 }

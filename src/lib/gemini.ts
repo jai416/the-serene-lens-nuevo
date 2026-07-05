@@ -1,4 +1,5 @@
 import { logger } from "@/lib/logger"
+import { markKeyDead } from "@/lib/gemini-keys"
 
 const GEMINI_API_BASE = "https://generativelanguage.googleapis.com/v1beta/models"
 const MODEL = "gemini-2.0-flash"
@@ -23,6 +24,20 @@ function getNextKey(): string {
   const key = keys[keyIndex % keys.length]
   keyIndex++
   return key
+}
+
+function extractJSON(content: string): any {
+  const clean = content.replace(/```json|```/g, "").trim()
+  try {
+    return JSON.parse(clean)
+  } catch {}
+  const match = content.match(/\{[\s\S]*\}/)
+  if (match) {
+    try {
+      return JSON.parse(match[0])
+    } catch {}
+  }
+  throw new Error("No se pudo parsear la respuesta de Gemini")
 }
 
 async function compressImage(file: File, maxDim = 512): Promise<Buffer> {
@@ -81,6 +96,9 @@ async function geminiFetch(
 
   if (!res.ok) {
     const text = await res.text()
+    if (res.status === 403 || res.status === 401) {
+      markKeyDead(key)
+    }
     throw new Error(`Gemini error ${res.status}: ${text}`)
   }
 
@@ -89,8 +107,8 @@ async function geminiFetch(
   if (!content) throw new Error("Gemini returned empty response")
 
   try {
-    return JSON.parse(content.replace(/```json|```/g, "").trim())
-  } catch {
+    return extractJSON(content)
+  } catch (e) {
     throw new Error("Gemini returned invalid JSON. Try again.")
   }
 }

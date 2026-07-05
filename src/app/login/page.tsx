@@ -10,6 +10,7 @@ import { Mail, Lock, Eye, EyeOff, LogIn, UserPlus, ArrowLeft, AlertCircle, Flowe
 import Link from "next/link"
 import { toast } from "sonner"
 import { SocialLoginButtons } from "@/components/social-login-buttons"
+import { logger } from "@/lib/logger"
 
 const errorMessages: Record<string, string> = {
   CredentialsSignin: "Email o contraseña incorrectos",
@@ -78,7 +79,7 @@ function LoginForm() {
       toast.success("Sesión iniciada correctamente")
       router.push(callbackUrl)
     } catch (err) {
-      console.error("Login error:", err)
+      logger.error("Login error:", { error: err })
       setError("Error de conexión")
     } finally {
       setLoading(false)
@@ -86,21 +87,21 @@ function LoginForm() {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center px-4 py-12 bg-[#F8FAF5] dark:bg-[#1A1F19]">
+    <div className="min-h-screen flex items-center justify-center px-4 py-12 bg-[#FFF8F0] dark:bg-[#1A1F19]">
       <div className="w-full max-w-md">
         <div className="text-center mb-8">
-          <div className="w-14 h-14 rounded-2xl bg-[#C2E09D] flex items-center justify-center mx-auto mb-4">
-            <Flower2 className="w-7 h-7 text-[#2F3A2D]" />
+          <div className="w-14 h-14 rounded-2xl bg-[#E8D5C4] flex items-center justify-center mx-auto mb-4">
+            <Flower2 className="w-7 h-7 text-[#3D3229]" />
           </div>
           <Badge variant="primary" className="mb-4 rounded-full px-4 py-1.5 border-0">
             {isRegister ? <UserPlus className="w-3.5 h-3.5 mr-2" /> : <LogIn className="w-3.5 h-3.5 mr-2" />}
             {isRegister ? "Crear Cuenta" : "Iniciar Sesión"}
           </Badge>
-          <h1 className="font-serif text-3xl sm:text-4xl font-semibold text-[#2F3A2D] dark:text-[#E8EDE6]">
+          <h1 className="font-serif text-3xl sm:text-4xl font-semibold text-[#3D3229] dark:text-[#E8DED5]">
             {isRegister ? "Únete a " : "Bienvenido a "}
             The Serene Lens
           </h1>
-          <p className="text-[#64705E] dark:text-[#9BAA93] mt-2 text-sm">
+          <p className="text-[#8A7A6A] dark:text-[#A89888] mt-2 text-sm">
             {isRegister
               ? "Crea tu cuenta y comienza a observar tu piel"
               : "Accede a tus análisis y rutinas personalizadas"}
@@ -119,11 +120,11 @@ function LoginForm() {
             <form onSubmit={handleSubmit} className="space-y-4">
               {isRegister && (
                 <div>
-                  <label htmlFor="name" className="block text-sm font-medium mb-1.5 text-[#2F3A2D] dark:text-[#E8EDE6]">
+                  <label htmlFor="name" className="block text-sm font-medium mb-1.5 text-[#3D3229] dark:text-[#E8DED5]">
                     Nombre
                   </label>
                   <div className="relative">
-                    <UserPlus className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#8A9A82] dark:text-[#7A8A72]" />
+                    <UserPlus className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#A89888] dark:text-[#7A8A72]" />
                     <input
                       id="name"
                       name="name"
@@ -131,7 +132,7 @@ function LoginForm() {
                       autoComplete="name"
                       value={form.name}
                       onChange={(e) => setForm({ ...form, name: e.target.value })}
-                      className="w-full bg-white dark:bg-[#2A3228] border border-[#DDE7D3] dark:border-[#3A4536] rounded-xl px-10 py-2.5 text-sm focus:outline-none focus:border-[#C2E09D] focus:ring-1 focus:ring-[#C2E09D] transition-colors placeholder:text-[#8A9A82] dark:placeholder:text-[#7A8A72] text-[#2F3A2D] dark:text-[#E8EDE6]"
+                      className="w-full bg-white dark:bg-[#2A3228] border border-[#E8DDD0] dark:border-[#3A3330] rounded-xl px-10 py-2.5 text-sm focus:outline-none focus:border-[#C2E09D] focus:ring-1 focus:ring-[#C2E09D] transition-colors placeholder:text-[#A89888] dark:placeholder:text-[#7A8A72] text-[#3D3229] dark:text-[#E8DED5]"
                       placeholder="Tu nombre"
                     />
                   </div>
@@ -139,11 +140,11 @@ function LoginForm() {
               )}
 
               <div>
-                <label htmlFor="email" className="block text-sm font-medium mb-1.5 text-[#2F3A2D] dark:text-[#E8EDE6]">
+                <label htmlFor="email" className="block text-sm font-medium mb-1.5 text-[#3D3229] dark:text-[#E8DED5]">
                   Email
                 </label>
                 <div className="relative">
-                  <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#8A9A82] dark:text-[#7A8A72]" />
+                  <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#A89888] dark:text-[#7A8A72]" />
                   <input
                     id="email"
                     name="email"
@@ -151,7 +152,7 @@ function LoginForm() {
                     autoComplete={isRegister ? "email" : "username"}
                     value={form.email}
                     onChange={(e) => setForm({ ...form, email: e.target.value })}
-                    className="w-full bg-white dark:bg-[#2A3228] border border-[#DDE7D3] dark:border-[#3A4536] rounded-xl px-10 py-2.5 text-sm focus:outline-none focus:border-[#C2E09D] focus:ring-1 focus:ring-[#C2E09D] transition-colors placeholder:text-[#8A9A82] dark:placeholder:text-[#7A8A72] text-[#2F3A2D] dark:text-[#E8EDE6]"
+                    className="w-full bg-white dark:bg-[#2A3228] border border-[#E8DDD0] dark:border-[#3A3330] rounded-xl px-10 py-2.5 text-sm focus:outline-none focus:border-[#C2E09D] focus:ring-1 focus:ring-[#C2E09D] transition-colors placeholder:text-[#A89888] dark:placeholder:text-[#7A8A72] text-[#3D3229] dark:text-[#E8DED5]"
                     placeholder="tu@email.com"
                     aria-label="Email"
                     aria-describedby={error ? "login-error" : undefined}
@@ -161,11 +162,11 @@ function LoginForm() {
               </div>
 
               <div>
-                <label htmlFor="password" className="block text-sm font-medium mb-1.5 text-[#2F3A2D] dark:text-[#E8EDE6]">
+                <label htmlFor="password" className="block text-sm font-medium mb-1.5 text-[#3D3229] dark:text-[#E8DED5]">
                   Contraseña
                 </label>
                 <div className="relative">
-                  <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#8A9A82] dark:text-[#7A8A72]" />
+                  <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#A89888] dark:text-[#7A8A72]" />
                   <input
                     id="password"
                     name="password"
@@ -173,7 +174,7 @@ function LoginForm() {
                     autoComplete={isRegister ? "new-password" : "current-password"}
                     value={form.password}
                     onChange={(e) => setForm({ ...form, password: e.target.value })}
-                    className="w-full bg-white dark:bg-[#2A3228] border border-[#DDE7D3] dark:border-[#3A4536] rounded-xl px-10 py-2.5 text-sm focus:outline-none focus:border-[#C2E09D] focus:ring-1 focus:ring-[#C2E09D] transition-colors placeholder:text-[#8A9A82] dark:placeholder:text-[#7A8A72] text-[#2F3A2D] dark:text-[#E8EDE6]"
+                    className="w-full bg-white dark:bg-[#2A3228] border border-[#E8DDD0] dark:border-[#3A3330] rounded-xl px-10 py-2.5 text-sm focus:outline-none focus:border-[#C2E09D] focus:ring-1 focus:ring-[#C2E09D] transition-colors placeholder:text-[#A89888] dark:placeholder:text-[#7A8A72] text-[#3D3229] dark:text-[#E8DED5]"
                     placeholder="••••••••"
                     aria-label="Contraseña"
                     aria-describedby={error ? "login-error" : undefined}
@@ -182,7 +183,7 @@ function LoginForm() {
                   <button
                     type="button"
                     onClick={() => setShowPassword(!showPassword)}
-                    className="absolute right-3 top-1/2 -translate-y-1/2 text-[#8A9A82] dark:text-[#7A8A72] hover:text-[#2F3A2D] dark:hover:text-[#E8EDE6] transition-colors"
+                    className="absolute right-3 top-1/2 -translate-y-1/2 text-[#A89888] dark:text-[#7A8A72] hover:text-[#3D3229] dark:hover:text-[#E8EDE6] transition-colors"
                     aria-label={showPassword ? "Ocultar contraseña" : "Mostrar contraseña"}
                   >
                     {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
@@ -206,7 +207,7 @@ function LoginForm() {
 
               {!isRegister && (
                 <div className="text-center">
-                  <Link href="/forgot-password" className="text-xs text-[#64705E] dark:text-[#9BAA93] hover:text-[#2F3A2D] dark:hover:text-[#E8EDE6] transition-colors">
+                  <Link href="/forgot-password" className="text-xs text-[#8A7A6A] dark:text-[#A89888] hover:text-[#3D3229] dark:hover:text-[#E8EDE6] transition-colors">
                     ¿Olvidaste tu contraseña?
                   </Link>
                 </div>
@@ -215,17 +216,17 @@ function LoginForm() {
 
             <div className="relative my-6">
               <div className="absolute inset-0 flex items-center">
-                <div className="w-full border-t border-[#DDE7D3] dark:border-[#3A4536]" />
+                <div className="w-full border-t border-[#E8DDD0] dark:border-[#3A3330]" />
               </div>
               <div className="relative flex justify-center text-xs">
-                <span className="bg-white dark:bg-[#222920] px-3 text-[#8A9A82] dark:text-[#7A8A72]">O continúa con</span>
+                <span className="bg-white dark:bg-[#211C17] px-3 text-[#A89888] dark:text-[#7A8A72]">O continúa con</span>
               </div>
             </div>
 
             <SocialLoginButtons />
 
             <div className="text-center mt-6">
-              <p className="text-sm text-[#64705E] dark:text-[#9BAA93]">
+              <p className="text-sm text-[#8A7A6A] dark:text-[#A89888]">
                 {isRegister ? "¿Ya tienes cuenta?" : "¿No tienes cuenta?"}{" "}
                 <button
                   type="button"
@@ -233,7 +234,7 @@ function LoginForm() {
                     setIsRegister(!isRegister)
                     setError("")
                   }}
-                  className="text-[#2F3A2D] dark:text-[#E8EDE6] hover:underline font-medium"
+                  className="text-[#3D3229] dark:text-[#E8DED5] hover:underline font-medium"
                 >
                   {isRegister ? "Inicia sesión" : "Regístrate gratis"}
                 </button>
@@ -243,7 +244,7 @@ function LoginForm() {
         </Card>
 
         <div className="text-center mt-6">
-          <Link href="/" className="text-sm text-[#64705E] dark:text-[#9BAA93] hover:text-[#2F3A2D] dark:hover:text-[#E8EDE6] transition-colors inline-flex items-center gap-1.5">
+          <Link href="/" className="text-sm text-[#8A7A6A] dark:text-[#A89888] hover:text-[#3D3229] dark:hover:text-[#E8EDE6] transition-colors inline-flex items-center gap-1.5">
             <ArrowLeft className="w-3.5 h-3.5" />
             Volver al inicio
           </Link>

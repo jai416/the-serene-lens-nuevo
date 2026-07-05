@@ -2,6 +2,8 @@ import { getServerSession } from "next-auth"
 import { authOptions } from "@/lib/auth"
 import { db } from "@/lib/db"
 import { ok, unauthorized, error, serverError } from "@/lib/api-response"
+import { checkRateLimit } from "@/lib/rate-limit"
+import { NextResponse } from "next/server"
 
 export async function GET() {
   try {
@@ -24,6 +26,10 @@ export async function POST(req: Request) {
     if (!session?.user || session.user.role !== "ADMIN") return unauthorized()
 
     const body = await req.json().catch(() => ({}))
+    const { allowed } = await checkRateLimit(`admin:knowledge:${session.user.id}`, 30, 60000)
+    if (!allowed) {
+      return NextResponse.json({ success: false, error: "Demasiadas solicitudes" }, { status: 429 })
+    }
     if (!body.title || !body.content) return error("Título y contenido requeridos")
 
     const entry = await db.botKnowledge.create({

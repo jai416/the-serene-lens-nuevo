@@ -3,6 +3,7 @@ import { getServerSession } from "next-auth"
 import { authOptions } from "@/lib/auth"
 import { db } from "@/lib/db"
 import { ok, error, serverError, unauthorized } from "@/lib/api-response"
+import { checkRateLimit } from "@/lib/rate-limit"
 import { createQvaPayPayment } from "@/lib/payments"
 import { getPlan } from "@/lib/pricing"
 import { getCUPRate } from "@/lib/cup-rate"
@@ -17,6 +18,10 @@ const createPaymentSchema = z.object({
 
 export async function POST(req: NextRequest) {
   try {
+    const ip = req.headers.get("x-forwarded-for")?.split(",")[0]?.trim() || "unknown"
+    const { allowed } = await checkRateLimit(`payment:create:${ip}`, 10, 60000)
+    if (!allowed) return error("Demasiadas solicitudes. Intenta de nuevo en un minuto.", 429)
+
     if (!validateCsrf(req)) return error("CSRF token inválido", 403)
 
     const session = await getServerSession(authOptions)

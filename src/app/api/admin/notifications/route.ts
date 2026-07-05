@@ -1,7 +1,8 @@
-import { NextRequest } from "next/server"
+import { NextRequest, NextResponse } from "next/server"
 import { getServerSession } from "next-auth"
 import { authOptions } from "@/lib/auth"
 import { db } from "@/lib/db"
+import { checkRateLimit } from "@/lib/rate-limit"
 import { ok, unauthorized, serverError, error } from "@/lib/api-response"
 
 async function requireAdmin() {
@@ -13,6 +14,9 @@ async function requireAdmin() {
 export async function GET() {
   const admin = await requireAdmin()
   if (!admin) return unauthorized()
+
+  const { allowed } = await checkRateLimit(`admin:notifications:${admin.id}`, 10, 60000)
+  if (!allowed) return NextResponse.json({ success: false, error: "Demasiadas solicitudes" }, { status: 429 })
 
   try {
     const notifications = await db.groupAnalytics.findMany({
@@ -48,6 +52,10 @@ export async function POST(req: NextRequest) {
 
   try {
     const body = await req.json()
+    const { allowed } = await checkRateLimit(`admin:notifications:${admin.id}`, 30, 60000)
+    if (!allowed) {
+      return NextResponse.json({ success: false, error: "Demasiadas solicitudes" }, { status: 429 })
+    }
     const { notificationId } = body
 
     if (!notificationId) return error("notificationId requerido")

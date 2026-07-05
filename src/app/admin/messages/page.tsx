@@ -10,6 +10,7 @@ import { Button } from "@/components/ui/button"
 import { MessageSquare, ArrowLeft, Eye, EyeOff, Star, Crown } from "lucide-react"
 import { formatDate } from "@/lib/utils"
 import { toast } from "sonner"
+import { ListSkeleton } from "@/components/ui/skeleton"
 
 interface ContactMessage {
   id: string
@@ -38,7 +39,7 @@ export default function AdminMessagesPage() {
     }
   }, [session])
 
-  if (status === "loading") return <div className="flex items-center justify-center py-20"><p className="text-[#8892B0]">Cargando...</p></div>
+  if (status === "loading") return <div className="flex items-center justify-center py-20"><ListSkeleton rows={5} /></div>
   if (!session || session.user.role !== "ADMIN") redirect("/")
 
   const markRead = async (id: string, read: boolean) => {

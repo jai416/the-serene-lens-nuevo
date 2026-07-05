@@ -7,6 +7,7 @@ import { Card, CardContent } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Bell, Send, Users, CheckCircle } from "lucide-react"
 import { toast } from "sonner"
+import { ListSkeleton } from "@/components/ui/skeleton"
 
 const SEGMENTS = [
   { value: "all", label: "Todos" },
@@ -48,7 +49,9 @@ export default function AdminEmailsPage() {
         const body = d?.data || d
         setHistory(body?.notifications || [])
       }
-    } catch {}
+    } catch {
+      toast.error("Error al cargar datos")
+    }
   }, [])
 
   useEffect(() => {
@@ -95,13 +98,7 @@ export default function AdminEmailsPage() {
     }
   }
 
-  if (status === "loading") {
-    return (
-      <div className="min-h-screen bg-[#F8FAF5] dark:bg-[#1A1F19] flex items-center justify-center">
-        <p className="text-[#64705E] dark:text-[#9BAA93]">Cargando...</p>
-      </div>
-    )
-  }
+  if (status === "loading") return <div className="min-h-screen bg-[#F8FAF5] dark:bg-[#1A1F19] flex items-center justify-center"><ListSkeleton rows={4} /></div>
 
   return (
     <div className="min-h-screen bg-[#F8FAF5] dark:bg-[#1A1F19]">

@@ -10,6 +10,7 @@ import { Button } from "@/components/ui/button"
 import { Download, ArrowLeft, Plus, Eye, EyeOff, Trash2 } from "lucide-react"
 import { formatDate, formatPrice } from "@/lib/utils"
 import { toast } from "sonner"
+import { ListSkeleton } from "@/components/ui/skeleton"
 
 interface Guide {
   id: string
@@ -60,7 +61,7 @@ export default function AdminGuidesPage() {
     if (session?.user?.role === "ADMIN") loadGuides()
   }, [session, loadGuides])
 
-  if (status === "loading") return <div className="min-h-screen pt-24 flex items-center justify-center"><p className="text-[#64705E] dark:text-[#9BAA93]">Cargando...</p></div>
+  if (status === "loading") return <div className="min-h-screen pt-24 flex items-center justify-center"><ListSkeleton rows={4} /></div>
   if (!session || session.user.role !== "ADMIN") redirect("/")
 
   const createGuide = async () => {

@@ -77,7 +77,7 @@ export default function TicketDetailPage() {
   if (loading) {
     return (
       <div className="flex justify-center py-16">
-        <div className="h-6 w-6 animate-spin rounded-full border-2 border-[#C2E09D] border-t-transparent" />
+        <div className="h-6 w-6 animate-spin rounded-full border-2 border-[#E8D5C4] border-t-transparent" />
       </div>
     )
   }
@@ -88,7 +88,7 @@ export default function TicketDetailPage() {
         <p className="text-gray-500">😅 No se pudo cargar el ticket.</p>
         <button
           onClick={() => router.push("/dashboard/support")}
-          className="mt-4 text-[#C2E09D] hover:underline"
+          className="mt-4 text-[#E8D5C4] hover:underline"
         >
           ← Volver
         </button>
@@ -130,12 +130,12 @@ export default function TicketDetailPage() {
               key={r.id}
               className={`rounded-xl p-4 ${
                 r.role === "admin"
-                  ? "ml-8 border border-[#C2E09D] bg-[#F8FAF5] dark:bg-gray-800"
+                  ? "ml-8 border border-[#E8D5C4] bg-[#FFF8F0] dark:bg-gray-800"
                   : "mr-8 border border-gray-200 bg-white dark:border-gray-700 dark:bg-gray-900"
               }`}
             >
               {r.role === "admin" && (
-                <span className="mb-1 inline-block text-sm font-medium text-[#C2E09D]">
+                <span className="mb-1 inline-block text-sm font-medium text-[#E8D5C4]">
                   👑 Admin
                 </span>
               )}
@@ -150,6 +150,7 @@ export default function TicketDetailPage() {
 
       <form onSubmit={handleSubmitResponse} className="space-y-3">
         <textarea
+          aria-label="Escribe una respuesta"
           value={responseText}
           onChange={(e) => setResponseText(e.target.value)}
           placeholder="Escribe una respuesta..."
@@ -160,7 +161,7 @@ export default function TicketDetailPage() {
         <button
           type="submit"
           disabled={sending || !responseText.trim()}
-          className="rounded-lg bg-[#C2E09D] px-6 py-2 font-medium hover:bg-[#B0CF8D] disabled:opacity-50"
+          className="rounded-lg bg-[#E8D5C4] px-6 py-2 font-medium hover:bg-[#B0CF8D] disabled:opacity-50"
         >
           {sending ? "Enviando..." : "Responder"}
         </button>

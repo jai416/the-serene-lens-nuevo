@@ -9,6 +9,7 @@ import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { BookOpen, ArrowLeft, Plus, Trash2, RefreshCw } from "lucide-react"
 import { toast } from "sonner"
+import { ListSkeleton } from "@/components/ui/skeleton"
 
 interface KnowledgeEntry {
   id: string
@@ -54,7 +55,7 @@ export default function AdminKnowledgePage() {
     if (session?.user?.role === "ADMIN") loadEntries()
   }, [session, loadEntries])
 
-  if (status === "loading") return <div className="flex items-center justify-center py-20"><p className="text-[#8892B0]">Cargando...</p></div>
+  if (status === "loading") return <div className="flex items-center justify-center py-20"><ListSkeleton rows={5} /></div>
   if (!session || session.user.role !== "ADMIN") redirect("/")
 
   const handleSync = async () => {
@@ -200,7 +201,7 @@ export default function AdminKnowledgePage() {
 
       {/* List */}
       {loading ? (
-        <p className="text-[#8892B0] text-center py-8">Cargando...</p>
+        <ListSkeleton rows={5} />
       ) : entries.length === 0 ? (
         <Card style={{ backgroundColor: "#22263A", borderColor: "#2D3350" }}>
           <CardContent className="p-8 text-center text-[#8892B0]">No hay entradas de conocimiento</CardContent>

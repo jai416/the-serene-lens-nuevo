@@ -1,3 +1,5 @@
+import { getServerSession } from "next-auth"
+import { authOptions } from "@/lib/auth"
 import { db } from "@/lib/db"
 import { NextRequest } from "next/server"
 import { ok, error, serverError } from "@/lib/api-response"
@@ -25,6 +27,7 @@ export async function GET(req: NextRequest) {
 
 export async function POST(req: NextRequest) {
   try {
+    const session = await getServerSession(authOptions)
     const body = await req.json()
     const { sessionId, message, userId } = body
 
@@ -35,11 +38,13 @@ export async function POST(req: NextRequest) {
       return error("message es requerido", 400)
     }
 
+    const resolvedUserId = userId && session?.user?.id === userId ? userId : null
+
     const created = await db.chatMessage.create({
       data: {
         sessionId,
         message: message.trim(),
-        userId: userId || null,
+        userId: resolvedUserId,
         isAdmin: false,
         read: false,
       },
@@ -64,9 +69,6 @@ export async function POST(req: NextRequest) {
         // notifyAdmins may fail silently
       }
     }
-
-    // ⏳ Pending > 24h auto-notify exists via /alerta system (pending_24h event)
-    // Admin can subscribe: /alerta on pending_24h
 
     return ok({ message: created })
   } catch (e) {

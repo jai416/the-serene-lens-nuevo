@@ -1,4 +1,5 @@
 import { db } from "@/lib/db"
+import { logger } from "@/lib/logger"
 
 export async function checkRateLimit(
   key: string,
@@ -9,28 +10,31 @@ export async function checkRateLimit(
   const resetAt = new Date(now.getTime() + windowMs)
 
   try {
-    const existing = await db.rateLimit.findUnique({ where: { key } })
+    return await db.$transaction(async (tx: any) => {
+      const current = await tx.rateLimit.findUnique({ where: { key } })
 
-    if (!existing || now > existing.resetAt) {
-      await db.rateLimit.upsert({
+      if (!current || now > current.resetAt) {
+        await tx.rateLimit.upsert({
+          where: { key },
+          create: { key, count: 1, resetAt },
+          update: { count: 1, resetAt },
+        })
+        return { allowed: true, remaining: maxRequests - 1 }
+      }
+
+      if (current.count >= maxRequests) {
+        return { allowed: false, remaining: 0 }
+      }
+
+      await tx.rateLimit.update({
         where: { key },
-        create: { key, count: 1, resetAt },
-        update: { count: 1, resetAt },
+        data: { count: current.count + 1 },
       })
-      return { allowed: true, remaining: maxRequests - 1 }
-    }
 
-    if (existing.count >= maxRequests) {
-      return { allowed: false, remaining: 0 }
-    }
-
-    await db.rateLimit.update({
-      where: { key, count: existing.count },
-      data: { count: existing.count + 1 },
+      return { allowed: true, remaining: maxRequests - current.count - 1 }
     })
-
-    return { allowed: true, remaining: maxRequests - existing.count - 1 }
-  } catch {
+  } catch (e) {
+    logger.error("Rate limit check failed, allowing request", { error: e instanceof Error ? e.message : String(e) })
     return { allowed: true, remaining: maxRequests - 1 }
   }
 }

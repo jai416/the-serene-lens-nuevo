@@ -1,6 +1,8 @@
 import { getServerSession } from "next-auth"
 import { authOptions } from "@/lib/auth"
 import { db } from "@/lib/db"
+import { checkRateLimit } from "@/lib/rate-limit"
+import { NextResponse } from "next/server"
 import { ok, unauthorized, serverError } from "@/lib/api-response"
 
 export const dynamic = "force-dynamic"
@@ -11,6 +13,9 @@ export async function GET() {
     if (!session?.user || session.user.role !== "ADMIN") {
       return unauthorized()
     }
+
+    const { allowed } = await checkRateLimit(`admin:debug:${session.user.id}`, 10, 60000)
+    if (!allowed) return NextResponse.json({ success: false, error: "Demasiadas solicitudes" }, { status: 429 })
 
     const userCount = await db.user.count()
     const users = await db.user.findMany({

@@ -1,4 +1,3 @@
-import { NextResponse } from "next/server"
 import { getServerSession } from "next-auth"
 import { authOptions } from "@/lib/auth"
 import { db } from "@/lib/db"
@@ -31,14 +30,7 @@ export async function GET() {
       take: 50,
     })
 
-    return NextResponse.json(
-      { success: true, data: { analyses } },
-      {
-        headers: {
-          "Cache-Control": "private, max-age=10, s-maxage=30",
-        },
-      }
-    )
+    return ok({ analyses })
   } catch (e) {
     return serverError(e)
   }
