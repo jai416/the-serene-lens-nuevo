@@ -42,6 +42,7 @@ export type DigitalProductMinAggregateOutputType = {
   shortDesc: string | null
   image: string | null
   category: string | null
+  level: string | null
   price: number | null
   fileUrl: string | null
   isActive: boolean | null
@@ -57,6 +58,7 @@ export type DigitalProductMaxAggregateOutputType = {
   shortDesc: string | null
   image: string | null
   category: string | null
+  level: string | null
   price: number | null
   fileUrl: string | null
   isActive: boolean | null
@@ -72,6 +74,7 @@ export type DigitalProductCountAggregateOutputType = {
   shortDesc: number
   image: number
   category: number
+  level: number
   price: number
   fileUrl: number
   isActive: number
@@ -97,6 +100,7 @@ export type DigitalProductMinAggregateInputType = {
   shortDesc?: true
   image?: true
   category?: true
+  level?: true
   price?: true
   fileUrl?: true
   isActive?: true
@@ -112,6 +116,7 @@ export type DigitalProductMaxAggregateInputType = {
   shortDesc?: true
   image?: true
   category?: true
+  level?: true
   price?: true
   fileUrl?: true
   isActive?: true
@@ -127,6 +132,7 @@ export type DigitalProductCountAggregateInputType = {
   shortDesc?: true
   image?: true
   category?: true
+  level?: true
   price?: true
   fileUrl?: true
   isActive?: true
@@ -229,6 +235,7 @@ export type DigitalProductGroupByOutputType = {
   shortDesc: string | null
   image: string
   category: string
+  level: string
   price: number
   fileUrl: string | null
   isActive: boolean
@@ -267,6 +274,7 @@ export type DigitalProductWhereInput = {
   shortDesc?: Prisma.StringNullableFilter<"DigitalProduct"> | string | null
   image?: Prisma.StringFilter<"DigitalProduct"> | string
   category?: Prisma.StringFilter<"DigitalProduct"> | string
+  level?: Prisma.StringFilter<"DigitalProduct"> | string
   price?: Prisma.FloatFilter<"DigitalProduct"> | number
   fileUrl?: Prisma.StringNullableFilter<"DigitalProduct"> | string | null
   isActive?: Prisma.BoolFilter<"DigitalProduct"> | boolean
@@ -283,6 +291,7 @@ export type DigitalProductOrderByWithRelationInput = {
   shortDesc?: Prisma.SortOrderInput | Prisma.SortOrder
   image?: Prisma.SortOrder
   category?: Prisma.SortOrder
+  level?: Prisma.SortOrder
   price?: Prisma.SortOrder
   fileUrl?: Prisma.SortOrderInput | Prisma.SortOrder
   isActive?: Prisma.SortOrder
@@ -302,6 +311,7 @@ export type DigitalProductWhereUniqueInput = Prisma.AtLeast<{
   shortDesc?: Prisma.StringNullableFilter<"DigitalProduct"> | string | null
   image?: Prisma.StringFilter<"DigitalProduct"> | string
   category?: Prisma.StringFilter<"DigitalProduct"> | string
+  level?: Prisma.StringFilter<"DigitalProduct"> | string
   price?: Prisma.FloatFilter<"DigitalProduct"> | number
   fileUrl?: Prisma.StringNullableFilter<"DigitalProduct"> | string | null
   isActive?: Prisma.BoolFilter<"DigitalProduct"> | boolean
@@ -318,6 +328,7 @@ export type DigitalProductOrderByWithAggregationInput = {
   shortDesc?: Prisma.SortOrderInput | Prisma.SortOrder
   image?: Prisma.SortOrder
   category?: Prisma.SortOrder
+  level?: Prisma.SortOrder
   price?: Prisma.SortOrder
   fileUrl?: Prisma.SortOrderInput | Prisma.SortOrder
   isActive?: Prisma.SortOrder
@@ -341,6 +352,7 @@ export type DigitalProductScalarWhereWithAggregatesInput = {
   shortDesc?: Prisma.StringNullableWithAggregatesFilter<"DigitalProduct"> | string | null
   image?: Prisma.StringWithAggregatesFilter<"DigitalProduct"> | string
   category?: Prisma.StringWithAggregatesFilter<"DigitalProduct"> | string
+  level?: Prisma.StringWithAggregatesFilter<"DigitalProduct"> | string
   price?: Prisma.FloatWithAggregatesFilter<"DigitalProduct"> | number
   fileUrl?: Prisma.StringNullableWithAggregatesFilter<"DigitalProduct"> | string | null
   isActive?: Prisma.BoolWithAggregatesFilter<"DigitalProduct"> | boolean
@@ -356,6 +368,7 @@ export type DigitalProductCreateInput = {
   shortDesc?: string | null
   image: string
   category: string
+  level?: string
   price: number
   fileUrl?: string | null
   isActive?: boolean
@@ -372,6 +385,7 @@ export type DigitalProductUncheckedCreateInput = {
   shortDesc?: string | null
   image: string
   category: string
+  level?: string
   price: number
   fileUrl?: string | null
   isActive?: boolean
@@ -388,6 +402,7 @@ export type DigitalProductUpdateInput = {
   shortDesc?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   image?: Prisma.StringFieldUpdateOperationsInput | string
   category?: Prisma.StringFieldUpdateOperationsInput | string
+  level?: Prisma.StringFieldUpdateOperationsInput | string
   price?: Prisma.FloatFieldUpdateOperationsInput | number
   fileUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -404,6 +419,7 @@ export type DigitalProductUncheckedUpdateInput = {
   shortDesc?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   image?: Prisma.StringFieldUpdateOperationsInput | string
   category?: Prisma.StringFieldUpdateOperationsInput | string
+  level?: Prisma.StringFieldUpdateOperationsInput | string
   price?: Prisma.FloatFieldUpdateOperationsInput | number
   fileUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -420,6 +436,7 @@ export type DigitalProductCreateManyInput = {
   shortDesc?: string | null
   image: string
   category: string
+  level?: string
   price: number
   fileUrl?: string | null
   isActive?: boolean
@@ -435,6 +452,7 @@ export type DigitalProductUpdateManyMutationInput = {
   shortDesc?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   image?: Prisma.StringFieldUpdateOperationsInput | string
   category?: Prisma.StringFieldUpdateOperationsInput | string
+  level?: Prisma.StringFieldUpdateOperationsInput | string
   price?: Prisma.FloatFieldUpdateOperationsInput | number
   fileUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -450,6 +468,7 @@ export type DigitalProductUncheckedUpdateManyInput = {
   shortDesc?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   image?: Prisma.StringFieldUpdateOperationsInput | string
   category?: Prisma.StringFieldUpdateOperationsInput | string
+  level?: Prisma.StringFieldUpdateOperationsInput | string
   price?: Prisma.FloatFieldUpdateOperationsInput | number
   fileUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -465,6 +484,7 @@ export type DigitalProductCountOrderByAggregateInput = {
   shortDesc?: Prisma.SortOrder
   image?: Prisma.SortOrder
   category?: Prisma.SortOrder
+  level?: Prisma.SortOrder
   price?: Prisma.SortOrder
   fileUrl?: Prisma.SortOrder
   isActive?: Prisma.SortOrder
@@ -484,6 +504,7 @@ export type DigitalProductMaxOrderByAggregateInput = {
   shortDesc?: Prisma.SortOrder
   image?: Prisma.SortOrder
   category?: Prisma.SortOrder
+  level?: Prisma.SortOrder
   price?: Prisma.SortOrder
   fileUrl?: Prisma.SortOrder
   isActive?: Prisma.SortOrder
@@ -499,6 +520,7 @@ export type DigitalProductMinOrderByAggregateInput = {
   shortDesc?: Prisma.SortOrder
   image?: Prisma.SortOrder
   category?: Prisma.SortOrder
+  level?: Prisma.SortOrder
   price?: Prisma.SortOrder
   fileUrl?: Prisma.SortOrder
   isActive?: Prisma.SortOrder
@@ -537,6 +559,7 @@ export type DigitalProductCreateWithoutPurchasesInput = {
   shortDesc?: string | null
   image: string
   category: string
+  level?: string
   price: number
   fileUrl?: string | null
   isActive?: boolean
@@ -552,6 +575,7 @@ export type DigitalProductUncheckedCreateWithoutPurchasesInput = {
   shortDesc?: string | null
   image: string
   category: string
+  level?: string
   price: number
   fileUrl?: string | null
   isActive?: boolean
@@ -583,6 +607,7 @@ export type DigitalProductUpdateWithoutPurchasesInput = {
   shortDesc?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   image?: Prisma.StringFieldUpdateOperationsInput | string
   category?: Prisma.StringFieldUpdateOperationsInput | string
+  level?: Prisma.StringFieldUpdateOperationsInput | string
   price?: Prisma.FloatFieldUpdateOperationsInput | number
   fileUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -598,6 +623,7 @@ export type DigitalProductUncheckedUpdateWithoutPurchasesInput = {
   shortDesc?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   image?: Prisma.StringFieldUpdateOperationsInput | string
   category?: Prisma.StringFieldUpdateOperationsInput | string
+  level?: Prisma.StringFieldUpdateOperationsInput | string
   price?: Prisma.FloatFieldUpdateOperationsInput | number
   fileUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -644,6 +670,7 @@ export type DigitalProductSelect<ExtArgs extends runtime.Types.Extensions.Intern
   shortDesc?: boolean
   image?: boolean
   category?: boolean
+  level?: boolean
   price?: boolean
   fileUrl?: boolean
   isActive?: boolean
@@ -661,6 +688,7 @@ export type DigitalProductSelectCreateManyAndReturn<ExtArgs extends runtime.Type
   shortDesc?: boolean
   image?: boolean
   category?: boolean
+  level?: boolean
   price?: boolean
   fileUrl?: boolean
   isActive?: boolean
@@ -676,6 +704,7 @@ export type DigitalProductSelectUpdateManyAndReturn<ExtArgs extends runtime.Type
   shortDesc?: boolean
   image?: boolean
   category?: boolean
+  level?: boolean
   price?: boolean
   fileUrl?: boolean
   isActive?: boolean
@@ -691,6 +720,7 @@ export type DigitalProductSelectScalar = {
   shortDesc?: boolean
   image?: boolean
   category?: boolean
+  level?: boolean
   price?: boolean
   fileUrl?: boolean
   isActive?: boolean
@@ -698,7 +728,7 @@ export type DigitalProductSelectScalar = {
   updatedAt?: boolean
 }
 
-export type DigitalProductOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "title" | "slug" | "description" | "shortDesc" | "image" | "category" | "price" | "fileUrl" | "isActive" | "createdAt" | "updatedAt", ExtArgs["result"]["digitalProduct"]>
+export type DigitalProductOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "title" | "slug" | "description" | "shortDesc" | "image" | "category" | "level" | "price" | "fileUrl" | "isActive" | "createdAt" | "updatedAt", ExtArgs["result"]["digitalProduct"]>
 export type DigitalProductInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   purchases?: boolean | Prisma.DigitalProduct$purchasesArgs<ExtArgs>
   _count?: boolean | Prisma.DigitalProductCountOutputTypeDefaultArgs<ExtArgs>
@@ -719,6 +749,7 @@ export type $DigitalProductPayload<ExtArgs extends runtime.Types.Extensions.Inte
     shortDesc: string | null
     image: string
     category: string
+    level: string
     price: number
     fileUrl: string | null
     isActive: boolean
@@ -1155,6 +1186,7 @@ export interface DigitalProductFieldRefs {
   readonly shortDesc: Prisma.FieldRef<"DigitalProduct", 'String'>
   readonly image: Prisma.FieldRef<"DigitalProduct", 'String'>
   readonly category: Prisma.FieldRef<"DigitalProduct", 'String'>
+  readonly level: Prisma.FieldRef<"DigitalProduct", 'String'>
   readonly price: Prisma.FieldRef<"DigitalProduct", 'Float'>
   readonly fileUrl: Prisma.FieldRef<"DigitalProduct", 'String'>
   readonly isActive: Prisma.FieldRef<"DigitalProduct", 'Boolean'>

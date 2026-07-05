@@ -700,9 +700,9 @@ export type BotKnowledgeSumOrderByAggregateInput = {
   unhelpfulCount?: Prisma.SortOrder
 }
 
-export type BotKnowledgeScalarRelationFilter = {
-  is?: Prisma.BotKnowledgeWhereInput
-  isNot?: Prisma.BotKnowledgeWhereInput
+export type BotKnowledgeNullableScalarRelationFilter = {
+  is?: Prisma.BotKnowledgeWhereInput | null
+  isNot?: Prisma.BotKnowledgeWhereInput | null
 }
 
 export type BotKnowledgeCreatekeywordsInput = {
@@ -729,10 +729,12 @@ export type BotKnowledgeCreateNestedOneWithoutFeedbackInput = {
   connect?: Prisma.BotKnowledgeWhereUniqueInput
 }
 
-export type BotKnowledgeUpdateOneRequiredWithoutFeedbackNestedInput = {
+export type BotKnowledgeUpdateOneWithoutFeedbackNestedInput = {
   create?: Prisma.XOR<Prisma.BotKnowledgeCreateWithoutFeedbackInput, Prisma.BotKnowledgeUncheckedCreateWithoutFeedbackInput>
   connectOrCreate?: Prisma.BotKnowledgeCreateOrConnectWithoutFeedbackInput
   upsert?: Prisma.BotKnowledgeUpsertWithoutFeedbackInput
+  disconnect?: Prisma.BotKnowledgeWhereInput | boolean
+  delete?: Prisma.BotKnowledgeWhereInput | boolean
   connect?: Prisma.BotKnowledgeWhereUniqueInput
   update?: Prisma.XOR<Prisma.XOR<Prisma.BotKnowledgeUpdateToOneWithWhereWithoutFeedbackInput, Prisma.BotKnowledgeUpdateWithoutFeedbackInput>, Prisma.BotKnowledgeUncheckedUpdateWithoutFeedbackInput>
 }

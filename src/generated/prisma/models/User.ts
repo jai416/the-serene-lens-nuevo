@@ -362,6 +362,9 @@ export type UserWhereInput = {
   ticketResponses?: Prisma.SupportTicketResponseListRelationFilter
   chatMessages?: Prisma.ChatMessageListRelationFilter
   contactMessages?: Prisma.ContactMessageListRelationFilter
+  communityGroups?: Prisma.CommunityGroupListRelationFilter
+  communityMemberships?: Prisma.CommunityMemberListRelationFilter
+  postReactions?: Prisma.PostReactionListRelationFilter
 }
 
 export type UserOrderByWithRelationInput = {
@@ -413,6 +416,9 @@ export type UserOrderByWithRelationInput = {
   ticketResponses?: Prisma.SupportTicketResponseOrderByRelationAggregateInput
   chatMessages?: Prisma.ChatMessageOrderByRelationAggregateInput
   contactMessages?: Prisma.ContactMessageOrderByRelationAggregateInput
+  communityGroups?: Prisma.CommunityGroupOrderByRelationAggregateInput
+  communityMemberships?: Prisma.CommunityMemberOrderByRelationAggregateInput
+  postReactions?: Prisma.PostReactionOrderByRelationAggregateInput
 }
 
 export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -467,6 +473,9 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   ticketResponses?: Prisma.SupportTicketResponseListRelationFilter
   chatMessages?: Prisma.ChatMessageListRelationFilter
   contactMessages?: Prisma.ContactMessageListRelationFilter
+  communityGroups?: Prisma.CommunityGroupListRelationFilter
+  communityMemberships?: Prisma.CommunityMemberListRelationFilter
+  postReactions?: Prisma.PostReactionListRelationFilter
 }, "id" | "email">
 
 export type UserOrderByWithAggregationInput = {
@@ -568,6 +577,9 @@ export type UserCreateInput = {
   ticketResponses?: Prisma.SupportTicketResponseCreateNestedManyWithoutUserInput
   chatMessages?: Prisma.ChatMessageCreateNestedManyWithoutUserInput
   contactMessages?: Prisma.ContactMessageCreateNestedManyWithoutUserInput
+  communityGroups?: Prisma.CommunityGroupCreateNestedManyWithoutCreatorInput
+  communityMemberships?: Prisma.CommunityMemberCreateNestedManyWithoutUserInput
+  postReactions?: Prisma.PostReactionCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateInput = {
@@ -619,6 +631,9 @@ export type UserUncheckedCreateInput = {
   ticketResponses?: Prisma.SupportTicketResponseUncheckedCreateNestedManyWithoutUserInput
   chatMessages?: Prisma.ChatMessageUncheckedCreateNestedManyWithoutUserInput
   contactMessages?: Prisma.ContactMessageUncheckedCreateNestedManyWithoutUserInput
+  communityGroups?: Prisma.CommunityGroupUncheckedCreateNestedManyWithoutCreatorInput
+  communityMemberships?: Prisma.CommunityMemberUncheckedCreateNestedManyWithoutUserInput
+  postReactions?: Prisma.PostReactionUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserUpdateInput = {
@@ -670,6 +685,9 @@ export type UserUpdateInput = {
   ticketResponses?: Prisma.SupportTicketResponseUpdateManyWithoutUserNestedInput
   chatMessages?: Prisma.ChatMessageUpdateManyWithoutUserNestedInput
   contactMessages?: Prisma.ContactMessageUpdateManyWithoutUserNestedInput
+  communityGroups?: Prisma.CommunityGroupUpdateManyWithoutCreatorNestedInput
+  communityMemberships?: Prisma.CommunityMemberUpdateManyWithoutUserNestedInput
+  postReactions?: Prisma.PostReactionUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateInput = {
@@ -721,6 +739,9 @@ export type UserUncheckedUpdateInput = {
   ticketResponses?: Prisma.SupportTicketResponseUncheckedUpdateManyWithoutUserNestedInput
   chatMessages?: Prisma.ChatMessageUncheckedUpdateManyWithoutUserNestedInput
   contactMessages?: Prisma.ContactMessageUncheckedUpdateManyWithoutUserNestedInput
+  communityGroups?: Prisma.CommunityGroupUncheckedUpdateManyWithoutCreatorNestedInput
+  communityMemberships?: Prisma.CommunityMemberUncheckedUpdateManyWithoutUserNestedInput
+  postReactions?: Prisma.PostReactionUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateManyInput = {
@@ -1093,10 +1114,12 @@ export type UserCreateNestedOneWithoutContactMessagesInput = {
   connect?: Prisma.UserWhereUniqueInput
 }
 
-export type UserUpdateOneRequiredWithoutContactMessagesNestedInput = {
+export type UserUpdateOneWithoutContactMessagesNestedInput = {
   create?: Prisma.XOR<Prisma.UserCreateWithoutContactMessagesInput, Prisma.UserUncheckedCreateWithoutContactMessagesInput>
   connectOrCreate?: Prisma.UserCreateOrConnectWithoutContactMessagesInput
   upsert?: Prisma.UserUpsertWithoutContactMessagesInput
+  disconnect?: Prisma.UserWhereInput | boolean
+  delete?: Prisma.UserWhereInput | boolean
   connect?: Prisma.UserWhereUniqueInput
   update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutContactMessagesInput, Prisma.UserUpdateWithoutContactMessagesInput>, Prisma.UserUncheckedUpdateWithoutContactMessagesInput>
 }
@@ -1155,6 +1178,48 @@ export type UserUpdateOneRequiredWithoutCommentsNestedInput = {
   upsert?: Prisma.UserUpsertWithoutCommentsInput
   connect?: Prisma.UserWhereUniqueInput
   update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutCommentsInput, Prisma.UserUpdateWithoutCommentsInput>, Prisma.UserUncheckedUpdateWithoutCommentsInput>
+}
+
+export type UserCreateNestedOneWithoutCommunityGroupsInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutCommunityGroupsInput, Prisma.UserUncheckedCreateWithoutCommunityGroupsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutCommunityGroupsInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneRequiredWithoutCommunityGroupsNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutCommunityGroupsInput, Prisma.UserUncheckedCreateWithoutCommunityGroupsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutCommunityGroupsInput
+  upsert?: Prisma.UserUpsertWithoutCommunityGroupsInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutCommunityGroupsInput, Prisma.UserUpdateWithoutCommunityGroupsInput>, Prisma.UserUncheckedUpdateWithoutCommunityGroupsInput>
+}
+
+export type UserCreateNestedOneWithoutCommunityMembershipsInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutCommunityMembershipsInput, Prisma.UserUncheckedCreateWithoutCommunityMembershipsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutCommunityMembershipsInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneRequiredWithoutCommunityMembershipsNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutCommunityMembershipsInput, Prisma.UserUncheckedCreateWithoutCommunityMembershipsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutCommunityMembershipsInput
+  upsert?: Prisma.UserUpsertWithoutCommunityMembershipsInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutCommunityMembershipsInput, Prisma.UserUpdateWithoutCommunityMembershipsInput>, Prisma.UserUncheckedUpdateWithoutCommunityMembershipsInput>
+}
+
+export type UserCreateNestedOneWithoutPostReactionsInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutPostReactionsInput, Prisma.UserUncheckedCreateWithoutPostReactionsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutPostReactionsInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneRequiredWithoutPostReactionsNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutPostReactionsInput, Prisma.UserUncheckedCreateWithoutPostReactionsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutPostReactionsInput
+  upsert?: Prisma.UserUpsertWithoutPostReactionsInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutPostReactionsInput, Prisma.UserUpdateWithoutPostReactionsInput>, Prisma.UserUncheckedUpdateWithoutPostReactionsInput>
 }
 
 export type UserCreateNestedOneWithoutSkinDiaryInput = {
@@ -1379,6 +1444,9 @@ export type UserCreateWithoutAccountsInput = {
   ticketResponses?: Prisma.SupportTicketResponseCreateNestedManyWithoutUserInput
   chatMessages?: Prisma.ChatMessageCreateNestedManyWithoutUserInput
   contactMessages?: Prisma.ContactMessageCreateNestedManyWithoutUserInput
+  communityGroups?: Prisma.CommunityGroupCreateNestedManyWithoutCreatorInput
+  communityMemberships?: Prisma.CommunityMemberCreateNestedManyWithoutUserInput
+  postReactions?: Prisma.PostReactionCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutAccountsInput = {
@@ -1429,6 +1497,9 @@ export type UserUncheckedCreateWithoutAccountsInput = {
   ticketResponses?: Prisma.SupportTicketResponseUncheckedCreateNestedManyWithoutUserInput
   chatMessages?: Prisma.ChatMessageUncheckedCreateNestedManyWithoutUserInput
   contactMessages?: Prisma.ContactMessageUncheckedCreateNestedManyWithoutUserInput
+  communityGroups?: Prisma.CommunityGroupUncheckedCreateNestedManyWithoutCreatorInput
+  communityMemberships?: Prisma.CommunityMemberUncheckedCreateNestedManyWithoutUserInput
+  postReactions?: Prisma.PostReactionUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutAccountsInput = {
@@ -1495,6 +1566,9 @@ export type UserUpdateWithoutAccountsInput = {
   ticketResponses?: Prisma.SupportTicketResponseUpdateManyWithoutUserNestedInput
   chatMessages?: Prisma.ChatMessageUpdateManyWithoutUserNestedInput
   contactMessages?: Prisma.ContactMessageUpdateManyWithoutUserNestedInput
+  communityGroups?: Prisma.CommunityGroupUpdateManyWithoutCreatorNestedInput
+  communityMemberships?: Prisma.CommunityMemberUpdateManyWithoutUserNestedInput
+  postReactions?: Prisma.PostReactionUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutAccountsInput = {
@@ -1545,6 +1619,9 @@ export type UserUncheckedUpdateWithoutAccountsInput = {
   ticketResponses?: Prisma.SupportTicketResponseUncheckedUpdateManyWithoutUserNestedInput
   chatMessages?: Prisma.ChatMessageUncheckedUpdateManyWithoutUserNestedInput
   contactMessages?: Prisma.ContactMessageUncheckedUpdateManyWithoutUserNestedInput
+  communityGroups?: Prisma.CommunityGroupUncheckedUpdateManyWithoutCreatorNestedInput
+  communityMemberships?: Prisma.CommunityMemberUncheckedUpdateManyWithoutUserNestedInput
+  postReactions?: Prisma.PostReactionUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutSessionsInput = {
@@ -1595,6 +1672,9 @@ export type UserCreateWithoutSessionsInput = {
   ticketResponses?: Prisma.SupportTicketResponseCreateNestedManyWithoutUserInput
   chatMessages?: Prisma.ChatMessageCreateNestedManyWithoutUserInput
   contactMessages?: Prisma.ContactMessageCreateNestedManyWithoutUserInput
+  communityGroups?: Prisma.CommunityGroupCreateNestedManyWithoutCreatorInput
+  communityMemberships?: Prisma.CommunityMemberCreateNestedManyWithoutUserInput
+  postReactions?: Prisma.PostReactionCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutSessionsInput = {
@@ -1645,6 +1725,9 @@ export type UserUncheckedCreateWithoutSessionsInput = {
   ticketResponses?: Prisma.SupportTicketResponseUncheckedCreateNestedManyWithoutUserInput
   chatMessages?: Prisma.ChatMessageUncheckedCreateNestedManyWithoutUserInput
   contactMessages?: Prisma.ContactMessageUncheckedCreateNestedManyWithoutUserInput
+  communityGroups?: Prisma.CommunityGroupUncheckedCreateNestedManyWithoutCreatorInput
+  communityMemberships?: Prisma.CommunityMemberUncheckedCreateNestedManyWithoutUserInput
+  postReactions?: Prisma.PostReactionUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutSessionsInput = {
@@ -1711,6 +1794,9 @@ export type UserUpdateWithoutSessionsInput = {
   ticketResponses?: Prisma.SupportTicketResponseUpdateManyWithoutUserNestedInput
   chatMessages?: Prisma.ChatMessageUpdateManyWithoutUserNestedInput
   contactMessages?: Prisma.ContactMessageUpdateManyWithoutUserNestedInput
+  communityGroups?: Prisma.CommunityGroupUpdateManyWithoutCreatorNestedInput
+  communityMemberships?: Prisma.CommunityMemberUpdateManyWithoutUserNestedInput
+  postReactions?: Prisma.PostReactionUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutSessionsInput = {
@@ -1761,6 +1847,9 @@ export type UserUncheckedUpdateWithoutSessionsInput = {
   ticketResponses?: Prisma.SupportTicketResponseUncheckedUpdateManyWithoutUserNestedInput
   chatMessages?: Prisma.ChatMessageUncheckedUpdateManyWithoutUserNestedInput
   contactMessages?: Prisma.ContactMessageUncheckedUpdateManyWithoutUserNestedInput
+  communityGroups?: Prisma.CommunityGroupUncheckedUpdateManyWithoutCreatorNestedInput
+  communityMemberships?: Prisma.CommunityMemberUncheckedUpdateManyWithoutUserNestedInput
+  postReactions?: Prisma.PostReactionUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutAnalysesInput = {
@@ -1811,6 +1900,9 @@ export type UserCreateWithoutAnalysesInput = {
   ticketResponses?: Prisma.SupportTicketResponseCreateNestedManyWithoutUserInput
   chatMessages?: Prisma.ChatMessageCreateNestedManyWithoutUserInput
   contactMessages?: Prisma.ContactMessageCreateNestedManyWithoutUserInput
+  communityGroups?: Prisma.CommunityGroupCreateNestedManyWithoutCreatorInput
+  communityMemberships?: Prisma.CommunityMemberCreateNestedManyWithoutUserInput
+  postReactions?: Prisma.PostReactionCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutAnalysesInput = {
@@ -1861,6 +1953,9 @@ export type UserUncheckedCreateWithoutAnalysesInput = {
   ticketResponses?: Prisma.SupportTicketResponseUncheckedCreateNestedManyWithoutUserInput
   chatMessages?: Prisma.ChatMessageUncheckedCreateNestedManyWithoutUserInput
   contactMessages?: Prisma.ContactMessageUncheckedCreateNestedManyWithoutUserInput
+  communityGroups?: Prisma.CommunityGroupUncheckedCreateNestedManyWithoutCreatorInput
+  communityMemberships?: Prisma.CommunityMemberUncheckedCreateNestedManyWithoutUserInput
+  postReactions?: Prisma.PostReactionUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutAnalysesInput = {
@@ -1927,6 +2022,9 @@ export type UserUpdateWithoutAnalysesInput = {
   ticketResponses?: Prisma.SupportTicketResponseUpdateManyWithoutUserNestedInput
   chatMessages?: Prisma.ChatMessageUpdateManyWithoutUserNestedInput
   contactMessages?: Prisma.ContactMessageUpdateManyWithoutUserNestedInput
+  communityGroups?: Prisma.CommunityGroupUpdateManyWithoutCreatorNestedInput
+  communityMemberships?: Prisma.CommunityMemberUpdateManyWithoutUserNestedInput
+  postReactions?: Prisma.PostReactionUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutAnalysesInput = {
@@ -1977,6 +2075,9 @@ export type UserUncheckedUpdateWithoutAnalysesInput = {
   ticketResponses?: Prisma.SupportTicketResponseUncheckedUpdateManyWithoutUserNestedInput
   chatMessages?: Prisma.ChatMessageUncheckedUpdateManyWithoutUserNestedInput
   contactMessages?: Prisma.ContactMessageUncheckedUpdateManyWithoutUserNestedInput
+  communityGroups?: Prisma.CommunityGroupUncheckedUpdateManyWithoutCreatorNestedInput
+  communityMemberships?: Prisma.CommunityMemberUncheckedUpdateManyWithoutUserNestedInput
+  postReactions?: Prisma.PostReactionUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutPaymentsInput = {
@@ -2027,6 +2128,9 @@ export type UserCreateWithoutPaymentsInput = {
   ticketResponses?: Prisma.SupportTicketResponseCreateNestedManyWithoutUserInput
   chatMessages?: Prisma.ChatMessageCreateNestedManyWithoutUserInput
   contactMessages?: Prisma.ContactMessageCreateNestedManyWithoutUserInput
+  communityGroups?: Prisma.CommunityGroupCreateNestedManyWithoutCreatorInput
+  communityMemberships?: Prisma.CommunityMemberCreateNestedManyWithoutUserInput
+  postReactions?: Prisma.PostReactionCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutPaymentsInput = {
@@ -2077,6 +2181,9 @@ export type UserUncheckedCreateWithoutPaymentsInput = {
   ticketResponses?: Prisma.SupportTicketResponseUncheckedCreateNestedManyWithoutUserInput
   chatMessages?: Prisma.ChatMessageUncheckedCreateNestedManyWithoutUserInput
   contactMessages?: Prisma.ContactMessageUncheckedCreateNestedManyWithoutUserInput
+  communityGroups?: Prisma.CommunityGroupUncheckedCreateNestedManyWithoutCreatorInput
+  communityMemberships?: Prisma.CommunityMemberUncheckedCreateNestedManyWithoutUserInput
+  postReactions?: Prisma.PostReactionUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutPaymentsInput = {
@@ -2143,6 +2250,9 @@ export type UserUpdateWithoutPaymentsInput = {
   ticketResponses?: Prisma.SupportTicketResponseUpdateManyWithoutUserNestedInput
   chatMessages?: Prisma.ChatMessageUpdateManyWithoutUserNestedInput
   contactMessages?: Prisma.ContactMessageUpdateManyWithoutUserNestedInput
+  communityGroups?: Prisma.CommunityGroupUpdateManyWithoutCreatorNestedInput
+  communityMemberships?: Prisma.CommunityMemberUpdateManyWithoutUserNestedInput
+  postReactions?: Prisma.PostReactionUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutPaymentsInput = {
@@ -2193,6 +2303,9 @@ export type UserUncheckedUpdateWithoutPaymentsInput = {
   ticketResponses?: Prisma.SupportTicketResponseUncheckedUpdateManyWithoutUserNestedInput
   chatMessages?: Prisma.ChatMessageUncheckedUpdateManyWithoutUserNestedInput
   contactMessages?: Prisma.ContactMessageUncheckedUpdateManyWithoutUserNestedInput
+  communityGroups?: Prisma.CommunityGroupUncheckedUpdateManyWithoutCreatorNestedInput
+  communityMemberships?: Prisma.CommunityMemberUncheckedUpdateManyWithoutUserNestedInput
+  postReactions?: Prisma.PostReactionUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutTransferPaymentsInput = {
@@ -2243,6 +2356,9 @@ export type UserCreateWithoutTransferPaymentsInput = {
   ticketResponses?: Prisma.SupportTicketResponseCreateNestedManyWithoutUserInput
   chatMessages?: Prisma.ChatMessageCreateNestedManyWithoutUserInput
   contactMessages?: Prisma.ContactMessageCreateNestedManyWithoutUserInput
+  communityGroups?: Prisma.CommunityGroupCreateNestedManyWithoutCreatorInput
+  communityMemberships?: Prisma.CommunityMemberCreateNestedManyWithoutUserInput
+  postReactions?: Prisma.PostReactionCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutTransferPaymentsInput = {
@@ -2293,6 +2409,9 @@ export type UserUncheckedCreateWithoutTransferPaymentsInput = {
   ticketResponses?: Prisma.SupportTicketResponseUncheckedCreateNestedManyWithoutUserInput
   chatMessages?: Prisma.ChatMessageUncheckedCreateNestedManyWithoutUserInput
   contactMessages?: Prisma.ContactMessageUncheckedCreateNestedManyWithoutUserInput
+  communityGroups?: Prisma.CommunityGroupUncheckedCreateNestedManyWithoutCreatorInput
+  communityMemberships?: Prisma.CommunityMemberUncheckedCreateNestedManyWithoutUserInput
+  postReactions?: Prisma.PostReactionUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutTransferPaymentsInput = {
@@ -2348,6 +2467,9 @@ export type UserCreateWithoutValidatedTransfersInput = {
   ticketResponses?: Prisma.SupportTicketResponseCreateNestedManyWithoutUserInput
   chatMessages?: Prisma.ChatMessageCreateNestedManyWithoutUserInput
   contactMessages?: Prisma.ContactMessageCreateNestedManyWithoutUserInput
+  communityGroups?: Prisma.CommunityGroupCreateNestedManyWithoutCreatorInput
+  communityMemberships?: Prisma.CommunityMemberCreateNestedManyWithoutUserInput
+  postReactions?: Prisma.PostReactionCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutValidatedTransfersInput = {
@@ -2398,6 +2520,9 @@ export type UserUncheckedCreateWithoutValidatedTransfersInput = {
   ticketResponses?: Prisma.SupportTicketResponseUncheckedCreateNestedManyWithoutUserInput
   chatMessages?: Prisma.ChatMessageUncheckedCreateNestedManyWithoutUserInput
   contactMessages?: Prisma.ContactMessageUncheckedCreateNestedManyWithoutUserInput
+  communityGroups?: Prisma.CommunityGroupUncheckedCreateNestedManyWithoutCreatorInput
+  communityMemberships?: Prisma.CommunityMemberUncheckedCreateNestedManyWithoutUserInput
+  postReactions?: Prisma.PostReactionUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutValidatedTransfersInput = {
@@ -2453,6 +2578,9 @@ export type UserCreateWithoutActivatedTransfersInput = {
   ticketResponses?: Prisma.SupportTicketResponseCreateNestedManyWithoutUserInput
   chatMessages?: Prisma.ChatMessageCreateNestedManyWithoutUserInput
   contactMessages?: Prisma.ContactMessageCreateNestedManyWithoutUserInput
+  communityGroups?: Prisma.CommunityGroupCreateNestedManyWithoutCreatorInput
+  communityMemberships?: Prisma.CommunityMemberCreateNestedManyWithoutUserInput
+  postReactions?: Prisma.PostReactionCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutActivatedTransfersInput = {
@@ -2503,6 +2631,9 @@ export type UserUncheckedCreateWithoutActivatedTransfersInput = {
   ticketResponses?: Prisma.SupportTicketResponseUncheckedCreateNestedManyWithoutUserInput
   chatMessages?: Prisma.ChatMessageUncheckedCreateNestedManyWithoutUserInput
   contactMessages?: Prisma.ContactMessageUncheckedCreateNestedManyWithoutUserInput
+  communityGroups?: Prisma.CommunityGroupUncheckedCreateNestedManyWithoutCreatorInput
+  communityMemberships?: Prisma.CommunityMemberUncheckedCreateNestedManyWithoutUserInput
+  postReactions?: Prisma.PostReactionUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutActivatedTransfersInput = {
@@ -2569,6 +2700,9 @@ export type UserUpdateWithoutTransferPaymentsInput = {
   ticketResponses?: Prisma.SupportTicketResponseUpdateManyWithoutUserNestedInput
   chatMessages?: Prisma.ChatMessageUpdateManyWithoutUserNestedInput
   contactMessages?: Prisma.ContactMessageUpdateManyWithoutUserNestedInput
+  communityGroups?: Prisma.CommunityGroupUpdateManyWithoutCreatorNestedInput
+  communityMemberships?: Prisma.CommunityMemberUpdateManyWithoutUserNestedInput
+  postReactions?: Prisma.PostReactionUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutTransferPaymentsInput = {
@@ -2619,6 +2753,9 @@ export type UserUncheckedUpdateWithoutTransferPaymentsInput = {
   ticketResponses?: Prisma.SupportTicketResponseUncheckedUpdateManyWithoutUserNestedInput
   chatMessages?: Prisma.ChatMessageUncheckedUpdateManyWithoutUserNestedInput
   contactMessages?: Prisma.ContactMessageUncheckedUpdateManyWithoutUserNestedInput
+  communityGroups?: Prisma.CommunityGroupUncheckedUpdateManyWithoutCreatorNestedInput
+  communityMemberships?: Prisma.CommunityMemberUncheckedUpdateManyWithoutUserNestedInput
+  postReactions?: Prisma.PostReactionUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserUpsertWithoutValidatedTransfersInput = {
@@ -2680,6 +2817,9 @@ export type UserUpdateWithoutValidatedTransfersInput = {
   ticketResponses?: Prisma.SupportTicketResponseUpdateManyWithoutUserNestedInput
   chatMessages?: Prisma.ChatMessageUpdateManyWithoutUserNestedInput
   contactMessages?: Prisma.ContactMessageUpdateManyWithoutUserNestedInput
+  communityGroups?: Prisma.CommunityGroupUpdateManyWithoutCreatorNestedInput
+  communityMemberships?: Prisma.CommunityMemberUpdateManyWithoutUserNestedInput
+  postReactions?: Prisma.PostReactionUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutValidatedTransfersInput = {
@@ -2730,6 +2870,9 @@ export type UserUncheckedUpdateWithoutValidatedTransfersInput = {
   ticketResponses?: Prisma.SupportTicketResponseUncheckedUpdateManyWithoutUserNestedInput
   chatMessages?: Prisma.ChatMessageUncheckedUpdateManyWithoutUserNestedInput
   contactMessages?: Prisma.ContactMessageUncheckedUpdateManyWithoutUserNestedInput
+  communityGroups?: Prisma.CommunityGroupUncheckedUpdateManyWithoutCreatorNestedInput
+  communityMemberships?: Prisma.CommunityMemberUncheckedUpdateManyWithoutUserNestedInput
+  postReactions?: Prisma.PostReactionUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserUpsertWithoutActivatedTransfersInput = {
@@ -2791,6 +2934,9 @@ export type UserUpdateWithoutActivatedTransfersInput = {
   ticketResponses?: Prisma.SupportTicketResponseUpdateManyWithoutUserNestedInput
   chatMessages?: Prisma.ChatMessageUpdateManyWithoutUserNestedInput
   contactMessages?: Prisma.ContactMessageUpdateManyWithoutUserNestedInput
+  communityGroups?: Prisma.CommunityGroupUpdateManyWithoutCreatorNestedInput
+  communityMemberships?: Prisma.CommunityMemberUpdateManyWithoutUserNestedInput
+  postReactions?: Prisma.PostReactionUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutActivatedTransfersInput = {
@@ -2841,6 +2987,9 @@ export type UserUncheckedUpdateWithoutActivatedTransfersInput = {
   ticketResponses?: Prisma.SupportTicketResponseUncheckedUpdateManyWithoutUserNestedInput
   chatMessages?: Prisma.ChatMessageUncheckedUpdateManyWithoutUserNestedInput
   contactMessages?: Prisma.ContactMessageUncheckedUpdateManyWithoutUserNestedInput
+  communityGroups?: Prisma.CommunityGroupUncheckedUpdateManyWithoutCreatorNestedInput
+  communityMemberships?: Prisma.CommunityMemberUncheckedUpdateManyWithoutUserNestedInput
+  postReactions?: Prisma.PostReactionUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutAuditLogsInput = {
@@ -2891,6 +3040,9 @@ export type UserCreateWithoutAuditLogsInput = {
   ticketResponses?: Prisma.SupportTicketResponseCreateNestedManyWithoutUserInput
   chatMessages?: Prisma.ChatMessageCreateNestedManyWithoutUserInput
   contactMessages?: Prisma.ContactMessageCreateNestedManyWithoutUserInput
+  communityGroups?: Prisma.CommunityGroupCreateNestedManyWithoutCreatorInput
+  communityMemberships?: Prisma.CommunityMemberCreateNestedManyWithoutUserInput
+  postReactions?: Prisma.PostReactionCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutAuditLogsInput = {
@@ -2941,6 +3093,9 @@ export type UserUncheckedCreateWithoutAuditLogsInput = {
   ticketResponses?: Prisma.SupportTicketResponseUncheckedCreateNestedManyWithoutUserInput
   chatMessages?: Prisma.ChatMessageUncheckedCreateNestedManyWithoutUserInput
   contactMessages?: Prisma.ContactMessageUncheckedCreateNestedManyWithoutUserInput
+  communityGroups?: Prisma.CommunityGroupUncheckedCreateNestedManyWithoutCreatorInput
+  communityMemberships?: Prisma.CommunityMemberUncheckedCreateNestedManyWithoutUserInput
+  postReactions?: Prisma.PostReactionUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutAuditLogsInput = {
@@ -3007,6 +3162,9 @@ export type UserUpdateWithoutAuditLogsInput = {
   ticketResponses?: Prisma.SupportTicketResponseUpdateManyWithoutUserNestedInput
   chatMessages?: Prisma.ChatMessageUpdateManyWithoutUserNestedInput
   contactMessages?: Prisma.ContactMessageUpdateManyWithoutUserNestedInput
+  communityGroups?: Prisma.CommunityGroupUpdateManyWithoutCreatorNestedInput
+  communityMemberships?: Prisma.CommunityMemberUpdateManyWithoutUserNestedInput
+  postReactions?: Prisma.PostReactionUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutAuditLogsInput = {
@@ -3057,6 +3215,9 @@ export type UserUncheckedUpdateWithoutAuditLogsInput = {
   ticketResponses?: Prisma.SupportTicketResponseUncheckedUpdateManyWithoutUserNestedInput
   chatMessages?: Prisma.ChatMessageUncheckedUpdateManyWithoutUserNestedInput
   contactMessages?: Prisma.ContactMessageUncheckedUpdateManyWithoutUserNestedInput
+  communityGroups?: Prisma.CommunityGroupUncheckedUpdateManyWithoutCreatorNestedInput
+  communityMemberships?: Prisma.CommunityMemberUncheckedUpdateManyWithoutUserNestedInput
+  postReactions?: Prisma.PostReactionUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutSubscriptionsInput = {
@@ -3107,6 +3268,9 @@ export type UserCreateWithoutSubscriptionsInput = {
   ticketResponses?: Prisma.SupportTicketResponseCreateNestedManyWithoutUserInput
   chatMessages?: Prisma.ChatMessageCreateNestedManyWithoutUserInput
   contactMessages?: Prisma.ContactMessageCreateNestedManyWithoutUserInput
+  communityGroups?: Prisma.CommunityGroupCreateNestedManyWithoutCreatorInput
+  communityMemberships?: Prisma.CommunityMemberCreateNestedManyWithoutUserInput
+  postReactions?: Prisma.PostReactionCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutSubscriptionsInput = {
@@ -3157,6 +3321,9 @@ export type UserUncheckedCreateWithoutSubscriptionsInput = {
   ticketResponses?: Prisma.SupportTicketResponseUncheckedCreateNestedManyWithoutUserInput
   chatMessages?: Prisma.ChatMessageUncheckedCreateNestedManyWithoutUserInput
   contactMessages?: Prisma.ContactMessageUncheckedCreateNestedManyWithoutUserInput
+  communityGroups?: Prisma.CommunityGroupUncheckedCreateNestedManyWithoutCreatorInput
+  communityMemberships?: Prisma.CommunityMemberUncheckedCreateNestedManyWithoutUserInput
+  postReactions?: Prisma.PostReactionUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutSubscriptionsInput = {
@@ -3223,6 +3390,9 @@ export type UserUpdateWithoutSubscriptionsInput = {
   ticketResponses?: Prisma.SupportTicketResponseUpdateManyWithoutUserNestedInput
   chatMessages?: Prisma.ChatMessageUpdateManyWithoutUserNestedInput
   contactMessages?: Prisma.ContactMessageUpdateManyWithoutUserNestedInput
+  communityGroups?: Prisma.CommunityGroupUpdateManyWithoutCreatorNestedInput
+  communityMemberships?: Prisma.CommunityMemberUpdateManyWithoutUserNestedInput
+  postReactions?: Prisma.PostReactionUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutSubscriptionsInput = {
@@ -3273,6 +3443,9 @@ export type UserUncheckedUpdateWithoutSubscriptionsInput = {
   ticketResponses?: Prisma.SupportTicketResponseUncheckedUpdateManyWithoutUserNestedInput
   chatMessages?: Prisma.ChatMessageUncheckedUpdateManyWithoutUserNestedInput
   contactMessages?: Prisma.ContactMessageUncheckedUpdateManyWithoutUserNestedInput
+  communityGroups?: Prisma.CommunityGroupUncheckedUpdateManyWithoutCreatorNestedInput
+  communityMemberships?: Prisma.CommunityMemberUncheckedUpdateManyWithoutUserNestedInput
+  postReactions?: Prisma.PostReactionUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutPurchasePacksInput = {
@@ -3323,6 +3496,9 @@ export type UserCreateWithoutPurchasePacksInput = {
   ticketResponses?: Prisma.SupportTicketResponseCreateNestedManyWithoutUserInput
   chatMessages?: Prisma.ChatMessageCreateNestedManyWithoutUserInput
   contactMessages?: Prisma.ContactMessageCreateNestedManyWithoutUserInput
+  communityGroups?: Prisma.CommunityGroupCreateNestedManyWithoutCreatorInput
+  communityMemberships?: Prisma.CommunityMemberCreateNestedManyWithoutUserInput
+  postReactions?: Prisma.PostReactionCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutPurchasePacksInput = {
@@ -3373,6 +3549,9 @@ export type UserUncheckedCreateWithoutPurchasePacksInput = {
   ticketResponses?: Prisma.SupportTicketResponseUncheckedCreateNestedManyWithoutUserInput
   chatMessages?: Prisma.ChatMessageUncheckedCreateNestedManyWithoutUserInput
   contactMessages?: Prisma.ContactMessageUncheckedCreateNestedManyWithoutUserInput
+  communityGroups?: Prisma.CommunityGroupUncheckedCreateNestedManyWithoutCreatorInput
+  communityMemberships?: Prisma.CommunityMemberUncheckedCreateNestedManyWithoutUserInput
+  postReactions?: Prisma.PostReactionUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutPurchasePacksInput = {
@@ -3439,6 +3618,9 @@ export type UserUpdateWithoutPurchasePacksInput = {
   ticketResponses?: Prisma.SupportTicketResponseUpdateManyWithoutUserNestedInput
   chatMessages?: Prisma.ChatMessageUpdateManyWithoutUserNestedInput
   contactMessages?: Prisma.ContactMessageUpdateManyWithoutUserNestedInput
+  communityGroups?: Prisma.CommunityGroupUpdateManyWithoutCreatorNestedInput
+  communityMemberships?: Prisma.CommunityMemberUpdateManyWithoutUserNestedInput
+  postReactions?: Prisma.PostReactionUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutPurchasePacksInput = {
@@ -3489,6 +3671,9 @@ export type UserUncheckedUpdateWithoutPurchasePacksInput = {
   ticketResponses?: Prisma.SupportTicketResponseUncheckedUpdateManyWithoutUserNestedInput
   chatMessages?: Prisma.ChatMessageUncheckedUpdateManyWithoutUserNestedInput
   contactMessages?: Prisma.ContactMessageUncheckedUpdateManyWithoutUserNestedInput
+  communityGroups?: Prisma.CommunityGroupUncheckedUpdateManyWithoutCreatorNestedInput
+  communityMemberships?: Prisma.CommunityMemberUncheckedUpdateManyWithoutUserNestedInput
+  postReactions?: Prisma.PostReactionUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutUsageRecordsInput = {
@@ -3539,6 +3724,9 @@ export type UserCreateWithoutUsageRecordsInput = {
   ticketResponses?: Prisma.SupportTicketResponseCreateNestedManyWithoutUserInput
   chatMessages?: Prisma.ChatMessageCreateNestedManyWithoutUserInput
   contactMessages?: Prisma.ContactMessageCreateNestedManyWithoutUserInput
+  communityGroups?: Prisma.CommunityGroupCreateNestedManyWithoutCreatorInput
+  communityMemberships?: Prisma.CommunityMemberCreateNestedManyWithoutUserInput
+  postReactions?: Prisma.PostReactionCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutUsageRecordsInput = {
@@ -3589,6 +3777,9 @@ export type UserUncheckedCreateWithoutUsageRecordsInput = {
   ticketResponses?: Prisma.SupportTicketResponseUncheckedCreateNestedManyWithoutUserInput
   chatMessages?: Prisma.ChatMessageUncheckedCreateNestedManyWithoutUserInput
   contactMessages?: Prisma.ContactMessageUncheckedCreateNestedManyWithoutUserInput
+  communityGroups?: Prisma.CommunityGroupUncheckedCreateNestedManyWithoutCreatorInput
+  communityMemberships?: Prisma.CommunityMemberUncheckedCreateNestedManyWithoutUserInput
+  postReactions?: Prisma.PostReactionUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutUsageRecordsInput = {
@@ -3655,6 +3846,9 @@ export type UserUpdateWithoutUsageRecordsInput = {
   ticketResponses?: Prisma.SupportTicketResponseUpdateManyWithoutUserNestedInput
   chatMessages?: Prisma.ChatMessageUpdateManyWithoutUserNestedInput
   contactMessages?: Prisma.ContactMessageUpdateManyWithoutUserNestedInput
+  communityGroups?: Prisma.CommunityGroupUpdateManyWithoutCreatorNestedInput
+  communityMemberships?: Prisma.CommunityMemberUpdateManyWithoutUserNestedInput
+  postReactions?: Prisma.PostReactionUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutUsageRecordsInput = {
@@ -3705,6 +3899,9 @@ export type UserUncheckedUpdateWithoutUsageRecordsInput = {
   ticketResponses?: Prisma.SupportTicketResponseUncheckedUpdateManyWithoutUserNestedInput
   chatMessages?: Prisma.ChatMessageUncheckedUpdateManyWithoutUserNestedInput
   contactMessages?: Prisma.ContactMessageUncheckedUpdateManyWithoutUserNestedInput
+  communityGroups?: Prisma.CommunityGroupUncheckedUpdateManyWithoutCreatorNestedInput
+  communityMemberships?: Prisma.CommunityMemberUncheckedUpdateManyWithoutUserNestedInput
+  postReactions?: Prisma.PostReactionUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutClinicInput = {
@@ -3755,6 +3952,9 @@ export type UserCreateWithoutClinicInput = {
   ticketResponses?: Prisma.SupportTicketResponseCreateNestedManyWithoutUserInput
   chatMessages?: Prisma.ChatMessageCreateNestedManyWithoutUserInput
   contactMessages?: Prisma.ContactMessageCreateNestedManyWithoutUserInput
+  communityGroups?: Prisma.CommunityGroupCreateNestedManyWithoutCreatorInput
+  communityMemberships?: Prisma.CommunityMemberCreateNestedManyWithoutUserInput
+  postReactions?: Prisma.PostReactionCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutClinicInput = {
@@ -3805,6 +4005,9 @@ export type UserUncheckedCreateWithoutClinicInput = {
   ticketResponses?: Prisma.SupportTicketResponseUncheckedCreateNestedManyWithoutUserInput
   chatMessages?: Prisma.ChatMessageUncheckedCreateNestedManyWithoutUserInput
   contactMessages?: Prisma.ContactMessageUncheckedCreateNestedManyWithoutUserInput
+  communityGroups?: Prisma.CommunityGroupUncheckedCreateNestedManyWithoutCreatorInput
+  communityMemberships?: Prisma.CommunityMemberUncheckedCreateNestedManyWithoutUserInput
+  postReactions?: Prisma.PostReactionUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutClinicInput = {
@@ -3871,6 +4074,9 @@ export type UserUpdateWithoutClinicInput = {
   ticketResponses?: Prisma.SupportTicketResponseUpdateManyWithoutUserNestedInput
   chatMessages?: Prisma.ChatMessageUpdateManyWithoutUserNestedInput
   contactMessages?: Prisma.ContactMessageUpdateManyWithoutUserNestedInput
+  communityGroups?: Prisma.CommunityGroupUpdateManyWithoutCreatorNestedInput
+  communityMemberships?: Prisma.CommunityMemberUpdateManyWithoutUserNestedInput
+  postReactions?: Prisma.PostReactionUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutClinicInput = {
@@ -3921,6 +4127,9 @@ export type UserUncheckedUpdateWithoutClinicInput = {
   ticketResponses?: Prisma.SupportTicketResponseUncheckedUpdateManyWithoutUserNestedInput
   chatMessages?: Prisma.ChatMessageUncheckedUpdateManyWithoutUserNestedInput
   contactMessages?: Prisma.ContactMessageUncheckedUpdateManyWithoutUserNestedInput
+  communityGroups?: Prisma.CommunityGroupUncheckedUpdateManyWithoutCreatorNestedInput
+  communityMemberships?: Prisma.CommunityMemberUncheckedUpdateManyWithoutUserNestedInput
+  postReactions?: Prisma.PostReactionUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutAffiliateClicksInput = {
@@ -3971,6 +4180,9 @@ export type UserCreateWithoutAffiliateClicksInput = {
   ticketResponses?: Prisma.SupportTicketResponseCreateNestedManyWithoutUserInput
   chatMessages?: Prisma.ChatMessageCreateNestedManyWithoutUserInput
   contactMessages?: Prisma.ContactMessageCreateNestedManyWithoutUserInput
+  communityGroups?: Prisma.CommunityGroupCreateNestedManyWithoutCreatorInput
+  communityMemberships?: Prisma.CommunityMemberCreateNestedManyWithoutUserInput
+  postReactions?: Prisma.PostReactionCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutAffiliateClicksInput = {
@@ -4021,6 +4233,9 @@ export type UserUncheckedCreateWithoutAffiliateClicksInput = {
   ticketResponses?: Prisma.SupportTicketResponseUncheckedCreateNestedManyWithoutUserInput
   chatMessages?: Prisma.ChatMessageUncheckedCreateNestedManyWithoutUserInput
   contactMessages?: Prisma.ContactMessageUncheckedCreateNestedManyWithoutUserInput
+  communityGroups?: Prisma.CommunityGroupUncheckedCreateNestedManyWithoutCreatorInput
+  communityMemberships?: Prisma.CommunityMemberUncheckedCreateNestedManyWithoutUserInput
+  postReactions?: Prisma.PostReactionUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutAffiliateClicksInput = {
@@ -4087,6 +4302,9 @@ export type UserUpdateWithoutAffiliateClicksInput = {
   ticketResponses?: Prisma.SupportTicketResponseUpdateManyWithoutUserNestedInput
   chatMessages?: Prisma.ChatMessageUpdateManyWithoutUserNestedInput
   contactMessages?: Prisma.ContactMessageUpdateManyWithoutUserNestedInput
+  communityGroups?: Prisma.CommunityGroupUpdateManyWithoutCreatorNestedInput
+  communityMemberships?: Prisma.CommunityMemberUpdateManyWithoutUserNestedInput
+  postReactions?: Prisma.PostReactionUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutAffiliateClicksInput = {
@@ -4137,6 +4355,9 @@ export type UserUncheckedUpdateWithoutAffiliateClicksInput = {
   ticketResponses?: Prisma.SupportTicketResponseUncheckedUpdateManyWithoutUserNestedInput
   chatMessages?: Prisma.ChatMessageUncheckedUpdateManyWithoutUserNestedInput
   contactMessages?: Prisma.ContactMessageUncheckedUpdateManyWithoutUserNestedInput
+  communityGroups?: Prisma.CommunityGroupUncheckedUpdateManyWithoutCreatorNestedInput
+  communityMemberships?: Prisma.CommunityMemberUncheckedUpdateManyWithoutUserNestedInput
+  postReactions?: Prisma.PostReactionUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutContactMessagesInput = {
@@ -4187,6 +4408,9 @@ export type UserCreateWithoutContactMessagesInput = {
   supportTickets?: Prisma.SupportTicketCreateNestedManyWithoutUserInput
   ticketResponses?: Prisma.SupportTicketResponseCreateNestedManyWithoutUserInput
   chatMessages?: Prisma.ChatMessageCreateNestedManyWithoutUserInput
+  communityGroups?: Prisma.CommunityGroupCreateNestedManyWithoutCreatorInput
+  communityMemberships?: Prisma.CommunityMemberCreateNestedManyWithoutUserInput
+  postReactions?: Prisma.PostReactionCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutContactMessagesInput = {
@@ -4237,6 +4461,9 @@ export type UserUncheckedCreateWithoutContactMessagesInput = {
   supportTickets?: Prisma.SupportTicketUncheckedCreateNestedManyWithoutUserInput
   ticketResponses?: Prisma.SupportTicketResponseUncheckedCreateNestedManyWithoutUserInput
   chatMessages?: Prisma.ChatMessageUncheckedCreateNestedManyWithoutUserInput
+  communityGroups?: Prisma.CommunityGroupUncheckedCreateNestedManyWithoutCreatorInput
+  communityMemberships?: Prisma.CommunityMemberUncheckedCreateNestedManyWithoutUserInput
+  postReactions?: Prisma.PostReactionUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutContactMessagesInput = {
@@ -4303,6 +4530,9 @@ export type UserUpdateWithoutContactMessagesInput = {
   supportTickets?: Prisma.SupportTicketUpdateManyWithoutUserNestedInput
   ticketResponses?: Prisma.SupportTicketResponseUpdateManyWithoutUserNestedInput
   chatMessages?: Prisma.ChatMessageUpdateManyWithoutUserNestedInput
+  communityGroups?: Prisma.CommunityGroupUpdateManyWithoutCreatorNestedInput
+  communityMemberships?: Prisma.CommunityMemberUpdateManyWithoutUserNestedInput
+  postReactions?: Prisma.PostReactionUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutContactMessagesInput = {
@@ -4353,6 +4583,9 @@ export type UserUncheckedUpdateWithoutContactMessagesInput = {
   supportTickets?: Prisma.SupportTicketUncheckedUpdateManyWithoutUserNestedInput
   ticketResponses?: Prisma.SupportTicketResponseUncheckedUpdateManyWithoutUserNestedInput
   chatMessages?: Prisma.ChatMessageUncheckedUpdateManyWithoutUserNestedInput
+  communityGroups?: Prisma.CommunityGroupUncheckedUpdateManyWithoutCreatorNestedInput
+  communityMemberships?: Prisma.CommunityMemberUncheckedUpdateManyWithoutUserNestedInput
+  postReactions?: Prisma.PostReactionUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutEvolutionInput = {
@@ -4403,6 +4636,9 @@ export type UserCreateWithoutEvolutionInput = {
   ticketResponses?: Prisma.SupportTicketResponseCreateNestedManyWithoutUserInput
   chatMessages?: Prisma.ChatMessageCreateNestedManyWithoutUserInput
   contactMessages?: Prisma.ContactMessageCreateNestedManyWithoutUserInput
+  communityGroups?: Prisma.CommunityGroupCreateNestedManyWithoutCreatorInput
+  communityMemberships?: Prisma.CommunityMemberCreateNestedManyWithoutUserInput
+  postReactions?: Prisma.PostReactionCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutEvolutionInput = {
@@ -4453,6 +4689,9 @@ export type UserUncheckedCreateWithoutEvolutionInput = {
   ticketResponses?: Prisma.SupportTicketResponseUncheckedCreateNestedManyWithoutUserInput
   chatMessages?: Prisma.ChatMessageUncheckedCreateNestedManyWithoutUserInput
   contactMessages?: Prisma.ContactMessageUncheckedCreateNestedManyWithoutUserInput
+  communityGroups?: Prisma.CommunityGroupUncheckedCreateNestedManyWithoutCreatorInput
+  communityMemberships?: Prisma.CommunityMemberUncheckedCreateNestedManyWithoutUserInput
+  postReactions?: Prisma.PostReactionUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutEvolutionInput = {
@@ -4519,6 +4758,9 @@ export type UserUpdateWithoutEvolutionInput = {
   ticketResponses?: Prisma.SupportTicketResponseUpdateManyWithoutUserNestedInput
   chatMessages?: Prisma.ChatMessageUpdateManyWithoutUserNestedInput
   contactMessages?: Prisma.ContactMessageUpdateManyWithoutUserNestedInput
+  communityGroups?: Prisma.CommunityGroupUpdateManyWithoutCreatorNestedInput
+  communityMemberships?: Prisma.CommunityMemberUpdateManyWithoutUserNestedInput
+  postReactions?: Prisma.PostReactionUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutEvolutionInput = {
@@ -4569,6 +4811,9 @@ export type UserUncheckedUpdateWithoutEvolutionInput = {
   ticketResponses?: Prisma.SupportTicketResponseUncheckedUpdateManyWithoutUserNestedInput
   chatMessages?: Prisma.ChatMessageUncheckedUpdateManyWithoutUserNestedInput
   contactMessages?: Prisma.ContactMessageUncheckedUpdateManyWithoutUserNestedInput
+  communityGroups?: Prisma.CommunityGroupUncheckedUpdateManyWithoutCreatorNestedInput
+  communityMemberships?: Prisma.CommunityMemberUncheckedUpdateManyWithoutUserNestedInput
+  postReactions?: Prisma.PostReactionUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutSurveyFeedbackInput = {
@@ -4619,6 +4864,9 @@ export type UserCreateWithoutSurveyFeedbackInput = {
   ticketResponses?: Prisma.SupportTicketResponseCreateNestedManyWithoutUserInput
   chatMessages?: Prisma.ChatMessageCreateNestedManyWithoutUserInput
   contactMessages?: Prisma.ContactMessageCreateNestedManyWithoutUserInput
+  communityGroups?: Prisma.CommunityGroupCreateNestedManyWithoutCreatorInput
+  communityMemberships?: Prisma.CommunityMemberCreateNestedManyWithoutUserInput
+  postReactions?: Prisma.PostReactionCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutSurveyFeedbackInput = {
@@ -4669,6 +4917,9 @@ export type UserUncheckedCreateWithoutSurveyFeedbackInput = {
   ticketResponses?: Prisma.SupportTicketResponseUncheckedCreateNestedManyWithoutUserInput
   chatMessages?: Prisma.ChatMessageUncheckedCreateNestedManyWithoutUserInput
   contactMessages?: Prisma.ContactMessageUncheckedCreateNestedManyWithoutUserInput
+  communityGroups?: Prisma.CommunityGroupUncheckedCreateNestedManyWithoutCreatorInput
+  communityMemberships?: Prisma.CommunityMemberUncheckedCreateNestedManyWithoutUserInput
+  postReactions?: Prisma.PostReactionUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutSurveyFeedbackInput = {
@@ -4735,6 +4986,9 @@ export type UserUpdateWithoutSurveyFeedbackInput = {
   ticketResponses?: Prisma.SupportTicketResponseUpdateManyWithoutUserNestedInput
   chatMessages?: Prisma.ChatMessageUpdateManyWithoutUserNestedInput
   contactMessages?: Prisma.ContactMessageUpdateManyWithoutUserNestedInput
+  communityGroups?: Prisma.CommunityGroupUpdateManyWithoutCreatorNestedInput
+  communityMemberships?: Prisma.CommunityMemberUpdateManyWithoutUserNestedInput
+  postReactions?: Prisma.PostReactionUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutSurveyFeedbackInput = {
@@ -4785,6 +5039,9 @@ export type UserUncheckedUpdateWithoutSurveyFeedbackInput = {
   ticketResponses?: Prisma.SupportTicketResponseUncheckedUpdateManyWithoutUserNestedInput
   chatMessages?: Prisma.ChatMessageUncheckedUpdateManyWithoutUserNestedInput
   contactMessages?: Prisma.ContactMessageUncheckedUpdateManyWithoutUserNestedInput
+  communityGroups?: Prisma.CommunityGroupUncheckedUpdateManyWithoutCreatorNestedInput
+  communityMemberships?: Prisma.CommunityMemberUncheckedUpdateManyWithoutUserNestedInput
+  postReactions?: Prisma.PostReactionUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutCommunityPostsInput = {
@@ -4835,6 +5092,9 @@ export type UserCreateWithoutCommunityPostsInput = {
   ticketResponses?: Prisma.SupportTicketResponseCreateNestedManyWithoutUserInput
   chatMessages?: Prisma.ChatMessageCreateNestedManyWithoutUserInput
   contactMessages?: Prisma.ContactMessageCreateNestedManyWithoutUserInput
+  communityGroups?: Prisma.CommunityGroupCreateNestedManyWithoutCreatorInput
+  communityMemberships?: Prisma.CommunityMemberCreateNestedManyWithoutUserInput
+  postReactions?: Prisma.PostReactionCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutCommunityPostsInput = {
@@ -4885,6 +5145,9 @@ export type UserUncheckedCreateWithoutCommunityPostsInput = {
   ticketResponses?: Prisma.SupportTicketResponseUncheckedCreateNestedManyWithoutUserInput
   chatMessages?: Prisma.ChatMessageUncheckedCreateNestedManyWithoutUserInput
   contactMessages?: Prisma.ContactMessageUncheckedCreateNestedManyWithoutUserInput
+  communityGroups?: Prisma.CommunityGroupUncheckedCreateNestedManyWithoutCreatorInput
+  communityMemberships?: Prisma.CommunityMemberUncheckedCreateNestedManyWithoutUserInput
+  postReactions?: Prisma.PostReactionUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutCommunityPostsInput = {
@@ -4951,6 +5214,9 @@ export type UserUpdateWithoutCommunityPostsInput = {
   ticketResponses?: Prisma.SupportTicketResponseUpdateManyWithoutUserNestedInput
   chatMessages?: Prisma.ChatMessageUpdateManyWithoutUserNestedInput
   contactMessages?: Prisma.ContactMessageUpdateManyWithoutUserNestedInput
+  communityGroups?: Prisma.CommunityGroupUpdateManyWithoutCreatorNestedInput
+  communityMemberships?: Prisma.CommunityMemberUpdateManyWithoutUserNestedInput
+  postReactions?: Prisma.PostReactionUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutCommunityPostsInput = {
@@ -5001,6 +5267,9 @@ export type UserUncheckedUpdateWithoutCommunityPostsInput = {
   ticketResponses?: Prisma.SupportTicketResponseUncheckedUpdateManyWithoutUserNestedInput
   chatMessages?: Prisma.ChatMessageUncheckedUpdateManyWithoutUserNestedInput
   contactMessages?: Prisma.ContactMessageUncheckedUpdateManyWithoutUserNestedInput
+  communityGroups?: Prisma.CommunityGroupUncheckedUpdateManyWithoutCreatorNestedInput
+  communityMemberships?: Prisma.CommunityMemberUncheckedUpdateManyWithoutUserNestedInput
+  postReactions?: Prisma.PostReactionUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutCommentsInput = {
@@ -5051,6 +5320,9 @@ export type UserCreateWithoutCommentsInput = {
   ticketResponses?: Prisma.SupportTicketResponseCreateNestedManyWithoutUserInput
   chatMessages?: Prisma.ChatMessageCreateNestedManyWithoutUserInput
   contactMessages?: Prisma.ContactMessageCreateNestedManyWithoutUserInput
+  communityGroups?: Prisma.CommunityGroupCreateNestedManyWithoutCreatorInput
+  communityMemberships?: Prisma.CommunityMemberCreateNestedManyWithoutUserInput
+  postReactions?: Prisma.PostReactionCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutCommentsInput = {
@@ -5101,6 +5373,9 @@ export type UserUncheckedCreateWithoutCommentsInput = {
   ticketResponses?: Prisma.SupportTicketResponseUncheckedCreateNestedManyWithoutUserInput
   chatMessages?: Prisma.ChatMessageUncheckedCreateNestedManyWithoutUserInput
   contactMessages?: Prisma.ContactMessageUncheckedCreateNestedManyWithoutUserInput
+  communityGroups?: Prisma.CommunityGroupUncheckedCreateNestedManyWithoutCreatorInput
+  communityMemberships?: Prisma.CommunityMemberUncheckedCreateNestedManyWithoutUserInput
+  postReactions?: Prisma.PostReactionUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutCommentsInput = {
@@ -5167,6 +5442,9 @@ export type UserUpdateWithoutCommentsInput = {
   ticketResponses?: Prisma.SupportTicketResponseUpdateManyWithoutUserNestedInput
   chatMessages?: Prisma.ChatMessageUpdateManyWithoutUserNestedInput
   contactMessages?: Prisma.ContactMessageUpdateManyWithoutUserNestedInput
+  communityGroups?: Prisma.CommunityGroupUpdateManyWithoutCreatorNestedInput
+  communityMemberships?: Prisma.CommunityMemberUpdateManyWithoutUserNestedInput
+  postReactions?: Prisma.PostReactionUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutCommentsInput = {
@@ -5217,6 +5495,693 @@ export type UserUncheckedUpdateWithoutCommentsInput = {
   ticketResponses?: Prisma.SupportTicketResponseUncheckedUpdateManyWithoutUserNestedInput
   chatMessages?: Prisma.ChatMessageUncheckedUpdateManyWithoutUserNestedInput
   contactMessages?: Prisma.ContactMessageUncheckedUpdateManyWithoutUserNestedInput
+  communityGroups?: Prisma.CommunityGroupUncheckedUpdateManyWithoutCreatorNestedInput
+  communityMemberships?: Prisma.CommunityMemberUncheckedUpdateManyWithoutUserNestedInput
+  postReactions?: Prisma.PostReactionUncheckedUpdateManyWithoutUserNestedInput
+}
+
+export type UserCreateWithoutCommunityGroupsInput = {
+  id?: string
+  name?: string | null
+  email: string
+  emailVerified?: Date | string | null
+  image?: string | null
+  password?: string | null
+  role?: string
+  plan?: string
+  qvapayId?: string | null
+  analysisLimit?: number
+  analysisUsed?: number
+  analysisResetAt?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  telegramId?: string | null
+  currentStreak?: number
+  maxStreak?: number
+  lastCheckInDate?: Date | string | null
+  accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
+  sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
+  analyses?: Prisma.SkinAnalysisCreateNestedManyWithoutUserInput
+  payments?: Prisma.PaymentCreateNestedManyWithoutUserInput
+  subscriptions?: Prisma.SubscriptionCreateNestedManyWithoutUserInput
+  purchasePacks?: Prisma.PurchasePackCreateNestedManyWithoutUserInput
+  usageRecords?: Prisma.UsageTrackingCreateNestedManyWithoutUserInput
+  clinic?: Prisma.ClinicCreateNestedOneWithoutOwnerInput
+  surveyFeedback?: Prisma.SurveyFeedbackCreateNestedManyWithoutUserInput
+  communityPosts?: Prisma.CommunityPostCreateNestedManyWithoutUserInput
+  comments?: Prisma.CommentCreateNestedManyWithoutUserInput
+  skinDiary?: Prisma.SkinDiaryCreateNestedManyWithoutUserInput
+  userChallenges?: Prisma.UserChallengeCreateNestedManyWithoutUserInput
+  productReviews?: Prisma.ProductReviewCreateNestedManyWithoutUserInput
+  referralsOwned?: Prisma.ReferralCreateNestedManyWithoutReferrerInput
+  referralsReferred?: Prisma.ReferralCreateNestedManyWithoutReferredInput
+  groupsOwned?: Prisma.GroupAnalyticsCreateNestedManyWithoutReferrerInput
+  digitalPurchases?: Prisma.DigitalProductPurchaseCreateNestedManyWithoutUserInput
+  affiliateClicks?: Prisma.AffiliateClickCreateNestedManyWithoutUserInput
+  evolution?: Prisma.UserEvolutionCreateNestedOneWithoutUserInput
+  checkIns?: Prisma.DailyCheckInCreateNestedManyWithoutUserInput
+  transferPayments?: Prisma.TransferPaymentCreateNestedManyWithoutUserInput
+  validatedTransfers?: Prisma.TransferPaymentCreateNestedManyWithoutValidatorInput
+  activatedTransfers?: Prisma.TransferPaymentCreateNestedManyWithoutActivatorInput
+  auditLogs?: Prisma.AuditLogCreateNestedManyWithoutUserInput
+  notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
+  supportTickets?: Prisma.SupportTicketCreateNestedManyWithoutUserInput
+  ticketResponses?: Prisma.SupportTicketResponseCreateNestedManyWithoutUserInput
+  chatMessages?: Prisma.ChatMessageCreateNestedManyWithoutUserInput
+  contactMessages?: Prisma.ContactMessageCreateNestedManyWithoutUserInput
+  communityMemberships?: Prisma.CommunityMemberCreateNestedManyWithoutUserInput
+  postReactions?: Prisma.PostReactionCreateNestedManyWithoutUserInput
+}
+
+export type UserUncheckedCreateWithoutCommunityGroupsInput = {
+  id?: string
+  name?: string | null
+  email: string
+  emailVerified?: Date | string | null
+  image?: string | null
+  password?: string | null
+  role?: string
+  plan?: string
+  qvapayId?: string | null
+  analysisLimit?: number
+  analysisUsed?: number
+  analysisResetAt?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  telegramId?: string | null
+  currentStreak?: number
+  maxStreak?: number
+  lastCheckInDate?: Date | string | null
+  accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
+  sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
+  analyses?: Prisma.SkinAnalysisUncheckedCreateNestedManyWithoutUserInput
+  payments?: Prisma.PaymentUncheckedCreateNestedManyWithoutUserInput
+  subscriptions?: Prisma.SubscriptionUncheckedCreateNestedManyWithoutUserInput
+  purchasePacks?: Prisma.PurchasePackUncheckedCreateNestedManyWithoutUserInput
+  usageRecords?: Prisma.UsageTrackingUncheckedCreateNestedManyWithoutUserInput
+  clinic?: Prisma.ClinicUncheckedCreateNestedOneWithoutOwnerInput
+  surveyFeedback?: Prisma.SurveyFeedbackUncheckedCreateNestedManyWithoutUserInput
+  communityPosts?: Prisma.CommunityPostUncheckedCreateNestedManyWithoutUserInput
+  comments?: Prisma.CommentUncheckedCreateNestedManyWithoutUserInput
+  skinDiary?: Prisma.SkinDiaryUncheckedCreateNestedManyWithoutUserInput
+  userChallenges?: Prisma.UserChallengeUncheckedCreateNestedManyWithoutUserInput
+  productReviews?: Prisma.ProductReviewUncheckedCreateNestedManyWithoutUserInput
+  referralsOwned?: Prisma.ReferralUncheckedCreateNestedManyWithoutReferrerInput
+  referralsReferred?: Prisma.ReferralUncheckedCreateNestedManyWithoutReferredInput
+  groupsOwned?: Prisma.GroupAnalyticsUncheckedCreateNestedManyWithoutReferrerInput
+  digitalPurchases?: Prisma.DigitalProductPurchaseUncheckedCreateNestedManyWithoutUserInput
+  affiliateClicks?: Prisma.AffiliateClickUncheckedCreateNestedManyWithoutUserInput
+  evolution?: Prisma.UserEvolutionUncheckedCreateNestedOneWithoutUserInput
+  checkIns?: Prisma.DailyCheckInUncheckedCreateNestedManyWithoutUserInput
+  transferPayments?: Prisma.TransferPaymentUncheckedCreateNestedManyWithoutUserInput
+  validatedTransfers?: Prisma.TransferPaymentUncheckedCreateNestedManyWithoutValidatorInput
+  activatedTransfers?: Prisma.TransferPaymentUncheckedCreateNestedManyWithoutActivatorInput
+  auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutUserInput
+  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
+  supportTickets?: Prisma.SupportTicketUncheckedCreateNestedManyWithoutUserInput
+  ticketResponses?: Prisma.SupportTicketResponseUncheckedCreateNestedManyWithoutUserInput
+  chatMessages?: Prisma.ChatMessageUncheckedCreateNestedManyWithoutUserInput
+  contactMessages?: Prisma.ContactMessageUncheckedCreateNestedManyWithoutUserInput
+  communityMemberships?: Prisma.CommunityMemberUncheckedCreateNestedManyWithoutUserInput
+  postReactions?: Prisma.PostReactionUncheckedCreateNestedManyWithoutUserInput
+}
+
+export type UserCreateOrConnectWithoutCommunityGroupsInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutCommunityGroupsInput, Prisma.UserUncheckedCreateWithoutCommunityGroupsInput>
+}
+
+export type UserUpsertWithoutCommunityGroupsInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutCommunityGroupsInput, Prisma.UserUncheckedUpdateWithoutCommunityGroupsInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutCommunityGroupsInput, Prisma.UserUncheckedCreateWithoutCommunityGroupsInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutCommunityGroupsInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutCommunityGroupsInput, Prisma.UserUncheckedUpdateWithoutCommunityGroupsInput>
+}
+
+export type UserUpdateWithoutCommunityGroupsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  emailVerified?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.StringFieldUpdateOperationsInput | string
+  plan?: Prisma.StringFieldUpdateOperationsInput | string
+  qvapayId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  analysisLimit?: Prisma.IntFieldUpdateOperationsInput | number
+  analysisUsed?: Prisma.IntFieldUpdateOperationsInput | number
+  analysisResetAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  telegramId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  currentStreak?: Prisma.IntFieldUpdateOperationsInput | number
+  maxStreak?: Prisma.IntFieldUpdateOperationsInput | number
+  lastCheckInDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
+  sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
+  analyses?: Prisma.SkinAnalysisUpdateManyWithoutUserNestedInput
+  payments?: Prisma.PaymentUpdateManyWithoutUserNestedInput
+  subscriptions?: Prisma.SubscriptionUpdateManyWithoutUserNestedInput
+  purchasePacks?: Prisma.PurchasePackUpdateManyWithoutUserNestedInput
+  usageRecords?: Prisma.UsageTrackingUpdateManyWithoutUserNestedInput
+  clinic?: Prisma.ClinicUpdateOneWithoutOwnerNestedInput
+  surveyFeedback?: Prisma.SurveyFeedbackUpdateManyWithoutUserNestedInput
+  communityPosts?: Prisma.CommunityPostUpdateManyWithoutUserNestedInput
+  comments?: Prisma.CommentUpdateManyWithoutUserNestedInput
+  skinDiary?: Prisma.SkinDiaryUpdateManyWithoutUserNestedInput
+  userChallenges?: Prisma.UserChallengeUpdateManyWithoutUserNestedInput
+  productReviews?: Prisma.ProductReviewUpdateManyWithoutUserNestedInput
+  referralsOwned?: Prisma.ReferralUpdateManyWithoutReferrerNestedInput
+  referralsReferred?: Prisma.ReferralUpdateManyWithoutReferredNestedInput
+  groupsOwned?: Prisma.GroupAnalyticsUpdateManyWithoutReferrerNestedInput
+  digitalPurchases?: Prisma.DigitalProductPurchaseUpdateManyWithoutUserNestedInput
+  affiliateClicks?: Prisma.AffiliateClickUpdateManyWithoutUserNestedInput
+  evolution?: Prisma.UserEvolutionUpdateOneWithoutUserNestedInput
+  checkIns?: Prisma.DailyCheckInUpdateManyWithoutUserNestedInput
+  transferPayments?: Prisma.TransferPaymentUpdateManyWithoutUserNestedInput
+  validatedTransfers?: Prisma.TransferPaymentUpdateManyWithoutValidatorNestedInput
+  activatedTransfers?: Prisma.TransferPaymentUpdateManyWithoutActivatorNestedInput
+  auditLogs?: Prisma.AuditLogUpdateManyWithoutUserNestedInput
+  notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
+  supportTickets?: Prisma.SupportTicketUpdateManyWithoutUserNestedInput
+  ticketResponses?: Prisma.SupportTicketResponseUpdateManyWithoutUserNestedInput
+  chatMessages?: Prisma.ChatMessageUpdateManyWithoutUserNestedInput
+  contactMessages?: Prisma.ContactMessageUpdateManyWithoutUserNestedInput
+  communityMemberships?: Prisma.CommunityMemberUpdateManyWithoutUserNestedInput
+  postReactions?: Prisma.PostReactionUpdateManyWithoutUserNestedInput
+}
+
+export type UserUncheckedUpdateWithoutCommunityGroupsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  emailVerified?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.StringFieldUpdateOperationsInput | string
+  plan?: Prisma.StringFieldUpdateOperationsInput | string
+  qvapayId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  analysisLimit?: Prisma.IntFieldUpdateOperationsInput | number
+  analysisUsed?: Prisma.IntFieldUpdateOperationsInput | number
+  analysisResetAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  telegramId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  currentStreak?: Prisma.IntFieldUpdateOperationsInput | number
+  maxStreak?: Prisma.IntFieldUpdateOperationsInput | number
+  lastCheckInDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
+  sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
+  analyses?: Prisma.SkinAnalysisUncheckedUpdateManyWithoutUserNestedInput
+  payments?: Prisma.PaymentUncheckedUpdateManyWithoutUserNestedInput
+  subscriptions?: Prisma.SubscriptionUncheckedUpdateManyWithoutUserNestedInput
+  purchasePacks?: Prisma.PurchasePackUncheckedUpdateManyWithoutUserNestedInput
+  usageRecords?: Prisma.UsageTrackingUncheckedUpdateManyWithoutUserNestedInput
+  clinic?: Prisma.ClinicUncheckedUpdateOneWithoutOwnerNestedInput
+  surveyFeedback?: Prisma.SurveyFeedbackUncheckedUpdateManyWithoutUserNestedInput
+  communityPosts?: Prisma.CommunityPostUncheckedUpdateManyWithoutUserNestedInput
+  comments?: Prisma.CommentUncheckedUpdateManyWithoutUserNestedInput
+  skinDiary?: Prisma.SkinDiaryUncheckedUpdateManyWithoutUserNestedInput
+  userChallenges?: Prisma.UserChallengeUncheckedUpdateManyWithoutUserNestedInput
+  productReviews?: Prisma.ProductReviewUncheckedUpdateManyWithoutUserNestedInput
+  referralsOwned?: Prisma.ReferralUncheckedUpdateManyWithoutReferrerNestedInput
+  referralsReferred?: Prisma.ReferralUncheckedUpdateManyWithoutReferredNestedInput
+  groupsOwned?: Prisma.GroupAnalyticsUncheckedUpdateManyWithoutReferrerNestedInput
+  digitalPurchases?: Prisma.DigitalProductPurchaseUncheckedUpdateManyWithoutUserNestedInput
+  affiliateClicks?: Prisma.AffiliateClickUncheckedUpdateManyWithoutUserNestedInput
+  evolution?: Prisma.UserEvolutionUncheckedUpdateOneWithoutUserNestedInput
+  checkIns?: Prisma.DailyCheckInUncheckedUpdateManyWithoutUserNestedInput
+  transferPayments?: Prisma.TransferPaymentUncheckedUpdateManyWithoutUserNestedInput
+  validatedTransfers?: Prisma.TransferPaymentUncheckedUpdateManyWithoutValidatorNestedInput
+  activatedTransfers?: Prisma.TransferPaymentUncheckedUpdateManyWithoutActivatorNestedInput
+  auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutUserNestedInput
+  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
+  supportTickets?: Prisma.SupportTicketUncheckedUpdateManyWithoutUserNestedInput
+  ticketResponses?: Prisma.SupportTicketResponseUncheckedUpdateManyWithoutUserNestedInput
+  chatMessages?: Prisma.ChatMessageUncheckedUpdateManyWithoutUserNestedInput
+  contactMessages?: Prisma.ContactMessageUncheckedUpdateManyWithoutUserNestedInput
+  communityMemberships?: Prisma.CommunityMemberUncheckedUpdateManyWithoutUserNestedInput
+  postReactions?: Prisma.PostReactionUncheckedUpdateManyWithoutUserNestedInput
+}
+
+export type UserCreateWithoutCommunityMembershipsInput = {
+  id?: string
+  name?: string | null
+  email: string
+  emailVerified?: Date | string | null
+  image?: string | null
+  password?: string | null
+  role?: string
+  plan?: string
+  qvapayId?: string | null
+  analysisLimit?: number
+  analysisUsed?: number
+  analysisResetAt?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  telegramId?: string | null
+  currentStreak?: number
+  maxStreak?: number
+  lastCheckInDate?: Date | string | null
+  accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
+  sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
+  analyses?: Prisma.SkinAnalysisCreateNestedManyWithoutUserInput
+  payments?: Prisma.PaymentCreateNestedManyWithoutUserInput
+  subscriptions?: Prisma.SubscriptionCreateNestedManyWithoutUserInput
+  purchasePacks?: Prisma.PurchasePackCreateNestedManyWithoutUserInput
+  usageRecords?: Prisma.UsageTrackingCreateNestedManyWithoutUserInput
+  clinic?: Prisma.ClinicCreateNestedOneWithoutOwnerInput
+  surveyFeedback?: Prisma.SurveyFeedbackCreateNestedManyWithoutUserInput
+  communityPosts?: Prisma.CommunityPostCreateNestedManyWithoutUserInput
+  comments?: Prisma.CommentCreateNestedManyWithoutUserInput
+  skinDiary?: Prisma.SkinDiaryCreateNestedManyWithoutUserInput
+  userChallenges?: Prisma.UserChallengeCreateNestedManyWithoutUserInput
+  productReviews?: Prisma.ProductReviewCreateNestedManyWithoutUserInput
+  referralsOwned?: Prisma.ReferralCreateNestedManyWithoutReferrerInput
+  referralsReferred?: Prisma.ReferralCreateNestedManyWithoutReferredInput
+  groupsOwned?: Prisma.GroupAnalyticsCreateNestedManyWithoutReferrerInput
+  digitalPurchases?: Prisma.DigitalProductPurchaseCreateNestedManyWithoutUserInput
+  affiliateClicks?: Prisma.AffiliateClickCreateNestedManyWithoutUserInput
+  evolution?: Prisma.UserEvolutionCreateNestedOneWithoutUserInput
+  checkIns?: Prisma.DailyCheckInCreateNestedManyWithoutUserInput
+  transferPayments?: Prisma.TransferPaymentCreateNestedManyWithoutUserInput
+  validatedTransfers?: Prisma.TransferPaymentCreateNestedManyWithoutValidatorInput
+  activatedTransfers?: Prisma.TransferPaymentCreateNestedManyWithoutActivatorInput
+  auditLogs?: Prisma.AuditLogCreateNestedManyWithoutUserInput
+  notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
+  supportTickets?: Prisma.SupportTicketCreateNestedManyWithoutUserInput
+  ticketResponses?: Prisma.SupportTicketResponseCreateNestedManyWithoutUserInput
+  chatMessages?: Prisma.ChatMessageCreateNestedManyWithoutUserInput
+  contactMessages?: Prisma.ContactMessageCreateNestedManyWithoutUserInput
+  communityGroups?: Prisma.CommunityGroupCreateNestedManyWithoutCreatorInput
+  postReactions?: Prisma.PostReactionCreateNestedManyWithoutUserInput
+}
+
+export type UserUncheckedCreateWithoutCommunityMembershipsInput = {
+  id?: string
+  name?: string | null
+  email: string
+  emailVerified?: Date | string | null
+  image?: string | null
+  password?: string | null
+  role?: string
+  plan?: string
+  qvapayId?: string | null
+  analysisLimit?: number
+  analysisUsed?: number
+  analysisResetAt?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  telegramId?: string | null
+  currentStreak?: number
+  maxStreak?: number
+  lastCheckInDate?: Date | string | null
+  accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
+  sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
+  analyses?: Prisma.SkinAnalysisUncheckedCreateNestedManyWithoutUserInput
+  payments?: Prisma.PaymentUncheckedCreateNestedManyWithoutUserInput
+  subscriptions?: Prisma.SubscriptionUncheckedCreateNestedManyWithoutUserInput
+  purchasePacks?: Prisma.PurchasePackUncheckedCreateNestedManyWithoutUserInput
+  usageRecords?: Prisma.UsageTrackingUncheckedCreateNestedManyWithoutUserInput
+  clinic?: Prisma.ClinicUncheckedCreateNestedOneWithoutOwnerInput
+  surveyFeedback?: Prisma.SurveyFeedbackUncheckedCreateNestedManyWithoutUserInput
+  communityPosts?: Prisma.CommunityPostUncheckedCreateNestedManyWithoutUserInput
+  comments?: Prisma.CommentUncheckedCreateNestedManyWithoutUserInput
+  skinDiary?: Prisma.SkinDiaryUncheckedCreateNestedManyWithoutUserInput
+  userChallenges?: Prisma.UserChallengeUncheckedCreateNestedManyWithoutUserInput
+  productReviews?: Prisma.ProductReviewUncheckedCreateNestedManyWithoutUserInput
+  referralsOwned?: Prisma.ReferralUncheckedCreateNestedManyWithoutReferrerInput
+  referralsReferred?: Prisma.ReferralUncheckedCreateNestedManyWithoutReferredInput
+  groupsOwned?: Prisma.GroupAnalyticsUncheckedCreateNestedManyWithoutReferrerInput
+  digitalPurchases?: Prisma.DigitalProductPurchaseUncheckedCreateNestedManyWithoutUserInput
+  affiliateClicks?: Prisma.AffiliateClickUncheckedCreateNestedManyWithoutUserInput
+  evolution?: Prisma.UserEvolutionUncheckedCreateNestedOneWithoutUserInput
+  checkIns?: Prisma.DailyCheckInUncheckedCreateNestedManyWithoutUserInput
+  transferPayments?: Prisma.TransferPaymentUncheckedCreateNestedManyWithoutUserInput
+  validatedTransfers?: Prisma.TransferPaymentUncheckedCreateNestedManyWithoutValidatorInput
+  activatedTransfers?: Prisma.TransferPaymentUncheckedCreateNestedManyWithoutActivatorInput
+  auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutUserInput
+  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
+  supportTickets?: Prisma.SupportTicketUncheckedCreateNestedManyWithoutUserInput
+  ticketResponses?: Prisma.SupportTicketResponseUncheckedCreateNestedManyWithoutUserInput
+  chatMessages?: Prisma.ChatMessageUncheckedCreateNestedManyWithoutUserInput
+  contactMessages?: Prisma.ContactMessageUncheckedCreateNestedManyWithoutUserInput
+  communityGroups?: Prisma.CommunityGroupUncheckedCreateNestedManyWithoutCreatorInput
+  postReactions?: Prisma.PostReactionUncheckedCreateNestedManyWithoutUserInput
+}
+
+export type UserCreateOrConnectWithoutCommunityMembershipsInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutCommunityMembershipsInput, Prisma.UserUncheckedCreateWithoutCommunityMembershipsInput>
+}
+
+export type UserUpsertWithoutCommunityMembershipsInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutCommunityMembershipsInput, Prisma.UserUncheckedUpdateWithoutCommunityMembershipsInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutCommunityMembershipsInput, Prisma.UserUncheckedCreateWithoutCommunityMembershipsInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutCommunityMembershipsInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutCommunityMembershipsInput, Prisma.UserUncheckedUpdateWithoutCommunityMembershipsInput>
+}
+
+export type UserUpdateWithoutCommunityMembershipsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  emailVerified?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.StringFieldUpdateOperationsInput | string
+  plan?: Prisma.StringFieldUpdateOperationsInput | string
+  qvapayId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  analysisLimit?: Prisma.IntFieldUpdateOperationsInput | number
+  analysisUsed?: Prisma.IntFieldUpdateOperationsInput | number
+  analysisResetAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  telegramId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  currentStreak?: Prisma.IntFieldUpdateOperationsInput | number
+  maxStreak?: Prisma.IntFieldUpdateOperationsInput | number
+  lastCheckInDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
+  sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
+  analyses?: Prisma.SkinAnalysisUpdateManyWithoutUserNestedInput
+  payments?: Prisma.PaymentUpdateManyWithoutUserNestedInput
+  subscriptions?: Prisma.SubscriptionUpdateManyWithoutUserNestedInput
+  purchasePacks?: Prisma.PurchasePackUpdateManyWithoutUserNestedInput
+  usageRecords?: Prisma.UsageTrackingUpdateManyWithoutUserNestedInput
+  clinic?: Prisma.ClinicUpdateOneWithoutOwnerNestedInput
+  surveyFeedback?: Prisma.SurveyFeedbackUpdateManyWithoutUserNestedInput
+  communityPosts?: Prisma.CommunityPostUpdateManyWithoutUserNestedInput
+  comments?: Prisma.CommentUpdateManyWithoutUserNestedInput
+  skinDiary?: Prisma.SkinDiaryUpdateManyWithoutUserNestedInput
+  userChallenges?: Prisma.UserChallengeUpdateManyWithoutUserNestedInput
+  productReviews?: Prisma.ProductReviewUpdateManyWithoutUserNestedInput
+  referralsOwned?: Prisma.ReferralUpdateManyWithoutReferrerNestedInput
+  referralsReferred?: Prisma.ReferralUpdateManyWithoutReferredNestedInput
+  groupsOwned?: Prisma.GroupAnalyticsUpdateManyWithoutReferrerNestedInput
+  digitalPurchases?: Prisma.DigitalProductPurchaseUpdateManyWithoutUserNestedInput
+  affiliateClicks?: Prisma.AffiliateClickUpdateManyWithoutUserNestedInput
+  evolution?: Prisma.UserEvolutionUpdateOneWithoutUserNestedInput
+  checkIns?: Prisma.DailyCheckInUpdateManyWithoutUserNestedInput
+  transferPayments?: Prisma.TransferPaymentUpdateManyWithoutUserNestedInput
+  validatedTransfers?: Prisma.TransferPaymentUpdateManyWithoutValidatorNestedInput
+  activatedTransfers?: Prisma.TransferPaymentUpdateManyWithoutActivatorNestedInput
+  auditLogs?: Prisma.AuditLogUpdateManyWithoutUserNestedInput
+  notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
+  supportTickets?: Prisma.SupportTicketUpdateManyWithoutUserNestedInput
+  ticketResponses?: Prisma.SupportTicketResponseUpdateManyWithoutUserNestedInput
+  chatMessages?: Prisma.ChatMessageUpdateManyWithoutUserNestedInput
+  contactMessages?: Prisma.ContactMessageUpdateManyWithoutUserNestedInput
+  communityGroups?: Prisma.CommunityGroupUpdateManyWithoutCreatorNestedInput
+  postReactions?: Prisma.PostReactionUpdateManyWithoutUserNestedInput
+}
+
+export type UserUncheckedUpdateWithoutCommunityMembershipsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  emailVerified?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.StringFieldUpdateOperationsInput | string
+  plan?: Prisma.StringFieldUpdateOperationsInput | string
+  qvapayId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  analysisLimit?: Prisma.IntFieldUpdateOperationsInput | number
+  analysisUsed?: Prisma.IntFieldUpdateOperationsInput | number
+  analysisResetAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  telegramId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  currentStreak?: Prisma.IntFieldUpdateOperationsInput | number
+  maxStreak?: Prisma.IntFieldUpdateOperationsInput | number
+  lastCheckInDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
+  sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
+  analyses?: Prisma.SkinAnalysisUncheckedUpdateManyWithoutUserNestedInput
+  payments?: Prisma.PaymentUncheckedUpdateManyWithoutUserNestedInput
+  subscriptions?: Prisma.SubscriptionUncheckedUpdateManyWithoutUserNestedInput
+  purchasePacks?: Prisma.PurchasePackUncheckedUpdateManyWithoutUserNestedInput
+  usageRecords?: Prisma.UsageTrackingUncheckedUpdateManyWithoutUserNestedInput
+  clinic?: Prisma.ClinicUncheckedUpdateOneWithoutOwnerNestedInput
+  surveyFeedback?: Prisma.SurveyFeedbackUncheckedUpdateManyWithoutUserNestedInput
+  communityPosts?: Prisma.CommunityPostUncheckedUpdateManyWithoutUserNestedInput
+  comments?: Prisma.CommentUncheckedUpdateManyWithoutUserNestedInput
+  skinDiary?: Prisma.SkinDiaryUncheckedUpdateManyWithoutUserNestedInput
+  userChallenges?: Prisma.UserChallengeUncheckedUpdateManyWithoutUserNestedInput
+  productReviews?: Prisma.ProductReviewUncheckedUpdateManyWithoutUserNestedInput
+  referralsOwned?: Prisma.ReferralUncheckedUpdateManyWithoutReferrerNestedInput
+  referralsReferred?: Prisma.ReferralUncheckedUpdateManyWithoutReferredNestedInput
+  groupsOwned?: Prisma.GroupAnalyticsUncheckedUpdateManyWithoutReferrerNestedInput
+  digitalPurchases?: Prisma.DigitalProductPurchaseUncheckedUpdateManyWithoutUserNestedInput
+  affiliateClicks?: Prisma.AffiliateClickUncheckedUpdateManyWithoutUserNestedInput
+  evolution?: Prisma.UserEvolutionUncheckedUpdateOneWithoutUserNestedInput
+  checkIns?: Prisma.DailyCheckInUncheckedUpdateManyWithoutUserNestedInput
+  transferPayments?: Prisma.TransferPaymentUncheckedUpdateManyWithoutUserNestedInput
+  validatedTransfers?: Prisma.TransferPaymentUncheckedUpdateManyWithoutValidatorNestedInput
+  activatedTransfers?: Prisma.TransferPaymentUncheckedUpdateManyWithoutActivatorNestedInput
+  auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutUserNestedInput
+  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
+  supportTickets?: Prisma.SupportTicketUncheckedUpdateManyWithoutUserNestedInput
+  ticketResponses?: Prisma.SupportTicketResponseUncheckedUpdateManyWithoutUserNestedInput
+  chatMessages?: Prisma.ChatMessageUncheckedUpdateManyWithoutUserNestedInput
+  contactMessages?: Prisma.ContactMessageUncheckedUpdateManyWithoutUserNestedInput
+  communityGroups?: Prisma.CommunityGroupUncheckedUpdateManyWithoutCreatorNestedInput
+  postReactions?: Prisma.PostReactionUncheckedUpdateManyWithoutUserNestedInput
+}
+
+export type UserCreateWithoutPostReactionsInput = {
+  id?: string
+  name?: string | null
+  email: string
+  emailVerified?: Date | string | null
+  image?: string | null
+  password?: string | null
+  role?: string
+  plan?: string
+  qvapayId?: string | null
+  analysisLimit?: number
+  analysisUsed?: number
+  analysisResetAt?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  telegramId?: string | null
+  currentStreak?: number
+  maxStreak?: number
+  lastCheckInDate?: Date | string | null
+  accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
+  sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
+  analyses?: Prisma.SkinAnalysisCreateNestedManyWithoutUserInput
+  payments?: Prisma.PaymentCreateNestedManyWithoutUserInput
+  subscriptions?: Prisma.SubscriptionCreateNestedManyWithoutUserInput
+  purchasePacks?: Prisma.PurchasePackCreateNestedManyWithoutUserInput
+  usageRecords?: Prisma.UsageTrackingCreateNestedManyWithoutUserInput
+  clinic?: Prisma.ClinicCreateNestedOneWithoutOwnerInput
+  surveyFeedback?: Prisma.SurveyFeedbackCreateNestedManyWithoutUserInput
+  communityPosts?: Prisma.CommunityPostCreateNestedManyWithoutUserInput
+  comments?: Prisma.CommentCreateNestedManyWithoutUserInput
+  skinDiary?: Prisma.SkinDiaryCreateNestedManyWithoutUserInput
+  userChallenges?: Prisma.UserChallengeCreateNestedManyWithoutUserInput
+  productReviews?: Prisma.ProductReviewCreateNestedManyWithoutUserInput
+  referralsOwned?: Prisma.ReferralCreateNestedManyWithoutReferrerInput
+  referralsReferred?: Prisma.ReferralCreateNestedManyWithoutReferredInput
+  groupsOwned?: Prisma.GroupAnalyticsCreateNestedManyWithoutReferrerInput
+  digitalPurchases?: Prisma.DigitalProductPurchaseCreateNestedManyWithoutUserInput
+  affiliateClicks?: Prisma.AffiliateClickCreateNestedManyWithoutUserInput
+  evolution?: Prisma.UserEvolutionCreateNestedOneWithoutUserInput
+  checkIns?: Prisma.DailyCheckInCreateNestedManyWithoutUserInput
+  transferPayments?: Prisma.TransferPaymentCreateNestedManyWithoutUserInput
+  validatedTransfers?: Prisma.TransferPaymentCreateNestedManyWithoutValidatorInput
+  activatedTransfers?: Prisma.TransferPaymentCreateNestedManyWithoutActivatorInput
+  auditLogs?: Prisma.AuditLogCreateNestedManyWithoutUserInput
+  notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
+  supportTickets?: Prisma.SupportTicketCreateNestedManyWithoutUserInput
+  ticketResponses?: Prisma.SupportTicketResponseCreateNestedManyWithoutUserInput
+  chatMessages?: Prisma.ChatMessageCreateNestedManyWithoutUserInput
+  contactMessages?: Prisma.ContactMessageCreateNestedManyWithoutUserInput
+  communityGroups?: Prisma.CommunityGroupCreateNestedManyWithoutCreatorInput
+  communityMemberships?: Prisma.CommunityMemberCreateNestedManyWithoutUserInput
+}
+
+export type UserUncheckedCreateWithoutPostReactionsInput = {
+  id?: string
+  name?: string | null
+  email: string
+  emailVerified?: Date | string | null
+  image?: string | null
+  password?: string | null
+  role?: string
+  plan?: string
+  qvapayId?: string | null
+  analysisLimit?: number
+  analysisUsed?: number
+  analysisResetAt?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  telegramId?: string | null
+  currentStreak?: number
+  maxStreak?: number
+  lastCheckInDate?: Date | string | null
+  accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
+  sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
+  analyses?: Prisma.SkinAnalysisUncheckedCreateNestedManyWithoutUserInput
+  payments?: Prisma.PaymentUncheckedCreateNestedManyWithoutUserInput
+  subscriptions?: Prisma.SubscriptionUncheckedCreateNestedManyWithoutUserInput
+  purchasePacks?: Prisma.PurchasePackUncheckedCreateNestedManyWithoutUserInput
+  usageRecords?: Prisma.UsageTrackingUncheckedCreateNestedManyWithoutUserInput
+  clinic?: Prisma.ClinicUncheckedCreateNestedOneWithoutOwnerInput
+  surveyFeedback?: Prisma.SurveyFeedbackUncheckedCreateNestedManyWithoutUserInput
+  communityPosts?: Prisma.CommunityPostUncheckedCreateNestedManyWithoutUserInput
+  comments?: Prisma.CommentUncheckedCreateNestedManyWithoutUserInput
+  skinDiary?: Prisma.SkinDiaryUncheckedCreateNestedManyWithoutUserInput
+  userChallenges?: Prisma.UserChallengeUncheckedCreateNestedManyWithoutUserInput
+  productReviews?: Prisma.ProductReviewUncheckedCreateNestedManyWithoutUserInput
+  referralsOwned?: Prisma.ReferralUncheckedCreateNestedManyWithoutReferrerInput
+  referralsReferred?: Prisma.ReferralUncheckedCreateNestedManyWithoutReferredInput
+  groupsOwned?: Prisma.GroupAnalyticsUncheckedCreateNestedManyWithoutReferrerInput
+  digitalPurchases?: Prisma.DigitalProductPurchaseUncheckedCreateNestedManyWithoutUserInput
+  affiliateClicks?: Prisma.AffiliateClickUncheckedCreateNestedManyWithoutUserInput
+  evolution?: Prisma.UserEvolutionUncheckedCreateNestedOneWithoutUserInput
+  checkIns?: Prisma.DailyCheckInUncheckedCreateNestedManyWithoutUserInput
+  transferPayments?: Prisma.TransferPaymentUncheckedCreateNestedManyWithoutUserInput
+  validatedTransfers?: Prisma.TransferPaymentUncheckedCreateNestedManyWithoutValidatorInput
+  activatedTransfers?: Prisma.TransferPaymentUncheckedCreateNestedManyWithoutActivatorInput
+  auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutUserInput
+  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
+  supportTickets?: Prisma.SupportTicketUncheckedCreateNestedManyWithoutUserInput
+  ticketResponses?: Prisma.SupportTicketResponseUncheckedCreateNestedManyWithoutUserInput
+  chatMessages?: Prisma.ChatMessageUncheckedCreateNestedManyWithoutUserInput
+  contactMessages?: Prisma.ContactMessageUncheckedCreateNestedManyWithoutUserInput
+  communityGroups?: Prisma.CommunityGroupUncheckedCreateNestedManyWithoutCreatorInput
+  communityMemberships?: Prisma.CommunityMemberUncheckedCreateNestedManyWithoutUserInput
+}
+
+export type UserCreateOrConnectWithoutPostReactionsInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutPostReactionsInput, Prisma.UserUncheckedCreateWithoutPostReactionsInput>
+}
+
+export type UserUpsertWithoutPostReactionsInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutPostReactionsInput, Prisma.UserUncheckedUpdateWithoutPostReactionsInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutPostReactionsInput, Prisma.UserUncheckedCreateWithoutPostReactionsInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutPostReactionsInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutPostReactionsInput, Prisma.UserUncheckedUpdateWithoutPostReactionsInput>
+}
+
+export type UserUpdateWithoutPostReactionsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  emailVerified?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.StringFieldUpdateOperationsInput | string
+  plan?: Prisma.StringFieldUpdateOperationsInput | string
+  qvapayId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  analysisLimit?: Prisma.IntFieldUpdateOperationsInput | number
+  analysisUsed?: Prisma.IntFieldUpdateOperationsInput | number
+  analysisResetAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  telegramId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  currentStreak?: Prisma.IntFieldUpdateOperationsInput | number
+  maxStreak?: Prisma.IntFieldUpdateOperationsInput | number
+  lastCheckInDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
+  sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
+  analyses?: Prisma.SkinAnalysisUpdateManyWithoutUserNestedInput
+  payments?: Prisma.PaymentUpdateManyWithoutUserNestedInput
+  subscriptions?: Prisma.SubscriptionUpdateManyWithoutUserNestedInput
+  purchasePacks?: Prisma.PurchasePackUpdateManyWithoutUserNestedInput
+  usageRecords?: Prisma.UsageTrackingUpdateManyWithoutUserNestedInput
+  clinic?: Prisma.ClinicUpdateOneWithoutOwnerNestedInput
+  surveyFeedback?: Prisma.SurveyFeedbackUpdateManyWithoutUserNestedInput
+  communityPosts?: Prisma.CommunityPostUpdateManyWithoutUserNestedInput
+  comments?: Prisma.CommentUpdateManyWithoutUserNestedInput
+  skinDiary?: Prisma.SkinDiaryUpdateManyWithoutUserNestedInput
+  userChallenges?: Prisma.UserChallengeUpdateManyWithoutUserNestedInput
+  productReviews?: Prisma.ProductReviewUpdateManyWithoutUserNestedInput
+  referralsOwned?: Prisma.ReferralUpdateManyWithoutReferrerNestedInput
+  referralsReferred?: Prisma.ReferralUpdateManyWithoutReferredNestedInput
+  groupsOwned?: Prisma.GroupAnalyticsUpdateManyWithoutReferrerNestedInput
+  digitalPurchases?: Prisma.DigitalProductPurchaseUpdateManyWithoutUserNestedInput
+  affiliateClicks?: Prisma.AffiliateClickUpdateManyWithoutUserNestedInput
+  evolution?: Prisma.UserEvolutionUpdateOneWithoutUserNestedInput
+  checkIns?: Prisma.DailyCheckInUpdateManyWithoutUserNestedInput
+  transferPayments?: Prisma.TransferPaymentUpdateManyWithoutUserNestedInput
+  validatedTransfers?: Prisma.TransferPaymentUpdateManyWithoutValidatorNestedInput
+  activatedTransfers?: Prisma.TransferPaymentUpdateManyWithoutActivatorNestedInput
+  auditLogs?: Prisma.AuditLogUpdateManyWithoutUserNestedInput
+  notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
+  supportTickets?: Prisma.SupportTicketUpdateManyWithoutUserNestedInput
+  ticketResponses?: Prisma.SupportTicketResponseUpdateManyWithoutUserNestedInput
+  chatMessages?: Prisma.ChatMessageUpdateManyWithoutUserNestedInput
+  contactMessages?: Prisma.ContactMessageUpdateManyWithoutUserNestedInput
+  communityGroups?: Prisma.CommunityGroupUpdateManyWithoutCreatorNestedInput
+  communityMemberships?: Prisma.CommunityMemberUpdateManyWithoutUserNestedInput
+}
+
+export type UserUncheckedUpdateWithoutPostReactionsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  emailVerified?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.StringFieldUpdateOperationsInput | string
+  plan?: Prisma.StringFieldUpdateOperationsInput | string
+  qvapayId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  analysisLimit?: Prisma.IntFieldUpdateOperationsInput | number
+  analysisUsed?: Prisma.IntFieldUpdateOperationsInput | number
+  analysisResetAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  telegramId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  currentStreak?: Prisma.IntFieldUpdateOperationsInput | number
+  maxStreak?: Prisma.IntFieldUpdateOperationsInput | number
+  lastCheckInDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
+  sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
+  analyses?: Prisma.SkinAnalysisUncheckedUpdateManyWithoutUserNestedInput
+  payments?: Prisma.PaymentUncheckedUpdateManyWithoutUserNestedInput
+  subscriptions?: Prisma.SubscriptionUncheckedUpdateManyWithoutUserNestedInput
+  purchasePacks?: Prisma.PurchasePackUncheckedUpdateManyWithoutUserNestedInput
+  usageRecords?: Prisma.UsageTrackingUncheckedUpdateManyWithoutUserNestedInput
+  clinic?: Prisma.ClinicUncheckedUpdateOneWithoutOwnerNestedInput
+  surveyFeedback?: Prisma.SurveyFeedbackUncheckedUpdateManyWithoutUserNestedInput
+  communityPosts?: Prisma.CommunityPostUncheckedUpdateManyWithoutUserNestedInput
+  comments?: Prisma.CommentUncheckedUpdateManyWithoutUserNestedInput
+  skinDiary?: Prisma.SkinDiaryUncheckedUpdateManyWithoutUserNestedInput
+  userChallenges?: Prisma.UserChallengeUncheckedUpdateManyWithoutUserNestedInput
+  productReviews?: Prisma.ProductReviewUncheckedUpdateManyWithoutUserNestedInput
+  referralsOwned?: Prisma.ReferralUncheckedUpdateManyWithoutReferrerNestedInput
+  referralsReferred?: Prisma.ReferralUncheckedUpdateManyWithoutReferredNestedInput
+  groupsOwned?: Prisma.GroupAnalyticsUncheckedUpdateManyWithoutReferrerNestedInput
+  digitalPurchases?: Prisma.DigitalProductPurchaseUncheckedUpdateManyWithoutUserNestedInput
+  affiliateClicks?: Prisma.AffiliateClickUncheckedUpdateManyWithoutUserNestedInput
+  evolution?: Prisma.UserEvolutionUncheckedUpdateOneWithoutUserNestedInput
+  checkIns?: Prisma.DailyCheckInUncheckedUpdateManyWithoutUserNestedInput
+  transferPayments?: Prisma.TransferPaymentUncheckedUpdateManyWithoutUserNestedInput
+  validatedTransfers?: Prisma.TransferPaymentUncheckedUpdateManyWithoutValidatorNestedInput
+  activatedTransfers?: Prisma.TransferPaymentUncheckedUpdateManyWithoutActivatorNestedInput
+  auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutUserNestedInput
+  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
+  supportTickets?: Prisma.SupportTicketUncheckedUpdateManyWithoutUserNestedInput
+  ticketResponses?: Prisma.SupportTicketResponseUncheckedUpdateManyWithoutUserNestedInput
+  chatMessages?: Prisma.ChatMessageUncheckedUpdateManyWithoutUserNestedInput
+  contactMessages?: Prisma.ContactMessageUncheckedUpdateManyWithoutUserNestedInput
+  communityGroups?: Prisma.CommunityGroupUncheckedUpdateManyWithoutCreatorNestedInput
+  communityMemberships?: Prisma.CommunityMemberUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutSkinDiaryInput = {
@@ -5267,6 +6232,9 @@ export type UserCreateWithoutSkinDiaryInput = {
   ticketResponses?: Prisma.SupportTicketResponseCreateNestedManyWithoutUserInput
   chatMessages?: Prisma.ChatMessageCreateNestedManyWithoutUserInput
   contactMessages?: Prisma.ContactMessageCreateNestedManyWithoutUserInput
+  communityGroups?: Prisma.CommunityGroupCreateNestedManyWithoutCreatorInput
+  communityMemberships?: Prisma.CommunityMemberCreateNestedManyWithoutUserInput
+  postReactions?: Prisma.PostReactionCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutSkinDiaryInput = {
@@ -5317,6 +6285,9 @@ export type UserUncheckedCreateWithoutSkinDiaryInput = {
   ticketResponses?: Prisma.SupportTicketResponseUncheckedCreateNestedManyWithoutUserInput
   chatMessages?: Prisma.ChatMessageUncheckedCreateNestedManyWithoutUserInput
   contactMessages?: Prisma.ContactMessageUncheckedCreateNestedManyWithoutUserInput
+  communityGroups?: Prisma.CommunityGroupUncheckedCreateNestedManyWithoutCreatorInput
+  communityMemberships?: Prisma.CommunityMemberUncheckedCreateNestedManyWithoutUserInput
+  postReactions?: Prisma.PostReactionUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutSkinDiaryInput = {
@@ -5383,6 +6354,9 @@ export type UserUpdateWithoutSkinDiaryInput = {
   ticketResponses?: Prisma.SupportTicketResponseUpdateManyWithoutUserNestedInput
   chatMessages?: Prisma.ChatMessageUpdateManyWithoutUserNestedInput
   contactMessages?: Prisma.ContactMessageUpdateManyWithoutUserNestedInput
+  communityGroups?: Prisma.CommunityGroupUpdateManyWithoutCreatorNestedInput
+  communityMemberships?: Prisma.CommunityMemberUpdateManyWithoutUserNestedInput
+  postReactions?: Prisma.PostReactionUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutSkinDiaryInput = {
@@ -5433,6 +6407,9 @@ export type UserUncheckedUpdateWithoutSkinDiaryInput = {
   ticketResponses?: Prisma.SupportTicketResponseUncheckedUpdateManyWithoutUserNestedInput
   chatMessages?: Prisma.ChatMessageUncheckedUpdateManyWithoutUserNestedInput
   contactMessages?: Prisma.ContactMessageUncheckedUpdateManyWithoutUserNestedInput
+  communityGroups?: Prisma.CommunityGroupUncheckedUpdateManyWithoutCreatorNestedInput
+  communityMemberships?: Prisma.CommunityMemberUncheckedUpdateManyWithoutUserNestedInput
+  postReactions?: Prisma.PostReactionUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutUserChallengesInput = {
@@ -5483,6 +6460,9 @@ export type UserCreateWithoutUserChallengesInput = {
   ticketResponses?: Prisma.SupportTicketResponseCreateNestedManyWithoutUserInput
   chatMessages?: Prisma.ChatMessageCreateNestedManyWithoutUserInput
   contactMessages?: Prisma.ContactMessageCreateNestedManyWithoutUserInput
+  communityGroups?: Prisma.CommunityGroupCreateNestedManyWithoutCreatorInput
+  communityMemberships?: Prisma.CommunityMemberCreateNestedManyWithoutUserInput
+  postReactions?: Prisma.PostReactionCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutUserChallengesInput = {
@@ -5533,6 +6513,9 @@ export type UserUncheckedCreateWithoutUserChallengesInput = {
   ticketResponses?: Prisma.SupportTicketResponseUncheckedCreateNestedManyWithoutUserInput
   chatMessages?: Prisma.ChatMessageUncheckedCreateNestedManyWithoutUserInput
   contactMessages?: Prisma.ContactMessageUncheckedCreateNestedManyWithoutUserInput
+  communityGroups?: Prisma.CommunityGroupUncheckedCreateNestedManyWithoutCreatorInput
+  communityMemberships?: Prisma.CommunityMemberUncheckedCreateNestedManyWithoutUserInput
+  postReactions?: Prisma.PostReactionUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutUserChallengesInput = {
@@ -5599,6 +6582,9 @@ export type UserUpdateWithoutUserChallengesInput = {
   ticketResponses?: Prisma.SupportTicketResponseUpdateManyWithoutUserNestedInput
   chatMessages?: Prisma.ChatMessageUpdateManyWithoutUserNestedInput
   contactMessages?: Prisma.ContactMessageUpdateManyWithoutUserNestedInput
+  communityGroups?: Prisma.CommunityGroupUpdateManyWithoutCreatorNestedInput
+  communityMemberships?: Prisma.CommunityMemberUpdateManyWithoutUserNestedInput
+  postReactions?: Prisma.PostReactionUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutUserChallengesInput = {
@@ -5649,6 +6635,9 @@ export type UserUncheckedUpdateWithoutUserChallengesInput = {
   ticketResponses?: Prisma.SupportTicketResponseUncheckedUpdateManyWithoutUserNestedInput
   chatMessages?: Prisma.ChatMessageUncheckedUpdateManyWithoutUserNestedInput
   contactMessages?: Prisma.ContactMessageUncheckedUpdateManyWithoutUserNestedInput
+  communityGroups?: Prisma.CommunityGroupUncheckedUpdateManyWithoutCreatorNestedInput
+  communityMemberships?: Prisma.CommunityMemberUncheckedUpdateManyWithoutUserNestedInput
+  postReactions?: Prisma.PostReactionUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutProductReviewsInput = {
@@ -5699,6 +6688,9 @@ export type UserCreateWithoutProductReviewsInput = {
   ticketResponses?: Prisma.SupportTicketResponseCreateNestedManyWithoutUserInput
   chatMessages?: Prisma.ChatMessageCreateNestedManyWithoutUserInput
   contactMessages?: Prisma.ContactMessageCreateNestedManyWithoutUserInput
+  communityGroups?: Prisma.CommunityGroupCreateNestedManyWithoutCreatorInput
+  communityMemberships?: Prisma.CommunityMemberCreateNestedManyWithoutUserInput
+  postReactions?: Prisma.PostReactionCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutProductReviewsInput = {
@@ -5749,6 +6741,9 @@ export type UserUncheckedCreateWithoutProductReviewsInput = {
   ticketResponses?: Prisma.SupportTicketResponseUncheckedCreateNestedManyWithoutUserInput
   chatMessages?: Prisma.ChatMessageUncheckedCreateNestedManyWithoutUserInput
   contactMessages?: Prisma.ContactMessageUncheckedCreateNestedManyWithoutUserInput
+  communityGroups?: Prisma.CommunityGroupUncheckedCreateNestedManyWithoutCreatorInput
+  communityMemberships?: Prisma.CommunityMemberUncheckedCreateNestedManyWithoutUserInput
+  postReactions?: Prisma.PostReactionUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutProductReviewsInput = {
@@ -5815,6 +6810,9 @@ export type UserUpdateWithoutProductReviewsInput = {
   ticketResponses?: Prisma.SupportTicketResponseUpdateManyWithoutUserNestedInput
   chatMessages?: Prisma.ChatMessageUpdateManyWithoutUserNestedInput
   contactMessages?: Prisma.ContactMessageUpdateManyWithoutUserNestedInput
+  communityGroups?: Prisma.CommunityGroupUpdateManyWithoutCreatorNestedInput
+  communityMemberships?: Prisma.CommunityMemberUpdateManyWithoutUserNestedInput
+  postReactions?: Prisma.PostReactionUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutProductReviewsInput = {
@@ -5865,6 +6863,9 @@ export type UserUncheckedUpdateWithoutProductReviewsInput = {
   ticketResponses?: Prisma.SupportTicketResponseUncheckedUpdateManyWithoutUserNestedInput
   chatMessages?: Prisma.ChatMessageUncheckedUpdateManyWithoutUserNestedInput
   contactMessages?: Prisma.ContactMessageUncheckedUpdateManyWithoutUserNestedInput
+  communityGroups?: Prisma.CommunityGroupUncheckedUpdateManyWithoutCreatorNestedInput
+  communityMemberships?: Prisma.CommunityMemberUncheckedUpdateManyWithoutUserNestedInput
+  postReactions?: Prisma.PostReactionUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutGroupsOwnedInput = {
@@ -5915,6 +6916,9 @@ export type UserCreateWithoutGroupsOwnedInput = {
   ticketResponses?: Prisma.SupportTicketResponseCreateNestedManyWithoutUserInput
   chatMessages?: Prisma.ChatMessageCreateNestedManyWithoutUserInput
   contactMessages?: Prisma.ContactMessageCreateNestedManyWithoutUserInput
+  communityGroups?: Prisma.CommunityGroupCreateNestedManyWithoutCreatorInput
+  communityMemberships?: Prisma.CommunityMemberCreateNestedManyWithoutUserInput
+  postReactions?: Prisma.PostReactionCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutGroupsOwnedInput = {
@@ -5965,6 +6969,9 @@ export type UserUncheckedCreateWithoutGroupsOwnedInput = {
   ticketResponses?: Prisma.SupportTicketResponseUncheckedCreateNestedManyWithoutUserInput
   chatMessages?: Prisma.ChatMessageUncheckedCreateNestedManyWithoutUserInput
   contactMessages?: Prisma.ContactMessageUncheckedCreateNestedManyWithoutUserInput
+  communityGroups?: Prisma.CommunityGroupUncheckedCreateNestedManyWithoutCreatorInput
+  communityMemberships?: Prisma.CommunityMemberUncheckedCreateNestedManyWithoutUserInput
+  postReactions?: Prisma.PostReactionUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutGroupsOwnedInput = {
@@ -6031,6 +7038,9 @@ export type UserUpdateWithoutGroupsOwnedInput = {
   ticketResponses?: Prisma.SupportTicketResponseUpdateManyWithoutUserNestedInput
   chatMessages?: Prisma.ChatMessageUpdateManyWithoutUserNestedInput
   contactMessages?: Prisma.ContactMessageUpdateManyWithoutUserNestedInput
+  communityGroups?: Prisma.CommunityGroupUpdateManyWithoutCreatorNestedInput
+  communityMemberships?: Prisma.CommunityMemberUpdateManyWithoutUserNestedInput
+  postReactions?: Prisma.PostReactionUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutGroupsOwnedInput = {
@@ -6081,6 +7091,9 @@ export type UserUncheckedUpdateWithoutGroupsOwnedInput = {
   ticketResponses?: Prisma.SupportTicketResponseUncheckedUpdateManyWithoutUserNestedInput
   chatMessages?: Prisma.ChatMessageUncheckedUpdateManyWithoutUserNestedInput
   contactMessages?: Prisma.ContactMessageUncheckedUpdateManyWithoutUserNestedInput
+  communityGroups?: Prisma.CommunityGroupUncheckedUpdateManyWithoutCreatorNestedInput
+  communityMemberships?: Prisma.CommunityMemberUncheckedUpdateManyWithoutUserNestedInput
+  postReactions?: Prisma.PostReactionUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutReferralsOwnedInput = {
@@ -6131,6 +7144,9 @@ export type UserCreateWithoutReferralsOwnedInput = {
   ticketResponses?: Prisma.SupportTicketResponseCreateNestedManyWithoutUserInput
   chatMessages?: Prisma.ChatMessageCreateNestedManyWithoutUserInput
   contactMessages?: Prisma.ContactMessageCreateNestedManyWithoutUserInput
+  communityGroups?: Prisma.CommunityGroupCreateNestedManyWithoutCreatorInput
+  communityMemberships?: Prisma.CommunityMemberCreateNestedManyWithoutUserInput
+  postReactions?: Prisma.PostReactionCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutReferralsOwnedInput = {
@@ -6181,6 +7197,9 @@ export type UserUncheckedCreateWithoutReferralsOwnedInput = {
   ticketResponses?: Prisma.SupportTicketResponseUncheckedCreateNestedManyWithoutUserInput
   chatMessages?: Prisma.ChatMessageUncheckedCreateNestedManyWithoutUserInput
   contactMessages?: Prisma.ContactMessageUncheckedCreateNestedManyWithoutUserInput
+  communityGroups?: Prisma.CommunityGroupUncheckedCreateNestedManyWithoutCreatorInput
+  communityMemberships?: Prisma.CommunityMemberUncheckedCreateNestedManyWithoutUserInput
+  postReactions?: Prisma.PostReactionUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutReferralsOwnedInput = {
@@ -6236,6 +7255,9 @@ export type UserCreateWithoutReferralsReferredInput = {
   ticketResponses?: Prisma.SupportTicketResponseCreateNestedManyWithoutUserInput
   chatMessages?: Prisma.ChatMessageCreateNestedManyWithoutUserInput
   contactMessages?: Prisma.ContactMessageCreateNestedManyWithoutUserInput
+  communityGroups?: Prisma.CommunityGroupCreateNestedManyWithoutCreatorInput
+  communityMemberships?: Prisma.CommunityMemberCreateNestedManyWithoutUserInput
+  postReactions?: Prisma.PostReactionCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutReferralsReferredInput = {
@@ -6286,6 +7308,9 @@ export type UserUncheckedCreateWithoutReferralsReferredInput = {
   ticketResponses?: Prisma.SupportTicketResponseUncheckedCreateNestedManyWithoutUserInput
   chatMessages?: Prisma.ChatMessageUncheckedCreateNestedManyWithoutUserInput
   contactMessages?: Prisma.ContactMessageUncheckedCreateNestedManyWithoutUserInput
+  communityGroups?: Prisma.CommunityGroupUncheckedCreateNestedManyWithoutCreatorInput
+  communityMemberships?: Prisma.CommunityMemberUncheckedCreateNestedManyWithoutUserInput
+  postReactions?: Prisma.PostReactionUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutReferralsReferredInput = {
@@ -6352,6 +7377,9 @@ export type UserUpdateWithoutReferralsOwnedInput = {
   ticketResponses?: Prisma.SupportTicketResponseUpdateManyWithoutUserNestedInput
   chatMessages?: Prisma.ChatMessageUpdateManyWithoutUserNestedInput
   contactMessages?: Prisma.ContactMessageUpdateManyWithoutUserNestedInput
+  communityGroups?: Prisma.CommunityGroupUpdateManyWithoutCreatorNestedInput
+  communityMemberships?: Prisma.CommunityMemberUpdateManyWithoutUserNestedInput
+  postReactions?: Prisma.PostReactionUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutReferralsOwnedInput = {
@@ -6402,6 +7430,9 @@ export type UserUncheckedUpdateWithoutReferralsOwnedInput = {
   ticketResponses?: Prisma.SupportTicketResponseUncheckedUpdateManyWithoutUserNestedInput
   chatMessages?: Prisma.ChatMessageUncheckedUpdateManyWithoutUserNestedInput
   contactMessages?: Prisma.ContactMessageUncheckedUpdateManyWithoutUserNestedInput
+  communityGroups?: Prisma.CommunityGroupUncheckedUpdateManyWithoutCreatorNestedInput
+  communityMemberships?: Prisma.CommunityMemberUncheckedUpdateManyWithoutUserNestedInput
+  postReactions?: Prisma.PostReactionUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserUpsertWithoutReferralsReferredInput = {
@@ -6463,6 +7494,9 @@ export type UserUpdateWithoutReferralsReferredInput = {
   ticketResponses?: Prisma.SupportTicketResponseUpdateManyWithoutUserNestedInput
   chatMessages?: Prisma.ChatMessageUpdateManyWithoutUserNestedInput
   contactMessages?: Prisma.ContactMessageUpdateManyWithoutUserNestedInput
+  communityGroups?: Prisma.CommunityGroupUpdateManyWithoutCreatorNestedInput
+  communityMemberships?: Prisma.CommunityMemberUpdateManyWithoutUserNestedInput
+  postReactions?: Prisma.PostReactionUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutReferralsReferredInput = {
@@ -6513,6 +7547,9 @@ export type UserUncheckedUpdateWithoutReferralsReferredInput = {
   ticketResponses?: Prisma.SupportTicketResponseUncheckedUpdateManyWithoutUserNestedInput
   chatMessages?: Prisma.ChatMessageUncheckedUpdateManyWithoutUserNestedInput
   contactMessages?: Prisma.ContactMessageUncheckedUpdateManyWithoutUserNestedInput
+  communityGroups?: Prisma.CommunityGroupUncheckedUpdateManyWithoutCreatorNestedInput
+  communityMemberships?: Prisma.CommunityMemberUncheckedUpdateManyWithoutUserNestedInput
+  postReactions?: Prisma.PostReactionUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutDigitalPurchasesInput = {
@@ -6563,6 +7600,9 @@ export type UserCreateWithoutDigitalPurchasesInput = {
   ticketResponses?: Prisma.SupportTicketResponseCreateNestedManyWithoutUserInput
   chatMessages?: Prisma.ChatMessageCreateNestedManyWithoutUserInput
   contactMessages?: Prisma.ContactMessageCreateNestedManyWithoutUserInput
+  communityGroups?: Prisma.CommunityGroupCreateNestedManyWithoutCreatorInput
+  communityMemberships?: Prisma.CommunityMemberCreateNestedManyWithoutUserInput
+  postReactions?: Prisma.PostReactionCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutDigitalPurchasesInput = {
@@ -6613,6 +7653,9 @@ export type UserUncheckedCreateWithoutDigitalPurchasesInput = {
   ticketResponses?: Prisma.SupportTicketResponseUncheckedCreateNestedManyWithoutUserInput
   chatMessages?: Prisma.ChatMessageUncheckedCreateNestedManyWithoutUserInput
   contactMessages?: Prisma.ContactMessageUncheckedCreateNestedManyWithoutUserInput
+  communityGroups?: Prisma.CommunityGroupUncheckedCreateNestedManyWithoutCreatorInput
+  communityMemberships?: Prisma.CommunityMemberUncheckedCreateNestedManyWithoutUserInput
+  postReactions?: Prisma.PostReactionUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutDigitalPurchasesInput = {
@@ -6679,6 +7722,9 @@ export type UserUpdateWithoutDigitalPurchasesInput = {
   ticketResponses?: Prisma.SupportTicketResponseUpdateManyWithoutUserNestedInput
   chatMessages?: Prisma.ChatMessageUpdateManyWithoutUserNestedInput
   contactMessages?: Prisma.ContactMessageUpdateManyWithoutUserNestedInput
+  communityGroups?: Prisma.CommunityGroupUpdateManyWithoutCreatorNestedInput
+  communityMemberships?: Prisma.CommunityMemberUpdateManyWithoutUserNestedInput
+  postReactions?: Prisma.PostReactionUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutDigitalPurchasesInput = {
@@ -6729,6 +7775,9 @@ export type UserUncheckedUpdateWithoutDigitalPurchasesInput = {
   ticketResponses?: Prisma.SupportTicketResponseUncheckedUpdateManyWithoutUserNestedInput
   chatMessages?: Prisma.ChatMessageUncheckedUpdateManyWithoutUserNestedInput
   contactMessages?: Prisma.ContactMessageUncheckedUpdateManyWithoutUserNestedInput
+  communityGroups?: Prisma.CommunityGroupUncheckedUpdateManyWithoutCreatorNestedInput
+  communityMemberships?: Prisma.CommunityMemberUncheckedUpdateManyWithoutUserNestedInput
+  postReactions?: Prisma.PostReactionUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutCheckInsInput = {
@@ -6779,6 +7828,9 @@ export type UserCreateWithoutCheckInsInput = {
   ticketResponses?: Prisma.SupportTicketResponseCreateNestedManyWithoutUserInput
   chatMessages?: Prisma.ChatMessageCreateNestedManyWithoutUserInput
   contactMessages?: Prisma.ContactMessageCreateNestedManyWithoutUserInput
+  communityGroups?: Prisma.CommunityGroupCreateNestedManyWithoutCreatorInput
+  communityMemberships?: Prisma.CommunityMemberCreateNestedManyWithoutUserInput
+  postReactions?: Prisma.PostReactionCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutCheckInsInput = {
@@ -6829,6 +7881,9 @@ export type UserUncheckedCreateWithoutCheckInsInput = {
   ticketResponses?: Prisma.SupportTicketResponseUncheckedCreateNestedManyWithoutUserInput
   chatMessages?: Prisma.ChatMessageUncheckedCreateNestedManyWithoutUserInput
   contactMessages?: Prisma.ContactMessageUncheckedCreateNestedManyWithoutUserInput
+  communityGroups?: Prisma.CommunityGroupUncheckedCreateNestedManyWithoutCreatorInput
+  communityMemberships?: Prisma.CommunityMemberUncheckedCreateNestedManyWithoutUserInput
+  postReactions?: Prisma.PostReactionUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutCheckInsInput = {
@@ -6895,6 +7950,9 @@ export type UserUpdateWithoutCheckInsInput = {
   ticketResponses?: Prisma.SupportTicketResponseUpdateManyWithoutUserNestedInput
   chatMessages?: Prisma.ChatMessageUpdateManyWithoutUserNestedInput
   contactMessages?: Prisma.ContactMessageUpdateManyWithoutUserNestedInput
+  communityGroups?: Prisma.CommunityGroupUpdateManyWithoutCreatorNestedInput
+  communityMemberships?: Prisma.CommunityMemberUpdateManyWithoutUserNestedInput
+  postReactions?: Prisma.PostReactionUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutCheckInsInput = {
@@ -6945,6 +8003,9 @@ export type UserUncheckedUpdateWithoutCheckInsInput = {
   ticketResponses?: Prisma.SupportTicketResponseUncheckedUpdateManyWithoutUserNestedInput
   chatMessages?: Prisma.ChatMessageUncheckedUpdateManyWithoutUserNestedInput
   contactMessages?: Prisma.ContactMessageUncheckedUpdateManyWithoutUserNestedInput
+  communityGroups?: Prisma.CommunityGroupUncheckedUpdateManyWithoutCreatorNestedInput
+  communityMemberships?: Prisma.CommunityMemberUncheckedUpdateManyWithoutUserNestedInput
+  postReactions?: Prisma.PostReactionUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutNotificationsInput = {
@@ -6995,6 +8056,9 @@ export type UserCreateWithoutNotificationsInput = {
   ticketResponses?: Prisma.SupportTicketResponseCreateNestedManyWithoutUserInput
   chatMessages?: Prisma.ChatMessageCreateNestedManyWithoutUserInput
   contactMessages?: Prisma.ContactMessageCreateNestedManyWithoutUserInput
+  communityGroups?: Prisma.CommunityGroupCreateNestedManyWithoutCreatorInput
+  communityMemberships?: Prisma.CommunityMemberCreateNestedManyWithoutUserInput
+  postReactions?: Prisma.PostReactionCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutNotificationsInput = {
@@ -7045,6 +8109,9 @@ export type UserUncheckedCreateWithoutNotificationsInput = {
   ticketResponses?: Prisma.SupportTicketResponseUncheckedCreateNestedManyWithoutUserInput
   chatMessages?: Prisma.ChatMessageUncheckedCreateNestedManyWithoutUserInput
   contactMessages?: Prisma.ContactMessageUncheckedCreateNestedManyWithoutUserInput
+  communityGroups?: Prisma.CommunityGroupUncheckedCreateNestedManyWithoutCreatorInput
+  communityMemberships?: Prisma.CommunityMemberUncheckedCreateNestedManyWithoutUserInput
+  postReactions?: Prisma.PostReactionUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutNotificationsInput = {
@@ -7111,6 +8178,9 @@ export type UserUpdateWithoutNotificationsInput = {
   ticketResponses?: Prisma.SupportTicketResponseUpdateManyWithoutUserNestedInput
   chatMessages?: Prisma.ChatMessageUpdateManyWithoutUserNestedInput
   contactMessages?: Prisma.ContactMessageUpdateManyWithoutUserNestedInput
+  communityGroups?: Prisma.CommunityGroupUpdateManyWithoutCreatorNestedInput
+  communityMemberships?: Prisma.CommunityMemberUpdateManyWithoutUserNestedInput
+  postReactions?: Prisma.PostReactionUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutNotificationsInput = {
@@ -7161,6 +8231,9 @@ export type UserUncheckedUpdateWithoutNotificationsInput = {
   ticketResponses?: Prisma.SupportTicketResponseUncheckedUpdateManyWithoutUserNestedInput
   chatMessages?: Prisma.ChatMessageUncheckedUpdateManyWithoutUserNestedInput
   contactMessages?: Prisma.ContactMessageUncheckedUpdateManyWithoutUserNestedInput
+  communityGroups?: Prisma.CommunityGroupUncheckedUpdateManyWithoutCreatorNestedInput
+  communityMemberships?: Prisma.CommunityMemberUncheckedUpdateManyWithoutUserNestedInput
+  postReactions?: Prisma.PostReactionUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutSupportTicketsInput = {
@@ -7211,6 +8284,9 @@ export type UserCreateWithoutSupportTicketsInput = {
   ticketResponses?: Prisma.SupportTicketResponseCreateNestedManyWithoutUserInput
   chatMessages?: Prisma.ChatMessageCreateNestedManyWithoutUserInput
   contactMessages?: Prisma.ContactMessageCreateNestedManyWithoutUserInput
+  communityGroups?: Prisma.CommunityGroupCreateNestedManyWithoutCreatorInput
+  communityMemberships?: Prisma.CommunityMemberCreateNestedManyWithoutUserInput
+  postReactions?: Prisma.PostReactionCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutSupportTicketsInput = {
@@ -7261,6 +8337,9 @@ export type UserUncheckedCreateWithoutSupportTicketsInput = {
   ticketResponses?: Prisma.SupportTicketResponseUncheckedCreateNestedManyWithoutUserInput
   chatMessages?: Prisma.ChatMessageUncheckedCreateNestedManyWithoutUserInput
   contactMessages?: Prisma.ContactMessageUncheckedCreateNestedManyWithoutUserInput
+  communityGroups?: Prisma.CommunityGroupUncheckedCreateNestedManyWithoutCreatorInput
+  communityMemberships?: Prisma.CommunityMemberUncheckedCreateNestedManyWithoutUserInput
+  postReactions?: Prisma.PostReactionUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutSupportTicketsInput = {
@@ -7327,6 +8406,9 @@ export type UserUpdateWithoutSupportTicketsInput = {
   ticketResponses?: Prisma.SupportTicketResponseUpdateManyWithoutUserNestedInput
   chatMessages?: Prisma.ChatMessageUpdateManyWithoutUserNestedInput
   contactMessages?: Prisma.ContactMessageUpdateManyWithoutUserNestedInput
+  communityGroups?: Prisma.CommunityGroupUpdateManyWithoutCreatorNestedInput
+  communityMemberships?: Prisma.CommunityMemberUpdateManyWithoutUserNestedInput
+  postReactions?: Prisma.PostReactionUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutSupportTicketsInput = {
@@ -7377,6 +8459,9 @@ export type UserUncheckedUpdateWithoutSupportTicketsInput = {
   ticketResponses?: Prisma.SupportTicketResponseUncheckedUpdateManyWithoutUserNestedInput
   chatMessages?: Prisma.ChatMessageUncheckedUpdateManyWithoutUserNestedInput
   contactMessages?: Prisma.ContactMessageUncheckedUpdateManyWithoutUserNestedInput
+  communityGroups?: Prisma.CommunityGroupUncheckedUpdateManyWithoutCreatorNestedInput
+  communityMemberships?: Prisma.CommunityMemberUncheckedUpdateManyWithoutUserNestedInput
+  postReactions?: Prisma.PostReactionUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutTicketResponsesInput = {
@@ -7427,6 +8512,9 @@ export type UserCreateWithoutTicketResponsesInput = {
   supportTickets?: Prisma.SupportTicketCreateNestedManyWithoutUserInput
   chatMessages?: Prisma.ChatMessageCreateNestedManyWithoutUserInput
   contactMessages?: Prisma.ContactMessageCreateNestedManyWithoutUserInput
+  communityGroups?: Prisma.CommunityGroupCreateNestedManyWithoutCreatorInput
+  communityMemberships?: Prisma.CommunityMemberCreateNestedManyWithoutUserInput
+  postReactions?: Prisma.PostReactionCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutTicketResponsesInput = {
@@ -7477,6 +8565,9 @@ export type UserUncheckedCreateWithoutTicketResponsesInput = {
   supportTickets?: Prisma.SupportTicketUncheckedCreateNestedManyWithoutUserInput
   chatMessages?: Prisma.ChatMessageUncheckedCreateNestedManyWithoutUserInput
   contactMessages?: Prisma.ContactMessageUncheckedCreateNestedManyWithoutUserInput
+  communityGroups?: Prisma.CommunityGroupUncheckedCreateNestedManyWithoutCreatorInput
+  communityMemberships?: Prisma.CommunityMemberUncheckedCreateNestedManyWithoutUserInput
+  postReactions?: Prisma.PostReactionUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutTicketResponsesInput = {
@@ -7543,6 +8634,9 @@ export type UserUpdateWithoutTicketResponsesInput = {
   supportTickets?: Prisma.SupportTicketUpdateManyWithoutUserNestedInput
   chatMessages?: Prisma.ChatMessageUpdateManyWithoutUserNestedInput
   contactMessages?: Prisma.ContactMessageUpdateManyWithoutUserNestedInput
+  communityGroups?: Prisma.CommunityGroupUpdateManyWithoutCreatorNestedInput
+  communityMemberships?: Prisma.CommunityMemberUpdateManyWithoutUserNestedInput
+  postReactions?: Prisma.PostReactionUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutTicketResponsesInput = {
@@ -7593,6 +8687,9 @@ export type UserUncheckedUpdateWithoutTicketResponsesInput = {
   supportTickets?: Prisma.SupportTicketUncheckedUpdateManyWithoutUserNestedInput
   chatMessages?: Prisma.ChatMessageUncheckedUpdateManyWithoutUserNestedInput
   contactMessages?: Prisma.ContactMessageUncheckedUpdateManyWithoutUserNestedInput
+  communityGroups?: Prisma.CommunityGroupUncheckedUpdateManyWithoutCreatorNestedInput
+  communityMemberships?: Prisma.CommunityMemberUncheckedUpdateManyWithoutUserNestedInput
+  postReactions?: Prisma.PostReactionUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutChatMessagesInput = {
@@ -7643,6 +8740,9 @@ export type UserCreateWithoutChatMessagesInput = {
   supportTickets?: Prisma.SupportTicketCreateNestedManyWithoutUserInput
   ticketResponses?: Prisma.SupportTicketResponseCreateNestedManyWithoutUserInput
   contactMessages?: Prisma.ContactMessageCreateNestedManyWithoutUserInput
+  communityGroups?: Prisma.CommunityGroupCreateNestedManyWithoutCreatorInput
+  communityMemberships?: Prisma.CommunityMemberCreateNestedManyWithoutUserInput
+  postReactions?: Prisma.PostReactionCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutChatMessagesInput = {
@@ -7693,6 +8793,9 @@ export type UserUncheckedCreateWithoutChatMessagesInput = {
   supportTickets?: Prisma.SupportTicketUncheckedCreateNestedManyWithoutUserInput
   ticketResponses?: Prisma.SupportTicketResponseUncheckedCreateNestedManyWithoutUserInput
   contactMessages?: Prisma.ContactMessageUncheckedCreateNestedManyWithoutUserInput
+  communityGroups?: Prisma.CommunityGroupUncheckedCreateNestedManyWithoutCreatorInput
+  communityMemberships?: Prisma.CommunityMemberUncheckedCreateNestedManyWithoutUserInput
+  postReactions?: Prisma.PostReactionUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutChatMessagesInput = {
@@ -7759,6 +8862,9 @@ export type UserUpdateWithoutChatMessagesInput = {
   supportTickets?: Prisma.SupportTicketUpdateManyWithoutUserNestedInput
   ticketResponses?: Prisma.SupportTicketResponseUpdateManyWithoutUserNestedInput
   contactMessages?: Prisma.ContactMessageUpdateManyWithoutUserNestedInput
+  communityGroups?: Prisma.CommunityGroupUpdateManyWithoutCreatorNestedInput
+  communityMemberships?: Prisma.CommunityMemberUpdateManyWithoutUserNestedInput
+  postReactions?: Prisma.PostReactionUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutChatMessagesInput = {
@@ -7809,6 +8915,9 @@ export type UserUncheckedUpdateWithoutChatMessagesInput = {
   supportTickets?: Prisma.SupportTicketUncheckedUpdateManyWithoutUserNestedInput
   ticketResponses?: Prisma.SupportTicketResponseUncheckedUpdateManyWithoutUserNestedInput
   contactMessages?: Prisma.ContactMessageUncheckedUpdateManyWithoutUserNestedInput
+  communityGroups?: Prisma.CommunityGroupUncheckedUpdateManyWithoutCreatorNestedInput
+  communityMemberships?: Prisma.CommunityMemberUncheckedUpdateManyWithoutUserNestedInput
+  postReactions?: Prisma.PostReactionUncheckedUpdateManyWithoutUserNestedInput
 }
 
 
@@ -7845,6 +8954,9 @@ export type UserCountOutputType = {
   ticketResponses: number
   chatMessages: number
   contactMessages: number
+  communityGroups: number
+  communityMemberships: number
+  postReactions: number
 }
 
 export type UserCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -7876,6 +8988,9 @@ export type UserCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.I
   ticketResponses?: boolean | UserCountOutputTypeCountTicketResponsesArgs
   chatMessages?: boolean | UserCountOutputTypeCountChatMessagesArgs
   contactMessages?: boolean | UserCountOutputTypeCountContactMessagesArgs
+  communityGroups?: boolean | UserCountOutputTypeCountCommunityGroupsArgs
+  communityMemberships?: boolean | UserCountOutputTypeCountCommunityMembershipsArgs
+  postReactions?: boolean | UserCountOutputTypeCountPostReactionsArgs
 }
 
 /**
@@ -8084,6 +9199,27 @@ export type UserCountOutputTypeCountContactMessagesArgs<ExtArgs extends runtime.
   where?: Prisma.ContactMessageWhereInput
 }
 
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountCommunityGroupsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.CommunityGroupWhereInput
+}
+
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountCommunityMembershipsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.CommunityMemberWhereInput
+}
+
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountPostReactionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.PostReactionWhereInput
+}
+
 
 export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -8134,6 +9270,9 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   ticketResponses?: boolean | Prisma.User$ticketResponsesArgs<ExtArgs>
   chatMessages?: boolean | Prisma.User$chatMessagesArgs<ExtArgs>
   contactMessages?: boolean | Prisma.User$contactMessagesArgs<ExtArgs>
+  communityGroups?: boolean | Prisma.User$communityGroupsArgs<ExtArgs>
+  communityMemberships?: boolean | Prisma.User$communityMembershipsArgs<ExtArgs>
+  postReactions?: boolean | Prisma.User$postReactionsArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["user"]>
 
@@ -8232,6 +9371,9 @@ export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   ticketResponses?: boolean | Prisma.User$ticketResponsesArgs<ExtArgs>
   chatMessages?: boolean | Prisma.User$chatMessagesArgs<ExtArgs>
   contactMessages?: boolean | Prisma.User$contactMessagesArgs<ExtArgs>
+  communityGroups?: boolean | Prisma.User$communityGroupsArgs<ExtArgs>
+  communityMemberships?: boolean | Prisma.User$communityMembershipsArgs<ExtArgs>
+  postReactions?: boolean | Prisma.User$postReactionsArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type UserIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
@@ -8270,6 +9412,9 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     ticketResponses: Prisma.$SupportTicketResponsePayload<ExtArgs>[]
     chatMessages: Prisma.$ChatMessagePayload<ExtArgs>[]
     contactMessages: Prisma.$ContactMessagePayload<ExtArgs>[]
+    communityGroups: Prisma.$CommunityGroupPayload<ExtArgs>[]
+    communityMemberships: Prisma.$CommunityMemberPayload<ExtArgs>[]
+    postReactions: Prisma.$PostReactionPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -8714,6 +9859,9 @@ export interface Prisma__UserClient<T, Null = never, ExtArgs extends runtime.Typ
   ticketResponses<T extends Prisma.User$ticketResponsesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$ticketResponsesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$SupportTicketResponsePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   chatMessages<T extends Prisma.User$chatMessagesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$chatMessagesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ChatMessagePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   contactMessages<T extends Prisma.User$contactMessagesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$contactMessagesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ContactMessagePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  communityGroups<T extends Prisma.User$communityGroupsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$communityGroupsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$CommunityGroupPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  communityMemberships<T extends Prisma.User$communityMembershipsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$communityMembershipsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$CommunityMemberPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  postReactions<T extends Prisma.User$postReactionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$postReactionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$PostReactionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -9861,6 +11009,78 @@ export type User$contactMessagesArgs<ExtArgs extends runtime.Types.Extensions.In
   take?: number
   skip?: number
   distinct?: Prisma.ContactMessageScalarFieldEnum | Prisma.ContactMessageScalarFieldEnum[]
+}
+
+/**
+ * User.communityGroups
+ */
+export type User$communityGroupsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the CommunityGroup
+   */
+  select?: Prisma.CommunityGroupSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the CommunityGroup
+   */
+  omit?: Prisma.CommunityGroupOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.CommunityGroupInclude<ExtArgs> | null
+  where?: Prisma.CommunityGroupWhereInput
+  orderBy?: Prisma.CommunityGroupOrderByWithRelationInput | Prisma.CommunityGroupOrderByWithRelationInput[]
+  cursor?: Prisma.CommunityGroupWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.CommunityGroupScalarFieldEnum | Prisma.CommunityGroupScalarFieldEnum[]
+}
+
+/**
+ * User.communityMemberships
+ */
+export type User$communityMembershipsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the CommunityMember
+   */
+  select?: Prisma.CommunityMemberSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the CommunityMember
+   */
+  omit?: Prisma.CommunityMemberOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.CommunityMemberInclude<ExtArgs> | null
+  where?: Prisma.CommunityMemberWhereInput
+  orderBy?: Prisma.CommunityMemberOrderByWithRelationInput | Prisma.CommunityMemberOrderByWithRelationInput[]
+  cursor?: Prisma.CommunityMemberWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.CommunityMemberScalarFieldEnum | Prisma.CommunityMemberScalarFieldEnum[]
+}
+
+/**
+ * User.postReactions
+ */
+export type User$postReactionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the PostReaction
+   */
+  select?: Prisma.PostReactionSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the PostReaction
+   */
+  omit?: Prisma.PostReactionOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.PostReactionInclude<ExtArgs> | null
+  where?: Prisma.PostReactionWhereInput
+  orderBy?: Prisma.PostReactionOrderByWithRelationInput | Prisma.PostReactionOrderByWithRelationInput[]
+  cursor?: Prisma.PostReactionWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.PostReactionScalarFieldEnum | Prisma.PostReactionScalarFieldEnum[]
 }
 
 /**

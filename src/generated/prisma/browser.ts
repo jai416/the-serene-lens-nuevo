@@ -158,6 +158,26 @@ export type CommunityPost = Prisma.CommunityPostModel
  */
 export type Comment = Prisma.CommentModel
 /**
+ * Model CommunityGroup
+ * 
+ */
+export type CommunityGroup = Prisma.CommunityGroupModel
+/**
+ * Model CommunityMember
+ * 
+ */
+export type CommunityMember = Prisma.CommunityMemberModel
+/**
+ * Model PostReaction
+ * 
+ */
+export type PostReaction = Prisma.PostReactionModel
+/**
+ * Model ConversationState
+ * 
+ */
+export type ConversationState = Prisma.ConversationStateModel
+/**
  * Model SkinDiary
  * 
  */

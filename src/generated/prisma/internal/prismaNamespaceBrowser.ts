@@ -79,6 +79,10 @@ export const ModelName = {
   SurveyFeedback: 'SurveyFeedback',
   CommunityPost: 'CommunityPost',
   Comment: 'Comment',
+  CommunityGroup: 'CommunityGroup',
+  CommunityMember: 'CommunityMember',
+  PostReaction: 'PostReaction',
+  ConversationState: 'ConversationState',
   SkinDiary: 'SkinDiary',
   Challenge: 'Challenge',
   UserChallenge: 'UserChallenge',
@@ -368,8 +372,12 @@ export type AffiliateClickScalarFieldEnum = (typeof AffiliateClickScalarFieldEnu
 export const ContactMessageScalarFieldEnum = {
   id: 'id',
   userId: 'userId',
+  name: 'name',
+  email: 'email',
+  subject: 'subject',
   message: 'message',
   status: 'status',
+  read: 'read',
   reply: 'reply',
   repliedAt: 'repliedAt',
   createdAt: 'createdAt',
@@ -422,6 +430,7 @@ export const BotFeedbackScalarFieldEnum = {
   knowledgeId: 'knowledgeId',
   userId: 'userId',
   chatId: 'chatId',
+  rating: 'rating',
   helpful: 'helpful',
   comment: 'comment',
   createdAt: 'createdAt'
@@ -499,6 +508,7 @@ export type SurveyFeedbackScalarFieldEnum = (typeof SurveyFeedbackScalarFieldEnu
 export const CommunityPostScalarFieldEnum = {
   id: 'id',
   userId: 'userId',
+  groupId: 'groupId',
   title: 'title',
   content: 'content',
   category: 'category',
@@ -519,6 +529,52 @@ export const CommentScalarFieldEnum = {
 } as const
 
 export type CommentScalarFieldEnum = (typeof CommentScalarFieldEnum)[keyof typeof CommentScalarFieldEnum]
+
+
+export const CommunityGroupScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  slug: 'slug',
+  description: 'description',
+  image: 'image',
+  createdById: 'createdById',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type CommunityGroupScalarFieldEnum = (typeof CommunityGroupScalarFieldEnum)[keyof typeof CommunityGroupScalarFieldEnum]
+
+
+export const CommunityMemberScalarFieldEnum = {
+  id: 'id',
+  groupId: 'groupId',
+  userId: 'userId',
+  role: 'role',
+  joinedAt: 'joinedAt'
+} as const
+
+export type CommunityMemberScalarFieldEnum = (typeof CommunityMemberScalarFieldEnum)[keyof typeof CommunityMemberScalarFieldEnum]
+
+
+export const PostReactionScalarFieldEnum = {
+  id: 'id',
+  postId: 'postId',
+  userId: 'userId',
+  type: 'type',
+  createdAt: 'createdAt'
+} as const
+
+export type PostReactionScalarFieldEnum = (typeof PostReactionScalarFieldEnum)[keyof typeof PostReactionScalarFieldEnum]
+
+
+export const ConversationStateScalarFieldEnum = {
+  chatId: 'chatId',
+  step: 'step',
+  data: 'data',
+  updatedAt: 'updatedAt'
+} as const
+
+export type ConversationStateScalarFieldEnum = (typeof ConversationStateScalarFieldEnum)[keyof typeof ConversationStateScalarFieldEnum]
 
 
 export const SkinDiaryScalarFieldEnum = {
@@ -611,6 +667,7 @@ export const DigitalProductScalarFieldEnum = {
   shortDesc: 'shortDesc',
   image: 'image',
   category: 'category',
+  level: 'level',
   price: 'price',
   fileUrl: 'fileUrl',
   isActive: 'isActive',

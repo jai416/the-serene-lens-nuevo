@@ -5,7 +5,7 @@ import { getToken } from "next-auth/jwt"
 
 const CSP_DIRECTIVES = [
   "default-src 'self'",
-  "script-src 'self' 'unsafe-inline' https://us-assets.i.posthog.com",
+  "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://us-assets.i.posthog.com",
   "style-src 'self' 'unsafe-inline'",
   "img-src 'self' data: blob: https://avatars.githubusercontent.com https://lh3.googleusercontent.com https://cdn-icons-png.flaticon.com https://*.supabase.co",
   "font-src 'self' data:",
@@ -43,7 +43,8 @@ export async function middleware(request: NextRequest) {
 
   if (["POST", "PATCH", "DELETE"].includes(request.method) &&
       request.nextUrl.pathname.startsWith("/api/") &&
-      !request.nextUrl.pathname.startsWith("/api/telegram/webhook")) {
+      !request.nextUrl.pathname.startsWith("/api/telegram/webhook") &&
+      !request.nextUrl.pathname.startsWith("/api/chat")) {
     if (!request.headers.get("x-csrf-skip")) {
       const headerToken = request.headers.get("x-csrf-token")
       const cookieToken = request.cookies.get("csrf-token")?.value

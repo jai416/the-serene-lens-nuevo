@@ -24,6 +24,7 @@ import {
   BookOpen,
   Trophy,
   FileText,
+  HelpCircle,
 } from "lucide-react"
 import { useState } from "react"
 import { ThemeToggle } from "@/components/theme-toggle"
@@ -50,6 +51,7 @@ const authLinks = [
   { href: "/dashboard/social", label: "Social", icon: Users },
   { href: "/dashboard/guides", label: "Mis Guías", icon: BookOpen },
   { href: "/dashboard/esthetician", label: "Esteticista", icon: Users },
+  { href: "/dashboard/support", label: "Soporte", icon: HelpCircle },
   { href: "/dashboard/profile", label: "Cuenta", icon: User },
 ]
 

@@ -88,6 +88,17 @@ export default function AnalysisResultsPage() {
   const [feedbackSubmitting, setFeedbackSubmitting] = useState(false)
   const savedRef = useRef(false)
 
+  function safeParseArray(val: unknown): string[] {
+    if (Array.isArray(val)) return val
+    if (typeof val === "string") { try { const p = JSON.parse(val); return Array.isArray(p) ? p : [] } catch { return [] } }
+    return []
+  }
+
+  function safeParseRecord(val: unknown): Record<string, string> {
+    if (val && typeof val === "object" && !Array.isArray(val)) return val as Record<string, string>
+    return {}
+  }
+
   useEffect(() => {
     const fetchAnalysis = async () => {
       try {
@@ -105,12 +116,12 @@ export default function AnalysisResultsPage() {
           uniformity: obs.uniformity || "",
           apparentSensitivity: obs.apparentSensitivity || "",
           apparentOil: obs.apparentOil || "",
-          observations: obs.observations || JSON.parse(analysisData.observations || "[]"),
-          observationExplanations: obs.observationExplanations || {},
-          recommendations: JSON.parse(analysisData.recommendations || "[]"),
+          observations: safeParseArray(obs.observations),
+          observationExplanations: safeParseRecord(obs.observationExplanations),
+          recommendations: safeParseArray(analysisData.recommendations),
           confidence: obs.confidence || "media",
           confidenceReason: obs.confidenceReason || "",
-          routine: JSON.parse(analysisData.routine || '{"morning":[],"evening":[]}'),
+          routine: typeof obs.routine === "object" && obs.routine ? obs.routine : { morning: [], evening: [] },
         }
         setResult(parsed)
       } catch {
