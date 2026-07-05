@@ -1,11 +1,5 @@
-import type { NextConfig } from "next";
-import { fileURLToPath } from "url"
-import path from "path"
-
-const __filename = fileURLToPath(import.meta.url)
-const __dirname = path.dirname(__filename)
-
-const nextConfig: NextConfig = {
+/** @type {import('next').NextConfig} */
+const nextConfig = {
   transpilePackages: ["lucide-react"],
   compiler: {
     removeConsole: false,
@@ -16,6 +10,8 @@ const nextConfig: NextConfig = {
       { protocol: "https", hostname: "lh3.googleusercontent.com" },
       { protocol: "https", hostname: "*.supabase.co" },
       { protocol: "https", hostname: "cdn-icons-png.flaticon.com" },
+      { protocol: "https", hostname: "images.pexels.com" },
+      { protocol: "https", hostname: "images.unsplash.com" },
     ],
     formats: ["image/avif", "image/webp"],
     deviceSizes: [640, 750, 828, 1080, 1200, 1920, 2048, 3840],
@@ -23,9 +19,6 @@ const nextConfig: NextConfig = {
     minimumCacheTTL: 60 * 60 * 24 * 7,
   },
   serverExternalPackages: ["pg", "@prisma/adapter-pg", "bcrypt"],
-  turbopack: {
-    root: __dirname,
-  },
   async headers() {
     return [
       {
@@ -43,9 +36,9 @@ const nextConfig: NextConfig = {
               "default-src 'self'",
               "script-src 'self' 'unsafe-inline' https://us-assets.i.posthog.com",
               "style-src 'self' 'unsafe-inline'",
-              "img-src 'self' data: blob: https://avatars.githubusercontent.com https://lh3.googleusercontent.com https://cdn-icons-png.flaticon.com https://*.supabase.co",
+              "img-src 'self' data: blob: https://avatars.githubusercontent.com https://lh3.googleusercontent.com https://cdn-icons-png.flaticon.com https://*.supabase.co https://images.pexels.com https://images.unsplash.com",
               "font-src 'self' data:",
-              "connect-src 'self' https://api.openrouter.ai https://api.qvapay.com https://www.qvapay.com https://*.supabase.co https://app.posthog.com https://us.i.posthog.com https://us-assets.i.posthog.com https://o4511315853246464.ingest.us.sentry.io",
+              "connect-src 'self' https://api.openrouter.ai https://api.qvapay.com https://www.qvapay.com https://*.supabase.co https://app.posthog.com https://us.i.posthog.com https://us-assets.i.posthog.com https://o4511315853246464.ingest.us.sentry.io https://api.telegram.org",
               "frame-src 'self'",
               "object-src 'none'",
               "base-uri 'self'",
