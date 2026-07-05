@@ -77,7 +77,7 @@ export default function HistoryPage() {
             <History className="w-3.5 h-3.5 mr-2" />
             Historial
           </Badge>
-          <h1 className="font-serif text-3xl sm:text-4xl font-semibold text-[#3D3229]">
+          <h1 className="font-serif text-3xl sm:text-4xl font-semibold text-[#2F3A2D]">
             Mi Historial
           </h1>
         </div>
@@ -87,12 +87,12 @@ export default function HistoryPage() {
         {analyses.length === 0 ? (
           <Card className="p-8 text-center">
             <CardContent className="p-0">
-              <div className="w-14 h-14 rounded-2xl bg-[#E8D5C4] flex items-center justify-center mx-auto mb-4">
-                <Scan className="w-6 h-6 text-[#3D3229]" />
+              <div className="w-14 h-14 rounded-2xl bg-[#C2E09D] flex items-center justify-center mx-auto mb-4">
+                <Scan className="w-6 h-6 text-[#2F3A2D]" />
               </div>
-              <p className="text-[#8A7A6A] mb-4">No tienes análisis guardados aún.</p>
+              <p className="text-[#64705E] mb-4">No tienes análisis guardados aún.</p>
               <Link href="/analysis">
-                <span className="text-[#3D3229] text-sm font-medium hover:underline cursor-pointer">
+                <span className="text-[#2F3A2D] text-sm font-medium hover:underline cursor-pointer">
                   Haz tu primer análisis
                 </span>
               </Link>
@@ -106,21 +106,21 @@ export default function HistoryPage() {
                   <CardContent className="p-4 sm:p-5 flex items-center justify-between">
                     <div className="flex items-center gap-3">
                       <div className="w-10 h-10 rounded-xl bg-[#F0F5EC] flex items-center justify-center flex-shrink-0">
-                        <Scan className="w-4 h-4 text-[#3D3229]" />
+                        <Scan className="w-4 h-4 text-[#2F3A2D]" />
                       </div>
                       <div>
-                        <p className="text-sm font-medium text-[#3D3229]">
+                        <p className="text-sm font-medium text-[#2F3A2D]">
                           Análisis {a.skinType ? `- Piel ${a.skinType}` : ""}
                         </p>
-                        <p className="text-xs text-[#8A7A6A]">{formatDate(a.createdAt)}</p>
+                        <p className="text-xs text-[#64705E]">{formatDate(a.createdAt)}</p>
                         {a.concerns && (
-                          <p className="text-xs text-[#8A7A6A] mt-0.5 truncate max-w-[200px] sm:max-w-sm">
+                          <p className="text-xs text-[#64705E] mt-0.5 truncate max-w-[200px] sm:max-w-sm">
                             {a.concerns}
                           </p>
                         )}
                       </div>
                     </div>
-                    <ArrowRight className="w-4 h-4 text-[#A89888] group-hover:text-[#3D3229] transition-colors" />
+                    <ArrowRight className="w-4 h-4 text-[#9BAA93] group-hover:text-[#2F3A2D] transition-colors" />
                   </CardContent>
                 </Card>
               </Link>

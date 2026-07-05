@@ -182,37 +182,37 @@ export default function PricingPage() {
     loading === `${id}-paypal` || loading === `${id}-qvapay` || loading === `${id}-transfer`
 
   return (
-    <div className="min-h-screen pt-24 pb-16 px-4 bg-[#FFF8F0]">
+    <div className="min-h-screen pt-24 pb-16 px-4 bg-[#F8FAF5]">
       {/* Transfer Modal */}
       {selectedTransfer && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 px-4">
           <div className="bg-white rounded-2xl p-6 max-w-sm w-full shadow-xl">
-            <h3 className="text-lg font-semibold text-[#3D3229] mb-4">
+            <h3 className="text-lg font-semibold text-[#2F3A2D] mb-4">
               Transferencia por Transfermovil
             </h3>
               <div className="space-y-3 text-sm">
-                <div className="flex justify-between py-2 border-b border-[#E8DDD0]">
-                  <span className="text-[#8A7A6A]">Codigo de referencia</span>
-                  <span className="font-mono font-medium text-[#3D3229]">{selectedTransfer.referenceCode || selectedTransfer.reference}</span>
+                <div className="flex justify-between py-2 border-b border-[#DDE7D3]">
+                  <span className="text-[#64705E]">Codigo de referencia</span>
+                  <span className="font-mono font-medium text-[#2F3A2D]">{selectedTransfer.referenceCode || selectedTransfer.reference}</span>
                 </div>
                 {(selectedTransfer.account || selectedTransfer.accountNumber) && (
-                  <div className="flex justify-between py-2 border-b border-[#E8DDD0]">
-                    <span className="text-[#8A7A6A]">Numero de cuenta</span>
-                    <span className="font-medium text-[#3D3229]">{selectedTransfer.account || selectedTransfer.accountNumber}</span>
+                  <div className="flex justify-between py-2 border-b border-[#DDE7D3]">
+                    <span className="text-[#64705E]">Numero de cuenta</span>
+                    <span className="font-medium text-[#2F3A2D]">{selectedTransfer.account || selectedTransfer.accountNumber}</span>
                   </div>
                 )}
                 {selectedTransfer.holder && (
-                  <div className="flex justify-between py-2 border-b border-[#E8DDD0]">
-                    <span className="text-[#8A7A6A]">Titular</span>
-                    <span className="font-medium text-[#3D3229]">{selectedTransfer.holder}</span>
+                  <div className="flex justify-between py-2 border-b border-[#DDE7D3]">
+                    <span className="text-[#64705E]">Titular</span>
+                    <span className="font-medium text-[#2F3A2D]">{selectedTransfer.holder}</span>
                   </div>
                 )}
-                <div className="flex justify-between py-2 border-b border-[#E8DDD0]">
-                  <span className="text-[#8A7A6A]">Monto a enviar</span>
-                  <span className="font-medium text-[#3D3229]">${selectedTransfer.amount?.toFixed(2)}</span>
+                <div className="flex justify-between py-2 border-b border-[#DDE7D3]">
+                  <span className="text-[#64705E]">Monto a enviar</span>
+                  <span className="font-medium text-[#2F3A2D]">${selectedTransfer.amount?.toFixed(2)}</span>
                 </div>
               </div>
-            <p className="text-xs text-[#A89888] mt-4 text-center">
+            <p className="text-xs text-[#9BAA93] mt-4 text-center">
               Realiza la transferencia y tu plan se activara manualmente.
             </p>
             <Button
@@ -232,13 +232,13 @@ export default function PricingPage() {
             <CreditCard className="w-3.5 h-3.5 mr-2" />
             Precios
           </Badge>
-          <h1 className="font-serif text-3xl sm:text-4xl lg:text-5xl font-semibold mb-4 text-[#3D3229]">
+          <h1 className="font-serif text-3xl sm:text-4xl lg:text-5xl font-semibold mb-4 text-[#2F3A2D]">
             Un Plan para Cada Objetivo
           </h1>
-          <p className="text-[#8A7A6A] max-w-lg mx-auto">
+          <p className="text-[#64705E] max-w-lg mx-auto">
             Desde analisis individuales hasta suscripciones ilimitadas. Tu eliges.
           </p>
-          <div className="flex items-center justify-center gap-4 mt-4 text-xs text-[#8A7A6A]">
+          <div className="flex items-center justify-center gap-4 mt-4 text-xs text-[#64705E]">
             <span className="flex items-center gap-1"><Lock className="w-3 h-3 text-[#C2E09D]" /> Pago seguro</span>
             <span className="flex items-center gap-1"><Zap className="w-3 h-3 text-[#C2E09D]" /> Sin compromiso</span>
           </div>
@@ -250,7 +250,7 @@ export default function PricingPage() {
             <button
               onClick={() => setTab("subscriptions")}
               className={`flex items-center gap-2 px-5 py-2 rounded-full text-sm font-medium transition-all ${
-                tab === "subscriptions" ? "bg-white shadow-sm text-[#3D3229]" : "text-[#8A7A6A] hover:text-[#3D3229]"
+                tab === "subscriptions" ? "bg-white shadow-sm text-[#2F3A2D]" : "text-[#64705E] hover:text-[#2F3A2D]"
               }`}
             >
               <Repeat className="w-4 h-4" />
@@ -259,7 +259,7 @@ export default function PricingPage() {
             <button
               onClick={() => setTab("packs")}
               className={`flex items-center gap-2 px-5 py-2 rounded-full text-sm font-medium transition-all ${
-                tab === "packs" ? "bg-white shadow-sm text-[#3D3229]" : "text-[#8A7A6A] hover:text-[#3D3229]"
+                tab === "packs" ? "bg-white shadow-sm text-[#2F3A2D]" : "text-[#64705E] hover:text-[#2F3A2D]"
               }`}
             >
               <ShoppingBag className="w-4 h-4" />
@@ -295,29 +295,29 @@ export default function PricingPage() {
                 )}
 
                 <div className="text-center mb-6">
-                  <p className="text-lg font-semibold mb-1 text-[#3D3229]">{plan.name}</p>
+                  <p className="text-lg font-semibold mb-1 text-[#2F3A2D]">{plan.name}</p>
                   {plan.priceUSD > 0 ? (
                     <>
                       <div className="flex items-baseline justify-center gap-1">
-                        <span className={`font-bold text-[#3D3229] ${plan.popular ? "text-3xl" : "text-2xl"}`}>
+                        <span className={`font-bold text-[#2F3A2D] ${plan.popular ? "text-3xl" : "text-2xl"}`}>
                           ${plan.priceUSD.toFixed(2)}
                         </span>
-                        <span className="text-sm text-[#8A7A6A]">/{plan.period}</span>
+                        <span className="text-sm text-[#64705E]">/{plan.period}</span>
                       </div>
-                      <p className="text-xs text-[#A89888] mt-1">
+                      <p className="text-xs text-[#9BAA93] mt-1">
                         ≈ {plan.priceCUP.toLocaleString("es-CU")} CUP
                       </p>
                     </>
                   ) : (
                     <div className="flex items-baseline justify-center gap-1">
-                      <span className="text-2xl font-bold text-[#3D3229]">Gratis</span>
+                      <span className="text-2xl font-bold text-[#2F3A2D]">Gratis</span>
                     </div>
                   )}
                 </div>
 
                 <ul className="space-y-2.5 mb-6 flex-1">
                   {plan.features.map((f) => (
-                    <li key={f} className="flex items-start gap-2.5 text-sm text-[#8A7A6A]">
+                    <li key={f} className="flex items-start gap-2.5 text-sm text-[#64705E]">
                       <CheckCircle2 className={`w-4 h-4 flex-shrink-0 mt-0.5 ${plan.popular ? "text-[#C2E09D]" : ""}`} />
                       {f}
                     </li>
@@ -415,24 +415,24 @@ export default function PricingPage() {
                   <div className="w-10 h-10 rounded-xl bg-[#C2E09D]/10 flex items-center justify-center mx-auto mb-3">
                     <ShoppingBag className="w-5 h-5 text-[#C2E09D]" />
                   </div>
-                  <p className="text-lg font-semibold mb-1 text-[#3D3229]">{pack.name}</p>
+                  <p className="text-lg font-semibold mb-1 text-[#2F3A2D]">{pack.name}</p>
                   <div className="flex items-baseline justify-center gap-1">
-                    <span className={`font-bold text-[#3D3229] ${pack.popular ? "text-3xl" : "text-2xl"}`}>
+                    <span className={`font-bold text-[#2F3A2D] ${pack.popular ? "text-3xl" : "text-2xl"}`}>
                       ${pack.priceUSD.toFixed(2)}
                     </span>
-                    <span className="text-sm text-[#8A7A6A]">USD</span>
+                    <span className="text-sm text-[#64705E]">USD</span>
                   </div>
-                  <p className="text-xs text-[#A89888] mt-1">
+                  <p className="text-xs text-[#9BAA93] mt-1">
                     ≈ {pack.priceCUP.toLocaleString("es-CU")} CUP
                   </p>
-                  <p className="text-xs text-[#8A7A6A] mt-2">
-                    <span className="text-[#3D3229] font-medium">{pack.analyses}</span> analisis · Valido por 30 dias
+                  <p className="text-xs text-[#64705E] mt-2">
+                    <span className="text-[#2F3A2D] font-medium">{pack.analyses}</span> analisis · Valido por 30 dias
                   </p>
                 </div>
 
                 <ul className="space-y-2.5 mb-6 flex-1">
                   {pack.features.map((f) => (
-                    <li key={f} className="flex items-start gap-2.5 text-sm text-[#8A7A6A]">
+                    <li key={f} className="flex items-start gap-2.5 text-sm text-[#64705E]">
                       <CheckCircle2 className={`w-4 h-4 flex-shrink-0 mt-0.5 ${pack.popular ? "text-[#C2E09D]" : ""}`} />
                       {f}
                     </li>
@@ -490,7 +490,7 @@ export default function PricingPage() {
 
         {/* Currencies badge */}
         <div className="flex flex-wrap items-center justify-center gap-3 mt-12">
-          <span className="text-xs text-[#8A7A6A] mr-2">Aceptamos:</span>
+          <span className="text-xs text-[#64705E] mr-2">Aceptamos:</span>
           <Badge variant="outline" className="rounded-full px-3 py-1.5 gap-1.5 text-xs">
             <DollarSign className="w-3 h-3 text-[#C2E09D]" />
             USD
@@ -498,11 +498,11 @@ export default function PricingPage() {
           <Badge variant="outline" className="rounded-full px-3 py-1.5 gap-1.5 text-xs">
             <Coins className="w-3 h-3 text-[#C2E09D]" />
             CUP
-            <span className="text-[#A89888]">1 USD ≈ {CUP_RATE} CUP</span>
+            <span className="text-[#9BAA93]">1 USD ≈ {CUP_RATE} CUP</span>
           </Badge>
         </div>
 
-        <p className="text-xs text-[#A89888] text-center max-w-md mx-auto mt-6">
+        <p className="text-xs text-[#9BAA93] text-center max-w-md mx-auto mt-6">
           Pagos procesados de forma segura a traves de QvaPay, PayPal y Transfermovil.
           No almacenamos informacion de pago.
         </p>

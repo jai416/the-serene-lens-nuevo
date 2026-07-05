@@ -88,10 +88,10 @@ export default function ProductsPage() {
             <Package className="w-3.5 h-3.5 mr-2" />
             Productos
           </Badge>
-          <h1 className="font-serif text-3xl sm:text-4xl font-semibold mb-2 text-[#3D3229]">
+          <h1 className="font-serif text-3xl sm:text-4xl font-semibold mb-2 text-[#2F3A2D]">
             Catálogo de Productos
           </h1>
-          <p className="text-[#8A7A6A] max-w-lg mx-auto">
+          <p className="text-[#64705E] max-w-lg mx-auto">
             Explora nuestra selección de productos de skincare.
           </p>
         </div>
@@ -101,12 +101,12 @@ export default function ProductsPage() {
           <CardContent className="p-0">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-4">
-                <div className="w-10 h-10 rounded-xl bg-[#E8D5C4] flex items-center justify-center shrink-0">
-                  <Camera className="w-5 h-5 text-[#3D3229]" />
+                <div className="w-10 h-10 rounded-xl bg-[#C2E09D] flex items-center justify-center shrink-0">
+                  <Camera className="w-5 h-5 text-[#2F3A2D]" />
                 </div>
                 <div>
-                  <h2 className="font-medium text-sm text-[#3D3229]">¿Tienes un producto?</h2>
-                  <p className="text-xs text-[#8A7A6A]">Analiza sus ingredientes con IA</p>
+                  <h2 className="font-medium text-sm text-[#2F3A2D]">¿Tienes un producto?</h2>
+                  <p className="text-xs text-[#64705E]">Analiza sus ingredientes con IA</p>
                 </div>
               </div>
               <Link href="/ingredients-analyzer">
@@ -127,8 +127,8 @@ export default function ProductsPage() {
                 onClick={() => setSelectedCategory("")}
                 className={`px-4 py-2 text-sm rounded-full whitespace-nowrap transition-colors font-medium ${
                   !selectedCategory
-                    ? "bg-[#E8D5C4] text-[#3D3229]"
-                    : "bg-[#F0F5EC] hover:bg-[#E8F0E0] text-[#8A7A6A]"
+                    ? "bg-[#C2E09D] text-[#2F3A2D]"
+                    : "bg-[#F0F5EC] hover:bg-[#E8F0E0] text-[#64705E]"
                 }`}
               >
                 Todos
@@ -139,8 +139,8 @@ export default function ProductsPage() {
                   onClick={() => setSelectedCategory(cat)}
                   className={`px-4 py-2 text-sm rounded-full whitespace-nowrap transition-colors font-medium ${
                     selectedCategory === cat
-                      ? "bg-[#E8D5C4] text-[#3D3229]"
-                      : "bg-[#F0F5EC] hover:bg-[#E8F0E0] text-[#8A7A6A]"
+                      ? "bg-[#C2E09D] text-[#2F3A2D]"
+                      : "bg-[#F0F5EC] hover:bg-[#E8F0E0] text-[#64705E]"
                   }`}
                 >
                   {cat}
@@ -152,18 +152,18 @@ export default function ProductsPage() {
 
         {/* Catalog */}
         <div className="mb-8">
-          <h2 className="font-serif text-2xl font-semibold text-[#3D3229] mb-6">Catálogo de Productos</h2>
+          <h2 className="font-serif text-2xl font-semibold text-[#2F3A2D] mb-6">Catálogo de Productos</h2>
 
           {loading ? (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"><CardSkeleton /><CardSkeleton /><CardSkeleton /></div>
           ) : products.length === 0 ? (
-            <p className="text-center text-[#8A7A6A] py-10">No hay productos disponibles.</p>
+            <p className="text-center text-[#64705E] py-10">No hay productos disponibles.</p>
           ) : (
             <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
               {products.map((product) => (
                 <Link key={product.id} href={`/products/${product.slug}`}>
-                  <Card className="hover:ring-1 hover:ring-[#E8D5C4] transition-all h-full group overflow-hidden">
-                    <div className="relative aspect-square bg-[#FFF8F0] overflow-hidden">
+                  <Card className="hover:ring-1 hover:ring-[#C2E09D] transition-all h-full group overflow-hidden">
+                    <div className="relative aspect-square bg-[#F8FAF5] overflow-hidden">
                       <Image
                         src={product.image || "/images/placeholder.svg"}
                         alt={product.name}
@@ -173,8 +173,8 @@ export default function ProductsPage() {
                     </div>
                     <CardContent className="p-4">
                       <Badge variant="secondary" className="text-[10px] mb-2">{product.category}</Badge>
-                      <h3 className="font-medium text-sm mb-1 line-clamp-2 text-[#3D3229]">{product.name}</h3>
-                      <p className="text-xs text-[#8A7A6A] line-clamp-2">{product.shortDesc}</p>
+                      <h3 className="font-medium text-sm mb-1 line-clamp-2 text-[#2F3A2D]">{product.name}</h3>
+                      <p className="text-xs text-[#64705E] line-clamp-2">{product.shortDesc}</p>
                     </CardContent>
                   </Card>
                 </Link>

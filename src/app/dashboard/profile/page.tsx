@@ -67,7 +67,7 @@ export default function ProfilePage() {
             <User className="w-3.5 h-3.5 mr-2" />
             Perfil
           </Badge>
-          <h1 className="font-serif text-3xl sm:text-4xl font-semibold text-[#3D3229]">
+          <h1 className="font-serif text-3xl sm:text-4xl font-semibold text-[#2F3A2D]">
             Mi Perfil
           </h1>
         </div>
@@ -75,33 +75,33 @@ export default function ProfilePage() {
         <Card className="p-6">
           <CardContent className="p-0 space-y-5">
             <div>
-              <label className="text-sm font-medium mb-1.5 block text-[#3D3229]">Nombre</label>
+              <label className="text-sm font-medium mb-1.5 block text-[#2F3A2D]">Nombre</label>
               <input
                 type="text"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
-                className="w-full rounded-xl border border-[#E8DDD0] bg-white px-4 py-2.5 text-sm focus:outline-none focus:ring-1 focus:ring-[#E8D5C4] text-[#3D3229]"
+                className="w-full rounded-xl border border-[#DDE7D3] bg-white px-4 py-2.5 text-sm focus:outline-none focus:ring-1 focus:ring-[#C2E09D] text-[#2F3A2D]"
                 placeholder="Tu nombre"
               />
             </div>
 
             <div>
-              <label className="text-sm font-medium mb-1.5 block text-[#3D3229]">Email</label>
+              <label className="text-sm font-medium mb-1.5 block text-[#2F3A2D]">Email</label>
               <input
                 type="email"
                 value={session.user.email || ""}
                 disabled
-                className="w-full rounded-xl border border-[#E8DDD0] bg-[#F0F5EC] px-4 py-2.5 text-sm text-[#8A7A6A] cursor-not-allowed"
+                className="w-full rounded-xl border border-[#DDE7D3] bg-[#F0F5EC] px-4 py-2.5 text-sm text-[#64705E] cursor-not-allowed"
               />
             </div>
 
             <div>
-              <label className="text-sm font-medium mb-1.5 block text-[#3D3229]">Plan</label>
+              <label className="text-sm font-medium mb-1.5 block text-[#2F3A2D]">Plan</label>
               <input
                 type="text"
                 value={(session.user as any).plan === "PREMIUM" ? "Premium" : (session.user as any).plan === "PRO" ? "Pro" : "Gratuito"}
                 disabled
-                className="w-full rounded-xl border border-[#E8DDD0] bg-[#F0F5EC] px-4 py-2.5 text-sm text-[#8A7A6A] cursor-not-allowed"
+                className="w-full rounded-xl border border-[#DDE7D3] bg-[#F0F5EC] px-4 py-2.5 text-sm text-[#64705E] cursor-not-allowed"
               />
             </div>
 
@@ -113,7 +113,7 @@ export default function ProfilePage() {
             )}
 
             {success && (
-              <p className="text-sm text-[#3D3229]">Perfil actualizado</p>
+              <p className="text-sm text-[#2F3A2D]">Perfil actualizado</p>
             )}
 
             <Button onClick={handleSave} disabled={saving} variant="primary">
@@ -126,7 +126,7 @@ export default function ProfilePage() {
         {/* ── Cerrar sesión ── */}
         <Card className="p-6 mt-6">
           <CardContent className="p-0">
-            <p className="text-sm text-[#8A7A6A] mb-4">
+            <p className="text-sm text-[#64705E] mb-4">
               Cierra sesión en este dispositivo. Podrás volver a iniciar sesión cuando quieras.
             </p>
             <Button
@@ -148,7 +148,7 @@ export default function ProfilePage() {
             </CardTitle>
           </CardHeader>
           <CardContent className="p-0">
-            <p className="text-sm text-[#8A7A6A] mb-4">
+            <p className="text-sm text-[#64705E] mb-4">
               Esta acción eliminará permanentemente tu cuenta y todos tus datos. No se puede deshacer.
             </p>
             {showDeleteConfirm ? (

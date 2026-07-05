@@ -28,7 +28,8 @@ export default function LiveChatWidget() {
       fetch("/api/chat/session", { method: "POST" })
         .then((r) => r.json())
         .then((data) => {
-          const id = data.sessionId
+          const id = data?.sessionId || data?.data?.sessionId
+          if (!id) { setError(true); return }
           localStorage.setItem("chat_session_id", id)
           setSessionId(id)
         })

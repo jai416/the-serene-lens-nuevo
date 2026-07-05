@@ -123,13 +123,13 @@ export default function AdminPage() {
   if (session.user.role !== "ADMIN") {
     return (
       <div className="min-h-screen pt-24 flex items-center justify-center">
-        <div className="text-center p-8 bg-[#15110E] rounded-2xl border border-[#3A3330] max-w-md">
+        <div className="text-center p-8 bg-[#1E251C] rounded-2xl border border-[#222920] max-w-md">
           <div className="w-12 h-12 rounded-full bg-[#FB7185]/20 flex items-center justify-center mx-auto mb-4">
             <span className="text-[#FB7185] text-xl font-bold">!</span>
           </div>
           <h1 className="text-xl font-bold text-[#FB7185] mb-2">Acceso denegado</h1>
-          <p className="text-sm text-[#A89888] mb-1">No tienes permisos de administrador.</p>
-          <p className="text-sm text-[#6B5C4F]">Tu rol: <code className="bg-[#3A3330] px-2 py-0.5 rounded text-[#E8D5C4]">{session.user.role}</code></p>
+          <p className="text-sm text-[#9BAA93] mb-1">No tienes permisos de administrador.</p>
+          <p className="text-sm text-[#6B5C4F]">Tu rol: <code className="bg-[#222920] px-2 py-0.5 rounded text-[#C2E09D]">{session.user.role}</code></p>
           <p className="text-sm text-[#6B5C4F] mt-1">Email: {session.user.email}</p>
         </div>
       </div>
@@ -164,17 +164,17 @@ export default function AdminPage() {
   ]
 
   const adminText = "text-[#E8DED5]"
-  const adminSecondary = "text-[#A89888]"
+  const adminSecondary = "text-[#9BAA93]"
   const adminMuted = "text-[#6B5C4F]"
-  const adminCard = "bg-[#1C1814] border-[#3A3330]"
-  const adminAccent = "#E8D5C4"
+  const adminCard = "bg-[#1A1F19] border-[#222920]"
+  const adminAccent = "#C2E09D"
 
   return (
     <div className="overflow-x-hidden">
       <NewUserToast />
       <div className="mb-8">
         <div className="flex items-center gap-2 mb-3">
-          <Badge className="bg-[#E8D5C4]/20 text-[#E8D5C4] border-0 rounded-full px-3 py-1 text-[10px] font-medium">
+          <Badge className="bg-[#C2E09D]/20 text-[#C2E09D] border-0 rounded-full px-3 py-1 text-[10px] font-medium">
             <LayoutDashboard className="w-3 h-3 mr-1.5" />
             Dashboard
           </Badge>
@@ -193,15 +193,15 @@ export default function AdminPage() {
       <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
         {mainCards.map((card) => (
           <Link key={card.label} href={card.href}>
-            <div className="bg-[#1C1814] border border-[#3A3330] rounded-xl p-5 transition-all duration-200 hover:border-[#E8D5C4]/40 hover:-translate-y-0.5">
+            <div className="bg-[#1A1F19] border border-[#222920] rounded-xl p-5 transition-all duration-200 hover:border-[#C2E09D]/40 hover:-translate-y-0.5">
               <div className="flex items-center justify-between mb-3">
                 <div className={`w-10 h-10 rounded-xl ${card.color} flex items-center justify-center`}>
                   <card.icon className="w-5 h-5 text-white" />
                 </div>
-                <ArrowUpRight className="w-4 h-4 text-[#6B5C4F] group-hover:text-[#E8D5C4] transition-colors" />
+                <ArrowUpRight className="w-4 h-4 text-[#6B5C4F] group-hover:text-[#C2E09D] transition-colors" />
               </div>
               <p className="text-2xl font-bold text-[#E8DED5]">{card.value}</p>
-              <p className="text-xs text-[#A89888]">{card.label}</p>
+              <p className="text-xs text-[#9BAA93]">{card.label}</p>
               {card.trend && <p className="text-[10px] text-[#6B5C4F] mt-1">{card.trend}</p>}
             </div>
           </Link>
@@ -211,10 +211,10 @@ export default function AdminPage() {
       {/* Secondary Metrics */}
       <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 mb-6">
         {metricCards.map((card) => (
-          <div key={card.label} className="bg-[#15110E] border border-[#3A3330] rounded-xl p-4">
+          <div key={card.label} className="bg-[#1E251C] border border-[#222920] rounded-xl p-4">
             <div className="flex items-center gap-2 mb-2">
               <card.icon className={`w-4 h-4 ${card.color}`} />
-              <span className="text-xs text-[#A89888]">{card.label}</span>
+              <span className="text-xs text-[#9BAA93]">{card.label}</span>
             </div>
             <p className="text-xl font-bold text-[#E8DED5]">{card.value}</p>
             {card.sub && <p className="text-[10px] text-[#6B5C4F] mt-0.5">{card.sub}</p>}
@@ -224,9 +224,9 @@ export default function AdminPage() {
 
       {/* Health Check */}
       {healthCheck && (
-        <div className="bg-[#1C1814] border border-[#3A3330] rounded-xl p-5 mb-6">
+        <div className="bg-[#1A1F19] border border-[#222920] rounded-xl p-5 mb-6">
           <h2 className="text-base font-semibold mb-4 text-[#E8DED5] flex items-center gap-2">
-            <Activity className="w-4 h-4 text-[#E8D5C4]" />
+            <Activity className="w-4 h-4 text-[#C2E09D]" />
             Health Check
             <span className={`ml-2 text-[10px] px-2 py-0.5 rounded-full font-medium ${
               healthCheck.status === "ok" ? "bg-[#4ADE80]/20 text-[#4ADE80]" : "bg-[#FB7185]/20 text-[#FB7185]"
@@ -236,29 +236,29 @@ export default function AdminPage() {
           </h2>
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
             {Object.entries(healthCheck.checks || {}).map(([name, check]: [string, any]) => (
-              <div key={name} className="p-3 rounded-lg bg-[#15110E]">
+              <div key={name} className="p-3 rounded-lg bg-[#1E251C]">
                 <div className="flex items-center gap-2 mb-1">
                   <div className={`w-2 h-2 rounded-full ${check.status === "ok" ? "bg-[#4ADE80]" : "bg-[#FB7185]"}`} />
-                  <span className="text-xs font-medium text-[#A89888] capitalize">{name}</span>
+                  <span className="text-xs font-medium text-[#9BAA93] capitalize">{name}</span>
                 </div>
                 <p className="text-sm font-bold text-[#E8DED5]">
                   {check.latencyMs !== undefined ? `${check.latencyMs}ms` : check.status}
                 </p>
               </div>
             ))}
-            <div className="p-3 rounded-lg bg-[#15110E]">
+            <div className="p-3 rounded-lg bg-[#1E251C]">
               <div className="flex items-center gap-2 mb-1">
-                <Clock className="w-3 h-3 text-[#A89888]" />
-                <span className="text-xs font-medium text-[#A89888]">Uptime</span>
+                <Clock className="w-3 h-3 text-[#9BAA93]" />
+                <span className="text-xs font-medium text-[#9BAA93]">Uptime</span>
               </div>
               <p className="text-sm font-bold text-[#E8DED5]">
                 {Math.floor((healthCheck.uptime || 0) / 3600)}h {Math.floor(((healthCheck.uptime || 0) % 3600) / 60)}m
               </p>
             </div>
-            <div className="p-3 rounded-lg bg-[#15110E]">
+            <div className="p-3 rounded-lg bg-[#1E251C]">
               <div className="flex items-center gap-2 mb-1">
-                <Activity className="w-3 h-3 text-[#A89888]" />
-                <span className="text-xs font-medium text-[#A89888]">Memoria</span>
+                <Activity className="w-3 h-3 text-[#9BAA93]" />
+                <span className="text-xs font-medium text-[#9BAA93]">Memoria</span>
               </div>
               <p className="text-sm font-bold text-[#E8DED5]">{healthCheck.memory?.heapUsedMB || 0}MB</p>
             </div>
@@ -267,25 +267,25 @@ export default function AdminPage() {
       )}
 
       <div className="grid lg:grid-cols-3 gap-4 mb-6">
-        <div className="bg-[#1C1814] border border-[#3A3330] rounded-xl p-5">
+        <div className="bg-[#1A1F19] border border-[#222920] rounded-xl p-5">
           <h2 className="text-base font-semibold mb-4 text-[#E8DED5] flex items-center gap-2">
-            <DollarSign className="w-4 h-4 text-[#E8D5C4]" />
+            <DollarSign className="w-4 h-4 text-[#C2E09D]" />
             Ingresos por Proveedor
           </h2>
           <div className="space-y-3">
             <div className="flex justify-between items-center">
-              <span className="text-sm text-[#A89888]">QvaPay</span>
+              <span className="text-sm text-[#9BAA93]">QvaPay</span>
               <span className="font-medium text-[#E8DED5]">${stats?.revenueQvaPay?.toFixed(2) ?? "0.00"}</span>
             </div>
             <div className="flex justify-between items-center">
-              <span className="text-sm text-[#A89888]">Transfermóvil</span>
+              <span className="text-sm text-[#9BAA93]">Transfermóvil</span>
               <span className="font-medium text-[#E8DED5]">${stats?.revenueTransfer?.toFixed(2) ?? "0.00"}</span>
             </div>
             <div className="flex justify-between items-center">
-              <span className="text-sm text-[#A89888]">PayPal</span>
+              <span className="text-sm text-[#9BAA93]">PayPal</span>
               <span className="font-medium text-[#E8DED5]">${stats?.revenuePayPal?.toFixed(2) ?? "0.00"}</span>
             </div>
-            <div className="w-full h-3 rounded-full bg-[#15110E] flex overflow-hidden ring-1 ring-inset ring-[#3A3330]">
+            <div className="w-full h-3 rounded-full bg-[#1E251C] flex overflow-hidden ring-1 ring-inset ring-[#222920]">
               {(() => {
                 const q = stats?.revenueQvaPay || 0
                 const t = stats?.revenueTransfer || 0
@@ -295,7 +295,7 @@ export default function AdminPage() {
                 const tp = ((t/total)*100).toFixed(1)
                 const pp = ((p/total)*100).toFixed(1)
                 return <>
-                  {q > 0 && <div className="h-full bg-[#E8D5C4] relative group cursor-pointer transition-all hover:brightness-110" style={{ width: `${qp}%` }} title={`QvaPay: $${q.toFixed(2)} (${qp}%)`} />}
+                  {q > 0 && <div className="h-full bg-[#C2E09D] relative group cursor-pointer transition-all hover:brightness-110" style={{ width: `${qp}%` }} title={`QvaPay: $${q.toFixed(2)} (${qp}%)`} />}
                   {t > 0 && <div className="h-full bg-[#D4A574] relative group cursor-pointer transition-all hover:brightness-110" style={{ width: `${tp}%` }} title={`Transfermóvil: $${t.toFixed(2)} (${tp}%)`} />}
                   {p > 0 && <div className="h-full bg-[#C9A96E] relative group cursor-pointer transition-all hover:brightness-110" style={{ width: `${pp}%` }} title={`PayPal: $${p.toFixed(2)} (${pp}%)`} />}
                 </>
@@ -311,26 +311,26 @@ export default function AdminPage() {
                 const tp = ((t/total)*100).toFixed(1)
                 const pp = ((p/total)*100).toFixed(1)
                 return <>
-                  <div className="p-2 rounded-lg bg-[#15110E] border border-[#3A3330]">
+                  <div className="p-2 rounded-lg bg-[#1E251C] border border-[#222920]">
                     <div className="flex items-center gap-1.5 mb-1">
-                      <span className="w-2 h-2 rounded-full bg-[#E8D5C4]" />
-                      <span className="text-[10px] text-[#A89888]">QvaPay</span>
+                      <span className="w-2 h-2 rounded-full bg-[#C2E09D]" />
+                      <span className="text-[10px] text-[#9BAA93]">QvaPay</span>
                     </div>
                     <p className="text-xs font-semibold text-[#E8DED5]">${q.toFixed(2)}</p>
                     <p className="text-[9px] text-[#6B5C4F]">{qp}%</p>
                   </div>
-                  <div className="p-2 rounded-lg bg-[#15110E] border border-[#3A3330]">
+                  <div className="p-2 rounded-lg bg-[#1E251C] border border-[#222920]">
                     <div className="flex items-center gap-1.5 mb-1">
                       <span className="w-2 h-2 rounded-full bg-[#D4A574]" />
-                      <span className="text-[10px] text-[#A89888]">Transf.</span>
+                      <span className="text-[10px] text-[#9BAA93]">Transf.</span>
                     </div>
                     <p className="text-xs font-semibold text-[#E8DED5]">${t.toFixed(2)}</p>
                     <p className="text-[9px] text-[#6B5C4F]">{tp}%</p>
                   </div>
-                  <div className="p-2 rounded-lg bg-[#15110E] border border-[#3A3330]">
+                  <div className="p-2 rounded-lg bg-[#1E251C] border border-[#222920]">
                     <div className="flex items-center gap-1.5 mb-1">
                       <span className="w-2 h-2 rounded-full bg-[#C9A96E]" />
-                      <span className="text-[10px] text-[#A89888]">PayPal</span>
+                      <span className="text-[10px] text-[#9BAA93]">PayPal</span>
                     </div>
                     <p className="text-xs font-semibold text-[#E8DED5]">${p.toFixed(2)}</p>
                     <p className="text-[9px] text-[#6B5C4F]">{pp}%</p>
@@ -338,18 +338,18 @@ export default function AdminPage() {
                 </>
               })()}
             </div>
-            <div className="pt-2 border-t border-[#3A3330]">
+            <div className="pt-2 border-t border-[#222920]">
               <div className="flex justify-between">
                 <span className="text-sm font-medium text-[#E8DED5]">Total</span>
-                <span className="font-bold text-[#E8D5C4]">${stats?.revenue?.toFixed(2) ?? "0.00"}</span>
+                <span className="font-bold text-[#C2E09D]">${stats?.revenue?.toFixed(2) ?? "0.00"}</span>
               </div>
             </div>
           </div>
         </div>
 
-        <div className="bg-[#1C1814] border border-[#3A3330] rounded-xl p-5">
+        <div className="bg-[#1A1F19] border border-[#222920] rounded-xl p-5">
           <h2 className="text-base font-semibold mb-4 text-[#E8DED5] flex items-center gap-2">
-            <BarChart3 className="w-4 h-4 text-[#E8D5C4]" />
+            <BarChart3 className="w-4 h-4 text-[#C2E09D]" />
             Distribución de Planes
           </h2>
           <div className="space-y-3">
@@ -359,10 +359,10 @@ export default function AdminPage() {
               return (
                 <div key={plan}>
                   <div className="flex justify-between items-center mb-1">
-                    <span className="text-sm text-[#A89888]">{getPlanLabel(plan)}</span>
+                    <span className="text-sm text-[#9BAA93]">{getPlanLabel(plan)}</span>
                     <span className="text-sm font-medium text-[#E8DED5]">{count} ({percentage}%)</span>
                   </div>
-                  <div className="w-full h-2 rounded-full bg-[#15110E]">
+                  <div className="w-full h-2 rounded-full bg-[#1E251C]">
                     <div className="h-full rounded-full" style={{ width: `${percentage}%`, backgroundColor: adminAccent }} />
                   </div>
                 </div>
@@ -371,9 +371,9 @@ export default function AdminPage() {
           </div>
         </div>
 
-        <div className="bg-[#1C1814] border border-[#3A3330] rounded-xl p-5">
+        <div className="bg-[#1A1F19] border border-[#222920] rounded-xl p-5">
           <h2 className="text-base font-semibold mb-4 text-[#E8DED5] flex items-center gap-2">
-            <Heart className="w-4 h-4 text-[#E8D5C4]" />
+            <Heart className="w-4 h-4 text-[#C2E09D]" />
             Tipos de Piel Detectados
           </h2>
           <div className="space-y-3">
@@ -383,10 +383,10 @@ export default function AdminPage() {
               return (
                 <div key={type}>
                   <div className="flex justify-between items-center mb-1">
-                    <span className="text-sm text-[#A89888] capitalize">{type}</span>
+                    <span className="text-sm text-[#9BAA93] capitalize">{type}</span>
                     <span className="text-sm font-medium text-[#E8DED5]">{count} ({percentage}%)</span>
                   </div>
-                  <div className="w-full h-2 rounded-full bg-[#15110E]">
+                  <div className="w-full h-2 rounded-full bg-[#1E251C]">
                     <div className="h-full rounded-full bg-[#4ADE80]" style={{ width: `${percentage}%` }} />
                   </div>
                 </div>
@@ -397,9 +397,9 @@ export default function AdminPage() {
       </div>
 
       {/* Métricas de Crecimiento */}
-      <div className="border border-[#3A3330] rounded-xl p-5 mb-6" style={{ backgroundColor: "#1C1814" }}>
+      <div className="border border-[#222920] rounded-xl p-5 mb-6" style={{ backgroundColor: "#1A1F19" }}>
         <h2 className="text-base font-semibold mb-4 text-[#E8DED5] flex items-center gap-2">
-          <TrendingUp className="w-4 h-4 text-[#E8D5C4]" />
+          <TrendingUp className="w-4 h-4 text-[#C2E09D]" />
           Métricas de Crecimiento
         </h2>
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
@@ -421,7 +421,7 @@ export default function AdminPage() {
                 value: `$${weightedMrr.toFixed(2)}`,
                 icon: DollarSign,
                 sub: `${paid} usuarios de pago · $${weightedAvg.toFixed(2)} promedio`,
-                color: "text-[#E8D5C4]",
+                color: "text-[#C2E09D]",
               },
               {
                 label: "Ingresos último mes",
@@ -453,13 +453,13 @@ export default function AdminPage() {
                     </span>
                   )
                 })(),
-                color: "text-[#E8D5C4]",
+                color: "text-[#C2E09D]",
               },
             ].map((m) => (
-              <div key={m.label} className="p-3 rounded-lg border border-[#3A3330]" style={{ backgroundColor: "#15110E" }}>
+              <div key={m.label} className="p-3 rounded-lg border border-[#222920]" style={{ backgroundColor: "#1E251C" }}>
                 <div className="flex items-center gap-2 mb-2">
                   <m.icon className={`w-4 h-4 ${m.color}`} />
-                  <span className="text-xs text-[#A89888]">{m.label}</span>
+                  <span className="text-xs text-[#9BAA93]">{m.label}</span>
                 </div>
                 <p className="text-xl font-bold text-[#E8DED5]">{m.value}</p>
                 {typeof m.sub === "string" && <p className="text-[10px] text-[#6B5C4F] mt-0.5">{m.sub}</p>}
@@ -471,9 +471,9 @@ export default function AdminPage() {
       </div>
 
       {/* Quick Links */}
-      <div className="bg-[#1C1814] border border-[#3A3330] rounded-xl p-5 mb-6">
+      <div className="bg-[#1A1F19] border border-[#222920] rounded-xl p-5 mb-6">
         <h2 className="text-base font-semibold mb-4 text-[#E8DED5] flex items-center gap-2">
-          <Eye className="w-4 h-4 text-[#E8D5C4]" />
+          <Eye className="w-4 h-4 text-[#C2E09D]" />
           Acceso Rápido
         </h2>
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-9 gap-2">
@@ -492,8 +492,8 @@ export default function AdminPage() {
             { href: "/admin/telegram", label: "Telegram", icon: MessageCircle },
           ].map((item) => (
             <Link key={item.href} href={item.href}>
-              <div className="flex items-center gap-2 p-3 rounded-lg hover:bg-[#3A3330] transition-colors group">
-                <item.icon className="w-4 h-4 text-[#E8D5C4]" />
+              <div className="flex items-center gap-2 p-3 rounded-lg hover:bg-[#222920] transition-colors group">
+                <item.icon className="w-4 h-4 text-[#C2E09D]" />
                 <span className="text-sm font-medium text-[#E8DED5] group-hover:text-white transition-colors">{item.label}</span>
               </div>
             </Link>
@@ -503,41 +503,41 @@ export default function AdminPage() {
 
       {/* Recent Activity */}
       <div className="grid lg:grid-cols-2 gap-4">
-        <div className="bg-[#1C1814] border border-[#3A3330] rounded-xl p-5">
+        <div className="bg-[#1A1F19] border border-[#222920] rounded-xl p-5">
           <h2 className="text-base font-semibold mb-4 text-[#E8DED5] flex items-center gap-2">
-            <UserPlus className="w-4 h-4 text-[#E8D5C4]" />
+            <UserPlus className="w-4 h-4 text-[#C2E09D]" />
             Usuarios Recientes
           </h2>
           <div className="space-y-2">
             {recentUsers.length > 0 ? recentUsers.map((user) => (
-              <div key={user.id} className="flex items-center justify-between p-3 rounded-lg bg-[#15110E]">
+              <div key={user.id} className="flex items-center justify-between p-3 rounded-lg bg-[#1E251C]">
                 <div className="min-w-0">
                   <p className="text-sm font-medium text-[#E8DED5] truncate">{user.name || user.email}</p>
-                  <p className="text-xs text-[#A89888]">{user.email}</p>
+                  <p className="text-xs text-[#9BAA93]">{user.email}</p>
                 </div>
-                <Badge variant={user.plan === "FREE" ? "secondary" : "primary"} className="text-[10px] bg-[#E8D5C4]/20 text-[#E8D5C4] border-0">
+                <Badge variant={user.plan === "FREE" ? "secondary" : "primary"} className="text-[10px] bg-[#C2E09D]/20 text-[#C2E09D] border-0">
                   {getPlanLabel(user.plan)}
                 </Badge>
               </div>
             )) : (
-              <p className="text-sm text-[#A89888] text-center py-4">Sin datos</p>
+              <p className="text-sm text-[#9BAA93] text-center py-4">Sin datos</p>
             )}
           </div>
         </div>
 
-        <div className="bg-[#1C1814] border border-[#3A3330] rounded-xl p-5">
+        <div className="bg-[#1A1F19] border border-[#222920] rounded-xl p-5">
           <h2 className="text-base font-semibold mb-4 text-[#E8DED5] flex items-center gap-2">
-            <Activity className="w-4 h-4 text-[#E8D5C4]" />
+            <Activity className="w-4 h-4 text-[#C2E09D]" />
             Análisis Recientes
           </h2>
           <div className="space-y-2">
             {recentAnalyses.length > 0 ? recentAnalyses.map((analysis) => (
-              <div key={analysis.id} className="flex items-center justify-between p-3 rounded-lg bg-[#15110E]">
+              <div key={analysis.id} className="flex items-center justify-between p-3 rounded-lg bg-[#1E251C]">
                 <div className="min-w-0">
                   <p className="text-sm font-medium text-[#E8DED5] truncate">
                     {analysis.user.name || analysis.user.email}
                   </p>
-                  <p className="text-xs text-[#A89888]">
+                  <p className="text-xs text-[#9BAA93]">
                     {analysis.skinType ? `Piel ${analysis.skinType}` : "Sin tipo"}
                   </p>
                 </div>
@@ -549,7 +549,7 @@ export default function AdminPage() {
                 </div>
               </div>
             )) : (
-              <p className="text-sm text-[#A89888] text-center py-4">Sin datos</p>
+              <p className="text-sm text-[#9BAA93] text-center py-4">Sin datos</p>
             )}
           </div>
         </div>

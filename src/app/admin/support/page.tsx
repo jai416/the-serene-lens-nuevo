@@ -102,11 +102,11 @@ export default function AdminSupportPage() {
   }
 
   return (
-    <div className="min-h-screen bg-[#1C1814] p-6">
+    <div className="min-h-screen bg-[#1A1F19] p-6">
       <div className="max-w-6xl mx-auto">
         <div className="flex items-center justify-between mb-6">
           <h1 className="text-xl font-bold text-[#E8DED5] flex items-center gap-2">
-            <MessageSquare className="w-5 h-5 text-[#E8D5C4]" />
+            <MessageSquare className="w-5 h-5 text-[#C2E09D]" />
             Tickets de Soporte
           </h1>
           <div className="flex items-center gap-2">
@@ -116,14 +116,14 @@ export default function AdminSupportPage() {
                 onClick={() => { setStatusFilter(s); setPage(1) }}
                 className={`px-3 py-1 rounded-lg text-xs font-medium transition-colors ${
                   statusFilter === s
-                    ? "bg-[#E8D5C4] text-[#1C1814]"
-                    : "bg-[#3A3330] text-[#A89888] hover:bg-[#4A4340]"
+                    ? "bg-[#C2E09D] text-[#1A1F19]"
+                    : "bg-[#222920] text-[#9BAA93] hover:bg-[#2E3829]"
                 }`}
               >
                 {s ? (s === "in_progress" ? "En curso" : s.charAt(0).toUpperCase() + s.slice(1)) : "Todos"}
               </button>
             ))}
-            <button onClick={() => fetchTickets(page, statusFilter)} className="p-2 rounded-lg bg-[#3A3330] text-[#A89888] hover:bg-[#4A4340]">
+            <button onClick={() => fetchTickets(page, statusFilter)} className="p-2 rounded-lg bg-[#222920] text-[#9BAA93] hover:bg-[#2E3829]">
               <RefreshCw className="w-4 h-4" />
             </button>
           </div>
@@ -134,13 +134,13 @@ export default function AdminSupportPage() {
             {loading ? (
               <ListSkeleton />
             ) : tickets.length === 0 ? (
-              <p className="text-[#A89888] text-sm text-center py-12">No hay tickets</p>
+              <p className="text-[#9BAA93] text-sm text-center py-12">No hay tickets</p>
             ) : (
               tickets.map((t) => (
                 <Card
                   key={t.id}
-                  className={`bg-[#1C1814] border-[#3A3330] cursor-pointer transition-all hover:border-[#E8D5C4]/50 ${
-                    selectedTicket?.id === t.id ? "ring-1 ring-[#E8D5C4]" : ""
+                  className={`bg-[#1A1F19] border-[#222920] cursor-pointer transition-all hover:border-[#C2E09D]/50 ${
+                    selectedTicket?.id === t.id ? "ring-1 ring-[#C2E09D]" : ""
                   }`}
                   onClick={() => setSelectedTicket(t)}
                 >
@@ -151,8 +151,8 @@ export default function AdminSupportPage() {
                         {t.status === "in_progress" ? "En curso" : t.status}
                       </Badge>
                     </div>
-                    <p className="text-xs text-[#A89888] line-clamp-2 mb-2">{t.message}</p>
-                    <div className="flex items-center gap-3 text-[10px] text-[#8A7A6A]">
+                    <p className="text-xs text-[#9BAA93] line-clamp-2 mb-2">{t.message}</p>
+                    <div className="flex items-center gap-3 text-[10px] text-[#64705E]">
                       <span>{t.user.name || t.user.email}</span>
                       <span>{new Date(t.createdAt).toLocaleDateString("es")}</span>
                       <span>{t._count.responses} respuestas</span>
@@ -170,15 +170,15 @@ export default function AdminSupportPage() {
                 <button
                   onClick={() => setPage(Math.max(1, page - 1))}
                   disabled={page <= 1}
-                  className="p-2 rounded-lg bg-[#3A3330] text-[#A89888] hover:bg-[#4A4340] disabled:opacity-40"
+                  className="p-2 rounded-lg bg-[#222920] text-[#9BAA93] hover:bg-[#2E3829] disabled:opacity-40"
                 >
                   <ChevronLeft className="w-4 h-4" />
                 </button>
-                <span className="text-xs text-[#A89888]">{page} / {pagination.totalPages}</span>
+                <span className="text-xs text-[#9BAA93]">{page} / {pagination.totalPages}</span>
                 <button
                   onClick={() => setPage(Math.min(pagination.totalPages, page + 1))}
                   disabled={page >= pagination.totalPages}
-                  className="p-2 rounded-lg bg-[#3A3330] text-[#A89888] hover:bg-[#4A4340] disabled:opacity-40"
+                  className="p-2 rounded-lg bg-[#222920] text-[#9BAA93] hover:bg-[#2E3829] disabled:opacity-40"
                 >
                   <ChevronRight className="w-4 h-4" />
                 </button>
@@ -188,12 +188,12 @@ export default function AdminSupportPage() {
 
           <div>
             {selectedTicket ? (
-              <Card className="bg-[#1C1814] border-[#3A3330]">
+              <Card className="bg-[#1A1F19] border-[#222920]">
                 <CardContent className="p-5 space-y-4">
                   <div className="flex items-start justify-between">
                     <div>
                       <h2 className="text-base font-semibold text-[#E8DED5]">{selectedTicket.subject}</h2>
-                      <p className="text-xs text-[#A89888] mt-1">
+                      <p className="text-xs text-[#9BAA93] mt-1">
                         {selectedTicket.user.name || selectedTicket.user.email} &middot; {new Date(selectedTicket.createdAt).toLocaleDateString("es")}
                       </p>
                     </div>
@@ -202,12 +202,12 @@ export default function AdminSupportPage() {
                     </Badge>
                   </div>
 
-                  <div className="bg-[#3A3330]/50 rounded-xl p-4">
+                  <div className="bg-[#222920]/50 rounded-xl p-4">
                     <p className="text-sm text-[#E8DED5] leading-relaxed whitespace-pre-wrap">{selectedTicket.message}</p>
                   </div>
 
                   <div>
-                    <label className="text-xs text-[#A89888] block mb-1">Cambiar estado:</label>
+                    <label className="text-xs text-[#9BAA93] block mb-1">Cambiar estado:</label>
                     <div className="flex gap-2">
                       {["open", "in_progress", "resolved", "closed"].map((s) => (
                         <button
@@ -215,8 +215,8 @@ export default function AdminSupportPage() {
                           onClick={() => handleStatusChange(selectedTicket.id, s)}
                           className={`px-3 py-1 rounded-lg text-xs font-medium transition-colors ${
                             selectedTicket.status === s
-                              ? "bg-[#E8D5C4] text-[#1C1814]"
-                              : "bg-[#3A3330] text-[#A89888] hover:bg-[#4A4340]"
+                              ? "bg-[#C2E09D] text-[#1A1F19]"
+                              : "bg-[#222920] text-[#9BAA93] hover:bg-[#2E3829]"
                           }`}
                         >
                           {s === "in_progress" ? "En curso" : s.charAt(0).toUpperCase() + s.slice(1)}
@@ -226,18 +226,18 @@ export default function AdminSupportPage() {
                   </div>
 
                   <div>
-                    <label className="text-xs text-[#A89888] block mb-1">Responder:</label>
+                    <label className="text-xs text-[#9BAA93] block mb-1">Responder:</label>
                     <textarea
                       value={reply}
                       onChange={(e) => setReply(e.target.value)}
                       rows={4}
-                      className="w-full rounded-xl bg-[#3A3330] border border-[#4A4340] text-[#E8DED5] p-3 text-sm resize-none focus:outline-none focus:border-[#E8D5C4] placeholder-[#8A7A6A]"
+                      className="w-full rounded-xl bg-[#222920] border border-[#2E3829] text-[#E8DED5] p-3 text-sm resize-none focus:outline-none focus:border-[#C2E09D] placeholder-[#64705E]"
                       placeholder="Escribe tu respuesta..."
                     />
                     <Button
                       onClick={handleReply}
                       disabled={!reply.trim() || sending}
-                      className="mt-2 bg-[#E8D5C4] text-[#1C1814] hover:bg-[#D4C4B0]"
+                      className="mt-2 bg-[#C2E09D] text-[#1A1F19] hover:bg-[#D4C4B0]"
                     >
                       {sending ? <Loader2 className="w-4 h-4 animate-spin" /> : <Send className="w-4 h-4" />}
                       Enviar respuesta
@@ -246,7 +246,7 @@ export default function AdminSupportPage() {
                 </CardContent>
               </Card>
             ) : (
-              <div className="flex items-center justify-center h-64 text-[#A89888] text-sm">
+              <div className="flex items-center justify-center h-64 text-[#9BAA93] text-sm">
                 Selecciona un ticket para ver los detalles
               </div>
             )}

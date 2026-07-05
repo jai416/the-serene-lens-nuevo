@@ -122,7 +122,7 @@ export default function BlogPage() {
             placeholder="Buscar artículos..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full pl-10 pr-4 py-2 text-sm rounded-full border border-[#E8DDD0] dark:border-[#3A3330] bg-background text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-[#C2E09D] transition-colors"
+            className="w-full pl-10 pr-4 py-2 text-sm rounded-full border border-[#DDE7D3] dark:border-[#222920] bg-background text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-[#C2E09D] transition-colors"
           />
         </div>
 
@@ -181,7 +181,7 @@ export default function BlogPage() {
             <button
               onClick={() => setPage((p) => Math.max(1, p - 1))}
               disabled={page === 1}
-              className="px-4 py-2 text-sm rounded-full border border-[#E8DDD0] dark:border-[#3A3330] text-[#8A7A6A] dark:text-[#A89888] hover:bg-[#F0F5EC] dark:hover:bg-[#2E3829] disabled:opacity-40 transition-colors"
+              className="px-4 py-2 text-sm rounded-full border border-[#DDE7D3] dark:border-[#222920] text-[#64705E] dark:text-[#9BAA93] hover:bg-[#F0F5EC] dark:hover:bg-[#2E3829] disabled:opacity-40 transition-colors"
             >
               Anterior
             </button>
@@ -191,8 +191,8 @@ export default function BlogPage() {
                 onClick={() => setPage(p)}
                 className={`w-9 h-9 rounded-full text-sm font-medium transition-colors ${
                   page === p
-                    ? "bg-[#E8D5C4] text-[#3D3229]"
-                    : "border border-[#E8DDD0] dark:border-[#3A3330] text-[#8A7A6A] dark:text-[#A89888] hover:bg-[#F0F5EC] dark:hover:bg-[#2E3829]"
+                    ? "bg-[#C2E09D] text-[#2F3A2D]"
+                    : "border border-[#DDE7D3] dark:border-[#222920] text-[#64705E] dark:text-[#9BAA93] hover:bg-[#F0F5EC] dark:hover:bg-[#2E3829]"
                 }`}
               >
                 {p}
@@ -201,7 +201,7 @@ export default function BlogPage() {
             <button
               onClick={() => setPage((p) => Math.min(totalPages, p + 1))}
               disabled={page === totalPages}
-              className="px-4 py-2 text-sm rounded-full border border-[#E8DDD0] dark:border-[#3A3330] text-[#8A7A6A] dark:text-[#A89888] hover:bg-[#F0F5EC] dark:hover:bg-[#2E3829] disabled:opacity-40 transition-colors"
+              className="px-4 py-2 text-sm rounded-full border border-[#DDE7D3] dark:border-[#222920] text-[#64705E] dark:text-[#9BAA93] hover:bg-[#F0F5EC] dark:hover:bg-[#2E3829] disabled:opacity-40 transition-colors"
             >
               Siguiente
             </button>

@@ -60,24 +60,24 @@ export default function ChallengesPage() {
             <Trophy className="w-3.5 h-3.5 mr-2" />
             Desafíos
           </Badge>
-          <h1 className="font-serif text-3xl sm:text-4xl font-semibold text-[#3D3229]">
+          <h1 className="font-serif text-3xl sm:text-4xl font-semibold text-[#2F3A2D]">
             Desafíos de Skincare
           </h1>
-          <p className="text-[#8A7A6A] mt-1 text-sm">
+          <p className="text-[#64705E] mt-1 text-sm">
             Completa retos semanales y gana puntos por tus hábitos de cuidado facial.
           </p>
         </div>
 
         <div className="grid sm:grid-cols-3 gap-4 mb-8">
-          <Card className="p-5 border-t-4 border-t-[#E8D5C4]">
+          <Card className="p-5 border-t-4 border-t-[#C2E09D]">
             <CardContent className="p-0">
               <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-xl bg-[#E8D5C4] flex items-center justify-center">
-                  <Flame className="w-5 h-5 text-[#3D3229]" />
+                <div className="w-10 h-10 rounded-xl bg-[#C2E09D] flex items-center justify-center">
+                  <Flame className="w-5 h-5 text-[#2F3A2D]" />
                 </div>
                 <div>
-                  <p className="text-2xl font-bold text-[#3D3229]">{totalPoints}</p>
-                  <p className="text-xs text-[#8A7A6A]">Puntos totales</p>
+                  <p className="text-2xl font-bold text-[#2F3A2D]">{totalPoints}</p>
+                  <p className="text-xs text-[#64705E]">Puntos totales</p>
                 </div>
               </div>
             </CardContent>
@@ -86,26 +86,26 @@ export default function ChallengesPage() {
             <CardContent className="p-0">
               <div className="flex items-center gap-3">
                 <div className="w-10 h-10 rounded-xl bg-[#FFF6AD] flex items-center justify-center">
-                  <Target className="w-5 h-5 text-[#3D3229]" />
+                  <Target className="w-5 h-5 text-[#2F3A2D]" />
                 </div>
                 <div>
-                  <p className="text-2xl font-bold text-[#3D3229]">{completedCount}/{challenges.length}</p>
-                  <p className="text-xs text-[#8A7A6A]">Completados</p>
+                  <p className="text-2xl font-bold text-[#2F3A2D]">{completedCount}/{challenges.length}</p>
+                  <p className="text-xs text-[#64705E]">Completados</p>
                 </div>
               </div>
             </CardContent>
           </Card>
-          <Card className="p-5 border-t-4 border-t-[#E8D5C4]">
+          <Card className="p-5 border-t-4 border-t-[#C2E09D]">
             <CardContent className="p-0">
               <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-xl bg-[#E8D5C4] flex items-center justify-center">
-                  <Sparkles className="w-5 h-5 text-[#3D3229]" />
+                <div className="w-10 h-10 rounded-xl bg-[#C2E09D] flex items-center justify-center">
+                  <Sparkles className="w-5 h-5 text-[#2F3A2D]" />
                 </div>
                 <div>
-                  <p className="text-2xl font-bold text-[#3D3229]">
+                  <p className="text-2xl font-bold text-[#2F3A2D]">
                     {challenges.filter((c) => !c.completed).length}
                   </p>
-                  <p className="text-xs text-[#8A7A6A]">Pendientes</p>
+                  <p className="text-xs text-[#64705E]">Pendientes</p>
                 </div>
               </div>
             </CardContent>
@@ -123,17 +123,17 @@ export default function ChallengesPage() {
               <CardContent className="p-0 flex items-center justify-between gap-4">
                 <div className="flex items-center gap-4 flex-1 min-w-0">
                   <div className={`w-10 h-10 rounded-xl flex items-center justify-center shrink-0 ${
-                    challenge.completed ? "bg-[#E8D5C4]" : "bg-[#F0F5EC]"
+                    challenge.completed ? "bg-[#C2E09D]" : "bg-[#F0F5EC]"
                   }`}>
                     {challenge.completed ? (
-                      <CheckCircle2 className="w-5 h-5 text-[#3D3229]" />
+                      <CheckCircle2 className="w-5 h-5 text-[#2F3A2D]" />
                     ) : (
-                      <Target className="w-5 h-5 text-[#8A7A6A]" />
+                      <Target className="w-5 h-5 text-[#64705E]" />
                     )}
                   </div>
                   <div className="min-w-0">
-                    <h3 className="text-sm font-semibold text-[#3D3229] truncate">{challenge.title}</h3>
-                    <p className="text-xs text-[#8A7A6A] truncate">{challenge.description}</p>
+                    <h3 className="text-sm font-semibold text-[#2F3A2D] truncate">{challenge.title}</h3>
+                    <p className="text-xs text-[#64705E] truncate">{challenge.description}</p>
                   </div>
                 </div>
                 <div className="flex items-center gap-3 shrink-0">
@@ -156,8 +156,8 @@ export default function ChallengesPage() {
           {challenges.length === 0 && (
             <Card className="p-8 text-center">
               <CardContent className="p-0">
-                <Trophy className="w-10 h-10 text-[#A89888] mx-auto mb-3" />
-                <p className="text-[#8A7A6A] text-sm">No hay desafíos disponibles aún.</p>
+                <Trophy className="w-10 h-10 text-[#9BAA93] mx-auto mb-3" />
+                <p className="text-[#64705E] text-sm">No hay desafíos disponibles aún.</p>
               </CardContent>
             </Card>
           )}

@@ -110,7 +110,7 @@ export default function SupportPage() {
           <button
             type="submit"
             disabled={submitting}
-            className="rounded-lg bg-[#E8D5C4] px-6 py-2 font-medium hover:bg-[#B0CF8D] disabled:opacity-50"
+            className="rounded-lg bg-[#C2E09D] px-6 py-2 font-medium hover:bg-[#B0CF8D] disabled:opacity-50"
           >
             {submitting ? "Enviando..." : "Enviar"}
           </button>
@@ -121,7 +121,7 @@ export default function SupportPage() {
         <h2 className="mb-4 text-lg font-semibold">Mis Tickets</h2>
         {loading ? (
           <div className="flex justify-center py-8">
-            <div className="h-6 w-6 animate-spin rounded-full border-2 border-[#E8D5C4] border-t-transparent" />
+            <div className="h-6 w-6 animate-spin rounded-full border-2 border-[#C2E09D] border-t-transparent" />
           </div>
         ) : tickets.length === 0 ? (
           <p className="py-8 text-center text-gray-500">
