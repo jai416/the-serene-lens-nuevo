@@ -1,6 +1,11 @@
-import { PrismaClient } from "@/generated/prisma/client"
+import "dotenv/config"
+import { Pool } from "pg"
+import { PrismaPg } from "@prisma/adapter-pg"
+import { PrismaClient } from "../src/generated/prisma/client"
 
-const db = new PrismaClient()
+const pool = new Pool({ connectionString: process.env.DATABASE_URL })
+const adapter = new PrismaPg(pool)
+const db = new PrismaClient({ adapter })
 
 const CATEGORY_IMAGES: Record<string, string[]> = {
   limpiadores: ["/images/products/product-01.jpg", "/images/products/product-02.jpg"],
