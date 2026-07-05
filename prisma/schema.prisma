@@ -331,6 +331,7 @@ model ContactMessage {
   user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   message   String
   status    String   @default("pending")
+  read      Boolean  @default(false)
   reply     String?
   repliedAt DateTime?
   createdAt DateTime @default(now())
