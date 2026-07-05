@@ -50,7 +50,7 @@ async function compressImage(file: File, maxDim = 512): Promise<Buffer> {
     if ((meta.width && meta.width > maxDim) || (meta.height && meta.height > maxDim)) {
       buffer = await img.resize(maxDim, maxDim, { fit: "inside", withoutEnlargement: true })
         .jpeg({ quality: 75 })
-        .toBuffer()
+        .toBuffer() as Buffer
     }
   } catch {
     try { buffer = Buffer.from(bytes) } catch {}
