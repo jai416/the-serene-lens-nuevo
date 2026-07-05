@@ -386,11 +386,12 @@ model BotKnowledge {
 
 model BotFeedback {
   id          String       @id @default(cuid())
-  knowledgeId String
-  knowledge   BotKnowledge @relation(fields: [knowledgeId], references: [id], onDelete: Cascade)
+  knowledgeId String?
+  knowledge   BotKnowledge? @relation(fields: [knowledgeId], references: [id], onDelete: SetNull)
   userId      String?
   chatId      String
-  helpful     Boolean
+  rating      Int          @default(0)
+  helpful     Boolean?
   comment     String?
   createdAt   DateTime     @default(now())
 
