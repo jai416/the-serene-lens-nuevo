@@ -42,19 +42,17 @@ function extractJSON(content: string): any {
 
 async function compressImage(file: File, maxDim = 512): Promise<Buffer> {
   const bytes = await file.arrayBuffer()
-  let buffer = Buffer.from(bytes)
   try {
     const sharp = await import("sharp")
-    const img = sharp.default(buffer)
+    const img = sharp.default(Buffer.from(bytes))
     const meta = await img.metadata()
     if ((meta.width && meta.width > maxDim) || (meta.height && meta.height > maxDim)) {
-      buffer = await img.resize(maxDim, maxDim, { fit: "inside", withoutEnlargement: true })
+      return await img.resize(maxDim, maxDim, { fit: "inside", withoutEnlargement: true })
         .jpeg({ quality: 75 })
-        .toBuffer() as Buffer
+        .toBuffer()
     }
-  } catch {
-    try { buffer = Buffer.from(bytes) } catch {}
-  }
+  } catch {}
+  return Buffer.from(bytes)
   return buffer
 }
 
