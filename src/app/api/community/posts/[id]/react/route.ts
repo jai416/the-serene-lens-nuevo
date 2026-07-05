@@ -6,7 +6,7 @@ import { ok, error, serverError, notFound } from "@/lib/api-response"
 
 const VALID_TYPES = ["LIKE", "LOVE", "HELPFUL", "INSIGHTFUL", "INTERESTING"]
 
-export async function POST(req: NextRequest, { params }: { params: Promise<{ id }> }) {
+export async function POST(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   try {
     const session = await getServerSession(authOptions)
     if (!session?.user?.id) return error("No autorizado", 401)
