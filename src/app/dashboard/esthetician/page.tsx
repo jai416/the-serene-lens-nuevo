@@ -107,7 +107,7 @@ export default function EstheticianDashboard() {
   if (loading || status === "loading") {
     return (
       <div className="min-h-screen flex items-center justify-center">
-        <Loader2 className="w-6 h-6 animate-pulse text-[#C2E09D]" />
+        <Loader2 className="w-6 h-6 animate-pulse text-[#88B078]" />
       </div>
     )
   }
@@ -117,14 +117,14 @@ export default function EstheticianDashboard() {
       <div className="max-w-5xl mx-auto">
         <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-8 gap-4">
           <div>
-            <Badge variant="primary" className="mb-3 rounded-full px-4 py-1.5 border-0">
+            <Badge variant="mint" className="mb-3 rounded-full px-4 py-1.5 border-0">
               <Users className="w-3.5 h-3.5 mr-2" />
               Esteticista
             </Badge>
-            <h1 className="font-serif text-2xl sm:text-3xl font-semibold text-[#2F3A2D] dark:text-[#E8EDE6]">
+            <h1 className="font-serif text-2xl sm:text-3xl font-semibold text-[#1A1A1A] dark:text-[#E8EDE6]">
               Panel de Clientes
             </h1>
-            <p className="text-sm text-[#64705E] dark:text-[#9BAA93] mt-1">
+            <p className="text-sm text-[#666666] dark:text-[#9BAA93] mt-1">
               Gestiona tus pacientes y analiza su piel con IA.
             </p>
           </div>
@@ -137,45 +137,45 @@ export default function EstheticianDashboard() {
         {showForm && (
           <Card className="mb-6 p-6">
             <CardContent className="p-0">
-              <h3 className="font-medium text-[#2F3A2D] dark:text-[#E8EDE6] mb-4">Agregar Cliente</h3>
+              <h3 className="font-medium text-[#1A1A1A] dark:text-[#E8EDE6] mb-4">Agregar Cliente</h3>
               <div className="grid sm:grid-cols-2 gap-4">
                 <div>
-                  <label className="text-xs text-[#64705E] dark:text-[#9BAA93] mb-1 block">Nombre *</label>
+                  <label className="text-xs text-[#666666] dark:text-[#9BAA93] mb-1 block">Nombre *</label>
                   <input
                     type="text"
                     value={form.name}
                     onChange={(e) => setForm({ ...form, name: e.target.value })}
-                    className="w-full px-3 py-2 rounded-lg border border-[#DDE7D3] dark:border-[#2A3328] bg-white dark:bg-[#222920] text-[#2F3A2D] dark:text-[#E8EDE6] text-sm"
+                    className="w-full px-3 py-2 rounded-lg border border-[#E8E8E8] dark:border-[#2A3328] bg-white dark:bg-[#222920] text-[#1A1A1A] dark:text-[#E8EDE6] text-sm"
                     placeholder="Nombre del cliente"
                   />
                 </div>
                 <div>
-                  <label className="text-xs text-[#64705E] dark:text-[#9BAA93] mb-1 block">Email</label>
+                  <label className="text-xs text-[#666666] dark:text-[#9BAA93] mb-1 block">Email</label>
                   <input
                     type="email"
                     value={form.email}
                     onChange={(e) => setForm({ ...form, email: e.target.value })}
-                    className="w-full px-3 py-2 rounded-lg border border-[#DDE7D3] dark:border-[#2A3328] bg-white dark:bg-[#222920] text-[#2F3A2D] dark:text-[#E8EDE6] text-sm"
+                    className="w-full px-3 py-2 rounded-lg border border-[#E8E8E8] dark:border-[#2A3328] bg-white dark:bg-[#222920] text-[#1A1A1A] dark:text-[#E8EDE6] text-sm"
                     placeholder="email@ejemplo.com"
                   />
                 </div>
                 <div>
-                  <label className="text-xs text-[#64705E] dark:text-[#9BAA93] mb-1 block">Teléfono</label>
+                  <label className="text-xs text-[#666666] dark:text-[#9BAA93] mb-1 block">Teléfono</label>
                   <input
                     type="tel"
                     value={form.phone}
                     onChange={(e) => setForm({ ...form, phone: e.target.value })}
-                    className="w-full px-3 py-2 rounded-lg border border-[#DDE7D3] dark:border-[#2A3328] bg-white dark:bg-[#222920] text-[#2F3A2D] dark:text-[#E8EDE6] text-sm"
+                    className="w-full px-3 py-2 rounded-lg border border-[#E8E8E8] dark:border-[#2A3328] bg-white dark:bg-[#222920] text-[#1A1A1A] dark:text-[#E8EDE6] text-sm"
                     placeholder="+53 5555 5555"
                   />
                 </div>
                 <div>
-                  <label className="text-xs text-[#64705E] dark:text-[#9BAA93] mb-1 block">Notas</label>
+                  <label className="text-xs text-[#666666] dark:text-[#9BAA93] mb-1 block">Notas</label>
                   <input
                     type="text"
                     value={form.notes}
                     onChange={(e) => setForm({ ...form, notes: e.target.value })}
-                    className="w-full px-3 py-2 rounded-lg border border-[#DDE7D3] dark:border-[#2A3328] bg-white dark:bg-[#222920] text-[#2F3A2D] dark:text-[#E8EDE6] text-sm"
+                    className="w-full px-3 py-2 rounded-lg border border-[#E8E8E8] dark:border-[#2A3328] bg-white dark:bg-[#222920] text-[#1A1A1A] dark:text-[#E8EDE6] text-sm"
                     placeholder="Notas adicionales..."
                   />
                 </div>
@@ -196,34 +196,34 @@ export default function EstheticianDashboard() {
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-8">
           <Card className="p-5">
             <CardContent className="p-0 flex items-center gap-3">
-              <div className="w-10 h-10 rounded-xl bg-[#C2E09D]/10 flex items-center justify-center">
-                <Users className="w-5 h-5 text-[#C2E09D]" />
+              <div className="w-10 h-10 rounded-xl bg-[#88B078]/10 flex items-center justify-center">
+                <Users className="w-5 h-5 text-[#88B078]" />
               </div>
               <div>
-                <p className="text-2xl font-bold text-[#2F3A2D] dark:text-[#E8EDE6]">{clients.length}</p>
-                <p className="text-xs text-[#64705E] dark:text-[#9BAA93]">Clientes</p>
+                <p className="text-2xl font-bold text-[#1A1A1A] dark:text-[#E8EDE6]">{clients.length}</p>
+                <p className="text-xs text-[#666666] dark:text-[#9BAA93]">Clientes</p>
               </div>
             </CardContent>
           </Card>
           <Card className="p-5">
             <CardContent className="p-0 flex items-center gap-3">
-              <div className="w-10 h-10 rounded-xl bg-[#C2E09D]/10 flex items-center justify-center">
-                <BarChart3 className="w-5 h-5 text-[#C2E09D]" />
+              <div className="w-10 h-10 rounded-xl bg-[#88B078]/10 flex items-center justify-center">
+                <BarChart3 className="w-5 h-5 text-[#88B078]" />
               </div>
               <div>
-                <p className="text-2xl font-bold text-[#2F3A2D] dark:text-[#E8EDE6]">50</p>
-                <p className="text-xs text-[#64705E] dark:text-[#9BAA93]">Clientes/mes</p>
+                <p className="text-2xl font-bold text-[#1A1A1A] dark:text-[#E8EDE6]">50</p>
+                <p className="text-xs text-[#666666] dark:text-[#9BAA93]">Clientes/mes</p>
               </div>
             </CardContent>
           </Card>
           <Card className="p-5">
             <CardContent className="p-0 flex items-center gap-3">
-              <div className="w-10 h-10 rounded-xl bg-[#C2E09D]/10 flex items-center justify-center">
-                <FileText className="w-5 h-5 text-[#C2E09D]" />
+              <div className="w-10 h-10 rounded-xl bg-[#88B078]/10 flex items-center justify-center">
+                <FileText className="w-5 h-5 text-[#88B078]" />
               </div>
               <div>
-                <p className="text-2xl font-bold text-[#2F3A2D] dark:text-[#E8EDE6]">∞</p>
-                <p className="text-xs text-[#64705E] dark:text-[#9BAA93]">Análisis</p>
+                <p className="text-2xl font-bold text-[#1A1A1A] dark:text-[#E8EDE6]">∞</p>
+                <p className="text-xs text-[#666666] dark:text-[#9BAA93]">Análisis</p>
               </div>
             </CardContent>
           </Card>
@@ -232,11 +232,11 @@ export default function EstheticianDashboard() {
         {clients.length === 0 ? (
           <Card className="p-12 text-center">
             <CardContent className="p-0">
-              <Users className="w-16 h-16 text-[#DDE7D3] dark:text-[#2A3328] mx-auto mb-4" />
-              <h3 className="font-serif text-xl font-semibold text-[#2F3A2D] dark:text-[#E8EDE6] mb-2">
+              <Users className="w-16 h-16 text-[#E8E8E8] dark:text-[#2A3328] mx-auto mb-4" />
+              <h3 className="font-serif text-xl font-semibold text-[#1A1A1A] dark:text-[#E8EDE6] mb-2">
                 Sin clientes aún
               </h3>
-              <p className="text-sm text-[#64705E] dark:text-[#9BAA93] mb-6 max-w-sm mx-auto">
+              <p className="text-sm text-[#666666] dark:text-[#9BAA93] mb-6 max-w-sm mx-auto">
                 Agrega tu primer cliente para comenzar a analizar su piel con IA.
               </p>
               <Button onClick={() => setShowForm(true)} variant="primary" className="gap-2">
@@ -252,12 +252,12 @@ export default function EstheticianDashboard() {
                 <CardContent className="p-0">
                   <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
                     <div className="flex items-center gap-3">
-                      <div className="w-10 h-10 rounded-full bg-[#C2E09D]/20 flex items-center justify-center">
-                        <User className="w-5 h-5 text-[#C2E09D]" />
+                      <div className="w-10 h-10 rounded-full bg-[#88B078]/20 flex items-center justify-center">
+                        <User className="w-5 h-5 text-[#88B078]" />
                       </div>
                       <div>
-                        <p className="font-medium text-[#2F3A2D] dark:text-[#E8EDE6]">{client.name}</p>
-                        <div className="flex items-center gap-3 text-xs text-[#64705E] dark:text-[#9BAA93]">
+                        <p className="font-medium text-[#1A1A1A] dark:text-[#E8EDE6]">{client.name}</p>
+                        <div className="flex items-center gap-3 text-xs text-[#666666] dark:text-[#9BAA93]">
                           {client.email && (
                             <span className="flex items-center gap-1">
                               <Mail className="w-3 h-3" /> {client.email}
@@ -270,7 +270,7 @@ export default function EstheticianDashboard() {
                           )}
                         </div>
                         {client.notes && (
-                          <p className="text-xs text-[#8A9A82] dark:text-[#7A8A72] mt-1">{client.notes}</p>
+                          <p className="text-xs text-[#999999] dark:text-[#7A8A72] mt-1">{client.notes}</p>
                         )}
                       </div>
                     </div>

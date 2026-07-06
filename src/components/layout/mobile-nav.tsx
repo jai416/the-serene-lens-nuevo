@@ -26,7 +26,7 @@ export function MobileNav() {
   const items = session ? authItems : guestItems
 
   return (
-    <nav className="md:hidden fixed bottom-0 left-0 right-0 z-50 bg-white dark:bg-[#222920] border-t border-[#DDE7D3] dark:border-[#3A4536]">
+    <nav className="md:hidden fixed bottom-0 left-0 right-0 z-50 bg-white dark:bg-[#222222] border-t border-[#E8E8E8] dark:border-[#333333]">
       <div className="flex items-center justify-around py-2 px-1 pb-[calc(0.5rem+env(safe-area-inset-bottom))] overflow-x-auto scrollbar-hide">
         {items.map((item) => {
           const active = item.href === "/" ? pathname === "/" : pathname.startsWith(item.href)
@@ -37,15 +37,15 @@ export function MobileNav() {
               className={cn(
                 "flex flex-col items-center gap-0.5 px-2 sm:px-4 py-1.5 rounded-xl transition-all duration-200 relative shrink-0",
                 active
-                  ? "text-[#2F3A2D] dark:text-[#E8EDE6]"
-                  : "text-[#8A9A82] dark:text-[#7A8A72] hover:text-[#64705E] dark:hover:text-[#9BAA93]"
+                  ? "text-[#1A1A1A] dark:text-[#F0F0F0]"
+                  : "text-[#999999] dark:text-[#888888] hover:text-[#666666] dark:hover:text-[#999999]"
               )}
             >
               {active && (
-                <span className="absolute -top-1 left-1/2 -translate-x-1/2 w-1 h-1 rounded-full bg-[#C2E09D]" />
+                <span className="absolute -top-1 left-1/2 -translate-x-1/2 w-1 h-1 rounded-full bg-[#88B078]" />
               )}
               <item.icon className="w-5 h-5" />
-              <span className={cn("text-[10px] font-medium whitespace-nowrap", active ? "text-[#2F3A2D] dark:text-[#E8EDE6]" : "")}>{item.label}</span>
+              <span className={cn("text-[10px] font-medium whitespace-nowrap", active ? "text-[#1A1A1A] dark:text-[#F0F0F0]" : "")}>{item.label}</span>
             </Link>
           )
         })}

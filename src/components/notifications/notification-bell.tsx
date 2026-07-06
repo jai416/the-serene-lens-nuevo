@@ -108,13 +108,13 @@ export function NotificationBell() {
     <div ref={ref} className="relative">
       <button
         onClick={() => setOpen(!open)}
-        className="relative flex items-center justify-center w-10 h-10 rounded-2xl bg-white dark:bg-[#222920] border border-[#DDE7D3] dark:border-[#3A4536] text-[#64705E] dark:text-[#9BAA93] hover:bg-[#F0F5EC] dark:hover:bg-[#2E3829] hover:text-[#2F3A2D] dark:hover:text-[#E8EDE6] hover:border-[#C2E09D] dark:hover:border-[#C2E09D] shadow-sm hover:shadow-md transition-all duration-200"
+        className="relative flex items-center justify-center w-10 h-10 rounded-2xl bg-white dark:bg-[#222222] border border-[#E8E8E8] dark:border-[#333333] text-[#666666] dark:text-[#999999] hover:bg-[#F8F9FA] dark:hover:bg-[#2A2A2A] hover:text-[#1A1A1A] dark:hover:text-[#F0F0F0] hover:border-[#88B078] dark:hover:border-[#88B078] shadow-sm hover:shadow-md transition-all duration-200"
         aria-label="Notificaciones"
       >
         {unread > 0 ? (
           <>
             <BellDot className="w-4.5 h-4.5" />
-            <span className="absolute -top-1 -right-1 w-4.5 h-4.5 rounded-full bg-[#E07070] text-white text-[9px] font-bold flex items-center justify-center ring-2 ring-white dark:ring-[#222920]">
+            <span className="absolute -top-1 -right-1 w-4.5 h-4.5 rounded-full bg-[#E07070] text-white text-[9px] font-bold flex items-center justify-center ring-2 ring-white dark:ring-[#222222]">
               {unread > 9 ? "9+" : unread}
             </span>
           </>
@@ -126,17 +126,17 @@ export function NotificationBell() {
       {open && (
         <div
           className={cn(
-            "absolute right-0 top-full mt-3 w-[360px] rounded-2xl bg-white dark:bg-[#222920] border border-[#DDE7D3] dark:border-[#3A4536] shadow-[0_12px_40px_rgba(47,58,45,0.15)] dark:shadow-[0_12px_40px_rgba(0,0,0,0.5)] overflow-hidden z-50"
+            "absolute right-0 top-full mt-3 w-[360px] rounded-2xl bg-white dark:bg-[#222222] border border-[#E8E8E8] dark:border-[#333333] shadow-[0_12px_40px_rgba(0,0,0,0.12)] dark:shadow-[0_12px_40px_rgba(0,0,0,0.5)] overflow-hidden z-50"
           )}
         >
-          <div className="flex items-center justify-between px-4 py-3 border-b border-[#DDE7D3] dark:border-[#3A4536]">
-            <span className="text-sm font-semibold text-[#2F3A2D] dark:text-[#E8EDE6]">
+          <div className="flex items-center justify-between px-4 py-3 border-b border-[#E8E8E8] dark:border-[#333333]">
+            <span className="text-sm font-semibold text-[#1A1A1A] dark:text-[#F0F0F0]">
               Notificaciones
             </span>
             {unread > 0 && (
               <button
                 onClick={markAllRead}
-                className="flex items-center gap-1 text-xs font-medium text-[#64705E] dark:text-[#9BAA93] hover:text-[#2F3A2D] dark:hover:text-[#E8EDE6] transition-colors"
+                className="flex items-center gap-1 text-xs font-medium text-[#666666] dark:text-[#999999] hover:text-[#1A1A1A] dark:hover:text-[#F0F0F0] transition-colors"
               >
                 <CheckCheck className="w-3.5 h-3.5" />
                 Marcar todo como leído
@@ -146,11 +146,11 @@ export function NotificationBell() {
 
           <div className="max-h-[340px] overflow-y-auto">
             {loading && !data ? (
-              <div className="p-6 text-center text-sm text-[#8A9A82] dark:text-[#7A8A72]">
+              <div className="p-6 text-center text-sm text-[#999999] dark:text-[#888888]">
                 Cargando...
               </div>
             ) : !data?.notifications.length ? (
-              <div className="p-6 text-center text-sm text-[#8A9A82] dark:text-[#7A8A72]">
+              <div className="p-6 text-center text-sm text-[#999999] dark:text-[#888888]">
                 No tienes notificaciones
               </div>
             ) : (
@@ -159,24 +159,24 @@ export function NotificationBell() {
                   key={n.id}
                   onClick={() => markAsRead(n.id, n.link)}
                   className={cn(
-                    "w-full text-left px-4 py-3 flex items-start gap-3 transition-colors hover:bg-[#F8FAF5] dark:hover:bg-[#2A3228] border-b border-[#DDE7D3]/50 dark:border-[#3A4536]/50 last:border-b-0",
-                    !n.read && "bg-[#F8FAF5] dark:bg-[#2A3228]"
+                    "w-full text-left px-4 py-3 flex items-start gap-3 transition-colors hover:bg-[#F8F9FA] dark:hover:bg-[#2A2A2A] border-b border-[#E8E8E8]/50 dark:border-[#333333]/50 last:border-b-0",
+                    !n.read && "bg-[#F8F9FA] dark:bg-[#2A2A2A]"
                   )}
                 >
                   <div
                     className={cn(
                       "w-2 h-2 rounded-full mt-1.5 shrink-0",
-                      n.read ? "bg-transparent" : "bg-[#C2E09D]"
+                      n.read ? "bg-transparent" : "bg-[#88B078]"
                     )}
                   />
                   <div className="flex-1 min-w-0">
-                    <p className="text-sm font-medium text-[#2F3A2D] dark:text-[#E8EDE6] truncate">
+                    <p className="text-sm font-medium text-[#1A1A1A] dark:text-[#F0F0F0] truncate">
                       {n.title}
                     </p>
-                    <p className="text-xs text-[#64705E] dark:text-[#9BAA93] mt-0.5 line-clamp-2">
+                    <p className="text-xs text-[#666666] dark:text-[#999999] mt-0.5 line-clamp-2">
                       {n.message}
                     </p>
-                    <p className="text-[10px] text-[#8A9A82] dark:text-[#7A8A72] mt-1">
+                    <p className="text-[10px] text-[#999999] dark:text-[#888888] mt-1">
                       {timeAgo(n.createdAt)}
                     </p>
                   </div>
@@ -185,7 +185,7 @@ export function NotificationBell() {
                       e.stopPropagation()
                       markAsRead(n.id)
                     }}
-                    className="shrink-0 p-1 rounded-lg text-[#8A9A82] dark:text-[#7A8A72] hover:text-[#64705E] dark:hover:text-[#9BAA93] hover:bg-[#F0F5EC] dark:hover:bg-[#2E3829] transition-colors"
+                    className="shrink-0 p-1 rounded-lg text-[#999999] dark:text-[#888888] hover:text-[#666666] dark:hover:text-[#999999] hover:bg-[#E2ECE0] dark:hover:bg-[#2A3A2A] transition-colors"
                     aria-label="Eliminar"
                   >
                     <X className="w-3.5 h-3.5" />

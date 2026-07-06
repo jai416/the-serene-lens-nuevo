@@ -705,3 +705,53 @@ Pending updates: 0
 5. Usar admin → `/admin/knowledge` → "Sincronizar con la web" para auto-generar entradas desde sitemap
 6. Usar admin → `/admin/users` → cambiar rol de validador a usuarios
 7. Configurar `GEMINI_API_KEY_1` a `_7` en Render Dashboard (ya en .env local)
+
+---
+
+## Changelog (2026-07-06) — UI Redesign Completo + Performance + Assets
+
+### 🎨 Rediseño Visual Completo (Paleta Nueva)
+- **Paleta anterior eliminada por completo**: 0 referencias a `#C2E09D`, `#2F3A2D`, `#64705E`, `#DDE7D3`, `#F8FAF5`, `#F0F5EC`, `#ECFFD3`, `#FFF6AD`, `#8A9A82`, `#B0D48E`, `#E8EDE4`
+- **70 archivos actualizados** con la nueva paleta vía búsqueda y reemplazo masivo
+- **Tokens nuevos**:
+  - `primary`: `#88B078` (verde brand)
+  - `primary-muted`: `#E2ECE0` (fondo de item activo)
+  - `bg-main`: `#F8F9FA` (lienzo ultra claro)
+  - `text-main`: `#1A1A1A` (carbón profundo)
+  - `text-muted`: `#666666` (gris neutro)
+  - `accent-gold-bg`: `#FFF9E6` (container premium)
+  - `accent-gold-btn`: `#FCEAA6` (CTA premium)
+  - `border`: `#E8E8E8` (gris claro)
+- **Cards**: Sin borders duros, sombras suaves `shadow-sm`, `rounded-[20px]`
+
+### 📐 Layout Rediseñado
+- **Sidebar (izquierda)**: Brand `Flower2` + "The Serene Lens" + "Conoce mejor tu piel". Items nav con estado activo verde sobre fondo `#E2ECE0`. Premium widget al fondo con `Crown` dorado, fondo `#FFF9E6`, botón `#FCEAA6`
+- **TopHeader (nuevo)**: Barra sticky con `NotificationBell` inline + avatar circular + nombre + badge "Usuario Premium" en verde
+- **Dashboard**: Hero con círculos orgánicos decorativos, grid "¿Qué quieres hacer hoy?" (4 cards con icon-bg pastel), módulo "Tu progreso" con SVG bezier chart + circular gauge, widgets laterales (último análisis + recordatorios + banner solar)
+- **Root layout**: `NotificationBell` movido del float al TopHeader. Toaster con nuevos colores
+
+### 🚀 Performance & UX
+- **Skeleton loaders**: Guides page reemplazó spinner `<Loader2>` por `<CardSkeleton>` con shimmer effect
+- **Custom scrollbar**: 6px delgado, redondeado, `#E8E8E8`/dark `#444`. Estilo Firefox vía `scrollbar-width: thin`
+- **next/font Inter**: Cargado via `next/font/google` con `display: swap` y `variable: "--font-inter"`. Sin request externa a Google Fonts. Elimina CLS
+- **`<Image>` en guides**: Reemplazado `<img>` por `<Image>` de Next.js (WebP automático, lazy loading, prevención de layout shift)
+- **ISR + Cache-Control**:
+  - `products/[slug]`: `revalidate = 3600` (ISR: se regenera cada hora)
+  - `/api/products`: `Cache-Control: public, s-maxage=3600, stale-while-revalidate=600`
+  - `/api/guides`: `Cache-Control: public, s-maxage=3600, stale-while-revalidate=600`
+  - `force-dynamic` eliminado del endpoint products (ahora cacheable)
+- **Prisma select**: Ya optimizado en `/api/products` y `/api/guides` (solo campos necesarios) ✅
+- **next/dynamic**: Ya usado para `FAQSection`, `SkinTest`, `AgingDemo`, `EvolutionChart`, `SkinReportDownload` ✅
+
+### 📥 Script Asset Downloader
+- **`scripts/download-assets.ts`** (nuevo): Script autónomo que descarga imágenes faltantes
+  - Productos → `/public/images/products/` (47 archivos: Pexels por ID + Unsplash por keyword según categoría)
+  - Covers de guías → `/public/guides-covers/` (10 covers Pexels)
+  - Placeholders de guías → `/public/guides/` (50 SVGs con branding)
+  - Skip automático si el archivo ya existe
+  - Timeout 15s por descarga, errores no detienen el bucle
+  - Ejecutar: `npm run download:assets`
+
+### ✅ Tests & Type Check
+- **Type check**: `exit 0` ✅
+- **Tests**: 162/162 pasan en 14 suites ✅

@@ -2,6 +2,10 @@
 
 import { useState, useEffect } from "react"
 import { useRouter, useParams } from "next/navigation"
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { Badge } from "@/components/ui/badge"
+import { Button } from "@/components/ui/button"
+import { CardSkeleton } from "@/components/ui/skeleton"
 
 interface Response {
   id: string
@@ -19,11 +23,11 @@ interface Ticket {
   responses: Response[]
 }
 
-const statusMap: Record<string, string> = {
-  open: "🟢 Abierto",
-  in_progress: "🟡 En Progreso",
-  resolved: "✅ Resuelto",
-  closed: "⚪ Cerrado",
+const statusMap: Record<string, { label: string; variant: "mint" | "secondary" | "success" | "outline" }> = {
+  open: { label: "Abierto", variant: "mint" },
+  in_progress: { label: "En Progreso", variant: "secondary" },
+  resolved: { label: "Resuelto", variant: "success" },
+  closed: { label: "Cerrado", variant: "outline" },
 }
 
 export default function TicketDetailPage() {
@@ -76,8 +80,8 @@ export default function TicketDetailPage() {
 
   if (loading) {
     return (
-      <div className="flex justify-center py-16">
-        <div className="h-6 w-6 animate-spin rounded-full border-2 border-[#C2E09D] border-t-transparent" />
+      <div className="mx-auto max-w-2xl p-6">
+        <CardSkeleton />
       </div>
     )
   }
@@ -85,65 +89,71 @@ export default function TicketDetailPage() {
   if (error || !ticket) {
     return (
       <div className="mx-auto max-w-2xl p-6 text-center">
-        <p className="text-gray-500">😅 No se pudo cargar el ticket.</p>
-        <button
+        <p className="text-[#666666]">😅 No se pudo cargar el ticket.</p>
+        <Button
+          variant="ghost"
           onClick={() => router.push("/dashboard/support")}
-          className="mt-4 text-[#C2E09D] hover:underline"
+          className="mt-4"
         >
           ← Volver
-        </button>
+        </Button>
       </div>
     )
   }
 
   return (
     <div className="mx-auto max-w-2xl space-y-6 p-6">
-      <button
+      <Button
+        variant="ghost"
+        size="sm"
         onClick={() => router.push("/dashboard/support")}
-        className="text-gray-500 hover:text-gray-700"
       >
         ← Volver
-      </button>
+      </Button>
 
-      <div className="rounded-xl border border-gray-200 bg-white p-6 shadow-sm dark:border-gray-700 dark:bg-gray-900">
-        <div className="mb-2 flex items-center gap-3">
-          <h1 className="text-2xl font-bold">{ticket.subject}</h1>
-        </div>
-        <div className="mb-4 flex gap-3">
-          <span className="rounded-full bg-gray-100 px-3 py-1 text-sm dark:bg-gray-800">
-            {statusMap[ticket.status] || ticket.status}
-          </span>
-          <span className="rounded-full bg-gray-100 px-3 py-1 text-sm dark:bg-gray-800">
-            {ticket.priority === "urgent" ? "🔴 Urgente" : "🔵 Normal"}
-          </span>
-        </div>
-        <p className="text-gray-700 dark:text-gray-300">{ticket.message}</p>
-      </div>
+      <Card>
+        <CardHeader>
+          <div className="flex items-center gap-3 flex-wrap">
+            <CardTitle className="text-[#1A1A1A]">{ticket.subject}</CardTitle>
+            <Badge variant={statusMap[ticket.status]?.variant || "outline"}>
+              {statusMap[ticket.status]?.label || ticket.status}
+            </Badge>
+            <Badge variant={ticket.priority === "urgent" ? "tertiary" : "mint"}>
+              {ticket.priority === "urgent" ? "🔴 Urgente" : "🔵 Normal"}
+            </Badge>
+          </div>
+        </CardHeader>
+        <CardContent>
+          <p className="text-[#666666]">{ticket.message}</p>
+        </CardContent>
+      </Card>
 
       <div className="space-y-4">
-        <h2 className="text-lg font-semibold">Respuestas</h2>
+        <h2 className="text-lg font-semibold text-[#1A1A1A]">Respuestas</h2>
         {ticket.responses.length === 0 ? (
-          <p className="text-gray-500">No hay respuestas aún.</p>
+          <p className="text-[#666666]">No hay respuestas aún.</p>
         ) : (
           ticket.responses.map((r) => (
-            <div
+            <Card
               key={r.id}
-              className={`rounded-xl p-4 ${
+              className={
                 r.role === "admin"
-                  ? "ml-8 border border-[#C2E09D] bg-[#F8FAF5] dark:bg-gray-800"
-                  : "mr-8 border border-gray-200 bg-white dark:border-gray-700 dark:bg-gray-900"
-              }`}
+                  ? "ml-8 border-[#88B078] bg-[#F8F9FA]"
+                  : "mr-8"
+              }
             >
-              {r.role === "admin" && (
-                <span className="mb-1 inline-block text-sm font-medium text-[#C2E09D]">
-                  👑 Admin
-                </span>
-              )}
-              <p className="text-gray-700 dark:text-gray-300">{r.content}</p>
-              <p className="mt-1 text-xs text-gray-400">
-                {new Date(r.createdAt).toLocaleString()}
-              </p>
-            </div>
+              <CardContent className="p-4">
+                {r.role === "admin" && (
+                  <span className="mb-1 inline-block text-sm font-medium text-[#88B078]">
+                    👑 Admin
+                  </span>
+                )}
+                <p className="text-[#666666]">{r.content}</p>
+                <p className="mt-1 text-xs text-[#666666]/60">
+                  {new Date(r.createdAt).toLocaleString()}
+                </p>
+              </CardContent>
+            </Card>
           ))
         )}
       </div>
@@ -156,15 +166,15 @@ export default function TicketDetailPage() {
           placeholder="Escribe una respuesta..."
           rows={3}
           required
-          className="w-full rounded-lg border border-gray-300 p-2 dark:border-gray-600 dark:bg-gray-800"
+          className="w-full rounded-lg border border-[#E8E8E8] bg-white px-4 py-2.5 text-sm text-[#1A1A1A] placeholder:text-[#666666]/50 focus:outline-none focus:ring-1 focus:ring-[#88B078] resize-none"
         />
-        <button
+        <Button
           type="submit"
+          variant="primary"
           disabled={sending || !responseText.trim()}
-          className="rounded-lg bg-[#C2E09D] px-6 py-2 font-medium hover:bg-[#B0CF8D] disabled:opacity-50"
         >
           {sending ? "Enviando..." : "Responder"}
-        </button>
+        </Button>
       </form>
     </div>
   )

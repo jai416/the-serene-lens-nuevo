@@ -4,7 +4,7 @@ const envSchema = z.object({
   DATABASE_URL: z.string().min(1),
   NEXTAUTH_SECRET: z.string().min(1),
   NEXTAUTH_URL: z.string().url().default("http://localhost:3000"),
-  OPENROUTER_API_KEY: z.string().min(1),
+  GROQ_API_KEY: z.string().min(1),
   QVAPAY_UUID: z.string().min(1),
   QVAPAY_SECRET: z.string().min(1),
   QVAPAY_API_URL: z.string().url().default("https://api.qvapay.com"),

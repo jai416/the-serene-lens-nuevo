@@ -4,6 +4,7 @@ import { useSession } from "next-auth/react"
 import { redirect, usePathname } from "next/navigation"
 import { useState, useEffect, useCallback } from "react"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { BookOpen, TrendingUp, TrendingDown, Minus } from "lucide-react"
 import { toast } from "sonner"
@@ -22,7 +23,7 @@ const FEELING_COLORS: Record<number, string> = {
   2: "#E89B5E",
   3: "#E8D45E",
   4: "#A8D88E",
-  5: "#C2E09D",
+  5: "#88B078",
 }
 
 const FEELING_LABELS: Record<number, string> = {
@@ -194,17 +195,17 @@ export default function DiaryPage() {
   }
 
   return (
-    <div className="min-h-screen px-4 py-8" style={{ backgroundColor: "#F8FAF5" }}>
+    <div className="min-h-screen px-4 py-8" style={{ backgroundColor: "#F8F9FA" }}>
       <div className="max-w-2xl mx-auto">
         <div className="mb-8">
-          <div className="inline-flex items-center gap-2 rounded-full px-4 py-1.5 mb-4" style={{ backgroundColor: "#C2E09D" }}>
-            <BookOpen className="w-3.5 h-3.5 text-[#2F3A2D]" />
-            <span className="text-xs font-medium text-[#2F3A2D]">Diario de Piel</span>
-          </div>
-          <h1 className="font-serif text-3xl sm:text-4xl font-semibold text-[#2F3A2D]">
+          <Badge variant="primary" className="mb-4 flex items-center gap-2 rounded-full px-4 py-1.5">
+            <BookOpen className="w-3.5 h-3.5" />
+            Diario de Piel
+          </Badge>
+          <h1 className="font-serif text-3xl sm:text-4xl font-semibold text-[#1A1A1A]">
             Mi Diario de Piel
           </h1>
-          <p className="text-[#64705E] mt-2 text-sm">
+          <p className="text-[#666666] mt-2 text-sm">
             Registra cómo se siente tu piel cada día
           </p>
         </div>
@@ -218,12 +219,12 @@ export default function DiaryPage() {
                 {weekSummary.trend === "down" && <TrendingDown className="w-5 h-5 text-[#E07070]" />}
                 {weekSummary.trend === "stable" && <Minus className="w-5 h-5 text-[#E8D45E]" />}
                 <div>
-                  <p className="font-medium text-[#2F3A2D] text-sm">
+                  <p className="font-medium text-[#1A1A1A] text-sm">
                     {weekSummary.trend === "up" && "Esta semana tu piel mejoró"}
                     {weekSummary.trend === "down" && "Esta semana tu piel bajó un poco"}
                     {weekSummary.trend === "stable" && "Tu piel se mantiene estable esta semana"}
                   </p>
-                  <p className="text-xs text-[#64705E] mt-0.5">
+                  <p className="text-xs text-[#666666] mt-0.5">
                     Promedio: {weekSummary.avg.toFixed(1)} / 5
                   </p>
                 </div>
@@ -238,16 +239,16 @@ export default function DiaryPage() {
             <div className="flex items-center justify-between">
               <button
                 onClick={() => setCurrentMonth(new Date(currentMonth.getFullYear(), currentMonth.getMonth() - 1))}
-                className="text-[#64705E] hover:text-[#2F3A2D] px-2 py-1 rounded-lg hover:bg-[#F0F5EC] transition-colors text-sm"
+                className="text-[#666666] hover:text-[#1A1A1A] px-2 py-1 rounded-lg hover:bg-[#E2ECE0] transition-colors text-sm"
               >
                 ← Ant
               </button>
-              <CardTitle className="text-lg text-[#2F3A2D]">
+              <CardTitle className="text-lg text-[#1A1A1A]">
                 {MONTH_LABELS[currentMonth.getMonth()]} {currentMonth.getFullYear()}
               </CardTitle>
               <button
                 onClick={() => setCurrentMonth(new Date(currentMonth.getFullYear(), currentMonth.getMonth() + 1))}
-                className="text-[#64705E] hover:text-[#2F3A2D] px-2 py-1 rounded-lg hover:bg-[#F0F5EC] transition-colors text-sm"
+                className="text-[#666666] hover:text-[#1A1A1A] px-2 py-1 rounded-lg hover:bg-[#E2ECE0] transition-colors text-sm"
               >
                 Sig →
               </button>
@@ -256,7 +257,7 @@ export default function DiaryPage() {
           <CardContent className="pt-0">
             <div className="grid grid-cols-7 gap-1 mb-2">
               {WEEKDAY_LABELS.map((d) => (
-                <div key={d} className="text-center text-xs font-medium text-[#64705E] py-1">
+                <div key={d} className="text-center text-xs font-medium text-[#666666] py-1">
                   {d}
                 </div>
               ))}
@@ -274,11 +275,11 @@ export default function DiaryPage() {
                     key={key}
                     className={`
                       relative flex flex-col items-center justify-center rounded-xl py-2 min-h-[52px] transition-colors
-                      ${isToday ? "ring-2 ring-[#C2E09D] bg-[#F0F5EC]" : "bg-white"}
+                      ${isToday ? "ring-2 ring-[#88B078] bg-[#E2ECE0]" : "bg-white"}
                       ${isFuture ? "opacity-40" : ""}
                     `}
                   >
-                    <span className={`text-xs font-medium ${isToday ? "text-[#2F3A2D]" : "text-[#64705E]"}`}>
+                    <span className={`text-xs font-medium ${isToday ? "text-[#1A1A1A]" : "text-[#666666]"}`}>
                       {day.getDate()}
                     </span>
                     {entry && (
@@ -298,12 +299,12 @@ export default function DiaryPage() {
         {/* Legend */}
         <Card className="mb-6">
           <CardContent className="p-4">
-            <p className="text-xs font-medium text-[#64705E] mb-2">Leyenda</p>
+            <p className="text-xs font-medium text-[#666666] mb-2">Leyenda</p>
             <div className="flex flex-wrap gap-3">
               {[1, 2, 3, 4, 5].map((f) => (
                 <div key={f} className="flex items-center gap-1.5">
                   <div className="w-3 h-3 rounded-full" style={{ backgroundColor: FEELING_COLORS[f] }} />
-                  <span className="text-xs text-[#64705E]">{f} — {FEELING_LABELS[f]}</span>
+                  <span className="text-xs text-[#666666]">{f} — {FEELING_LABELS[f]}</span>
                 </div>
               ))}
             </div>
@@ -313,13 +314,13 @@ export default function DiaryPage() {
         {/* Add Entry Form */}
         <Card>
           <CardHeader className="pb-3">
-            <CardTitle className="text-lg text-[#2F3A2D]">
+            <CardTitle className="text-lg text-[#1A1A1A]">
               {todayEntry ? "Actualizar entrada de hoy" : "Registrar cómo se siente tu piel hoy"}
             </CardTitle>
           </CardHeader>
           <CardContent className="space-y-4">
             <div>
-              <label className="text-sm font-medium text-[#2F3A2D] mb-2 block">
+              <label className="text-sm font-medium text-[#1A1A1A] mb-2 block">
                 ¿Cómo se siente tu piel?
               </label>
               <div className="flex gap-2">
@@ -330,8 +331,8 @@ export default function DiaryPage() {
                     className={`
                       flex flex-col items-center gap-1 px-3 py-2 rounded-xl border-2 transition-all text-xs font-medium
                       ${selectedFeeling === f
-                        ? "border-[#C2E09D] bg-[#F0F5EC] text-[#2F3A2D]"
-                        : "border-[#DDE7D3] bg-white text-[#64705E] hover:border-[#C2E09D]"
+                        ? "border-[#88B078] bg-[#E2ECE0] text-[#1A1A1A]"
+                        : "border-[#E8E8E8] bg-white text-[#666666] hover:border-[#88B078]"
                       }
                     `}
                   >
@@ -346,7 +347,7 @@ export default function DiaryPage() {
             </div>
 
             <div>
-              <label className="text-sm font-medium text-[#2F3A2D] mb-1.5 block">
+              <label className="text-sm font-medium text-[#1A1A1A] mb-1.5 block">
                 Notas (opcional)
               </label>
               <textarea
@@ -355,12 +356,12 @@ export default function DiaryPage() {
                 rows={3}
                 maxLength={500}
                 placeholder="¿Usaste algún producto nuevo? ¿Algún factor externo?"
-                className="w-full rounded-xl border border-[#DDE7D3] bg-white px-4 py-2.5 text-sm focus:outline-none focus:ring-1 focus:ring-[#C2E09D] text-[#2F3A2D] placeholder:text-[#64705E]/50 resize-none"
+                className="w-full rounded-xl border border-[#E8E8E8] bg-white px-4 py-2.5 text-sm focus:outline-none focus:ring-1 focus:ring-[#88B078] text-[#1A1A1A] placeholder:text-[#666666]/50 resize-none"
               />
             </div>
 
             {todayEntry && (
-              <p className="text-xs text-[#64705E]">
+              <p className="text-xs text-[#666666]">
                 Ya tienes una entrada para hoy. Guardarla sobreescribirá la anterior.
               </p>
             )}

@@ -92,18 +92,18 @@ export default async function BlogPostPage({
       />
       <article className="max-w-3xl mx-auto">
         <nav
-          className="flex items-center gap-2 text-xs text-[#64705E] mb-4"
+          className="flex items-center gap-2 text-xs text-[#666666] mb-4"
           aria-label="Breadcrumb"
         >
-          <Link href="/" className="hover:text-[#2F3A2D]">
+          <Link href="/" className="hover:text-[#1A1A1A]">
             Inicio
           </Link>
           <span>/</span>
-          <Link href="/blog" className="hover:text-[#2F3A2D]">
+          <Link href="/blog" className="hover:text-[#1A1A1A]">
             Blog
           </Link>
           <span>/</span>
-          <span className="text-[#2F3A2D] truncate max-w-[200px]">
+          <span className="text-[#1A1A1A] truncate max-w-[200px]">
             {post.title}
           </span>
         </nav>
@@ -153,13 +153,13 @@ export default async function BlogPostPage({
         <div
           className="prose prose-sm sm:prose-base max-w-none
             prose-headings:font-serif prose-headings:font-semibold
-            prose-a:text-[#C2E09D] prose-a:no-underline hover:prose-a:underline
+            prose-a:text-[#88B078] prose-a:no-underline hover:prose-a:underline
             prose-img:rounded-2xl prose-img:shadow-sm"
           dangerouslySetInnerHTML={{ __html: post.content }}
         />
 
-        <hr className="my-8 border-[#DDE7D3]" />
-        <p className="text-xs text-[#64705E]">
+        <hr className="my-8 border-[#E8E8E8]" />
+        <p className="text-xs text-[#666666]">
           Este contenido es informativo y no sustituye una consulta médica
           profesional.
         </p>

@@ -18,8 +18,8 @@ export function ThemeToggle({ className }: { className?: string }) {
       onClick={cycle}
       className={cn(
         "flex items-center gap-2 px-3 py-2 text-sm rounded-xl transition-all duration-200 w-full",
-        "text-[#64705E] hover:bg-[#F8FAF5] hover:text-[#2F3A2D]",
-        "dark:text-[#9BAA93] dark:hover:bg-[#2A3228] dark:hover:text-[#E8EDE6]",
+        "text-[#666666] hover:bg-[#F8F9FA] hover:text-[#1A1A1A]",
+        "dark:text-[#999999] dark:hover:bg-[#2A2A2A] dark:hover:text-[#F0F0F0]",
         className
       )}
       aria-label="Cambiar tema"
@@ -48,8 +48,8 @@ export function ThemeToggleCompact() {
       onClick={cycle}
       className={cn(
         "w-10 h-10 rounded-xl flex items-center justify-center transition-all duration-200",
-        "bg-[#F0F5EC] text-[#64705E] hover:bg-[#E0EDE0] hover:text-[#2F3A2D]",
-        "dark:bg-[#2E3829] dark:text-[#9BAA93] dark:hover:bg-[#3A4536] dark:hover:text-[#E8EDE6]"
+        "bg-[#E2ECE0] text-[#666666] hover:bg-[#D0E0D0] hover:text-[#1A1A1A]",
+        "dark:bg-[#2A3A2A] dark:text-[#999999] dark:hover:bg-[#3A4A3A] dark:hover:text-[#F0F0F0]"
       )}
       aria-label="Cambiar tema"
     >

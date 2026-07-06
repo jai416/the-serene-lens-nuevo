@@ -31,20 +31,20 @@ export default function QuickFeedback({ analysisId, onComplete }: Props) {
 
   if (submitted) {
     return (
-      <div className="mt-6 rounded-xl bg-[#F8FAF5] p-4 text-center dark:bg-gray-800">
+      <div className="mt-6 rounded-xl bg-[#F8F9FA] p-4 text-center dark:bg-gray-800">
         <p className="font-medium">¡Gracias por tu opinión! 🌿</p>
       </div>
     )
   }
 
   return (
-    <div className="mt-6 rounded-xl bg-[#F8FAF5] p-4 text-center dark:bg-gray-800">
+    <div className="mt-6 rounded-xl bg-[#F8F9FA] p-4 text-center dark:bg-gray-800">
       <p className="mb-3 font-medium">¿Te ayudó a entender tu piel?</p>
       <div className="flex justify-center gap-4">
         <button
           onClick={() => handleVote(true)}
           disabled={loading}
-          className="rounded-lg bg-[#C2E09D] px-6 py-2 font-medium transition-colors hover:bg-[#B0CF8D] disabled:opacity-50"
+          className="rounded-lg bg-[#88B078] px-6 py-2 font-medium transition-colors hover:bg-[#B0CF8D] disabled:opacity-50"
         >
           👍 Sí
         </button>

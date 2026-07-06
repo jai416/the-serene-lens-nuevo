@@ -2,101 +2,14 @@ import { NextRequest } from "next/server"
 import { getServerSession } from "next-auth"
 import { authOptions } from "@/lib/auth"
 import { db } from "@/lib/db"
-import { withRetry } from "@/lib/retry"
 import { logger } from "@/lib/logger"
 import {
   matchIngredientsToAnalysis,
   formatIngredientsForPrompt,
 } from "@/lib/ingredient-kb"
+import { groqChatJSON } from "@/lib/groq-chat"
 
-function getApiKey(): string {
-  return process.env.OPENROUTER_API_KEY || ""
-}
-
-const AGING_OUTPUT_SCHEMA = {
-  type: "object",
-  properties: {
-    summary: {
-      type: "string",
-      description:
-        "Análisis descriptivo del estado actual de la piel y proyección de evolución. Solo observaciones visuales, sin diagnósticos médicos.",
-    },
-    currentScore: {
-      type: "object",
-      properties: {
-        hydration: { type: "number", description: "Nivel de hidratación visible (0-100)" },
-        texture: { type: "number", description: "Uniformidad de textura visible (0-100)" },
-        firmness: { type: "number", description: "Firmeza aparente (0-100)" },
-        luminosity: { type: "number", description: "Luminosidad y uniformidad de tono (0-100)" },
-        sensitivity: { type: "number", description: "Nivel de sensibilidad aparente (0-100, alto = más sensible)" },
-      },
-      required: ["hydration", "texture", "firmness", "luminosity", "sensitivity"],
-    },
-    fiveYearProjection: {
-      type: "object",
-      properties: {
-        hydration: { type: "number", description: "Proyección de hidratación a 5 años (0-100)" },
-        texture: { type: "number", description: "Proyección de textura a 5 años (0-100)" },
-        firmness: { type: "number", description: "Proyección de firmeza a 5 años (0-100)" },
-        luminosity: { type: "number", description: "Proyección de luminosidad a 5 años (0-100)" },
-        sensitivity: { type: "number", description: "Proyección de sensibilidad a 5 años (0-100)" },
-      },
-      required: ["hydration", "texture", "firmness", "luminosity", "sensitivity"],
-    },
-    trends: {
-      type: "object",
-      properties: {
-        hydration: { type: "string", enum: ["improving", "stable", "declining"] },
-        texture: { type: "string", enum: ["improving", "stable", "declining"] },
-        firmness: { type: "string", enum: ["improving", "stable", "declining"] },
-        luminosity: { type: "string", enum: ["improving", "stable", "declining"] },
-        sensitivity: { type: "string", enum: ["improving", "stable", "declining"] },
-      },
-      required: ["hydration", "texture", "firmness", "luminosity", "sensitivity"],
-    },
-    keyFactors: {
-      type: "array",
-      items: {
-        type: "object",
-        properties: {
-          factor: { type: "string" },
-          impact: { type: "string", enum: ["high", "medium", "low"] },
-          description: { type: "string" },
-        },
-        required: ["factor", "impact", "description"],
-      },
-      description: "Factores clave que más afectan la evolución de la piel",
-    },
-    recommendations: {
-      type: "array",
-      items: {
-        type: "object",
-        properties: {
-          priority: { type: "string", enum: ["essential", "important", "optional"] },
-          category: { type: "string", enum: ["hydration", "protection", "treatment", "lifestyle"] },
-          title: { type: "string" },
-          description: { type: "string" },
-          ingredients: {
-            type: "array",
-            items: { type: "string" },
-            description: "Ingredientes activos específicos recomendados",
-          },
-        },
-        required: ["priority", "category", "title", "description", "ingredients"],
-      },
-      description: "Recomendaciones personalizadas con ingredientes activos",
-    },
-  },
-  required: [
-    "summary",
-    "currentScore",
-    "fiveYearProjection",
-    "trends",
-    "keyFactors",
-    "recommendations",
-  ],
-  additionalProperties: false,
-}
+const SYSTEM = `Eres un modelo analítico avanzado de IA especializado en estética cosmética. Responde exclusivamente en español. NO eres médico. NO uses diagnósticos clínicos ni prescribas tratamientos. Usa lenguaje descriptivo sobre características VISUALES observables. Los scores numéricos (0-100) son SOLO para visualización en gráficos. Todas las recomendaciones deben referenciar ingredientes activos cosméticos por nombre. Devuelve los datos en formato JSON estructurado exacto.`
 
 function sanitizeScore(val: unknown): number {
   const n = typeof val === "number" ? val : typeof val === "string" ? parseInt(val, 10) : 50
@@ -296,7 +209,16 @@ CRITICAL RULES:
 - Base projections on the observed skin characteristics and known cosmetic ingredient science.
 - Do NOT claim to predict diseases or medical conditions.
 
-Provide your analysis in the exact JSON structure specified.`
+Provide your analysis in the exact JSON structure specified.
+
+{
+  "summary": "string - descriptive analysis and projection",
+  "currentScore": {"hydration": 0-100, "texture": 0-100, "firmness": 0-100, "luminosity": 0-100, "sensitivity": 0-100},
+  "fiveYearProjection": {"hydration": 0-100, "texture": 0-100, "firmness": 0-100, "luminosity": 0-100, "sensitivity": 0-100},
+  "trends": {"hydration": "improving|stable|declining", "texture": "improving|stable|declining", "firmness": "improving|stable|declining", "luminosity": "improving|stable|declining", "sensitivity": "improving|stable|declining"},
+  "keyFactors": [{"factor": "string", "impact": "high|medium|low", "description": "string"}],
+  "recommendations": [{"priority": "essential|important|optional", "category": "hydration|protection|treatment|lifestyle", "title": "string", "description": "string", "ingredients": ["string"]}]
+}`
           : `Eres un modelo analítico avanzado de IA especializado en estética cosmética. Analiza los siguientes datos de piel y proporciona una proyección de evolución a 5 años.
 
 ANÁLISIS ACTUAL:
@@ -315,108 +237,27 @@ REGLAS CRÍTICAS:
 - Las proyecciones deben basarse en las características observadas y la ciencia conocida de ingredientes cosméticos.
 - NO predigas enfermedades ni condiciones médicas.
 
-Proporciona tu análisis en la estructura JSON exacta especificada.`
+Proporciona tu análisis en la estructura JSON exacta especificada.
+
+{
+  "summary": "string - análisis descriptivo y proyección",
+  "currentScore": {"hydration": 0-100, "texture": 0-100, "firmness": 0-100, "luminosity": 0-100, "sensitivity": 0-100},
+  "fiveYearProjection": {"hydration": 0-100, "texture": 0-100, "firmness": 0-100, "luminosity": 0-100, "sensitivity": 0-100},
+  "trends": {"hydration": "improving|stable|declining", "texture": "improving|stable|declining", "firmness": "improving|stable|declining", "luminosity": "improving|stable|declining", "sensitivity": "improving|stable|declining"},
+  "keyFactors": [{"factor": "string", "impact": "high|medium|low", "description": "string"}],
+  "recommendations": [{"priority": "essential|important|optional", "category": "hydration|protection|treatment|lifestyle", "title": "string", "description": "string", "ingredients": ["string"]}]
+}`
 
         safeSend({ stage: "processing", message: "Generando predicción con IA..." })
 
-        const apiBody = {
-          model: "google/gemini-2.5-flash",
-          messages: [
-            {
-              role: "user",
-              content: prompt,
-            },
-          ],
-          stream: true,
-          response_format: {
-            type: "json_schema",
-            json_schema: {
-              name: "aging_prediction",
-              strict: true,
-              schema: AGING_OUTPUT_SCHEMA,
-            },
-          },
-        }
-
-        logger.info("Aging prediction stream started", {
-          userId: session.user.id,
-          analysisId: analysis.id,
-          ragIngredients: matched.length,
-        })
-
-        const res = await withRetry(
-          () =>
-            fetch("https://openrouter.ai/api/v1/chat/completions", {
-              method: "POST",
-              headers: {
-                "Content-Type": "application/json",
-                Authorization: `Bearer ${getApiKey()}`,
-              },
-              body: JSON.stringify(apiBody),
-              signal: AbortSignal.timeout(90000),
-            }),
-          { maxRetries: 2, baseDelayMs: 2000 }
+        const parsed = await groqChatJSON<Record<string, unknown>>(
+          [{ role: "user", content: prompt }],
+          { temperature: 0.3, maxTokens: 4096, system: SYSTEM }
         )
-
-        if (!res.ok) {
-          const text = await res.text()
-          logger.error("Aging prediction stream OpenRouter error", { status: res.status, text })
-          throw new Error(`OpenRouter error ${res.status}`)
-        }
-
-        const reader = res.body?.getReader()
-        if (!reader) throw new Error("No response body from OpenRouter")
-
-        const decoder = new TextDecoder()
-        let fullContent = ""
-        let buffer = ""
-
-        while (true) {
-          const { done, value } = await reader.read()
-          if (done) break
-
-          buffer += decoder.decode(value, { stream: true })
-
-          const lines = buffer.split("\n")
-          buffer = lines.pop() || ""
-
-          for (const line of lines) {
-            const trimmed = line.trim()
-            if (!trimmed || !trimmed.startsWith("data: ")) continue
-
-            const payload = trimmed.slice(6)
-            if (payload === "[DONE]") continue
-
-            try {
-              const parsed = JSON.parse(payload)
-              const delta = parsed.choices?.[0]?.delta?.content
-              if (delta) {
-                fullContent += delta
-                safeSend({
-                  stage: "processing",
-                  message: "Generando predicción con IA...",
-                  text: delta,
-                  length: fullContent.length,
-                })
-              }
-            } catch {
-              // skip malformed chunks
-            }
-          }
-        }
-
-        if (!fullContent) throw new Error("No response from AI stream")
-
-        let parsed: Record<string, unknown>
-        try {
-          parsed = JSON.parse(fullContent)
-        } catch {
-          throw new Error("La IA devolvió una respuesta inválida. Intenta de nuevo.")
-        }
 
         const prediction = sanitizePrediction(parsed)
 
-        logger.info("Aging prediction stream completed", {
+        logger.info("Aging prediction completed", {
           userId: session.user.id,
           analysisId: analysis.id,
         })
@@ -432,13 +273,11 @@ Proporciona tu análisis en la estructura JSON exacta especificada.`
         if (!closed) {
           try {
             controller.enqueue(encoder.encode("data: [DONE]\n\n"))
-          } catch {
-            // stream already closed
-          }
+          } catch {}
         }
       } catch (e) {
         const msg = e instanceof Error ? e.message : String(e)
-        logger.error("Aging prediction stream failed", { error: msg })
+        logger.error("Aging prediction failed", { error: msg })
 
         if (msg.includes("ETIMEDOUT") || msg.includes("fetch failed")) {
           safeSend({ stage: "error", message: "El servicio de predicción IA está temporalmente no disponible." })

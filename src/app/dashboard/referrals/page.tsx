@@ -49,7 +49,7 @@ export default function ReferralsPage() {
   if (status === "loading" || loading) {
     return (
       <div className="min-h-screen flex items-center justify-center">
-        <Loader2 className="w-6 h-6 animate-pulse text-[#C2E09D]" />
+        <Loader2 className="w-6 h-6 animate-pulse text-[#88B078]" />
       </div>
     )
   }
@@ -93,14 +93,14 @@ export default function ReferralsPage() {
     <div className="min-h-screen px-4 py-8">
       <div className="max-w-3xl mx-auto">
         <div className="mb-8">
-          <Badge variant="primary" className="mb-4 rounded-full px-4 py-1.5 border-0">
+          <Badge variant="mint" className="mb-4 rounded-full px-4 py-1.5 border-0">
             <Users className="w-3.5 h-3.5 mr-2" />
             Referidos
           </Badge>
-          <h1 className="font-serif text-3xl sm:text-4xl font-semibold text-[#2F3A2D]">
+          <h1 className="font-serif text-3xl sm:text-4xl font-semibold text-[#1A1A1A]">
             Invita a amigos
           </h1>
-          <p className="text-[#64705E] mt-2">
+          <p className="text-[#666666] mt-2">
             Invita a 3 amigos y gana un análisis de piel gratis.
           </p>
         </div>
@@ -108,7 +108,7 @@ export default function ReferralsPage() {
         {/* How it works */}
         <Card className="p-6 mb-6">
           <CardContent className="p-0">
-            <h3 className="font-medium text-[#2F3A2D] mb-4">Cómo funciona</h3>
+            <h3 className="font-medium text-[#1A1A1A] mb-4">Cómo funciona</h3>
             <div className="space-y-3">
               {[
                 { step: "1", text: "Crea un grupo de referencia" },
@@ -116,10 +116,10 @@ export default function ReferralsPage() {
                 { step: "3", text: "Cuando 3 amigos se unan, ganas 1 análisis gratis" },
               ].map((item) => (
                 <div key={item.step} className="flex items-center gap-3">
-                  <div className="w-7 h-7 rounded-full bg-[#C2E09D] flex items-center justify-center flex-shrink-0">
-                    <span className="text-xs font-medium text-[#2F3A2D]">{item.step}</span>
+                  <div className="w-7 h-7 rounded-full bg-[#88B078] flex items-center justify-center flex-shrink-0">
+                    <span className="text-xs font-medium text-[#1A1A1A]">{item.step}</span>
                   </div>
-                  <span className="text-sm text-[#2F3A2D]">{item.text}</span>
+                  <span className="text-sm text-[#1A1A1A]">{item.text}</span>
                 </div>
               ))}
             </div>
@@ -150,19 +150,19 @@ export default function ReferralsPage() {
         {/* Active groups */}
         {activeGroups.length > 0 && (
           <div className="mb-6">
-            <h2 className="font-serif text-xl font-semibold mb-4 text-[#2F3A2D]">Grupos activos</h2>
+            <h2 className="font-serif text-xl font-semibold mb-4 text-[#1A1A1A]">Grupos activos</h2>
             <div className="space-y-3">
               {activeGroups.map((group) => (
-                <Card key={group.groupId} className="ring-1 ring-[#C2E09D]">
+                <Card key={group.groupId} className="ring-1 ring-[#88B078]">
                   <CardContent className="p-4">
                     <div className="flex items-center justify-between mb-3">
                       <div>
-                        <p className="font-medium text-[#2F3A2D]">Grupo {group.groupId}</p>
-                        <p className="text-xs text-[#64705E]">
+                        <p className="font-medium text-[#1A1A1A]">Grupo {group.groupId}</p>
+                        <p className="text-xs text-[#666666]">
                           Creado {new Date(group.createdAt).toLocaleDateString("es-ES")}
                         </p>
                       </div>
-                      <Badge className="bg-[#C2E09D] text-[#2F3A2D]">
+                      <Badge className="bg-[#88B078] text-[#1A1A1A]">
                         {group.completedCount}/3
                       </Badge>
                     </div>
@@ -172,13 +172,13 @@ export default function ReferralsPage() {
                         <div
                           key={i}
                           className={`flex-1 h-2 rounded-full ${
-                            i < group.completedCount ? "bg-[#C2E09D]" : "bg-[#DDE7D3]"
+                            i < group.completedCount ? "bg-[#88B078]" : "bg-[#E8E8E8]"
                           }`}
                         />
                       ))}
                     </div>
 
-                    <p className="text-xs text-[#64705E] mb-3">
+                    <p className="text-xs text-[#666666] mb-3">
                       <Clock className="w-3 h-3 inline mr-1" />
                       Expira {new Date(group.expiresAt).toLocaleDateString("es-ES")}
                     </p>
@@ -212,23 +212,23 @@ export default function ReferralsPage() {
         {/* Completed groups */}
         {completedGroups.length > 0 && (
           <div className="mb-6">
-            <h2 className="font-serif text-xl font-semibold mb-4 text-[#2F3A2D]">Grupos completados</h2>
+            <h2 className="font-serif text-xl font-semibold mb-4 text-[#1A1A1A]">Grupos completados</h2>
             <div className="space-y-2">
               {completedGroups.map((group) => (
                 <Card key={group.groupId}>
                   <CardContent className="p-4 flex items-center justify-between">
                     <div className="flex items-center gap-3">
-                      <CheckCircle2 className="w-5 h-5 text-[#C2E09D]" />
+                      <CheckCircle2 className="w-5 h-5 text-[#88B078]" />
                       <div>
-                        <p className="text-sm font-medium text-[#2F3A2D]">
+                        <p className="text-sm font-medium text-[#1A1A1A]">
                           Grupo {group.groupId}
                         </p>
-                        <p className="text-xs text-[#64705E]">
+                        <p className="text-xs text-[#666666]">
                           Completado {group.completedAt ? new Date(group.completedAt).toLocaleDateString("es-ES") : ""}
                         </p>
                       </div>
                     </div>
-                    <Badge className="bg-[#C2E09D] text-[#2F3A2D]">+1 gratis</Badge>
+                    <Badge className="bg-[#88B078] text-[#1A1A1A]">+1 gratis</Badge>
                   </CardContent>
                 </Card>
               ))}
@@ -239,13 +239,13 @@ export default function ReferralsPage() {
         {/* Expired groups */}
         {expiredGroups.length > 0 && (
           <div>
-            <h2 className="font-serif text-xl font-semibold mb-4 text-[#64705E]">Grupos expirados</h2>
+            <h2 className="font-serif text-xl font-semibold mb-4 text-[#666666]">Grupos expirados</h2>
             <div className="space-y-2">
               {expiredGroups.map((group) => (
                 <Card key={group.groupId} className="opacity-60">
                   <CardContent className="p-4 flex items-center justify-between">
                     <div>
-                      <p className="text-sm text-[#64705E]">Grupo {group.groupId}</p>
+                      <p className="text-sm text-[#666666]">Grupo {group.groupId}</p>
                       <p className="text-xs text-[#9BAA93]">
                         Expirado · {group.completedCount}/3 amigos
                       </p>
@@ -261,9 +261,9 @@ export default function ReferralsPage() {
         {groups.length === 0 && (
           <Card className="p-8">
             <CardContent className="p-0 text-center">
-              <Users className="w-12 h-12 text-[#DDE7D3] mx-auto mb-4" />
-              <h3 className="font-medium text-[#2F3A2D] mb-2">Sin grupos aún</h3>
-              <p className="text-sm text-[#64705E] mb-4">
+              <Users className="w-12 h-12 text-[#E8E8E8] mx-auto mb-4" />
+              <h3 className="font-medium text-[#1A1A1A] mb-2">Sin grupos aún</h3>
+              <p className="text-sm text-[#666666] mb-4">
                 Crea tu primer grupo y comparte el enlace con tus amigos.
               </p>
             </CardContent>

@@ -1,4 +1,4 @@
-import { analyzeSkinWithGemini } from "@/lib/gemini"
+import { analyzeSkinWithGroq } from "@/lib/groq"
 import { checkAndDeductUsage } from "@/lib/usage"
 import { getCachedAnalysis, setCachedAnalysis } from "@/lib/analysis-cache"
 import { AnalysisRepository } from "@/lib/repositories"
@@ -20,6 +20,9 @@ export const AnalysisService = {
     if (!usage.allowed) {
       throw new AnalysisError(usage.error || "Límite de análisis alcanzado", "USAGE_LIMIT")
     }
+
+    const oversized = files.find((f) => f.size > 10 * 1024 * 1024)
+    if (oversized) throw new AnalysisError("Una imagen supera los 10MB", "VALIDATION")
 
     // Cache check
     const cacheKeyFiles = files.slice(0, 2)
@@ -51,7 +54,7 @@ export const AnalysisService = {
 
     let result: Record<string, unknown>
     try {
-      result = await analyzeSkinWithGemini(files)
+      result = await analyzeSkinWithGroq(files)
       await setCachedAnalysis([cacheKeyBase64], body.concerns, body.age, result).catch(() => {})
     } catch (e) {
       const msg = e instanceof Error ? e.message : String(e)

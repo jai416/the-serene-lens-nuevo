@@ -106,7 +106,7 @@ export default function AdminSupportPage() {
       <div className="max-w-6xl mx-auto">
         <div className="flex items-center justify-between mb-6">
           <h1 className="text-xl font-bold text-[#E8DED5] flex items-center gap-2">
-            <MessageSquare className="w-5 h-5 text-[#C2E09D]" />
+            <MessageSquare className="w-5 h-5 text-[#88B078]" />
             Tickets de Soporte
           </h1>
           <div className="flex items-center gap-2">
@@ -116,7 +116,7 @@ export default function AdminSupportPage() {
                 onClick={() => { setStatusFilter(s); setPage(1) }}
                 className={`px-3 py-1 rounded-lg text-xs font-medium transition-colors ${
                   statusFilter === s
-                    ? "bg-[#C2E09D] text-[#1A1F19]"
+                    ? "bg-[#88B078] text-[#1A1F19]"
                     : "bg-[#222920] text-[#9BAA93] hover:bg-[#2E3829]"
                 }`}
               >
@@ -139,8 +139,8 @@ export default function AdminSupportPage() {
               tickets.map((t) => (
                 <Card
                   key={t.id}
-                  className={`bg-[#1A1F19] border-[#222920] cursor-pointer transition-all hover:border-[#C2E09D]/50 ${
-                    selectedTicket?.id === t.id ? "ring-1 ring-[#C2E09D]" : ""
+                  className={`bg-[#1A1F19] border-[#222920] cursor-pointer transition-all hover:border-[#88B078]/50 ${
+                    selectedTicket?.id === t.id ? "ring-1 ring-[#88B078]" : ""
                   }`}
                   onClick={() => setSelectedTicket(t)}
                 >
@@ -152,7 +152,7 @@ export default function AdminSupportPage() {
                       </Badge>
                     </div>
                     <p className="text-xs text-[#9BAA93] line-clamp-2 mb-2">{t.message}</p>
-                    <div className="flex items-center gap-3 text-[10px] text-[#64705E]">
+                    <div className="flex items-center gap-3 text-[10px] text-[#666666]">
                       <span>{t.user.name || t.user.email}</span>
                       <span>{new Date(t.createdAt).toLocaleDateString("es")}</span>
                       <span>{t._count.responses} respuestas</span>
@@ -215,7 +215,7 @@ export default function AdminSupportPage() {
                           onClick={() => handleStatusChange(selectedTicket.id, s)}
                           className={`px-3 py-1 rounded-lg text-xs font-medium transition-colors ${
                             selectedTicket.status === s
-                              ? "bg-[#C2E09D] text-[#1A1F19]"
+                              ? "bg-[#88B078] text-[#1A1F19]"
                               : "bg-[#222920] text-[#9BAA93] hover:bg-[#2E3829]"
                           }`}
                         >
@@ -231,13 +231,13 @@ export default function AdminSupportPage() {
                       value={reply}
                       onChange={(e) => setReply(e.target.value)}
                       rows={4}
-                      className="w-full rounded-xl bg-[#222920] border border-[#2E3829] text-[#E8DED5] p-3 text-sm resize-none focus:outline-none focus:border-[#C2E09D] placeholder-[#64705E]"
+                      className="w-full rounded-xl bg-[#222920] border border-[#2E3829] text-[#E8DED5] p-3 text-sm resize-none focus:outline-none focus:border-[#88B078] placeholder-[#666666]"
                       placeholder="Escribe tu respuesta..."
                     />
                     <Button
                       onClick={handleReply}
                       disabled={!reply.trim() || sending}
-                      className="mt-2 bg-[#C2E09D] text-[#1A1F19] hover:bg-[#D4C4B0]"
+                      className="mt-2 bg-[#88B078] text-[#1A1F19] hover:bg-[#D4C4B0]"
                     >
                       {sending ? <Loader2 className="w-4 h-4 animate-spin" /> : <Send className="w-4 h-4" />}
                       Enviar respuesta

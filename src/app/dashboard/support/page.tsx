@@ -2,6 +2,10 @@
 
 import { useState, useEffect } from "react"
 import { useRouter } from "next/navigation"
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { Badge } from "@/components/ui/badge"
+import { Button } from "@/components/ui/button"
+import { CardSkeleton } from "@/components/ui/skeleton"
 
 interface Ticket {
   id: string
@@ -12,11 +16,11 @@ interface Ticket {
   responseCount: number
 }
 
-const statusMap: Record<string, string> = {
-  open: "🟢",
-  in_progress: "🟡",
-  resolved: "✅",
-  closed: "⚪",
+const statusMap: Record<string, { label: string; variant: "mint" | "secondary" | "success" | "outline" }> = {
+  open: { label: "Abierto", variant: "mint" },
+  in_progress: { label: "En Progreso", variant: "secondary" },
+  resolved: { label: "Resuelto", variant: "success" },
+  closed: { label: "Cerrado", variant: "outline" },
 }
 
 export default function SupportPage() {
@@ -72,79 +76,83 @@ export default function SupportPage() {
 
   return (
     <div className="mx-auto max-w-2xl space-y-8 p-6">
-      <h1 className="text-2xl font-bold">🎫 Soporte</h1>
+      <h1 className="text-2xl font-bold text-[#1A1A1A]">🎫 Soporte</h1>
 
-      <div className="rounded-xl border border-gray-200 bg-white p-6 shadow-sm dark:border-gray-700 dark:bg-gray-900">
-        <h2 className="mb-4 text-lg font-semibold">Crear Ticket</h2>
-        <form onSubmit={handleSubmit} className="space-y-4">
-          <input
-            aria-label="Asunto"
-            value={subject}
-            onChange={(e) => setSubject(e.target.value)}
-            placeholder="Asunto"
-            required
-            className="w-full rounded-lg border border-gray-300 p-2 dark:border-gray-600 dark:bg-gray-800"
-          />
-          <textarea
-            aria-label="Mensaje"
-            value={message}
-            onChange={(e) => setMessage(e.target.value)}
-            placeholder="Describe tu problema..."
-            required
-            rows={4}
-            className="w-full rounded-lg border border-gray-300 p-2 dark:border-gray-600 dark:bg-gray-800"
-          />
-          <select
-            aria-label="Prioridad"
-            value={priority}
-            onChange={(e) => setPriority(e.target.value)}
-            className="w-full rounded-lg border border-gray-300 p-2 dark:border-gray-600 dark:bg-gray-800"
-          >
-            <option value="normal">Normal</option>
-            <option value="urgent">Urgente</option>
-          </select>
-          {error && <p className="text-sm text-red-500">{error}</p>}
-          {success && (
-            <p className="text-sm text-green-600">Ticket creado con éxito.</p>
-          )}
-          <button
-            type="submit"
-            disabled={submitting}
-            className="rounded-lg bg-[#C2E09D] px-6 py-2 font-medium hover:bg-[#B0CF8D] disabled:opacity-50"
-          >
-            {submitting ? "Enviando..." : "Enviar"}
-          </button>
-        </form>
-      </div>
+      <Card>
+        <CardHeader>
+          <CardTitle>Crear Ticket</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <form onSubmit={handleSubmit} className="space-y-4">
+            <input
+              aria-label="Asunto"
+              value={subject}
+              onChange={(e) => setSubject(e.target.value)}
+              placeholder="Asunto"
+              required
+              className="w-full rounded-lg border border-[#E8E8E8] bg-white px-4 py-2.5 text-sm text-[#1A1A1A] placeholder:text-[#666666]/50 focus:outline-none focus:ring-1 focus:ring-[#88B078]"
+            />
+            <textarea
+              aria-label="Mensaje"
+              value={message}
+              onChange={(e) => setMessage(e.target.value)}
+              placeholder="Describe tu problema..."
+              required
+              rows={4}
+              className="w-full rounded-lg border border-[#E8E8E8] bg-white px-4 py-2.5 text-sm text-[#1A1A1A] placeholder:text-[#666666]/50 focus:outline-none focus:ring-1 focus:ring-[#88B078] resize-none"
+            />
+            <select
+              aria-label="Prioridad"
+              value={priority}
+              onChange={(e) => setPriority(e.target.value)}
+              className="w-full rounded-lg border border-[#E8E8E8] bg-white px-4 py-2.5 text-sm text-[#1A1A1A] focus:outline-none focus:ring-1 focus:ring-[#88B078]"
+            >
+              <option value="normal">Normal</option>
+              <option value="urgent">Urgente</option>
+            </select>
+            {error && <p className="text-sm text-red-500">{error}</p>}
+            {success && (
+              <p className="text-sm text-green-600">Ticket creado con éxito.</p>
+            )}
+            <Button type="submit" variant="primary" disabled={submitting}>
+              {submitting ? "Enviando..." : "Enviar"}
+            </Button>
+          </form>
+        </CardContent>
+      </Card>
 
       <div>
-        <h2 className="mb-4 text-lg font-semibold">Mis Tickets</h2>
+        <h2 className="mb-4 text-lg font-semibold text-[#1A1A1A]">Mis Tickets</h2>
         {loading ? (
-          <div className="flex justify-center py-8">
-            <div className="h-6 w-6 animate-spin rounded-full border-2 border-[#C2E09D] border-t-transparent" />
-          </div>
+          <CardSkeleton />
         ) : tickets.length === 0 ? (
-          <p className="py-8 text-center text-gray-500">
-            No tienes tickets de soporte todavía.
-          </p>
+          <Card>
+            <CardContent className="py-8 text-center">
+              <p className="text-[#666666]">No tienes tickets de soporte todavía.</p>
+            </CardContent>
+          </Card>
         ) : (
           <div className="space-y-3">
             {tickets.map((ticket) => (
               <button
                 key={ticket.id}
                 onClick={() => router.push(`/dashboard/support/${ticket.id}`)}
-                className="w-full rounded-xl border border-gray-200 bg-white p-4 text-left shadow-sm transition-shadow hover:shadow-md dark:border-gray-700 dark:bg-gray-900"
+                className="w-full text-left"
               >
-                <div className="flex items-center justify-between">
-                  <span className="font-medium">{ticket.subject}</span>
-                  <span className="text-sm">
-                    {statusMap[ticket.status] || "⚪"}
-                  </span>
-                </div>
-                <div className="mt-1 flex items-center gap-3 text-sm text-gray-500">
-                  <span>{new Date(ticket.createdAt).toLocaleDateString()}</span>
-                  <span>{ticket.responseCount} respuestas</span>
-                </div>
+                <Card className="transition-shadow hover:shadow-md cursor-pointer">
+                  <CardContent className="p-4">
+                    <div className="flex items-center justify-between mb-2">
+                      <span className="font-medium text-[#1A1A1A]">{ticket.subject}</span>
+                      <Badge variant={statusMap[ticket.status]?.variant || "outline"}>
+                        {statusMap[ticket.status]?.label || ticket.status}
+                      </Badge>
+                    </div>
+                    <div className="flex items-center gap-3 text-sm text-[#666666]">
+                      <span>{new Date(ticket.createdAt).toLocaleDateString()}</span>
+                      <span>{ticket.responseCount} respuestas</span>
+                    </div>
+                  </CardContent>
+                </Card>
               </button>
             ))}
           </div>

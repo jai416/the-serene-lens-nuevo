@@ -1,30 +1,7 @@
 import { logger } from "@/lib/logger"
-import { markKeyDead } from "@/lib/gemini-keys"
 
 const GEMINI_API_BASE = "https://generativelanguage.googleapis.com/v1beta/models"
 const MODEL = "gemini-2.0-flash"
-
-function getApiKeys(): string[] {
-  const keys: string[] = []
-  for (let i = 1; i <= 10; i++) {
-    const k = process.env[`GEMINI_API_KEY_${i}`]
-    if (k) keys.push(k)
-  }
-  if (keys.length === 0) {
-    const single = process.env.GEMINI_API_KEY
-    if (single) keys.push(single)
-  }
-  return keys
-}
-
-let keyIndex = 0
-function getNextKey(): string {
-  const keys = getApiKeys()
-  if (keys.length === 0) throw new Error("No GEMINI_API_KEY configured")
-  const key = keys[keyIndex % keys.length]
-  keyIndex++
-  return key
-}
 
 function extractJSON(content: string): any {
   const clean = content.replace(/```json|```/g, "").trim()
@@ -64,7 +41,8 @@ async function geminiFetch(
   prompt: string,
   attempt = 1
 ): Promise<any> {
-  const key = getNextKey()
+  const key = process.env.GEMINI_API_KEY || ""
+  if (!key) throw new Error("No GEMINI_API_KEY configured")
   const url = `${GEMINI_API_BASE}/${MODEL}:generateContent?key=${key}`
 
   const parts: any[] = [{ text: prompt }]
@@ -93,9 +71,6 @@ async function geminiFetch(
 
   if (!res.ok) {
     const text = await res.text()
-    if (res.status === 403 || res.status === 401) {
-      markKeyDead(key)
-    }
     throw new Error(`Gemini error ${res.status}: ${text}`)
   }
 

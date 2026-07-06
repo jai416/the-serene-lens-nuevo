@@ -254,6 +254,7 @@ export function validatorHelpText(): string {
     `/pendientes — Lista de pagos pendientes\n` +
     `/buscar email/ref — Buscar un pago\n` +
     `/historial email — Historial de pagos\n` +
+    `/consultar — Consulta a la IA sobre skincare\n` +
     `/validatorhelp — Esta ayuda\n\n` +
     `💡 <i>Los botones en /pendientes hacen todo más rápido.</i>`
 }
@@ -274,7 +275,8 @@ export function adminHelpText(): string {
     `📢 <b>Comunicación</b>\n` +
     `/broadcast msg — Mensaje a todos\n` +
     `/promocion 20% — Crear código descuento\n` +
-    `/alerta — Configurar notificaciones\n\n` +
+    `/alerta — Configurar notificaciones\n` +
+    `/consultar — Consulta a la IA sobre skincare\n\n` +
     `/adminhelp — Esta ayuda`
 }
 

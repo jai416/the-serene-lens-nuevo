@@ -3,6 +3,8 @@
 import { useState, useEffect } from "react";
 import { useSession } from "next-auth/react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import { MessageCircle, Send, ChevronDown, ChevronUp, Users, Plus } from "lucide-react";
 import CommunityGuideBanner from "@/components/community-guide-banner";
 import { logger } from "@/lib/logger";
@@ -289,24 +291,26 @@ export default function CommunityPage() {
   };
 
   return (
-    <div className="min-h-screen py-8 px-4 bg-[#F8FAF5] dark:bg-[#1F1A17]">
+    <div className="min-h-screen py-8 px-4 bg-[#F8F9FA] dark:bg-[#1F1A17]">
       <div className="max-w-4xl mx-auto">
         <div className="flex justify-between items-center mb-8">
-          <h1 className="text-3xl font-bold text-[#2F3A2D] dark:text-[#F5EDE4]">Comunidad</h1>
+          <h1 className="text-3xl font-bold text-[#1A1A1A] dark:text-[#F5EDE4]">Comunidad</h1>
           <div className="flex gap-2">
-            <button
+            <Button
               onClick={() => setShowNewGroup(true)}
-              className="px-4 py-2 rounded-lg font-medium text-[#2F3A2D] bg-[#C2E09D] hover:bg-[#DDC8B5] transition-colors flex items-center gap-2"
+              variant="primary"
+              size="sm"
             >
               <Plus className="w-4 h-4" />
               Nueva Comunidad
-            </button>
-            <button
+            </Button>
+            <Button
               onClick={() => setShowNewPost(true)}
-              className="px-4 py-2 rounded-lg font-medium text-[#2F3A2D] bg-[#C2E09D] hover:bg-[#DDC8B5] transition-colors"
+              variant="primary"
+              size="sm"
             >
               Nueva Publicación
-            </button>
+            </Button>
           </div>
         </div>
 
@@ -315,8 +319,8 @@ export default function CommunityPage() {
             onClick={() => setActiveTab("feed")}
             className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
               activeTab === "feed"
-                ? "bg-[#C2E09D] text-[#2F3A2D]"
-                : "bg-[#DDE7D3] text-[#64705E]"
+                ? "bg-[#88B078] text-[#1A1A1A]"
+                : "bg-[#E8E8E8] text-[#666666]"
             }`}
           >
             Feed
@@ -325,8 +329,8 @@ export default function CommunityPage() {
             onClick={() => setActiveTab("myGroups")}
             className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors flex items-center gap-1 ${
               activeTab === "myGroups"
-                ? "bg-[#C2E09D] text-[#2F3A2D]"
-                : "bg-[#DDE7D3] text-[#64705E]"
+                ? "bg-[#88B078] text-[#1A1A1A]"
+                : "bg-[#E8E8E8] text-[#666666]"
             }`}
           >
             <Users className="w-4 h-4" />
@@ -343,8 +347,8 @@ export default function CommunityPage() {
                   onClick={() => handleCategoryChange(cat.id)}
                   className={`px-4 py-2 rounded-full text-sm font-medium transition-colors whitespace-nowrap ${
                     activeCategory === cat.id
-                      ? "bg-[#C2E09D] text-[#2F3A2D]"
-                      : "bg-[#DDE7D3] text-[#64705E]"
+                      ? "bg-[#88B078] text-[#1A1A1A]"
+                      : "bg-[#E8E8E8] text-[#666666]"
                   }`}
                 >
                   {cat.label}
@@ -355,34 +359,34 @@ export default function CommunityPage() {
             {loading ? (
               <ListSkeleton rows={5} />
             ) : posts.length === 0 ? (
-              <Card className="bg-white dark:bg-[#2A231E] border-[#DDE7D3] dark:border-[#2F3A2D]">
+              <Card className="bg-white dark:bg-[#2A231E] border-[#E8E8E8] dark:border-[#1A1A1A]">
                 <CardContent className="py-12 text-center">
-                  <p className="text-[#64705E] dark:text-[#A09080]">No hay publicaciones todavía. Sé el primero en compartir.</p>
+                  <p className="text-[#666666] dark:text-[#A09080]">No hay publicaciones todavía. Sé el primero en compartir.</p>
                 </CardContent>
               </Card>
             ) : (
               <div className="space-y-4">
                 {posts.map((post) => (
-                  <Card key={post.id} className="bg-white dark:bg-[#2A231E] border-[#DDE7D3] dark:border-[#2F3A2D]">
+                  <Card key={post.id} className="bg-white dark:bg-[#2A231E] border-[#E8E8E8] dark:border-[#1A1A1A]">
                     <CardHeader className="pb-2">
                       <div className="flex justify-between items-start">
-                        <CardTitle className="text-lg text-[#2F3A2D] dark:text-[#F5EDE4]">{post.title}</CardTitle>
+                        <CardTitle className="text-lg text-[#1A1A1A] dark:text-[#F5EDE4]">{post.title}</CardTitle>
                         <div className="flex items-center gap-2">
                           {post.group && (
-                            <span className="px-2 py-1 rounded text-xs font-medium bg-[#C2E09D] text-[#2F3A2D]">
+                            <Badge variant="primary">
                               {post.group.name}
-                            </span>
+                            </Badge>
                           )}
-                          <span className="px-2 py-1 rounded text-xs font-medium bg-[#DDE7D3] dark:bg-[#352E26] text-[#64705E] dark:text-[#A09080]">
+                          <Badge variant="mint">
                             {post.category}
-                          </span>
+                          </Badge>
                         </div>
                       </div>
                     </CardHeader>
                     <CardContent>
-                      <p className="mb-4 text-[#64705E] dark:text-[#A09080] line-clamp-2">{post.content}</p>
+                      <p className="mb-4 text-[#666666] dark:text-[#A09080] line-clamp-2">{post.content}</p>
                       <CommunityGuideBanner content={post.content} />
-                      <div className="flex justify-between items-center text-sm text-[#64705E] dark:text-[#A09080]">
+                      <div className="flex justify-between items-center text-sm text-[#666666] dark:text-[#A09080]">
                         <div className="flex items-center gap-4">
                           <span>{post.user.name || "Anónimo"}</span>
                           <span>{formatDate(post.createdAt)}</span>
@@ -390,7 +394,7 @@ export default function CommunityPage() {
                         <div className="flex items-center gap-2">
                           <button
                             onClick={() => toggleComments(post.id)}
-                            className="flex items-center gap-1 hover:text-[#2F3A2D] dark:hover:text-[#F5EDE4] transition-colors"
+                            className="flex items-center gap-1 hover:text-[#1A1A1A] dark:hover:text-[#F5EDE4] transition-colors"
                           >
                             <MessageCircle className="w-4 h-4" />
                             <span>{post._count?.comments || 0}</span>
@@ -399,7 +403,7 @@ export default function CommunityPage() {
                         </div>
                       </div>
 
-                      <div className="flex flex-wrap gap-1 mt-3 pt-3 border-t border-[#DDE7D3] dark:border-[#2F3A2D]">
+                      <div className="flex flex-wrap gap-1 mt-3 pt-3 border-t border-[#E8E8E8] dark:border-[#1A1A1A]">
                         {REACTION_TYPES.map((rt) => {
                           const count = getReactionCount(post, rt.type);
                           const key = `${post.id}-${rt.type}`;
@@ -409,32 +413,32 @@ export default function CommunityPage() {
                               key={rt.type}
                               onClick={() => handleReact(post.id, rt.type)}
                               disabled={!session || isReacting}
-                              className="flex items-center gap-1 px-2 py-1 rounded-full text-xs transition-colors hover:bg-[#DDE7D3] dark:hover:bg-[#352E26] disabled:opacity-50"
+                              className="flex items-center gap-1 px-2 py-1 rounded-full text-xs transition-colors hover:bg-[#E8E8E8] dark:hover:bg-[#352E26] disabled:opacity-50"
                             >
                               <span>{rt.emoji}</span>
-                              <span className="text-[#64705E] dark:text-[#A09080]">{count}</span>
+                              <span className="text-[#666666] dark:text-[#A09080]">{count}</span>
                             </button>
                           );
                         })}
                       </div>
 
                       {expandedPost === post.id && (
-                        <div className="mt-4 pt-4 border-t border-[#DDE7D3] dark:border-[#2F3A2D]">
+                        <div className="mt-4 pt-4 border-t border-[#E8E8E8] dark:border-[#1A1A1A]">
                           <div className="space-y-3 mb-4">
                             {(comments[post.id] || []).length === 0 && (
-                              <p className="text-sm text-[#64705E] dark:text-[#A09080]">No hay comentarios aún.</p>
+                              <p className="text-sm text-[#666666] dark:text-[#A09080]">No hay comentarios aún.</p>
                             )}
                             {(comments[post.id] || []).map((c) => (
-                              <div key={c.id} className="bg-[#F8FAF5] dark:bg-[#231D18] rounded-xl px-4 py-3">
+                              <div key={c.id} className="bg-[#F8F9FA] dark:bg-[#231D18] rounded-xl px-4 py-3">
                                 <div className="flex items-center gap-2 mb-1">
-                                  <span className="text-sm font-medium text-[#2F3A2D] dark:text-[#F5EDE4]">
+                                  <span className="text-sm font-medium text-[#1A1A1A] dark:text-[#F5EDE4]">
                                     {c.user?.name || "Anónimo"}
                                   </span>
-                                  <span className="text-[10px] text-[#64705E] dark:text-[#A09080]">
+                                  <span className="text-[10px] text-[#666666] dark:text-[#A09080]">
                                     {formatDate(c.createdAt)}
                                   </span>
                                 </div>
-                                <p className="text-sm text-[#64705E] dark:text-[#A09080]">{c.content}</p>
+                                <p className="text-sm text-[#666666] dark:text-[#A09080]">{c.content}</p>
                               </div>
                             ))}
                           </div>
@@ -448,18 +452,19 @@ export default function CommunityPage() {
                                 onChange={(e) => setCommentText((prev) => ({ ...prev, [post.id]: e.target.value }))}
                                 onKeyDown={(e) => e.key === "Enter" && submitComment(post.id)}
                                 placeholder="Escribe un comentario..."
-                                className="flex-1 px-3 py-2 rounded-lg border border-[#DDE7D3] dark:border-[#2F3A2D] bg-white dark:bg-[#302923] text-sm text-[#2F3A2D] dark:text-[#F5EDE4] placeholder:text-[#64705E] dark:placeholder:text-[#7A6A5A] focus:outline-none focus:border-[#C2E09D]"
+                                className="flex-1 px-3 py-2 rounded-lg border border-[#E8E8E8] dark:border-[#1A1A1A] bg-white dark:bg-[#302923] text-sm text-[#1A1A1A] dark:text-[#F5EDE4] placeholder:text-[#666666] dark:placeholder:text-[#7A6A5A] focus:outline-none focus:border-[#88B078]"
                               />
-                              <button
+                              <Button
                                 onClick={() => submitComment(post.id)}
+                                variant="primary"
+                                size="sm"
                                 disabled={commentLoading === post.id || !commentText[post.id]?.trim()}
-                                className="px-3 py-2 bg-[#C2E09D] text-[#2F3A2D] rounded-lg hover:bg-[#DDC8B5] transition-colors disabled:opacity-50"
                               >
                                 <Send className="w-4 h-4" />
-                              </button>
+                              </Button>
                             </div>
                           ) : (
-                            <p className="text-sm text-[#64705E] dark:text-[#A09080]">Inicia sesión para comentar.</p>
+                            <p className="text-sm text-[#666666] dark:text-[#A09080]">Inicia sesión para comentar.</p>
                           )}
                         </div>
                       )}
@@ -477,8 +482,8 @@ export default function CommunityPage() {
                     onClick={() => setCurrentPage(page)}
                     className={`px-3 py-1 rounded text-sm font-medium transition-colors ${
                       currentPage === page
-                        ? "bg-[#C2E09D] text-[#2F3A2D]"
-                        : "bg-[#DDE7D3] dark:bg-[#352E26] text-[#64705E] dark:text-[#A09080]"
+                        ? "bg-[#88B078] text-[#1A1A1A]"
+                        : "bg-[#E8E8E8] dark:bg-[#352E26] text-[#666666] dark:text-[#A09080]"
                     }`}
                   >
                     {page}
@@ -494,21 +499,21 @@ export default function CommunityPage() {
             {groupsLoading ? (
               <ListSkeleton rows={3} />
             ) : groups.length === 0 ? (
-              <Card className="bg-white dark:bg-[#2A231E] border-[#DDE7D3] dark:border-[#2F3A2D]">
+              <Card className="bg-white dark:bg-[#2A231E] border-[#E8E8E8] dark:border-[#1A1A1A]">
                 <CardContent className="py-12 text-center">
-                  <p className="text-[#64705E] dark:text-[#A09080]">No tienes comunidades aún. ¡Crea la primera!</p>
+                  <p className="text-[#666666] dark:text-[#A09080]">No tienes comunidades aún. ¡Crea la primera!</p>
                 </CardContent>
               </Card>
             ) : (
               <div className="space-y-4">
                 {groups.map((group) => (
-                  <Card key={group.id} className="bg-white dark:bg-[#2A231E] border-[#DDE7D3] dark:border-[#2F3A2D]">
+                  <Card key={group.id} className="bg-white dark:bg-[#2A231E] border-[#E8E8E8] dark:border-[#1A1A1A]">
                     <CardHeader>
-                      <CardTitle className="text-lg text-[#2F3A2D] dark:text-[#F5EDE4]">{group.name}</CardTitle>
+                      <CardTitle className="text-lg text-[#1A1A1A] dark:text-[#F5EDE4]">{group.name}</CardTitle>
                     </CardHeader>
                     <CardContent>
-                      <p className="text-sm text-[#64705E] dark:text-[#A09080] mb-3">{group.description}</p>
-                      <div className="flex items-center gap-4 text-sm text-[#64705E] dark:text-[#A09080]">
+                      <p className="text-sm text-[#666666] dark:text-[#A09080] mb-3">{group.description}</p>
+                      <div className="flex items-center gap-4 text-sm text-[#666666] dark:text-[#A09080]">
                         <span className="flex items-center gap-1">
                           <Users className="w-4 h-4" />
                           {group._count?.members ?? 0} miembros
@@ -517,7 +522,7 @@ export default function CommunityPage() {
                       </div>
                       <a
                         href={`/community/groups/${group.slug}`}
-                        className="inline-block mt-3 text-sm font-medium text-[#2F3A2D] dark:text-[#F5EDE4] hover:underline"
+                        className="inline-block mt-3 text-sm font-medium text-[#1A1A1A] dark:text-[#F5EDE4] hover:underline"
                       >
                         Ver publicaciones &rarr;
                       </a>
@@ -533,28 +538,28 @@ export default function CommunityPage() {
           <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4" onClick={() => setShowNewPost(false)}>
             <Card className="w-full max-w-lg bg-white dark:bg-[#2A231E]" onClick={(e) => e.stopPropagation()}>
               <CardHeader>
-                <CardTitle className="text-[#2F3A2D] dark:text-[#F5EDE4]">Nueva Publicación</CardTitle>
+                <CardTitle className="text-[#1A1A1A] dark:text-[#F5EDE4]">Nueva Publicación</CardTitle>
               </CardHeader>
               <CardContent>
                 <form onSubmit={handleSubmitPost} className="space-y-4">
                   <div>
-                    <label className="block text-sm font-medium mb-1 text-[#2F3A2D] dark:text-[#F5EDE4]">Título</label>
+                    <label className="block text-sm font-medium mb-1 text-[#1A1A1A] dark:text-[#F5EDE4]">Título</label>
                     <input
                       type="text"
                       aria-label="Título del post"
                       value={newPost.title}
                       onChange={(e) => setNewPost({ ...newPost, title: e.target.value })}
-                      className="w-full px-3 py-2 rounded-lg border border-[#DDE7D3] dark:border-[#2F3A2D] bg-[#F8FAF5] dark:bg-[#231D18] text-[#2F3A2D] dark:text-[#F5EDE4]"
+                      className="w-full px-3 py-2 rounded-lg border border-[#E8E8E8] dark:border-[#1A1A1A] bg-[#F8F9FA] dark:bg-[#231D18] text-[#1A1A1A] dark:text-[#F5EDE4]"
                       required
                     />
                   </div>
                   <div>
-                    <label className="block text-sm font-medium mb-1 text-[#2F3A2D] dark:text-[#F5EDE4]">Categoría</label>
+                    <label className="block text-sm font-medium mb-1 text-[#1A1A1A] dark:text-[#F5EDE4]">Categoría</label>
                     <select
                       aria-label="Categoría"
                       value={newPost.category}
                       onChange={(e) => setNewPost({ ...newPost, category: e.target.value })}
-                      className="w-full px-3 py-2 rounded-lg border border-[#DDE7D3] dark:border-[#2F3A2D] bg-[#F8FAF5] dark:bg-[#231D18] text-[#2F3A2D] dark:text-[#F5EDE4]"
+                      className="w-full px-3 py-2 rounded-lg border border-[#E8E8E8] dark:border-[#1A1A1A] bg-[#F8F9FA] dark:bg-[#231D18] text-[#1A1A1A] dark:text-[#F5EDE4]"
                     >
                       <option value="general">General</option>
                       <option value="rutinas">Rutinas</option>
@@ -563,26 +568,26 @@ export default function CommunityPage() {
                     </select>
                   </div>
                   <div>
-                    <label className="block text-sm font-medium mb-1 text-[#2F3A2D] dark:text-[#F5EDE4]">Contenido</label>
+                    <label className="block text-sm font-medium mb-1 text-[#1A1A1A] dark:text-[#F5EDE4]">Contenido</label>
                     <textarea
                       aria-label="Contenido del post"
                       value={newPost.content}
                       onChange={(e) => setNewPost({ ...newPost, content: e.target.value })}
-                      className="w-full px-3 py-2 rounded-lg border border-[#DDE7D3] dark:border-[#2F3A2D] bg-[#F8FAF5] dark:bg-[#231D18] h-32 resize-none text-[#2F3A2D] dark:text-[#F5EDE4]"
+                      className="w-full px-3 py-2 rounded-lg border border-[#E8E8E8] dark:border-[#1A1A1A] bg-[#F8F9FA] dark:bg-[#231D18] h-32 resize-none text-[#1A1A1A] dark:text-[#F5EDE4]"
                       required
                     />
                   </div>
                   <div className="flex gap-3 justify-end">
-                    <button type="button" onClick={() => setShowNewPost(false)} className="px-4 py-2 rounded-lg font-medium text-[#64705E] dark:text-[#A09080]">
+                    <Button type="button" variant="ghost" onClick={() => setShowNewPost(false)}>
                       Cancelar
-                    </button>
-                    <button
+                    </Button>
+                    <Button
                       type="submit"
+                      variant="primary"
                       disabled={submitting}
-                      className="px-4 py-2 rounded-lg font-medium text-[#2F3A2D] bg-[#C2E09D] hover:bg-[#DDC8B5] disabled:opacity-50 transition-colors"
                     >
                       {submitting ? "Publicando..." : "Publicar"}
-                    </button>
+                    </Button>
                   </div>
                 </form>
               </CardContent>
@@ -594,42 +599,42 @@ export default function CommunityPage() {
           <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4" onClick={() => setShowNewGroup(false)}>
             <Card className="w-full max-w-lg bg-white dark:bg-[#2A231E]" onClick={(e) => e.stopPropagation()}>
               <CardHeader>
-                <CardTitle className="text-[#2F3A2D] dark:text-[#F5EDE4]">Nueva Comunidad</CardTitle>
+                <CardTitle className="text-[#1A1A1A] dark:text-[#F5EDE4]">Nueva Comunidad</CardTitle>
               </CardHeader>
               <CardContent>
                 <form onSubmit={handleSubmitGroup} className="space-y-4">
                   <div>
-                    <label className="block text-sm font-medium mb-1 text-[#2F3A2D] dark:text-[#F5EDE4]">Nombre</label>
+                    <label className="block text-sm font-medium mb-1 text-[#1A1A1A] dark:text-[#F5EDE4]">Nombre</label>
                     <input
                       type="text"
                       aria-label="Nombre de la comunidad"
                       value={newGroup.name}
                       onChange={(e) => setNewGroup({ ...newGroup, name: e.target.value })}
-                      className="w-full px-3 py-2 rounded-lg border border-[#DDE7D3] dark:border-[#2F3A2D] bg-[#F8FAF5] dark:bg-[#231D18] text-[#2F3A2D] dark:text-[#F5EDE4]"
+                      className="w-full px-3 py-2 rounded-lg border border-[#E8E8E8] dark:border-[#1A1A1A] bg-[#F8F9FA] dark:bg-[#231D18] text-[#1A1A1A] dark:text-[#F5EDE4]"
                       required
                     />
                   </div>
                   <div>
-                    <label className="block text-sm font-medium mb-1 text-[#2F3A2D] dark:text-[#F5EDE4]">Descripción</label>
+                    <label className="block text-sm font-medium mb-1 text-[#1A1A1A] dark:text-[#F5EDE4]">Descripción</label>
                     <textarea
                       aria-label="Descripción de la comunidad"
                       value={newGroup.description}
                       onChange={(e) => setNewGroup({ ...newGroup, description: e.target.value })}
-                      className="w-full px-3 py-2 rounded-lg border border-[#DDE7D3] dark:border-[#2F3A2D] bg-[#F8FAF5] dark:bg-[#231D18] h-24 resize-none text-[#2F3A2D] dark:text-[#F5EDE4]"
+                      className="w-full px-3 py-2 rounded-lg border border-[#E8E8E8] dark:border-[#1A1A1A] bg-[#F8F9FA] dark:bg-[#231D18] h-24 resize-none text-[#1A1A1A] dark:text-[#F5EDE4]"
                       required
                     />
                   </div>
                   <div className="flex gap-3 justify-end">
-                    <button type="button" onClick={() => setShowNewGroup(false)} className="px-4 py-2 rounded-lg font-medium text-[#64705E] dark:text-[#A09080]">
+                    <Button type="button" variant="ghost" onClick={() => setShowNewGroup(false)}>
                       Cancelar
-                    </button>
-                    <button
+                    </Button>
+                    <Button
                       type="submit"
+                      variant="primary"
                       disabled={groupSubmitting}
-                      className="px-4 py-2 rounded-lg font-medium text-[#2F3A2D] bg-[#C2E09D] hover:bg-[#DDC8B5] disabled:opacity-50 transition-colors"
                     >
                       {groupSubmitting ? "Creando..." : "Crear Comunidad"}
-                    </button>
+                    </Button>
                   </div>
                 </form>
               </CardContent>

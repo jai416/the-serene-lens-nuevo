@@ -1,7 +1,7 @@
 import { NextRequest } from "next/server"
 import { getServerSession } from "next-auth"
 import { authOptions } from "@/lib/auth"
-import { scanProductIngredients } from "@/lib/openrouter"
+import { scanProductIngredients } from "@/lib/product-scanner"
 import { ok, error, serverError, unauthorized } from "@/lib/api-response"
 import { logger } from "@/lib/logger"
 import { createHash } from "crypto"

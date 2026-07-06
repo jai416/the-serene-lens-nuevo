@@ -1,8 +1,4 @@
-"use client"
-
-import dynamic from "next/dynamic"
-
-const LiveChatWidget = dynamic(() => import("@/components/chat/live-chat-widget"), { ssr: false })
+import LiveChatWidget from "@/components/chat/live-chat-widget"
 
 export function LiveChatWrapper() {
   return <LiveChatWidget />

@@ -37,7 +37,7 @@ export function SocialLoginButtons() {
         disabled={loading !== null}
       >
         {loading === "google" ? (
-          <span className="w-4 h-4 border-2 border-[#2F3A2D]/30 border-t-[#2F3A2D] rounded-full animate-spin mr-2" />
+          <span className="w-4 h-4 border-2 border-[#1A1A1A]/30 border-t-[#1A1A1A] rounded-full animate-spin mr-2" />
         ) : (
           <Chrome className="w-4 h-4 mr-2" />
         )}
@@ -50,7 +50,7 @@ export function SocialLoginButtons() {
         disabled={loading !== null}
       >
         {loading === "github" ? (
-          <span className="w-4 h-4 border-2 border-[#2F3A2D]/30 border-t-[#2F3A2D] rounded-full animate-spin mr-2" />
+          <span className="w-4 h-4 border-2 border-[#1A1A1A]/30 border-t-[#1A1A1A] rounded-full animate-spin mr-2" />
         ) : (
           <Github className="w-4 h-4 mr-2" />
         )}

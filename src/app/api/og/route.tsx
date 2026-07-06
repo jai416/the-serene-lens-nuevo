@@ -43,7 +43,7 @@ export async function GET(req: Request) {
             flexDirection: "column",
             alignItems: "center",
             justifyContent: "center",
-            background: "#F8FAF5",
+            background: "#F8F9FA",
             fontFamily: "sans-serif",
             padding: 48,
           }}
@@ -56,11 +56,11 @@ export async function GET(req: Request) {
               width: 64,
               height: 64,
               borderRadius: 16,
-              background: "#C2E09D",
+              background: "#88B078",
               marginBottom: 24,
             }}
           >
-            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#2F3A2D" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#1A1A1A" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
               <path d="M12 2C12 2 8 6 8 10C8 13.3 10.7 16 14 16C17.3 16 20 13.3 20 10C20 6 16 4 12 2Z"/>
               <path d="M12 2C12 2 16 6 16 10C16 13.3 13.3 16 10 16C6.7 16 4 13.3 4 10C4 6 8 4 12 2Z"/>
             </svg>
@@ -69,7 +69,7 @@ export async function GET(req: Request) {
             style={{
               fontSize: 40,
               fontWeight: 700,
-              color: "#2F3A2D",
+              color: "#1A1A1A",
               textAlign: "center",
               marginBottom: 12,
               lineHeight: 1.2,
@@ -80,7 +80,7 @@ export async function GET(req: Request) {
           <div
             style={{
               fontSize: 20,
-              color: "#64705E",
+              color: "#666666",
               textAlign: "center",
               maxWidth: 480,
               lineHeight: 1.5,
@@ -93,7 +93,7 @@ export async function GET(req: Request) {
               style={{
                 marginTop: 16,
                 fontSize: 14,
-                color: "#8A9A82",
+                color: "#999999",
                 textAlign: "center",
                 maxWidth: 400,
               }}
@@ -105,7 +105,7 @@ export async function GET(req: Request) {
             style={{
               marginTop: 32,
               fontSize: 14,
-              color: "#8A9A82",
+              color: "#999999",
             }}
           >
             Analiza tu piel gratis → theserenelens.com

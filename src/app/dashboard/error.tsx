@@ -1,6 +1,8 @@
 "use client"
 
+import { useEffect } from "react"
 import { Button } from "@/components/ui/button"
+import { AlertCircle, RefreshCw } from "lucide-react"
 
 export default function DashboardError({
   error,
@@ -9,17 +11,28 @@ export default function DashboardError({
   error: Error & { digest?: string }
   reset: () => void
 }) {
+  useEffect(() => {
+    console.error("Dashboard error:", error)
+  }, [error])
+
   return (
-    <div className="flex flex-col items-center justify-center min-h-[60vh] text-center px-4">
-      <h2 className="text-2xl font-semibold text-[#2F3A2D] mb-2">
-        Algo salió mal
-      </h2>
-      <p className="text-[#64705E] mb-6 max-w-md">
-        Ocurrió un error al cargar esta sección. Por favor intenta de nuevo.
-      </p>
-      <Button onClick={reset} className="bg-[#C2E09D] text-[#2F3A2D] hover:bg-[#B0D08C]">
-        Reintentar
-      </Button>
+    <div className="min-h-screen bg-[#F8F9FA] flex items-center justify-center px-4">
+      <div className="text-center max-w-md">
+        <div className="w-14 h-14 rounded-2xl bg-[#88B078] flex items-center justify-center mx-auto mb-4">
+          <AlertCircle className="w-6 h-6 text-[#1A1A1A]" />
+        </div>
+        <h1 className="font-serif text-xl font-semibold text-[#1A1A1A] mb-2">
+          Algo salió mal
+        </h1>
+        <p className="text-sm text-[#666666] mb-6">
+          Hubo un error al cargar esta página. Puede deberse a un reinicio del servidor.
+          Intenta recargar.
+        </p>
+        <Button variant="primary" onClick={reset} className="gap-2">
+          <RefreshCw className="w-4 h-4" />
+          Reintentar
+        </Button>
+      </div>
     </div>
   )
 }

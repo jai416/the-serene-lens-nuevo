@@ -26,7 +26,7 @@ interface SocialData {
 }
 
 const skinTypeColors: Record<string, string> = {
-  "Piel Grasa": "bg-[#FFF6AD] text-[#2F3A2D]",
+  "Piel Grasa": "bg-[#FFF9E6] text-[#1A1A1A]",
   "Piel Seca": "bg-[#DBEAFE] text-[#1E3A5F]",
   "Piel Mixta": "bg-[#FCE7F3] text-[#9D174D]",
   "Piel Normal": "bg-[#D1FAE5] text-[#065F46]",
@@ -37,7 +37,7 @@ function getSkinColor(type: string): string {
   for (const [key, val] of Object.entries(skinTypeColors)) {
     if (type.toLowerCase().includes(key.toLowerCase().replace("piel ", ""))) return val
   }
-  return "bg-[#F0F5EC] text-[#2F3A2D]"
+  return "bg-[#E2ECE0] text-[#1A1A1A]"
 }
 
 export function SocialComparison() {
@@ -84,7 +84,7 @@ export function SocialComparison() {
     return (
       <Card className="p-6">
         <CardContent className="p-0 flex items-center justify-center">
-          <Loader2 className="w-5 h-5 animate-pulse text-[#C2E09D]" />
+          <Loader2 className="w-5 h-5 animate-pulse text-[#88B078]" />
         </CardContent>
       </Card>
     )
@@ -94,9 +94,9 @@ export function SocialComparison() {
     return (
       <Card className="p-6">
         <CardContent className="p-0 text-center">
-          <Users className="w-10 h-10 text-[#DDE7D3] mx-auto mb-3" />
-          <h3 className="font-medium text-[#2F3A2D] mb-1">Modo Social</h3>
-          <p className="text-sm text-[#64705E] mb-3">
+          <Users className="w-10 h-10 text-[#E8E8E8] mx-auto mb-3" />
+          <h3 className="font-medium text-[#1A1A1A] mb-1">Modo Social</h3>
+          <p className="text-sm text-[#666666] mb-3">
             {data?.message || "Invita a amigos para ver la comparación."}
           </p>
           <a href="/dashboard/referrals">
@@ -114,8 +114,8 @@ export function SocialComparison() {
     <Card className="p-6">
       <CardContent className="p-0">
         <div className="flex items-center justify-between mb-4">
-          <h3 className="font-medium text-[#2F3A2D] flex items-center gap-2">
-            <Sparkles className="w-4 h-4 text-[#C2E09D]" />
+          <h3 className="font-medium text-[#1A1A1A] flex items-center gap-2">
+            <Sparkles className="w-4 h-4 text-[#88B078]" />
             Comparación con amigos
           </h3>
           <Badge variant="secondary" className="text-xs">
@@ -129,8 +129,8 @@ export function SocialComparison() {
               key={person.id}
               className={`flex items-center justify-between p-3 rounded-xl ${
                 person.isYou
-                  ? "bg-[#C2E09D]/10 border border-[#C2E09D]"
-                  : "bg-[#F8FAF5]"
+                  ? "bg-[#88B078]/10 border border-[#88B078]"
+                  : "bg-[#F8F9FA]"
               }`}
             >
               <div className="flex items-center gap-3">
@@ -141,17 +141,17 @@ export function SocialComparison() {
                     className="w-8 h-8 rounded-full object-cover"
                   />
                 ) : (
-                  <div className="w-8 h-8 rounded-full bg-[#DDE7D3] flex items-center justify-center">
-                    <span className="text-xs font-medium text-[#64705E]">
+                  <div className="w-8 h-8 rounded-full bg-[#E8E8E8] flex items-center justify-center">
+                    <span className="text-xs font-medium text-[#666666]">
                       {person.name.charAt(0)}
                     </span>
                   </div>
                 )}
                 <div>
-                  <p className="text-sm font-medium text-[#2F3A2D]">
+                  <p className="text-sm font-medium text-[#1A1A1A]">
                     {person.isYou ? "Tú" : person.name}
                   </p>
-                  <p className="text-xs text-[#64705E]">
+                  <p className="text-xs text-[#666666]">
                     {person.observations.length > 0
                       ? person.observations[0]
                       : "Sin observaciones"}

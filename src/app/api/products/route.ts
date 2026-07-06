@@ -1,8 +1,6 @@
-import { NextRequest } from "next/server"
+import { NextRequest, NextResponse } from "next/server"
 import { db } from "@/lib/db"
-import { ok, serverError } from "@/lib/api-response"
-
-export const dynamic = "force-dynamic"
+import { serverError } from "@/lib/api-response"
 
 export async function GET(req: NextRequest) {
   try {
@@ -27,7 +25,12 @@ export async function GET(req: NextRequest) {
       orderBy: { name: "asc" },
     })
 
-    return ok({ products })
+    return NextResponse.json({ success: true, data: { products } }, {
+      status: 200,
+      headers: {
+        "Cache-Control": "public, s-maxage=3600, stale-while-revalidate=600",
+      },
+    })
   } catch (e) {
     return serverError(e)
   }

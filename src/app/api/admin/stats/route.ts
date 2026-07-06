@@ -13,7 +13,7 @@ export async function GET() {
     const session = await getServerSession(authOptions)
     if (!session?.user || session.user.role !== "ADMIN") return unauthorized()
 
-    const { allowed } = await checkRateLimit(`admin:stats:${session.user.id}`, 10, 60000)
+    const { allowed } = await checkRateLimit(`admin:stats:${session.user.id}`, 30, 60000)
     if (!allowed) {
       return NextResponse.json({ success: false, error: "Demasiadas solicitudes" }, { status: 429 })
     }

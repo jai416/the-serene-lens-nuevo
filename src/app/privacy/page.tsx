@@ -1,3 +1,5 @@
+import { Card, CardContent } from "@/components/ui/card"
+
 export default function PrivacyPage() {
   return (
     <div className="min-h-screen px-4 py-8">
@@ -30,15 +32,17 @@ export default function PrivacyPage() {
 
           <section>
             <h2 className="font-serif text-lg font-semibold text-on-surface mb-2">Tus fotos</h2>
-            <div className="p-4 rounded-2xl bg-[rgba(183,255,42,0.06)] border border-primary/20 text-sm">
-              <ul className="list-disc pl-4 space-y-1">
-                <li>Las fotos se usan exclusivamente para el análisis solicitado.</li>
-                <li>Se envían a la API de OpenRouter (Gemini Flash) para su procesamiento.</li>
-                <li>No compartimos tus imágenes con terceros fuera del proceso de análisis.</li>
-                <li>No usamos tus fotos para entrenar modelos de IA.</li>
-                <li>Puedes solicitar la eliminación de tus datos en cualquier momento.</li>
-              </ul>
-            </div>
+            <Card className="bg-[rgba(183,255,42,0.06)] border-primary/20">
+              <CardContent className="p-4 text-sm">
+                <ul className="list-disc pl-4 space-y-1">
+                  <li>Las fotos se usan exclusivamente para el análisis solicitado.</li>
+                  <li>Se envían a la API de OpenRouter (Gemini Flash) para su procesamiento.</li>
+                  <li>No compartimos tus imágenes con terceros fuera del proceso de análisis.</li>
+                  <li>No usamos tus fotos para entrenar modelos de IA.</li>
+                  <li>Puedes solicitar la eliminación de tus datos en cualquier momento.</li>
+                </ul>
+              </CardContent>
+            </Card>
           </section>
 
           <section>

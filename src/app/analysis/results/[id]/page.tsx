@@ -61,11 +61,11 @@ interface AnalysisData {
 }
 
 const severityLabels = [
-  { value: "bajo", label: "Bajo", color: "bg-[#C2E09D] text-[#2F3A2D]" },
-  { value: "moderado", label: "Moderado", color: "bg-[#FFF6AD] text-[#2F3A2D]" },
-  { value: "visible", label: "Visible", color: "bg-[#FFF6AD] text-[#2F3A2D]" },
-  { value: "leve", label: "Leve", color: "bg-[#ECFFD3] text-[#2F3A2D]" },
-  { value: "alto", label: "Alto", color: "bg-[#C2E09D]/70 text-[#2F3A2D]" },
+  { value: "bajo", label: "Bajo", color: "bg-[#88B078] text-[#1A1A1A]" },
+  { value: "moderado", label: "Moderado", color: "bg-[#FFF9E6] text-[#1A1A1A]" },
+  { value: "visible", label: "Visible", color: "bg-[#FFF9E6] text-[#1A1A1A]" },
+  { value: "leve", label: "Leve", color: "bg-[#E2ECE0] text-[#1A1A1A]" },
+  { value: "alto", label: "Alto", color: "bg-[#88B078]/70 text-[#1A1A1A]" },
 ]
 
 function getSeverityBadge(value: string) {
@@ -172,10 +172,10 @@ export default function AnalysisResultsPage() {
     return (
       <div className="min-h-screen flex items-center justify-center">
         <div className="text-center">
-          <div className="w-14 h-14 rounded-2xl bg-[#C2E09D] flex items-center justify-center mx-auto mb-4">
-            <Scan className="w-6 h-6 text-[#2F3A2D]" />
+          <div className="w-14 h-14 rounded-2xl bg-[#88B078] flex items-center justify-center mx-auto mb-4">
+            <Scan className="w-6 h-6 text-[#1A1A1A]" />
           </div>
-          <p className="text-[#64705E]">Cargando resultados...</p>
+          <p className="text-[#666666]">Cargando resultados...</p>
         </div>
       </div>
     )
@@ -185,11 +185,11 @@ export default function AnalysisResultsPage() {
     return (
       <div className="min-h-screen flex items-center justify-center px-4">
         <div className="text-center">
-          <div className="w-14 h-14 rounded-2xl bg-[#F0F5EC] flex items-center justify-center mx-auto mb-4">
-            <AlertCircle className="w-6 h-6 text-[#64705E]" />
+          <div className="w-14 h-14 rounded-2xl bg-[#E2ECE0] flex items-center justify-center mx-auto mb-4">
+            <AlertCircle className="w-6 h-6 text-[#666666]" />
           </div>
-          <h2 className="font-serif text-xl font-semibold mb-2 text-[#2F3A2D]">Análisis no encontrado</h2>
-          <p className="text-[#64705E] text-sm mb-6">Este análisis no existe o ha sido eliminado.</p>
+          <h2 className="font-serif text-xl font-semibold mb-2 text-[#1A1A1A]">Análisis no encontrado</h2>
+          <p className="text-[#666666] text-sm mb-6">Este análisis no existe o ha sido eliminado.</p>
           <Link href="/analysis">
             <Button variant="primary">
               <Scan className="w-4 h-4 mr-2" />
@@ -228,71 +228,71 @@ export default function AnalysisResultsPage() {
             <ArrowLeft className="w-4 h-4 mr-1.5" />
             Nuevo análisis
           </Button>
-          <Badge variant="primary" className="mb-4 rounded-full px-4 py-1.5 border-0">
+          <Badge variant="mint" className="mb-4 rounded-full px-4 py-1.5 border-0">
             <Eye className="w-3.5 h-3.5 mr-2" />
             Resultados de tu Observación
           </Badge>
-          <h1 className="font-serif text-3xl sm:text-4xl font-semibold text-[#2F3A2D]">
+          <h1 className="font-serif text-3xl sm:text-4xl font-semibold text-[#1A1A1A]">
             Tu Análisis
           </h1>
           {createdAt && (
-            <p className="text-sm text-[#64705E] mt-1">{createdAt}</p>
+            <p className="text-sm text-[#666666] mt-1">{createdAt}</p>
           )}
         </div>
 
         <div className="space-y-5">
           {/* ─── 1. Resumen General ─── */}
-          <Card className="p-6 border-t-4 border-t-[#C2E09D]">
+          <Card className="p-6 border-t-4 border-t-[#88B078]">
             <CardHeader className="p-0 mb-4">
-              <CardTitle className="flex items-center gap-2 text-lg text-[#2F3A2D]">
-                <FileText className="w-5 h-5 text-[#2F3A2D]" />
+              <CardTitle className="flex items-center gap-2 text-lg text-[#1A1A1A]">
+                <FileText className="w-5 h-5 text-[#1A1A1A]" />
                 Resumen General
               </CardTitle>
             </CardHeader>
             <CardContent className="p-0">
-              <p className="text-sm text-[#64705E] leading-relaxed mb-4">
+              <p className="text-sm text-[#666666] leading-relaxed mb-4">
                 Este análisis ofrece una descripción de las características visuales observadas en las
                 fotografías proporcionadas. A continuación se detallan los hallazgos organizados por
                 categorías.
               </p>
               <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-                <div className="p-3 rounded-2xl bg-[#F8FAF5]">
-                  <p className="text-xs text-[#64705E] mb-1">Piel aparente</p>
-                  <p className="text-sm font-medium capitalize text-[#2F3A2D]">{result.skinType || "No determinado"}</p>
+                <div className="p-3 rounded-2xl bg-[#F8F9FA]">
+                  <p className="text-xs text-[#666666] mb-1">Piel aparente</p>
+                  <p className="text-sm font-medium capitalize text-[#1A1A1A]">{result.skinType || "No determinado"}</p>
                 </div>
-                <div className="p-3 rounded-2xl bg-[#F8FAF5]">
-                  <p className="text-xs text-[#64705E] mb-1">Nivel de confianza</p>
-                  <p className="text-sm font-medium capitalize text-[#2F3A2D]">{result.confidence}</p>
+                <div className="p-3 rounded-2xl bg-[#F8F9FA]">
+                  <p className="text-xs text-[#666666] mb-1">Nivel de confianza</p>
+                  <p className="text-sm font-medium capitalize text-[#1A1A1A]">{result.confidence}</p>
                   {result.confidenceReason && (
-                    <p className="text-[10px] text-[#8A9A82] mt-1">{result.confidenceReason}</p>
+                    <p className="text-[10px] text-[#999999] mt-1">{result.confidenceReason}</p>
                   )}
                 </div>
-                <div className="p-3 rounded-2xl bg-[#F8FAF5]">
-                  <p className="text-xs text-[#64705E] mb-1">Factores observados</p>
-                  <p className="text-sm font-medium text-[#2F3A2D]">{allObservations.length} categorías</p>
+                <div className="p-3 rounded-2xl bg-[#F8F9FA]">
+                  <p className="text-xs text-[#666666] mb-1">Factores observados</p>
+                  <p className="text-sm font-medium text-[#1A1A1A]">{allObservations.length} categorías</p>
                 </div>
-                <div className="p-3 rounded-2xl bg-[#F8FAF5]">
-                  <p className="text-xs text-[#64705E] mb-1">Recomendaciones</p>
-                  <p className="text-sm font-medium text-[#2F3A2D]">{result.recommendations.length} sugerencias</p>
+                <div className="p-3 rounded-2xl bg-[#F8F9FA]">
+                  <p className="text-xs text-[#666666] mb-1">Recomendaciones</p>
+                  <p className="text-sm font-medium text-[#1A1A1A]">{result.recommendations.length} sugerencias</p>
                 </div>
               </div>
-              <p className="text-[10px] text-[#8A9A82] mt-2">Basado únicamente en observaciones visuales de las fotografías.</p>
+              <p className="text-[10px] text-[#999999] mt-2">Basado únicamente en observaciones visuales de las fotografías.</p>
             </CardContent>
           </Card>
 
           {/* ─── 2. Tipo de Piel Observado ─── */}
           {result.skinType && (
-            <Card className="p-6 border-t-4 border-t-[#ECFFD3]">
+            <Card className="p-6 border-t-4 border-t-[#E2ECE0]">
               <CardHeader className="p-0 mb-4">
-                <CardTitle className="flex items-center gap-2 text-lg text-[#2F3A2D]">
-                  <Droplets className="w-5 h-5 text-[#2F3A2D]" />
+                <CardTitle className="flex items-center gap-2 text-lg text-[#1A1A1A]">
+                  <Droplets className="w-5 h-5 text-[#1A1A1A]" />
                   Tipo de Piel Observado
                 </CardTitle>
               </CardHeader>
               <CardContent className="p-0">
-                <div className="p-4 rounded-2xl bg-[#F8FAF5]">
-                  <p className="text-base font-medium capitalize text-[#2F3A2D]">{result.skinType}</p>
-                  <p className="text-xs text-[#64705E] mt-1">
+                <div className="p-4 rounded-2xl bg-[#F8F9FA]">
+                  <p className="text-base font-medium capitalize text-[#1A1A1A]">{result.skinType}</p>
+                  <p className="text-xs text-[#666666] mt-1">
                     Esta clasificación se basa en las características visuales aparentes en las fotografías.
                     Puede variar según la hora del día, estación del año y rutina de cuidado actual.
                   </p>
@@ -302,10 +302,10 @@ export default function AnalysisResultsPage() {
           )}
 
           {/* ─── 3. Observaciones Detectadas ─── */}
-          <Card className="p-6 border-t-4 border-t-[#FFF6AD]">
+          <Card className="p-6 border-t-4 border-t-[#FFF9E6]">
             <CardHeader className="p-0 mb-4">
-              <CardTitle className="flex items-center gap-2 text-lg text-[#2F3A2D]">
-                <Eye className="w-5 h-5 text-[#2F3A2D]" />
+              <CardTitle className="flex items-center gap-2 text-lg text-[#1A1A1A]">
+                <Eye className="w-5 h-5 text-[#1A1A1A]" />
                 Observaciones Detectadas
               </CardTitle>
             </CardHeader>
@@ -315,16 +315,16 @@ export default function AnalysisResultsPage() {
                   allObservations.map((obs, i) => {
                     const explanation = result.observationExplanations?.[obs.label] || result.observationExplanations?.[obs.value] || ""
                     return (
-                      <div key={i} className="p-3 rounded-2xl bg-[#F8FAF5]">
+                      <div key={i} className="p-3 rounded-2xl bg-[#F8F9FA]">
                         <div className="flex items-center justify-between">
                           <div>
-                            <p className="text-xs text-[#64705E]">{obs.label}</p>
-                            <p className="text-sm capitalize text-[#2F3A2D]">{obs.value}</p>
+                            <p className="text-xs text-[#666666]">{obs.label}</p>
+                            <p className="text-sm capitalize text-[#1A1A1A]">{obs.value}</p>
                           </div>
                           {obs.badge}
                         </div>
                         {explanation && (
-                          <p className="text-[10px] text-[#8A9A82] mt-2 italic">
+                          <p className="text-[10px] text-[#999999] mt-2 italic">
                             Por qué: {explanation}
                           </p>
                         )}
@@ -332,50 +332,50 @@ export default function AnalysisResultsPage() {
                     )
                   })
                 ) : (
-                  <p className="text-sm text-[#64705E]">No se detectaron observaciones adicionales.</p>
+                  <p className="text-sm text-[#666666]">No se detectaron observaciones adicionales.</p>
                 )}
               </div>
-              <p className="text-[10px] text-[#8A9A82] mt-3">Basado en observación visual de las fotografías.</p>
+              <p className="text-[10px] text-[#999999] mt-3">Basado en observación visual de las fotografías.</p>
             </CardContent>
           </Card>
 
           {/* ─── 4. Factores Observados en la Imagen ─── */}
           {result.observations.length > 0 && (
-            <Card className="p-6 border-t-4 border-t-[#C2E09D]">
+            <Card className="p-6 border-t-4 border-t-[#88B078]">
               <CardHeader className="p-0 mb-4">
-                <CardTitle className="flex items-center gap-2 text-lg text-[#2F3A2D]">
-                  <Leaf className="w-5 h-5 text-[#2F3A2D]" />
+                <CardTitle className="flex items-center gap-2 text-lg text-[#1A1A1A]">
+                  <Leaf className="w-5 h-5 text-[#1A1A1A]" />
                   Factores Observados en la Imagen
                 </CardTitle>
               </CardHeader>
               <CardContent className="p-0">
                 <ul className="space-y-2">
                   {result.observations.map((obs, i) => (
-                    <li key={i} className="flex items-start gap-2 text-sm text-[#64705E]">
-                      <span className="w-1.5 h-1.5 rounded-full bg-[#C2E09D] mt-1.5 shrink-0" />
+                    <li key={i} className="flex items-start gap-2 text-sm text-[#666666]">
+                      <span className="w-1.5 h-1.5 rounded-full bg-[#88B078] mt-1.5 shrink-0" />
                       {obs}
                     </li>
                   ))}
                 </ul>
-                <p className="text-[10px] text-[#8A9A82] mt-3">Basado únicamente en observaciones visuales de las fotografías proporcionadas.</p>
+                <p className="text-[10px] text-[#999999] mt-3">Basado únicamente en observaciones visuales de las fotografías proporcionadas.</p>
               </CardContent>
             </Card>
           )}
 
           {/* ─── 5. Recomendaciones Cosméticas ─── */}
           {result.recommendations.length > 0 && (
-            <Card className="p-6 border-t-4 border-t-[#ECFFD3]">
+            <Card className="p-6 border-t-4 border-t-[#E2ECE0]">
               <CardHeader className="p-0 mb-4">
-                <CardTitle className="flex items-center gap-2 text-lg text-[#2F3A2D]">
-                  <Sparkles className="w-5 h-5 text-[#2F3A2D]" />
+                <CardTitle className="flex items-center gap-2 text-lg text-[#1A1A1A]">
+                  <Sparkles className="w-5 h-5 text-[#1A1A1A]" />
                   Recomendaciones Cosméticas
                 </CardTitle>
               </CardHeader>
               <CardContent className="p-0">
                 <ul className="space-y-2">
                   {result.recommendations.map((rec, i) => (
-                    <li key={i} className="flex items-start gap-2 text-sm text-[#64705E]">
-                      <CheckCircle2 className="w-4 h-4 text-[#C2E09D] mt-0.5 shrink-0" />
+                    <li key={i} className="flex items-start gap-2 text-sm text-[#666666]">
+                      <CheckCircle2 className="w-4 h-4 text-[#88B078] mt-0.5 shrink-0" />
                       {rec}
                     </li>
                   ))}
@@ -388,18 +388,18 @@ export default function AnalysisResultsPage() {
           {(result.routine?.morning?.length > 0 || result.routine?.evening?.length > 0) && (
             <div className="grid sm:grid-cols-2 gap-4">
               {result.routine.morning.length > 0 && (
-                <Card className="p-6 border-t-4 border-t-[#FFF6AD]">
+                <Card className="p-6 border-t-4 border-t-[#FFF9E6]">
                   <CardHeader className="p-0 mb-4">
-                    <CardTitle className="flex items-center gap-2 text-base text-[#2F3A2D]">
-                      <Sun className="w-4 h-4 text-[#2F3A2D]" />
+                    <CardTitle className="flex items-center gap-2 text-base text-[#1A1A1A]">
+                      <Sun className="w-4 h-4 text-[#1A1A1A]" />
                       Rutina Mañana
                     </CardTitle>
                   </CardHeader>
                   <CardContent className="p-0">
                     <ol className="space-y-2">
                       {result.routine.morning.map((step, i) => (
-                        <li key={i} className="flex items-start gap-2 text-sm text-[#64705E]">
-                          <span className="w-5 h-5 rounded-full bg-[#F0F5EC] text-[#2F3A2D] text-xs flex items-center justify-center shrink-0 mt-0.5 font-medium">
+                        <li key={i} className="flex items-start gap-2 text-sm text-[#666666]">
+                          <span className="w-5 h-5 rounded-full bg-[#E2ECE0] text-[#1A1A1A] text-xs flex items-center justify-center shrink-0 mt-0.5 font-medium">
                             {i + 1}
                           </span>
                           {step}
@@ -411,18 +411,18 @@ export default function AnalysisResultsPage() {
               )}
 
               {result.routine.evening.length > 0 && (
-                <Card className="p-6 border-t-4 border-t-[#C2E09D]">
+                <Card className="p-6 border-t-4 border-t-[#88B078]">
                   <CardHeader className="p-0 mb-4">
-                    <CardTitle className="flex items-center gap-2 text-base text-[#2F3A2D]">
-                      <Moon className="w-4 h-4 text-[#2F3A2D]" />
+                    <CardTitle className="flex items-center gap-2 text-base text-[#1A1A1A]">
+                      <Moon className="w-4 h-4 text-[#1A1A1A]" />
                       Rutina Noche
                     </CardTitle>
                   </CardHeader>
                   <CardContent className="p-0">
                     <ol className="space-y-2">
                       {result.routine.evening.map((step, i) => (
-                        <li key={i} className="flex items-start gap-2 text-sm text-[#64705E]">
-                          <span className="w-5 h-5 rounded-full bg-[#F0F5EC] text-[#2F3A2D] text-xs flex items-center justify-center shrink-0 mt-0.5 font-medium">
+                        <li key={i} className="flex items-start gap-2 text-sm text-[#666666]">
+                          <span className="w-5 h-5 rounded-full bg-[#E2ECE0] text-[#1A1A1A] text-xs flex items-center justify-center shrink-0 mt-0.5 font-medium">
                             {i + 1}
                           </span>
                           {step}
@@ -436,15 +436,15 @@ export default function AnalysisResultsPage() {
           )}
 
           {/* ─── 7. Productos Compatibles ─── */}
-          <Card className="p-6 border-t-4 border-t-[#ECFFD3]">
+          <Card className="p-6 border-t-4 border-t-[#E2ECE0]">
             <CardHeader className="p-0 mb-4">
-              <CardTitle className="flex items-center gap-2 text-lg text-[#2F3A2D]">
-                <ShoppingBag className="w-5 h-5 text-[#2F3A2D]" />
+              <CardTitle className="flex items-center gap-2 text-lg text-[#1A1A1A]">
+                <ShoppingBag className="w-5 h-5 text-[#1A1A1A]" />
                 Productos Compatibles
               </CardTitle>
             </CardHeader>
             <CardContent className="p-0">
-              <p className="text-sm text-[#64705E] mb-4">
+              <p className="text-sm text-[#666666] mb-4">
                 Explora nuestro catálogo de productos cosméticos para encontrar opciones adecuadas según
                 las observaciones de tu análisis. Revisa los ingredientes y encuentra productos compatibles
                 con tu tipo de piel.
@@ -467,15 +467,15 @@ export default function AnalysisResultsPage() {
           </Card>
 
           {/* ─── 8. Historial Relacionado ─── */}
-          <Card className="p-6 border-t-4 border-t-[#FFF6AD]">
+          <Card className="p-6 border-t-4 border-t-[#FFF9E6]">
             <CardHeader className="p-0 mb-4">
-              <CardTitle className="flex items-center gap-2 text-lg text-[#2F3A2D]">
-                <History className="w-5 h-5 text-[#2F3A2D]" />
+              <CardTitle className="flex items-center gap-2 text-lg text-[#1A1A1A]">
+                <History className="w-5 h-5 text-[#1A1A1A]" />
                 Historial Relacionado
               </CardTitle>
             </CardHeader>
             <CardContent className="p-0">
-              <p className="text-sm text-[#64705E] mb-4">
+              <p className="text-sm text-[#666666] mb-4">
                 Te recomendamos realizar un nuevo análisis en 2-4 semanas para observar cambios en las
                 características visuales de tu piel. Tu historial completo estará disponible para
                 comparar la evolución.
@@ -499,22 +499,22 @@ export default function AnalysisResultsPage() {
 
           {/* ─── Feedback ─── */}
           {session && (
-          <Card className="p-6 border-t-4 border-t-[#C2E09D]">
+          <Card className="p-6 border-t-4 border-t-[#88B078]">
             <CardHeader className="p-0 mb-3">
-              <CardTitle className="flex items-center gap-2 text-base text-[#2F3A2D]">
+              <CardTitle className="flex items-center gap-2 text-base text-[#1A1A1A]">
                 <ThumbsUp className="w-4 h-4" />
                 ¿Te fue útil este análisis?
               </CardTitle>
             </CardHeader>
             <CardContent className="p-0">
               {feedback ? (
-                <div className="flex items-center gap-2 p-3 rounded-2xl bg-[#F0F5EC]">
+                <div className="flex items-center gap-2 p-3 rounded-2xl bg-[#E2ECE0]">
                   {feedback === "yes" ? (
-                    <ThumbsUp className="w-4 h-4 text-[#2F3A2D]" />
+                    <ThumbsUp className="w-4 h-4 text-[#1A1A1A]" />
                   ) : (
-                    <ThumbsDown className="w-4 h-4 text-[#2F3A2D]" />
+                    <ThumbsDown className="w-4 h-4 text-[#1A1A1A]" />
                   )}
-                  <span className="text-sm text-[#2F3A2D]">
+                  <span className="text-sm text-[#1A1A1A]">
                     {feedback === "yes" ? "¡Nos alegra que te haya servido!" : "Gracias por tu honestidad. Seguiremos mejorando."}
                   </span>
                 </div>
@@ -545,12 +545,12 @@ export default function AnalysisResultsPage() {
           )}
 
           {/* ─── Legal Disclaimer ─── */}
-          <div className="p-4 rounded-2xl bg-[#F8FAF5] border border-[#DDE7D3]">
+          <div className="p-4 rounded-2xl bg-[#F8F9FA] border border-[#E8E8E8]">
             <div className="flex items-start gap-3">
-              <Info className="w-5 h-5 text-[#2F3A2D] shrink-0 mt-0.5" />
+              <Info className="w-5 h-5 text-[#1A1A1A] shrink-0 mt-0.5" />
               <div>
-                <p className="text-sm font-medium text-[#2F3A2D] mb-1">Información Importante</p>
-                <p className="text-xs text-[#64705E] leading-relaxed">
+                <p className="text-sm font-medium text-[#1A1A1A] mb-1">Información Importante</p>
+                <p className="text-xs text-[#666666] leading-relaxed">
                   Esta herramienta ofrece observaciones cosméticas orientativas basadas únicamente en
                   fotografías proporcionadas por el usuario. No constituye diagnóstico médico ni reemplaza
                   la evaluación de un dermatólogo. Los resultados pueden variar según la calidad de las
@@ -561,15 +561,15 @@ export default function AnalysisResultsPage() {
           </div>
 
           {/* ─── Share ─── */}
-          <Card className="p-6 border-t-4 border-t-[#ECFFD3]">
+          <Card className="p-6 border-t-4 border-t-[#E2ECE0]">
             <CardHeader className="p-0 mb-3">
-              <CardTitle className="flex items-center gap-2 text-base text-[#2F3A2D]">
+              <CardTitle className="flex items-center gap-2 text-base text-[#1A1A1A]">
                 <Share2 className="w-4 h-4" />
                 Compartir resultado
               </CardTitle>
             </CardHeader>
             <CardContent className="p-0">
-              <p className="text-xs text-[#64705E] mb-3">Comparte tu experiencia con amigos o en redes sociales.</p>
+              <p className="text-xs text-[#666666] mb-3">Comparte tu experiencia con amigos o en redes sociales.</p>
               <div className="flex flex-wrap gap-2">
                 <button
                   onClick={() => {

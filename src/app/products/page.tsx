@@ -84,14 +84,14 @@ export default function ProductsPage() {
       </Head>
       <div className="max-w-7xl mx-auto">
         <div className="text-center mb-10">
-          <Badge variant="primary" className="mb-4 rounded-full px-4 py-1.5 border-0">
+          <Badge variant="mint" className="mb-4 rounded-full px-4 py-1.5 border-0">
             <Package className="w-3.5 h-3.5 mr-2" />
             Productos
           </Badge>
-          <h1 className="font-serif text-3xl sm:text-4xl font-semibold mb-2 text-[#2F3A2D]">
+          <h1 className="font-serif text-3xl sm:text-4xl font-semibold mb-2 text-[#1A1A1A]">
             Catálogo de Productos
           </h1>
-          <p className="text-[#64705E] max-w-lg mx-auto">
+          <p className="text-[#666666] max-w-lg mx-auto">
             Explora nuestra selección de productos de skincare.
           </p>
         </div>
@@ -101,12 +101,12 @@ export default function ProductsPage() {
           <CardContent className="p-0">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-4">
-                <div className="w-10 h-10 rounded-xl bg-[#C2E09D] flex items-center justify-center shrink-0">
-                  <Camera className="w-5 h-5 text-[#2F3A2D]" />
+                <div className="w-10 h-10 rounded-xl bg-[#88B078] flex items-center justify-center shrink-0">
+                  <Camera className="w-5 h-5 text-[#1A1A1A]" />
                 </div>
                 <div>
-                  <h2 className="font-medium text-sm text-[#2F3A2D]">¿Tienes un producto?</h2>
-                  <p className="text-xs text-[#64705E]">Analiza sus ingredientes con IA</p>
+                  <h2 className="font-medium text-sm text-[#1A1A1A]">¿Tienes un producto?</h2>
+                  <p className="text-xs text-[#666666]">Analiza sus ingredientes con IA</p>
                 </div>
               </div>
               <Link href="/ingredients-analyzer">
@@ -127,8 +127,8 @@ export default function ProductsPage() {
                 onClick={() => setSelectedCategory("")}
                 className={`px-4 py-2 text-sm rounded-full whitespace-nowrap transition-colors font-medium ${
                   !selectedCategory
-                    ? "bg-[#C2E09D] text-[#2F3A2D]"
-                    : "bg-[#F0F5EC] hover:bg-[#E8F0E0] text-[#64705E]"
+                    ? "bg-[#88B078] text-[#1A1A1A]"
+                    : "bg-[#E2ECE0] hover:bg-[#E8F0E0] text-[#666666]"
                 }`}
               >
                 Todos
@@ -139,8 +139,8 @@ export default function ProductsPage() {
                   onClick={() => setSelectedCategory(cat)}
                   className={`px-4 py-2 text-sm rounded-full whitespace-nowrap transition-colors font-medium ${
                     selectedCategory === cat
-                      ? "bg-[#C2E09D] text-[#2F3A2D]"
-                      : "bg-[#F0F5EC] hover:bg-[#E8F0E0] text-[#64705E]"
+                      ? "bg-[#88B078] text-[#1A1A1A]"
+                      : "bg-[#E2ECE0] hover:bg-[#E8F0E0] text-[#666666]"
                   }`}
                 >
                   {cat}
@@ -152,18 +152,18 @@ export default function ProductsPage() {
 
         {/* Catalog */}
         <div className="mb-8">
-          <h2 className="font-serif text-2xl font-semibold text-[#2F3A2D] mb-6">Catálogo de Productos</h2>
+          <h2 className="font-serif text-2xl font-semibold text-[#1A1A1A] mb-6">Catálogo de Productos</h2>
 
           {loading ? (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"><CardSkeleton /><CardSkeleton /><CardSkeleton /></div>
           ) : products.length === 0 ? (
-            <p className="text-center text-[#64705E] py-10">No hay productos disponibles.</p>
+            <p className="text-center text-[#666666] py-10">No hay productos disponibles.</p>
           ) : (
             <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
               {products.map((product) => (
                 <Link key={product.id} href={`/products/${product.slug}`}>
-                  <Card className="hover:ring-1 hover:ring-[#C2E09D] transition-all h-full group overflow-hidden">
-                    <div className="relative aspect-square bg-[#F8FAF5] overflow-hidden">
+                  <Card className="hover:ring-1 hover:ring-[#88B078] transition-all h-full group overflow-hidden">
+                    <div className="relative aspect-square bg-[#F8F9FA] overflow-hidden">
                       <Image
                         src={product.image || "/images/placeholder.svg"}
                         alt={product.name}
@@ -173,8 +173,8 @@ export default function ProductsPage() {
                     </div>
                     <CardContent className="p-4">
                       <Badge variant="secondary" className="text-[10px] mb-2">{product.category}</Badge>
-                      <h3 className="font-medium text-sm mb-1 line-clamp-2 text-[#2F3A2D]">{product.name}</h3>
-                      <p className="text-xs text-[#64705E] line-clamp-2">{product.shortDesc}</p>
+                      <h3 className="font-medium text-sm mb-1 line-clamp-2 text-[#1A1A1A]">{product.name}</h3>
+                      <p className="text-xs text-[#666666] line-clamp-2">{product.shortDesc}</p>
                     </CardContent>
                   </Card>
                 </Link>

@@ -771,6 +771,33 @@ export async function handlePromocion(chatId: string, userId: string, args: stri
   await sendTelegramMessage(chatId, R.promoGenerated(code, discount, url))
 }
 
+// ─── /consultar ────────────────────────────────────────────────
+
+export async function handleConsultar(chatId: string, userId: string, args: string[]) {
+  const role = await getUserRole(chatId)
+  if (!role) {
+    await sendTelegramMessage(chatId, "🔐 Este comando es solo para administradores y validadores.\n\nUsa /ayuda para ver los comandos disponibles.")
+    return
+  }
+  const query = args.join(" ")
+  if (!query) {
+    await sendTelegramMessage(chatId, "Uso: /consultar ¿Qué ingredientes recomiendas para piel grasa?\n\nHaz una pregunta sobre skincare, ingredientes, rutinas o productos.")
+    return
+  }
+  await logTelegramCommand(chatId, "consultar", query.slice(0, 100), role)
+  const { generateBotResponse } = await import("@/lib/bot-rag")
+  await sendTelegramMessage(chatId, "🧠 Analizando tu consulta...")
+  const response = await generateBotResponse(query, chatId)
+  const buttons = response.knowledgeId
+    ? [[{ text: "👍 Útil", callback_data: `rag_feedback_${response.knowledgeId}_1` }]]
+    : undefined
+  if (buttons) {
+    await sendTelegramMenu(chatId, response.text, buttons)
+  } else {
+    await sendTelegramMessage(chatId, response.text)
+  }
+}
+
 // ─── /whois ────────────────────────────────────────────────────
 
 export async function handleWhois(chatId: string, userId: string, args: string[]) {
@@ -828,6 +855,21 @@ export async function handleCallback(data: string, chatId: string, userId: strin
     const ref = data.replace("activar_", "")
     await answerCallback(chatId, callbackId, "✅ Activando...")
     await handleActivarConfirm(chatId, userId, ref)
+    return
+  }
+
+  if (data.startsWith("rag_feedback_")) {
+    await answerCallback(chatId, callbackId, "✅ Gracias por tu feedback")
+    try {
+      const { recordFeedback } = await import("@/lib/bot-knowledge")
+      const payload = data.replace("rag_feedback_", "")
+      const underscoreIdx = payload.indexOf("_")
+      if (underscoreIdx > 0) {
+        const knowledgeId = payload.slice(0, underscoreIdx)
+        const helpful = payload.slice(underscoreIdx + 1) === "1"
+        await recordFeedback(knowledgeId, helpful)
+      }
+    } catch {}
     return
   }
 

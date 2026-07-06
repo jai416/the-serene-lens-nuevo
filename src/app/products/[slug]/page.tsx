@@ -1,6 +1,8 @@
 import { notFound } from "next/navigation"
 import { db } from "@/lib/db"
 import Link from "next/link"
+
+export const revalidate = 3600
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
@@ -97,7 +99,7 @@ export default async function ProductDetailPage({
         </Link>
 
         <div className="grid sm:grid-cols-2 gap-8">
-          <div className="relative aspect-square rounded-2xl overflow-hidden bg-[#F8FAF5] border border-[#DDE7D3]">
+          <div className="relative aspect-square rounded-2xl overflow-hidden bg-[#F8F9FA] border border-[#E8E8E8]">
             <Image
               src={product.image || "/images/placeholder.svg"}
               alt={product.name}
@@ -115,29 +117,29 @@ export default async function ProductDetailPage({
             </h1>
 
             {product.shortDesc && (
-              <p className="text-sm text-[#64705E] mb-2">{product.shortDesc}</p>
+              <p className="text-sm text-[#666666] mb-2">{product.shortDesc}</p>
             )}
 
-            <p className="text-sm text-[#2F3A2D] mb-4">{product.description}</p>
+            <p className="text-sm text-[#1A1A1A] mb-4">{product.description}</p>
 
             {product.skinTypes && product.skinTypes !== "all" && (
               <p className="text-sm mb-2">
-                <span className="font-medium text-[#2F3A2D]">Tipo de piel:</span>{" "}
-                <span className="text-[#64705E]">
+                <span className="font-medium text-[#1A1A1A]">Tipo de piel:</span>{" "}
+                <span className="text-[#666666]">
                   {skinTypeLabels[product.skinTypes] || product.skinTypes}
                 </span>
               </p>
             )}
 
             {product.ingredients && (
-              <Card className="bg-[#F8FAF5] border-[#DDE7D3] mt-4">
+              <Card className="bg-[#F8F9FA] border-[#E8E8E8] mt-4">
                 <CardHeader className="p-4 pb-2">
-                  <CardTitle className="text-sm font-medium text-[#2F3A2D]">
+                  <CardTitle className="text-sm font-medium text-[#1A1A1A]">
                     Ingredientes
                   </CardTitle>
                 </CardHeader>
                 <CardContent className="p-4 pt-0">
-                  <p className="text-xs text-[#64705E] leading-relaxed">
+                  <p className="text-xs text-[#666666] leading-relaxed">
                     {product.ingredients}
                   </p>
                 </CardContent>

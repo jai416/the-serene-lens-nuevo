@@ -3,15 +3,18 @@ import { getServerSession } from "next-auth"
 import { authOptions } from "@/lib/auth"
 import { db } from "@/lib/db"
 import { ok, error, unauthorized, serverError } from "@/lib/api-response"
-import { withRetry } from "@/lib/retry"
 import { logger } from "@/lib/logger"
 import {
   matchIngredientsToAnalysis,
   formatIngredientsForPrompt,
 } from "@/lib/ingredient-kb"
+import { groqChatJSON } from "@/lib/groq-chat"
+
+const GROQ_API_BASE = "https://api.groq.com/openai/v1"
+const MODEL = "meta-llama/llama-4-scout-17b-16e-instruct"
 
 function getApiKey(): string {
-  return process.env.OPENROUTER_API_KEY || ""
+  return process.env.GROQ_API_KEY || ""
 }
 
 async function fetchImageAsBase64(url: string): Promise<string | null> {
@@ -159,30 +162,7 @@ REGLAS CRÍTICAS:
 
 Proporciona tu análisis en la estructura JSON exacta especificada.`
 
-    const body_request = {
-      model: "google/gemini-2.5-flash",
-      messages: [
-        {
-          role: "user",
-          content: imagesAvailable
-            ? [
-                { type: "text" as const, text: `Eres un experto en análisis cosmético de piel. Compara estas dos imágenes de la misma persona tomadas en momentos diferentes y genera un informe de evolución.\n\n${textContext}` },
-                {
-                  type: "image_url" as const,
-                  image_url: { url: `data:image/jpeg;base64,${firstB64}` },
-                },
-                { type: "text" as const, text: "Imagen INICIAL (antes)." },
-                {
-                  type: "image_url" as const,
-                  image_url: { url: `data:image/jpeg;base64,${latestB64}` },
-                },
-                { type: "text" as const, text: "Imagen RECIENTE (después). Responde con el JSON especificado." },
-              ]
-            : [{ type: "text" as const, text: `Eres un experto en análisis cosmético de piel. Compara estos dos análisis y genera un informe de evolución.\n\n${textContext}\n\nResponde con el JSON especificado.` }],
-        },
-      ],
-      response_format: { type: "json_object" },
-    }
+    const VISION_SYSTEM = `Eres un experto en análisis cosmético de piel. Responde exclusivamente en español. Compara dos imágenes o análisis de la misma persona tomados en momentos diferentes. NO eres médico. NO uses diagnósticos clínicos. Usa lenguaje descriptivo sobre características VISUALES observables. Devuelve los datos en formato JSON estructurado.`
 
     logger.info("Skin comparison started", {
       userId: session.user.id,
@@ -192,36 +172,55 @@ Proporciona tu análisis en la estructura JSON exacta especificada.`
       ragIngredients: matched.length,
     })
 
-    const res = await withRetry(
-      () =>
-        fetch("https://openrouter.ai/api/v1/chat/completions", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${getApiKey()}`,
-          },
-          body: JSON.stringify(body_request),
-          signal: AbortSignal.timeout(90000),
-        }),
-      { maxRetries: 2, baseDelayMs: 2000 }
-    )
-
-    if (!res.ok) {
-      const text = await res.text()
-      logger.error("Skin comparison OpenRouter error", { status: res.status, text })
-      throw new Error(`OpenRouter error ${res.status}`)
-    }
-
-    const data = await res.json()
-    const content = data.choices?.[0]?.message?.content
-
-    if (!content) throw new Error("No response from AI")
-
     let parsed: Record<string, unknown>
-    try {
-      parsed = JSON.parse(content)
-    } catch {
-      throw new Error("La IA devolvió una respuesta inválida. Intenta de nuevo.")
+
+    if (imagesAvailable) {
+      const apiKey = getApiKey()
+      const visionBody = {
+        model: MODEL,
+        messages: [
+          { role: "system", content: VISION_SYSTEM },
+          {
+            role: "user",
+            content: [
+              { type: "text", text: `Compara estas dos imágenes de la misma persona tomadas en momentos diferentes y genera un informe de evolución.\n\n${textContext}` },
+              { type: "image_url", image_url: { url: `data:image/jpeg;base64,${firstB64}` } },
+              { type: "text", text: "Imagen INICIAL (antes)." },
+              { type: "image_url", image_url: { url: `data:image/jpeg;base64,${latestB64}` } },
+              { type: "text", text: "Imagen RECIENTE (después). Responde con el JSON especificado." },
+            ],
+          },
+        ],
+        temperature: 0.2,
+        max_tokens: 2048,
+      }
+
+      const res = await fetch(`${GROQ_API_BASE}/chat/completions`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${apiKey}`,
+        },
+        body: JSON.stringify(visionBody),
+        signal: AbortSignal.timeout(60000),
+      })
+
+      if (!res.ok) {
+        const text = await res.text()
+        throw new Error(`Groq error ${res.status}: ${text}`)
+      }
+
+      const data = await res.json()
+      const content = data.choices?.[0]?.message?.content
+      if (!content) throw new Error("No response from AI")
+      const clean = content.replace(/```json|```/g, "").trim()
+      parsed = JSON.parse(clean)
+    } else {
+      const prompt = `Compara estos dos análisis y genera un informe de evolución.\n\n${textContext}`
+      parsed = await groqChatJSON<Record<string, unknown>>(
+        [{ role: "user", content: prompt }],
+        { temperature: 0.2, maxTokens: 2048, system: VISION_SYSTEM }
+      )
     }
 
     const comparison = {

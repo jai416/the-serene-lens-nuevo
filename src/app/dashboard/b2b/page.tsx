@@ -61,11 +61,11 @@ export default function B2bDashboard() {
     return (
       <div className="min-h-screen px-4 py-8">
         <div className="max-w-2xl mx-auto text-center">
-          <div className="w-14 h-14 rounded-2xl bg-[#F0F5EC] flex items-center justify-center mx-auto mb-4">
-            <AlertCircle className="w-6 h-6 text-[#64705E]" />
+          <div className="w-14 h-14 rounded-2xl bg-[#E2ECE0] flex items-center justify-center mx-auto mb-4">
+            <AlertCircle className="w-6 h-6 text-[#666666]" />
           </div>
-          <h2 className="font-serif text-xl font-semibold mb-2 text-[#2F3A2D]">Plan no disponible</h2>
-          <p className="text-sm text-[#64705E] mb-6">Este panel es exclusivo para profesionales con plan Esteticista.</p>
+          <h2 className="font-serif text-xl font-semibold mb-2 text-[#1A1A1A]">Plan no disponible</h2>
+          <p className="text-sm text-[#666666] mb-6">Este panel es exclusivo para profesionales con plan Esteticista.</p>
         </div>
       </div>
     )
@@ -75,11 +75,11 @@ export default function B2bDashboard() {
     <div className="min-h-screen px-4 py-8">
       <div className="max-w-4xl mx-auto">
         <div className="mb-8">
-          <Badge variant="primary" className="mb-4 rounded-full px-4 py-1.5 border-0">
+          <Badge variant="mint" className="mb-4 rounded-full px-4 py-1.5 border-0">
             <Building2 className="w-3.5 h-3.5 mr-2" />
             Panel B2B
           </Badge>
-          <h1 className="font-serif text-3xl sm:text-4xl font-semibold text-[#2F3A2D]">
+          <h1 className="font-serif text-3xl sm:text-4xl font-semibold text-[#1A1A1A]">
             {clinic?.name || "Mi Clínica"}
           </h1>
         </div>
@@ -87,20 +87,20 @@ export default function B2bDashboard() {
         <div className="grid sm:grid-cols-3 gap-4 mb-8">
           <Card className="p-4">
             <CardContent className="p-0">
-              <p className="text-xs text-[#64705E] mb-1">Análisis realizados</p>
-              <p className="text-2xl font-semibold text-[#2F3A2D]">{analyses.length}</p>
+              <p className="text-xs text-[#666666] mb-1">Análisis realizados</p>
+              <p className="text-2xl font-semibold text-[#1A1A1A]">{analyses.length}</p>
             </CardContent>
           </Card>
           <Card className="p-4">
             <CardContent className="p-0">
-              <p className="text-xs text-[#64705E] mb-1">Plan</p>
-              <p className="text-2xl font-semibold text-[#2F3A2D]">Esteticista</p>
+              <p className="text-xs text-[#666666] mb-1">Plan</p>
+              <p className="text-2xl font-semibold text-[#1A1A1A]">Esteticista</p>
             </CardContent>
           </Card>
           <Card className="p-4">
             <CardContent className="p-0">
-              <p className="text-xs text-[#64705E] mb-1">Límite</p>
-              <p className="text-2xl font-semibold text-[#2F3A2D]">Ilimitado</p>
+              <p className="text-xs text-[#666666] mb-1">Límite</p>
+              <p className="text-2xl font-semibold text-[#1A1A1A]">Ilimitado</p>
             </CardContent>
           </Card>
         </div>
@@ -108,26 +108,26 @@ export default function B2bDashboard() {
         {clinic && (
           <Card className="p-6 mb-6">
             <CardHeader className="p-0 mb-4">
-              <CardTitle className="flex items-center gap-2 text-lg text-[#2F3A2D]">
+              <CardTitle className="flex items-center gap-2 text-lg text-[#1A1A1A]">
                 <Building2 className="w-5 h-5" />
                 Personalización
               </CardTitle>
             </CardHeader>
             <CardContent className="p-0 space-y-4">
               <div>
-                <label className="text-sm font-medium mb-1.5 block text-[#2F3A2D]">Nombre de la clínica</label>
+                <label className="text-sm font-medium mb-1.5 block text-[#1A1A1A]">Nombre de la clínica</label>
                 <input
                   type="text"
                   aria-label="Nombre de la clínica"
                   defaultValue={clinic.name}
-                  className="w-full rounded-xl border border-[#DDE7D3] bg-white px-4 py-2.5 text-sm focus:outline-none focus:ring-1 focus:ring-[#C2E09D] text-[#2F3A2D]"
+                  className="w-full rounded-xl border border-[#E8E8E8] bg-white px-4 py-2.5 text-sm focus:outline-none focus:ring-1 focus:ring-[#88B078] text-[#1A1A1A]"
                 />
               </div>
               <div>
-                <label className="text-sm font-medium mb-1.5 block text-[#2F3A2D]">Logo</label>
+                <label className="text-sm font-medium mb-1.5 block text-[#1A1A1A]">Logo</label>
                 <div className="flex items-center gap-3">
                   {clinic.logo && (
-                    <div className="w-12 h-12 rounded-xl bg-[#F0F5EC] flex items-center justify-center overflow-hidden">
+                    <div className="w-12 h-12 rounded-xl bg-[#E2ECE0] flex items-center justify-center overflow-hidden">
                       <img src={clinic.logo} alt="Logo" className="w-full h-full object-contain" />
                     </div>
                   )}
@@ -143,21 +143,21 @@ export default function B2bDashboard() {
 
         <Card className="p-6">
           <CardHeader className="p-0 mb-4">
-            <CardTitle className="flex items-center gap-2 text-lg text-[#2F3A2D]">
+            <CardTitle className="flex items-center gap-2 text-lg text-[#1A1A1A]">
               <TrendingUp className="w-5 h-5" />
               Historial de análisis
             </CardTitle>
           </CardHeader>
           <CardContent className="p-0">
             {analyses.length === 0 ? (
-              <p className="text-sm text-[#64705E]">No hay análisis realizados aún.</p>
+              <p className="text-sm text-[#666666]">No hay análisis realizados aún.</p>
             ) : (
               <div className="space-y-3">
                 {analyses.map((a) => (
-                  <div key={a.id} className="flex items-center justify-between p-3 rounded-2xl bg-[#F8FAF5]">
+                  <div key={a.id} className="flex items-center justify-between p-3 rounded-2xl bg-[#F8F9FA]">
                     <div>
-                      <p className="text-sm capitalize text-[#2F3A2D]">{a.skinType || "Sin clasificar"}</p>
-                      <p className="text-xs text-[#64705E]">{new Date(a.createdAt).toLocaleDateString("es-ES")}</p>
+                      <p className="text-sm capitalize text-[#1A1A1A]">{a.skinType || "Sin clasificar"}</p>
+                      <p className="text-xs text-[#666666]">{new Date(a.createdAt).toLocaleDateString("es-ES")}</p>
                     </div>
                     <div className="flex gap-2">
                       <Button variant="outline" size="sm" onClick={async () => {

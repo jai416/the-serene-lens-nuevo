@@ -84,7 +84,7 @@ export default function JoinPage() {
   if (loading) {
     return (
       <div className="min-h-screen flex items-center justify-center">
-        <Loader2 className="w-6 h-6 animate-pulse text-[#C2E09D]" />
+        <Loader2 className="w-6 h-6 animate-pulse text-[#88B078]" />
       </div>
     )
   }
@@ -95,10 +95,10 @@ export default function JoinPage() {
         <Card className="max-w-md w-full">
           <CardContent className="p-8 text-center">
             <Clock className="w-12 h-12 text-[#E07070] mx-auto mb-4" />
-            <h1 className="font-serif text-2xl font-semibold text-[#2F3A2D] mb-2">
+            <h1 className="font-serif text-2xl font-semibold text-[#1A1A1A] mb-2">
               Grupo no disponible
             </h1>
-            <p className="text-[#64705E] mb-4">
+            <p className="text-[#666666] mb-4">
               Este grupo ha expirado o no existe.
             </p>
             <Link href="/">
@@ -118,24 +118,24 @@ export default function JoinPage() {
       <Card className="max-w-md w-full">
         <CardContent className="p-8">
           <div className="text-center mb-6">
-            <div className="w-16 h-16 rounded-2xl bg-[#C2E09D]/20 flex items-center justify-center mx-auto mb-4">
-              <Users className="w-8 h-8 text-[#2F3A2D]" />
+            <div className="w-16 h-16 rounded-2xl bg-[#88B078]/20 flex items-center justify-center mx-auto mb-4">
+              <Users className="w-8 h-8 text-[#1A1A1A]" />
             </div>
-            <Badge variant="primary" className="mb-3 rounded-full px-4 py-1.5 border-0">
+            <Badge variant="mint" className="mb-3 rounded-full px-4 py-1.5 border-0">
               Invitación de grupo
             </Badge>
-            <h1 className="font-serif text-2xl font-semibold text-[#2F3A2D]">
+            <h1 className="font-serif text-2xl font-semibold text-[#1A1A1A]">
               {group.referrerName} te ha invitado
             </h1>
-            <p className="text-[#64705E] mt-2">
+            <p className="text-[#666666] mt-2">
               Descubre cómo está tu piel y ayuda a completar el grupo.
             </p>
           </div>
 
-          <div className="bg-[#F8FAF5] rounded-xl p-4 mb-6">
+          <div className="bg-[#F8F9FA] rounded-xl p-4 mb-6">
             <div className="flex justify-between items-center mb-3">
-              <span className="text-sm text-[#64705E]">Progreso del grupo</span>
-              <span className="text-sm font-medium text-[#2F3A2D]">
+              <span className="text-sm text-[#666666]">Progreso del grupo</span>
+              <span className="text-sm font-medium text-[#1A1A1A]">
                 {group.completedCount}/3 amigos
               </span>
             </div>
@@ -145,24 +145,24 @@ export default function JoinPage() {
                   key={i}
                   className={`flex-1 h-3 rounded-full ${
                     i < group.completedCount
-                      ? "bg-[#C2E09D]"
-                      : "bg-[#DDE7D3]"
+                      ? "bg-[#88B078]"
+                      : "bg-[#E8E8E8]"
                   }`}
                 />
               ))}
             </div>
-            <div className="flex justify-between mt-2 text-xs text-[#64705E]">
+            <div className="flex justify-between mt-2 text-xs text-[#666666]">
               <span>{group.completedCount} completados</span>
               <span>{group.slotsRemaining} plazas restantes</span>
             </div>
           </div>
 
-          <div className="bg-[#FFF6AD]/30 rounded-xl p-4 mb-6">
+          <div className="bg-[#FFF9E6]/30 rounded-xl p-4 mb-6">
             <div className="flex items-center gap-2 mb-2">
-              <Gift className="w-4 h-4 text-[#2F3A2D]" />
-              <span className="text-sm font-medium text-[#2F3A2D]">Beneficio</span>
+              <Gift className="w-4 h-4 text-[#1A1A1A]" />
+              <span className="text-sm font-medium text-[#1A1A1A]">Beneficio</span>
             </div>
-            <p className="text-sm text-[#64705E]">
+            <p className="text-sm text-[#666666]">
               Cuando el grupo se complete (3 amigos), <strong>{group.referrerName} ganará un análisis GRATIS</strong>.
               ¡Tu también puedes crear tu propio grupo y ganar!
             </p>
@@ -170,9 +170,9 @@ export default function JoinPage() {
 
           {isCompleted ? (
             <div className="text-center">
-              <CheckCircle2 className="w-10 h-10 text-[#C2E09D] mx-auto mb-2" />
-              <p className="text-[#2F3A2D] font-medium">¡Grupo completo!</p>
-              <p className="text-sm text-[#64705E]">Ya se han unido 3 amigos.</p>
+              <CheckCircle2 className="w-10 h-10 text-[#88B078] mx-auto mb-2" />
+              <p className="text-[#1A1A1A] font-medium">¡Grupo completo!</p>
+              <p className="text-sm text-[#666666]">Ya se han unido 3 amigos.</p>
             </div>
           ) : (
             <Button

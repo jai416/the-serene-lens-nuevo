@@ -68,7 +68,7 @@ export default function AppTour({ onComplete }: Props) {
             <div
               key={i}
               className={`h-3 w-3 rounded-full ${
-                i === step ? "bg-[#C2E09D]" : "bg-gray-300"
+                i === step ? "bg-[#88B078]" : "bg-gray-300"
               }`}
             />
           ))}
@@ -89,14 +89,14 @@ export default function AppTour({ onComplete }: Props) {
           {isLast ? (
             <button
               onClick={handleComplete}
-              className="rounded-lg bg-[#C2E09D] px-6 py-2 font-medium hover:bg-[#B0CF8D]"
+              className="rounded-lg bg-[#88B078] px-6 py-2 font-medium hover:bg-[#B0CF8D]"
             >
               ¡Listo! 🎉
             </button>
           ) : (
             <button
               onClick={() => setStep(step + 1)}
-              className="rounded-lg bg-[#C2E09D] px-6 py-2 font-medium hover:bg-[#B0CF8D]"
+              className="rounded-lg bg-[#88B078] px-6 py-2 font-medium hover:bg-[#B0CF8D]"
             >
               Siguiente →
             </button>

@@ -23,14 +23,14 @@ function ResetPasswordForm() {
 
   if (!token || !email) {
     return (
-      <div className="min-h-screen flex items-center justify-center px-4 bg-[#F8FAF5]">
+      <div className="min-h-screen flex items-center justify-center px-4 bg-[#F8F9FA]">
         <Card className="max-w-md w-full">
           <CardContent className="p-8 text-center">
             <div className="w-14 h-14 rounded-2xl bg-[#FEF2F2] flex items-center justify-center mx-auto mb-4">
               <AlertCircle className="w-6 h-6 text-[#E07070]" />
             </div>
-            <h2 className="font-serif text-xl font-semibold mb-2 text-[#2F3A2D]">Enlace inválido</h2>
-            <p className="text-sm text-[#64705E] mb-6">Este enlace de recuperación no es válido o ha expirado.</p>
+            <h2 className="font-serif text-xl font-semibold mb-2 text-[#1A1A1A]">Enlace inválido</h2>
+            <p className="text-sm text-[#666666] mb-6">Este enlace de recuperación no es válido o ha expirado.</p>
             <Link href="/forgot-password">
               <Button variant="primary" className="w-full py-5 h-auto">
                 Solicitar nuevo enlace
@@ -82,14 +82,14 @@ function ResetPasswordForm() {
 
   if (success) {
     return (
-      <div className="min-h-screen flex items-center justify-center px-4 bg-[#F8FAF5]">
+      <div className="min-h-screen flex items-center justify-center px-4 bg-[#F8F9FA]">
         <Card className="max-w-md w-full">
           <CardContent className="p-8 text-center">
             <div className="w-14 h-14 rounded-2xl gradient-primary flex items-center justify-center mx-auto mb-4">
-              <CheckCircle2 className="w-6 h-6 text-[#2F3A2D]" />
+              <CheckCircle2 className="w-6 h-6 text-[#1A1A1A]" />
             </div>
-            <h2 className="font-serif text-xl font-semibold mb-2 text-[#2F3A2D]">Contraseña actualizada</h2>
-            <p className="text-sm text-[#64705E] mb-6">Tu contraseña se ha restablecido correctamente.</p>
+            <h2 className="font-serif text-xl font-semibold mb-2 text-[#1A1A1A]">Contraseña actualizada</h2>
+            <p className="text-sm text-[#666666] mb-6">Tu contraseña se ha restablecido correctamente.</p>
             <Link href="/login">
               <Button variant="primary" className="w-full py-5 h-auto">
                 Iniciar sesión
@@ -102,20 +102,20 @@ function ResetPasswordForm() {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center px-4 py-12 bg-[#F8FAF5]">
+    <div className="min-h-screen flex items-center justify-center px-4 py-12 bg-[#F8F9FA]">
       <div className="w-full max-w-md">
         <div className="text-center mb-8">
-          <div className="w-14 h-14 rounded-2xl bg-[#C2E09D] flex items-center justify-center mx-auto mb-4">
-            <Flower2 className="w-7 h-7 text-[#2F3A2D]" />
+          <div className="w-14 h-14 rounded-2xl bg-[#88B078] flex items-center justify-center mx-auto mb-4">
+            <Flower2 className="w-7 h-7 text-[#1A1A1A]" />
           </div>
-          <Badge variant="primary" className="mb-4 rounded-full px-4 py-1.5 border-0">
+          <Badge variant="mint" className="mb-4 rounded-full px-4 py-1.5 border-0">
             <KeyRound className="w-3.5 h-3.5 mr-2" />
             Nueva Contraseña
           </Badge>
-          <h1 className="font-serif text-3xl sm:text-4xl font-semibold text-[#2F3A2D]">
+          <h1 className="font-serif text-3xl sm:text-4xl font-semibold text-[#1A1A1A]">
             Restablece tu Contraseña
           </h1>
-          <p className="text-[#64705E] mt-2 text-sm">Ingresa tu nueva contraseña.</p>
+          <p className="text-[#666666] mt-2 text-sm">Ingresa tu nueva contraseña.</p>
         </div>
 
         <Card>
@@ -129,7 +129,7 @@ function ResetPasswordForm() {
 
             <form onSubmit={handleSubmit} className="space-y-4">
               <div>
-                <label htmlFor="password" className="block text-sm font-medium mb-1.5 text-[#2F3A2D]">
+                <label htmlFor="password" className="block text-sm font-medium mb-1.5 text-[#1A1A1A]">
                   Nueva contraseña
                 </label>
                 <div className="relative">
@@ -141,7 +141,7 @@ function ResetPasswordForm() {
                     autoComplete="new-password"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
-                    className="w-full bg-white border border-[#DDE7D3] rounded-xl px-10 py-2.5 text-sm focus:outline-none focus:border-[#C2E09D] focus:ring-1 focus:ring-[#C2E09D] transition-colors placeholder:text-[#9BAA93] text-[#2F3A2D]"
+                    className="w-full bg-white border border-[#E8E8E8] rounded-xl px-10 py-2.5 text-sm focus:outline-none focus:border-[#88B078] focus:ring-1 focus:ring-[#88B078] transition-colors placeholder:text-[#9BAA93] text-[#1A1A1A]"
                     placeholder="Mínimo 6 caracteres"
                     required
                   />
@@ -149,7 +149,7 @@ function ResetPasswordForm() {
                     type="button"
                     aria-label="Mostrar contraseña"
                     onClick={() => setShowPassword(!showPassword)}
-                    className="absolute right-3 top-1/2 -translate-y-1/2 text-[#9BAA93] hover:text-[#2F3A2D] transition-colors"
+                    className="absolute right-3 top-1/2 -translate-y-1/2 text-[#9BAA93] hover:text-[#1A1A1A] transition-colors"
                   >
                     {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
                   </button>
@@ -157,7 +157,7 @@ function ResetPasswordForm() {
               </div>
 
               <div>
-                <label htmlFor="confirmPassword" className="block text-sm font-medium mb-1.5 text-[#2F3A2D]">
+                <label htmlFor="confirmPassword" className="block text-sm font-medium mb-1.5 text-[#1A1A1A]">
                   Confirmar contraseña
                 </label>
                 <div className="relative">
@@ -169,7 +169,7 @@ function ResetPasswordForm() {
                     autoComplete="new-password"
                     value={confirmPassword}
                     onChange={(e) => setConfirmPassword(e.target.value)}
-                    className="w-full bg-white border border-[#DDE7D3] rounded-xl px-10 py-2.5 text-sm focus:outline-none focus:border-[#C2E09D] focus:ring-1 focus:ring-[#C2E09D] transition-colors placeholder:text-[#9BAA93] text-[#2F3A2D]"
+                    className="w-full bg-white border border-[#E8E8E8] rounded-xl px-10 py-2.5 text-sm focus:outline-none focus:border-[#88B078] focus:ring-1 focus:ring-[#88B078] transition-colors placeholder:text-[#9BAA93] text-[#1A1A1A]"
                     placeholder="Repite la contraseña"
                     required
                   />
@@ -191,7 +191,7 @@ function ResetPasswordForm() {
         </Card>
 
         <div className="text-center mt-6">
-          <Link href="/login" className="text-sm text-[#64705E] hover:text-[#2F3A2D] transition-colors inline-flex items-center gap-1.5">
+          <Link href="/login" className="text-sm text-[#666666] hover:text-[#1A1A1A] transition-colors inline-flex items-center gap-1.5">
             <ArrowLeft className="w-3.5 h-3.5" />
             Volver a iniciar sesión
           </Link>

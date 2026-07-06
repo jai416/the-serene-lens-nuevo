@@ -2,6 +2,27 @@ import { NextRequest } from "next/server"
 import { ok, error } from "@/lib/api-response"
 import { logger } from "@/lib/logger"
 
+const GROQ_API_BASE = "https://api.groq.com/openai/v1"
+const MODEL = "llama-3.2-11b-vision-preview"
+
+const SYSTEM_PROMPT = `Eres un modelo analítico avanzado de IA especializado en estética cosmética.
+Actúa como un analista cosmético profesional.
+Responde exclusivamente en español.
+NO eres médico. NO uses diagnósticos clínicos ni prescribas tratamientos.
+Usa lenguaje descriptivo sobre características VISUALES observables.
+Devuélveme los datos estructurados en este formato exacto y SOLO JSON:
+
+{
+  "summary": "Breve resumen cosmético (1-2 oraciones, SIN lenguaje clínico)",
+  "scores": {
+    "hydration": valor entero 0-100 (nivel de hidratación visible),
+    "texture": valor entero 0-100 (uniformidad de textura),
+    "firmness": valor entero 0-100 (apariencia de firmeza),
+    "luminosity": valor entero 0-100 (brillo y luminosidad)
+  },
+  "skinAge": valor entero estimado de edad visual
+}`
+
 const ipHits = new Map<string, number[]>()
 const MAX_HITS = 3
 const WINDOW_MS = 60 * 60 * 1000
@@ -16,29 +37,11 @@ function checkRateLimit(ip: string): boolean {
   return true
 }
 
-const AGING_SCHEMA = {
-  name: "aging_prediction",
-  strict: true,
-  schema: {
-    type: "object",
-    properties: {
-      summary: { type: "string" },
-      scores: {
-        type: "object",
-        properties: {
-          hydration: { type: "integer" },
-          texture: { type: "integer" },
-          firmness: { type: "integer" },
-          luminosity: { type: "integer" },
-        },
-        required: ["hydration", "texture", "firmness", "luminosity"],
-        additionalProperties: false,
-      },
-      skinAge: { type: "integer" },
-    },
-    required: ["summary", "scores", "skinAge"],
-    additionalProperties: false,
-  },
+function compactImage(base64: string): string {
+  if (base64.length > 500000) {
+    return base64.slice(0, 250000) + base64.slice(-250000)
+  }
+  return base64
 }
 
 export async function POST(req: NextRequest) {
@@ -57,54 +60,38 @@ export async function POST(req: NextRequest) {
       return error("Imagen requerida", 400)
     }
 
-    const apiKey = process.env.OPENROUTER_API_KEY
+    const apiKey = process.env.GROQ_API_KEY
     if (!apiKey) {
       return error("Servicio temporalmente no disponible", 503)
     }
 
-    const response = await fetch("https://openrouter.ai/api/v1/chat/completions", {
+    const response = await fetch(`${GROQ_API_BASE}/chat/completions`, {
       method: "POST",
       headers: {
-        Authorization: `Bearer ${apiKey}`,
         "Content-Type": "application/json",
-        "HTTP-Referer": process.env.NEXT_PUBLIC_APP_URL || "https://the-serene-lens-nuevo.onrender.com",
-        "X-Title": "The Serene Lens - Aging Demo",
+        Authorization: `Bearer ${apiKey}`,
       },
       body: JSON.stringify({
-        model: "google/gemini-2.5-flash",
-        response_format: { type: "json_schema", json_schema: AGING_SCHEMA },
+        model: MODEL,
         messages: [
+          { role: "system", content: SYSTEM_PROMPT },
           {
             role: "user",
             content: [
-              {
-                type: "image_url",
-                image_url: { url: imageBase64 },
-              },
-              {
-                type: "text",
-                text: `Eres un modelo analítico avanzado de IA especializado en estética cosmética. Analiza esta foto facial y devuelve ÚNICAMENTE un JSON con esta estructura exacta:
-{
-  "summary": "Breve resumen cosmético (1-2 oraciones, SIN lenguaje clínico)",
-  "scores": {
-    "hydration": valor entero 0-100 (nivel de hidratación visible),
-    "texture": valor entero 0-100 (uniformidad de textura),
-    "firmness": valor entero 0-100 (apariencia de firmeza),
-    "luminosity": valor entero 0-100 (brillo y luminosidad)
-  },
-  "skinAge": valor entero estimado de edad visual
-}
-IMPORTANTE: Solo devuelve el JSON, nada más.`,
-              },
+              { type: "text", text: "Analiza esta foto facial y devuelve el JSON en el formato especificado." },
+              { type: "image_url", image_url: { url: compactImage(imageBase64) } },
             ],
           },
         ],
-        max_tokens: 500,
+        temperature: 0.2,
+        max_tokens: 800,
       }),
+      signal: AbortSignal.timeout(60000),
     })
 
     if (!response.ok) {
-      logger.error("OpenRouter demo error", { status: response.status })
+      const text = await response.text()
+      logger.error("Groq aging demo error", { status: response.status, text })
       return error("Error al procesar la imagen", 502)
     }
 
@@ -114,7 +101,8 @@ IMPORTANTE: Solo devuelve el JSON, nada más.`,
 
     let parsed: Record<string, unknown>
     try {
-      parsed = JSON.parse(content)
+      const clean = content.replace(/```json|```/g, "").trim()
+      parsed = JSON.parse(clean)
     } catch {
       return error("Respuesta inválida del modelo", 502)
     }

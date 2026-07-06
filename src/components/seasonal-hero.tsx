@@ -43,8 +43,8 @@ export function SeasonalHero() {
 
   return (
     <div
-      className="rounded-[20px] px-4 py-3 text-center text-sm font-medium text-[#2F3A2D]"
-      style={{ backgroundColor: "#FFF6AD" }}
+      className="rounded-[20px] px-4 py-3 text-center text-sm font-medium text-[#1A1A1A]"
+      style={{ backgroundColor: "#FFF9E6" }}
     >
       {message}
     </div>

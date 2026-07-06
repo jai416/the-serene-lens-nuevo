@@ -4,9 +4,11 @@ import { useEffect, useState, useCallback } from "react"
 import { useSession } from "next-auth/react"
 import { useRouter, useSearchParams } from "next/navigation"
 import Link from "next/link"
+import Image from "next/image"
 import { Card, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
+import { CardSkeleton } from "@/components/ui/skeleton"
 import { BookOpen, Download, Loader2, ShoppingCart, CheckCircle2 } from "lucide-react"
 import { toast } from "sonner"
 import { getCsrfToken } from "@/lib/csrf-client"
@@ -164,8 +166,16 @@ export default function GuidesPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
-        <Loader2 className="w-6 h-6 animate-pulse text-[#C2E09D]" />
+      <div className="px-4 py-8">
+        <div className="max-w-4xl mx-auto space-y-6">
+          <div className="text-center mb-10">
+            <div className="h-8 w-48 bg-[#E8E8E8] dark:bg-[#444] rounded-full mx-auto mb-4 animate-pulse" />
+            <div className="h-5 w-64 bg-[#E8E8E8] dark:bg-[#444] rounded mx-auto animate-pulse" />
+          </div>
+          <div className="grid sm:grid-cols-2 gap-6">
+            <CardSkeleton /><CardSkeleton /><CardSkeleton /><CardSkeleton />
+          </div>
+        </div>
       </div>
     )
   }
@@ -174,14 +184,14 @@ export default function GuidesPage() {
     <div className="min-h-screen px-4 py-8">
       <div className="max-w-4xl mx-auto">
         <div className="text-center mb-10">
-          <Badge variant="primary" className="mb-4 rounded-full px-4 py-1.5 border-0">
+          <Badge variant="mint" className="mb-4 rounded-full px-4 py-1.5 border-0">
             <BookOpen className="w-3.5 h-3.5 mr-2" />
             Guías Digitales
           </Badge>
-          <h1 className="font-serif text-3xl sm:text-4xl font-semibold text-[#2F3A2D] dark:text-[#E8EDE6]">
+          <h1 className="font-serif text-3xl sm:text-4xl font-semibold text-[#1A1A1A] dark:text-[#E8EDE6]">
             Guías de Skincare
           </h1>
-          <p className="text-[#64705E] dark:text-[#9BAA93] mt-2 max-w-xl mx-auto">
+          <p className="text-[#666666] dark:text-[#9BAA93] mt-2 max-w-xl mx-auto">
             Guías prácticas y profesionales para cuidar tu piel. Compra una vez, consulta siempre.
           </p>
         </div>
@@ -189,9 +199,9 @@ export default function GuidesPage() {
         {guides.length === 0 ? (
           <Card className="p-8">
             <CardContent className="p-0 text-center">
-              <BookOpen className="w-12 h-12 text-[#DDE7D3] mx-auto mb-4" />
-              <h3 className="font-medium text-[#2F3A2D] mb-2">Próximamente</h3>
-              <p className="text-sm text-[#64705E]">
+              <BookOpen className="w-12 h-12 text-[#E8E8E8] mx-auto mb-4" />
+              <h3 className="font-medium text-[#1A1A1A] mb-2">Próximamente</h3>
+              <p className="text-sm text-[#666666]">
                 Estamos preparando guías exclusivas para ti.
               </p>
             </CardContent>
@@ -204,34 +214,35 @@ export default function GuidesPage() {
 
               return (
                 <Card key={guide.id} className="overflow-hidden hover:shadow-lg transition-shadow">
-                  <div className="aspect-[16/9] bg-[#F0F5EC] relative">
-                    <img
+                  <div className="aspect-[16/9] bg-[#E2ECE0] dark:bg-[#2A3A2A] relative">
+                    <Image
                       src={guide.image}
                       alt={guide.title}
-                      className="w-full h-full object-cover"
+                      fill
+                      className="object-cover"
                     />
-                    <Badge className="absolute top-3 left-3 bg-[#C2E09D] text-[#2F3A2D]">
+                    <Badge className="absolute top-3 left-3 bg-[#88B078] text-[#1A1A1A]">
                       {guide.category}
                     </Badge>
                     {isPurchased && (
                       <div className="absolute top-3 right-3">
-                        <CheckCircle2 className="w-6 h-6 text-[#C2E09D] drop-shadow" />
+                        <CheckCircle2 className="w-6 h-6 text-[#88B078] drop-shadow" />
                       </div>
                     )}
                   </div>
                   <CardContent className="p-5">
-                    <h3 className="font-serif text-lg font-semibold text-[#2F3A2D] dark:text-[#E8EDE6] mb-2">
+                    <h3 className="font-serif text-lg font-semibold text-[#1A1A1A] dark:text-[#E8EDE6] mb-2">
                       {guide.title}
                     </h3>
-                    <p className="text-sm text-[#64705E] dark:text-[#9BAA93] mb-4 line-clamp-2">
+                    <p className="text-sm text-[#666666] dark:text-[#9BAA93] mb-4 line-clamp-2">
                       {guide.shortDesc || guide.description}
                     </p>
                     <div className="flex items-center justify-between">
-                      <span className="text-xl font-bold text-[#2F3A2D] dark:text-[#E8EDE6]">
+                      <span className="text-xl font-bold text-[#1A1A1A] dark:text-[#E8EDE6]">
                         {session?.user?.role === "ADMIN" ? (
-                          <span className="text-[#C2E09D]">Gratis (Admin)</span>
+                          <span className="text-[#88B078]">Gratis (Admin)</span>
                         ) : isPurchased ? (
-                          <span className="text-[#C2E09D] text-sm">Comprada</span>
+                          <span className="text-[#88B078] text-sm">Comprada</span>
                         ) : (
                           `$${guide.price.toFixed(2)}`
                         )}

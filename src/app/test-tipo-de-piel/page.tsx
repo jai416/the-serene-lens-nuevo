@@ -1,5 +1,8 @@
 import Link from "next/link"
 import type { Metadata } from "next"
+import { Card, CardContent } from "@/components/ui/card"
+import { Badge } from "@/components/ui/badge"
+import { buttonVariants } from "@/components/ui/button"
 
 export const metadata: Metadata = {
   title: "Test de Tipo de Piel Gratis con IA | The Serene Lens",
@@ -13,52 +16,56 @@ export const metadata: Metadata = {
 
 export default function TestTipoDePielPage() {
   return (
-    <div className="min-h-screen bg-[#F8FAF5] flex items-center justify-center p-6">
-      <div className="max-w-lg w-full text-center">
-        <div className="w-16 h-16 bg-[#ECFFD3] rounded-2xl flex items-center justify-center mx-auto mb-6">
-          <span className="text-2xl">🔬</span>
-        </div>
-        <h1 className="text-3xl font-bold text-[#2F3A2D] mb-4">
-          ¿Cuál es tu tipo de piel?
-        </h1>
-        <p className="text-lg text-[#64705E] mb-8 leading-relaxed">
-          ¿Piel grasa? ¿Piel seca? ¿Piel mixta? Descúbrelo con un análisis de inteligencia artificial que observa tu piel directamente.
-        </p>
-        <div className="bg-white rounded-2xl border border-[#DDE7D3] p-6 mb-8 shadow-sm">
-          <h2 className="text-xl font-semibold text-[#2F3A2D] mb-3">Tipos de piel que analizamos</h2>
-          <div className="grid grid-cols-1 gap-2 text-left text-sm text-[#64705E]">
-            <div className="flex items-center gap-2 p-2 rounded-lg bg-[#F8FAF5]">
-              <span className="w-2 h-2 bg-[#C2E09D] rounded-full" />
-              <span><strong>Piel grasa</strong> — Brillo excesivo, poros visibles</span>
-            </div>
-            <div className="flex items-center gap-2 p-2 rounded-lg bg-[#F8FAF5]">
-              <span className="w-2 h-2 bg-[#ECFFD3] rounded-full" />
-              <span><strong>Piel seca</strong> — Tensión, descamación, textura irregular</span>
-            </div>
-            <div className="flex items-center gap-2 p-2 rounded-lg bg-[#F8FAF5]">
-              <span className="w-2 h-2 bg-[#FFF6AD] rounded-full" />
-              <span><strong>Piel mixta</strong> — Zona T grasa, mejillas secas</span>
-            </div>
-            <div className="flex items-center gap-2 p-2 rounded-lg bg-[#F8FAF5]">
-              <span className="w-2 h-2 bg-[#C2E09D] rounded-full" />
-              <span><strong>Piel normal</strong> — Equilibrada, pocos problemas</span>
-            </div>
-            <div className="flex items-center gap-2 p-2 rounded-lg bg-[#F8FAF5]">
-              <span className="w-2 h-2 bg-[#ECFFD3] rounded-full" />
-              <span><strong>Piel sensible</strong> — Reacciones frecuentes, enrojecimiento</span>
-            </div>
+    <div className="min-h-screen bg-[#F8F9FA] flex items-center justify-center p-6">
+      <Card className="max-w-lg w-full text-center border-0 shadow-none bg-transparent">
+        <CardContent className="p-0">
+          <div className="w-16 h-16 bg-[#E2ECE0] rounded-2xl flex items-center justify-center mx-auto mb-6">
+            <span className="text-2xl">🔬</span>
           </div>
-        </div>
-        <Link
-          href="/analysis"
-          className="inline-block bg-[#C2E09D] text-[#2F3A2D] font-semibold px-8 py-3 rounded-xl hover:bg-[#B0D48E] transition-colors"
-        >
-          Hacer mi test ahora →
-        </Link>
-        <p className="text-xs text-[#8A9A82] mt-6">
-          Análisis cosmético, no diagnóstico médico. Resultados basados en observación visual.
-        </p>
-      </div>
+          <h1 className="text-3xl font-bold text-[#1A1A1A] mb-4">
+            ¿Cuál es tu tipo de piel?
+          </h1>
+          <p className="text-lg text-[#666666] mb-8 leading-relaxed">
+            ¿Piel grasa? ¿Piel seca? ¿Piel mixta? Descúbrelo con un análisis de inteligencia artificial que observa tu piel directamente.
+          </p>
+          <Card className="mb-8">
+            <CardContent className="p-6">
+              <h2 className="text-xl font-semibold text-[#1A1A1A] mb-3">Tipos de piel que analizamos</h2>
+              <div className="grid grid-cols-1 gap-2 text-left text-sm text-[#666666]">
+                <div className="flex items-center gap-2 p-2 rounded-lg bg-[#F8F9FA]">
+                  <span className="w-2 h-2 bg-[#88B078] rounded-full" />
+                  <span><strong>Piel grasa</strong> — Brillo excesivo, poros visibles</span>
+                </div>
+                <div className="flex items-center gap-2 p-2 rounded-lg bg-[#F8F9FA]">
+                  <span className="w-2 h-2 bg-[#E2ECE0] rounded-full" />
+                  <span><strong>Piel seca</strong> — Tensión, descamación, textura irregular</span>
+                </div>
+                <div className="flex items-center gap-2 p-2 rounded-lg bg-[#F8F9FA]">
+                  <span className="w-2 h-2 bg-[#FFF9E6] rounded-full" />
+                  <span><strong>Piel mixta</strong> — Zona T grasa, mejillas secas</span>
+                </div>
+                <div className="flex items-center gap-2 p-2 rounded-lg bg-[#F8F9FA]">
+                  <span className="w-2 h-2 bg-[#88B078] rounded-full" />
+                  <span><strong>Piel normal</strong> — Equilibrada, pocos problemas</span>
+                </div>
+                <div className="flex items-center gap-2 p-2 rounded-lg bg-[#F8F9FA]">
+                  <span className="w-2 h-2 bg-[#E2ECE0] rounded-full" />
+                  <span><strong>Piel sensible</strong> — Reacciones frecuentes, enrojecimiento</span>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+          <Link
+            href="/analysis"
+            className={buttonVariants({ variant: "primary", size: "lg" })}
+          >
+            Hacer mi test ahora →
+          </Link>
+          <Badge variant="mint" className="mt-6 text-xs block w-fit mx-auto">
+            Análisis cosmético, no diagnóstico médico. Resultados basados en observación visual.
+          </Badge>
+        </CardContent>
+      </Card>
     </div>
   )
 }

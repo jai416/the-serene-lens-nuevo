@@ -110,10 +110,10 @@ export default function AdminProductsPage() {
   }
 
   return (
-    <div className="min-h-screen bg-[#F8FAF5] dark:bg-[#1A1F19] pt-24 pb-16 px-4">
+    <div className="min-h-screen bg-[#F8F9FA] dark:bg-[#1A1F19] pt-24 pb-16 px-4">
       <div className="max-w-6xl mx-auto">
         <div className="mb-8">
-          <Link href="/admin" className="text-sm text-[#64705E] dark:text-[#9BAA93] hover:text-[#2F3A2D] dark:hover:text-[#E8EDE6] inline-flex items-center gap-1 mb-4">
+          <Link href="/admin" className="text-sm text-[#666666] dark:text-[#9BAA93] hover:text-[#1A1A1A] dark:hover:text-[#E8EDE6] inline-flex items-center gap-1 mb-4">
             <ArrowLeft className="w-3 h-3" /> Volver al panel
           </Link>
           <Badge variant="secondary" className="mb-4 rounded-full px-4 py-1.5">
@@ -166,7 +166,7 @@ export default function AdminProductsPage() {
                   <div className={`w-2 h-2 rounded-full ${product.isActive ? "bg-green-500" : "bg-gray-400"}`} />
                   <div className="min-w-0">
                     <p className="text-sm font-medium truncate">{product.name}</p>
-                    <p className="text-xs text-[#64705E] dark:text-[#9BAA93]">
+                    <p className="text-xs text-[#666666] dark:text-[#9BAA93]">
                       {product.category}
                     </p>
                   </div>
@@ -183,7 +183,7 @@ export default function AdminProductsPage() {
             </Card>
           ))}
           {products.length === 0 && (
-            <p className="text-center text-[#64705E] dark:text-[#9BAA93] py-10">No hay productos aún</p>
+            <p className="text-center text-[#666666] dark:text-[#9BAA93] py-10">No hay productos aún</p>
           )}
         </div>
       </div>

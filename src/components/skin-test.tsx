@@ -101,24 +101,24 @@ export function SkinTest() {
     return (
       <Card className="mx-auto w-full max-w-md">
         <CardHeader>
-          <CardTitle className="text-[#2F3A2D]">Tu resultado</CardTitle>
+          <CardTitle className="text-[#1A1A1A]">Tu resultado</CardTitle>
         </CardHeader>
         <CardContent className="space-y-4">
           <div
-            className="rounded-[16px] px-4 py-3 text-center text-lg font-semibold text-[#2F3A2D]"
-            style={{ backgroundColor: "#C2E09D" }}
+            className="rounded-[16px] px-4 py-3 text-center text-lg font-semibold text-[#1A1A1A]"
+            style={{ backgroundColor: "#88B078" }}
           >
             {result.label}
           </div>
-          <p className="text-center text-sm text-[#64705E]">{result.description}</p>
+          <p className="text-center text-sm text-[#666666]">{result.description}</p>
         </CardContent>
         <CardFooter className="flex flex-col items-center gap-3">
-          <p className="text-xs text-[#64705E]">
+          <p className="text-xs text-[#666666]">
             Este es un resultado genérico. Para un análisis real de tu piel:
           </p>
           <Link
             href="/login"
-            className="inline-flex items-center rounded-full bg-[#C2E09D] px-6 py-2.5 text-sm font-medium text-[#2F3A2D] transition-colors hover:bg-[#B0D48E]"
+            className="inline-flex items-center rounded-full bg-[#88B078] px-6 py-2.5 text-sm font-medium text-[#1A1A1A] transition-colors hover:bg-[#78A068]"
           >
             ¿Quieres el análisis real? Regístrate →
           </Link>
@@ -130,7 +130,7 @@ export function SkinTest() {
   return (
     <Card className="mx-auto w-full max-w-md">
       <CardHeader>
-        <CardTitle className="text-[#2F3A2D]">Mini Test de Piel</CardTitle>
+        <CardTitle className="text-[#1A1A1A]">Mini Test de Piel</CardTitle>
       </CardHeader>
       <CardContent className="space-y-6">
         <div className="flex items-center justify-center gap-2">
@@ -138,13 +138,13 @@ export function SkinTest() {
             <div
               key={i}
               className={`h-2 w-2 rounded-full transition-colors ${
-                i <= current ? "bg-[#C2E09D]" : "bg-[#DDE7D3]"
+                i <= current ? "bg-[#88B078]" : "bg-[#E8E8E8]"
               }`}
             />
           ))}
         </div>
 
-        <p className="text-center text-base font-medium text-[#2F3A2D]">{question.text}</p>
+        <p className="text-center text-base font-medium text-[#1A1A1A]">{question.text}</p>
 
         <div className="flex flex-col gap-3">
           {question.options.map((option) => (
@@ -153,8 +153,8 @@ export function SkinTest() {
               onClick={() => handleSelect(option)}
               className={`rounded-[12px] border px-4 py-3 text-sm font-medium transition-all ${
                 selectedOption === option
-                  ? "border-[#C2E09D] bg-[#C2E09D]/20 text-[#2F3A2D]"
-                  : "border-[#DDE7D3] bg-white text-[#64705E] hover:border-[#C2E09D] hover:bg-[#F8FAF5]"
+                  ? "border-[#88B078] bg-[#88B078]/20 text-[#1A1A1A]"
+                  : "border-[#E8E8E8] bg-white text-[#666666] hover:border-[#88B078] hover:bg-[#F8F9FA]"
               }`}
             >
               {option}
@@ -166,7 +166,7 @@ export function SkinTest() {
         <button
           onClick={handleNext}
           disabled={!selectedOption}
-          className="rounded-full bg-[#C2E09D] px-8 py-2.5 text-sm font-medium text-[#2F3A2D] transition-colors hover:bg-[#B0D48E] disabled:cursor-not-allowed disabled:opacity-40"
+          className="rounded-full bg-[#88B078] px-8 py-2.5 text-sm font-medium text-[#1A1A1A] transition-colors hover:bg-[#78A068] disabled:cursor-not-allowed disabled:opacity-40"
         >
           {isLastQuestion ? "Ver resultado" : "Siguiente"}
         </button>

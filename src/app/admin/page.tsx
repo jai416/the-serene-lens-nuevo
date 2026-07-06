@@ -114,7 +114,7 @@ export default function AdminPage() {
       .then((r) => r.json())
       .then((d) => setHealthCheck(d))
       .catch((e) => logger.error("Health check error:", { error: e }))
-    const interval = setInterval(fetchStats, 10000)
+    const interval = setInterval(fetchStats, 30000)
     return () => clearInterval(interval)
   }, [session])
 
@@ -129,7 +129,7 @@ export default function AdminPage() {
           </div>
           <h1 className="text-xl font-bold text-[#FB7185] mb-2">Acceso denegado</h1>
           <p className="text-sm text-[#9BAA93] mb-1">No tienes permisos de administrador.</p>
-          <p className="text-sm text-[#6B5C4F]">Tu rol: <code className="bg-[#222920] px-2 py-0.5 rounded text-[#C2E09D]">{session.user.role}</code></p>
+          <p className="text-sm text-[#6B5C4F]">Tu rol: <code className="bg-[#222920] px-2 py-0.5 rounded text-[#88B078]">{session.user.role}</code></p>
           <p className="text-sm text-[#6B5C4F] mt-1">Email: {session.user.email}</p>
         </div>
       </div>
@@ -167,14 +167,14 @@ export default function AdminPage() {
   const adminSecondary = "text-[#9BAA93]"
   const adminMuted = "text-[#6B5C4F]"
   const adminCard = "bg-[#1A1F19] border-[#222920]"
-  const adminAccent = "#C2E09D"
+  const adminAccent = "#88B078"
 
   return (
     <div className="overflow-x-hidden">
       <NewUserToast />
       <div className="mb-8">
         <div className="flex items-center gap-2 mb-3">
-          <Badge className="bg-[#C2E09D]/20 text-[#C2E09D] border-0 rounded-full px-3 py-1 text-[10px] font-medium">
+          <Badge className="bg-[#88B078]/20 text-[#88B078] border-0 rounded-full px-3 py-1 text-[10px] font-medium">
             <LayoutDashboard className="w-3 h-3 mr-1.5" />
             Dashboard
           </Badge>
@@ -193,12 +193,12 @@ export default function AdminPage() {
       <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
         {mainCards.map((card) => (
           <Link key={card.label} href={card.href}>
-            <div className="bg-[#1A1F19] border border-[#222920] rounded-xl p-5 transition-all duration-200 hover:border-[#C2E09D]/40 hover:-translate-y-0.5">
+            <div className="bg-[#1A1F19] border border-[#222920] rounded-xl p-5 transition-all duration-200 hover:border-[#88B078]/40 hover:-translate-y-0.5">
               <div className="flex items-center justify-between mb-3">
                 <div className={`w-10 h-10 rounded-xl ${card.color} flex items-center justify-center`}>
                   <card.icon className="w-5 h-5 text-white" />
                 </div>
-                <ArrowUpRight className="w-4 h-4 text-[#6B5C4F] group-hover:text-[#C2E09D] transition-colors" />
+                <ArrowUpRight className="w-4 h-4 text-[#6B5C4F] group-hover:text-[#88B078] transition-colors" />
               </div>
               <p className="text-2xl font-bold text-[#E8DED5]">{card.value}</p>
               <p className="text-xs text-[#9BAA93]">{card.label}</p>
@@ -226,7 +226,7 @@ export default function AdminPage() {
       {healthCheck && (
         <div className="bg-[#1A1F19] border border-[#222920] rounded-xl p-5 mb-6">
           <h2 className="text-base font-semibold mb-4 text-[#E8DED5] flex items-center gap-2">
-            <Activity className="w-4 h-4 text-[#C2E09D]" />
+            <Activity className="w-4 h-4 text-[#88B078]" />
             Health Check
             <span className={`ml-2 text-[10px] px-2 py-0.5 rounded-full font-medium ${
               healthCheck.status === "ok" ? "bg-[#4ADE80]/20 text-[#4ADE80]" : "bg-[#FB7185]/20 text-[#FB7185]"
@@ -269,7 +269,7 @@ export default function AdminPage() {
       <div className="grid lg:grid-cols-3 gap-4 mb-6">
         <div className="bg-[#1A1F19] border border-[#222920] rounded-xl p-5">
           <h2 className="text-base font-semibold mb-4 text-[#E8DED5] flex items-center gap-2">
-            <DollarSign className="w-4 h-4 text-[#C2E09D]" />
+            <DollarSign className="w-4 h-4 text-[#88B078]" />
             Ingresos por Proveedor
           </h2>
           <div className="space-y-3">
@@ -295,7 +295,7 @@ export default function AdminPage() {
                 const tp = ((t/total)*100).toFixed(1)
                 const pp = ((p/total)*100).toFixed(1)
                 return <>
-                  {q > 0 && <div className="h-full bg-[#C2E09D] relative group cursor-pointer transition-all hover:brightness-110" style={{ width: `${qp}%` }} title={`QvaPay: $${q.toFixed(2)} (${qp}%)`} />}
+                  {q > 0 && <div className="h-full bg-[#88B078] relative group cursor-pointer transition-all hover:brightness-110" style={{ width: `${qp}%` }} title={`QvaPay: $${q.toFixed(2)} (${qp}%)`} />}
                   {t > 0 && <div className="h-full bg-[#D4A574] relative group cursor-pointer transition-all hover:brightness-110" style={{ width: `${tp}%` }} title={`Transfermóvil: $${t.toFixed(2)} (${tp}%)`} />}
                   {p > 0 && <div className="h-full bg-[#C9A96E] relative group cursor-pointer transition-all hover:brightness-110" style={{ width: `${pp}%` }} title={`PayPal: $${p.toFixed(2)} (${pp}%)`} />}
                 </>
@@ -313,7 +313,7 @@ export default function AdminPage() {
                 return <>
                   <div className="p-2 rounded-lg bg-[#1E251C] border border-[#222920]">
                     <div className="flex items-center gap-1.5 mb-1">
-                      <span className="w-2 h-2 rounded-full bg-[#C2E09D]" />
+                      <span className="w-2 h-2 rounded-full bg-[#88B078]" />
                       <span className="text-[10px] text-[#9BAA93]">QvaPay</span>
                     </div>
                     <p className="text-xs font-semibold text-[#E8DED5]">${q.toFixed(2)}</p>
@@ -341,7 +341,7 @@ export default function AdminPage() {
             <div className="pt-2 border-t border-[#222920]">
               <div className="flex justify-between">
                 <span className="text-sm font-medium text-[#E8DED5]">Total</span>
-                <span className="font-bold text-[#C2E09D]">${stats?.revenue?.toFixed(2) ?? "0.00"}</span>
+                <span className="font-bold text-[#88B078]">${stats?.revenue?.toFixed(2) ?? "0.00"}</span>
               </div>
             </div>
           </div>
@@ -349,7 +349,7 @@ export default function AdminPage() {
 
         <div className="bg-[#1A1F19] border border-[#222920] rounded-xl p-5">
           <h2 className="text-base font-semibold mb-4 text-[#E8DED5] flex items-center gap-2">
-            <BarChart3 className="w-4 h-4 text-[#C2E09D]" />
+            <BarChart3 className="w-4 h-4 text-[#88B078]" />
             Distribución de Planes
           </h2>
           <div className="space-y-3">
@@ -373,7 +373,7 @@ export default function AdminPage() {
 
         <div className="bg-[#1A1F19] border border-[#222920] rounded-xl p-5">
           <h2 className="text-base font-semibold mb-4 text-[#E8DED5] flex items-center gap-2">
-            <Heart className="w-4 h-4 text-[#C2E09D]" />
+            <Heart className="w-4 h-4 text-[#88B078]" />
             Tipos de Piel Detectados
           </h2>
           <div className="space-y-3">
@@ -399,7 +399,7 @@ export default function AdminPage() {
       {/* Métricas de Crecimiento */}
       <div className="border border-[#222920] rounded-xl p-5 mb-6" style={{ backgroundColor: "#1A1F19" }}>
         <h2 className="text-base font-semibold mb-4 text-[#E8DED5] flex items-center gap-2">
-          <TrendingUp className="w-4 h-4 text-[#C2E09D]" />
+          <TrendingUp className="w-4 h-4 text-[#88B078]" />
           Métricas de Crecimiento
         </h2>
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
@@ -421,7 +421,7 @@ export default function AdminPage() {
                 value: `$${weightedMrr.toFixed(2)}`,
                 icon: DollarSign,
                 sub: `${paid} usuarios de pago · $${weightedAvg.toFixed(2)} promedio`,
-                color: "text-[#C2E09D]",
+                color: "text-[#88B078]",
               },
               {
                 label: "Ingresos último mes",
@@ -453,7 +453,7 @@ export default function AdminPage() {
                     </span>
                   )
                 })(),
-                color: "text-[#C2E09D]",
+                color: "text-[#88B078]",
               },
             ].map((m) => (
               <div key={m.label} className="p-3 rounded-lg border border-[#222920]" style={{ backgroundColor: "#1E251C" }}>
@@ -473,7 +473,7 @@ export default function AdminPage() {
       {/* Quick Links */}
       <div className="bg-[#1A1F19] border border-[#222920] rounded-xl p-5 mb-6">
         <h2 className="text-base font-semibold mb-4 text-[#E8DED5] flex items-center gap-2">
-          <Eye className="w-4 h-4 text-[#C2E09D]" />
+          <Eye className="w-4 h-4 text-[#88B078]" />
           Acceso Rápido
         </h2>
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-9 gap-2">
@@ -493,7 +493,7 @@ export default function AdminPage() {
           ].map((item) => (
             <Link key={item.href} href={item.href}>
               <div className="flex items-center gap-2 p-3 rounded-lg hover:bg-[#222920] transition-colors group">
-                <item.icon className="w-4 h-4 text-[#C2E09D]" />
+                <item.icon className="w-4 h-4 text-[#88B078]" />
                 <span className="text-sm font-medium text-[#E8DED5] group-hover:text-white transition-colors">{item.label}</span>
               </div>
             </Link>
@@ -505,7 +505,7 @@ export default function AdminPage() {
       <div className="grid lg:grid-cols-2 gap-4">
         <div className="bg-[#1A1F19] border border-[#222920] rounded-xl p-5">
           <h2 className="text-base font-semibold mb-4 text-[#E8DED5] flex items-center gap-2">
-            <UserPlus className="w-4 h-4 text-[#C2E09D]" />
+            <UserPlus className="w-4 h-4 text-[#88B078]" />
             Usuarios Recientes
           </h2>
           <div className="space-y-2">
@@ -515,7 +515,7 @@ export default function AdminPage() {
                   <p className="text-sm font-medium text-[#E8DED5] truncate">{user.name || user.email}</p>
                   <p className="text-xs text-[#9BAA93]">{user.email}</p>
                 </div>
-                <Badge variant={user.plan === "FREE" ? "secondary" : "primary"} className="text-[10px] bg-[#C2E09D]/20 text-[#C2E09D] border-0">
+                <Badge variant={user.plan === "FREE" ? "secondary" : "primary"} className="text-[10px] bg-[#88B078]/20 text-[#88B078] border-0">
                   {getPlanLabel(user.plan)}
                 </Badge>
               </div>
@@ -527,7 +527,7 @@ export default function AdminPage() {
 
         <div className="bg-[#1A1F19] border border-[#222920] rounded-xl p-5">
           <h2 className="text-base font-semibold mb-4 text-[#E8DED5] flex items-center gap-2">
-            <Activity className="w-4 h-4 text-[#C2E09D]" />
+            <Activity className="w-4 h-4 text-[#88B078]" />
             Análisis Recientes
           </h2>
           <div className="space-y-2">

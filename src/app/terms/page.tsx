@@ -1,3 +1,5 @@
+import { Card, CardContent } from "@/components/ui/card"
+
 export default function TermsPage() {
   return (
     <div className="min-h-screen px-4 py-8">
@@ -32,16 +34,18 @@ export default function TermsPage() {
 
           <section>
             <h2 className="font-serif text-lg font-semibold text-on-surface mb-2">3. Descargo médico</h2>
-            <div className="p-4 rounded-2xl bg-destructive/10 border border-destructive/20 text-sm">
-              <p className="font-semibold text-destructive mb-1">ADVERTENCIA IMPORTANTE</p>
-              <ul className="list-disc pl-4 space-y-1">
-                <li>Esta herramienta no diagnostica enfermedades de la piel.</li>
-                <li>No sustituye una consulta con un dermatólogo o profesional de la salud.</li>
-                <li>No debe usarse para tomar decisiones médicas.</li>
-                <li>La IA puede cometer errores: puede no detectar condiciones visibles o puede sugerir observaciones inexactas.</li>
-                <li>Si tienes alguna preocupación sobre tu piel, consulta a un profesional de la salud.</li>
-              </ul>
-            </div>
+            <Card className="bg-destructive/10 border-destructive/20">
+              <CardContent className="p-4 text-sm">
+                <p className="font-semibold text-destructive mb-1">ADVERTENCIA IMPORTANTE</p>
+                <ul className="list-disc pl-4 space-y-1">
+                  <li>Esta herramienta no diagnostica enfermedades de la piel.</li>
+                  <li>No sustituye una consulta con un dermatólogo o profesional de la salud.</li>
+                  <li>No debe usarse para tomar decisiones médicas.</li>
+                  <li>La IA puede cometer errores: puede no detectar condiciones visibles o puede sugerir observaciones inexactas.</li>
+                  <li>Si tienes alguna preocupación sobre tu piel, consulta a un profesional de la salud.</li>
+                </ul>
+              </CardContent>
+            </Card>
           </section>
 
           <section>

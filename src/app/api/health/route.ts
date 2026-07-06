@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server"
 import { db } from "@/lib/db"
 import { analysisQueue } from "@/lib/queue"
-import { getGeminiKeyCount } from "@/lib/gemini-keys"
+import { getNextGeminiKey } from "@/lib/gemini-keys"
 
 export const dynamic = "force-dynamic"
 
@@ -26,16 +26,25 @@ export async function GET() {
     checks.users = { status: "error" }
   }
 
-  // Gemini keys check
+  // Gemini key check
   try {
-    const keyCount = getGeminiKeyCount()
-    checks.gemini = {
-      status: keyCount > 0 ? "ok" : "degraded",
-      detail: `${keyCount} clave(s) configurada(s)`,
-    }
-    if (keyCount === 0) overallStatus = "degraded"
+    getNextGeminiKey()
+    checks.gemini = { status: "ok", detail: "1 clave configurada" }
   } catch {
-    checks.gemini = { status: "error", detail: "No se pudo verificar" }
+    checks.gemini = { status: "degraded", detail: "No configurada" }
+    overallStatus = "degraded"
+  }
+
+  // Groq key check
+  try {
+    const groqKey = process.env.GROQ_API_KEY
+    checks.groq = {
+      status: groqKey ? "ok" : "degraded",
+      detail: groqKey ? "1 clave configurada" : "No configurada",
+    }
+    if (!groqKey) overallStatus = "degraded"
+  } catch {
+    checks.groq = { status: "error", detail: "No se pudo verificar" }
     overallStatus = "degraded"
   }
 

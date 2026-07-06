@@ -5,7 +5,7 @@ import { AnalysisStream } from "@/lib/streaming"
 import { unauthorized, serverError, error } from "@/lib/api-response"
 import { checkRateLimit } from "@/lib/rate-limit"
 import { checkAndDeductUsage } from "@/lib/usage"
-import { analyzeSkinWithGemini } from "@/lib/gemini"
+import { analyzeSkinWithGroq } from "@/lib/groq"
 import { getCachedAnalysis, setCachedAnalysis } from "@/lib/analysis-cache"
 
 export async function POST(req: Request) {
@@ -73,7 +73,7 @@ export async function POST(req: Request) {
 
     stream.sendProgress("analyzing-texture", "Analizando textura de la piel...")
 
-    const result = await analyzeSkinWithGemini(files)
+    const result = await analyzeSkinWithGroq(files)
     await setCachedAnalysis([cacheKeyBase64], concerns || undefined, age || undefined, result).catch(() => {})
 
     stream.sendProgress("saving", "Guardando resultados...")

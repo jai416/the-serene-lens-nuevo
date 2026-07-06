@@ -10,10 +10,12 @@ import {
   handleReporte, handleUsuarios, handleAdminHelp,
   handleBroadcast, handleLogs, handleAlerta,
   handleTrending, handleAnalisis, handlePromocion,
-  handleWhois,
+  handleWhois, handleConsultar,
   handleCallback,
 } from "@/lib/telegram-handlers"
-import { sendTelegramMessage } from "@/lib/telegram"
+import { sendTelegramMessage, sendTelegramMenu } from "@/lib/telegram"
+import { getUserRole } from "@/lib/telegram"
+import { generateBotResponse } from "@/lib/bot-rag"
 
 const commandLimits = new Map<string, { count: number; resetAt: number }>()
 const COMMAND_WINDOW = 60 * 1000
@@ -196,6 +198,9 @@ export async function POST(req: NextRequest) {
     case "/whois":
       await handleWhois(chatId, userId, rest)
       break
+    case "/consultar":
+      await handleConsultar(chatId, userId, rest)
+      break
 
     default: {
       const text = (msg.text || "").toLowerCase()
@@ -212,8 +217,21 @@ export async function POST(req: NextRequest) {
       } else if (/contacto|email|whatsapp|escribir/.test(text)) {
         await handleContacto(chatId, userId)
       } else {
-        await sendTelegramMessage(chatId, "😅 No entendí bien. Puedes usar los botones o escribir /ayuda para ver qué puedo hacer.")
-        await handleStart(chatId, userId, username)
+        const role = await getUserRole(chatId)
+        if (role) {
+          const response = await generateBotResponse(msg.text || "", chatId, username)
+          const buttons = response.knowledgeId
+            ? [[{ text: "👍 Útil", callback_data: `rag_feedback_${response.knowledgeId}_1` }]]
+            : undefined
+          if (buttons) {
+            await sendTelegramMenu(chatId, response.text, buttons)
+          } else {
+            await sendTelegramMessage(chatId, response.text)
+          }
+        } else {
+          await sendTelegramMessage(chatId, "😅 No entendí bien. Puedes usar los botones o escribir /ayuda para ver qué puedo hacer.")
+          await handleStart(chatId, userId, username)
+        }
       }
       break
     }

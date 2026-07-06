@@ -17,8 +17,8 @@ vi.mock("@/lib/usage", () => ({
   checkAndDeductUsage: mockCheckAndDeductUsage,
 }))
 
-vi.mock("@/lib/openrouter", () => ({
-  analyzeSkin: mockAnalyzeSkin,
+vi.mock("@/lib/groq", () => ({
+  analyzeSkinWithGroq: mockAnalyzeSkin,
 }))
 
 vi.mock("@/lib/repositories", () => ({
@@ -94,7 +94,7 @@ describe("AnalysisService.processAnalysis", () => {
     })
   })
 
-  it("passes language to analyzeSkin", async () => {
+  it("passes files to analyzeSkinWithGroq", async () => {
     mockCheckAndDeductUsage.mockResolvedValue({ allowed: true, error: null })
     mockAnalyzeSkin.mockResolvedValue({
       skinType: "normal",
@@ -103,14 +103,13 @@ describe("AnalysisService.processAnalysis", () => {
     })
     mockAnalysisRepository.create.mockResolvedValue({ id: "a1" })
 
+    const files = [createMockFile()]
     await AnalysisService.processAnalysis(
       "user-1",
-      [createMockFile()],
-      { concerns: "acné", language: "en" }
+      files,
+      { concerns: "acné" }
     )
 
-    expect(mockAnalyzeSkin).toHaveBeenCalledWith(
-      expect.objectContaining({ language: "en" })
-    )
+    expect(mockAnalyzeSkin).toHaveBeenCalledWith(files)
   })
 })

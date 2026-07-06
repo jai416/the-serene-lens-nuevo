@@ -1,13 +1,20 @@
 import type { Metadata } from "next"
+import { Inter } from "next/font/google"
 import "./globals.css"
 import { Toaster } from "sonner"
+
+const inter = Inter({
+  subsets: ["latin"],
+  display: "swap",
+  variable: "--font-inter",
+})
 import { AuthProvider } from "@/components/auth-provider"
 import { QueryProvider } from "@/components/query-provider"
 import { ThemeProvider } from "@/components/theme-provider"
 import { Sidebar } from "@/components/layout/sidebar"
+import { TopHeader } from "@/components/layout/top-header"
 import { MobileNav } from "@/components/layout/mobile-nav"
 import { ClientInit } from "@/components/client-init"
-import { NotificationBell } from "@/components/notifications/notification-bell"
 import { LiveChatWrapper } from "@/components/chat/live-chat-wrapper"
 import { FeatureFlagProvider } from "@/components/feature-flag-provider"
 
@@ -39,12 +46,12 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="es" suppressHydrationWarning>
+    <html lang="es" suppressHydrationWarning className={inter.variable}>
       <head>
         <meta name="google-site-verification" content="FyNhwOqJ_JWdfoU_RZPYAqSNuHeuCXUgjmwDqT1cGXw" />
         <link rel="manifest" href="/manifest.json" />
-        <link rel="preconnect" href="https://api.openrouter.ai" crossOrigin="anonymous" />
-        <link rel="dns-prefetch" href="https://api.openrouter.ai" />
+        <link rel="preconnect" href="https://api.groq.com" crossOrigin="anonymous" />
+        <link rel="dns-prefetch" href="https://api.groq.com" />
         <link rel="preconnect" href="https://api.qvapay.com" crossOrigin="anonymous" />
         <link rel="dns-prefetch" href="https://api.qvapay.com" />
         <link rel="preconnect" href="https://api.resend.com" crossOrigin="anonymous" />
@@ -75,21 +82,19 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
               <FeatureFlagProvider>
                 <Sidebar />
                 <main id="main-content" className="md:ml-[280px] min-h-screen pb-20 md:pb-0 bg-[var(--background)]">
+                  <TopHeader />
                   {children}
                 </main>
                 <MobileNav />
-                <div className="fixed top-4 right-4 z-50">
-                  <NotificationBell />
-                </div>
                 <LiveChatWrapper />
                 <Toaster
                   position="top-center"
                   toastOptions={{
                     className:
-                      "!bg-white dark:!bg-[#222920] !border-[#DDE7D3] dark:!border-[#3A4536] !rounded-2xl !shadow-[0_4px_12px_rgba(47,58,45,0.08)] dark:!shadow-[0_4px_12px_rgba(0,0,0,0.3)] !text-[#2F3A2D] dark:!text-[#E8EDE6]",
+                      "!bg-white dark:!bg-[#222222] !border-[#E8E8E8] dark:!border-[#333333] !rounded-2xl !shadow-[0_4px_12px_rgba(0,0,0,0.08)] dark:!shadow-[0_4px_12px_rgba(0,0,0,0.3)] !text-[#1A1A1A] dark:!text-[#F0F0F0]",
                     duration: 4000,
                     style: {
-                      borderLeft: "4px solid #C2E09D",
+                      borderLeft: "4px solid #88B078",
                     },
                   }}
                 />

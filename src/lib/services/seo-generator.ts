@@ -1,11 +1,6 @@
 import { db } from "@/lib/db"
 import { SEO_KEYWORDS } from "@/lib/seo-keywords"
-
-function getEnv() {
-  return {
-    OPENROUTER_API_KEY: process.env.OPENROUTER_API_KEY || "",
-  }
-}
+import { groqChatJSON } from "@/lib/groq-chat"
 
 const KEYWORD_CONTEXT: Record<string, string> = {
   "cómo saber mi tipo de piel": "Enfócate en métodos prácticos: test del papel, observación matutina, análisis con IA. Explica las diferencias entre tipos.",
@@ -61,7 +56,7 @@ const KEYWORD_CONTEXT: Record<string, string> = {
 }
 
 /**
- * Generates a blog article via OpenRouter AI for a given keyword.
+ * Generates a blog article via Groq AI for a given keyword.
  * Returns the article data ready to be saved as a BlogPost.
  */
 export async function generateArticle(keyword: string): Promise<{
@@ -73,7 +68,6 @@ export async function generateArticle(keyword: string): Promise<{
   readTime: number
   metaDescription: string
 }> {
-  const env = getEnv()
   const context = KEYWORD_CONTEXT[keyword] || ""
 
   const prompt = `Eres un experto en skincare y dermatología cosmética. Escribe un artículo de blog optimizado SEO sobre: "${keyword}".
@@ -111,36 +105,25 @@ Responde en JSON válido (sin markdown):
   "metaDescription": "meta descripción 155 chars"
 }`
 
-  const res = await fetch("https://openrouter.ai/api/v1/chat/completions", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${env.OPENROUTER_API_KEY}`,
-    },
-    body: JSON.stringify({
-      model: "google/gemini-2.5-flash",
-      messages: [{ role: "user", content: prompt }],
-      response_format: { type: "json_object" },
-    }),
-    signal: AbortSignal.timeout(60000),
-  })
+  const parsed = await groqChatJSON<{
+    title: string
+    slug: string
+    excerpt: string
+    content: string
+    category: string
+    readTime: number
+    metaDescription: string
+  }>(
+    [{ role: "user", content: prompt }],
+    {
+      temperature: 0.7,
+      maxTokens: 4096,
+      system: "Eres un experto en skincare y dermatología cosmética. Escribe artículos de blog optimizados SEO en español. Usa lenguaje claro y accesible. No inventes diagnósticos médicos. Responde SOLO con JSON estructurado.",
+    }
+  )
 
-  if (!res.ok) {
-    const text = await res.text()
-    throw new Error(`OpenRouter error ${res.status}: ${text}`)
-  }
-
-  const data = await res.json()
-  const content = data.choices?.[0]?.message?.content
-  if (!content) throw new Error("No response from AI")
-
-  try {
-    const parsed = JSON.parse(content)
-    parsed.readTime = typeof parsed.readTime === "string" ? parseInt(parsed.readTime, 10) || 5 : parsed.readTime || 5
-    return parsed
-  } catch {
-    throw new Error("Invalid JSON from AI response")
-  }
+  parsed.readTime = typeof parsed.readTime === "string" ? parseInt(parsed.readTime, 10) || 5 : parsed.readTime || 5
+  return parsed
 }
 
 /**
