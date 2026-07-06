@@ -24,6 +24,10 @@ export const metadata: Metadata = {
     template: "%s | The Serene Lens",
     default: "The Serene Lens | Observación Cosmética de tu Piel",
   },
+  icons: {
+    icon: [{ url: "/favicon.svg", type: "image/svg+xml" }, { url: "/favicon.ico", sizes: "32x32" }],
+    apple: "/icons/icon-152.png",
+  },
   description:
     "Descubre las características visibles de tu piel con observaciones cosméticas personalizadas y recomendaciones educativas.",
   openGraph: {

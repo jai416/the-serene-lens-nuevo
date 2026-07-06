@@ -70,7 +70,7 @@ export async function generateArticle(keyword: string): Promise<{
 }> {
   const context = KEYWORD_CONTEXT[keyword] || ""
 
-  const prompt = `Eres un experto en skincare y dermatología cosmética. Escribe un artículo de blog optimizado SEO sobre: "${keyword}".
+  const prompt = `Eres un experto en skincare y análisis cosmético. Escribe un artículo de blog optimizado SEO sobre: "${keyword}".
 
 ${context ? `Contexto específico: ${context}` : ""}
 
@@ -118,7 +118,7 @@ Responde en JSON válido (sin markdown):
     {
       temperature: 0.7,
       maxTokens: 4096,
-      system: "Eres un experto en skincare y dermatología cosmética. Escribe artículos de blog optimizados SEO en español. Usa lenguaje claro y accesible. No inventes diagnósticos médicos. Responde SOLO con JSON estructurado.",
+      system: "Eres un experto en skincare y análisis cosmético. Escribe artículos de blog optimizados SEO en español. Usa lenguaje claro y accesible. No inventes diagnósticos médicos. Responde SOLO con JSON estructurado.",
     }
   )
 

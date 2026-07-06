@@ -48,7 +48,7 @@ export function NotificationBell() {
     try {
       const res = await fetch("/api/notifications?page=1&limit=5")
       const d = await res.json()
-      if (d.success) setData(d.data)
+      if (d.success && Array.isArray(d.data?.notifications)) setData(d.data)
     } catch {
     } finally {
       setLoading(false)
@@ -108,7 +108,7 @@ export function NotificationBell() {
     <div ref={ref} className="relative">
       <button
         onClick={() => setOpen(!open)}
-        className="relative flex items-center justify-center w-10 h-10 rounded-2xl bg-white dark:bg-[#222222] border border-[#E8E8E8] dark:border-[#333333] text-[#666666] dark:text-[#999999] hover:bg-[#F8F9FA] dark:hover:bg-[#2A2A2A] hover:text-[#1A1A1A] dark:hover:text-[#F0F0F0] hover:border-[#88B078] dark:hover:border-[#88B078] shadow-sm hover:shadow-md transition-all duration-200"
+        className="relative flex items-center justify-center w-10 h-10 rounded-2xl bg-[#E2ECE0] dark:bg-[#2A3A2A] border border-[#88B078]/30 dark:border-[#88B078]/30 text-[#88B078] dark:text-[#88B078] hover:bg-[#88B078] dark:hover:bg-[#88B078] hover:text-white dark:hover:text-white shadow-sm hover:shadow-md transition-all duration-200"
         aria-label="Notificaciones"
       >
         {unread > 0 ? (
@@ -149,7 +149,7 @@ export function NotificationBell() {
               <div className="p-6 text-center text-sm text-[#999999] dark:text-[#888888]">
                 Cargando...
               </div>
-            ) : !data?.notifications.length ? (
+            ) : !Array.isArray(data?.notifications) || data.notifications.length === 0 ? (
               <div className="p-6 text-center text-sm text-[#999999] dark:text-[#888888]">
                 No tienes notificaciones
               </div>

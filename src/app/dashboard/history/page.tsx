@@ -37,8 +37,11 @@ export default function HistoryPage() {
     if (session) {
       fetch("/api/analysis", { signal: controller.signal })
         .then((res) => res.ok ? res.json() : { analyses: [] })
-        .then((data) => setAnalyses(data?.data?.analyses || data.analyses || []))
-        .catch(() => toast.error("Error al cargar historial"))
+        .then((data) => {
+          const raw = data?.data?.analyses || data?.analyses
+          setAnalyses(Array.isArray(raw) ? raw : [])
+        })
+        .catch(() => {})
     }
     return () => controller.abort()
   }, [session])
@@ -48,8 +51,12 @@ export default function HistoryPage() {
     if (session) {
       fetch("/api/user/evolution", { signal: controller.signal })
         .then((res) => res.ok ? res.json() : null)
-        .then((d) => setEvolution(d?.data || d))
-        .catch(() => toast.error("Error al cargar datos"))
+        .then((d) => {
+          const ev = d?.data || d
+          if (ev && typeof ev === "object") setEvolution(ev as EvolutionResult)
+          else setEvolution(null)
+        })
+        .catch(() => {})
         .finally(() => setEvolutionLoading(false))
     }
     return () => controller.abort()

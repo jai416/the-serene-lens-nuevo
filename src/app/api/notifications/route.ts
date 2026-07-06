@@ -14,7 +14,7 @@ export async function GET(req: NextRequest) {
     const limit = 20
     const skip = (page - 1) * limit
 
-    const [notifications, total, unreadCount] = await db.$transaction([
+    const [notifications, total, unreadCount] = await Promise.all([
       db.notification.findMany({
         where: { userId: session.user.id },
         orderBy: { createdAt: "desc" },

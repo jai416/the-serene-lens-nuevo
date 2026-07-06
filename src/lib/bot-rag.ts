@@ -38,7 +38,7 @@ export async function generateBotResponse(userMessage: string, chatId: string, u
       text: "Lo siento, no encontré información sobre eso. ¿Quieres preguntar a un administrador? Escribe /ayuda para más opciones.",
     }
   } catch (e) {
-    logger.error("Bot RAG error", { error: e, chatId })
+    logger.error("Bot RAG error", { error: e instanceof Error ? e.message : String(e), chatId })
 
     // Ultimate fallback: return first knowledge result
     try {

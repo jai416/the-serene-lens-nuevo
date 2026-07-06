@@ -4,8 +4,8 @@
   "description": "Observación cosmética de tu piel con IA",
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#F8FAF5",
-  "theme_color": "#C2E09D",
+  "background_color": "#F8F9FA",
+  "theme_color": "#88B078",
   "icons": [
     { "src": "/icons/icon-48.png", "sizes": "48x48", "type": "image/png" },
     { "src": "/icons/icon-72.png", "sizes": "72x72", "type": "image/png" },

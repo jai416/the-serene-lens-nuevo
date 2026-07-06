@@ -18,7 +18,7 @@ services:
         value: https://the-serene-lens-nuevo.onrender.com
       - key: NEXT_PUBLIC_APP_URL
         value: https://the-serene-lens-nuevo.onrender.com
-      - key: OPENROUTER_API_KEY
+      - key: GROQ_API_KEY
         sync: false
       - key: QVAPAY_UUID
         sync: false
@@ -26,20 +26,6 @@ services:
         sync: false
       - key: QVAPAY_API_URL
         value: https://api.qvapay.com
-      - key: GEMINI_API_KEY_1
-        sync: false
-      - key: GEMINI_API_KEY_2
-        sync: false
-      - key: GEMINI_API_KEY_3
-        sync: false
-      - key: GEMINI_API_KEY_4
-        sync: false
-      - key: GEMINI_API_KEY_5
-        sync: false
-      - key: GEMINI_API_KEY_6
-        sync: false
-      - key: GEMINI_API_KEY_7
-        sync: false
       - key: RESEND_API_KEY
         sync: false
       - key: CRON_SECRET

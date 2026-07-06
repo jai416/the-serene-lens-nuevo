@@ -37,15 +37,15 @@ export function MobileNav() {
               className={cn(
                 "flex flex-col items-center gap-0.5 px-2 sm:px-4 py-1.5 rounded-xl transition-all duration-200 relative shrink-0",
                 active
-                  ? "text-[#1A1A1A] dark:text-[#F0F0F0]"
-                  : "text-[#999999] dark:text-[#888888] hover:text-[#666666] dark:hover:text-[#999999]"
+                  ? "text-[#88B078] dark:text-[#88B078]"
+                  : "text-[#999999] dark:text-[#888888] hover:text-[#88B078] dark:hover:text-[#88B078]"
               )}
             >
               {active && (
                 <span className="absolute -top-1 left-1/2 -translate-x-1/2 w-1 h-1 rounded-full bg-[#88B078]" />
               )}
               <item.icon className="w-5 h-5" />
-              <span className={cn("text-[10px] font-medium whitespace-nowrap", active ? "text-[#1A1A1A] dark:text-[#F0F0F0]" : "")}>{item.label}</span>
+              <span className={cn("text-[10px] font-medium whitespace-nowrap", active ? "text-[#88B078] dark:text-[#88B078]" : "")}>{item.label}</span>
             </Link>
           )
         })}

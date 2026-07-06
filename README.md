@@ -9,7 +9,7 @@ Observación cosmética de tu piel. Sube fotos guiadas, responde preguntas y rec
 - **Styling:** Tailwind CSS v4 + `tw-animate-css` — light mode only, palette verde sage
 - **Database:** PostgreSQL via Supabase + Prisma 7 (20 modelos, driver adapter pg)
 - **Auth:** NextAuth v4 with credentials + Google + GitHub + middleware protection
-- **AI:** OpenRouter API (Gemini 2.0 Flash for skin analysis, bilingual prompt)
+- **AI:** Groq (Llama 3.2 11B Vision para análisis visual, Llama 3.1 8B Instant para texto/RAG, bilingual prompt)
 - **Payments:** QvaPay (v2 API) — USD & CUP
 - **UI:** Radix UI (accordion, dialog, dropdown, select, tabs, switch) + Lucide icons + sonner toasts
 - **Validation:** Zod v4 (strict schemas for all API routes)
@@ -46,27 +46,28 @@ npm run dev
 
 The Serene Lens uses a **clean, professional skincare** design system:
 
-- **Primary:** `#C2E09D` (sage green) — no neon, no glow
-- **Light mode only** — fondo `#F8FAF5`, surface blanco, texto `#2F3A2D`
-- **Cards:** White background, `1px solid #DDE7D3`, `20px` radius, subtle shadow
+- **Primary:** `#88B078` (sage green muted) — no neon, no glow
+- **Light mode only** — fondo `#F8F9FA`, surface blanco, texto `#1A1A1A`
+- **Cards:** White background, no borders, `20px` radius, subtle shadow
 - **Sidebar layout:** Fixed 280px left panel (desktop), hamburger drawer (mobile)
 - **Mobile nav:** Bottom bar with 5 items (Inicio, Análisis, Historial, Rutinas, Cuenta)
 - **All CSS animations** — no Framer Motion or JS animation libraries
 - **No glassmorphism, no neon, no cyberpunk, no futuristic effects**
-- **Toasts:** sonner with sage green left border accent
+- **Toasts:** sonner with brand green left border accent
 
 ### Palette
 
 | Token | Hex | Usage |
 |-------|-----|-------|
-| Primary | `#C2E09D` | Buttons, accents, icon backgrounds |
-| Secondary | `#ECFFD3` | Light mint, badge backgrounds |
-| Tertiary | `#FFF6AD` | Soft yellow, highlight accents |
-| Background | `#F8FAF5` | Page background, section backgrounds |
+| Primary | `#88B078` | Buttons, icons, active states |
+| Primary muted | `#E2ECE0` | Hover backgrounds, badges |
+| Background | `#F8F9FA` | Page background |
 | Surface | `#FFFFFF` | Cards, sidebar, inputs |
-| Text | `#2F3A2D` | Primary text, headings |
-| Text secondary | `#64705E` | Secondary text, descriptions |
-| Borders | `#DDE7D3` | Card borders, inputs, dividers |
+| Text | `#1A1A1A` | Primary text, headings |
+| Text muted | `#666666` | Secondary text |
+| Borders | `#E8E8E8` | Dividers |
+| Gold accent | `#FFF9E6` | Highlight backgrounds |
+| Gold border | `#FCEAA6` | Highlight accents |
 
 ## Features
 
@@ -85,7 +86,7 @@ The Serene Lens uses a **clean, professional skincare** design system:
 - **Dashboard** — user profile, analysis history (with skeletons), subscription management with usage bars
 - **Admin Panel** — manage users, payments (with provider split), products, blog posts, messages. Revenue analytics.
 - **Streaming de Análisis** — SSE con 7 etapas de progreso (validating → compressing → analyzing → building → saving → complete). Edge runtime.
-- **Generador SEO Automático** — 20 keywords predefinidas, genera artículos via OpenRouter, cron diario via cron-job.org.
+- **Generador SEO Automático** — 20 keywords predefinidas, genera artículos via IA, cron diario via cron-job.org.
 - **Sistema de Email Secuencial** — 6 emails (Día 0-21) con templates HTML. Onboarding, conversión, re-engagement.
 - **Email Sequence** — 6 emails automáticos (Día 0-21) vía Resend. Welcome, tips, urgency, upsell. Segmentación por comportamiento.
 - **Landing Pages SEO** — 6 páginas optimizadas: /analizar-piel-gratis, /test-tipo-de-piel, /como-saber-mi-tipo-de-piel, /analisis-de-piel-con-ia, /rutina-skincare-personalizada, /ingredients-analyzer.
@@ -103,8 +104,7 @@ See `.env.example` for all required variables. Key ones:
 - `DATABASE_URL` — Supabase PostgreSQL
 - `NEXTAUTH_SECRET` — NextAuth encryption key
 - `NEXTAUTH_URL` — base URL (http://localhost:3000 in dev)
-- `OPENROUTER_API_KEY` — AI analysis
-- `STRIPE_SECRET_KEY`, `STRIPE_WEBHOOK_SECRET`, pricing IDs
+- `GROQ_API_KEY` — AI analysis (vision + text)
 - `QVAPAY_UUID`, `QVAPAY_SECRET`, `QVAPAY_URL`, `QVAPAY_API_URL`, `QVAPAY_TAX_RATE`
 - `GOOGLE_CLIENT_ID`, `GOOGLE_CLIENT_SECRET` — Google OAuth
 - `GITHUB_CLIENT_ID`, `GITHUB_CLIENT_SECRET` — GitHub OAuth
@@ -141,7 +141,8 @@ src/
 │   ├── env.ts            # Zod strict validation, fails fast
 │   ├── logger.ts         # Structured logger (info/warn/error/debug) with correlation-id
 │   ├── sanitize.ts       # HTML sanitizer for API inputs
-│   ├── openrouter.ts     # AI prompt with bilingual support, no medical language, retry wrapper
+│   ├── groq.ts           # Groq vision (Llama 3.2 11B) for skin analysis
+│   ├── groq-chat.ts      # Groq text (Llama 3.1 8B) for chat/RAG, retry wrapper
 │   ├── image-compression.ts  # Always compressed ≤ original, skips small files
 │   ├── pricing.ts        # Single source of truth for plan/pack prices
 │   ├── usage.ts          # Backend usage enforcement (checkAndDeductUsage)
@@ -287,7 +288,7 @@ npm run e2e
 - **DB seed**: 2 users (admin + demo), 10 blog posts (5 categories), 10 products (8 categories). Run with `npm run seed`.
 - **Prisma 7 seed**: `prisma/seed.ts` uses driver adapter (`@prisma/adapter-pg` + `pg`). Imports from `../src/generated/prisma/client`.
 - **Cache híbrida**: `db-cache.ts` combina memory Map (hot) + tabla `Cache` (persistencia). Affiliate usa `getDBCache`/`setDBCache`.
-- **Retry wrapper**: `withRetry()` en OpenRouter — backoff exponencial, 3 retries.
+- **Retry wrapper**: `withRetry()` en Groq — backoff exponencial, 3 retries.
 - **revalidateTag Next.js 16**: Requiere 2do arg `{}`. Admin routes lo usan para blog/products.
 - **unstable_cache**: `/api/products` cacheado 3600s con tag "products-catalog".
 - **Evolution cache**: `UserEvolution` modelo precálcula + cachea resultados de evolución.
@@ -296,7 +297,7 @@ npm run e2e
 - **Edge Runtime**: `/api/health` y `/api/og` en edge — sin cold starts.
 - **Compound queries**: Analytics usa `db.$transaction()` — 6 queries en un roundtrip.
 - **N+1 prevention**: `/api/analysis` incluye feedback con `select` mínimo.
-- **DNS prefetch**: Layout pre-conecta a OpenRouter, QvaPay, PostHog.
+- **DNS prefetch**: Layout pre-conecta a Groq, QvaPay, PostHog.
 - **Cron retención**: Notifica 3 días antes de expiración + degrada suscripciones vencidas. Usa `sendEmail` con templates HTML. Cron diario 10am.
 - **CRON_SECRET**: Generado con `crypto.randomBytes(32)`. Necesario como env var en Render para autorizar los 3 cron endpoints.
 - **Cron-job.org**: 3 jobs externos (SEO 8am, emails 9am, retención 10am). Headers `x-cron-secret`. API key en `CRONJOB_API_KEY`. Jobs: SEO (7882243), emails (7882246), retention (7882249).

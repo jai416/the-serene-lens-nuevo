@@ -147,19 +147,19 @@ export function Sidebar() {
       <div className="p-3 border-t border-[#E8E8E8] dark:border-[#333333]">
         {session ? (
           <div className="space-y-1">
-            <Link
-              href="/dashboard/profile"
-              onClick={() => setMobileOpen(false)}
-              className="flex items-center gap-3 px-4 py-2.5 text-sm rounded-xl text-[#666666] dark:text-[#999999] hover:bg-[#F8F9FA] dark:hover:bg-[#2A2A2A] hover:text-[#1A1A1A] dark:hover:text-[#F0F0F0] transition-all duration-200"
-            >
-              <User className="w-4.5 h-4.5 shrink-0 text-[#999999] dark:text-[#777777]" />
-              <span className="truncate">{session.user.name || session.user.email}</span>
-            </Link>
+              <Link
+                href="/dashboard/profile"
+                onClick={() => setMobileOpen(false)}
+                className="flex items-center gap-3 px-4 py-2.5 text-sm rounded-xl text-[#666666] dark:text-[#999999] hover:bg-[#E2ECE0] dark:hover:bg-[#2A3A2A] hover:text-[#1A1A1A] dark:hover:text-[#F0F0F0] transition-all duration-200"
+              >
+                <User className="w-4.5 h-4.5 shrink-0 text-[#88B078]" />
+                <span className="truncate">{session.user.name || session.user.email}</span>
+              </Link>
             <button
               onClick={() => signOut()}
-              className="flex items-center gap-3 px-4 py-2.5 text-sm rounded-xl text-[#666666] dark:text-[#999999] hover:bg-[#F8F9FA] dark:hover:bg-[#2A2A2A] hover:text-[#1A1A1A] dark:hover:text-[#F0F0F0] transition-all duration-200 w-full text-left"
+              className="flex items-center gap-3 px-4 py-2.5 text-sm rounded-xl text-[#666666] dark:text-[#999999] hover:bg-[#E2ECE0] dark:hover:bg-[#2A3A2A] hover:text-[#1A1A1A] dark:hover:text-[#F0F0F0] transition-all duration-200 w-full text-left"
             >
-              <LogOut className="w-4.5 h-4.5 shrink-0 text-[#999999] dark:text-[#777777]" />
+              <LogOut className="w-4.5 h-4.5 shrink-0 text-[#88B078]" />
               Cerrar sesión
             </button>
           </div>

@@ -204,10 +204,10 @@ export default function IngredientsAnalyzerPage() {
             <Card className="p-5">
               <CardContent className="p-0">
                 <h3 className="font-medium text-[#1A1A1A] dark:text-[#E8EDE6] mb-4">
-                  Ingredientes ({result.ingredients.length})
+                  Ingredientes {(result.ingredients?.length || 0)}
                 </h3>
                 <div className="space-y-3">
-                  {result.ingredients.map((ing, i) => (
+                  {(result.ingredients || []).map((ing, i) => (
                     <div key={i} className="flex items-start gap-3 p-3 rounded-xl bg-[#F8F9FA] dark:bg-[#1E251C] border border-[#E8E8E8]/50 dark:border-[#3A4536]/50">
                       <CheckCircle2 className="w-4 h-4 mt-0.5 shrink-0 text-[#88B078]" />
                       <div className="flex-1 min-w-0">

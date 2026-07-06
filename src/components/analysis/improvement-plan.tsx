@@ -50,7 +50,7 @@ export function ImprovementPlan({ analysisId }: { analysisId: string }) {
           <p className="font-semibold text-[#1A1A1A] dark:text-white">🎯 {plan.objetivo_principal}</p>
           <p className="text-gray-600 dark:text-gray-300 mt-1">{plan.resumen}</p>
         </div>
-        {plan.semanas.map((week) => (
+        {(plan.semanas || []).map((week) => (
           <div key={week.numero} className="border border-[#E8E8E8] dark:border-gray-700 rounded-xl p-4">
             <div className="flex items-center gap-2 mb-3">
               <span className="bg-[#88B078] text-[#1A1A1A] w-8 h-8 rounded-full flex items-center justify-center font-bold text-sm">S{week.numero}</span>
@@ -63,7 +63,7 @@ export function ImprovementPlan({ analysisId }: { analysisId: string }) {
               <div>
                 <p className="text-sm font-medium text-[#666666] dark:text-gray-400 mb-1">🎯 Metas</p>
                 <ul className="list-disc list-inside text-sm text-gray-600 dark:text-gray-300 space-y-0.5">
-                  {week.metas.map((m, i) => <li key={i}>{m}</li>)}
+                  {(week.metas || []).map((m, i) => <li key={i}>{m}</li>)}
                 </ul>
               </div>
               {week.tips?.length > 0 && (

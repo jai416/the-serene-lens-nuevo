@@ -12,6 +12,7 @@ import {
   handleTrending, handleAnalisis, handlePromocion,
   handleWhois, handleConsultar,
   handleCallback,
+  searchWeb,
 } from "@/lib/telegram-handlers"
 import { sendTelegramMessage, sendTelegramMenu } from "@/lib/telegram"
 import { getUserRole } from "@/lib/telegram"
@@ -220,13 +221,20 @@ export async function POST(req: NextRequest) {
         const role = await getUserRole(chatId)
         if (role) {
           const response = await generateBotResponse(msg.text || "", chatId, username)
+          let text = response.text
+          if (role === "ADMIN" || role === "VALIDATOR") {
+            const webResults = await searchWeb(msg.text || "")
+            if (webResults) {
+              text += "\n\n🌐 <b>Resultados de búsqueda web:</b>\n\n" + webResults
+            }
+          }
           const buttons = response.knowledgeId
             ? [[{ text: "👍 Útil", callback_data: `rag_feedback_${response.knowledgeId}_1` }]]
             : undefined
           if (buttons) {
-            await sendTelegramMenu(chatId, response.text, buttons)
+            await sendTelegramMenu(chatId, text, buttons)
           } else {
-            await sendTelegramMessage(chatId, response.text)
+            await sendTelegramMessage(chatId, text)
           }
         } else {
           await sendTelegramMessage(chatId, "😅 No entendí bien. Puedes usar los botones o escribir /ayuda para ver qué puedo hacer.")

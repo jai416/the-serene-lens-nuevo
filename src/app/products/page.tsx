@@ -45,7 +45,8 @@ export default function ProductsPage() {
         const res = await fetch("/api/products?limit=50", { signal: controller.signal })
         if (res.ok) {
           const data = await res.json()
-          const rawProducts = (data?.data?.products || data.products || []) as Product[]
+          const raw = data?.data?.products || data.products
+          const rawProducts = Array.isArray(raw) ? raw : []
           const productsWithImages = rawProducts.map((p) => ({
             ...p,
             image: p.image || categoryImages[p.category] || "https://images.pexels.com/photos/7691166/pexels-photo-7691166.jpeg"

@@ -4,7 +4,7 @@ import { useState } from "react"
 import { MessageCircle, Send, Phone } from "lucide-react"
 
 const TELEGRAM_LINK = "https://t.me/theserenelens"
-const WHATSAPP_NUMBER = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || "+5355555555"
+const WHATSAPP_NUMBER = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || "+5351819744"
 const WHATSAPP_LINK = `https://wa.me/${WHATSAPP_NUMBER.replace(/\+/g, "")}`
 
 export default function LiveChatWidget() {

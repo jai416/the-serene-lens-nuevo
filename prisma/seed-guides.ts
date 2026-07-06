@@ -17,7 +17,7 @@ const guides = [
     category: "cuidado-basico",
     level: "principiante",
     price: 0,
-    image: "/guides/placeholder.svg",
+    image: "/guides/guia-basica-cuidado-facial.svg",
     fileUrl: "/guides/guide.pdf",
   },
   {
@@ -28,7 +28,7 @@ const guides = [
     category: "cuidado-basico",
     level: "principiante",
     price: 0,
-    image: "/guides/placeholder.svg",
+    image: "/guides/como-identificar-tipo-piel.svg",
     fileUrl: "/guides/guide.pdf",
   },
   {
@@ -39,7 +39,7 @@ const guides = [
     category: "rutinas",
     level: "principiante",
     price: 0,
-    image: "/guides/placeholder.svg",
+    image: "/guides/rutina-3-pasos-empezar.svg",
     fileUrl: "/guides/guide.pdf",
   },
   {
@@ -50,7 +50,7 @@ const guides = [
     category: "cuidado-basico",
     level: "principiante",
     price: 0,
-    image: "/guides/placeholder.svg",
+    image: "/guides/limpieza-facial-base-cuidado.svg",
     fileUrl: "/guides/guide.pdf",
   },
   {
@@ -61,7 +61,7 @@ const guides = [
     category: "cuidado-basico",
     level: "principiante",
     price: 0,
-    image: "/guides/placeholder.svg",
+    image: "/guides/importancia-hidratacion-diaria.svg",
     fileUrl: "/guides/guide.pdf",
   },
   {
@@ -72,7 +72,7 @@ const guides = [
     category: "proteccion-solar",
     level: "principiante",
     price: 0,
-    image: "/guides/placeholder.svg",
+    image: "/guides/proteccion-solar-mitos-realidades.svg",
     fileUrl: "/guides/guide.pdf",
   },
   {
@@ -83,7 +83,7 @@ const guides = [
     category: "ingredientes",
     level: "principiante",
     price: 0,
-    image: "/guides/placeholder.svg",
+    image: "/guides/como-leer-etiquetas-productos.svg",
     fileUrl: "/guides/guide.pdf",
   },
   {
@@ -94,7 +94,7 @@ const guides = [
     category: "cuidado-basico",
     level: "principiante",
     price: 0,
-    image: "/guides/placeholder.svg",
+    image: "/guides/botiquin-skincare-esencial.svg",
     fileUrl: "/guides/guide.pdf",
   },
   {
@@ -105,7 +105,7 @@ const guides = [
     category: "cuidado-basico",
     level: "principiante",
     price: 0,
-    image: "/guides/placeholder.svg",
+    image: "/guides/errores-comunes-principiantes.svg",
     fileUrl: "/guides/guide.pdf",
   },
   {
@@ -116,7 +116,7 @@ const guides = [
     category: "cuidado-basico",
     level: "principiante",
     price: 0,
-    image: "/guides/placeholder.svg",
+    image: "/guides/como-elegir-limpiador-facial.svg",
     fileUrl: "/guides/guide.pdf",
   },
 
@@ -129,7 +129,7 @@ const guides = [
     category: "ingredientes",
     level: "intermedio",
     price: 4.99,
-    image: "/guides/placeholder.svg",
+    image: "/guides/acidos-exfoliantes-guia-completa.svg",
     fileUrl: "/guides/guide.pdf",
   },
   {
@@ -140,7 +140,7 @@ const guides = [
     category: "ingredientes",
     level: "intermedio",
     price: 5.99,
-    image: "/guides/placeholder.svg",
+    image: "/guides/ingredientes-activos-explicados.svg",
     fileUrl: "/guides/guide.pdf",
   },
   {
@@ -151,7 +151,7 @@ const guides = [
     category: "rutinas",
     level: "intermedio",
     price: 6.99,
-    image: "/guides/placeholder.svg",
+    image: "/guides/rutina-antiedad-40.svg",
     fileUrl: "/guides/guide.pdf",
   },
   {
@@ -162,7 +162,7 @@ const guides = [
     category: "ingredientes",
     level: "intermedio",
     price: 4.99,
-    image: "/guides/placeholder.svg",
+    image: "/guides/vitamina-c-beneficios-aplicacion.svg",
     fileUrl: "/guides/guide.pdf",
   },
   {
@@ -173,7 +173,7 @@ const guides = [
     category: "ingredientes",
     level: "intermedio",
     price: 4.99,
-    image: "/guides/placeholder.svg",
+    image: "/guides/acido-hialuronico-hidratacion-profunda.svg",
     fileUrl: "/guides/guide.pdf",
   },
   {
@@ -184,7 +184,7 @@ const guides = [
     category: "ingredientes",
     level: "intermedio",
     price: 4.99,
-    image: "/guides/placeholder.svg",
+    image: "/guides/niacinamida-ingrediente-multiproposito.svg",
     fileUrl: "/guides/guide.pdf",
   },
   {
@@ -195,7 +195,7 @@ const guides = [
     category: "ingredientes",
     level: "intermedio",
     price: 7.99,
-    image: "/guides/placeholder.svg",
+    image: "/guides/retinoides-introduccion-segura.svg",
     fileUrl: "/guides/guide.pdf",
   },
   {
@@ -206,7 +206,7 @@ const guides = [
     category: "ingredientes",
     level: "intermedio",
     price: 5.99,
-    image: "/guides/placeholder.svg",
+    image: "/guides/peptidos-ceramidas-barrera-cutanea.svg",
     fileUrl: "/guides/guide.pdf",
   },
   {
@@ -217,7 +217,7 @@ const guides = [
     category: "ingredientes",
     level: "intermedio",
     price: 5.99,
-    image: "/guides/placeholder.svg",
+    image: "/guides/antioxidantes-skincare.svg",
     fileUrl: "/guides/guide.pdf",
   },
   {
@@ -228,7 +228,7 @@ const guides = [
     category: "problemas-de-piel",
     level: "intermedio",
     price: 7.99,
-    image: "/guides/placeholder.svg",
+    image: "/guides/como-tratar-manchas-oscuras.svg",
     fileUrl: "/guides/guide.pdf",
   },
   {
@@ -239,7 +239,7 @@ const guides = [
     category: "rutinas",
     level: "intermedio",
     price: 4.99,
-    image: "/guides/placeholder.svg",
+    image: "/guides/guia-serums-tipo-piel.svg",
     fileUrl: "/guides/guide.pdf",
   },
   {
@@ -250,7 +250,7 @@ const guides = [
     category: "ingredientes",
     level: "intermedio",
     price: 4.99,
-    image: "/guides/placeholder.svg",
+    image: "/guides/aceites-faciales-cual-elegir.svg",
     fileUrl: "/guides/guide.pdf",
   },
   {
@@ -261,7 +261,7 @@ const guides = [
     category: "rutinas",
     level: "intermedio",
     price: 5.99,
-    image: "/guides/placeholder.svg",
+    image: "/guides/contorno-ojos-cuidados-especificos.svg",
     fileUrl: "/guides/guide.pdf",
   },
   {
@@ -272,7 +272,7 @@ const guides = [
     category: "problemas-de-piel",
     level: "intermedio",
     price: 6.99,
-    image: "/guides/placeholder.svg",
+    image: "/guides/como-prevenir-tratar-acne.svg",
     fileUrl: "/guides/guide.pdf",
   },
   {
@@ -283,7 +283,7 @@ const guides = [
     category: "rutinas",
     level: "intermedio",
     price: 4.99,
-    image: "/guides/placeholder.svg",
+    image: "/guides/exfoliacion-quimica-vs-fisica.svg",
     fileUrl: "/guides/guide.pdf",
   },
 
@@ -296,7 +296,7 @@ const guides = [
     category: "ingredientes",
     level: "avanzado",
     price: 11.99,
-    image: "/guides/placeholder.svg",
+    image: "/guides/retinoides-guia-definitiva.svg",
     fileUrl: "/guides/guide.pdf",
   },
   {
@@ -307,7 +307,7 @@ const guides = [
     category: "avanzado",
     level: "avanzado",
     price: 12.99,
-    image: "/guides/placeholder.svg",
+    image: "/guides/peeling-quimicos-en-casa.svg",
     fileUrl: "/guides/guide.pdf",
   },
   {
@@ -318,7 +318,7 @@ const guides = [
     category: "avanzado",
     level: "avanzado",
     price: 9.99,
-    image: "/guides/placeholder.svg",
+    image: "/guides/microbiota-de-la-piel.svg",
     fileUrl: "/guides/guide.pdf",
   },
   {
@@ -329,7 +329,7 @@ const guides = [
     category: "problemas-de-piel",
     level: "avanzado",
     price: 11.99,
-    image: "/guides/placeholder.svg",
+    image: "/guides/como-tratar-cicatrices-acne.svg",
     fileUrl: "/guides/guide.pdf",
   },
   {
@@ -340,7 +340,7 @@ const guides = [
     category: "rutinas",
     level: "avanzado",
     price: 9.99,
-    image: "/guides/placeholder.svg",
+    image: "/guides/skin-cycling-rutina-avanzada.svg",
     fileUrl: "/guides/guide.pdf",
   },
   {
@@ -351,7 +351,7 @@ const guides = [
     category: "ingredientes",
     level: "avanzado",
     price: 10.99,
-    image: "/guides/placeholder.svg",
+    image: "/guides/guia-completa-acido-glicolico.svg",
     fileUrl: "/guides/guide.pdf",
   },
   {
@@ -362,7 +362,7 @@ const guides = [
     category: "ingredientes",
     level: "avanzado",
     price: 9.99,
-    image: "/guides/placeholder.svg",
+    image: "/guides/acido-salicilico-usos-avanzados.svg",
     fileUrl: "/guides/guide.pdf",
   },
   {
@@ -373,7 +373,7 @@ const guides = [
     category: "avanzado",
     level: "avanzado",
     price: 11.99,
-    image: "/guides/placeholder.svg",
+    image: "/guides/como-combatir-flacidez-facial.svg",
     fileUrl: "/guides/guide.pdf",
   },
   {
@@ -384,7 +384,7 @@ const guides = [
     category: "problemas-de-piel",
     level: "avanzado",
     price: 12.99,
-    image: "/guides/placeholder.svg",
+    image: "/guides/tratamiento-hiperpigmentacion.svg",
     fileUrl: "/guides/guide.pdf",
   },
   {
@@ -395,7 +395,7 @@ const guides = [
     category: "avanzado",
     level: "avanzado",
     price: 10.99,
-    image: "/guides/placeholder.svg",
+    image: "/guides/multiples-activos-sin-irritar.svg",
     fileUrl: "/guides/guide.pdf",
   },
   {
@@ -406,7 +406,7 @@ const guides = [
     category: "avanzado",
     level: "avanzado",
     price: 9.99,
-    image: "/guides/placeholder.svg",
+    image: "/guides/guia-ph-formulacion.svg",
     fileUrl: "/guides/guide.pdf",
   },
   {
@@ -417,7 +417,7 @@ const guides = [
     category: "proteccion-solar",
     level: "avanzado",
     price: 9.99,
-    image: "/guides/placeholder.svg",
+    image: "/guides/como-elegir-protector-solar-ideal.svg",
     fileUrl: "/guides/guide.pdf",
   },
   {
@@ -428,7 +428,7 @@ const guides = [
     category: "rutinas",
     level: "avanzado",
     price: 9.99,
-    image: "/guides/placeholder.svg",
+    image: "/guides/guia-mascarillas-faciales.svg",
     fileUrl: "/guides/guide.pdf",
   },
   {
@@ -439,7 +439,7 @@ const guides = [
     category: "problemas-de-piel",
     level: "avanzado",
     price: 10.99,
-    image: "/guides/placeholder.svg",
+    image: "/guides/como-tratar-rosacea.svg",
     fileUrl: "/guides/guide.pdf",
   },
   {
@@ -450,7 +450,7 @@ const guides = [
     category: "avanzado",
     level: "avanzado",
     price: 9.99,
-    image: "/guides/placeholder.svg",
+    image: "/guides/barrera-cutanea-como-repararla.svg",
     fileUrl: "/guides/guide.pdf",
   },
 
@@ -463,7 +463,7 @@ const guides = [
     category: "avanzado",
     level: "experto",
     price: 14.99,
-    image: "/guides/placeholder.svg",
+    image: "/guides/dermatologia-cosmetica-avanzada.svg",
     fileUrl: "/guides/guide.pdf",
   },
   {
@@ -474,7 +474,7 @@ const guides = [
     category: "avanzado",
     level: "experto",
     price: 14.99,
-    image: "/guides/placeholder.svg",
+    image: "/guides/prescripcion-activos-fototipo.svg",
     fileUrl: "/guides/guide.pdf",
   },
   {
@@ -485,7 +485,7 @@ const guides = [
     category: "avanzado",
     level: "experto",
     price: 14.99,
-    image: "/guides/placeholder.svg",
+    image: "/guides/protocolos-tratamiento-avanzados.svg",
     fileUrl: "/guides/guide.pdf",
   },
   {
@@ -496,7 +496,7 @@ const guides = [
     category: "ingredientes",
     level: "experto",
     price: 14.99,
-    image: "/guides/placeholder.svg",
+    image: "/guides/guia-completa-acido-tranexamico.svg",
     fileUrl: "/guides/guide.pdf",
   },
   {
@@ -507,7 +507,7 @@ const guides = [
     category: "avanzado",
     level: "experto",
     price: 14.99,
-    image: "/guides/placeholder.svg",
+    image: "/guides/disenar-protocolos-profesionales.svg",
     fileUrl: "/guides/guide.pdf",
   },
   {
@@ -518,7 +518,7 @@ const guides = [
     category: "ingredientes",
     level: "experto",
     price: 14.99,
-    image: "/guides/placeholder.svg",
+    image: "/guides/fitoterapia-aplicada-skincare.svg",
     fileUrl: "/guides/guide.pdf",
   },
   {
@@ -529,7 +529,7 @@ const guides = [
     category: "proteccion-solar",
     level: "experto",
     price: 14.99,
-    image: "/guides/placeholder.svg",
+    image: "/guides/guia-avanzada-proteccion-solar.svg",
     fileUrl: "/guides/guide.pdf",
   },
   {
@@ -540,7 +540,7 @@ const guides = [
     category: "problemas-de-piel",
     level: "experto",
     price: 14.99,
-    image: "/guides/placeholder.svg",
+    image: "/guides/tratar-melasma-manchas-resistentes.svg",
     fileUrl: "/guides/guide.pdf",
   },
   {
@@ -551,7 +551,7 @@ const guides = [
     category: "avanzado",
     level: "experto",
     price: 14.99,
-    image: "/guides/placeholder.svg",
+    image: "/guides/estrategias-rejuvenecimiento-facial.svg",
     fileUrl: "/guides/guide.pdf",
   },
   {
@@ -562,7 +562,7 @@ const guides = [
     category: "avanzado",
     level: "experto",
     price: 14.99,
-    image: "/guides/placeholder.svg",
+    image: "/guides/guia-completa-laser-luz-pulsada.svg",
     fileUrl: "/guides/guide.pdf",
   },
 ]

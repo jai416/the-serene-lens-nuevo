@@ -1,46 +1,19 @@
 # AGENTS.md — The Serene Lens
 
-## Project Status (2026-07-04)
-**Código completo + Gemini directo + Bot RAG + Admin slate + Validator role.**
-- Landing page, análisis de piel con IA (Gemini directo, 7 keys round-robin), historial, evolución
+## Project Status (2026-07-06)
+**Migración completa a Groq + Rediseño UI + Bot RAG + Menú Telegram completo.**
+- Landing page, análisis de piel con IA (Groq Llama 3.2 11B Vision), historial, evolución
 - Sistema de pagos QvaPay (planes + packs), webhooks, suscripciones
-- **3 métodos de pago**: QvaPay, Transfermóvil (validar/activar), PayPal (mock)
 - Blog, productos, ingredientes, comunidad (con comentarios)
-- Diario de piel, desafíos gamificados (solo visualización, sin completar manual)
-- Panel admin tema oscuro slate/navy: usuarios con rol VALIDADOR, pagos, mensajes agrupados por plan, blog, productos, guías, feature flags (JSON configurable), analytics, health check (extendido), conocimiento (Bot RAG), Telegram (broadcast)
-- SEO: 55 keywords con contexto para generación de artículos
+- Panel admin tema oscuro slate/navy: usuarios con rol VALIDADOR, pagos, mensajes, blog, productos, guías, feature flags, analytics, health check, conocimiento (Bot RAG), Telegram (broadcast)
 - **PRO+ plan** ($14.99/mes): informe PDF, rutina dinámica, comparativa mensual
-- **Modo Social**: comparación anónima de resultados con amigos
-- **Guías Digitales**: e-books descargables vendidos vía QvaPay (con fileUrl en seed)
-- **Sistema de Referidos Grupal**: invita 3 amigos → análisis gratis
-- **Predictor de Envejecimiento**: proyección a 5 años con IA + RAG de ingredientes (OpenRouter con fallback Gemini)
-- **Telegram Bot**: webhook integrado, DB-based auth (sin tokens), RAG con knowledge base (18 entradas), menús por rol (USER/VALIDATOR/ADMIN)
-- **Bot RAG**: `searchKnowledge()` con scoring por keywords/sinónimos/prioridad + `generateBotResponse()` con Gemini Flash
-- **Caché**: Análisis (SHA-256, 7 días) + Product scanner (SHA-256, 7 días)
-- **Sin bloqueo por país**: todas las API calls server-side
-- 174 tests, type check limpio, build exitoso
-
-**Pendiente post-deploy (commit ce61fa2 en build de Render):**
-1. Build de Render complete el deploy (free tier puede tardar varios minutos)
-2. `npx prisma db push --accept-data-loss` — sincronizar schema (BotKnowledge, BotFeedback, BotLog, etc.)
-3. `npm run seed:knowledge` — poblar 18 entradas de base de conocimiento del bot
-4. `npm run seed` — poblar productos, guías y desafíos (si no existen)
-5. Usar admin → `/admin/knowledge` → botón "Sincronizar con la web"
-6. Configurar 7 Gemini keys en Render Dashboard (GEMINI_API_KEY_1 a _7)
-7. Google/GitHub OAuth — configurar callbacks (opcional)
-
-**Verificado en producción (2026-07-01 live tests):**
-- 23/23 tests pasados en sitio en vivo
-- **Telegram Bot**: Webhook configurado ✅ — `GET /getWebhookInfo` → URL activa, 0 pending updates
-- **Telegram Webhook Secret**: Generado y configurado en bot API + `.env` ✅
-- Render: `https://the-serene-lens-nuevo.onrender.com` respondiendo OK
-- QvaPay API: Conexión exitosa
-- QvaPay Webhook: Endpoint funcionando
-- OpenRouter API: Conectado
-- PostHog: Conectado (errores de red por proxy, no del código)
-- Sentry: DSN inválido (403 Forbidden), configs deshabilitadas
-- CRON_SECRET: Generado en `.env` (pendiente en Render Dashboard)
-- **Resend**: ✅ Clave actualizada (`re_ML6bsVSK_...`). Usando `onboarding@resend.dev` como from. Solo admin bulk emails.
+- **Guías Digitales**: e-books descargables vendidos vía QvaPay
+- **Telegram Bot**: webhook integrado, menú completo por rol (USER/VALIDATOR/ADMIN), internet search para admin/validator, sin sub-menús
+- **Bot RAG**: `searchKnowledge()` con scoring + `generateBotResponse()` con Groq Llama 3.1 8B. Error log serializado correctamente
+- **Paleta nueva**: `#88B078` primary, `#F8F9FA` bg, `#1A1A1A` text, cards sin borders, `rounded-[20px]`
+- **Sin OpenRouter, sin Gemini**: 0 referencias en código. Groq API activa (30 req/min, 6K TPM, 14,400 req/day gratis)
+- **Sin Stripe**: Eliminado del schema y código. Solo QvaPay
+- Type check limpio, paleta vieja eliminada de 70+ archivos
 
 ## Test Commands
 - `npm test` — run Vitest (174 tests across 16 suites)
@@ -87,8 +60,7 @@ All env vars documented in `.env.example`. Key vars:
 - `NEXTAUTH_SECRET` — NextAuth secret
 - `NEXT_PUBLIC_APP_URL` — base URL (`https://the-serene-lens-nuevo.onrender.com`)
 - `NEXTAUTH_URL` — NextAuth URL (`https://the-serene-lens-nuevo.onrender.com`)
-- `OPENROUTER_API_KEY` — AI analysis API
-- `QVAPAY_UUID`, `QVAPAY_SECRET`, `QVAPAY_API_URL` — QvaPay payment gateway (v2 API)
+- `GROQ_API_KEY` — AI analysis (vision + text)
 - `RESEND_API_KEY` — bulk admin emails only (NOT used for registration/welcome)
 - `CRON_SECRET` — cron job authorization (pendiente en Render)
 - `NEXT_PUBLIC_POSTHOG_KEY`, `NEXT_PUBLIC_POSTHOG_HOST` — product analytics
@@ -97,25 +69,21 @@ All env vars documented in `.env.example`. Key vars:
 - `NEXT_PUBLIC_CUP_FALLBACK` — USD→CUP rate override
 - `ROOT_ADMIN_EMAIL` — email that gets ADMIN role on registration
 
-## Visual Identity (v2.0)
-Clean, professional skincare platform inspired by Apple Health, Headspace, Calm, Skin Bliss, CeraVe, Cetaphil, La Roche-Posay, The Ordinary — calm, minimalist healthcare aesthetic.
+## Visual Identity (v3.0)
+Clean, professional skincare platform — calm, minimalist healthcare aesthetic.
 
 ### Palette
-- **Primary**: #C2E09D (soft sage green)
-- **Secondary**: #ECFFD3 (light mint)
-- **Tertiary**: #FFF6AD (soft yellow)
-- **Background**: #F8FAF5 (off-white)
+- **Primary**: #88B078 (sage green muted)
+- **Primary muted**: #E2ECE0 (hover/badge backgrounds)
+- **Background**: #F8F9FA (lienzo ultra claro)
 - **Surface**: #FFFFFF (white)
-- **Text primary**: #2F3A2D (dark olive)
-- **Text secondary**: #64705E (muted olive)
-- **Borders**: #DDE7D3 (light sage)
+- **Text main**: #1A1A1A (carbón profundo)
+- **Text muted**: #666666 (gris neutro)
+- **Borders**: #E8E8E8 (gris claro)
+- **Gold bg**: #FFF9E6 (premium containers)
+- **Gold btn**: #FCEAA6 (premium CTAs)
 
-### Dark Mode
-- Custom theme provider (`src/components/theme-provider.tsx`) — no external deps
-- Toggle: sun/moon/system cycle in sidebar + mobile nav
-- Stored in localStorage, respects `prefers-color-scheme`
-- Dark palette: Background #1A1F19, Surface #222920, Primary #C2E09D, Text #E8EDE6
-- Applied via `.dark` class on `<html>` element
+Light mode only. No dark mode.
 
 ## Conventions
 - Spanish UI, English code
@@ -162,7 +130,7 @@ Clean, professional skincare platform inspired by Apple Health, Headspace, Calm,
 - **Cron retención**: Notifica 3 días antes de expiración + degrada suscripciones vencidas.
 - **Sidebar Ingredientes**: Link apunta a `/ingredients-analyzer`.
 - **QvaPay v2 only (Stripe fully removed)**: Deleted all Stripe code files and env vars.
-- **Lazy env loading in auth.ts/openrouter.ts**: `getAuthEnv()` with try/catch instead of module-level `getEnv()` crash. Providers use `process.env` directly.
+- **Lazy env loading in auth.ts/groq.ts**: `getAuthEnv()` with try/catch instead of module-level `getEnv()` crash. Providers use `process.env` directly.
 - **Lazy env loading in payments.ts**: `getPaymentsEnv()` instead of `getEnv()` at module level.
 - **In-memory queue over BullMQ**: No Redis dependency.
 - **Feature flags via AppConfig table**: No external service; cached 60s.
@@ -179,8 +147,7 @@ Clean, professional skincare platform inspired by Apple Health, Headspace, Calm,
 - **Sentry init dedup**: `src/lib/sentry.ts` `initSentry()` is a no-op — Sentry auto-initializes via `sentry.client.config.ts`. Prevents replay rate override.
 - **Payments Zod strict**: `create` uses `z.enum(["FREE","PREMIUM","PRO","PRO_PLUS"])` to reject invalid plan IDs early. `create-guide` has granular error logging per step.
 - **Aging prediction prompt**: Positioned as "Modelo analítico avanzado de IA especializado en estética cosmética" — NOT a dermatologist. Summary avoids clinical language. Scores are visual-chart-only (0-100), not medical measurements.
-- **Structured outputs (aging)**: Uses OpenRouter `response_format.json_schema` with `strict: true` to enforce exact JSON shape. No fallback key guessing (`y5` vs `5` etc.).
-- **Static RAG ingredients**: `src/lib/ingredient-kb.ts` — 6 concern categories (manchas, arrugas, poros, sensibilidad, hidratación, acné), 22 ingredient entries with mechanism/evidence/concentration. `matchIngredientsToAnalysis()` matches user observations to relevant categories, `formatIngredientsForPrompt()` injects into aging prediction prompt.
+- **Static RAG ingredients**: `src/lib/ingredient-kb.ts` — 6 concern categories, 22 ingredient entries. `matchIngredientsToAnalysis()` / `formatIngredientsForPrompt()` injects into aging prediction prompt.
 
 ## Performance Notes
 - `SessionProvider` uses `refetchOnWindowFocus={false}`
@@ -375,7 +342,7 @@ Prices defined in `src/lib/pricing.ts` — single source of truth.
 
 ## New Files (2026-06-26)
 - `src/lib/ingredient-kb.ts` — Static ingredient knowledge base for RAG. 6 concern categories, 22 entries with mechanism/evidence/concentration. Functions: `matchIngredientsToAnalysis()`, `formatIngredientsForPrompt()`
-- `src/app/api/aging-predict/route.ts` — Aging prediction API. Structured outputs via OpenRouter JSON Schema. RAG ingredient injection. Sanitizes scores/trends.
+- `src/app/api/aging-predict/route.ts` — Aging prediction API with RAG ingredient injection.
 
 ## New Pages (2026-06-25)
 - `/pricing/success` — payment confirmation after QvaPay redirect
@@ -441,7 +408,7 @@ Prices defined in `src/lib/pricing.ts` — single source of truth.
 ### Modo Experto (AI)
 - `src/app/api/analysis/[id]/explain-observation/route.ts` — Explica observación con IA
 - `src/components/analysis/expert-mode.tsx` — Componente modal con causas, ingredientes, ajuste rutina
-- Cada observación es clickeable → modal explicativo con OpenRouter
+- Cada observación es clickeable → modal explicativo con Groq
 
 ### Ruta de Mejora (AI)
 - `src/app/api/analysis/[id]/improvement-plan/route.ts` — Plan 30 días con IA

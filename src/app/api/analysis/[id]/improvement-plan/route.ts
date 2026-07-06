@@ -5,7 +5,7 @@ import { db } from "@/lib/db"
 import { ok, unauthorized, notFound, serverError } from "@/lib/api-response"
 import { groqChatJSON } from "@/lib/groq-chat"
 
-const SYSTEM = "Eres un coach de skincare con experiencia en dermatología. Responde exclusivamente en español. Diseña planes de mejora personalizados de 30 días. Devuelve los datos estructurados en formato JSON exacto."
+const SYSTEM = "Eres un coach de skincare experto en análisis cosmético. Responde exclusivamente en español. Diseña planes de mejora personalizados de 30 días. Devuelve los datos estructurados en formato JSON exacto."
 
 export async function POST(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   try {

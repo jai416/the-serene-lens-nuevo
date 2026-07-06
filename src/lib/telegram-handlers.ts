@@ -94,21 +94,15 @@ export async function handleStart(chatId: string, userId: string, username?: str
       db.user.count({ where: { createdAt: { gte: today } } }),
     ])
     const text = R.welcomeAdmin(username, pending, newUsers)
-    const buttons = [
-      [{ text: "💳 Pagos", callback_data: "menu_pagos" }],
-      [{ text: "👥 Usuarios", callback_data: "action_users" }, { text: "📈 Reporte", callback_data: "action_reporte" }],
-      [{ text: "⚙️ Admin", callback_data: "menu_admin" }],
-    ]
-    await sendTelegramMenu(chatId, text, buttons)
+    await sendTelegramMessage(chatId, text)
+    await sendTelegramMessage(chatId, R.adminHelpText())
     return
   }
 
   if (role === "VALIDATOR") {
     const text = R.welcomeValidator(username)
-    const buttons = [
-      [{ text: "💳 Pagos", callback_data: "menu_pagos" }],
-    ]
-    await sendTelegramMenu(chatId, text, buttons)
+    await sendTelegramMessage(chatId, text)
+    await sendTelegramMessage(chatId, R.validatorHelpText())
     return
   }
 
@@ -709,6 +703,7 @@ export async function handleTrending(chatId: string, userId: string) {
       try { const c = JSON.parse(a.concerns); if (Array.isArray(c)) c.forEach((x: string) => concernCount[x] = (concernCount[x] || 0) + 1) } catch {}
     }
   }
+
   const sortedTypes = Object.entries(typeCount).sort((a, b) => b[1] - a[1]).slice(0, 3)
   const sortedConcerns = Object.entries(concernCount).sort((a, b) => b[1] - a[1]).slice(0, 3)
 
@@ -718,6 +713,31 @@ export async function handleTrending(chatId: string, userId: string) {
   for (const [c, count] of sortedConcerns) text += `${c} — ${((count / Math.max(analyses.length, 1)) * 100).toFixed(0)}%\n`
   text += `\n📈 <b>Actividad</b>\nAnálisis (7d): ${recentAnalyses} | Usuarios: ${totalUsers}`
   await sendTelegramMessage(chatId, text)
+}
+
+// ─── Pendientes callback ────────────────────────────────────────
+
+async function handlePendientesCb(ctx: MenuContext) {
+  await handlePendientes(ctx.chatId, ctx.userId)
+}
+
+// ─── Internet search for admin queries ──────────────────────────
+
+export async function searchWeb(query: string): Promise<string> {
+  const apiKey = process.env.GOOGLE_SEARCH_API_KEY
+  const cx = process.env.GOOGLE_SEARCH_ENGINE_ID
+  if (!apiKey || !cx) return ""
+  try {
+    const url = `https://www.googleapis.com/customsearch/v1?key=${apiKey}&cx=${cx}&q=${encodeURIComponent(query)}&lr=lang_es&num=3`
+    const res = await fetch(url, { signal: AbortSignal.timeout(10000) })
+    const data = await res.json()
+    if (!data.items || !Array.isArray(data.items)) return ""
+    return data.items.map((item: any) =>
+      `• <a href="${item.link}">${sanitizeHtml(item.title)}</a>\n  ${sanitizeHtml((item.snippet || "").slice(0, 150))}`
+    ).join("\n\n")
+  } catch {
+    return ""
+  }
 }
 
 // ─── /analisis ─────────────────────────────────────────────────
@@ -835,14 +855,11 @@ export async function handleCallback(data: string, chatId: string, userId: strin
   const ctx: MenuContext = { chatId, userId, messageId, callbackId }
 
   if (data === "menu_main") { await answerCallback(chatId, callbackId); await showMainMenu(ctx); return }
-  if (data === "menu_pagos") { await answerCallback(chatId, callbackId); await showPagosMenu(ctx, role); return }
+  if (data === "menu_user") { await answerCallback(chatId, callbackId); await sendTelegramMessage(chatId, "🌐 Web — /web\n💰 Precios — /precios\n📈 Estado — /status\n🆘 Ayuda — /ayuda\n💡 Tip — /skincare\n📬 Contacto — /contacto\n⭐ Valorar — /feedback N\n⏰ Recordatorio — /recordatorio\n🎭 Meme — /meme\n🌿 Recomendar — /recomendar"); return }
   if (data === "action_pending") { await answerCallback(chatId, callbackId); return await handlePendientesCb(ctx) }
   if (data === "action_users") { await answerCallback(chatId, callbackId); return await handleUsuarios(chatId, userId) }
   if (data === "action_reporte") { await answerCallback(chatId, callbackId); return await handleReporte(chatId, userId) }
-
-  if (data === "menu_admin" && role === "ADMIN") {
-    await answerCallback(chatId, callbackId); await showAdminMenu(ctx); return
-  }
+  if (data === "action_trending") { await answerCallback(chatId, callbackId); return await handleTrending(chatId, userId) }
 
   if (data === "broadcast_go") {
     await answerCallback(chatId, callbackId, "Enviando..."); await handleBroadcastGo(chatId, userId); return
@@ -893,31 +910,38 @@ export async function handleCallback(data: string, chatId: string, userId: strin
 async function showMainMenu(ctx: MenuContext) {
   const role = await getUserRole(ctx.chatId)
   if (!role) { await sendTelegramMessage(ctx.chatId, "❌ No autorizado."); return }
-  const text = `👋 <b>The Serene Lens</b>\nRol: ${role === "ADMIN" ? "👑 Admin" : "🛡️ Validador"}`
-  const buttons: { text: string; callback_data: string }[][] = [
-    [{ text: "💳 Pagos", callback_data: "menu_pagos" }],
-  ]
   if (role === "ADMIN") {
-    buttons.push([{ text: "👥 Usuarios", callback_data: "action_users" }, { text: "📈 Reporte", callback_data: "action_reporte" }])
-    buttons.push([{ text: "⚙️ Admin", callback_data: "menu_admin" }])
+    const text = `👑 <b>Panel Admin</b>\n\n` +
+      `/pendientes — Pagos pendientes\n` +
+      `/validar REF — Validar pago\n` +
+      `/activar REF — Activar plan\n` +
+      `/cliente email — Info del cliente\n` +
+      `/reporte — Resumen del día\n` +
+      `/usuarios — Estadísticas\n` +
+      `/trending — Tendencias\n` +
+      `/broadcast msg — Mensaje a todos\n` +
+      `/analisis ID — Ver análisis\n` +
+      `/logs — Actividad del bot\n` +
+      `/alerta — Configurar notificaciones\n` +
+      `/promocion 20% — Crear descuento\n` +
+      `/whois — Usuarios vinculados\n` +
+      `/consultar — Consulta IA`
+    const buttons = [
+      [{ text: "⏳ Pendientes", callback_data: "action_pending" }, { text: "📈 Reporte", callback_data: "action_reporte" }],
+      [{ text: "👥 Usuarios", callback_data: "action_users" }, { text: "📊 Trending", callback_data: "action_trending" }],
+    ]
+    await sendOrEdit(ctx, text, buttons)
+  } else {
+    await sendOrEdit(ctx,
+      `🛡️ <b>Panel Validador</b>\n\n` +
+      `/pendientes — Lista de pagos\n` +
+      `/validar REF — Validar pago\n` +
+      `/validar 1,2,3 — Validar varios\n` +
+      `/validar todos — Validar todos\n` +
+      `/buscar email/ref — Buscar pago\n` +
+      `/historial email — Historial\n` +
+      `/consultar — Consulta IA`,
+      [[{ text: "⏳ Pendientes", callback_data: "action_pending" }]]
+    )
   }
-  await sendOrEdit(ctx, text, buttons)
-}
-
-async function showPagosMenu(ctx: MenuContext, role: string) {
-  await sendOrEdit(ctx,
-    `💳 <b>Pagos</b>\n\n/validar TRF-xxx — Validar\n${role === "ADMIN" ? "/activar TRF-xxx — Activar\n" : ""}/pendientes — Ver pendientes\n/buscar email/ref — Buscar\n/historial email — Historial`,
-    [[{ text: "⏳ Pendientes", callback_data: "action_pending" }], MENU_BACK_ROW]
-  )
-}
-
-async function handlePendientesCb(ctx: MenuContext) {
-  await handlePendientes(ctx.chatId, ctx.userId)
-}
-
-async function showAdminMenu(ctx: MenuContext) {
-  await sendOrEdit(ctx,
-    `⚙️ <b>Panel Admin</b>\n\n/cliente email\n/broadcast msg\n/logs [fecha]\n/trending\n/activar REF`,
-    [[{ text: "👥 Usuarios", callback_data: "action_users" }, { text: "📈 Reporte", callback_data: "action_reporte" }], MENU_BACK_ROW]
-  )
 }

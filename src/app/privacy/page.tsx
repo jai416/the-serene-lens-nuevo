@@ -36,7 +36,7 @@ export default function PrivacyPage() {
               <CardContent className="p-4 text-sm">
                 <ul className="list-disc pl-4 space-y-1">
                   <li>Las fotos se usan exclusivamente para el análisis solicitado.</li>
-                  <li>Se envían a la API de OpenRouter (Gemini Flash) para su procesamiento.</li>
+                   <li>Se envían a la API de Groq (IA) para su procesamiento.</li>
                   <li>No compartimos tus imágenes con terceros fuera del proceso de análisis.</li>
                   <li>No usamos tus fotos para entrenar modelos de IA.</li>
                   <li>Puedes solicitar la eliminación de tus datos en cualquier momento.</li>
