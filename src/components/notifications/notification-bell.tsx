@@ -108,7 +108,7 @@ export function NotificationBell() {
     <div ref={ref} className="relative">
       <button
         onClick={() => setOpen(!open)}
-        className="relative flex items-center justify-center w-10 h-10 rounded-2xl bg-[#E2ECE0] dark:bg-[#2A3A2A] border border-[#88B078]/30 dark:border-[#88B078]/30 text-[#88B078] dark:text-[#88B078] hover:bg-[#88B078] dark:hover:bg-[#88B078] hover:text-white dark:hover:text-white shadow-sm hover:shadow-md transition-all duration-200"
+        className="relative flex items-center justify-center w-10 h-10 rounded-2xl bg-[#E2ECE0] dark:bg-[#88B078]/20 border border-[#88B078]/30 dark:border-[#88B078]/30 text-[#88B078] dark:text-[#88B078] hover:bg-[#88B078] dark:hover:bg-[#88B078] hover:text-white dark:hover:text-white shadow-sm hover:shadow-md transition-all duration-200"
         aria-label="Notificaciones"
       >
         {unread > 0 ? (

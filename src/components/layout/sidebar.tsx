@@ -22,9 +22,13 @@ import {
   ArrowRight,
   Users,
   BookOpen,
+  Bookmark,
   Trophy,
+  LayoutDashboard,
   FileText,
   HelpCircle,
+  UserPlus,
+  Briefcase,
 } from "lucide-react"
 import { useState } from "react"
 
@@ -36,6 +40,7 @@ const guestLinks = [
 
 const authLinks = [
   { href: "/", label: "Inicio", icon: Home },
+  { href: "/dashboard", label: "Dashboard", icon: LayoutDashboard },
   { href: "/analysis", label: "Análisis de piel", icon: Scan },
   { href: "/dashboard/history", label: "Historial", icon: History },
   { href: "/dashboard/diary", label: "Rutinas", icon: BookOpen },
@@ -46,10 +51,10 @@ const authLinks = [
   { href: "/ingredients-analyzer", label: "Ingredientes", icon: Beaker },
   { href: "/dashboard/subscription", label: "Plan", icon: TrendingUp },
   { href: "/dashboard/report", label: "Informe", icon: FileText },
-  { href: "/dashboard/referrals", label: "Referidos", icon: Users },
+  { href: "/dashboard/referrals", label: "Referidos", icon: UserPlus },
   { href: "/dashboard/social", label: "Social", icon: Users },
-  { href: "/dashboard/guides", label: "Mis Guías", icon: BookOpen },
-  { href: "/dashboard/esthetician", label: "Esteticista", icon: Users },
+  { href: "/dashboard/guides", label: "Mis Guías", icon: Bookmark },
+  { href: "/dashboard/esthetician", label: "Esteticista", icon: Briefcase },
   { href: "/dashboard/support", label: "Soporte", icon: HelpCircle },
   { href: "/dashboard/profile", label: "Cuenta", icon: User },
 ]

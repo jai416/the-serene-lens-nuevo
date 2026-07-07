@@ -1,7 +1,6 @@
 import { NextResponse } from "next/server"
 import { db } from "@/lib/db"
 import { analysisQueue } from "@/lib/queue"
-import { getNextGeminiKey } from "@/lib/gemini-keys"
 
 export const dynamic = "force-dynamic"
 
@@ -24,15 +23,6 @@ export async function GET() {
     checks.users = { status: "ok", latencyMs: userCount }
   } catch {
     checks.users = { status: "error" }
-  }
-
-  // Gemini key check
-  try {
-    getNextGeminiKey()
-    checks.gemini = { status: "ok", detail: "1 clave configurada" }
-  } catch {
-    checks.gemini = { status: "degraded", detail: "No configurada" }
-    overallStatus = "degraded"
   }
 
   // Groq key check

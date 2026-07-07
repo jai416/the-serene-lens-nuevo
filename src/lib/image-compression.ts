@@ -44,7 +44,7 @@ export async function compressImage(file: File, maxSizeMB = 10): Promise<File> {
       "connection" in navigator &&
       ["slow-2g", "2g", "3g"].includes((navigator as any).connection?.effectiveType || "")
     const isOversized = file.size > maxSizeBytes
-    // Max 1024px — more than enough for Gemini, keeps files under 100KB
+    // Max 1024px — more than enough for Groq, keeps files under 100KB
     const maxDimension = isOversized ? 640 : isSlowConnection ? 480 : 1024
     if (width > maxDimension || height > maxDimension) {
       const ratio = Math.min(maxDimension / width, maxDimension / height)

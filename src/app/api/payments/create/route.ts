@@ -98,6 +98,7 @@ export async function POST(req: NextRequest) {
       return error("El servicio de pagos no está disponible. Intenta de nuevo.", 503)
     }
 
-    return error("Error al procesar el pago. Intenta de nuevo.", 500)
+    logger.error("QvaPay payment failed (unhandled)", { error: errMsg })
+    return error("Error al procesar el pago. Verifica los datos e intenta de nuevo.", 500)
   }
 }

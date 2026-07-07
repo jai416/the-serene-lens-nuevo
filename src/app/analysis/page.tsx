@@ -22,6 +22,7 @@ import { useSession } from "next-auth/react"
 import { compressImage } from "@/lib/image-compression"
 import { validatePhoto } from "@/lib/photo-quality"
 import { getPhotoSteps } from "@/lib/photo-steps"
+import { getCsrfToken } from "@/lib/csrf-client"
 import { trackAnalysisStarted, trackAnalysisPhotoUploaded, trackAnalysisAbandoned } from "@/lib/tracking"
 import Link from "next/link"
 
@@ -137,6 +138,7 @@ export default function AnalysisPage() {
     try {
       const res = await fetch("/api/analyze", {
         method: "POST",
+        headers: { "x-csrf-token": getCsrfToken() },
         body: formData,
       })
 

@@ -7,6 +7,7 @@ import { ok, error, unauthorized, serverError } from "@/lib/api-response"
 import { z } from "zod"
 import { getPlan, getPack } from "@/lib/pricing"
 import { validateCsrf } from "@/lib/csrf-middleware"
+import { logger } from "@/lib/logger"
 
 const PLAN_IDS = ["FREE", "PREMIUM", "PRO", "PRO_PLUS", "ESTHETICIAN"] as const
 const PACK_IDS = ["BASIC", "POPULAR", "ADVANCED"] as const
@@ -70,6 +71,11 @@ export async function POST(req: NextRequest) {
       id: transfer.id,
     })
   } catch (e) {
-    return serverError(e)
+    const errMsg = e instanceof Error ? e.message : String(e)
+    logger.error("Transfer payment create error", { error: errMsg })
+    if (errMsg.includes("does not exist in the database") || errMsg.includes("relation") || errMsg.includes("does not exist")) {
+      return error("El sistema de pagos no está listo. Contacta al soporte.", 503)
+    }
+    return error("Error al procesar el pago. Intenta de nuevo.", 500)
   }
 }

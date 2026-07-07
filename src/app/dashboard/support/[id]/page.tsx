@@ -46,7 +46,7 @@ export default function TicketDetailPage() {
       const res = await fetch(`/api/support/tickets/${id}`)
       if (!res.ok) throw new Error()
       const data = await res.json()
-      setTicket(data.ticket ?? data)
+      setTicket(data.data?.ticket ?? null)
     } catch {
       setError(true)
     } finally {

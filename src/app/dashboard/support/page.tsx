@@ -38,7 +38,7 @@ export default function SupportPage() {
     try {
       const res = await fetch("/api/support/tickets")
       const data = await res.json()
-      setTickets(data.tickets ?? data)
+      setTickets(Array.isArray(data.data?.tickets) ? data.data.tickets : [])
     } catch {
       // silent
     } finally {
