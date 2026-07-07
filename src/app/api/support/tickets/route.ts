@@ -43,6 +43,17 @@ export async function POST(req: NextRequest) {
     if (!parsed.success) return error(parsed.error.issues.map(i => i.message).join(", "), 400)
     const ticket = await db.supportTicket.create({ data: { userId: session.user.id, ...parsed.data } })
     try {
+      await db.contactMessage.create({
+        data: {
+          userId: session.user.id,
+          name: session.user.name || "Usuario",
+          email: session.user.email || "",
+          subject: `[Ticket] ${parsed.data.subject}`,
+          message: parsed.data.message,
+        },
+      })
+    } catch {}
+    try {
       const { notifyAdmins } = await import("@/lib/telegram")
       await notifyAdmins("new_ticket", `🎫 Nuevo ticket: ${parsed.data.subject}`)
     } catch {}

@@ -14,14 +14,14 @@ export default function LiveChatWidget() {
     <>
       <button
         onClick={() => setOpen(!open)}
-        className="fixed bottom-4 right-4 z-50 flex h-14 w-14 items-center justify-center rounded-full bg-[#88B078] text-2xl shadow-lg hover:bg-[#B0CF8D] transition-colors"
+        className="fixed bottom-20 md:bottom-4 right-4 z-[60] flex h-14 w-14 items-center justify-center rounded-full bg-[#88B078] text-2xl shadow-lg hover:bg-[#B0CF8D] transition-colors"
         aria-label="Contactar"
       >
         <MessageCircle className="w-6 h-6 text-[#1A1A1A]" />
       </button>
 
       {open && (
-        <div className="fixed bottom-20 right-4 z-50 flex h-auto w-[300px] flex-col rounded-2xl border border-[#E8E8E8] bg-white shadow-2xl">
+        <div className="fixed bottom-36 md:bottom-20 right-4 z-[60] flex h-auto w-[300px] flex-col rounded-2xl border border-[#E8E8E8] bg-white shadow-2xl">
           <div className="flex items-center justify-between rounded-t-2xl bg-[#88B078] p-3 font-semibold text-[#1A1A1A]">
             <span>💬 Contáctanos</span>
             <button onClick={() => setOpen(false)} className="text-lg leading-none">✕</button>

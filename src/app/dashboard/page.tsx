@@ -37,7 +37,10 @@ export default function DashboardPage() {
     if (session) {
       fetch("/api/analysis")
         .then((res) => (res.ok ? res.json() : []))
-        .then((data) => setAnalyses(data?.data?.analyses || data.analyses || []))
+        .then((data) => {
+          const raw = data?.data?.analyses ?? data.analyses
+          setAnalyses(Array.isArray(raw) ? raw : [])
+        })
         .catch(() => toast.error("Error al cargar análisis"))
 
       fetch("/api/user/usage")

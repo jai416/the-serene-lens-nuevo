@@ -20,15 +20,12 @@ import {
   Flower2,
   Crown,
   ArrowRight,
-  Users,
   BookOpen,
   Bookmark,
   Trophy,
   LayoutDashboard,
   FileText,
   HelpCircle,
-  UserPlus,
-  Briefcase,
 } from "lucide-react"
 import { useState } from "react"
 
@@ -45,16 +42,12 @@ const authLinks = [
   { href: "/dashboard/history", label: "Historial", icon: History },
   { href: "/dashboard/diary", label: "Rutinas", icon: BookOpen },
   { href: "/dashboard/challenges", label: "Desafíos", icon: Trophy },
-  { href: "/community", label: "Comunidad", icon: Users },
   { href: "/products", label: "Productos", icon: Package },
   { href: "/guides", label: "Guías", icon: BookOpen },
   { href: "/ingredients-analyzer", label: "Ingredientes", icon: Beaker },
   { href: "/dashboard/subscription", label: "Plan", icon: TrendingUp },
   { href: "/dashboard/report", label: "Informe", icon: FileText },
-  { href: "/dashboard/referrals", label: "Referidos", icon: UserPlus },
-  { href: "/dashboard/social", label: "Social", icon: Users },
   { href: "/dashboard/guides", label: "Mis Guías", icon: Bookmark },
-  { href: "/dashboard/esthetician", label: "Esteticista", icon: Briefcase },
   { href: "/dashboard/support", label: "Soporte", icon: HelpCircle },
   { href: "/dashboard/profile", label: "Cuenta", icon: User },
 ]
@@ -85,14 +78,7 @@ export function Sidebar() {
       </div>
 
       <nav className="flex-1 px-3 space-y-0.5 overflow-y-auto scrollbar-hide">
-        {links
-          .filter((link) => {
-            if (link.href === "/dashboard/esthetician") {
-              return session?.user?.plan === "ESTHETICIAN" || session?.user?.role === "ADMIN"
-            }
-            return true
-          })
-          .map((link) => {
+        {links.map((link) => {
           const active = isActive(link.href)
           return (
             <Link
