@@ -31,3 +31,7 @@ logs/
 # Build
 dist/
 build/
+
+# Role documentation (local only, not committed)
+DOC-admin.md
+DOC-validator.md

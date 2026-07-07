@@ -293,6 +293,13 @@ export default function PricingPage() {
                     </Badge>
                   </div>
                 )}
+                {plan.id === "ESTHETICIAN" && (
+                  <div className="mb-4">
+                    <Badge variant="secondary" className="rounded-full px-4 py-1 text-xs font-bold">
+                      Proximamente
+                    </Badge>
+                  </div>
+                )}
 
                 <div className="text-center mb-6">
                   <p className="text-lg font-semibold mb-1 text-[#1A1A1A]">{plan.name}</p>

@@ -104,28 +104,32 @@ export default function ContactPage() {
                     <MessageCircle className="w-5 h-5" style={{ color: "#1A1A1A" }} />
                   </div>
                   <div>
-                    <h3 className="font-medium text-sm mb-1" style={{ color: "#1A1A1A" }}>Redes sociales</h3>
-                    <div className="flex flex-wrap gap-x-4 gap-y-2 mt-2">
+                    <h3 className="font-medium text-sm mb-1" style={{ color: "#1A1A1A" }}>Contacto directo</h3>
+                    <div className="flex flex-col gap-2 mt-2">
                       <a
-                        href="#"
+                        href="https://t.me/theserenelens"
+                        target="_blank"
+                        rel="noopener noreferrer"
                         className="text-sm flex items-center gap-1.5 hover:underline"
                         style={{ color: "#666666" }}
                       >
-                        Instagram <ExternalLink className="w-3 h-3" />
+                        Telegram <ExternalLink className="w-3 h-3" />
                       </a>
                       <a
-                        href="#"
+                        href="https://wa.me/5151819744"
+                        target="_blank"
+                        rel="noopener noreferrer"
                         className="text-sm flex items-center gap-1.5 hover:underline"
                         style={{ color: "#666666" }}
                       >
-                        Facebook <ExternalLink className="w-3 h-3" />
+                        WhatsApp <ExternalLink className="w-3 h-3" />
                       </a>
                       <a
-                        href="#"
+                        href="mailto:hereirajaison@gmail.com"
                         className="text-sm flex items-center gap-1.5 hover:underline"
                         style={{ color: "#666666" }}
                       >
-                        Twitter <ExternalLink className="w-3 h-3" />
+                        Gmail <ExternalLink className="w-3 h-3" />
                       </a>
                     </div>
                   </div>

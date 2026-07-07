@@ -15,7 +15,6 @@ import { Sidebar } from "@/components/layout/sidebar"
 import { TopHeader } from "@/components/layout/top-header"
 import { MobileNav } from "@/components/layout/mobile-nav"
 import { ClientInit } from "@/components/client-init"
-import { LiveChatWrapper } from "@/components/chat/live-chat-wrapper"
 import { FeatureFlagProvider } from "@/components/feature-flag-provider"
 
 export const metadata: Metadata = {
@@ -90,7 +89,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                   {children}
                 </main>
                 <MobileNav />
-                <LiveChatWrapper />
                 <Toaster
                   position="top-center"
                   toastOptions={{
