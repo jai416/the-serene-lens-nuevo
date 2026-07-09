@@ -43,6 +43,7 @@ export async function middleware(request: NextRequest) {
 
   if (["POST", "PATCH", "DELETE"].includes(request.method) &&
       request.nextUrl.pathname.startsWith("/api/") &&
+      !request.nextUrl.pathname.startsWith("/api/auth") &&
       !request.nextUrl.pathname.startsWith("/api/telegram/webhook") &&
       !request.nextUrl.pathname.startsWith("/api/chat")) {
     if (!request.headers.get("x-csrf-skip")) {
