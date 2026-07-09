@@ -12,6 +12,7 @@ import Link from "next/link"
 import { toast } from "sonner"
 import { SocialLoginButtons } from "@/components/social-login-buttons"
 import { logger } from "@/lib/logger"
+import { getCsrfToken } from "@/lib/csrf-client"
 
 const errorMessages: Record<string, string> = {
   CredentialsSignin: "Email o contraseña incorrectos",
@@ -48,7 +49,7 @@ function LoginForm() {
 
         const res = await fetch("/api/register", {
           method: "POST",
-          headers: { "Content-Type": "application/json" },
+          headers: { "Content-Type": "application/json", "x-csrf-token": getCsrfToken() },
           body: JSON.stringify(payload),
         })
         const data = await res.json()
