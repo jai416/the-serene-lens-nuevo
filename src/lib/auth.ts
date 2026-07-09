@@ -123,6 +123,9 @@ export const authOptions: NextAuthOptions = {
           image: user.image,
           role: user.role,
           plan: user.plan,
+          username: user.username,
+          latitude: user.latitude,
+          longitude: user.longitude,
         }
       },
     }),
@@ -203,6 +206,9 @@ export const authOptions: NextAuthOptions = {
       if (user) {
         token.role = user.role || "USER"
         token.plan = user.plan || "FREE"
+        token.username = user.username ?? null
+        token.latitude = user.latitude ?? null
+        token.longitude = user.longitude ?? null
       }
       if (token.role === "ADMIN" && token.plan !== "PRO_PLUS") {
         try {
@@ -217,6 +223,9 @@ export const authOptions: NextAuthOptions = {
         session.user.role = token.role as string
         session.user.plan = token.plan as string
         session.user.id = token.sub!
+        session.user.username = (token.username as string) ?? null
+        session.user.latitude = (token.latitude as number) ?? null
+        session.user.longitude = (token.longitude as number) ?? null
       }
       return session
     },

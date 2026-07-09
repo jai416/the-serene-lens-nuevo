@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server"
 import { db } from "@/lib/db"
 import { getCache, setCache } from "@/lib/cache"
+import { logger } from "@/lib/logger"
 import { serverError } from "@/lib/api-response"
 
 const CACHE_TTL = 3600
@@ -19,6 +20,8 @@ export async function GET(req: NextRequest) {
         headers: { "Cache-Control": "public, s-maxage=3600, stale-while-revalidate=600" },
       })
     }
+
+    logger.info("Products cache miss", { cacheKey })
 
     const where = category && category !== "all" ? { category, isActive: true } : { isActive: true }
 

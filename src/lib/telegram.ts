@@ -92,6 +92,28 @@ export async function removeKeyboard(chatId: string | number, text: string): Pro
   }
 }
 
+export async function editTelegramButtons(
+  chatId: string | number,
+  messageId: number,
+  buttons: InlineKeyboard,
+): Promise<boolean> {
+  if (!process.env.TELEGRAM_TOKEN) return false
+  try {
+    const res = await fetch(`${TELEGRAM_API}/editMessageReplyMarkup`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        chat_id: String(chatId),
+        message_id: messageId,
+        reply_markup: { inline_keyboard: buttons },
+      }),
+    })
+    return res.ok
+  } catch {
+    return false
+  }
+}
+
 export async function editTelegramMenu(
   chatId: string | number,
   messageId: number,

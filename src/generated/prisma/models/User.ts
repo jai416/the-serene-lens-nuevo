@@ -29,6 +29,8 @@ export type AggregateUser = {
 export type UserAvgAggregateOutputType = {
   analysisLimit: number | null
   analysisUsed: number | null
+  latitude: number | null
+  longitude: number | null
   currentStreak: number | null
   maxStreak: number | null
 }
@@ -36,6 +38,8 @@ export type UserAvgAggregateOutputType = {
 export type UserSumAggregateOutputType = {
   analysisLimit: number | null
   analysisUsed: number | null
+  latitude: number | null
+  longitude: number | null
   currentStreak: number | null
   maxStreak: number | null
 }
@@ -47,18 +51,23 @@ export type UserMinAggregateOutputType = {
   emailVerified: Date | null
   image: string | null
   password: string | null
+  username: string | null
   role: string | null
   plan: string | null
   qvapayId: string | null
   analysisLimit: number | null
   analysisUsed: number | null
   analysisResetAt: Date | null
-  createdAt: Date | null
-  updatedAt: Date | null
   telegramId: string | null
+  telegramTrialStartedAt: Date | null
+  isTelegramPremiumActive: boolean | null
+  latitude: number | null
+  longitude: number | null
   currentStreak: number | null
   maxStreak: number | null
   lastCheckInDate: Date | null
+  createdAt: Date | null
+  updatedAt: Date | null
 }
 
 export type UserMaxAggregateOutputType = {
@@ -68,18 +77,23 @@ export type UserMaxAggregateOutputType = {
   emailVerified: Date | null
   image: string | null
   password: string | null
+  username: string | null
   role: string | null
   plan: string | null
   qvapayId: string | null
   analysisLimit: number | null
   analysisUsed: number | null
   analysisResetAt: Date | null
-  createdAt: Date | null
-  updatedAt: Date | null
   telegramId: string | null
+  telegramTrialStartedAt: Date | null
+  isTelegramPremiumActive: boolean | null
+  latitude: number | null
+  longitude: number | null
   currentStreak: number | null
   maxStreak: number | null
   lastCheckInDate: Date | null
+  createdAt: Date | null
+  updatedAt: Date | null
 }
 
 export type UserCountAggregateOutputType = {
@@ -89,18 +103,23 @@ export type UserCountAggregateOutputType = {
   emailVerified: number
   image: number
   password: number
+  username: number
   role: number
   plan: number
   qvapayId: number
   analysisLimit: number
   analysisUsed: number
   analysisResetAt: number
-  createdAt: number
-  updatedAt: number
   telegramId: number
+  telegramTrialStartedAt: number
+  isTelegramPremiumActive: number
+  latitude: number
+  longitude: number
   currentStreak: number
   maxStreak: number
   lastCheckInDate: number
+  createdAt: number
+  updatedAt: number
   _all: number
 }
 
@@ -108,6 +127,8 @@ export type UserCountAggregateOutputType = {
 export type UserAvgAggregateInputType = {
   analysisLimit?: true
   analysisUsed?: true
+  latitude?: true
+  longitude?: true
   currentStreak?: true
   maxStreak?: true
 }
@@ -115,6 +136,8 @@ export type UserAvgAggregateInputType = {
 export type UserSumAggregateInputType = {
   analysisLimit?: true
   analysisUsed?: true
+  latitude?: true
+  longitude?: true
   currentStreak?: true
   maxStreak?: true
 }
@@ -126,18 +149,23 @@ export type UserMinAggregateInputType = {
   emailVerified?: true
   image?: true
   password?: true
+  username?: true
   role?: true
   plan?: true
   qvapayId?: true
   analysisLimit?: true
   analysisUsed?: true
   analysisResetAt?: true
-  createdAt?: true
-  updatedAt?: true
   telegramId?: true
+  telegramTrialStartedAt?: true
+  isTelegramPremiumActive?: true
+  latitude?: true
+  longitude?: true
   currentStreak?: true
   maxStreak?: true
   lastCheckInDate?: true
+  createdAt?: true
+  updatedAt?: true
 }
 
 export type UserMaxAggregateInputType = {
@@ -147,18 +175,23 @@ export type UserMaxAggregateInputType = {
   emailVerified?: true
   image?: true
   password?: true
+  username?: true
   role?: true
   plan?: true
   qvapayId?: true
   analysisLimit?: true
   analysisUsed?: true
   analysisResetAt?: true
-  createdAt?: true
-  updatedAt?: true
   telegramId?: true
+  telegramTrialStartedAt?: true
+  isTelegramPremiumActive?: true
+  latitude?: true
+  longitude?: true
   currentStreak?: true
   maxStreak?: true
   lastCheckInDate?: true
+  createdAt?: true
+  updatedAt?: true
 }
 
 export type UserCountAggregateInputType = {
@@ -168,18 +201,23 @@ export type UserCountAggregateInputType = {
   emailVerified?: true
   image?: true
   password?: true
+  username?: true
   role?: true
   plan?: true
   qvapayId?: true
   analysisLimit?: true
   analysisUsed?: true
   analysisResetAt?: true
-  createdAt?: true
-  updatedAt?: true
   telegramId?: true
+  telegramTrialStartedAt?: true
+  isTelegramPremiumActive?: true
+  latitude?: true
+  longitude?: true
   currentStreak?: true
   maxStreak?: true
   lastCheckInDate?: true
+  createdAt?: true
+  updatedAt?: true
   _all?: true
 }
 
@@ -276,18 +314,23 @@ export type UserGroupByOutputType = {
   emailVerified: Date | null
   image: string | null
   password: string | null
+  username: string | null
   role: string
   plan: string
   qvapayId: string | null
   analysisLimit: number
   analysisUsed: number
   analysisResetAt: Date | null
-  createdAt: Date
-  updatedAt: Date
   telegramId: string | null
+  telegramTrialStartedAt: Date | null
+  isTelegramPremiumActive: boolean
+  latitude: number | null
+  longitude: number | null
   currentStreak: number
   maxStreak: number
   lastCheckInDate: Date | null
+  createdAt: Date
+  updatedAt: Date
   _count: UserCountAggregateOutputType | null
   _avg: UserAvgAggregateOutputType | null
   _sum: UserSumAggregateOutputType | null
@@ -320,21 +363,27 @@ export type UserWhereInput = {
   emailVerified?: Prisma.DateTimeNullableFilter<"User"> | Date | string | null
   image?: Prisma.StringNullableFilter<"User"> | string | null
   password?: Prisma.StringNullableFilter<"User"> | string | null
+  username?: Prisma.StringNullableFilter<"User"> | string | null
   role?: Prisma.StringFilter<"User"> | string
   plan?: Prisma.StringFilter<"User"> | string
   qvapayId?: Prisma.StringNullableFilter<"User"> | string | null
   analysisLimit?: Prisma.IntFilter<"User"> | number
   analysisUsed?: Prisma.IntFilter<"User"> | number
   analysisResetAt?: Prisma.DateTimeNullableFilter<"User"> | Date | string | null
-  createdAt?: Prisma.DateTimeFilter<"User"> | Date | string
-  updatedAt?: Prisma.DateTimeFilter<"User"> | Date | string
   telegramId?: Prisma.StringNullableFilter<"User"> | string | null
+  telegramTrialStartedAt?: Prisma.DateTimeNullableFilter<"User"> | Date | string | null
+  isTelegramPremiumActive?: Prisma.BoolFilter<"User"> | boolean
+  latitude?: Prisma.FloatNullableFilter<"User"> | number | null
+  longitude?: Prisma.FloatNullableFilter<"User"> | number | null
   currentStreak?: Prisma.IntFilter<"User"> | number
   maxStreak?: Prisma.IntFilter<"User"> | number
   lastCheckInDate?: Prisma.DateTimeNullableFilter<"User"> | Date | string | null
+  createdAt?: Prisma.DateTimeFilter<"User"> | Date | string
+  updatedAt?: Prisma.DateTimeFilter<"User"> | Date | string
   accounts?: Prisma.AccountListRelationFilter
   sessions?: Prisma.SessionListRelationFilter
   analyses?: Prisma.SkinAnalysisListRelationFilter
+  analysisJobs?: Prisma.AnalysisJobListRelationFilter
   payments?: Prisma.PaymentListRelationFilter
   subscriptions?: Prisma.SubscriptionListRelationFilter
   purchasePacks?: Prisma.PurchasePackListRelationFilter
@@ -374,21 +423,27 @@ export type UserOrderByWithRelationInput = {
   emailVerified?: Prisma.SortOrderInput | Prisma.SortOrder
   image?: Prisma.SortOrderInput | Prisma.SortOrder
   password?: Prisma.SortOrderInput | Prisma.SortOrder
+  username?: Prisma.SortOrderInput | Prisma.SortOrder
   role?: Prisma.SortOrder
   plan?: Prisma.SortOrder
   qvapayId?: Prisma.SortOrderInput | Prisma.SortOrder
   analysisLimit?: Prisma.SortOrder
   analysisUsed?: Prisma.SortOrder
   analysisResetAt?: Prisma.SortOrderInput | Prisma.SortOrder
-  createdAt?: Prisma.SortOrder
-  updatedAt?: Prisma.SortOrder
   telegramId?: Prisma.SortOrderInput | Prisma.SortOrder
+  telegramTrialStartedAt?: Prisma.SortOrderInput | Prisma.SortOrder
+  isTelegramPremiumActive?: Prisma.SortOrder
+  latitude?: Prisma.SortOrderInput | Prisma.SortOrder
+  longitude?: Prisma.SortOrderInput | Prisma.SortOrder
   currentStreak?: Prisma.SortOrder
   maxStreak?: Prisma.SortOrder
   lastCheckInDate?: Prisma.SortOrderInput | Prisma.SortOrder
+  createdAt?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrder
   accounts?: Prisma.AccountOrderByRelationAggregateInput
   sessions?: Prisma.SessionOrderByRelationAggregateInput
   analyses?: Prisma.SkinAnalysisOrderByRelationAggregateInput
+  analysisJobs?: Prisma.AnalysisJobOrderByRelationAggregateInput
   payments?: Prisma.PaymentOrderByRelationAggregateInput
   subscriptions?: Prisma.SubscriptionOrderByRelationAggregateInput
   purchasePacks?: Prisma.PurchasePackOrderByRelationAggregateInput
@@ -424,6 +479,7 @@ export type UserOrderByWithRelationInput = {
 export type UserWhereUniqueInput = Prisma.AtLeast<{
   id?: string
   email?: string
+  username?: string
   AND?: Prisma.UserWhereInput | Prisma.UserWhereInput[]
   OR?: Prisma.UserWhereInput[]
   NOT?: Prisma.UserWhereInput | Prisma.UserWhereInput[]
@@ -437,15 +493,20 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   analysisLimit?: Prisma.IntFilter<"User"> | number
   analysisUsed?: Prisma.IntFilter<"User"> | number
   analysisResetAt?: Prisma.DateTimeNullableFilter<"User"> | Date | string | null
-  createdAt?: Prisma.DateTimeFilter<"User"> | Date | string
-  updatedAt?: Prisma.DateTimeFilter<"User"> | Date | string
   telegramId?: Prisma.StringNullableFilter<"User"> | string | null
+  telegramTrialStartedAt?: Prisma.DateTimeNullableFilter<"User"> | Date | string | null
+  isTelegramPremiumActive?: Prisma.BoolFilter<"User"> | boolean
+  latitude?: Prisma.FloatNullableFilter<"User"> | number | null
+  longitude?: Prisma.FloatNullableFilter<"User"> | number | null
   currentStreak?: Prisma.IntFilter<"User"> | number
   maxStreak?: Prisma.IntFilter<"User"> | number
   lastCheckInDate?: Prisma.DateTimeNullableFilter<"User"> | Date | string | null
+  createdAt?: Prisma.DateTimeFilter<"User"> | Date | string
+  updatedAt?: Prisma.DateTimeFilter<"User"> | Date | string
   accounts?: Prisma.AccountListRelationFilter
   sessions?: Prisma.SessionListRelationFilter
   analyses?: Prisma.SkinAnalysisListRelationFilter
+  analysisJobs?: Prisma.AnalysisJobListRelationFilter
   payments?: Prisma.PaymentListRelationFilter
   subscriptions?: Prisma.SubscriptionListRelationFilter
   purchasePacks?: Prisma.PurchasePackListRelationFilter
@@ -476,7 +537,7 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   communityGroups?: Prisma.CommunityGroupListRelationFilter
   communityMemberships?: Prisma.CommunityMemberListRelationFilter
   postReactions?: Prisma.PostReactionListRelationFilter
-}, "id" | "email">
+}, "id" | "email" | "username">
 
 export type UserOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
@@ -485,18 +546,23 @@ export type UserOrderByWithAggregationInput = {
   emailVerified?: Prisma.SortOrderInput | Prisma.SortOrder
   image?: Prisma.SortOrderInput | Prisma.SortOrder
   password?: Prisma.SortOrderInput | Prisma.SortOrder
+  username?: Prisma.SortOrderInput | Prisma.SortOrder
   role?: Prisma.SortOrder
   plan?: Prisma.SortOrder
   qvapayId?: Prisma.SortOrderInput | Prisma.SortOrder
   analysisLimit?: Prisma.SortOrder
   analysisUsed?: Prisma.SortOrder
   analysisResetAt?: Prisma.SortOrderInput | Prisma.SortOrder
-  createdAt?: Prisma.SortOrder
-  updatedAt?: Prisma.SortOrder
   telegramId?: Prisma.SortOrderInput | Prisma.SortOrder
+  telegramTrialStartedAt?: Prisma.SortOrderInput | Prisma.SortOrder
+  isTelegramPremiumActive?: Prisma.SortOrder
+  latitude?: Prisma.SortOrderInput | Prisma.SortOrder
+  longitude?: Prisma.SortOrderInput | Prisma.SortOrder
   currentStreak?: Prisma.SortOrder
   maxStreak?: Prisma.SortOrder
   lastCheckInDate?: Prisma.SortOrderInput | Prisma.SortOrder
+  createdAt?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrder
   _count?: Prisma.UserCountOrderByAggregateInput
   _avg?: Prisma.UserAvgOrderByAggregateInput
   _max?: Prisma.UserMaxOrderByAggregateInput
@@ -514,18 +580,23 @@ export type UserScalarWhereWithAggregatesInput = {
   emailVerified?: Prisma.DateTimeNullableWithAggregatesFilter<"User"> | Date | string | null
   image?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
   password?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
+  username?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
   role?: Prisma.StringWithAggregatesFilter<"User"> | string
   plan?: Prisma.StringWithAggregatesFilter<"User"> | string
   qvapayId?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
   analysisLimit?: Prisma.IntWithAggregatesFilter<"User"> | number
   analysisUsed?: Prisma.IntWithAggregatesFilter<"User"> | number
   analysisResetAt?: Prisma.DateTimeNullableWithAggregatesFilter<"User"> | Date | string | null
-  createdAt?: Prisma.DateTimeWithAggregatesFilter<"User"> | Date | string
-  updatedAt?: Prisma.DateTimeWithAggregatesFilter<"User"> | Date | string
   telegramId?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
+  telegramTrialStartedAt?: Prisma.DateTimeNullableWithAggregatesFilter<"User"> | Date | string | null
+  isTelegramPremiumActive?: Prisma.BoolWithAggregatesFilter<"User"> | boolean
+  latitude?: Prisma.FloatNullableWithAggregatesFilter<"User"> | number | null
+  longitude?: Prisma.FloatNullableWithAggregatesFilter<"User"> | number | null
   currentStreak?: Prisma.IntWithAggregatesFilter<"User"> | number
   maxStreak?: Prisma.IntWithAggregatesFilter<"User"> | number
   lastCheckInDate?: Prisma.DateTimeNullableWithAggregatesFilter<"User"> | Date | string | null
+  createdAt?: Prisma.DateTimeWithAggregatesFilter<"User"> | Date | string
+  updatedAt?: Prisma.DateTimeWithAggregatesFilter<"User"> | Date | string
 }
 
 export type UserCreateInput = {
@@ -535,21 +606,27 @@ export type UserCreateInput = {
   emailVerified?: Date | string | null
   image?: string | null
   password?: string | null
+  username?: string | null
   role?: string
   plan?: string
   qvapayId?: string | null
   analysisLimit?: number
   analysisUsed?: number
   analysisResetAt?: Date | string | null
-  createdAt?: Date | string
-  updatedAt?: Date | string
   telegramId?: string | null
+  telegramTrialStartedAt?: Date | string | null
+  isTelegramPremiumActive?: boolean
+  latitude?: number | null
+  longitude?: number | null
   currentStreak?: number
   maxStreak?: number
   lastCheckInDate?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
   analyses?: Prisma.SkinAnalysisCreateNestedManyWithoutUserInput
+  analysisJobs?: Prisma.AnalysisJobCreateNestedManyWithoutUserInput
   payments?: Prisma.PaymentCreateNestedManyWithoutUserInput
   subscriptions?: Prisma.SubscriptionCreateNestedManyWithoutUserInput
   purchasePacks?: Prisma.PurchasePackCreateNestedManyWithoutUserInput
@@ -589,21 +666,27 @@ export type UserUncheckedCreateInput = {
   emailVerified?: Date | string | null
   image?: string | null
   password?: string | null
+  username?: string | null
   role?: string
   plan?: string
   qvapayId?: string | null
   analysisLimit?: number
   analysisUsed?: number
   analysisResetAt?: Date | string | null
-  createdAt?: Date | string
-  updatedAt?: Date | string
   telegramId?: string | null
+  telegramTrialStartedAt?: Date | string | null
+  isTelegramPremiumActive?: boolean
+  latitude?: number | null
+  longitude?: number | null
   currentStreak?: number
   maxStreak?: number
   lastCheckInDate?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   analyses?: Prisma.SkinAnalysisUncheckedCreateNestedManyWithoutUserInput
+  analysisJobs?: Prisma.AnalysisJobUncheckedCreateNestedManyWithoutUserInput
   payments?: Prisma.PaymentUncheckedCreateNestedManyWithoutUserInput
   subscriptions?: Prisma.SubscriptionUncheckedCreateNestedManyWithoutUserInput
   purchasePacks?: Prisma.PurchasePackUncheckedCreateNestedManyWithoutUserInput
@@ -643,21 +726,27 @@ export type UserUpdateInput = {
   emailVerified?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.StringFieldUpdateOperationsInput | string
   plan?: Prisma.StringFieldUpdateOperationsInput | string
   qvapayId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   analysisLimit?: Prisma.IntFieldUpdateOperationsInput | number
   analysisUsed?: Prisma.IntFieldUpdateOperationsInput | number
   analysisResetAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   telegramId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  telegramTrialStartedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  isTelegramPremiumActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  latitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  longitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   currentStreak?: Prisma.IntFieldUpdateOperationsInput | number
   maxStreak?: Prisma.IntFieldUpdateOperationsInput | number
   lastCheckInDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
   sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
   analyses?: Prisma.SkinAnalysisUpdateManyWithoutUserNestedInput
+  analysisJobs?: Prisma.AnalysisJobUpdateManyWithoutUserNestedInput
   payments?: Prisma.PaymentUpdateManyWithoutUserNestedInput
   subscriptions?: Prisma.SubscriptionUpdateManyWithoutUserNestedInput
   purchasePacks?: Prisma.PurchasePackUpdateManyWithoutUserNestedInput
@@ -697,21 +786,27 @@ export type UserUncheckedUpdateInput = {
   emailVerified?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.StringFieldUpdateOperationsInput | string
   plan?: Prisma.StringFieldUpdateOperationsInput | string
   qvapayId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   analysisLimit?: Prisma.IntFieldUpdateOperationsInput | number
   analysisUsed?: Prisma.IntFieldUpdateOperationsInput | number
   analysisResetAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   telegramId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  telegramTrialStartedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  isTelegramPremiumActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  latitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  longitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   currentStreak?: Prisma.IntFieldUpdateOperationsInput | number
   maxStreak?: Prisma.IntFieldUpdateOperationsInput | number
   lastCheckInDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   analyses?: Prisma.SkinAnalysisUncheckedUpdateManyWithoutUserNestedInput
+  analysisJobs?: Prisma.AnalysisJobUncheckedUpdateManyWithoutUserNestedInput
   payments?: Prisma.PaymentUncheckedUpdateManyWithoutUserNestedInput
   subscriptions?: Prisma.SubscriptionUncheckedUpdateManyWithoutUserNestedInput
   purchasePacks?: Prisma.PurchasePackUncheckedUpdateManyWithoutUserNestedInput
@@ -751,18 +846,23 @@ export type UserCreateManyInput = {
   emailVerified?: Date | string | null
   image?: string | null
   password?: string | null
+  username?: string | null
   role?: string
   plan?: string
   qvapayId?: string | null
   analysisLimit?: number
   analysisUsed?: number
   analysisResetAt?: Date | string | null
-  createdAt?: Date | string
-  updatedAt?: Date | string
   telegramId?: string | null
+  telegramTrialStartedAt?: Date | string | null
+  isTelegramPremiumActive?: boolean
+  latitude?: number | null
+  longitude?: number | null
   currentStreak?: number
   maxStreak?: number
   lastCheckInDate?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
 }
 
 export type UserUpdateManyMutationInput = {
@@ -772,18 +872,23 @@ export type UserUpdateManyMutationInput = {
   emailVerified?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.StringFieldUpdateOperationsInput | string
   plan?: Prisma.StringFieldUpdateOperationsInput | string
   qvapayId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   analysisLimit?: Prisma.IntFieldUpdateOperationsInput | number
   analysisUsed?: Prisma.IntFieldUpdateOperationsInput | number
   analysisResetAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   telegramId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  telegramTrialStartedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  isTelegramPremiumActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  latitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  longitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   currentStreak?: Prisma.IntFieldUpdateOperationsInput | number
   maxStreak?: Prisma.IntFieldUpdateOperationsInput | number
   lastCheckInDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type UserUncheckedUpdateManyInput = {
@@ -793,18 +898,23 @@ export type UserUncheckedUpdateManyInput = {
   emailVerified?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.StringFieldUpdateOperationsInput | string
   plan?: Prisma.StringFieldUpdateOperationsInput | string
   qvapayId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   analysisLimit?: Prisma.IntFieldUpdateOperationsInput | number
   analysisUsed?: Prisma.IntFieldUpdateOperationsInput | number
   analysisResetAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   telegramId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  telegramTrialStartedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  isTelegramPremiumActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  latitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  longitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   currentStreak?: Prisma.IntFieldUpdateOperationsInput | number
   maxStreak?: Prisma.IntFieldUpdateOperationsInput | number
   lastCheckInDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type UserCountOrderByAggregateInput = {
@@ -814,23 +924,30 @@ export type UserCountOrderByAggregateInput = {
   emailVerified?: Prisma.SortOrder
   image?: Prisma.SortOrder
   password?: Prisma.SortOrder
+  username?: Prisma.SortOrder
   role?: Prisma.SortOrder
   plan?: Prisma.SortOrder
   qvapayId?: Prisma.SortOrder
   analysisLimit?: Prisma.SortOrder
   analysisUsed?: Prisma.SortOrder
   analysisResetAt?: Prisma.SortOrder
-  createdAt?: Prisma.SortOrder
-  updatedAt?: Prisma.SortOrder
   telegramId?: Prisma.SortOrder
+  telegramTrialStartedAt?: Prisma.SortOrder
+  isTelegramPremiumActive?: Prisma.SortOrder
+  latitude?: Prisma.SortOrder
+  longitude?: Prisma.SortOrder
   currentStreak?: Prisma.SortOrder
   maxStreak?: Prisma.SortOrder
   lastCheckInDate?: Prisma.SortOrder
+  createdAt?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrder
 }
 
 export type UserAvgOrderByAggregateInput = {
   analysisLimit?: Prisma.SortOrder
   analysisUsed?: Prisma.SortOrder
+  latitude?: Prisma.SortOrder
+  longitude?: Prisma.SortOrder
   currentStreak?: Prisma.SortOrder
   maxStreak?: Prisma.SortOrder
 }
@@ -842,18 +959,23 @@ export type UserMaxOrderByAggregateInput = {
   emailVerified?: Prisma.SortOrder
   image?: Prisma.SortOrder
   password?: Prisma.SortOrder
+  username?: Prisma.SortOrder
   role?: Prisma.SortOrder
   plan?: Prisma.SortOrder
   qvapayId?: Prisma.SortOrder
   analysisLimit?: Prisma.SortOrder
   analysisUsed?: Prisma.SortOrder
   analysisResetAt?: Prisma.SortOrder
-  createdAt?: Prisma.SortOrder
-  updatedAt?: Prisma.SortOrder
   telegramId?: Prisma.SortOrder
+  telegramTrialStartedAt?: Prisma.SortOrder
+  isTelegramPremiumActive?: Prisma.SortOrder
+  latitude?: Prisma.SortOrder
+  longitude?: Prisma.SortOrder
   currentStreak?: Prisma.SortOrder
   maxStreak?: Prisma.SortOrder
   lastCheckInDate?: Prisma.SortOrder
+  createdAt?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrder
 }
 
 export type UserMinOrderByAggregateInput = {
@@ -863,23 +985,30 @@ export type UserMinOrderByAggregateInput = {
   emailVerified?: Prisma.SortOrder
   image?: Prisma.SortOrder
   password?: Prisma.SortOrder
+  username?: Prisma.SortOrder
   role?: Prisma.SortOrder
   plan?: Prisma.SortOrder
   qvapayId?: Prisma.SortOrder
   analysisLimit?: Prisma.SortOrder
   analysisUsed?: Prisma.SortOrder
   analysisResetAt?: Prisma.SortOrder
-  createdAt?: Prisma.SortOrder
-  updatedAt?: Prisma.SortOrder
   telegramId?: Prisma.SortOrder
+  telegramTrialStartedAt?: Prisma.SortOrder
+  isTelegramPremiumActive?: Prisma.SortOrder
+  latitude?: Prisma.SortOrder
+  longitude?: Prisma.SortOrder
   currentStreak?: Prisma.SortOrder
   maxStreak?: Prisma.SortOrder
   lastCheckInDate?: Prisma.SortOrder
+  createdAt?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrder
 }
 
 export type UserSumOrderByAggregateInput = {
   analysisLimit?: Prisma.SortOrder
   analysisUsed?: Prisma.SortOrder
+  latitude?: Prisma.SortOrder
+  longitude?: Prisma.SortOrder
   currentStreak?: Prisma.SortOrder
   maxStreak?: Prisma.SortOrder
 }
@@ -914,8 +1043,34 @@ export type IntFieldUpdateOperationsInput = {
   divide?: number
 }
 
+export type BoolFieldUpdateOperationsInput = {
+  set?: boolean
+}
+
+export type NullableFloatFieldUpdateOperationsInput = {
+  set?: number | null
+  increment?: number
+  decrement?: number
+  multiply?: number
+  divide?: number
+}
+
 export type DateTimeFieldUpdateOperationsInput = {
   set?: Date | string
+}
+
+export type UserCreateNestedOneWithoutAnalysisJobsInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutAnalysisJobsInput, Prisma.UserUncheckedCreateWithoutAnalysisJobsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutAnalysisJobsInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneRequiredWithoutAnalysisJobsNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutAnalysisJobsInput, Prisma.UserUncheckedCreateWithoutAnalysisJobsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutAnalysisJobsInput
+  upsert?: Prisma.UserUpsertWithoutAnalysisJobsInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutAnalysisJobsInput, Prisma.UserUpdateWithoutAnalysisJobsInput>, Prisma.UserUncheckedUpdateWithoutAnalysisJobsInput>
 }
 
 export type UserCreateNestedOneWithoutAccountsInput = {
@@ -1396,6 +1551,258 @@ export type UserUpdateOneWithoutChatMessagesNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutChatMessagesInput, Prisma.UserUpdateWithoutChatMessagesInput>, Prisma.UserUncheckedUpdateWithoutChatMessagesInput>
 }
 
+export type UserCreateWithoutAnalysisJobsInput = {
+  id?: string
+  name?: string | null
+  email: string
+  emailVerified?: Date | string | null
+  image?: string | null
+  password?: string | null
+  username?: string | null
+  role?: string
+  plan?: string
+  qvapayId?: string | null
+  analysisLimit?: number
+  analysisUsed?: number
+  analysisResetAt?: Date | string | null
+  telegramId?: string | null
+  telegramTrialStartedAt?: Date | string | null
+  isTelegramPremiumActive?: boolean
+  latitude?: number | null
+  longitude?: number | null
+  currentStreak?: number
+  maxStreak?: number
+  lastCheckInDate?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
+  sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
+  analyses?: Prisma.SkinAnalysisCreateNestedManyWithoutUserInput
+  payments?: Prisma.PaymentCreateNestedManyWithoutUserInput
+  subscriptions?: Prisma.SubscriptionCreateNestedManyWithoutUserInput
+  purchasePacks?: Prisma.PurchasePackCreateNestedManyWithoutUserInput
+  usageRecords?: Prisma.UsageTrackingCreateNestedManyWithoutUserInput
+  clinic?: Prisma.ClinicCreateNestedOneWithoutOwnerInput
+  surveyFeedback?: Prisma.SurveyFeedbackCreateNestedManyWithoutUserInput
+  communityPosts?: Prisma.CommunityPostCreateNestedManyWithoutUserInput
+  comments?: Prisma.CommentCreateNestedManyWithoutUserInput
+  skinDiary?: Prisma.SkinDiaryCreateNestedManyWithoutUserInput
+  userChallenges?: Prisma.UserChallengeCreateNestedManyWithoutUserInput
+  productReviews?: Prisma.ProductReviewCreateNestedManyWithoutUserInput
+  referralsOwned?: Prisma.ReferralCreateNestedManyWithoutReferrerInput
+  referralsReferred?: Prisma.ReferralCreateNestedManyWithoutReferredInput
+  groupsOwned?: Prisma.GroupAnalyticsCreateNestedManyWithoutReferrerInput
+  digitalPurchases?: Prisma.DigitalProductPurchaseCreateNestedManyWithoutUserInput
+  affiliateClicks?: Prisma.AffiliateClickCreateNestedManyWithoutUserInput
+  evolution?: Prisma.UserEvolutionCreateNestedOneWithoutUserInput
+  checkIns?: Prisma.DailyCheckInCreateNestedManyWithoutUserInput
+  transferPayments?: Prisma.TransferPaymentCreateNestedManyWithoutUserInput
+  validatedTransfers?: Prisma.TransferPaymentCreateNestedManyWithoutValidatorInput
+  activatedTransfers?: Prisma.TransferPaymentCreateNestedManyWithoutActivatorInput
+  auditLogs?: Prisma.AuditLogCreateNestedManyWithoutUserInput
+  notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
+  supportTickets?: Prisma.SupportTicketCreateNestedManyWithoutUserInput
+  ticketResponses?: Prisma.SupportTicketResponseCreateNestedManyWithoutUserInput
+  chatMessages?: Prisma.ChatMessageCreateNestedManyWithoutUserInput
+  contactMessages?: Prisma.ContactMessageCreateNestedManyWithoutUserInput
+  communityGroups?: Prisma.CommunityGroupCreateNestedManyWithoutCreatorInput
+  communityMemberships?: Prisma.CommunityMemberCreateNestedManyWithoutUserInput
+  postReactions?: Prisma.PostReactionCreateNestedManyWithoutUserInput
+}
+
+export type UserUncheckedCreateWithoutAnalysisJobsInput = {
+  id?: string
+  name?: string | null
+  email: string
+  emailVerified?: Date | string | null
+  image?: string | null
+  password?: string | null
+  username?: string | null
+  role?: string
+  plan?: string
+  qvapayId?: string | null
+  analysisLimit?: number
+  analysisUsed?: number
+  analysisResetAt?: Date | string | null
+  telegramId?: string | null
+  telegramTrialStartedAt?: Date | string | null
+  isTelegramPremiumActive?: boolean
+  latitude?: number | null
+  longitude?: number | null
+  currentStreak?: number
+  maxStreak?: number
+  lastCheckInDate?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
+  sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
+  analyses?: Prisma.SkinAnalysisUncheckedCreateNestedManyWithoutUserInput
+  payments?: Prisma.PaymentUncheckedCreateNestedManyWithoutUserInput
+  subscriptions?: Prisma.SubscriptionUncheckedCreateNestedManyWithoutUserInput
+  purchasePacks?: Prisma.PurchasePackUncheckedCreateNestedManyWithoutUserInput
+  usageRecords?: Prisma.UsageTrackingUncheckedCreateNestedManyWithoutUserInput
+  clinic?: Prisma.ClinicUncheckedCreateNestedOneWithoutOwnerInput
+  surveyFeedback?: Prisma.SurveyFeedbackUncheckedCreateNestedManyWithoutUserInput
+  communityPosts?: Prisma.CommunityPostUncheckedCreateNestedManyWithoutUserInput
+  comments?: Prisma.CommentUncheckedCreateNestedManyWithoutUserInput
+  skinDiary?: Prisma.SkinDiaryUncheckedCreateNestedManyWithoutUserInput
+  userChallenges?: Prisma.UserChallengeUncheckedCreateNestedManyWithoutUserInput
+  productReviews?: Prisma.ProductReviewUncheckedCreateNestedManyWithoutUserInput
+  referralsOwned?: Prisma.ReferralUncheckedCreateNestedManyWithoutReferrerInput
+  referralsReferred?: Prisma.ReferralUncheckedCreateNestedManyWithoutReferredInput
+  groupsOwned?: Prisma.GroupAnalyticsUncheckedCreateNestedManyWithoutReferrerInput
+  digitalPurchases?: Prisma.DigitalProductPurchaseUncheckedCreateNestedManyWithoutUserInput
+  affiliateClicks?: Prisma.AffiliateClickUncheckedCreateNestedManyWithoutUserInput
+  evolution?: Prisma.UserEvolutionUncheckedCreateNestedOneWithoutUserInput
+  checkIns?: Prisma.DailyCheckInUncheckedCreateNestedManyWithoutUserInput
+  transferPayments?: Prisma.TransferPaymentUncheckedCreateNestedManyWithoutUserInput
+  validatedTransfers?: Prisma.TransferPaymentUncheckedCreateNestedManyWithoutValidatorInput
+  activatedTransfers?: Prisma.TransferPaymentUncheckedCreateNestedManyWithoutActivatorInput
+  auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutUserInput
+  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
+  supportTickets?: Prisma.SupportTicketUncheckedCreateNestedManyWithoutUserInput
+  ticketResponses?: Prisma.SupportTicketResponseUncheckedCreateNestedManyWithoutUserInput
+  chatMessages?: Prisma.ChatMessageUncheckedCreateNestedManyWithoutUserInput
+  contactMessages?: Prisma.ContactMessageUncheckedCreateNestedManyWithoutUserInput
+  communityGroups?: Prisma.CommunityGroupUncheckedCreateNestedManyWithoutCreatorInput
+  communityMemberships?: Prisma.CommunityMemberUncheckedCreateNestedManyWithoutUserInput
+  postReactions?: Prisma.PostReactionUncheckedCreateNestedManyWithoutUserInput
+}
+
+export type UserCreateOrConnectWithoutAnalysisJobsInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutAnalysisJobsInput, Prisma.UserUncheckedCreateWithoutAnalysisJobsInput>
+}
+
+export type UserUpsertWithoutAnalysisJobsInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutAnalysisJobsInput, Prisma.UserUncheckedUpdateWithoutAnalysisJobsInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutAnalysisJobsInput, Prisma.UserUncheckedCreateWithoutAnalysisJobsInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutAnalysisJobsInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutAnalysisJobsInput, Prisma.UserUncheckedUpdateWithoutAnalysisJobsInput>
+}
+
+export type UserUpdateWithoutAnalysisJobsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  emailVerified?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.StringFieldUpdateOperationsInput | string
+  plan?: Prisma.StringFieldUpdateOperationsInput | string
+  qvapayId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  analysisLimit?: Prisma.IntFieldUpdateOperationsInput | number
+  analysisUsed?: Prisma.IntFieldUpdateOperationsInput | number
+  analysisResetAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  telegramId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  telegramTrialStartedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  isTelegramPremiumActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  latitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  longitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  currentStreak?: Prisma.IntFieldUpdateOperationsInput | number
+  maxStreak?: Prisma.IntFieldUpdateOperationsInput | number
+  lastCheckInDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
+  sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
+  analyses?: Prisma.SkinAnalysisUpdateManyWithoutUserNestedInput
+  payments?: Prisma.PaymentUpdateManyWithoutUserNestedInput
+  subscriptions?: Prisma.SubscriptionUpdateManyWithoutUserNestedInput
+  purchasePacks?: Prisma.PurchasePackUpdateManyWithoutUserNestedInput
+  usageRecords?: Prisma.UsageTrackingUpdateManyWithoutUserNestedInput
+  clinic?: Prisma.ClinicUpdateOneWithoutOwnerNestedInput
+  surveyFeedback?: Prisma.SurveyFeedbackUpdateManyWithoutUserNestedInput
+  communityPosts?: Prisma.CommunityPostUpdateManyWithoutUserNestedInput
+  comments?: Prisma.CommentUpdateManyWithoutUserNestedInput
+  skinDiary?: Prisma.SkinDiaryUpdateManyWithoutUserNestedInput
+  userChallenges?: Prisma.UserChallengeUpdateManyWithoutUserNestedInput
+  productReviews?: Prisma.ProductReviewUpdateManyWithoutUserNestedInput
+  referralsOwned?: Prisma.ReferralUpdateManyWithoutReferrerNestedInput
+  referralsReferred?: Prisma.ReferralUpdateManyWithoutReferredNestedInput
+  groupsOwned?: Prisma.GroupAnalyticsUpdateManyWithoutReferrerNestedInput
+  digitalPurchases?: Prisma.DigitalProductPurchaseUpdateManyWithoutUserNestedInput
+  affiliateClicks?: Prisma.AffiliateClickUpdateManyWithoutUserNestedInput
+  evolution?: Prisma.UserEvolutionUpdateOneWithoutUserNestedInput
+  checkIns?: Prisma.DailyCheckInUpdateManyWithoutUserNestedInput
+  transferPayments?: Prisma.TransferPaymentUpdateManyWithoutUserNestedInput
+  validatedTransfers?: Prisma.TransferPaymentUpdateManyWithoutValidatorNestedInput
+  activatedTransfers?: Prisma.TransferPaymentUpdateManyWithoutActivatorNestedInput
+  auditLogs?: Prisma.AuditLogUpdateManyWithoutUserNestedInput
+  notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
+  supportTickets?: Prisma.SupportTicketUpdateManyWithoutUserNestedInput
+  ticketResponses?: Prisma.SupportTicketResponseUpdateManyWithoutUserNestedInput
+  chatMessages?: Prisma.ChatMessageUpdateManyWithoutUserNestedInput
+  contactMessages?: Prisma.ContactMessageUpdateManyWithoutUserNestedInput
+  communityGroups?: Prisma.CommunityGroupUpdateManyWithoutCreatorNestedInput
+  communityMemberships?: Prisma.CommunityMemberUpdateManyWithoutUserNestedInput
+  postReactions?: Prisma.PostReactionUpdateManyWithoutUserNestedInput
+}
+
+export type UserUncheckedUpdateWithoutAnalysisJobsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  emailVerified?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.StringFieldUpdateOperationsInput | string
+  plan?: Prisma.StringFieldUpdateOperationsInput | string
+  qvapayId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  analysisLimit?: Prisma.IntFieldUpdateOperationsInput | number
+  analysisUsed?: Prisma.IntFieldUpdateOperationsInput | number
+  analysisResetAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  telegramId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  telegramTrialStartedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  isTelegramPremiumActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  latitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  longitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  currentStreak?: Prisma.IntFieldUpdateOperationsInput | number
+  maxStreak?: Prisma.IntFieldUpdateOperationsInput | number
+  lastCheckInDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
+  sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
+  analyses?: Prisma.SkinAnalysisUncheckedUpdateManyWithoutUserNestedInput
+  payments?: Prisma.PaymentUncheckedUpdateManyWithoutUserNestedInput
+  subscriptions?: Prisma.SubscriptionUncheckedUpdateManyWithoutUserNestedInput
+  purchasePacks?: Prisma.PurchasePackUncheckedUpdateManyWithoutUserNestedInput
+  usageRecords?: Prisma.UsageTrackingUncheckedUpdateManyWithoutUserNestedInput
+  clinic?: Prisma.ClinicUncheckedUpdateOneWithoutOwnerNestedInput
+  surveyFeedback?: Prisma.SurveyFeedbackUncheckedUpdateManyWithoutUserNestedInput
+  communityPosts?: Prisma.CommunityPostUncheckedUpdateManyWithoutUserNestedInput
+  comments?: Prisma.CommentUncheckedUpdateManyWithoutUserNestedInput
+  skinDiary?: Prisma.SkinDiaryUncheckedUpdateManyWithoutUserNestedInput
+  userChallenges?: Prisma.UserChallengeUncheckedUpdateManyWithoutUserNestedInput
+  productReviews?: Prisma.ProductReviewUncheckedUpdateManyWithoutUserNestedInput
+  referralsOwned?: Prisma.ReferralUncheckedUpdateManyWithoutReferrerNestedInput
+  referralsReferred?: Prisma.ReferralUncheckedUpdateManyWithoutReferredNestedInput
+  groupsOwned?: Prisma.GroupAnalyticsUncheckedUpdateManyWithoutReferrerNestedInput
+  digitalPurchases?: Prisma.DigitalProductPurchaseUncheckedUpdateManyWithoutUserNestedInput
+  affiliateClicks?: Prisma.AffiliateClickUncheckedUpdateManyWithoutUserNestedInput
+  evolution?: Prisma.UserEvolutionUncheckedUpdateOneWithoutUserNestedInput
+  checkIns?: Prisma.DailyCheckInUncheckedUpdateManyWithoutUserNestedInput
+  transferPayments?: Prisma.TransferPaymentUncheckedUpdateManyWithoutUserNestedInput
+  validatedTransfers?: Prisma.TransferPaymentUncheckedUpdateManyWithoutValidatorNestedInput
+  activatedTransfers?: Prisma.TransferPaymentUncheckedUpdateManyWithoutActivatorNestedInput
+  auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutUserNestedInput
+  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
+  supportTickets?: Prisma.SupportTicketUncheckedUpdateManyWithoutUserNestedInput
+  ticketResponses?: Prisma.SupportTicketResponseUncheckedUpdateManyWithoutUserNestedInput
+  chatMessages?: Prisma.ChatMessageUncheckedUpdateManyWithoutUserNestedInput
+  contactMessages?: Prisma.ContactMessageUncheckedUpdateManyWithoutUserNestedInput
+  communityGroups?: Prisma.CommunityGroupUncheckedUpdateManyWithoutCreatorNestedInput
+  communityMemberships?: Prisma.CommunityMemberUncheckedUpdateManyWithoutUserNestedInput
+  postReactions?: Prisma.PostReactionUncheckedUpdateManyWithoutUserNestedInput
+}
+
 export type UserCreateWithoutAccountsInput = {
   id?: string
   name?: string | null
@@ -1403,20 +1810,26 @@ export type UserCreateWithoutAccountsInput = {
   emailVerified?: Date | string | null
   image?: string | null
   password?: string | null
+  username?: string | null
   role?: string
   plan?: string
   qvapayId?: string | null
   analysisLimit?: number
   analysisUsed?: number
   analysisResetAt?: Date | string | null
-  createdAt?: Date | string
-  updatedAt?: Date | string
   telegramId?: string | null
+  telegramTrialStartedAt?: Date | string | null
+  isTelegramPremiumActive?: boolean
+  latitude?: number | null
+  longitude?: number | null
   currentStreak?: number
   maxStreak?: number
   lastCheckInDate?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
   analyses?: Prisma.SkinAnalysisCreateNestedManyWithoutUserInput
+  analysisJobs?: Prisma.AnalysisJobCreateNestedManyWithoutUserInput
   payments?: Prisma.PaymentCreateNestedManyWithoutUserInput
   subscriptions?: Prisma.SubscriptionCreateNestedManyWithoutUserInput
   purchasePacks?: Prisma.PurchasePackCreateNestedManyWithoutUserInput
@@ -1456,20 +1869,26 @@ export type UserUncheckedCreateWithoutAccountsInput = {
   emailVerified?: Date | string | null
   image?: string | null
   password?: string | null
+  username?: string | null
   role?: string
   plan?: string
   qvapayId?: string | null
   analysisLimit?: number
   analysisUsed?: number
   analysisResetAt?: Date | string | null
-  createdAt?: Date | string
-  updatedAt?: Date | string
   telegramId?: string | null
+  telegramTrialStartedAt?: Date | string | null
+  isTelegramPremiumActive?: boolean
+  latitude?: number | null
+  longitude?: number | null
   currentStreak?: number
   maxStreak?: number
   lastCheckInDate?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   analyses?: Prisma.SkinAnalysisUncheckedCreateNestedManyWithoutUserInput
+  analysisJobs?: Prisma.AnalysisJobUncheckedCreateNestedManyWithoutUserInput
   payments?: Prisma.PaymentUncheckedCreateNestedManyWithoutUserInput
   subscriptions?: Prisma.SubscriptionUncheckedCreateNestedManyWithoutUserInput
   purchasePacks?: Prisma.PurchasePackUncheckedCreateNestedManyWithoutUserInput
@@ -1525,20 +1944,26 @@ export type UserUpdateWithoutAccountsInput = {
   emailVerified?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.StringFieldUpdateOperationsInput | string
   plan?: Prisma.StringFieldUpdateOperationsInput | string
   qvapayId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   analysisLimit?: Prisma.IntFieldUpdateOperationsInput | number
   analysisUsed?: Prisma.IntFieldUpdateOperationsInput | number
   analysisResetAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   telegramId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  telegramTrialStartedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  isTelegramPremiumActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  latitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  longitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   currentStreak?: Prisma.IntFieldUpdateOperationsInput | number
   maxStreak?: Prisma.IntFieldUpdateOperationsInput | number
   lastCheckInDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
   analyses?: Prisma.SkinAnalysisUpdateManyWithoutUserNestedInput
+  analysisJobs?: Prisma.AnalysisJobUpdateManyWithoutUserNestedInput
   payments?: Prisma.PaymentUpdateManyWithoutUserNestedInput
   subscriptions?: Prisma.SubscriptionUpdateManyWithoutUserNestedInput
   purchasePacks?: Prisma.PurchasePackUpdateManyWithoutUserNestedInput
@@ -1578,20 +2003,26 @@ export type UserUncheckedUpdateWithoutAccountsInput = {
   emailVerified?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.StringFieldUpdateOperationsInput | string
   plan?: Prisma.StringFieldUpdateOperationsInput | string
   qvapayId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   analysisLimit?: Prisma.IntFieldUpdateOperationsInput | number
   analysisUsed?: Prisma.IntFieldUpdateOperationsInput | number
   analysisResetAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   telegramId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  telegramTrialStartedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  isTelegramPremiumActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  latitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  longitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   currentStreak?: Prisma.IntFieldUpdateOperationsInput | number
   maxStreak?: Prisma.IntFieldUpdateOperationsInput | number
   lastCheckInDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   analyses?: Prisma.SkinAnalysisUncheckedUpdateManyWithoutUserNestedInput
+  analysisJobs?: Prisma.AnalysisJobUncheckedUpdateManyWithoutUserNestedInput
   payments?: Prisma.PaymentUncheckedUpdateManyWithoutUserNestedInput
   subscriptions?: Prisma.SubscriptionUncheckedUpdateManyWithoutUserNestedInput
   purchasePacks?: Prisma.PurchasePackUncheckedUpdateManyWithoutUserNestedInput
@@ -1631,20 +2062,26 @@ export type UserCreateWithoutSessionsInput = {
   emailVerified?: Date | string | null
   image?: string | null
   password?: string | null
+  username?: string | null
   role?: string
   plan?: string
   qvapayId?: string | null
   analysisLimit?: number
   analysisUsed?: number
   analysisResetAt?: Date | string | null
-  createdAt?: Date | string
-  updatedAt?: Date | string
   telegramId?: string | null
+  telegramTrialStartedAt?: Date | string | null
+  isTelegramPremiumActive?: boolean
+  latitude?: number | null
+  longitude?: number | null
   currentStreak?: number
   maxStreak?: number
   lastCheckInDate?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
   analyses?: Prisma.SkinAnalysisCreateNestedManyWithoutUserInput
+  analysisJobs?: Prisma.AnalysisJobCreateNestedManyWithoutUserInput
   payments?: Prisma.PaymentCreateNestedManyWithoutUserInput
   subscriptions?: Prisma.SubscriptionCreateNestedManyWithoutUserInput
   purchasePacks?: Prisma.PurchasePackCreateNestedManyWithoutUserInput
@@ -1684,20 +2121,26 @@ export type UserUncheckedCreateWithoutSessionsInput = {
   emailVerified?: Date | string | null
   image?: string | null
   password?: string | null
+  username?: string | null
   role?: string
   plan?: string
   qvapayId?: string | null
   analysisLimit?: number
   analysisUsed?: number
   analysisResetAt?: Date | string | null
-  createdAt?: Date | string
-  updatedAt?: Date | string
   telegramId?: string | null
+  telegramTrialStartedAt?: Date | string | null
+  isTelegramPremiumActive?: boolean
+  latitude?: number | null
+  longitude?: number | null
   currentStreak?: number
   maxStreak?: number
   lastCheckInDate?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
   analyses?: Prisma.SkinAnalysisUncheckedCreateNestedManyWithoutUserInput
+  analysisJobs?: Prisma.AnalysisJobUncheckedCreateNestedManyWithoutUserInput
   payments?: Prisma.PaymentUncheckedCreateNestedManyWithoutUserInput
   subscriptions?: Prisma.SubscriptionUncheckedCreateNestedManyWithoutUserInput
   purchasePacks?: Prisma.PurchasePackUncheckedCreateNestedManyWithoutUserInput
@@ -1753,20 +2196,26 @@ export type UserUpdateWithoutSessionsInput = {
   emailVerified?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.StringFieldUpdateOperationsInput | string
   plan?: Prisma.StringFieldUpdateOperationsInput | string
   qvapayId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   analysisLimit?: Prisma.IntFieldUpdateOperationsInput | number
   analysisUsed?: Prisma.IntFieldUpdateOperationsInput | number
   analysisResetAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   telegramId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  telegramTrialStartedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  isTelegramPremiumActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  latitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  longitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   currentStreak?: Prisma.IntFieldUpdateOperationsInput | number
   maxStreak?: Prisma.IntFieldUpdateOperationsInput | number
   lastCheckInDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
   analyses?: Prisma.SkinAnalysisUpdateManyWithoutUserNestedInput
+  analysisJobs?: Prisma.AnalysisJobUpdateManyWithoutUserNestedInput
   payments?: Prisma.PaymentUpdateManyWithoutUserNestedInput
   subscriptions?: Prisma.SubscriptionUpdateManyWithoutUserNestedInput
   purchasePacks?: Prisma.PurchasePackUpdateManyWithoutUserNestedInput
@@ -1806,20 +2255,26 @@ export type UserUncheckedUpdateWithoutSessionsInput = {
   emailVerified?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.StringFieldUpdateOperationsInput | string
   plan?: Prisma.StringFieldUpdateOperationsInput | string
   qvapayId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   analysisLimit?: Prisma.IntFieldUpdateOperationsInput | number
   analysisUsed?: Prisma.IntFieldUpdateOperationsInput | number
   analysisResetAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   telegramId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  telegramTrialStartedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  isTelegramPremiumActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  latitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  longitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   currentStreak?: Prisma.IntFieldUpdateOperationsInput | number
   maxStreak?: Prisma.IntFieldUpdateOperationsInput | number
   lastCheckInDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
   analyses?: Prisma.SkinAnalysisUncheckedUpdateManyWithoutUserNestedInput
+  analysisJobs?: Prisma.AnalysisJobUncheckedUpdateManyWithoutUserNestedInput
   payments?: Prisma.PaymentUncheckedUpdateManyWithoutUserNestedInput
   subscriptions?: Prisma.SubscriptionUncheckedUpdateManyWithoutUserNestedInput
   purchasePacks?: Prisma.PurchasePackUncheckedUpdateManyWithoutUserNestedInput
@@ -1859,20 +2314,26 @@ export type UserCreateWithoutAnalysesInput = {
   emailVerified?: Date | string | null
   image?: string | null
   password?: string | null
+  username?: string | null
   role?: string
   plan?: string
   qvapayId?: string | null
   analysisLimit?: number
   analysisUsed?: number
   analysisResetAt?: Date | string | null
-  createdAt?: Date | string
-  updatedAt?: Date | string
   telegramId?: string | null
+  telegramTrialStartedAt?: Date | string | null
+  isTelegramPremiumActive?: boolean
+  latitude?: number | null
+  longitude?: number | null
   currentStreak?: number
   maxStreak?: number
   lastCheckInDate?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
+  analysisJobs?: Prisma.AnalysisJobCreateNestedManyWithoutUserInput
   payments?: Prisma.PaymentCreateNestedManyWithoutUserInput
   subscriptions?: Prisma.SubscriptionCreateNestedManyWithoutUserInput
   purchasePacks?: Prisma.PurchasePackCreateNestedManyWithoutUserInput
@@ -1912,20 +2373,26 @@ export type UserUncheckedCreateWithoutAnalysesInput = {
   emailVerified?: Date | string | null
   image?: string | null
   password?: string | null
+  username?: string | null
   role?: string
   plan?: string
   qvapayId?: string | null
   analysisLimit?: number
   analysisUsed?: number
   analysisResetAt?: Date | string | null
-  createdAt?: Date | string
-  updatedAt?: Date | string
   telegramId?: string | null
+  telegramTrialStartedAt?: Date | string | null
+  isTelegramPremiumActive?: boolean
+  latitude?: number | null
+  longitude?: number | null
   currentStreak?: number
   maxStreak?: number
   lastCheckInDate?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
+  analysisJobs?: Prisma.AnalysisJobUncheckedCreateNestedManyWithoutUserInput
   payments?: Prisma.PaymentUncheckedCreateNestedManyWithoutUserInput
   subscriptions?: Prisma.SubscriptionUncheckedCreateNestedManyWithoutUserInput
   purchasePacks?: Prisma.PurchasePackUncheckedCreateNestedManyWithoutUserInput
@@ -1981,20 +2448,26 @@ export type UserUpdateWithoutAnalysesInput = {
   emailVerified?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.StringFieldUpdateOperationsInput | string
   plan?: Prisma.StringFieldUpdateOperationsInput | string
   qvapayId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   analysisLimit?: Prisma.IntFieldUpdateOperationsInput | number
   analysisUsed?: Prisma.IntFieldUpdateOperationsInput | number
   analysisResetAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   telegramId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  telegramTrialStartedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  isTelegramPremiumActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  latitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  longitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   currentStreak?: Prisma.IntFieldUpdateOperationsInput | number
   maxStreak?: Prisma.IntFieldUpdateOperationsInput | number
   lastCheckInDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
   sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
+  analysisJobs?: Prisma.AnalysisJobUpdateManyWithoutUserNestedInput
   payments?: Prisma.PaymentUpdateManyWithoutUserNestedInput
   subscriptions?: Prisma.SubscriptionUpdateManyWithoutUserNestedInput
   purchasePacks?: Prisma.PurchasePackUpdateManyWithoutUserNestedInput
@@ -2034,20 +2507,26 @@ export type UserUncheckedUpdateWithoutAnalysesInput = {
   emailVerified?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.StringFieldUpdateOperationsInput | string
   plan?: Prisma.StringFieldUpdateOperationsInput | string
   qvapayId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   analysisLimit?: Prisma.IntFieldUpdateOperationsInput | number
   analysisUsed?: Prisma.IntFieldUpdateOperationsInput | number
   analysisResetAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   telegramId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  telegramTrialStartedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  isTelegramPremiumActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  latitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  longitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   currentStreak?: Prisma.IntFieldUpdateOperationsInput | number
   maxStreak?: Prisma.IntFieldUpdateOperationsInput | number
   lastCheckInDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
+  analysisJobs?: Prisma.AnalysisJobUncheckedUpdateManyWithoutUserNestedInput
   payments?: Prisma.PaymentUncheckedUpdateManyWithoutUserNestedInput
   subscriptions?: Prisma.SubscriptionUncheckedUpdateManyWithoutUserNestedInput
   purchasePacks?: Prisma.PurchasePackUncheckedUpdateManyWithoutUserNestedInput
@@ -2087,21 +2566,27 @@ export type UserCreateWithoutPaymentsInput = {
   emailVerified?: Date | string | null
   image?: string | null
   password?: string | null
+  username?: string | null
   role?: string
   plan?: string
   qvapayId?: string | null
   analysisLimit?: number
   analysisUsed?: number
   analysisResetAt?: Date | string | null
-  createdAt?: Date | string
-  updatedAt?: Date | string
   telegramId?: string | null
+  telegramTrialStartedAt?: Date | string | null
+  isTelegramPremiumActive?: boolean
+  latitude?: number | null
+  longitude?: number | null
   currentStreak?: number
   maxStreak?: number
   lastCheckInDate?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
   analyses?: Prisma.SkinAnalysisCreateNestedManyWithoutUserInput
+  analysisJobs?: Prisma.AnalysisJobCreateNestedManyWithoutUserInput
   subscriptions?: Prisma.SubscriptionCreateNestedManyWithoutUserInput
   purchasePacks?: Prisma.PurchasePackCreateNestedManyWithoutUserInput
   usageRecords?: Prisma.UsageTrackingCreateNestedManyWithoutUserInput
@@ -2140,21 +2625,27 @@ export type UserUncheckedCreateWithoutPaymentsInput = {
   emailVerified?: Date | string | null
   image?: string | null
   password?: string | null
+  username?: string | null
   role?: string
   plan?: string
   qvapayId?: string | null
   analysisLimit?: number
   analysisUsed?: number
   analysisResetAt?: Date | string | null
-  createdAt?: Date | string
-  updatedAt?: Date | string
   telegramId?: string | null
+  telegramTrialStartedAt?: Date | string | null
+  isTelegramPremiumActive?: boolean
+  latitude?: number | null
+  longitude?: number | null
   currentStreak?: number
   maxStreak?: number
   lastCheckInDate?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   analyses?: Prisma.SkinAnalysisUncheckedCreateNestedManyWithoutUserInput
+  analysisJobs?: Prisma.AnalysisJobUncheckedCreateNestedManyWithoutUserInput
   subscriptions?: Prisma.SubscriptionUncheckedCreateNestedManyWithoutUserInput
   purchasePacks?: Prisma.PurchasePackUncheckedCreateNestedManyWithoutUserInput
   usageRecords?: Prisma.UsageTrackingUncheckedCreateNestedManyWithoutUserInput
@@ -2209,21 +2700,27 @@ export type UserUpdateWithoutPaymentsInput = {
   emailVerified?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.StringFieldUpdateOperationsInput | string
   plan?: Prisma.StringFieldUpdateOperationsInput | string
   qvapayId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   analysisLimit?: Prisma.IntFieldUpdateOperationsInput | number
   analysisUsed?: Prisma.IntFieldUpdateOperationsInput | number
   analysisResetAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   telegramId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  telegramTrialStartedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  isTelegramPremiumActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  latitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  longitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   currentStreak?: Prisma.IntFieldUpdateOperationsInput | number
   maxStreak?: Prisma.IntFieldUpdateOperationsInput | number
   lastCheckInDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
   sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
   analyses?: Prisma.SkinAnalysisUpdateManyWithoutUserNestedInput
+  analysisJobs?: Prisma.AnalysisJobUpdateManyWithoutUserNestedInput
   subscriptions?: Prisma.SubscriptionUpdateManyWithoutUserNestedInput
   purchasePacks?: Prisma.PurchasePackUpdateManyWithoutUserNestedInput
   usageRecords?: Prisma.UsageTrackingUpdateManyWithoutUserNestedInput
@@ -2262,21 +2759,27 @@ export type UserUncheckedUpdateWithoutPaymentsInput = {
   emailVerified?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.StringFieldUpdateOperationsInput | string
   plan?: Prisma.StringFieldUpdateOperationsInput | string
   qvapayId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   analysisLimit?: Prisma.IntFieldUpdateOperationsInput | number
   analysisUsed?: Prisma.IntFieldUpdateOperationsInput | number
   analysisResetAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   telegramId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  telegramTrialStartedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  isTelegramPremiumActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  latitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  longitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   currentStreak?: Prisma.IntFieldUpdateOperationsInput | number
   maxStreak?: Prisma.IntFieldUpdateOperationsInput | number
   lastCheckInDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   analyses?: Prisma.SkinAnalysisUncheckedUpdateManyWithoutUserNestedInput
+  analysisJobs?: Prisma.AnalysisJobUncheckedUpdateManyWithoutUserNestedInput
   subscriptions?: Prisma.SubscriptionUncheckedUpdateManyWithoutUserNestedInput
   purchasePacks?: Prisma.PurchasePackUncheckedUpdateManyWithoutUserNestedInput
   usageRecords?: Prisma.UsageTrackingUncheckedUpdateManyWithoutUserNestedInput
@@ -2315,21 +2818,27 @@ export type UserCreateWithoutTransferPaymentsInput = {
   emailVerified?: Date | string | null
   image?: string | null
   password?: string | null
+  username?: string | null
   role?: string
   plan?: string
   qvapayId?: string | null
   analysisLimit?: number
   analysisUsed?: number
   analysisResetAt?: Date | string | null
-  createdAt?: Date | string
-  updatedAt?: Date | string
   telegramId?: string | null
+  telegramTrialStartedAt?: Date | string | null
+  isTelegramPremiumActive?: boolean
+  latitude?: number | null
+  longitude?: number | null
   currentStreak?: number
   maxStreak?: number
   lastCheckInDate?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
   analyses?: Prisma.SkinAnalysisCreateNestedManyWithoutUserInput
+  analysisJobs?: Prisma.AnalysisJobCreateNestedManyWithoutUserInput
   payments?: Prisma.PaymentCreateNestedManyWithoutUserInput
   subscriptions?: Prisma.SubscriptionCreateNestedManyWithoutUserInput
   purchasePacks?: Prisma.PurchasePackCreateNestedManyWithoutUserInput
@@ -2368,21 +2877,27 @@ export type UserUncheckedCreateWithoutTransferPaymentsInput = {
   emailVerified?: Date | string | null
   image?: string | null
   password?: string | null
+  username?: string | null
   role?: string
   plan?: string
   qvapayId?: string | null
   analysisLimit?: number
   analysisUsed?: number
   analysisResetAt?: Date | string | null
-  createdAt?: Date | string
-  updatedAt?: Date | string
   telegramId?: string | null
+  telegramTrialStartedAt?: Date | string | null
+  isTelegramPremiumActive?: boolean
+  latitude?: number | null
+  longitude?: number | null
   currentStreak?: number
   maxStreak?: number
   lastCheckInDate?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   analyses?: Prisma.SkinAnalysisUncheckedCreateNestedManyWithoutUserInput
+  analysisJobs?: Prisma.AnalysisJobUncheckedCreateNestedManyWithoutUserInput
   payments?: Prisma.PaymentUncheckedCreateNestedManyWithoutUserInput
   subscriptions?: Prisma.SubscriptionUncheckedCreateNestedManyWithoutUserInput
   purchasePacks?: Prisma.PurchasePackUncheckedCreateNestedManyWithoutUserInput
@@ -2426,21 +2941,27 @@ export type UserCreateWithoutValidatedTransfersInput = {
   emailVerified?: Date | string | null
   image?: string | null
   password?: string | null
+  username?: string | null
   role?: string
   plan?: string
   qvapayId?: string | null
   analysisLimit?: number
   analysisUsed?: number
   analysisResetAt?: Date | string | null
-  createdAt?: Date | string
-  updatedAt?: Date | string
   telegramId?: string | null
+  telegramTrialStartedAt?: Date | string | null
+  isTelegramPremiumActive?: boolean
+  latitude?: number | null
+  longitude?: number | null
   currentStreak?: number
   maxStreak?: number
   lastCheckInDate?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
   analyses?: Prisma.SkinAnalysisCreateNestedManyWithoutUserInput
+  analysisJobs?: Prisma.AnalysisJobCreateNestedManyWithoutUserInput
   payments?: Prisma.PaymentCreateNestedManyWithoutUserInput
   subscriptions?: Prisma.SubscriptionCreateNestedManyWithoutUserInput
   purchasePacks?: Prisma.PurchasePackCreateNestedManyWithoutUserInput
@@ -2479,21 +3000,27 @@ export type UserUncheckedCreateWithoutValidatedTransfersInput = {
   emailVerified?: Date | string | null
   image?: string | null
   password?: string | null
+  username?: string | null
   role?: string
   plan?: string
   qvapayId?: string | null
   analysisLimit?: number
   analysisUsed?: number
   analysisResetAt?: Date | string | null
-  createdAt?: Date | string
-  updatedAt?: Date | string
   telegramId?: string | null
+  telegramTrialStartedAt?: Date | string | null
+  isTelegramPremiumActive?: boolean
+  latitude?: number | null
+  longitude?: number | null
   currentStreak?: number
   maxStreak?: number
   lastCheckInDate?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   analyses?: Prisma.SkinAnalysisUncheckedCreateNestedManyWithoutUserInput
+  analysisJobs?: Prisma.AnalysisJobUncheckedCreateNestedManyWithoutUserInput
   payments?: Prisma.PaymentUncheckedCreateNestedManyWithoutUserInput
   subscriptions?: Prisma.SubscriptionUncheckedCreateNestedManyWithoutUserInput
   purchasePacks?: Prisma.PurchasePackUncheckedCreateNestedManyWithoutUserInput
@@ -2537,21 +3064,27 @@ export type UserCreateWithoutActivatedTransfersInput = {
   emailVerified?: Date | string | null
   image?: string | null
   password?: string | null
+  username?: string | null
   role?: string
   plan?: string
   qvapayId?: string | null
   analysisLimit?: number
   analysisUsed?: number
   analysisResetAt?: Date | string | null
-  createdAt?: Date | string
-  updatedAt?: Date | string
   telegramId?: string | null
+  telegramTrialStartedAt?: Date | string | null
+  isTelegramPremiumActive?: boolean
+  latitude?: number | null
+  longitude?: number | null
   currentStreak?: number
   maxStreak?: number
   lastCheckInDate?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
   analyses?: Prisma.SkinAnalysisCreateNestedManyWithoutUserInput
+  analysisJobs?: Prisma.AnalysisJobCreateNestedManyWithoutUserInput
   payments?: Prisma.PaymentCreateNestedManyWithoutUserInput
   subscriptions?: Prisma.SubscriptionCreateNestedManyWithoutUserInput
   purchasePacks?: Prisma.PurchasePackCreateNestedManyWithoutUserInput
@@ -2590,21 +3123,27 @@ export type UserUncheckedCreateWithoutActivatedTransfersInput = {
   emailVerified?: Date | string | null
   image?: string | null
   password?: string | null
+  username?: string | null
   role?: string
   plan?: string
   qvapayId?: string | null
   analysisLimit?: number
   analysisUsed?: number
   analysisResetAt?: Date | string | null
-  createdAt?: Date | string
-  updatedAt?: Date | string
   telegramId?: string | null
+  telegramTrialStartedAt?: Date | string | null
+  isTelegramPremiumActive?: boolean
+  latitude?: number | null
+  longitude?: number | null
   currentStreak?: number
   maxStreak?: number
   lastCheckInDate?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   analyses?: Prisma.SkinAnalysisUncheckedCreateNestedManyWithoutUserInput
+  analysisJobs?: Prisma.AnalysisJobUncheckedCreateNestedManyWithoutUserInput
   payments?: Prisma.PaymentUncheckedCreateNestedManyWithoutUserInput
   subscriptions?: Prisma.SubscriptionUncheckedCreateNestedManyWithoutUserInput
   purchasePacks?: Prisma.PurchasePackUncheckedCreateNestedManyWithoutUserInput
@@ -2659,21 +3198,27 @@ export type UserUpdateWithoutTransferPaymentsInput = {
   emailVerified?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.StringFieldUpdateOperationsInput | string
   plan?: Prisma.StringFieldUpdateOperationsInput | string
   qvapayId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   analysisLimit?: Prisma.IntFieldUpdateOperationsInput | number
   analysisUsed?: Prisma.IntFieldUpdateOperationsInput | number
   analysisResetAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   telegramId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  telegramTrialStartedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  isTelegramPremiumActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  latitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  longitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   currentStreak?: Prisma.IntFieldUpdateOperationsInput | number
   maxStreak?: Prisma.IntFieldUpdateOperationsInput | number
   lastCheckInDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
   sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
   analyses?: Prisma.SkinAnalysisUpdateManyWithoutUserNestedInput
+  analysisJobs?: Prisma.AnalysisJobUpdateManyWithoutUserNestedInput
   payments?: Prisma.PaymentUpdateManyWithoutUserNestedInput
   subscriptions?: Prisma.SubscriptionUpdateManyWithoutUserNestedInput
   purchasePacks?: Prisma.PurchasePackUpdateManyWithoutUserNestedInput
@@ -2712,21 +3257,27 @@ export type UserUncheckedUpdateWithoutTransferPaymentsInput = {
   emailVerified?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.StringFieldUpdateOperationsInput | string
   plan?: Prisma.StringFieldUpdateOperationsInput | string
   qvapayId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   analysisLimit?: Prisma.IntFieldUpdateOperationsInput | number
   analysisUsed?: Prisma.IntFieldUpdateOperationsInput | number
   analysisResetAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   telegramId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  telegramTrialStartedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  isTelegramPremiumActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  latitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  longitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   currentStreak?: Prisma.IntFieldUpdateOperationsInput | number
   maxStreak?: Prisma.IntFieldUpdateOperationsInput | number
   lastCheckInDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   analyses?: Prisma.SkinAnalysisUncheckedUpdateManyWithoutUserNestedInput
+  analysisJobs?: Prisma.AnalysisJobUncheckedUpdateManyWithoutUserNestedInput
   payments?: Prisma.PaymentUncheckedUpdateManyWithoutUserNestedInput
   subscriptions?: Prisma.SubscriptionUncheckedUpdateManyWithoutUserNestedInput
   purchasePacks?: Prisma.PurchasePackUncheckedUpdateManyWithoutUserNestedInput
@@ -2776,21 +3327,27 @@ export type UserUpdateWithoutValidatedTransfersInput = {
   emailVerified?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.StringFieldUpdateOperationsInput | string
   plan?: Prisma.StringFieldUpdateOperationsInput | string
   qvapayId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   analysisLimit?: Prisma.IntFieldUpdateOperationsInput | number
   analysisUsed?: Prisma.IntFieldUpdateOperationsInput | number
   analysisResetAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   telegramId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  telegramTrialStartedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  isTelegramPremiumActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  latitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  longitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   currentStreak?: Prisma.IntFieldUpdateOperationsInput | number
   maxStreak?: Prisma.IntFieldUpdateOperationsInput | number
   lastCheckInDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
   sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
   analyses?: Prisma.SkinAnalysisUpdateManyWithoutUserNestedInput
+  analysisJobs?: Prisma.AnalysisJobUpdateManyWithoutUserNestedInput
   payments?: Prisma.PaymentUpdateManyWithoutUserNestedInput
   subscriptions?: Prisma.SubscriptionUpdateManyWithoutUserNestedInput
   purchasePacks?: Prisma.PurchasePackUpdateManyWithoutUserNestedInput
@@ -2829,21 +3386,27 @@ export type UserUncheckedUpdateWithoutValidatedTransfersInput = {
   emailVerified?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.StringFieldUpdateOperationsInput | string
   plan?: Prisma.StringFieldUpdateOperationsInput | string
   qvapayId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   analysisLimit?: Prisma.IntFieldUpdateOperationsInput | number
   analysisUsed?: Prisma.IntFieldUpdateOperationsInput | number
   analysisResetAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   telegramId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  telegramTrialStartedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  isTelegramPremiumActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  latitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  longitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   currentStreak?: Prisma.IntFieldUpdateOperationsInput | number
   maxStreak?: Prisma.IntFieldUpdateOperationsInput | number
   lastCheckInDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   analyses?: Prisma.SkinAnalysisUncheckedUpdateManyWithoutUserNestedInput
+  analysisJobs?: Prisma.AnalysisJobUncheckedUpdateManyWithoutUserNestedInput
   payments?: Prisma.PaymentUncheckedUpdateManyWithoutUserNestedInput
   subscriptions?: Prisma.SubscriptionUncheckedUpdateManyWithoutUserNestedInput
   purchasePacks?: Prisma.PurchasePackUncheckedUpdateManyWithoutUserNestedInput
@@ -2893,21 +3456,27 @@ export type UserUpdateWithoutActivatedTransfersInput = {
   emailVerified?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.StringFieldUpdateOperationsInput | string
   plan?: Prisma.StringFieldUpdateOperationsInput | string
   qvapayId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   analysisLimit?: Prisma.IntFieldUpdateOperationsInput | number
   analysisUsed?: Prisma.IntFieldUpdateOperationsInput | number
   analysisResetAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   telegramId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  telegramTrialStartedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  isTelegramPremiumActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  latitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  longitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   currentStreak?: Prisma.IntFieldUpdateOperationsInput | number
   maxStreak?: Prisma.IntFieldUpdateOperationsInput | number
   lastCheckInDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
   sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
   analyses?: Prisma.SkinAnalysisUpdateManyWithoutUserNestedInput
+  analysisJobs?: Prisma.AnalysisJobUpdateManyWithoutUserNestedInput
   payments?: Prisma.PaymentUpdateManyWithoutUserNestedInput
   subscriptions?: Prisma.SubscriptionUpdateManyWithoutUserNestedInput
   purchasePacks?: Prisma.PurchasePackUpdateManyWithoutUserNestedInput
@@ -2946,21 +3515,27 @@ export type UserUncheckedUpdateWithoutActivatedTransfersInput = {
   emailVerified?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.StringFieldUpdateOperationsInput | string
   plan?: Prisma.StringFieldUpdateOperationsInput | string
   qvapayId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   analysisLimit?: Prisma.IntFieldUpdateOperationsInput | number
   analysisUsed?: Prisma.IntFieldUpdateOperationsInput | number
   analysisResetAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   telegramId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  telegramTrialStartedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  isTelegramPremiumActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  latitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  longitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   currentStreak?: Prisma.IntFieldUpdateOperationsInput | number
   maxStreak?: Prisma.IntFieldUpdateOperationsInput | number
   lastCheckInDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   analyses?: Prisma.SkinAnalysisUncheckedUpdateManyWithoutUserNestedInput
+  analysisJobs?: Prisma.AnalysisJobUncheckedUpdateManyWithoutUserNestedInput
   payments?: Prisma.PaymentUncheckedUpdateManyWithoutUserNestedInput
   subscriptions?: Prisma.SubscriptionUncheckedUpdateManyWithoutUserNestedInput
   purchasePacks?: Prisma.PurchasePackUncheckedUpdateManyWithoutUserNestedInput
@@ -2999,21 +3574,27 @@ export type UserCreateWithoutAuditLogsInput = {
   emailVerified?: Date | string | null
   image?: string | null
   password?: string | null
+  username?: string | null
   role?: string
   plan?: string
   qvapayId?: string | null
   analysisLimit?: number
   analysisUsed?: number
   analysisResetAt?: Date | string | null
-  createdAt?: Date | string
-  updatedAt?: Date | string
   telegramId?: string | null
+  telegramTrialStartedAt?: Date | string | null
+  isTelegramPremiumActive?: boolean
+  latitude?: number | null
+  longitude?: number | null
   currentStreak?: number
   maxStreak?: number
   lastCheckInDate?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
   analyses?: Prisma.SkinAnalysisCreateNestedManyWithoutUserInput
+  analysisJobs?: Prisma.AnalysisJobCreateNestedManyWithoutUserInput
   payments?: Prisma.PaymentCreateNestedManyWithoutUserInput
   subscriptions?: Prisma.SubscriptionCreateNestedManyWithoutUserInput
   purchasePacks?: Prisma.PurchasePackCreateNestedManyWithoutUserInput
@@ -3052,21 +3633,27 @@ export type UserUncheckedCreateWithoutAuditLogsInput = {
   emailVerified?: Date | string | null
   image?: string | null
   password?: string | null
+  username?: string | null
   role?: string
   plan?: string
   qvapayId?: string | null
   analysisLimit?: number
   analysisUsed?: number
   analysisResetAt?: Date | string | null
-  createdAt?: Date | string
-  updatedAt?: Date | string
   telegramId?: string | null
+  telegramTrialStartedAt?: Date | string | null
+  isTelegramPremiumActive?: boolean
+  latitude?: number | null
+  longitude?: number | null
   currentStreak?: number
   maxStreak?: number
   lastCheckInDate?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   analyses?: Prisma.SkinAnalysisUncheckedCreateNestedManyWithoutUserInput
+  analysisJobs?: Prisma.AnalysisJobUncheckedCreateNestedManyWithoutUserInput
   payments?: Prisma.PaymentUncheckedCreateNestedManyWithoutUserInput
   subscriptions?: Prisma.SubscriptionUncheckedCreateNestedManyWithoutUserInput
   purchasePacks?: Prisma.PurchasePackUncheckedCreateNestedManyWithoutUserInput
@@ -3121,21 +3708,27 @@ export type UserUpdateWithoutAuditLogsInput = {
   emailVerified?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.StringFieldUpdateOperationsInput | string
   plan?: Prisma.StringFieldUpdateOperationsInput | string
   qvapayId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   analysisLimit?: Prisma.IntFieldUpdateOperationsInput | number
   analysisUsed?: Prisma.IntFieldUpdateOperationsInput | number
   analysisResetAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   telegramId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  telegramTrialStartedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  isTelegramPremiumActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  latitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  longitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   currentStreak?: Prisma.IntFieldUpdateOperationsInput | number
   maxStreak?: Prisma.IntFieldUpdateOperationsInput | number
   lastCheckInDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
   sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
   analyses?: Prisma.SkinAnalysisUpdateManyWithoutUserNestedInput
+  analysisJobs?: Prisma.AnalysisJobUpdateManyWithoutUserNestedInput
   payments?: Prisma.PaymentUpdateManyWithoutUserNestedInput
   subscriptions?: Prisma.SubscriptionUpdateManyWithoutUserNestedInput
   purchasePacks?: Prisma.PurchasePackUpdateManyWithoutUserNestedInput
@@ -3174,21 +3767,27 @@ export type UserUncheckedUpdateWithoutAuditLogsInput = {
   emailVerified?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.StringFieldUpdateOperationsInput | string
   plan?: Prisma.StringFieldUpdateOperationsInput | string
   qvapayId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   analysisLimit?: Prisma.IntFieldUpdateOperationsInput | number
   analysisUsed?: Prisma.IntFieldUpdateOperationsInput | number
   analysisResetAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   telegramId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  telegramTrialStartedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  isTelegramPremiumActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  latitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  longitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   currentStreak?: Prisma.IntFieldUpdateOperationsInput | number
   maxStreak?: Prisma.IntFieldUpdateOperationsInput | number
   lastCheckInDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   analyses?: Prisma.SkinAnalysisUncheckedUpdateManyWithoutUserNestedInput
+  analysisJobs?: Prisma.AnalysisJobUncheckedUpdateManyWithoutUserNestedInput
   payments?: Prisma.PaymentUncheckedUpdateManyWithoutUserNestedInput
   subscriptions?: Prisma.SubscriptionUncheckedUpdateManyWithoutUserNestedInput
   purchasePacks?: Prisma.PurchasePackUncheckedUpdateManyWithoutUserNestedInput
@@ -3227,21 +3826,27 @@ export type UserCreateWithoutSubscriptionsInput = {
   emailVerified?: Date | string | null
   image?: string | null
   password?: string | null
+  username?: string | null
   role?: string
   plan?: string
   qvapayId?: string | null
   analysisLimit?: number
   analysisUsed?: number
   analysisResetAt?: Date | string | null
-  createdAt?: Date | string
-  updatedAt?: Date | string
   telegramId?: string | null
+  telegramTrialStartedAt?: Date | string | null
+  isTelegramPremiumActive?: boolean
+  latitude?: number | null
+  longitude?: number | null
   currentStreak?: number
   maxStreak?: number
   lastCheckInDate?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
   analyses?: Prisma.SkinAnalysisCreateNestedManyWithoutUserInput
+  analysisJobs?: Prisma.AnalysisJobCreateNestedManyWithoutUserInput
   payments?: Prisma.PaymentCreateNestedManyWithoutUserInput
   purchasePacks?: Prisma.PurchasePackCreateNestedManyWithoutUserInput
   usageRecords?: Prisma.UsageTrackingCreateNestedManyWithoutUserInput
@@ -3280,21 +3885,27 @@ export type UserUncheckedCreateWithoutSubscriptionsInput = {
   emailVerified?: Date | string | null
   image?: string | null
   password?: string | null
+  username?: string | null
   role?: string
   plan?: string
   qvapayId?: string | null
   analysisLimit?: number
   analysisUsed?: number
   analysisResetAt?: Date | string | null
-  createdAt?: Date | string
-  updatedAt?: Date | string
   telegramId?: string | null
+  telegramTrialStartedAt?: Date | string | null
+  isTelegramPremiumActive?: boolean
+  latitude?: number | null
+  longitude?: number | null
   currentStreak?: number
   maxStreak?: number
   lastCheckInDate?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   analyses?: Prisma.SkinAnalysisUncheckedCreateNestedManyWithoutUserInput
+  analysisJobs?: Prisma.AnalysisJobUncheckedCreateNestedManyWithoutUserInput
   payments?: Prisma.PaymentUncheckedCreateNestedManyWithoutUserInput
   purchasePacks?: Prisma.PurchasePackUncheckedCreateNestedManyWithoutUserInput
   usageRecords?: Prisma.UsageTrackingUncheckedCreateNestedManyWithoutUserInput
@@ -3349,21 +3960,27 @@ export type UserUpdateWithoutSubscriptionsInput = {
   emailVerified?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.StringFieldUpdateOperationsInput | string
   plan?: Prisma.StringFieldUpdateOperationsInput | string
   qvapayId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   analysisLimit?: Prisma.IntFieldUpdateOperationsInput | number
   analysisUsed?: Prisma.IntFieldUpdateOperationsInput | number
   analysisResetAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   telegramId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  telegramTrialStartedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  isTelegramPremiumActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  latitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  longitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   currentStreak?: Prisma.IntFieldUpdateOperationsInput | number
   maxStreak?: Prisma.IntFieldUpdateOperationsInput | number
   lastCheckInDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
   sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
   analyses?: Prisma.SkinAnalysisUpdateManyWithoutUserNestedInput
+  analysisJobs?: Prisma.AnalysisJobUpdateManyWithoutUserNestedInput
   payments?: Prisma.PaymentUpdateManyWithoutUserNestedInput
   purchasePacks?: Prisma.PurchasePackUpdateManyWithoutUserNestedInput
   usageRecords?: Prisma.UsageTrackingUpdateManyWithoutUserNestedInput
@@ -3402,21 +4019,27 @@ export type UserUncheckedUpdateWithoutSubscriptionsInput = {
   emailVerified?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.StringFieldUpdateOperationsInput | string
   plan?: Prisma.StringFieldUpdateOperationsInput | string
   qvapayId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   analysisLimit?: Prisma.IntFieldUpdateOperationsInput | number
   analysisUsed?: Prisma.IntFieldUpdateOperationsInput | number
   analysisResetAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   telegramId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  telegramTrialStartedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  isTelegramPremiumActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  latitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  longitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   currentStreak?: Prisma.IntFieldUpdateOperationsInput | number
   maxStreak?: Prisma.IntFieldUpdateOperationsInput | number
   lastCheckInDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   analyses?: Prisma.SkinAnalysisUncheckedUpdateManyWithoutUserNestedInput
+  analysisJobs?: Prisma.AnalysisJobUncheckedUpdateManyWithoutUserNestedInput
   payments?: Prisma.PaymentUncheckedUpdateManyWithoutUserNestedInput
   purchasePacks?: Prisma.PurchasePackUncheckedUpdateManyWithoutUserNestedInput
   usageRecords?: Prisma.UsageTrackingUncheckedUpdateManyWithoutUserNestedInput
@@ -3455,21 +4078,27 @@ export type UserCreateWithoutPurchasePacksInput = {
   emailVerified?: Date | string | null
   image?: string | null
   password?: string | null
+  username?: string | null
   role?: string
   plan?: string
   qvapayId?: string | null
   analysisLimit?: number
   analysisUsed?: number
   analysisResetAt?: Date | string | null
-  createdAt?: Date | string
-  updatedAt?: Date | string
   telegramId?: string | null
+  telegramTrialStartedAt?: Date | string | null
+  isTelegramPremiumActive?: boolean
+  latitude?: number | null
+  longitude?: number | null
   currentStreak?: number
   maxStreak?: number
   lastCheckInDate?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
   analyses?: Prisma.SkinAnalysisCreateNestedManyWithoutUserInput
+  analysisJobs?: Prisma.AnalysisJobCreateNestedManyWithoutUserInput
   payments?: Prisma.PaymentCreateNestedManyWithoutUserInput
   subscriptions?: Prisma.SubscriptionCreateNestedManyWithoutUserInput
   usageRecords?: Prisma.UsageTrackingCreateNestedManyWithoutUserInput
@@ -3508,21 +4137,27 @@ export type UserUncheckedCreateWithoutPurchasePacksInput = {
   emailVerified?: Date | string | null
   image?: string | null
   password?: string | null
+  username?: string | null
   role?: string
   plan?: string
   qvapayId?: string | null
   analysisLimit?: number
   analysisUsed?: number
   analysisResetAt?: Date | string | null
-  createdAt?: Date | string
-  updatedAt?: Date | string
   telegramId?: string | null
+  telegramTrialStartedAt?: Date | string | null
+  isTelegramPremiumActive?: boolean
+  latitude?: number | null
+  longitude?: number | null
   currentStreak?: number
   maxStreak?: number
   lastCheckInDate?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   analyses?: Prisma.SkinAnalysisUncheckedCreateNestedManyWithoutUserInput
+  analysisJobs?: Prisma.AnalysisJobUncheckedCreateNestedManyWithoutUserInput
   payments?: Prisma.PaymentUncheckedCreateNestedManyWithoutUserInput
   subscriptions?: Prisma.SubscriptionUncheckedCreateNestedManyWithoutUserInput
   usageRecords?: Prisma.UsageTrackingUncheckedCreateNestedManyWithoutUserInput
@@ -3577,21 +4212,27 @@ export type UserUpdateWithoutPurchasePacksInput = {
   emailVerified?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.StringFieldUpdateOperationsInput | string
   plan?: Prisma.StringFieldUpdateOperationsInput | string
   qvapayId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   analysisLimit?: Prisma.IntFieldUpdateOperationsInput | number
   analysisUsed?: Prisma.IntFieldUpdateOperationsInput | number
   analysisResetAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   telegramId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  telegramTrialStartedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  isTelegramPremiumActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  latitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  longitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   currentStreak?: Prisma.IntFieldUpdateOperationsInput | number
   maxStreak?: Prisma.IntFieldUpdateOperationsInput | number
   lastCheckInDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
   sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
   analyses?: Prisma.SkinAnalysisUpdateManyWithoutUserNestedInput
+  analysisJobs?: Prisma.AnalysisJobUpdateManyWithoutUserNestedInput
   payments?: Prisma.PaymentUpdateManyWithoutUserNestedInput
   subscriptions?: Prisma.SubscriptionUpdateManyWithoutUserNestedInput
   usageRecords?: Prisma.UsageTrackingUpdateManyWithoutUserNestedInput
@@ -3630,21 +4271,27 @@ export type UserUncheckedUpdateWithoutPurchasePacksInput = {
   emailVerified?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.StringFieldUpdateOperationsInput | string
   plan?: Prisma.StringFieldUpdateOperationsInput | string
   qvapayId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   analysisLimit?: Prisma.IntFieldUpdateOperationsInput | number
   analysisUsed?: Prisma.IntFieldUpdateOperationsInput | number
   analysisResetAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   telegramId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  telegramTrialStartedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  isTelegramPremiumActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  latitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  longitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   currentStreak?: Prisma.IntFieldUpdateOperationsInput | number
   maxStreak?: Prisma.IntFieldUpdateOperationsInput | number
   lastCheckInDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   analyses?: Prisma.SkinAnalysisUncheckedUpdateManyWithoutUserNestedInput
+  analysisJobs?: Prisma.AnalysisJobUncheckedUpdateManyWithoutUserNestedInput
   payments?: Prisma.PaymentUncheckedUpdateManyWithoutUserNestedInput
   subscriptions?: Prisma.SubscriptionUncheckedUpdateManyWithoutUserNestedInput
   usageRecords?: Prisma.UsageTrackingUncheckedUpdateManyWithoutUserNestedInput
@@ -3683,21 +4330,27 @@ export type UserCreateWithoutUsageRecordsInput = {
   emailVerified?: Date | string | null
   image?: string | null
   password?: string | null
+  username?: string | null
   role?: string
   plan?: string
   qvapayId?: string | null
   analysisLimit?: number
   analysisUsed?: number
   analysisResetAt?: Date | string | null
-  createdAt?: Date | string
-  updatedAt?: Date | string
   telegramId?: string | null
+  telegramTrialStartedAt?: Date | string | null
+  isTelegramPremiumActive?: boolean
+  latitude?: number | null
+  longitude?: number | null
   currentStreak?: number
   maxStreak?: number
   lastCheckInDate?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
   analyses?: Prisma.SkinAnalysisCreateNestedManyWithoutUserInput
+  analysisJobs?: Prisma.AnalysisJobCreateNestedManyWithoutUserInput
   payments?: Prisma.PaymentCreateNestedManyWithoutUserInput
   subscriptions?: Prisma.SubscriptionCreateNestedManyWithoutUserInput
   purchasePacks?: Prisma.PurchasePackCreateNestedManyWithoutUserInput
@@ -3736,21 +4389,27 @@ export type UserUncheckedCreateWithoutUsageRecordsInput = {
   emailVerified?: Date | string | null
   image?: string | null
   password?: string | null
+  username?: string | null
   role?: string
   plan?: string
   qvapayId?: string | null
   analysisLimit?: number
   analysisUsed?: number
   analysisResetAt?: Date | string | null
-  createdAt?: Date | string
-  updatedAt?: Date | string
   telegramId?: string | null
+  telegramTrialStartedAt?: Date | string | null
+  isTelegramPremiumActive?: boolean
+  latitude?: number | null
+  longitude?: number | null
   currentStreak?: number
   maxStreak?: number
   lastCheckInDate?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   analyses?: Prisma.SkinAnalysisUncheckedCreateNestedManyWithoutUserInput
+  analysisJobs?: Prisma.AnalysisJobUncheckedCreateNestedManyWithoutUserInput
   payments?: Prisma.PaymentUncheckedCreateNestedManyWithoutUserInput
   subscriptions?: Prisma.SubscriptionUncheckedCreateNestedManyWithoutUserInput
   purchasePacks?: Prisma.PurchasePackUncheckedCreateNestedManyWithoutUserInput
@@ -3805,21 +4464,27 @@ export type UserUpdateWithoutUsageRecordsInput = {
   emailVerified?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.StringFieldUpdateOperationsInput | string
   plan?: Prisma.StringFieldUpdateOperationsInput | string
   qvapayId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   analysisLimit?: Prisma.IntFieldUpdateOperationsInput | number
   analysisUsed?: Prisma.IntFieldUpdateOperationsInput | number
   analysisResetAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   telegramId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  telegramTrialStartedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  isTelegramPremiumActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  latitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  longitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   currentStreak?: Prisma.IntFieldUpdateOperationsInput | number
   maxStreak?: Prisma.IntFieldUpdateOperationsInput | number
   lastCheckInDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
   sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
   analyses?: Prisma.SkinAnalysisUpdateManyWithoutUserNestedInput
+  analysisJobs?: Prisma.AnalysisJobUpdateManyWithoutUserNestedInput
   payments?: Prisma.PaymentUpdateManyWithoutUserNestedInput
   subscriptions?: Prisma.SubscriptionUpdateManyWithoutUserNestedInput
   purchasePacks?: Prisma.PurchasePackUpdateManyWithoutUserNestedInput
@@ -3858,21 +4523,27 @@ export type UserUncheckedUpdateWithoutUsageRecordsInput = {
   emailVerified?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.StringFieldUpdateOperationsInput | string
   plan?: Prisma.StringFieldUpdateOperationsInput | string
   qvapayId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   analysisLimit?: Prisma.IntFieldUpdateOperationsInput | number
   analysisUsed?: Prisma.IntFieldUpdateOperationsInput | number
   analysisResetAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   telegramId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  telegramTrialStartedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  isTelegramPremiumActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  latitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  longitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   currentStreak?: Prisma.IntFieldUpdateOperationsInput | number
   maxStreak?: Prisma.IntFieldUpdateOperationsInput | number
   lastCheckInDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   analyses?: Prisma.SkinAnalysisUncheckedUpdateManyWithoutUserNestedInput
+  analysisJobs?: Prisma.AnalysisJobUncheckedUpdateManyWithoutUserNestedInput
   payments?: Prisma.PaymentUncheckedUpdateManyWithoutUserNestedInput
   subscriptions?: Prisma.SubscriptionUncheckedUpdateManyWithoutUserNestedInput
   purchasePacks?: Prisma.PurchasePackUncheckedUpdateManyWithoutUserNestedInput
@@ -3911,21 +4582,27 @@ export type UserCreateWithoutClinicInput = {
   emailVerified?: Date | string | null
   image?: string | null
   password?: string | null
+  username?: string | null
   role?: string
   plan?: string
   qvapayId?: string | null
   analysisLimit?: number
   analysisUsed?: number
   analysisResetAt?: Date | string | null
-  createdAt?: Date | string
-  updatedAt?: Date | string
   telegramId?: string | null
+  telegramTrialStartedAt?: Date | string | null
+  isTelegramPremiumActive?: boolean
+  latitude?: number | null
+  longitude?: number | null
   currentStreak?: number
   maxStreak?: number
   lastCheckInDate?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
   analyses?: Prisma.SkinAnalysisCreateNestedManyWithoutUserInput
+  analysisJobs?: Prisma.AnalysisJobCreateNestedManyWithoutUserInput
   payments?: Prisma.PaymentCreateNestedManyWithoutUserInput
   subscriptions?: Prisma.SubscriptionCreateNestedManyWithoutUserInput
   purchasePacks?: Prisma.PurchasePackCreateNestedManyWithoutUserInput
@@ -3964,21 +4641,27 @@ export type UserUncheckedCreateWithoutClinicInput = {
   emailVerified?: Date | string | null
   image?: string | null
   password?: string | null
+  username?: string | null
   role?: string
   plan?: string
   qvapayId?: string | null
   analysisLimit?: number
   analysisUsed?: number
   analysisResetAt?: Date | string | null
-  createdAt?: Date | string
-  updatedAt?: Date | string
   telegramId?: string | null
+  telegramTrialStartedAt?: Date | string | null
+  isTelegramPremiumActive?: boolean
+  latitude?: number | null
+  longitude?: number | null
   currentStreak?: number
   maxStreak?: number
   lastCheckInDate?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   analyses?: Prisma.SkinAnalysisUncheckedCreateNestedManyWithoutUserInput
+  analysisJobs?: Prisma.AnalysisJobUncheckedCreateNestedManyWithoutUserInput
   payments?: Prisma.PaymentUncheckedCreateNestedManyWithoutUserInput
   subscriptions?: Prisma.SubscriptionUncheckedCreateNestedManyWithoutUserInput
   purchasePacks?: Prisma.PurchasePackUncheckedCreateNestedManyWithoutUserInput
@@ -4033,21 +4716,27 @@ export type UserUpdateWithoutClinicInput = {
   emailVerified?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.StringFieldUpdateOperationsInput | string
   plan?: Prisma.StringFieldUpdateOperationsInput | string
   qvapayId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   analysisLimit?: Prisma.IntFieldUpdateOperationsInput | number
   analysisUsed?: Prisma.IntFieldUpdateOperationsInput | number
   analysisResetAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   telegramId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  telegramTrialStartedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  isTelegramPremiumActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  latitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  longitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   currentStreak?: Prisma.IntFieldUpdateOperationsInput | number
   maxStreak?: Prisma.IntFieldUpdateOperationsInput | number
   lastCheckInDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
   sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
   analyses?: Prisma.SkinAnalysisUpdateManyWithoutUserNestedInput
+  analysisJobs?: Prisma.AnalysisJobUpdateManyWithoutUserNestedInput
   payments?: Prisma.PaymentUpdateManyWithoutUserNestedInput
   subscriptions?: Prisma.SubscriptionUpdateManyWithoutUserNestedInput
   purchasePacks?: Prisma.PurchasePackUpdateManyWithoutUserNestedInput
@@ -4086,21 +4775,27 @@ export type UserUncheckedUpdateWithoutClinicInput = {
   emailVerified?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.StringFieldUpdateOperationsInput | string
   plan?: Prisma.StringFieldUpdateOperationsInput | string
   qvapayId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   analysisLimit?: Prisma.IntFieldUpdateOperationsInput | number
   analysisUsed?: Prisma.IntFieldUpdateOperationsInput | number
   analysisResetAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   telegramId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  telegramTrialStartedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  isTelegramPremiumActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  latitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  longitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   currentStreak?: Prisma.IntFieldUpdateOperationsInput | number
   maxStreak?: Prisma.IntFieldUpdateOperationsInput | number
   lastCheckInDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   analyses?: Prisma.SkinAnalysisUncheckedUpdateManyWithoutUserNestedInput
+  analysisJobs?: Prisma.AnalysisJobUncheckedUpdateManyWithoutUserNestedInput
   payments?: Prisma.PaymentUncheckedUpdateManyWithoutUserNestedInput
   subscriptions?: Prisma.SubscriptionUncheckedUpdateManyWithoutUserNestedInput
   purchasePacks?: Prisma.PurchasePackUncheckedUpdateManyWithoutUserNestedInput
@@ -4139,21 +4834,27 @@ export type UserCreateWithoutAffiliateClicksInput = {
   emailVerified?: Date | string | null
   image?: string | null
   password?: string | null
+  username?: string | null
   role?: string
   plan?: string
   qvapayId?: string | null
   analysisLimit?: number
   analysisUsed?: number
   analysisResetAt?: Date | string | null
-  createdAt?: Date | string
-  updatedAt?: Date | string
   telegramId?: string | null
+  telegramTrialStartedAt?: Date | string | null
+  isTelegramPremiumActive?: boolean
+  latitude?: number | null
+  longitude?: number | null
   currentStreak?: number
   maxStreak?: number
   lastCheckInDate?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
   analyses?: Prisma.SkinAnalysisCreateNestedManyWithoutUserInput
+  analysisJobs?: Prisma.AnalysisJobCreateNestedManyWithoutUserInput
   payments?: Prisma.PaymentCreateNestedManyWithoutUserInput
   subscriptions?: Prisma.SubscriptionCreateNestedManyWithoutUserInput
   purchasePacks?: Prisma.PurchasePackCreateNestedManyWithoutUserInput
@@ -4192,21 +4893,27 @@ export type UserUncheckedCreateWithoutAffiliateClicksInput = {
   emailVerified?: Date | string | null
   image?: string | null
   password?: string | null
+  username?: string | null
   role?: string
   plan?: string
   qvapayId?: string | null
   analysisLimit?: number
   analysisUsed?: number
   analysisResetAt?: Date | string | null
-  createdAt?: Date | string
-  updatedAt?: Date | string
   telegramId?: string | null
+  telegramTrialStartedAt?: Date | string | null
+  isTelegramPremiumActive?: boolean
+  latitude?: number | null
+  longitude?: number | null
   currentStreak?: number
   maxStreak?: number
   lastCheckInDate?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   analyses?: Prisma.SkinAnalysisUncheckedCreateNestedManyWithoutUserInput
+  analysisJobs?: Prisma.AnalysisJobUncheckedCreateNestedManyWithoutUserInput
   payments?: Prisma.PaymentUncheckedCreateNestedManyWithoutUserInput
   subscriptions?: Prisma.SubscriptionUncheckedCreateNestedManyWithoutUserInput
   purchasePacks?: Prisma.PurchasePackUncheckedCreateNestedManyWithoutUserInput
@@ -4261,21 +4968,27 @@ export type UserUpdateWithoutAffiliateClicksInput = {
   emailVerified?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.StringFieldUpdateOperationsInput | string
   plan?: Prisma.StringFieldUpdateOperationsInput | string
   qvapayId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   analysisLimit?: Prisma.IntFieldUpdateOperationsInput | number
   analysisUsed?: Prisma.IntFieldUpdateOperationsInput | number
   analysisResetAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   telegramId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  telegramTrialStartedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  isTelegramPremiumActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  latitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  longitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   currentStreak?: Prisma.IntFieldUpdateOperationsInput | number
   maxStreak?: Prisma.IntFieldUpdateOperationsInput | number
   lastCheckInDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
   sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
   analyses?: Prisma.SkinAnalysisUpdateManyWithoutUserNestedInput
+  analysisJobs?: Prisma.AnalysisJobUpdateManyWithoutUserNestedInput
   payments?: Prisma.PaymentUpdateManyWithoutUserNestedInput
   subscriptions?: Prisma.SubscriptionUpdateManyWithoutUserNestedInput
   purchasePacks?: Prisma.PurchasePackUpdateManyWithoutUserNestedInput
@@ -4314,21 +5027,27 @@ export type UserUncheckedUpdateWithoutAffiliateClicksInput = {
   emailVerified?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.StringFieldUpdateOperationsInput | string
   plan?: Prisma.StringFieldUpdateOperationsInput | string
   qvapayId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   analysisLimit?: Prisma.IntFieldUpdateOperationsInput | number
   analysisUsed?: Prisma.IntFieldUpdateOperationsInput | number
   analysisResetAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   telegramId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  telegramTrialStartedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  isTelegramPremiumActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  latitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  longitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   currentStreak?: Prisma.IntFieldUpdateOperationsInput | number
   maxStreak?: Prisma.IntFieldUpdateOperationsInput | number
   lastCheckInDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   analyses?: Prisma.SkinAnalysisUncheckedUpdateManyWithoutUserNestedInput
+  analysisJobs?: Prisma.AnalysisJobUncheckedUpdateManyWithoutUserNestedInput
   payments?: Prisma.PaymentUncheckedUpdateManyWithoutUserNestedInput
   subscriptions?: Prisma.SubscriptionUncheckedUpdateManyWithoutUserNestedInput
   purchasePacks?: Prisma.PurchasePackUncheckedUpdateManyWithoutUserNestedInput
@@ -4367,21 +5086,27 @@ export type UserCreateWithoutContactMessagesInput = {
   emailVerified?: Date | string | null
   image?: string | null
   password?: string | null
+  username?: string | null
   role?: string
   plan?: string
   qvapayId?: string | null
   analysisLimit?: number
   analysisUsed?: number
   analysisResetAt?: Date | string | null
-  createdAt?: Date | string
-  updatedAt?: Date | string
   telegramId?: string | null
+  telegramTrialStartedAt?: Date | string | null
+  isTelegramPremiumActive?: boolean
+  latitude?: number | null
+  longitude?: number | null
   currentStreak?: number
   maxStreak?: number
   lastCheckInDate?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
   analyses?: Prisma.SkinAnalysisCreateNestedManyWithoutUserInput
+  analysisJobs?: Prisma.AnalysisJobCreateNestedManyWithoutUserInput
   payments?: Prisma.PaymentCreateNestedManyWithoutUserInput
   subscriptions?: Prisma.SubscriptionCreateNestedManyWithoutUserInput
   purchasePacks?: Prisma.PurchasePackCreateNestedManyWithoutUserInput
@@ -4420,21 +5145,27 @@ export type UserUncheckedCreateWithoutContactMessagesInput = {
   emailVerified?: Date | string | null
   image?: string | null
   password?: string | null
+  username?: string | null
   role?: string
   plan?: string
   qvapayId?: string | null
   analysisLimit?: number
   analysisUsed?: number
   analysisResetAt?: Date | string | null
-  createdAt?: Date | string
-  updatedAt?: Date | string
   telegramId?: string | null
+  telegramTrialStartedAt?: Date | string | null
+  isTelegramPremiumActive?: boolean
+  latitude?: number | null
+  longitude?: number | null
   currentStreak?: number
   maxStreak?: number
   lastCheckInDate?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   analyses?: Prisma.SkinAnalysisUncheckedCreateNestedManyWithoutUserInput
+  analysisJobs?: Prisma.AnalysisJobUncheckedCreateNestedManyWithoutUserInput
   payments?: Prisma.PaymentUncheckedCreateNestedManyWithoutUserInput
   subscriptions?: Prisma.SubscriptionUncheckedCreateNestedManyWithoutUserInput
   purchasePacks?: Prisma.PurchasePackUncheckedCreateNestedManyWithoutUserInput
@@ -4489,21 +5220,27 @@ export type UserUpdateWithoutContactMessagesInput = {
   emailVerified?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.StringFieldUpdateOperationsInput | string
   plan?: Prisma.StringFieldUpdateOperationsInput | string
   qvapayId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   analysisLimit?: Prisma.IntFieldUpdateOperationsInput | number
   analysisUsed?: Prisma.IntFieldUpdateOperationsInput | number
   analysisResetAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   telegramId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  telegramTrialStartedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  isTelegramPremiumActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  latitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  longitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   currentStreak?: Prisma.IntFieldUpdateOperationsInput | number
   maxStreak?: Prisma.IntFieldUpdateOperationsInput | number
   lastCheckInDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
   sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
   analyses?: Prisma.SkinAnalysisUpdateManyWithoutUserNestedInput
+  analysisJobs?: Prisma.AnalysisJobUpdateManyWithoutUserNestedInput
   payments?: Prisma.PaymentUpdateManyWithoutUserNestedInput
   subscriptions?: Prisma.SubscriptionUpdateManyWithoutUserNestedInput
   purchasePacks?: Prisma.PurchasePackUpdateManyWithoutUserNestedInput
@@ -4542,21 +5279,27 @@ export type UserUncheckedUpdateWithoutContactMessagesInput = {
   emailVerified?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.StringFieldUpdateOperationsInput | string
   plan?: Prisma.StringFieldUpdateOperationsInput | string
   qvapayId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   analysisLimit?: Prisma.IntFieldUpdateOperationsInput | number
   analysisUsed?: Prisma.IntFieldUpdateOperationsInput | number
   analysisResetAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   telegramId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  telegramTrialStartedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  isTelegramPremiumActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  latitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  longitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   currentStreak?: Prisma.IntFieldUpdateOperationsInput | number
   maxStreak?: Prisma.IntFieldUpdateOperationsInput | number
   lastCheckInDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   analyses?: Prisma.SkinAnalysisUncheckedUpdateManyWithoutUserNestedInput
+  analysisJobs?: Prisma.AnalysisJobUncheckedUpdateManyWithoutUserNestedInput
   payments?: Prisma.PaymentUncheckedUpdateManyWithoutUserNestedInput
   subscriptions?: Prisma.SubscriptionUncheckedUpdateManyWithoutUserNestedInput
   purchasePacks?: Prisma.PurchasePackUncheckedUpdateManyWithoutUserNestedInput
@@ -4595,21 +5338,27 @@ export type UserCreateWithoutEvolutionInput = {
   emailVerified?: Date | string | null
   image?: string | null
   password?: string | null
+  username?: string | null
   role?: string
   plan?: string
   qvapayId?: string | null
   analysisLimit?: number
   analysisUsed?: number
   analysisResetAt?: Date | string | null
-  createdAt?: Date | string
-  updatedAt?: Date | string
   telegramId?: string | null
+  telegramTrialStartedAt?: Date | string | null
+  isTelegramPremiumActive?: boolean
+  latitude?: number | null
+  longitude?: number | null
   currentStreak?: number
   maxStreak?: number
   lastCheckInDate?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
   analyses?: Prisma.SkinAnalysisCreateNestedManyWithoutUserInput
+  analysisJobs?: Prisma.AnalysisJobCreateNestedManyWithoutUserInput
   payments?: Prisma.PaymentCreateNestedManyWithoutUserInput
   subscriptions?: Prisma.SubscriptionCreateNestedManyWithoutUserInput
   purchasePacks?: Prisma.PurchasePackCreateNestedManyWithoutUserInput
@@ -4648,21 +5397,27 @@ export type UserUncheckedCreateWithoutEvolutionInput = {
   emailVerified?: Date | string | null
   image?: string | null
   password?: string | null
+  username?: string | null
   role?: string
   plan?: string
   qvapayId?: string | null
   analysisLimit?: number
   analysisUsed?: number
   analysisResetAt?: Date | string | null
-  createdAt?: Date | string
-  updatedAt?: Date | string
   telegramId?: string | null
+  telegramTrialStartedAt?: Date | string | null
+  isTelegramPremiumActive?: boolean
+  latitude?: number | null
+  longitude?: number | null
   currentStreak?: number
   maxStreak?: number
   lastCheckInDate?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   analyses?: Prisma.SkinAnalysisUncheckedCreateNestedManyWithoutUserInput
+  analysisJobs?: Prisma.AnalysisJobUncheckedCreateNestedManyWithoutUserInput
   payments?: Prisma.PaymentUncheckedCreateNestedManyWithoutUserInput
   subscriptions?: Prisma.SubscriptionUncheckedCreateNestedManyWithoutUserInput
   purchasePacks?: Prisma.PurchasePackUncheckedCreateNestedManyWithoutUserInput
@@ -4717,21 +5472,27 @@ export type UserUpdateWithoutEvolutionInput = {
   emailVerified?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.StringFieldUpdateOperationsInput | string
   plan?: Prisma.StringFieldUpdateOperationsInput | string
   qvapayId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   analysisLimit?: Prisma.IntFieldUpdateOperationsInput | number
   analysisUsed?: Prisma.IntFieldUpdateOperationsInput | number
   analysisResetAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   telegramId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  telegramTrialStartedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  isTelegramPremiumActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  latitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  longitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   currentStreak?: Prisma.IntFieldUpdateOperationsInput | number
   maxStreak?: Prisma.IntFieldUpdateOperationsInput | number
   lastCheckInDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
   sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
   analyses?: Prisma.SkinAnalysisUpdateManyWithoutUserNestedInput
+  analysisJobs?: Prisma.AnalysisJobUpdateManyWithoutUserNestedInput
   payments?: Prisma.PaymentUpdateManyWithoutUserNestedInput
   subscriptions?: Prisma.SubscriptionUpdateManyWithoutUserNestedInput
   purchasePacks?: Prisma.PurchasePackUpdateManyWithoutUserNestedInput
@@ -4770,21 +5531,27 @@ export type UserUncheckedUpdateWithoutEvolutionInput = {
   emailVerified?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.StringFieldUpdateOperationsInput | string
   plan?: Prisma.StringFieldUpdateOperationsInput | string
   qvapayId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   analysisLimit?: Prisma.IntFieldUpdateOperationsInput | number
   analysisUsed?: Prisma.IntFieldUpdateOperationsInput | number
   analysisResetAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   telegramId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  telegramTrialStartedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  isTelegramPremiumActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  latitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  longitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   currentStreak?: Prisma.IntFieldUpdateOperationsInput | number
   maxStreak?: Prisma.IntFieldUpdateOperationsInput | number
   lastCheckInDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   analyses?: Prisma.SkinAnalysisUncheckedUpdateManyWithoutUserNestedInput
+  analysisJobs?: Prisma.AnalysisJobUncheckedUpdateManyWithoutUserNestedInput
   payments?: Prisma.PaymentUncheckedUpdateManyWithoutUserNestedInput
   subscriptions?: Prisma.SubscriptionUncheckedUpdateManyWithoutUserNestedInput
   purchasePacks?: Prisma.PurchasePackUncheckedUpdateManyWithoutUserNestedInput
@@ -4823,21 +5590,27 @@ export type UserCreateWithoutSurveyFeedbackInput = {
   emailVerified?: Date | string | null
   image?: string | null
   password?: string | null
+  username?: string | null
   role?: string
   plan?: string
   qvapayId?: string | null
   analysisLimit?: number
   analysisUsed?: number
   analysisResetAt?: Date | string | null
-  createdAt?: Date | string
-  updatedAt?: Date | string
   telegramId?: string | null
+  telegramTrialStartedAt?: Date | string | null
+  isTelegramPremiumActive?: boolean
+  latitude?: number | null
+  longitude?: number | null
   currentStreak?: number
   maxStreak?: number
   lastCheckInDate?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
   analyses?: Prisma.SkinAnalysisCreateNestedManyWithoutUserInput
+  analysisJobs?: Prisma.AnalysisJobCreateNestedManyWithoutUserInput
   payments?: Prisma.PaymentCreateNestedManyWithoutUserInput
   subscriptions?: Prisma.SubscriptionCreateNestedManyWithoutUserInput
   purchasePacks?: Prisma.PurchasePackCreateNestedManyWithoutUserInput
@@ -4876,21 +5649,27 @@ export type UserUncheckedCreateWithoutSurveyFeedbackInput = {
   emailVerified?: Date | string | null
   image?: string | null
   password?: string | null
+  username?: string | null
   role?: string
   plan?: string
   qvapayId?: string | null
   analysisLimit?: number
   analysisUsed?: number
   analysisResetAt?: Date | string | null
-  createdAt?: Date | string
-  updatedAt?: Date | string
   telegramId?: string | null
+  telegramTrialStartedAt?: Date | string | null
+  isTelegramPremiumActive?: boolean
+  latitude?: number | null
+  longitude?: number | null
   currentStreak?: number
   maxStreak?: number
   lastCheckInDate?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   analyses?: Prisma.SkinAnalysisUncheckedCreateNestedManyWithoutUserInput
+  analysisJobs?: Prisma.AnalysisJobUncheckedCreateNestedManyWithoutUserInput
   payments?: Prisma.PaymentUncheckedCreateNestedManyWithoutUserInput
   subscriptions?: Prisma.SubscriptionUncheckedCreateNestedManyWithoutUserInput
   purchasePacks?: Prisma.PurchasePackUncheckedCreateNestedManyWithoutUserInput
@@ -4945,21 +5724,27 @@ export type UserUpdateWithoutSurveyFeedbackInput = {
   emailVerified?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.StringFieldUpdateOperationsInput | string
   plan?: Prisma.StringFieldUpdateOperationsInput | string
   qvapayId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   analysisLimit?: Prisma.IntFieldUpdateOperationsInput | number
   analysisUsed?: Prisma.IntFieldUpdateOperationsInput | number
   analysisResetAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   telegramId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  telegramTrialStartedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  isTelegramPremiumActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  latitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  longitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   currentStreak?: Prisma.IntFieldUpdateOperationsInput | number
   maxStreak?: Prisma.IntFieldUpdateOperationsInput | number
   lastCheckInDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
   sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
   analyses?: Prisma.SkinAnalysisUpdateManyWithoutUserNestedInput
+  analysisJobs?: Prisma.AnalysisJobUpdateManyWithoutUserNestedInput
   payments?: Prisma.PaymentUpdateManyWithoutUserNestedInput
   subscriptions?: Prisma.SubscriptionUpdateManyWithoutUserNestedInput
   purchasePacks?: Prisma.PurchasePackUpdateManyWithoutUserNestedInput
@@ -4998,21 +5783,27 @@ export type UserUncheckedUpdateWithoutSurveyFeedbackInput = {
   emailVerified?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.StringFieldUpdateOperationsInput | string
   plan?: Prisma.StringFieldUpdateOperationsInput | string
   qvapayId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   analysisLimit?: Prisma.IntFieldUpdateOperationsInput | number
   analysisUsed?: Prisma.IntFieldUpdateOperationsInput | number
   analysisResetAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   telegramId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  telegramTrialStartedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  isTelegramPremiumActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  latitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  longitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   currentStreak?: Prisma.IntFieldUpdateOperationsInput | number
   maxStreak?: Prisma.IntFieldUpdateOperationsInput | number
   lastCheckInDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   analyses?: Prisma.SkinAnalysisUncheckedUpdateManyWithoutUserNestedInput
+  analysisJobs?: Prisma.AnalysisJobUncheckedUpdateManyWithoutUserNestedInput
   payments?: Prisma.PaymentUncheckedUpdateManyWithoutUserNestedInput
   subscriptions?: Prisma.SubscriptionUncheckedUpdateManyWithoutUserNestedInput
   purchasePacks?: Prisma.PurchasePackUncheckedUpdateManyWithoutUserNestedInput
@@ -5051,21 +5842,27 @@ export type UserCreateWithoutCommunityPostsInput = {
   emailVerified?: Date | string | null
   image?: string | null
   password?: string | null
+  username?: string | null
   role?: string
   plan?: string
   qvapayId?: string | null
   analysisLimit?: number
   analysisUsed?: number
   analysisResetAt?: Date | string | null
-  createdAt?: Date | string
-  updatedAt?: Date | string
   telegramId?: string | null
+  telegramTrialStartedAt?: Date | string | null
+  isTelegramPremiumActive?: boolean
+  latitude?: number | null
+  longitude?: number | null
   currentStreak?: number
   maxStreak?: number
   lastCheckInDate?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
   analyses?: Prisma.SkinAnalysisCreateNestedManyWithoutUserInput
+  analysisJobs?: Prisma.AnalysisJobCreateNestedManyWithoutUserInput
   payments?: Prisma.PaymentCreateNestedManyWithoutUserInput
   subscriptions?: Prisma.SubscriptionCreateNestedManyWithoutUserInput
   purchasePacks?: Prisma.PurchasePackCreateNestedManyWithoutUserInput
@@ -5104,21 +5901,27 @@ export type UserUncheckedCreateWithoutCommunityPostsInput = {
   emailVerified?: Date | string | null
   image?: string | null
   password?: string | null
+  username?: string | null
   role?: string
   plan?: string
   qvapayId?: string | null
   analysisLimit?: number
   analysisUsed?: number
   analysisResetAt?: Date | string | null
-  createdAt?: Date | string
-  updatedAt?: Date | string
   telegramId?: string | null
+  telegramTrialStartedAt?: Date | string | null
+  isTelegramPremiumActive?: boolean
+  latitude?: number | null
+  longitude?: number | null
   currentStreak?: number
   maxStreak?: number
   lastCheckInDate?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   analyses?: Prisma.SkinAnalysisUncheckedCreateNestedManyWithoutUserInput
+  analysisJobs?: Prisma.AnalysisJobUncheckedCreateNestedManyWithoutUserInput
   payments?: Prisma.PaymentUncheckedCreateNestedManyWithoutUserInput
   subscriptions?: Prisma.SubscriptionUncheckedCreateNestedManyWithoutUserInput
   purchasePacks?: Prisma.PurchasePackUncheckedCreateNestedManyWithoutUserInput
@@ -5173,21 +5976,27 @@ export type UserUpdateWithoutCommunityPostsInput = {
   emailVerified?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.StringFieldUpdateOperationsInput | string
   plan?: Prisma.StringFieldUpdateOperationsInput | string
   qvapayId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   analysisLimit?: Prisma.IntFieldUpdateOperationsInput | number
   analysisUsed?: Prisma.IntFieldUpdateOperationsInput | number
   analysisResetAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   telegramId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  telegramTrialStartedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  isTelegramPremiumActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  latitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  longitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   currentStreak?: Prisma.IntFieldUpdateOperationsInput | number
   maxStreak?: Prisma.IntFieldUpdateOperationsInput | number
   lastCheckInDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
   sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
   analyses?: Prisma.SkinAnalysisUpdateManyWithoutUserNestedInput
+  analysisJobs?: Prisma.AnalysisJobUpdateManyWithoutUserNestedInput
   payments?: Prisma.PaymentUpdateManyWithoutUserNestedInput
   subscriptions?: Prisma.SubscriptionUpdateManyWithoutUserNestedInput
   purchasePacks?: Prisma.PurchasePackUpdateManyWithoutUserNestedInput
@@ -5226,21 +6035,27 @@ export type UserUncheckedUpdateWithoutCommunityPostsInput = {
   emailVerified?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.StringFieldUpdateOperationsInput | string
   plan?: Prisma.StringFieldUpdateOperationsInput | string
   qvapayId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   analysisLimit?: Prisma.IntFieldUpdateOperationsInput | number
   analysisUsed?: Prisma.IntFieldUpdateOperationsInput | number
   analysisResetAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   telegramId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  telegramTrialStartedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  isTelegramPremiumActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  latitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  longitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   currentStreak?: Prisma.IntFieldUpdateOperationsInput | number
   maxStreak?: Prisma.IntFieldUpdateOperationsInput | number
   lastCheckInDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   analyses?: Prisma.SkinAnalysisUncheckedUpdateManyWithoutUserNestedInput
+  analysisJobs?: Prisma.AnalysisJobUncheckedUpdateManyWithoutUserNestedInput
   payments?: Prisma.PaymentUncheckedUpdateManyWithoutUserNestedInput
   subscriptions?: Prisma.SubscriptionUncheckedUpdateManyWithoutUserNestedInput
   purchasePacks?: Prisma.PurchasePackUncheckedUpdateManyWithoutUserNestedInput
@@ -5279,21 +6094,27 @@ export type UserCreateWithoutCommentsInput = {
   emailVerified?: Date | string | null
   image?: string | null
   password?: string | null
+  username?: string | null
   role?: string
   plan?: string
   qvapayId?: string | null
   analysisLimit?: number
   analysisUsed?: number
   analysisResetAt?: Date | string | null
-  createdAt?: Date | string
-  updatedAt?: Date | string
   telegramId?: string | null
+  telegramTrialStartedAt?: Date | string | null
+  isTelegramPremiumActive?: boolean
+  latitude?: number | null
+  longitude?: number | null
   currentStreak?: number
   maxStreak?: number
   lastCheckInDate?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
   analyses?: Prisma.SkinAnalysisCreateNestedManyWithoutUserInput
+  analysisJobs?: Prisma.AnalysisJobCreateNestedManyWithoutUserInput
   payments?: Prisma.PaymentCreateNestedManyWithoutUserInput
   subscriptions?: Prisma.SubscriptionCreateNestedManyWithoutUserInput
   purchasePacks?: Prisma.PurchasePackCreateNestedManyWithoutUserInput
@@ -5332,21 +6153,27 @@ export type UserUncheckedCreateWithoutCommentsInput = {
   emailVerified?: Date | string | null
   image?: string | null
   password?: string | null
+  username?: string | null
   role?: string
   plan?: string
   qvapayId?: string | null
   analysisLimit?: number
   analysisUsed?: number
   analysisResetAt?: Date | string | null
-  createdAt?: Date | string
-  updatedAt?: Date | string
   telegramId?: string | null
+  telegramTrialStartedAt?: Date | string | null
+  isTelegramPremiumActive?: boolean
+  latitude?: number | null
+  longitude?: number | null
   currentStreak?: number
   maxStreak?: number
   lastCheckInDate?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   analyses?: Prisma.SkinAnalysisUncheckedCreateNestedManyWithoutUserInput
+  analysisJobs?: Prisma.AnalysisJobUncheckedCreateNestedManyWithoutUserInput
   payments?: Prisma.PaymentUncheckedCreateNestedManyWithoutUserInput
   subscriptions?: Prisma.SubscriptionUncheckedCreateNestedManyWithoutUserInput
   purchasePacks?: Prisma.PurchasePackUncheckedCreateNestedManyWithoutUserInput
@@ -5401,21 +6228,27 @@ export type UserUpdateWithoutCommentsInput = {
   emailVerified?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.StringFieldUpdateOperationsInput | string
   plan?: Prisma.StringFieldUpdateOperationsInput | string
   qvapayId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   analysisLimit?: Prisma.IntFieldUpdateOperationsInput | number
   analysisUsed?: Prisma.IntFieldUpdateOperationsInput | number
   analysisResetAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   telegramId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  telegramTrialStartedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  isTelegramPremiumActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  latitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  longitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   currentStreak?: Prisma.IntFieldUpdateOperationsInput | number
   maxStreak?: Prisma.IntFieldUpdateOperationsInput | number
   lastCheckInDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
   sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
   analyses?: Prisma.SkinAnalysisUpdateManyWithoutUserNestedInput
+  analysisJobs?: Prisma.AnalysisJobUpdateManyWithoutUserNestedInput
   payments?: Prisma.PaymentUpdateManyWithoutUserNestedInput
   subscriptions?: Prisma.SubscriptionUpdateManyWithoutUserNestedInput
   purchasePacks?: Prisma.PurchasePackUpdateManyWithoutUserNestedInput
@@ -5454,21 +6287,27 @@ export type UserUncheckedUpdateWithoutCommentsInput = {
   emailVerified?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.StringFieldUpdateOperationsInput | string
   plan?: Prisma.StringFieldUpdateOperationsInput | string
   qvapayId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   analysisLimit?: Prisma.IntFieldUpdateOperationsInput | number
   analysisUsed?: Prisma.IntFieldUpdateOperationsInput | number
   analysisResetAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   telegramId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  telegramTrialStartedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  isTelegramPremiumActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  latitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  longitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   currentStreak?: Prisma.IntFieldUpdateOperationsInput | number
   maxStreak?: Prisma.IntFieldUpdateOperationsInput | number
   lastCheckInDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   analyses?: Prisma.SkinAnalysisUncheckedUpdateManyWithoutUserNestedInput
+  analysisJobs?: Prisma.AnalysisJobUncheckedUpdateManyWithoutUserNestedInput
   payments?: Prisma.PaymentUncheckedUpdateManyWithoutUserNestedInput
   subscriptions?: Prisma.SubscriptionUncheckedUpdateManyWithoutUserNestedInput
   purchasePacks?: Prisma.PurchasePackUncheckedUpdateManyWithoutUserNestedInput
@@ -5507,21 +6346,27 @@ export type UserCreateWithoutCommunityGroupsInput = {
   emailVerified?: Date | string | null
   image?: string | null
   password?: string | null
+  username?: string | null
   role?: string
   plan?: string
   qvapayId?: string | null
   analysisLimit?: number
   analysisUsed?: number
   analysisResetAt?: Date | string | null
-  createdAt?: Date | string
-  updatedAt?: Date | string
   telegramId?: string | null
+  telegramTrialStartedAt?: Date | string | null
+  isTelegramPremiumActive?: boolean
+  latitude?: number | null
+  longitude?: number | null
   currentStreak?: number
   maxStreak?: number
   lastCheckInDate?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
   analyses?: Prisma.SkinAnalysisCreateNestedManyWithoutUserInput
+  analysisJobs?: Prisma.AnalysisJobCreateNestedManyWithoutUserInput
   payments?: Prisma.PaymentCreateNestedManyWithoutUserInput
   subscriptions?: Prisma.SubscriptionCreateNestedManyWithoutUserInput
   purchasePacks?: Prisma.PurchasePackCreateNestedManyWithoutUserInput
@@ -5560,21 +6405,27 @@ export type UserUncheckedCreateWithoutCommunityGroupsInput = {
   emailVerified?: Date | string | null
   image?: string | null
   password?: string | null
+  username?: string | null
   role?: string
   plan?: string
   qvapayId?: string | null
   analysisLimit?: number
   analysisUsed?: number
   analysisResetAt?: Date | string | null
-  createdAt?: Date | string
-  updatedAt?: Date | string
   telegramId?: string | null
+  telegramTrialStartedAt?: Date | string | null
+  isTelegramPremiumActive?: boolean
+  latitude?: number | null
+  longitude?: number | null
   currentStreak?: number
   maxStreak?: number
   lastCheckInDate?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   analyses?: Prisma.SkinAnalysisUncheckedCreateNestedManyWithoutUserInput
+  analysisJobs?: Prisma.AnalysisJobUncheckedCreateNestedManyWithoutUserInput
   payments?: Prisma.PaymentUncheckedCreateNestedManyWithoutUserInput
   subscriptions?: Prisma.SubscriptionUncheckedCreateNestedManyWithoutUserInput
   purchasePacks?: Prisma.PurchasePackUncheckedCreateNestedManyWithoutUserInput
@@ -5629,21 +6480,27 @@ export type UserUpdateWithoutCommunityGroupsInput = {
   emailVerified?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.StringFieldUpdateOperationsInput | string
   plan?: Prisma.StringFieldUpdateOperationsInput | string
   qvapayId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   analysisLimit?: Prisma.IntFieldUpdateOperationsInput | number
   analysisUsed?: Prisma.IntFieldUpdateOperationsInput | number
   analysisResetAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   telegramId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  telegramTrialStartedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  isTelegramPremiumActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  latitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  longitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   currentStreak?: Prisma.IntFieldUpdateOperationsInput | number
   maxStreak?: Prisma.IntFieldUpdateOperationsInput | number
   lastCheckInDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
   sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
   analyses?: Prisma.SkinAnalysisUpdateManyWithoutUserNestedInput
+  analysisJobs?: Prisma.AnalysisJobUpdateManyWithoutUserNestedInput
   payments?: Prisma.PaymentUpdateManyWithoutUserNestedInput
   subscriptions?: Prisma.SubscriptionUpdateManyWithoutUserNestedInput
   purchasePacks?: Prisma.PurchasePackUpdateManyWithoutUserNestedInput
@@ -5682,21 +6539,27 @@ export type UserUncheckedUpdateWithoutCommunityGroupsInput = {
   emailVerified?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.StringFieldUpdateOperationsInput | string
   plan?: Prisma.StringFieldUpdateOperationsInput | string
   qvapayId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   analysisLimit?: Prisma.IntFieldUpdateOperationsInput | number
   analysisUsed?: Prisma.IntFieldUpdateOperationsInput | number
   analysisResetAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   telegramId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  telegramTrialStartedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  isTelegramPremiumActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  latitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  longitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   currentStreak?: Prisma.IntFieldUpdateOperationsInput | number
   maxStreak?: Prisma.IntFieldUpdateOperationsInput | number
   lastCheckInDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   analyses?: Prisma.SkinAnalysisUncheckedUpdateManyWithoutUserNestedInput
+  analysisJobs?: Prisma.AnalysisJobUncheckedUpdateManyWithoutUserNestedInput
   payments?: Prisma.PaymentUncheckedUpdateManyWithoutUserNestedInput
   subscriptions?: Prisma.SubscriptionUncheckedUpdateManyWithoutUserNestedInput
   purchasePacks?: Prisma.PurchasePackUncheckedUpdateManyWithoutUserNestedInput
@@ -5735,21 +6598,27 @@ export type UserCreateWithoutCommunityMembershipsInput = {
   emailVerified?: Date | string | null
   image?: string | null
   password?: string | null
+  username?: string | null
   role?: string
   plan?: string
   qvapayId?: string | null
   analysisLimit?: number
   analysisUsed?: number
   analysisResetAt?: Date | string | null
-  createdAt?: Date | string
-  updatedAt?: Date | string
   telegramId?: string | null
+  telegramTrialStartedAt?: Date | string | null
+  isTelegramPremiumActive?: boolean
+  latitude?: number | null
+  longitude?: number | null
   currentStreak?: number
   maxStreak?: number
   lastCheckInDate?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
   analyses?: Prisma.SkinAnalysisCreateNestedManyWithoutUserInput
+  analysisJobs?: Prisma.AnalysisJobCreateNestedManyWithoutUserInput
   payments?: Prisma.PaymentCreateNestedManyWithoutUserInput
   subscriptions?: Prisma.SubscriptionCreateNestedManyWithoutUserInput
   purchasePacks?: Prisma.PurchasePackCreateNestedManyWithoutUserInput
@@ -5788,21 +6657,27 @@ export type UserUncheckedCreateWithoutCommunityMembershipsInput = {
   emailVerified?: Date | string | null
   image?: string | null
   password?: string | null
+  username?: string | null
   role?: string
   plan?: string
   qvapayId?: string | null
   analysisLimit?: number
   analysisUsed?: number
   analysisResetAt?: Date | string | null
-  createdAt?: Date | string
-  updatedAt?: Date | string
   telegramId?: string | null
+  telegramTrialStartedAt?: Date | string | null
+  isTelegramPremiumActive?: boolean
+  latitude?: number | null
+  longitude?: number | null
   currentStreak?: number
   maxStreak?: number
   lastCheckInDate?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   analyses?: Prisma.SkinAnalysisUncheckedCreateNestedManyWithoutUserInput
+  analysisJobs?: Prisma.AnalysisJobUncheckedCreateNestedManyWithoutUserInput
   payments?: Prisma.PaymentUncheckedCreateNestedManyWithoutUserInput
   subscriptions?: Prisma.SubscriptionUncheckedCreateNestedManyWithoutUserInput
   purchasePacks?: Prisma.PurchasePackUncheckedCreateNestedManyWithoutUserInput
@@ -5857,21 +6732,27 @@ export type UserUpdateWithoutCommunityMembershipsInput = {
   emailVerified?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.StringFieldUpdateOperationsInput | string
   plan?: Prisma.StringFieldUpdateOperationsInput | string
   qvapayId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   analysisLimit?: Prisma.IntFieldUpdateOperationsInput | number
   analysisUsed?: Prisma.IntFieldUpdateOperationsInput | number
   analysisResetAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   telegramId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  telegramTrialStartedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  isTelegramPremiumActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  latitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  longitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   currentStreak?: Prisma.IntFieldUpdateOperationsInput | number
   maxStreak?: Prisma.IntFieldUpdateOperationsInput | number
   lastCheckInDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
   sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
   analyses?: Prisma.SkinAnalysisUpdateManyWithoutUserNestedInput
+  analysisJobs?: Prisma.AnalysisJobUpdateManyWithoutUserNestedInput
   payments?: Prisma.PaymentUpdateManyWithoutUserNestedInput
   subscriptions?: Prisma.SubscriptionUpdateManyWithoutUserNestedInput
   purchasePacks?: Prisma.PurchasePackUpdateManyWithoutUserNestedInput
@@ -5910,21 +6791,27 @@ export type UserUncheckedUpdateWithoutCommunityMembershipsInput = {
   emailVerified?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.StringFieldUpdateOperationsInput | string
   plan?: Prisma.StringFieldUpdateOperationsInput | string
   qvapayId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   analysisLimit?: Prisma.IntFieldUpdateOperationsInput | number
   analysisUsed?: Prisma.IntFieldUpdateOperationsInput | number
   analysisResetAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   telegramId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  telegramTrialStartedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  isTelegramPremiumActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  latitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  longitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   currentStreak?: Prisma.IntFieldUpdateOperationsInput | number
   maxStreak?: Prisma.IntFieldUpdateOperationsInput | number
   lastCheckInDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   analyses?: Prisma.SkinAnalysisUncheckedUpdateManyWithoutUserNestedInput
+  analysisJobs?: Prisma.AnalysisJobUncheckedUpdateManyWithoutUserNestedInput
   payments?: Prisma.PaymentUncheckedUpdateManyWithoutUserNestedInput
   subscriptions?: Prisma.SubscriptionUncheckedUpdateManyWithoutUserNestedInput
   purchasePacks?: Prisma.PurchasePackUncheckedUpdateManyWithoutUserNestedInput
@@ -5963,21 +6850,27 @@ export type UserCreateWithoutPostReactionsInput = {
   emailVerified?: Date | string | null
   image?: string | null
   password?: string | null
+  username?: string | null
   role?: string
   plan?: string
   qvapayId?: string | null
   analysisLimit?: number
   analysisUsed?: number
   analysisResetAt?: Date | string | null
-  createdAt?: Date | string
-  updatedAt?: Date | string
   telegramId?: string | null
+  telegramTrialStartedAt?: Date | string | null
+  isTelegramPremiumActive?: boolean
+  latitude?: number | null
+  longitude?: number | null
   currentStreak?: number
   maxStreak?: number
   lastCheckInDate?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
   analyses?: Prisma.SkinAnalysisCreateNestedManyWithoutUserInput
+  analysisJobs?: Prisma.AnalysisJobCreateNestedManyWithoutUserInput
   payments?: Prisma.PaymentCreateNestedManyWithoutUserInput
   subscriptions?: Prisma.SubscriptionCreateNestedManyWithoutUserInput
   purchasePacks?: Prisma.PurchasePackCreateNestedManyWithoutUserInput
@@ -6016,21 +6909,27 @@ export type UserUncheckedCreateWithoutPostReactionsInput = {
   emailVerified?: Date | string | null
   image?: string | null
   password?: string | null
+  username?: string | null
   role?: string
   plan?: string
   qvapayId?: string | null
   analysisLimit?: number
   analysisUsed?: number
   analysisResetAt?: Date | string | null
-  createdAt?: Date | string
-  updatedAt?: Date | string
   telegramId?: string | null
+  telegramTrialStartedAt?: Date | string | null
+  isTelegramPremiumActive?: boolean
+  latitude?: number | null
+  longitude?: number | null
   currentStreak?: number
   maxStreak?: number
   lastCheckInDate?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   analyses?: Prisma.SkinAnalysisUncheckedCreateNestedManyWithoutUserInput
+  analysisJobs?: Prisma.AnalysisJobUncheckedCreateNestedManyWithoutUserInput
   payments?: Prisma.PaymentUncheckedCreateNestedManyWithoutUserInput
   subscriptions?: Prisma.SubscriptionUncheckedCreateNestedManyWithoutUserInput
   purchasePacks?: Prisma.PurchasePackUncheckedCreateNestedManyWithoutUserInput
@@ -6085,21 +6984,27 @@ export type UserUpdateWithoutPostReactionsInput = {
   emailVerified?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.StringFieldUpdateOperationsInput | string
   plan?: Prisma.StringFieldUpdateOperationsInput | string
   qvapayId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   analysisLimit?: Prisma.IntFieldUpdateOperationsInput | number
   analysisUsed?: Prisma.IntFieldUpdateOperationsInput | number
   analysisResetAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   telegramId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  telegramTrialStartedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  isTelegramPremiumActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  latitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  longitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   currentStreak?: Prisma.IntFieldUpdateOperationsInput | number
   maxStreak?: Prisma.IntFieldUpdateOperationsInput | number
   lastCheckInDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
   sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
   analyses?: Prisma.SkinAnalysisUpdateManyWithoutUserNestedInput
+  analysisJobs?: Prisma.AnalysisJobUpdateManyWithoutUserNestedInput
   payments?: Prisma.PaymentUpdateManyWithoutUserNestedInput
   subscriptions?: Prisma.SubscriptionUpdateManyWithoutUserNestedInput
   purchasePacks?: Prisma.PurchasePackUpdateManyWithoutUserNestedInput
@@ -6138,21 +7043,27 @@ export type UserUncheckedUpdateWithoutPostReactionsInput = {
   emailVerified?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.StringFieldUpdateOperationsInput | string
   plan?: Prisma.StringFieldUpdateOperationsInput | string
   qvapayId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   analysisLimit?: Prisma.IntFieldUpdateOperationsInput | number
   analysisUsed?: Prisma.IntFieldUpdateOperationsInput | number
   analysisResetAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   telegramId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  telegramTrialStartedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  isTelegramPremiumActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  latitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  longitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   currentStreak?: Prisma.IntFieldUpdateOperationsInput | number
   maxStreak?: Prisma.IntFieldUpdateOperationsInput | number
   lastCheckInDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   analyses?: Prisma.SkinAnalysisUncheckedUpdateManyWithoutUserNestedInput
+  analysisJobs?: Prisma.AnalysisJobUncheckedUpdateManyWithoutUserNestedInput
   payments?: Prisma.PaymentUncheckedUpdateManyWithoutUserNestedInput
   subscriptions?: Prisma.SubscriptionUncheckedUpdateManyWithoutUserNestedInput
   purchasePacks?: Prisma.PurchasePackUncheckedUpdateManyWithoutUserNestedInput
@@ -6191,21 +7102,27 @@ export type UserCreateWithoutSkinDiaryInput = {
   emailVerified?: Date | string | null
   image?: string | null
   password?: string | null
+  username?: string | null
   role?: string
   plan?: string
   qvapayId?: string | null
   analysisLimit?: number
   analysisUsed?: number
   analysisResetAt?: Date | string | null
-  createdAt?: Date | string
-  updatedAt?: Date | string
   telegramId?: string | null
+  telegramTrialStartedAt?: Date | string | null
+  isTelegramPremiumActive?: boolean
+  latitude?: number | null
+  longitude?: number | null
   currentStreak?: number
   maxStreak?: number
   lastCheckInDate?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
   analyses?: Prisma.SkinAnalysisCreateNestedManyWithoutUserInput
+  analysisJobs?: Prisma.AnalysisJobCreateNestedManyWithoutUserInput
   payments?: Prisma.PaymentCreateNestedManyWithoutUserInput
   subscriptions?: Prisma.SubscriptionCreateNestedManyWithoutUserInput
   purchasePacks?: Prisma.PurchasePackCreateNestedManyWithoutUserInput
@@ -6244,21 +7161,27 @@ export type UserUncheckedCreateWithoutSkinDiaryInput = {
   emailVerified?: Date | string | null
   image?: string | null
   password?: string | null
+  username?: string | null
   role?: string
   plan?: string
   qvapayId?: string | null
   analysisLimit?: number
   analysisUsed?: number
   analysisResetAt?: Date | string | null
-  createdAt?: Date | string
-  updatedAt?: Date | string
   telegramId?: string | null
+  telegramTrialStartedAt?: Date | string | null
+  isTelegramPremiumActive?: boolean
+  latitude?: number | null
+  longitude?: number | null
   currentStreak?: number
   maxStreak?: number
   lastCheckInDate?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   analyses?: Prisma.SkinAnalysisUncheckedCreateNestedManyWithoutUserInput
+  analysisJobs?: Prisma.AnalysisJobUncheckedCreateNestedManyWithoutUserInput
   payments?: Prisma.PaymentUncheckedCreateNestedManyWithoutUserInput
   subscriptions?: Prisma.SubscriptionUncheckedCreateNestedManyWithoutUserInput
   purchasePacks?: Prisma.PurchasePackUncheckedCreateNestedManyWithoutUserInput
@@ -6313,21 +7236,27 @@ export type UserUpdateWithoutSkinDiaryInput = {
   emailVerified?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.StringFieldUpdateOperationsInput | string
   plan?: Prisma.StringFieldUpdateOperationsInput | string
   qvapayId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   analysisLimit?: Prisma.IntFieldUpdateOperationsInput | number
   analysisUsed?: Prisma.IntFieldUpdateOperationsInput | number
   analysisResetAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   telegramId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  telegramTrialStartedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  isTelegramPremiumActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  latitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  longitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   currentStreak?: Prisma.IntFieldUpdateOperationsInput | number
   maxStreak?: Prisma.IntFieldUpdateOperationsInput | number
   lastCheckInDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
   sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
   analyses?: Prisma.SkinAnalysisUpdateManyWithoutUserNestedInput
+  analysisJobs?: Prisma.AnalysisJobUpdateManyWithoutUserNestedInput
   payments?: Prisma.PaymentUpdateManyWithoutUserNestedInput
   subscriptions?: Prisma.SubscriptionUpdateManyWithoutUserNestedInput
   purchasePacks?: Prisma.PurchasePackUpdateManyWithoutUserNestedInput
@@ -6366,21 +7295,27 @@ export type UserUncheckedUpdateWithoutSkinDiaryInput = {
   emailVerified?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.StringFieldUpdateOperationsInput | string
   plan?: Prisma.StringFieldUpdateOperationsInput | string
   qvapayId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   analysisLimit?: Prisma.IntFieldUpdateOperationsInput | number
   analysisUsed?: Prisma.IntFieldUpdateOperationsInput | number
   analysisResetAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   telegramId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  telegramTrialStartedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  isTelegramPremiumActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  latitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  longitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   currentStreak?: Prisma.IntFieldUpdateOperationsInput | number
   maxStreak?: Prisma.IntFieldUpdateOperationsInput | number
   lastCheckInDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   analyses?: Prisma.SkinAnalysisUncheckedUpdateManyWithoutUserNestedInput
+  analysisJobs?: Prisma.AnalysisJobUncheckedUpdateManyWithoutUserNestedInput
   payments?: Prisma.PaymentUncheckedUpdateManyWithoutUserNestedInput
   subscriptions?: Prisma.SubscriptionUncheckedUpdateManyWithoutUserNestedInput
   purchasePacks?: Prisma.PurchasePackUncheckedUpdateManyWithoutUserNestedInput
@@ -6419,21 +7354,27 @@ export type UserCreateWithoutUserChallengesInput = {
   emailVerified?: Date | string | null
   image?: string | null
   password?: string | null
+  username?: string | null
   role?: string
   plan?: string
   qvapayId?: string | null
   analysisLimit?: number
   analysisUsed?: number
   analysisResetAt?: Date | string | null
-  createdAt?: Date | string
-  updatedAt?: Date | string
   telegramId?: string | null
+  telegramTrialStartedAt?: Date | string | null
+  isTelegramPremiumActive?: boolean
+  latitude?: number | null
+  longitude?: number | null
   currentStreak?: number
   maxStreak?: number
   lastCheckInDate?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
   analyses?: Prisma.SkinAnalysisCreateNestedManyWithoutUserInput
+  analysisJobs?: Prisma.AnalysisJobCreateNestedManyWithoutUserInput
   payments?: Prisma.PaymentCreateNestedManyWithoutUserInput
   subscriptions?: Prisma.SubscriptionCreateNestedManyWithoutUserInput
   purchasePacks?: Prisma.PurchasePackCreateNestedManyWithoutUserInput
@@ -6472,21 +7413,27 @@ export type UserUncheckedCreateWithoutUserChallengesInput = {
   emailVerified?: Date | string | null
   image?: string | null
   password?: string | null
+  username?: string | null
   role?: string
   plan?: string
   qvapayId?: string | null
   analysisLimit?: number
   analysisUsed?: number
   analysisResetAt?: Date | string | null
-  createdAt?: Date | string
-  updatedAt?: Date | string
   telegramId?: string | null
+  telegramTrialStartedAt?: Date | string | null
+  isTelegramPremiumActive?: boolean
+  latitude?: number | null
+  longitude?: number | null
   currentStreak?: number
   maxStreak?: number
   lastCheckInDate?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   analyses?: Prisma.SkinAnalysisUncheckedCreateNestedManyWithoutUserInput
+  analysisJobs?: Prisma.AnalysisJobUncheckedCreateNestedManyWithoutUserInput
   payments?: Prisma.PaymentUncheckedCreateNestedManyWithoutUserInput
   subscriptions?: Prisma.SubscriptionUncheckedCreateNestedManyWithoutUserInput
   purchasePacks?: Prisma.PurchasePackUncheckedCreateNestedManyWithoutUserInput
@@ -6541,21 +7488,27 @@ export type UserUpdateWithoutUserChallengesInput = {
   emailVerified?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.StringFieldUpdateOperationsInput | string
   plan?: Prisma.StringFieldUpdateOperationsInput | string
   qvapayId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   analysisLimit?: Prisma.IntFieldUpdateOperationsInput | number
   analysisUsed?: Prisma.IntFieldUpdateOperationsInput | number
   analysisResetAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   telegramId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  telegramTrialStartedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  isTelegramPremiumActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  latitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  longitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   currentStreak?: Prisma.IntFieldUpdateOperationsInput | number
   maxStreak?: Prisma.IntFieldUpdateOperationsInput | number
   lastCheckInDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
   sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
   analyses?: Prisma.SkinAnalysisUpdateManyWithoutUserNestedInput
+  analysisJobs?: Prisma.AnalysisJobUpdateManyWithoutUserNestedInput
   payments?: Prisma.PaymentUpdateManyWithoutUserNestedInput
   subscriptions?: Prisma.SubscriptionUpdateManyWithoutUserNestedInput
   purchasePacks?: Prisma.PurchasePackUpdateManyWithoutUserNestedInput
@@ -6594,21 +7547,27 @@ export type UserUncheckedUpdateWithoutUserChallengesInput = {
   emailVerified?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.StringFieldUpdateOperationsInput | string
   plan?: Prisma.StringFieldUpdateOperationsInput | string
   qvapayId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   analysisLimit?: Prisma.IntFieldUpdateOperationsInput | number
   analysisUsed?: Prisma.IntFieldUpdateOperationsInput | number
   analysisResetAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   telegramId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  telegramTrialStartedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  isTelegramPremiumActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  latitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  longitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   currentStreak?: Prisma.IntFieldUpdateOperationsInput | number
   maxStreak?: Prisma.IntFieldUpdateOperationsInput | number
   lastCheckInDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   analyses?: Prisma.SkinAnalysisUncheckedUpdateManyWithoutUserNestedInput
+  analysisJobs?: Prisma.AnalysisJobUncheckedUpdateManyWithoutUserNestedInput
   payments?: Prisma.PaymentUncheckedUpdateManyWithoutUserNestedInput
   subscriptions?: Prisma.SubscriptionUncheckedUpdateManyWithoutUserNestedInput
   purchasePacks?: Prisma.PurchasePackUncheckedUpdateManyWithoutUserNestedInput
@@ -6647,21 +7606,27 @@ export type UserCreateWithoutProductReviewsInput = {
   emailVerified?: Date | string | null
   image?: string | null
   password?: string | null
+  username?: string | null
   role?: string
   plan?: string
   qvapayId?: string | null
   analysisLimit?: number
   analysisUsed?: number
   analysisResetAt?: Date | string | null
-  createdAt?: Date | string
-  updatedAt?: Date | string
   telegramId?: string | null
+  telegramTrialStartedAt?: Date | string | null
+  isTelegramPremiumActive?: boolean
+  latitude?: number | null
+  longitude?: number | null
   currentStreak?: number
   maxStreak?: number
   lastCheckInDate?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
   analyses?: Prisma.SkinAnalysisCreateNestedManyWithoutUserInput
+  analysisJobs?: Prisma.AnalysisJobCreateNestedManyWithoutUserInput
   payments?: Prisma.PaymentCreateNestedManyWithoutUserInput
   subscriptions?: Prisma.SubscriptionCreateNestedManyWithoutUserInput
   purchasePacks?: Prisma.PurchasePackCreateNestedManyWithoutUserInput
@@ -6700,21 +7665,27 @@ export type UserUncheckedCreateWithoutProductReviewsInput = {
   emailVerified?: Date | string | null
   image?: string | null
   password?: string | null
+  username?: string | null
   role?: string
   plan?: string
   qvapayId?: string | null
   analysisLimit?: number
   analysisUsed?: number
   analysisResetAt?: Date | string | null
-  createdAt?: Date | string
-  updatedAt?: Date | string
   telegramId?: string | null
+  telegramTrialStartedAt?: Date | string | null
+  isTelegramPremiumActive?: boolean
+  latitude?: number | null
+  longitude?: number | null
   currentStreak?: number
   maxStreak?: number
   lastCheckInDate?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   analyses?: Prisma.SkinAnalysisUncheckedCreateNestedManyWithoutUserInput
+  analysisJobs?: Prisma.AnalysisJobUncheckedCreateNestedManyWithoutUserInput
   payments?: Prisma.PaymentUncheckedCreateNestedManyWithoutUserInput
   subscriptions?: Prisma.SubscriptionUncheckedCreateNestedManyWithoutUserInput
   purchasePacks?: Prisma.PurchasePackUncheckedCreateNestedManyWithoutUserInput
@@ -6769,21 +7740,27 @@ export type UserUpdateWithoutProductReviewsInput = {
   emailVerified?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.StringFieldUpdateOperationsInput | string
   plan?: Prisma.StringFieldUpdateOperationsInput | string
   qvapayId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   analysisLimit?: Prisma.IntFieldUpdateOperationsInput | number
   analysisUsed?: Prisma.IntFieldUpdateOperationsInput | number
   analysisResetAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   telegramId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  telegramTrialStartedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  isTelegramPremiumActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  latitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  longitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   currentStreak?: Prisma.IntFieldUpdateOperationsInput | number
   maxStreak?: Prisma.IntFieldUpdateOperationsInput | number
   lastCheckInDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
   sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
   analyses?: Prisma.SkinAnalysisUpdateManyWithoutUserNestedInput
+  analysisJobs?: Prisma.AnalysisJobUpdateManyWithoutUserNestedInput
   payments?: Prisma.PaymentUpdateManyWithoutUserNestedInput
   subscriptions?: Prisma.SubscriptionUpdateManyWithoutUserNestedInput
   purchasePacks?: Prisma.PurchasePackUpdateManyWithoutUserNestedInput
@@ -6822,21 +7799,27 @@ export type UserUncheckedUpdateWithoutProductReviewsInput = {
   emailVerified?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.StringFieldUpdateOperationsInput | string
   plan?: Prisma.StringFieldUpdateOperationsInput | string
   qvapayId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   analysisLimit?: Prisma.IntFieldUpdateOperationsInput | number
   analysisUsed?: Prisma.IntFieldUpdateOperationsInput | number
   analysisResetAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   telegramId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  telegramTrialStartedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  isTelegramPremiumActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  latitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  longitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   currentStreak?: Prisma.IntFieldUpdateOperationsInput | number
   maxStreak?: Prisma.IntFieldUpdateOperationsInput | number
   lastCheckInDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   analyses?: Prisma.SkinAnalysisUncheckedUpdateManyWithoutUserNestedInput
+  analysisJobs?: Prisma.AnalysisJobUncheckedUpdateManyWithoutUserNestedInput
   payments?: Prisma.PaymentUncheckedUpdateManyWithoutUserNestedInput
   subscriptions?: Prisma.SubscriptionUncheckedUpdateManyWithoutUserNestedInput
   purchasePacks?: Prisma.PurchasePackUncheckedUpdateManyWithoutUserNestedInput
@@ -6875,21 +7858,27 @@ export type UserCreateWithoutGroupsOwnedInput = {
   emailVerified?: Date | string | null
   image?: string | null
   password?: string | null
+  username?: string | null
   role?: string
   plan?: string
   qvapayId?: string | null
   analysisLimit?: number
   analysisUsed?: number
   analysisResetAt?: Date | string | null
-  createdAt?: Date | string
-  updatedAt?: Date | string
   telegramId?: string | null
+  telegramTrialStartedAt?: Date | string | null
+  isTelegramPremiumActive?: boolean
+  latitude?: number | null
+  longitude?: number | null
   currentStreak?: number
   maxStreak?: number
   lastCheckInDate?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
   analyses?: Prisma.SkinAnalysisCreateNestedManyWithoutUserInput
+  analysisJobs?: Prisma.AnalysisJobCreateNestedManyWithoutUserInput
   payments?: Prisma.PaymentCreateNestedManyWithoutUserInput
   subscriptions?: Prisma.SubscriptionCreateNestedManyWithoutUserInput
   purchasePacks?: Prisma.PurchasePackCreateNestedManyWithoutUserInput
@@ -6928,21 +7917,27 @@ export type UserUncheckedCreateWithoutGroupsOwnedInput = {
   emailVerified?: Date | string | null
   image?: string | null
   password?: string | null
+  username?: string | null
   role?: string
   plan?: string
   qvapayId?: string | null
   analysisLimit?: number
   analysisUsed?: number
   analysisResetAt?: Date | string | null
-  createdAt?: Date | string
-  updatedAt?: Date | string
   telegramId?: string | null
+  telegramTrialStartedAt?: Date | string | null
+  isTelegramPremiumActive?: boolean
+  latitude?: number | null
+  longitude?: number | null
   currentStreak?: number
   maxStreak?: number
   lastCheckInDate?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   analyses?: Prisma.SkinAnalysisUncheckedCreateNestedManyWithoutUserInput
+  analysisJobs?: Prisma.AnalysisJobUncheckedCreateNestedManyWithoutUserInput
   payments?: Prisma.PaymentUncheckedCreateNestedManyWithoutUserInput
   subscriptions?: Prisma.SubscriptionUncheckedCreateNestedManyWithoutUserInput
   purchasePacks?: Prisma.PurchasePackUncheckedCreateNestedManyWithoutUserInput
@@ -6997,21 +7992,27 @@ export type UserUpdateWithoutGroupsOwnedInput = {
   emailVerified?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.StringFieldUpdateOperationsInput | string
   plan?: Prisma.StringFieldUpdateOperationsInput | string
   qvapayId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   analysisLimit?: Prisma.IntFieldUpdateOperationsInput | number
   analysisUsed?: Prisma.IntFieldUpdateOperationsInput | number
   analysisResetAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   telegramId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  telegramTrialStartedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  isTelegramPremiumActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  latitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  longitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   currentStreak?: Prisma.IntFieldUpdateOperationsInput | number
   maxStreak?: Prisma.IntFieldUpdateOperationsInput | number
   lastCheckInDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
   sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
   analyses?: Prisma.SkinAnalysisUpdateManyWithoutUserNestedInput
+  analysisJobs?: Prisma.AnalysisJobUpdateManyWithoutUserNestedInput
   payments?: Prisma.PaymentUpdateManyWithoutUserNestedInput
   subscriptions?: Prisma.SubscriptionUpdateManyWithoutUserNestedInput
   purchasePacks?: Prisma.PurchasePackUpdateManyWithoutUserNestedInput
@@ -7050,21 +8051,27 @@ export type UserUncheckedUpdateWithoutGroupsOwnedInput = {
   emailVerified?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.StringFieldUpdateOperationsInput | string
   plan?: Prisma.StringFieldUpdateOperationsInput | string
   qvapayId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   analysisLimit?: Prisma.IntFieldUpdateOperationsInput | number
   analysisUsed?: Prisma.IntFieldUpdateOperationsInput | number
   analysisResetAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   telegramId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  telegramTrialStartedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  isTelegramPremiumActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  latitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  longitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   currentStreak?: Prisma.IntFieldUpdateOperationsInput | number
   maxStreak?: Prisma.IntFieldUpdateOperationsInput | number
   lastCheckInDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   analyses?: Prisma.SkinAnalysisUncheckedUpdateManyWithoutUserNestedInput
+  analysisJobs?: Prisma.AnalysisJobUncheckedUpdateManyWithoutUserNestedInput
   payments?: Prisma.PaymentUncheckedUpdateManyWithoutUserNestedInput
   subscriptions?: Prisma.SubscriptionUncheckedUpdateManyWithoutUserNestedInput
   purchasePacks?: Prisma.PurchasePackUncheckedUpdateManyWithoutUserNestedInput
@@ -7103,21 +8110,27 @@ export type UserCreateWithoutReferralsOwnedInput = {
   emailVerified?: Date | string | null
   image?: string | null
   password?: string | null
+  username?: string | null
   role?: string
   plan?: string
   qvapayId?: string | null
   analysisLimit?: number
   analysisUsed?: number
   analysisResetAt?: Date | string | null
-  createdAt?: Date | string
-  updatedAt?: Date | string
   telegramId?: string | null
+  telegramTrialStartedAt?: Date | string | null
+  isTelegramPremiumActive?: boolean
+  latitude?: number | null
+  longitude?: number | null
   currentStreak?: number
   maxStreak?: number
   lastCheckInDate?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
   analyses?: Prisma.SkinAnalysisCreateNestedManyWithoutUserInput
+  analysisJobs?: Prisma.AnalysisJobCreateNestedManyWithoutUserInput
   payments?: Prisma.PaymentCreateNestedManyWithoutUserInput
   subscriptions?: Prisma.SubscriptionCreateNestedManyWithoutUserInput
   purchasePacks?: Prisma.PurchasePackCreateNestedManyWithoutUserInput
@@ -7156,21 +8169,27 @@ export type UserUncheckedCreateWithoutReferralsOwnedInput = {
   emailVerified?: Date | string | null
   image?: string | null
   password?: string | null
+  username?: string | null
   role?: string
   plan?: string
   qvapayId?: string | null
   analysisLimit?: number
   analysisUsed?: number
   analysisResetAt?: Date | string | null
-  createdAt?: Date | string
-  updatedAt?: Date | string
   telegramId?: string | null
+  telegramTrialStartedAt?: Date | string | null
+  isTelegramPremiumActive?: boolean
+  latitude?: number | null
+  longitude?: number | null
   currentStreak?: number
   maxStreak?: number
   lastCheckInDate?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   analyses?: Prisma.SkinAnalysisUncheckedCreateNestedManyWithoutUserInput
+  analysisJobs?: Prisma.AnalysisJobUncheckedCreateNestedManyWithoutUserInput
   payments?: Prisma.PaymentUncheckedCreateNestedManyWithoutUserInput
   subscriptions?: Prisma.SubscriptionUncheckedCreateNestedManyWithoutUserInput
   purchasePacks?: Prisma.PurchasePackUncheckedCreateNestedManyWithoutUserInput
@@ -7214,21 +8233,27 @@ export type UserCreateWithoutReferralsReferredInput = {
   emailVerified?: Date | string | null
   image?: string | null
   password?: string | null
+  username?: string | null
   role?: string
   plan?: string
   qvapayId?: string | null
   analysisLimit?: number
   analysisUsed?: number
   analysisResetAt?: Date | string | null
-  createdAt?: Date | string
-  updatedAt?: Date | string
   telegramId?: string | null
+  telegramTrialStartedAt?: Date | string | null
+  isTelegramPremiumActive?: boolean
+  latitude?: number | null
+  longitude?: number | null
   currentStreak?: number
   maxStreak?: number
   lastCheckInDate?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
   analyses?: Prisma.SkinAnalysisCreateNestedManyWithoutUserInput
+  analysisJobs?: Prisma.AnalysisJobCreateNestedManyWithoutUserInput
   payments?: Prisma.PaymentCreateNestedManyWithoutUserInput
   subscriptions?: Prisma.SubscriptionCreateNestedManyWithoutUserInput
   purchasePacks?: Prisma.PurchasePackCreateNestedManyWithoutUserInput
@@ -7267,21 +8292,27 @@ export type UserUncheckedCreateWithoutReferralsReferredInput = {
   emailVerified?: Date | string | null
   image?: string | null
   password?: string | null
+  username?: string | null
   role?: string
   plan?: string
   qvapayId?: string | null
   analysisLimit?: number
   analysisUsed?: number
   analysisResetAt?: Date | string | null
-  createdAt?: Date | string
-  updatedAt?: Date | string
   telegramId?: string | null
+  telegramTrialStartedAt?: Date | string | null
+  isTelegramPremiumActive?: boolean
+  latitude?: number | null
+  longitude?: number | null
   currentStreak?: number
   maxStreak?: number
   lastCheckInDate?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   analyses?: Prisma.SkinAnalysisUncheckedCreateNestedManyWithoutUserInput
+  analysisJobs?: Prisma.AnalysisJobUncheckedCreateNestedManyWithoutUserInput
   payments?: Prisma.PaymentUncheckedCreateNestedManyWithoutUserInput
   subscriptions?: Prisma.SubscriptionUncheckedCreateNestedManyWithoutUserInput
   purchasePacks?: Prisma.PurchasePackUncheckedCreateNestedManyWithoutUserInput
@@ -7336,21 +8367,27 @@ export type UserUpdateWithoutReferralsOwnedInput = {
   emailVerified?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.StringFieldUpdateOperationsInput | string
   plan?: Prisma.StringFieldUpdateOperationsInput | string
   qvapayId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   analysisLimit?: Prisma.IntFieldUpdateOperationsInput | number
   analysisUsed?: Prisma.IntFieldUpdateOperationsInput | number
   analysisResetAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   telegramId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  telegramTrialStartedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  isTelegramPremiumActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  latitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  longitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   currentStreak?: Prisma.IntFieldUpdateOperationsInput | number
   maxStreak?: Prisma.IntFieldUpdateOperationsInput | number
   lastCheckInDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
   sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
   analyses?: Prisma.SkinAnalysisUpdateManyWithoutUserNestedInput
+  analysisJobs?: Prisma.AnalysisJobUpdateManyWithoutUserNestedInput
   payments?: Prisma.PaymentUpdateManyWithoutUserNestedInput
   subscriptions?: Prisma.SubscriptionUpdateManyWithoutUserNestedInput
   purchasePacks?: Prisma.PurchasePackUpdateManyWithoutUserNestedInput
@@ -7389,21 +8426,27 @@ export type UserUncheckedUpdateWithoutReferralsOwnedInput = {
   emailVerified?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.StringFieldUpdateOperationsInput | string
   plan?: Prisma.StringFieldUpdateOperationsInput | string
   qvapayId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   analysisLimit?: Prisma.IntFieldUpdateOperationsInput | number
   analysisUsed?: Prisma.IntFieldUpdateOperationsInput | number
   analysisResetAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   telegramId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  telegramTrialStartedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  isTelegramPremiumActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  latitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  longitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   currentStreak?: Prisma.IntFieldUpdateOperationsInput | number
   maxStreak?: Prisma.IntFieldUpdateOperationsInput | number
   lastCheckInDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   analyses?: Prisma.SkinAnalysisUncheckedUpdateManyWithoutUserNestedInput
+  analysisJobs?: Prisma.AnalysisJobUncheckedUpdateManyWithoutUserNestedInput
   payments?: Prisma.PaymentUncheckedUpdateManyWithoutUserNestedInput
   subscriptions?: Prisma.SubscriptionUncheckedUpdateManyWithoutUserNestedInput
   purchasePacks?: Prisma.PurchasePackUncheckedUpdateManyWithoutUserNestedInput
@@ -7453,21 +8496,27 @@ export type UserUpdateWithoutReferralsReferredInput = {
   emailVerified?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.StringFieldUpdateOperationsInput | string
   plan?: Prisma.StringFieldUpdateOperationsInput | string
   qvapayId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   analysisLimit?: Prisma.IntFieldUpdateOperationsInput | number
   analysisUsed?: Prisma.IntFieldUpdateOperationsInput | number
   analysisResetAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   telegramId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  telegramTrialStartedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  isTelegramPremiumActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  latitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  longitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   currentStreak?: Prisma.IntFieldUpdateOperationsInput | number
   maxStreak?: Prisma.IntFieldUpdateOperationsInput | number
   lastCheckInDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
   sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
   analyses?: Prisma.SkinAnalysisUpdateManyWithoutUserNestedInput
+  analysisJobs?: Prisma.AnalysisJobUpdateManyWithoutUserNestedInput
   payments?: Prisma.PaymentUpdateManyWithoutUserNestedInput
   subscriptions?: Prisma.SubscriptionUpdateManyWithoutUserNestedInput
   purchasePacks?: Prisma.PurchasePackUpdateManyWithoutUserNestedInput
@@ -7506,21 +8555,27 @@ export type UserUncheckedUpdateWithoutReferralsReferredInput = {
   emailVerified?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.StringFieldUpdateOperationsInput | string
   plan?: Prisma.StringFieldUpdateOperationsInput | string
   qvapayId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   analysisLimit?: Prisma.IntFieldUpdateOperationsInput | number
   analysisUsed?: Prisma.IntFieldUpdateOperationsInput | number
   analysisResetAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   telegramId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  telegramTrialStartedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  isTelegramPremiumActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  latitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  longitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   currentStreak?: Prisma.IntFieldUpdateOperationsInput | number
   maxStreak?: Prisma.IntFieldUpdateOperationsInput | number
   lastCheckInDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   analyses?: Prisma.SkinAnalysisUncheckedUpdateManyWithoutUserNestedInput
+  analysisJobs?: Prisma.AnalysisJobUncheckedUpdateManyWithoutUserNestedInput
   payments?: Prisma.PaymentUncheckedUpdateManyWithoutUserNestedInput
   subscriptions?: Prisma.SubscriptionUncheckedUpdateManyWithoutUserNestedInput
   purchasePacks?: Prisma.PurchasePackUncheckedUpdateManyWithoutUserNestedInput
@@ -7559,21 +8614,27 @@ export type UserCreateWithoutDigitalPurchasesInput = {
   emailVerified?: Date | string | null
   image?: string | null
   password?: string | null
+  username?: string | null
   role?: string
   plan?: string
   qvapayId?: string | null
   analysisLimit?: number
   analysisUsed?: number
   analysisResetAt?: Date | string | null
-  createdAt?: Date | string
-  updatedAt?: Date | string
   telegramId?: string | null
+  telegramTrialStartedAt?: Date | string | null
+  isTelegramPremiumActive?: boolean
+  latitude?: number | null
+  longitude?: number | null
   currentStreak?: number
   maxStreak?: number
   lastCheckInDate?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
   analyses?: Prisma.SkinAnalysisCreateNestedManyWithoutUserInput
+  analysisJobs?: Prisma.AnalysisJobCreateNestedManyWithoutUserInput
   payments?: Prisma.PaymentCreateNestedManyWithoutUserInput
   subscriptions?: Prisma.SubscriptionCreateNestedManyWithoutUserInput
   purchasePacks?: Prisma.PurchasePackCreateNestedManyWithoutUserInput
@@ -7612,21 +8673,27 @@ export type UserUncheckedCreateWithoutDigitalPurchasesInput = {
   emailVerified?: Date | string | null
   image?: string | null
   password?: string | null
+  username?: string | null
   role?: string
   plan?: string
   qvapayId?: string | null
   analysisLimit?: number
   analysisUsed?: number
   analysisResetAt?: Date | string | null
-  createdAt?: Date | string
-  updatedAt?: Date | string
   telegramId?: string | null
+  telegramTrialStartedAt?: Date | string | null
+  isTelegramPremiumActive?: boolean
+  latitude?: number | null
+  longitude?: number | null
   currentStreak?: number
   maxStreak?: number
   lastCheckInDate?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   analyses?: Prisma.SkinAnalysisUncheckedCreateNestedManyWithoutUserInput
+  analysisJobs?: Prisma.AnalysisJobUncheckedCreateNestedManyWithoutUserInput
   payments?: Prisma.PaymentUncheckedCreateNestedManyWithoutUserInput
   subscriptions?: Prisma.SubscriptionUncheckedCreateNestedManyWithoutUserInput
   purchasePacks?: Prisma.PurchasePackUncheckedCreateNestedManyWithoutUserInput
@@ -7681,21 +8748,27 @@ export type UserUpdateWithoutDigitalPurchasesInput = {
   emailVerified?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.StringFieldUpdateOperationsInput | string
   plan?: Prisma.StringFieldUpdateOperationsInput | string
   qvapayId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   analysisLimit?: Prisma.IntFieldUpdateOperationsInput | number
   analysisUsed?: Prisma.IntFieldUpdateOperationsInput | number
   analysisResetAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   telegramId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  telegramTrialStartedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  isTelegramPremiumActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  latitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  longitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   currentStreak?: Prisma.IntFieldUpdateOperationsInput | number
   maxStreak?: Prisma.IntFieldUpdateOperationsInput | number
   lastCheckInDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
   sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
   analyses?: Prisma.SkinAnalysisUpdateManyWithoutUserNestedInput
+  analysisJobs?: Prisma.AnalysisJobUpdateManyWithoutUserNestedInput
   payments?: Prisma.PaymentUpdateManyWithoutUserNestedInput
   subscriptions?: Prisma.SubscriptionUpdateManyWithoutUserNestedInput
   purchasePacks?: Prisma.PurchasePackUpdateManyWithoutUserNestedInput
@@ -7734,21 +8807,27 @@ export type UserUncheckedUpdateWithoutDigitalPurchasesInput = {
   emailVerified?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.StringFieldUpdateOperationsInput | string
   plan?: Prisma.StringFieldUpdateOperationsInput | string
   qvapayId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   analysisLimit?: Prisma.IntFieldUpdateOperationsInput | number
   analysisUsed?: Prisma.IntFieldUpdateOperationsInput | number
   analysisResetAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   telegramId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  telegramTrialStartedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  isTelegramPremiumActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  latitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  longitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   currentStreak?: Prisma.IntFieldUpdateOperationsInput | number
   maxStreak?: Prisma.IntFieldUpdateOperationsInput | number
   lastCheckInDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   analyses?: Prisma.SkinAnalysisUncheckedUpdateManyWithoutUserNestedInput
+  analysisJobs?: Prisma.AnalysisJobUncheckedUpdateManyWithoutUserNestedInput
   payments?: Prisma.PaymentUncheckedUpdateManyWithoutUserNestedInput
   subscriptions?: Prisma.SubscriptionUncheckedUpdateManyWithoutUserNestedInput
   purchasePacks?: Prisma.PurchasePackUncheckedUpdateManyWithoutUserNestedInput
@@ -7787,21 +8866,27 @@ export type UserCreateWithoutCheckInsInput = {
   emailVerified?: Date | string | null
   image?: string | null
   password?: string | null
+  username?: string | null
   role?: string
   plan?: string
   qvapayId?: string | null
   analysisLimit?: number
   analysisUsed?: number
   analysisResetAt?: Date | string | null
-  createdAt?: Date | string
-  updatedAt?: Date | string
   telegramId?: string | null
+  telegramTrialStartedAt?: Date | string | null
+  isTelegramPremiumActive?: boolean
+  latitude?: number | null
+  longitude?: number | null
   currentStreak?: number
   maxStreak?: number
   lastCheckInDate?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
   analyses?: Prisma.SkinAnalysisCreateNestedManyWithoutUserInput
+  analysisJobs?: Prisma.AnalysisJobCreateNestedManyWithoutUserInput
   payments?: Prisma.PaymentCreateNestedManyWithoutUserInput
   subscriptions?: Prisma.SubscriptionCreateNestedManyWithoutUserInput
   purchasePacks?: Prisma.PurchasePackCreateNestedManyWithoutUserInput
@@ -7840,21 +8925,27 @@ export type UserUncheckedCreateWithoutCheckInsInput = {
   emailVerified?: Date | string | null
   image?: string | null
   password?: string | null
+  username?: string | null
   role?: string
   plan?: string
   qvapayId?: string | null
   analysisLimit?: number
   analysisUsed?: number
   analysisResetAt?: Date | string | null
-  createdAt?: Date | string
-  updatedAt?: Date | string
   telegramId?: string | null
+  telegramTrialStartedAt?: Date | string | null
+  isTelegramPremiumActive?: boolean
+  latitude?: number | null
+  longitude?: number | null
   currentStreak?: number
   maxStreak?: number
   lastCheckInDate?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   analyses?: Prisma.SkinAnalysisUncheckedCreateNestedManyWithoutUserInput
+  analysisJobs?: Prisma.AnalysisJobUncheckedCreateNestedManyWithoutUserInput
   payments?: Prisma.PaymentUncheckedCreateNestedManyWithoutUserInput
   subscriptions?: Prisma.SubscriptionUncheckedCreateNestedManyWithoutUserInput
   purchasePacks?: Prisma.PurchasePackUncheckedCreateNestedManyWithoutUserInput
@@ -7909,21 +9000,27 @@ export type UserUpdateWithoutCheckInsInput = {
   emailVerified?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.StringFieldUpdateOperationsInput | string
   plan?: Prisma.StringFieldUpdateOperationsInput | string
   qvapayId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   analysisLimit?: Prisma.IntFieldUpdateOperationsInput | number
   analysisUsed?: Prisma.IntFieldUpdateOperationsInput | number
   analysisResetAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   telegramId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  telegramTrialStartedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  isTelegramPremiumActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  latitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  longitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   currentStreak?: Prisma.IntFieldUpdateOperationsInput | number
   maxStreak?: Prisma.IntFieldUpdateOperationsInput | number
   lastCheckInDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
   sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
   analyses?: Prisma.SkinAnalysisUpdateManyWithoutUserNestedInput
+  analysisJobs?: Prisma.AnalysisJobUpdateManyWithoutUserNestedInput
   payments?: Prisma.PaymentUpdateManyWithoutUserNestedInput
   subscriptions?: Prisma.SubscriptionUpdateManyWithoutUserNestedInput
   purchasePacks?: Prisma.PurchasePackUpdateManyWithoutUserNestedInput
@@ -7962,21 +9059,27 @@ export type UserUncheckedUpdateWithoutCheckInsInput = {
   emailVerified?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.StringFieldUpdateOperationsInput | string
   plan?: Prisma.StringFieldUpdateOperationsInput | string
   qvapayId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   analysisLimit?: Prisma.IntFieldUpdateOperationsInput | number
   analysisUsed?: Prisma.IntFieldUpdateOperationsInput | number
   analysisResetAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   telegramId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  telegramTrialStartedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  isTelegramPremiumActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  latitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  longitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   currentStreak?: Prisma.IntFieldUpdateOperationsInput | number
   maxStreak?: Prisma.IntFieldUpdateOperationsInput | number
   lastCheckInDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   analyses?: Prisma.SkinAnalysisUncheckedUpdateManyWithoutUserNestedInput
+  analysisJobs?: Prisma.AnalysisJobUncheckedUpdateManyWithoutUserNestedInput
   payments?: Prisma.PaymentUncheckedUpdateManyWithoutUserNestedInput
   subscriptions?: Prisma.SubscriptionUncheckedUpdateManyWithoutUserNestedInput
   purchasePacks?: Prisma.PurchasePackUncheckedUpdateManyWithoutUserNestedInput
@@ -8015,21 +9118,27 @@ export type UserCreateWithoutNotificationsInput = {
   emailVerified?: Date | string | null
   image?: string | null
   password?: string | null
+  username?: string | null
   role?: string
   plan?: string
   qvapayId?: string | null
   analysisLimit?: number
   analysisUsed?: number
   analysisResetAt?: Date | string | null
-  createdAt?: Date | string
-  updatedAt?: Date | string
   telegramId?: string | null
+  telegramTrialStartedAt?: Date | string | null
+  isTelegramPremiumActive?: boolean
+  latitude?: number | null
+  longitude?: number | null
   currentStreak?: number
   maxStreak?: number
   lastCheckInDate?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
   analyses?: Prisma.SkinAnalysisCreateNestedManyWithoutUserInput
+  analysisJobs?: Prisma.AnalysisJobCreateNestedManyWithoutUserInput
   payments?: Prisma.PaymentCreateNestedManyWithoutUserInput
   subscriptions?: Prisma.SubscriptionCreateNestedManyWithoutUserInput
   purchasePacks?: Prisma.PurchasePackCreateNestedManyWithoutUserInput
@@ -8068,21 +9177,27 @@ export type UserUncheckedCreateWithoutNotificationsInput = {
   emailVerified?: Date | string | null
   image?: string | null
   password?: string | null
+  username?: string | null
   role?: string
   plan?: string
   qvapayId?: string | null
   analysisLimit?: number
   analysisUsed?: number
   analysisResetAt?: Date | string | null
-  createdAt?: Date | string
-  updatedAt?: Date | string
   telegramId?: string | null
+  telegramTrialStartedAt?: Date | string | null
+  isTelegramPremiumActive?: boolean
+  latitude?: number | null
+  longitude?: number | null
   currentStreak?: number
   maxStreak?: number
   lastCheckInDate?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   analyses?: Prisma.SkinAnalysisUncheckedCreateNestedManyWithoutUserInput
+  analysisJobs?: Prisma.AnalysisJobUncheckedCreateNestedManyWithoutUserInput
   payments?: Prisma.PaymentUncheckedCreateNestedManyWithoutUserInput
   subscriptions?: Prisma.SubscriptionUncheckedCreateNestedManyWithoutUserInput
   purchasePacks?: Prisma.PurchasePackUncheckedCreateNestedManyWithoutUserInput
@@ -8137,21 +9252,27 @@ export type UserUpdateWithoutNotificationsInput = {
   emailVerified?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.StringFieldUpdateOperationsInput | string
   plan?: Prisma.StringFieldUpdateOperationsInput | string
   qvapayId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   analysisLimit?: Prisma.IntFieldUpdateOperationsInput | number
   analysisUsed?: Prisma.IntFieldUpdateOperationsInput | number
   analysisResetAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   telegramId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  telegramTrialStartedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  isTelegramPremiumActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  latitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  longitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   currentStreak?: Prisma.IntFieldUpdateOperationsInput | number
   maxStreak?: Prisma.IntFieldUpdateOperationsInput | number
   lastCheckInDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
   sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
   analyses?: Prisma.SkinAnalysisUpdateManyWithoutUserNestedInput
+  analysisJobs?: Prisma.AnalysisJobUpdateManyWithoutUserNestedInput
   payments?: Prisma.PaymentUpdateManyWithoutUserNestedInput
   subscriptions?: Prisma.SubscriptionUpdateManyWithoutUserNestedInput
   purchasePacks?: Prisma.PurchasePackUpdateManyWithoutUserNestedInput
@@ -8190,21 +9311,27 @@ export type UserUncheckedUpdateWithoutNotificationsInput = {
   emailVerified?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.StringFieldUpdateOperationsInput | string
   plan?: Prisma.StringFieldUpdateOperationsInput | string
   qvapayId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   analysisLimit?: Prisma.IntFieldUpdateOperationsInput | number
   analysisUsed?: Prisma.IntFieldUpdateOperationsInput | number
   analysisResetAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   telegramId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  telegramTrialStartedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  isTelegramPremiumActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  latitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  longitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   currentStreak?: Prisma.IntFieldUpdateOperationsInput | number
   maxStreak?: Prisma.IntFieldUpdateOperationsInput | number
   lastCheckInDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   analyses?: Prisma.SkinAnalysisUncheckedUpdateManyWithoutUserNestedInput
+  analysisJobs?: Prisma.AnalysisJobUncheckedUpdateManyWithoutUserNestedInput
   payments?: Prisma.PaymentUncheckedUpdateManyWithoutUserNestedInput
   subscriptions?: Prisma.SubscriptionUncheckedUpdateManyWithoutUserNestedInput
   purchasePacks?: Prisma.PurchasePackUncheckedUpdateManyWithoutUserNestedInput
@@ -8243,21 +9370,27 @@ export type UserCreateWithoutSupportTicketsInput = {
   emailVerified?: Date | string | null
   image?: string | null
   password?: string | null
+  username?: string | null
   role?: string
   plan?: string
   qvapayId?: string | null
   analysisLimit?: number
   analysisUsed?: number
   analysisResetAt?: Date | string | null
-  createdAt?: Date | string
-  updatedAt?: Date | string
   telegramId?: string | null
+  telegramTrialStartedAt?: Date | string | null
+  isTelegramPremiumActive?: boolean
+  latitude?: number | null
+  longitude?: number | null
   currentStreak?: number
   maxStreak?: number
   lastCheckInDate?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
   analyses?: Prisma.SkinAnalysisCreateNestedManyWithoutUserInput
+  analysisJobs?: Prisma.AnalysisJobCreateNestedManyWithoutUserInput
   payments?: Prisma.PaymentCreateNestedManyWithoutUserInput
   subscriptions?: Prisma.SubscriptionCreateNestedManyWithoutUserInput
   purchasePacks?: Prisma.PurchasePackCreateNestedManyWithoutUserInput
@@ -8296,21 +9429,27 @@ export type UserUncheckedCreateWithoutSupportTicketsInput = {
   emailVerified?: Date | string | null
   image?: string | null
   password?: string | null
+  username?: string | null
   role?: string
   plan?: string
   qvapayId?: string | null
   analysisLimit?: number
   analysisUsed?: number
   analysisResetAt?: Date | string | null
-  createdAt?: Date | string
-  updatedAt?: Date | string
   telegramId?: string | null
+  telegramTrialStartedAt?: Date | string | null
+  isTelegramPremiumActive?: boolean
+  latitude?: number | null
+  longitude?: number | null
   currentStreak?: number
   maxStreak?: number
   lastCheckInDate?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   analyses?: Prisma.SkinAnalysisUncheckedCreateNestedManyWithoutUserInput
+  analysisJobs?: Prisma.AnalysisJobUncheckedCreateNestedManyWithoutUserInput
   payments?: Prisma.PaymentUncheckedCreateNestedManyWithoutUserInput
   subscriptions?: Prisma.SubscriptionUncheckedCreateNestedManyWithoutUserInput
   purchasePacks?: Prisma.PurchasePackUncheckedCreateNestedManyWithoutUserInput
@@ -8365,21 +9504,27 @@ export type UserUpdateWithoutSupportTicketsInput = {
   emailVerified?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.StringFieldUpdateOperationsInput | string
   plan?: Prisma.StringFieldUpdateOperationsInput | string
   qvapayId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   analysisLimit?: Prisma.IntFieldUpdateOperationsInput | number
   analysisUsed?: Prisma.IntFieldUpdateOperationsInput | number
   analysisResetAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   telegramId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  telegramTrialStartedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  isTelegramPremiumActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  latitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  longitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   currentStreak?: Prisma.IntFieldUpdateOperationsInput | number
   maxStreak?: Prisma.IntFieldUpdateOperationsInput | number
   lastCheckInDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
   sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
   analyses?: Prisma.SkinAnalysisUpdateManyWithoutUserNestedInput
+  analysisJobs?: Prisma.AnalysisJobUpdateManyWithoutUserNestedInput
   payments?: Prisma.PaymentUpdateManyWithoutUserNestedInput
   subscriptions?: Prisma.SubscriptionUpdateManyWithoutUserNestedInput
   purchasePacks?: Prisma.PurchasePackUpdateManyWithoutUserNestedInput
@@ -8418,21 +9563,27 @@ export type UserUncheckedUpdateWithoutSupportTicketsInput = {
   emailVerified?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.StringFieldUpdateOperationsInput | string
   plan?: Prisma.StringFieldUpdateOperationsInput | string
   qvapayId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   analysisLimit?: Prisma.IntFieldUpdateOperationsInput | number
   analysisUsed?: Prisma.IntFieldUpdateOperationsInput | number
   analysisResetAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   telegramId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  telegramTrialStartedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  isTelegramPremiumActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  latitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  longitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   currentStreak?: Prisma.IntFieldUpdateOperationsInput | number
   maxStreak?: Prisma.IntFieldUpdateOperationsInput | number
   lastCheckInDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   analyses?: Prisma.SkinAnalysisUncheckedUpdateManyWithoutUserNestedInput
+  analysisJobs?: Prisma.AnalysisJobUncheckedUpdateManyWithoutUserNestedInput
   payments?: Prisma.PaymentUncheckedUpdateManyWithoutUserNestedInput
   subscriptions?: Prisma.SubscriptionUncheckedUpdateManyWithoutUserNestedInput
   purchasePacks?: Prisma.PurchasePackUncheckedUpdateManyWithoutUserNestedInput
@@ -8471,21 +9622,27 @@ export type UserCreateWithoutTicketResponsesInput = {
   emailVerified?: Date | string | null
   image?: string | null
   password?: string | null
+  username?: string | null
   role?: string
   plan?: string
   qvapayId?: string | null
   analysisLimit?: number
   analysisUsed?: number
   analysisResetAt?: Date | string | null
-  createdAt?: Date | string
-  updatedAt?: Date | string
   telegramId?: string | null
+  telegramTrialStartedAt?: Date | string | null
+  isTelegramPremiumActive?: boolean
+  latitude?: number | null
+  longitude?: number | null
   currentStreak?: number
   maxStreak?: number
   lastCheckInDate?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
   analyses?: Prisma.SkinAnalysisCreateNestedManyWithoutUserInput
+  analysisJobs?: Prisma.AnalysisJobCreateNestedManyWithoutUserInput
   payments?: Prisma.PaymentCreateNestedManyWithoutUserInput
   subscriptions?: Prisma.SubscriptionCreateNestedManyWithoutUserInput
   purchasePacks?: Prisma.PurchasePackCreateNestedManyWithoutUserInput
@@ -8524,21 +9681,27 @@ export type UserUncheckedCreateWithoutTicketResponsesInput = {
   emailVerified?: Date | string | null
   image?: string | null
   password?: string | null
+  username?: string | null
   role?: string
   plan?: string
   qvapayId?: string | null
   analysisLimit?: number
   analysisUsed?: number
   analysisResetAt?: Date | string | null
-  createdAt?: Date | string
-  updatedAt?: Date | string
   telegramId?: string | null
+  telegramTrialStartedAt?: Date | string | null
+  isTelegramPremiumActive?: boolean
+  latitude?: number | null
+  longitude?: number | null
   currentStreak?: number
   maxStreak?: number
   lastCheckInDate?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   analyses?: Prisma.SkinAnalysisUncheckedCreateNestedManyWithoutUserInput
+  analysisJobs?: Prisma.AnalysisJobUncheckedCreateNestedManyWithoutUserInput
   payments?: Prisma.PaymentUncheckedCreateNestedManyWithoutUserInput
   subscriptions?: Prisma.SubscriptionUncheckedCreateNestedManyWithoutUserInput
   purchasePacks?: Prisma.PurchasePackUncheckedCreateNestedManyWithoutUserInput
@@ -8593,21 +9756,27 @@ export type UserUpdateWithoutTicketResponsesInput = {
   emailVerified?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.StringFieldUpdateOperationsInput | string
   plan?: Prisma.StringFieldUpdateOperationsInput | string
   qvapayId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   analysisLimit?: Prisma.IntFieldUpdateOperationsInput | number
   analysisUsed?: Prisma.IntFieldUpdateOperationsInput | number
   analysisResetAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   telegramId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  telegramTrialStartedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  isTelegramPremiumActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  latitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  longitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   currentStreak?: Prisma.IntFieldUpdateOperationsInput | number
   maxStreak?: Prisma.IntFieldUpdateOperationsInput | number
   lastCheckInDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
   sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
   analyses?: Prisma.SkinAnalysisUpdateManyWithoutUserNestedInput
+  analysisJobs?: Prisma.AnalysisJobUpdateManyWithoutUserNestedInput
   payments?: Prisma.PaymentUpdateManyWithoutUserNestedInput
   subscriptions?: Prisma.SubscriptionUpdateManyWithoutUserNestedInput
   purchasePacks?: Prisma.PurchasePackUpdateManyWithoutUserNestedInput
@@ -8646,21 +9815,27 @@ export type UserUncheckedUpdateWithoutTicketResponsesInput = {
   emailVerified?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.StringFieldUpdateOperationsInput | string
   plan?: Prisma.StringFieldUpdateOperationsInput | string
   qvapayId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   analysisLimit?: Prisma.IntFieldUpdateOperationsInput | number
   analysisUsed?: Prisma.IntFieldUpdateOperationsInput | number
   analysisResetAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   telegramId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  telegramTrialStartedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  isTelegramPremiumActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  latitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  longitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   currentStreak?: Prisma.IntFieldUpdateOperationsInput | number
   maxStreak?: Prisma.IntFieldUpdateOperationsInput | number
   lastCheckInDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   analyses?: Prisma.SkinAnalysisUncheckedUpdateManyWithoutUserNestedInput
+  analysisJobs?: Prisma.AnalysisJobUncheckedUpdateManyWithoutUserNestedInput
   payments?: Prisma.PaymentUncheckedUpdateManyWithoutUserNestedInput
   subscriptions?: Prisma.SubscriptionUncheckedUpdateManyWithoutUserNestedInput
   purchasePacks?: Prisma.PurchasePackUncheckedUpdateManyWithoutUserNestedInput
@@ -8699,21 +9874,27 @@ export type UserCreateWithoutChatMessagesInput = {
   emailVerified?: Date | string | null
   image?: string | null
   password?: string | null
+  username?: string | null
   role?: string
   plan?: string
   qvapayId?: string | null
   analysisLimit?: number
   analysisUsed?: number
   analysisResetAt?: Date | string | null
-  createdAt?: Date | string
-  updatedAt?: Date | string
   telegramId?: string | null
+  telegramTrialStartedAt?: Date | string | null
+  isTelegramPremiumActive?: boolean
+  latitude?: number | null
+  longitude?: number | null
   currentStreak?: number
   maxStreak?: number
   lastCheckInDate?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
   analyses?: Prisma.SkinAnalysisCreateNestedManyWithoutUserInput
+  analysisJobs?: Prisma.AnalysisJobCreateNestedManyWithoutUserInput
   payments?: Prisma.PaymentCreateNestedManyWithoutUserInput
   subscriptions?: Prisma.SubscriptionCreateNestedManyWithoutUserInput
   purchasePacks?: Prisma.PurchasePackCreateNestedManyWithoutUserInput
@@ -8752,21 +9933,27 @@ export type UserUncheckedCreateWithoutChatMessagesInput = {
   emailVerified?: Date | string | null
   image?: string | null
   password?: string | null
+  username?: string | null
   role?: string
   plan?: string
   qvapayId?: string | null
   analysisLimit?: number
   analysisUsed?: number
   analysisResetAt?: Date | string | null
-  createdAt?: Date | string
-  updatedAt?: Date | string
   telegramId?: string | null
+  telegramTrialStartedAt?: Date | string | null
+  isTelegramPremiumActive?: boolean
+  latitude?: number | null
+  longitude?: number | null
   currentStreak?: number
   maxStreak?: number
   lastCheckInDate?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   analyses?: Prisma.SkinAnalysisUncheckedCreateNestedManyWithoutUserInput
+  analysisJobs?: Prisma.AnalysisJobUncheckedCreateNestedManyWithoutUserInput
   payments?: Prisma.PaymentUncheckedCreateNestedManyWithoutUserInput
   subscriptions?: Prisma.SubscriptionUncheckedCreateNestedManyWithoutUserInput
   purchasePacks?: Prisma.PurchasePackUncheckedCreateNestedManyWithoutUserInput
@@ -8821,21 +10008,27 @@ export type UserUpdateWithoutChatMessagesInput = {
   emailVerified?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.StringFieldUpdateOperationsInput | string
   plan?: Prisma.StringFieldUpdateOperationsInput | string
   qvapayId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   analysisLimit?: Prisma.IntFieldUpdateOperationsInput | number
   analysisUsed?: Prisma.IntFieldUpdateOperationsInput | number
   analysisResetAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   telegramId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  telegramTrialStartedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  isTelegramPremiumActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  latitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  longitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   currentStreak?: Prisma.IntFieldUpdateOperationsInput | number
   maxStreak?: Prisma.IntFieldUpdateOperationsInput | number
   lastCheckInDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
   sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
   analyses?: Prisma.SkinAnalysisUpdateManyWithoutUserNestedInput
+  analysisJobs?: Prisma.AnalysisJobUpdateManyWithoutUserNestedInput
   payments?: Prisma.PaymentUpdateManyWithoutUserNestedInput
   subscriptions?: Prisma.SubscriptionUpdateManyWithoutUserNestedInput
   purchasePacks?: Prisma.PurchasePackUpdateManyWithoutUserNestedInput
@@ -8874,21 +10067,27 @@ export type UserUncheckedUpdateWithoutChatMessagesInput = {
   emailVerified?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.StringFieldUpdateOperationsInput | string
   plan?: Prisma.StringFieldUpdateOperationsInput | string
   qvapayId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   analysisLimit?: Prisma.IntFieldUpdateOperationsInput | number
   analysisUsed?: Prisma.IntFieldUpdateOperationsInput | number
   analysisResetAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   telegramId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  telegramTrialStartedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  isTelegramPremiumActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  latitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  longitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   currentStreak?: Prisma.IntFieldUpdateOperationsInput | number
   maxStreak?: Prisma.IntFieldUpdateOperationsInput | number
   lastCheckInDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   analyses?: Prisma.SkinAnalysisUncheckedUpdateManyWithoutUserNestedInput
+  analysisJobs?: Prisma.AnalysisJobUncheckedUpdateManyWithoutUserNestedInput
   payments?: Prisma.PaymentUncheckedUpdateManyWithoutUserNestedInput
   subscriptions?: Prisma.SubscriptionUncheckedUpdateManyWithoutUserNestedInput
   purchasePacks?: Prisma.PurchasePackUncheckedUpdateManyWithoutUserNestedInput
@@ -8929,6 +10128,7 @@ export type UserCountOutputType = {
   accounts: number
   sessions: number
   analyses: number
+  analysisJobs: number
   payments: number
   subscriptions: number
   purchasePacks: number
@@ -8963,6 +10163,7 @@ export type UserCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.I
   accounts?: boolean | UserCountOutputTypeCountAccountsArgs
   sessions?: boolean | UserCountOutputTypeCountSessionsArgs
   analyses?: boolean | UserCountOutputTypeCountAnalysesArgs
+  analysisJobs?: boolean | UserCountOutputTypeCountAnalysisJobsArgs
   payments?: boolean | UserCountOutputTypeCountPaymentsArgs
   subscriptions?: boolean | UserCountOutputTypeCountSubscriptionsArgs
   purchasePacks?: boolean | UserCountOutputTypeCountPurchasePacksArgs
@@ -9022,6 +10223,13 @@ export type UserCountOutputTypeCountSessionsArgs<ExtArgs extends runtime.Types.E
  */
 export type UserCountOutputTypeCountAnalysesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   where?: Prisma.SkinAnalysisWhereInput
+}
+
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountAnalysisJobsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.AnalysisJobWhereInput
 }
 
 /**
@@ -9228,21 +10436,27 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   emailVerified?: boolean
   image?: boolean
   password?: boolean
+  username?: boolean
   role?: boolean
   plan?: boolean
   qvapayId?: boolean
   analysisLimit?: boolean
   analysisUsed?: boolean
   analysisResetAt?: boolean
-  createdAt?: boolean
-  updatedAt?: boolean
   telegramId?: boolean
+  telegramTrialStartedAt?: boolean
+  isTelegramPremiumActive?: boolean
+  latitude?: boolean
+  longitude?: boolean
   currentStreak?: boolean
   maxStreak?: boolean
   lastCheckInDate?: boolean
+  createdAt?: boolean
+  updatedAt?: boolean
   accounts?: boolean | Prisma.User$accountsArgs<ExtArgs>
   sessions?: boolean | Prisma.User$sessionsArgs<ExtArgs>
   analyses?: boolean | Prisma.User$analysesArgs<ExtArgs>
+  analysisJobs?: boolean | Prisma.User$analysisJobsArgs<ExtArgs>
   payments?: boolean | Prisma.User$paymentsArgs<ExtArgs>
   subscriptions?: boolean | Prisma.User$subscriptionsArgs<ExtArgs>
   purchasePacks?: boolean | Prisma.User$purchasePacksArgs<ExtArgs>
@@ -9283,18 +10497,23 @@ export type UserSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   emailVerified?: boolean
   image?: boolean
   password?: boolean
+  username?: boolean
   role?: boolean
   plan?: boolean
   qvapayId?: boolean
   analysisLimit?: boolean
   analysisUsed?: boolean
   analysisResetAt?: boolean
-  createdAt?: boolean
-  updatedAt?: boolean
   telegramId?: boolean
+  telegramTrialStartedAt?: boolean
+  isTelegramPremiumActive?: boolean
+  latitude?: boolean
+  longitude?: boolean
   currentStreak?: boolean
   maxStreak?: boolean
   lastCheckInDate?: boolean
+  createdAt?: boolean
+  updatedAt?: boolean
 }, ExtArgs["result"]["user"]>
 
 export type UserSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -9304,18 +10523,23 @@ export type UserSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   emailVerified?: boolean
   image?: boolean
   password?: boolean
+  username?: boolean
   role?: boolean
   plan?: boolean
   qvapayId?: boolean
   analysisLimit?: boolean
   analysisUsed?: boolean
   analysisResetAt?: boolean
-  createdAt?: boolean
-  updatedAt?: boolean
   telegramId?: boolean
+  telegramTrialStartedAt?: boolean
+  isTelegramPremiumActive?: boolean
+  latitude?: boolean
+  longitude?: boolean
   currentStreak?: boolean
   maxStreak?: boolean
   lastCheckInDate?: boolean
+  createdAt?: boolean
+  updatedAt?: boolean
 }, ExtArgs["result"]["user"]>
 
 export type UserSelectScalar = {
@@ -9325,25 +10549,31 @@ export type UserSelectScalar = {
   emailVerified?: boolean
   image?: boolean
   password?: boolean
+  username?: boolean
   role?: boolean
   plan?: boolean
   qvapayId?: boolean
   analysisLimit?: boolean
   analysisUsed?: boolean
   analysisResetAt?: boolean
-  createdAt?: boolean
-  updatedAt?: boolean
   telegramId?: boolean
+  telegramTrialStartedAt?: boolean
+  isTelegramPremiumActive?: boolean
+  latitude?: boolean
+  longitude?: boolean
   currentStreak?: boolean
   maxStreak?: boolean
   lastCheckInDate?: boolean
+  createdAt?: boolean
+  updatedAt?: boolean
 }
 
-export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "email" | "emailVerified" | "image" | "password" | "role" | "plan" | "qvapayId" | "analysisLimit" | "analysisUsed" | "analysisResetAt" | "createdAt" | "updatedAt" | "telegramId" | "currentStreak" | "maxStreak" | "lastCheckInDate", ExtArgs["result"]["user"]>
+export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "email" | "emailVerified" | "image" | "password" | "username" | "role" | "plan" | "qvapayId" | "analysisLimit" | "analysisUsed" | "analysisResetAt" | "telegramId" | "telegramTrialStartedAt" | "isTelegramPremiumActive" | "latitude" | "longitude" | "currentStreak" | "maxStreak" | "lastCheckInDate" | "createdAt" | "updatedAt", ExtArgs["result"]["user"]>
 export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   accounts?: boolean | Prisma.User$accountsArgs<ExtArgs>
   sessions?: boolean | Prisma.User$sessionsArgs<ExtArgs>
   analyses?: boolean | Prisma.User$analysesArgs<ExtArgs>
+  analysisJobs?: boolean | Prisma.User$analysisJobsArgs<ExtArgs>
   payments?: boolean | Prisma.User$paymentsArgs<ExtArgs>
   subscriptions?: boolean | Prisma.User$subscriptionsArgs<ExtArgs>
   purchasePacks?: boolean | Prisma.User$purchasePacksArgs<ExtArgs>
@@ -9385,6 +10615,7 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     accounts: Prisma.$AccountPayload<ExtArgs>[]
     sessions: Prisma.$SessionPayload<ExtArgs>[]
     analyses: Prisma.$SkinAnalysisPayload<ExtArgs>[]
+    analysisJobs: Prisma.$AnalysisJobPayload<ExtArgs>[]
     payments: Prisma.$PaymentPayload<ExtArgs>[]
     subscriptions: Prisma.$SubscriptionPayload<ExtArgs>[]
     purchasePacks: Prisma.$PurchasePackPayload<ExtArgs>[]
@@ -9423,18 +10654,23 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     emailVerified: Date | null
     image: string | null
     password: string | null
+    username: string | null
     role: string
     plan: string
     qvapayId: string | null
     analysisLimit: number
     analysisUsed: number
     analysisResetAt: Date | null
-    createdAt: Date
-    updatedAt: Date
     telegramId: string | null
+    telegramTrialStartedAt: Date | null
+    isTelegramPremiumActive: boolean
+    latitude: number | null
+    longitude: number | null
     currentStreak: number
     maxStreak: number
     lastCheckInDate: Date | null
+    createdAt: Date
+    updatedAt: Date
   }, ExtArgs["result"]["user"]>
   composites: {}
 }
@@ -9832,6 +11068,7 @@ export interface Prisma__UserClient<T, Null = never, ExtArgs extends runtime.Typ
   accounts<T extends Prisma.User$accountsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$accountsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$AccountPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   sessions<T extends Prisma.User$sessionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$sessionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$SessionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   analyses<T extends Prisma.User$analysesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$analysesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$SkinAnalysisPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  analysisJobs<T extends Prisma.User$analysisJobsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$analysisJobsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$AnalysisJobPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   payments<T extends Prisma.User$paymentsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$paymentsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$PaymentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   subscriptions<T extends Prisma.User$subscriptionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$subscriptionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$SubscriptionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   purchasePacks<T extends Prisma.User$purchasePacksArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$purchasePacksArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$PurchasePackPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
@@ -9897,18 +11134,23 @@ export interface UserFieldRefs {
   readonly emailVerified: Prisma.FieldRef<"User", 'DateTime'>
   readonly image: Prisma.FieldRef<"User", 'String'>
   readonly password: Prisma.FieldRef<"User", 'String'>
+  readonly username: Prisma.FieldRef<"User", 'String'>
   readonly role: Prisma.FieldRef<"User", 'String'>
   readonly plan: Prisma.FieldRef<"User", 'String'>
   readonly qvapayId: Prisma.FieldRef<"User", 'String'>
   readonly analysisLimit: Prisma.FieldRef<"User", 'Int'>
   readonly analysisUsed: Prisma.FieldRef<"User", 'Int'>
   readonly analysisResetAt: Prisma.FieldRef<"User", 'DateTime'>
-  readonly createdAt: Prisma.FieldRef<"User", 'DateTime'>
-  readonly updatedAt: Prisma.FieldRef<"User", 'DateTime'>
   readonly telegramId: Prisma.FieldRef<"User", 'String'>
+  readonly telegramTrialStartedAt: Prisma.FieldRef<"User", 'DateTime'>
+  readonly isTelegramPremiumActive: Prisma.FieldRef<"User", 'Boolean'>
+  readonly latitude: Prisma.FieldRef<"User", 'Float'>
+  readonly longitude: Prisma.FieldRef<"User", 'Float'>
   readonly currentStreak: Prisma.FieldRef<"User", 'Int'>
   readonly maxStreak: Prisma.FieldRef<"User", 'Int'>
   readonly lastCheckInDate: Prisma.FieldRef<"User", 'DateTime'>
+  readonly createdAt: Prisma.FieldRef<"User", 'DateTime'>
+  readonly updatedAt: Prisma.FieldRef<"User", 'DateTime'>
 }
     
 
@@ -10371,6 +11613,30 @@ export type User$analysesArgs<ExtArgs extends runtime.Types.Extensions.InternalA
   take?: number
   skip?: number
   distinct?: Prisma.SkinAnalysisScalarFieldEnum | Prisma.SkinAnalysisScalarFieldEnum[]
+}
+
+/**
+ * User.analysisJobs
+ */
+export type User$analysisJobsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the AnalysisJob
+   */
+  select?: Prisma.AnalysisJobSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the AnalysisJob
+   */
+  omit?: Prisma.AnalysisJobOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.AnalysisJobInclude<ExtArgs> | null
+  where?: Prisma.AnalysisJobWhereInput
+  orderBy?: Prisma.AnalysisJobOrderByWithRelationInput | Prisma.AnalysisJobOrderByWithRelationInput[]
+  cursor?: Prisma.AnalysisJobWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.AnalysisJobScalarFieldEnum | Prisma.AnalysisJobScalarFieldEnum[]
 }
 
 /**

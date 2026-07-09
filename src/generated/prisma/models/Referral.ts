@@ -42,6 +42,7 @@ export type ReferralMinAggregateOutputType = {
   groupId: string | null
   status: string | null
   discountPrice: number | null
+  firstAnalysisAt: Date | null
   createdAt: Date | null
   completedAt: Date | null
 }
@@ -54,6 +55,7 @@ export type ReferralMaxAggregateOutputType = {
   groupId: string | null
   status: string | null
   discountPrice: number | null
+  firstAnalysisAt: Date | null
   createdAt: Date | null
   completedAt: Date | null
 }
@@ -66,6 +68,7 @@ export type ReferralCountAggregateOutputType = {
   groupId: number
   status: number
   discountPrice: number
+  firstAnalysisAt: number
   createdAt: number
   completedAt: number
   _all: number
@@ -88,6 +91,7 @@ export type ReferralMinAggregateInputType = {
   groupId?: true
   status?: true
   discountPrice?: true
+  firstAnalysisAt?: true
   createdAt?: true
   completedAt?: true
 }
@@ -100,6 +104,7 @@ export type ReferralMaxAggregateInputType = {
   groupId?: true
   status?: true
   discountPrice?: true
+  firstAnalysisAt?: true
   createdAt?: true
   completedAt?: true
 }
@@ -112,6 +117,7 @@ export type ReferralCountAggregateInputType = {
   groupId?: true
   status?: true
   discountPrice?: true
+  firstAnalysisAt?: true
   createdAt?: true
   completedAt?: true
   _all?: true
@@ -211,6 +217,7 @@ export type ReferralGroupByOutputType = {
   groupId: string | null
   status: string
   discountPrice: number | null
+  firstAnalysisAt: Date | null
   createdAt: Date
   completedAt: Date | null
   _count: ReferralCountAggregateOutputType | null
@@ -246,6 +253,7 @@ export type ReferralWhereInput = {
   groupId?: Prisma.StringNullableFilter<"Referral"> | string | null
   status?: Prisma.StringFilter<"Referral"> | string
   discountPrice?: Prisma.FloatNullableFilter<"Referral"> | number | null
+  firstAnalysisAt?: Prisma.DateTimeNullableFilter<"Referral"> | Date | string | null
   createdAt?: Prisma.DateTimeFilter<"Referral"> | Date | string
   completedAt?: Prisma.DateTimeNullableFilter<"Referral"> | Date | string | null
   referrer?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
@@ -260,6 +268,7 @@ export type ReferralOrderByWithRelationInput = {
   groupId?: Prisma.SortOrderInput | Prisma.SortOrder
   status?: Prisma.SortOrder
   discountPrice?: Prisma.SortOrderInput | Prisma.SortOrder
+  firstAnalysisAt?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   completedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   referrer?: Prisma.UserOrderByWithRelationInput
@@ -277,6 +286,7 @@ export type ReferralWhereUniqueInput = Prisma.AtLeast<{
   groupId?: Prisma.StringNullableFilter<"Referral"> | string | null
   status?: Prisma.StringFilter<"Referral"> | string
   discountPrice?: Prisma.FloatNullableFilter<"Referral"> | number | null
+  firstAnalysisAt?: Prisma.DateTimeNullableFilter<"Referral"> | Date | string | null
   createdAt?: Prisma.DateTimeFilter<"Referral"> | Date | string
   completedAt?: Prisma.DateTimeNullableFilter<"Referral"> | Date | string | null
   referrer?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
@@ -291,6 +301,7 @@ export type ReferralOrderByWithAggregationInput = {
   groupId?: Prisma.SortOrderInput | Prisma.SortOrder
   status?: Prisma.SortOrder
   discountPrice?: Prisma.SortOrderInput | Prisma.SortOrder
+  firstAnalysisAt?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   completedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.ReferralCountOrderByAggregateInput
@@ -311,6 +322,7 @@ export type ReferralScalarWhereWithAggregatesInput = {
   groupId?: Prisma.StringNullableWithAggregatesFilter<"Referral"> | string | null
   status?: Prisma.StringWithAggregatesFilter<"Referral"> | string
   discountPrice?: Prisma.FloatNullableWithAggregatesFilter<"Referral"> | number | null
+  firstAnalysisAt?: Prisma.DateTimeNullableWithAggregatesFilter<"Referral"> | Date | string | null
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Referral"> | Date | string
   completedAt?: Prisma.DateTimeNullableWithAggregatesFilter<"Referral"> | Date | string | null
 }
@@ -321,6 +333,7 @@ export type ReferralCreateInput = {
   groupId?: string | null
   status?: string
   discountPrice?: number | null
+  firstAnalysisAt?: Date | string | null
   createdAt?: Date | string
   completedAt?: Date | string | null
   referrer: Prisma.UserCreateNestedOneWithoutReferralsOwnedInput
@@ -335,6 +348,7 @@ export type ReferralUncheckedCreateInput = {
   groupId?: string | null
   status?: string
   discountPrice?: number | null
+  firstAnalysisAt?: Date | string | null
   createdAt?: Date | string
   completedAt?: Date | string | null
 }
@@ -345,6 +359,7 @@ export type ReferralUpdateInput = {
   groupId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.StringFieldUpdateOperationsInput | string
   discountPrice?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  firstAnalysisAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   completedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   referrer?: Prisma.UserUpdateOneRequiredWithoutReferralsOwnedNestedInput
@@ -359,6 +374,7 @@ export type ReferralUncheckedUpdateInput = {
   groupId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.StringFieldUpdateOperationsInput | string
   discountPrice?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  firstAnalysisAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   completedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
@@ -371,6 +387,7 @@ export type ReferralCreateManyInput = {
   groupId?: string | null
   status?: string
   discountPrice?: number | null
+  firstAnalysisAt?: Date | string | null
   createdAt?: Date | string
   completedAt?: Date | string | null
 }
@@ -381,6 +398,7 @@ export type ReferralUpdateManyMutationInput = {
   groupId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.StringFieldUpdateOperationsInput | string
   discountPrice?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  firstAnalysisAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   completedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
@@ -393,6 +411,7 @@ export type ReferralUncheckedUpdateManyInput = {
   groupId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.StringFieldUpdateOperationsInput | string
   discountPrice?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  firstAnalysisAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   completedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
@@ -415,6 +434,7 @@ export type ReferralCountOrderByAggregateInput = {
   groupId?: Prisma.SortOrder
   status?: Prisma.SortOrder
   discountPrice?: Prisma.SortOrder
+  firstAnalysisAt?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   completedAt?: Prisma.SortOrder
 }
@@ -431,6 +451,7 @@ export type ReferralMaxOrderByAggregateInput = {
   groupId?: Prisma.SortOrder
   status?: Prisma.SortOrder
   discountPrice?: Prisma.SortOrder
+  firstAnalysisAt?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   completedAt?: Prisma.SortOrder
 }
@@ -443,6 +464,7 @@ export type ReferralMinOrderByAggregateInput = {
   groupId?: Prisma.SortOrder
   status?: Prisma.SortOrder
   discountPrice?: Prisma.SortOrder
+  firstAnalysisAt?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   completedAt?: Prisma.SortOrder
 }
@@ -541,6 +563,7 @@ export type ReferralCreateWithoutReferrerInput = {
   groupId?: string | null
   status?: string
   discountPrice?: number | null
+  firstAnalysisAt?: Date | string | null
   createdAt?: Date | string
   completedAt?: Date | string | null
   referred?: Prisma.UserCreateNestedOneWithoutReferralsReferredInput
@@ -553,6 +576,7 @@ export type ReferralUncheckedCreateWithoutReferrerInput = {
   groupId?: string | null
   status?: string
   discountPrice?: number | null
+  firstAnalysisAt?: Date | string | null
   createdAt?: Date | string
   completedAt?: Date | string | null
 }
@@ -573,6 +597,7 @@ export type ReferralCreateWithoutReferredInput = {
   groupId?: string | null
   status?: string
   discountPrice?: number | null
+  firstAnalysisAt?: Date | string | null
   createdAt?: Date | string
   completedAt?: Date | string | null
   referrer: Prisma.UserCreateNestedOneWithoutReferralsOwnedInput
@@ -585,6 +610,7 @@ export type ReferralUncheckedCreateWithoutReferredInput = {
   groupId?: string | null
   status?: string
   discountPrice?: number | null
+  firstAnalysisAt?: Date | string | null
   createdAt?: Date | string
   completedAt?: Date | string | null
 }
@@ -626,6 +652,7 @@ export type ReferralScalarWhereInput = {
   groupId?: Prisma.StringNullableFilter<"Referral"> | string | null
   status?: Prisma.StringFilter<"Referral"> | string
   discountPrice?: Prisma.FloatNullableFilter<"Referral"> | number | null
+  firstAnalysisAt?: Prisma.DateTimeNullableFilter<"Referral"> | Date | string | null
   createdAt?: Prisma.DateTimeFilter<"Referral"> | Date | string
   completedAt?: Prisma.DateTimeNullableFilter<"Referral"> | Date | string | null
 }
@@ -653,6 +680,7 @@ export type ReferralCreateManyReferrerInput = {
   groupId?: string | null
   status?: string
   discountPrice?: number | null
+  firstAnalysisAt?: Date | string | null
   createdAt?: Date | string
   completedAt?: Date | string | null
 }
@@ -664,6 +692,7 @@ export type ReferralCreateManyReferredInput = {
   groupId?: string | null
   status?: string
   discountPrice?: number | null
+  firstAnalysisAt?: Date | string | null
   createdAt?: Date | string
   completedAt?: Date | string | null
 }
@@ -674,6 +703,7 @@ export type ReferralUpdateWithoutReferrerInput = {
   groupId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.StringFieldUpdateOperationsInput | string
   discountPrice?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  firstAnalysisAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   completedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   referred?: Prisma.UserUpdateOneWithoutReferralsReferredNestedInput
@@ -686,6 +716,7 @@ export type ReferralUncheckedUpdateWithoutReferrerInput = {
   groupId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.StringFieldUpdateOperationsInput | string
   discountPrice?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  firstAnalysisAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   completedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
@@ -697,6 +728,7 @@ export type ReferralUncheckedUpdateManyWithoutReferrerInput = {
   groupId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.StringFieldUpdateOperationsInput | string
   discountPrice?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  firstAnalysisAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   completedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
@@ -707,6 +739,7 @@ export type ReferralUpdateWithoutReferredInput = {
   groupId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.StringFieldUpdateOperationsInput | string
   discountPrice?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  firstAnalysisAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   completedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   referrer?: Prisma.UserUpdateOneRequiredWithoutReferralsOwnedNestedInput
@@ -719,6 +752,7 @@ export type ReferralUncheckedUpdateWithoutReferredInput = {
   groupId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.StringFieldUpdateOperationsInput | string
   discountPrice?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  firstAnalysisAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   completedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
@@ -730,6 +764,7 @@ export type ReferralUncheckedUpdateManyWithoutReferredInput = {
   groupId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.StringFieldUpdateOperationsInput | string
   discountPrice?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  firstAnalysisAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   completedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
@@ -744,6 +779,7 @@ export type ReferralSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs
   groupId?: boolean
   status?: boolean
   discountPrice?: boolean
+  firstAnalysisAt?: boolean
   createdAt?: boolean
   completedAt?: boolean
   referrer?: boolean | Prisma.UserDefaultArgs<ExtArgs>
@@ -758,6 +794,7 @@ export type ReferralSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Exte
   groupId?: boolean
   status?: boolean
   discountPrice?: boolean
+  firstAnalysisAt?: boolean
   createdAt?: boolean
   completedAt?: boolean
   referrer?: boolean | Prisma.UserDefaultArgs<ExtArgs>
@@ -772,6 +809,7 @@ export type ReferralSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Exte
   groupId?: boolean
   status?: boolean
   discountPrice?: boolean
+  firstAnalysisAt?: boolean
   createdAt?: boolean
   completedAt?: boolean
   referrer?: boolean | Prisma.UserDefaultArgs<ExtArgs>
@@ -786,11 +824,12 @@ export type ReferralSelectScalar = {
   groupId?: boolean
   status?: boolean
   discountPrice?: boolean
+  firstAnalysisAt?: boolean
   createdAt?: boolean
   completedAt?: boolean
 }
 
-export type ReferralOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "referrerId" | "referredId" | "code" | "groupId" | "status" | "discountPrice" | "createdAt" | "completedAt", ExtArgs["result"]["referral"]>
+export type ReferralOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "referrerId" | "referredId" | "code" | "groupId" | "status" | "discountPrice" | "firstAnalysisAt" | "createdAt" | "completedAt", ExtArgs["result"]["referral"]>
 export type ReferralInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   referrer?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   referred?: boolean | Prisma.Referral$referredArgs<ExtArgs>
@@ -818,6 +857,7 @@ export type $ReferralPayload<ExtArgs extends runtime.Types.Extensions.InternalAr
     groupId: string | null
     status: string
     discountPrice: number | null
+    firstAnalysisAt: Date | null
     createdAt: Date
     completedAt: Date | null
   }, ExtArgs["result"]["referral"]>
@@ -1252,6 +1292,7 @@ export interface ReferralFieldRefs {
   readonly groupId: Prisma.FieldRef<"Referral", 'String'>
   readonly status: Prisma.FieldRef<"Referral", 'String'>
   readonly discountPrice: Prisma.FieldRef<"Referral", 'Float'>
+  readonly firstAnalysisAt: Prisma.FieldRef<"Referral", 'DateTime'>
   readonly createdAt: Prisma.FieldRef<"Referral", 'DateTime'>
   readonly completedAt: Prisma.FieldRef<"Referral", 'DateTime'>
 }

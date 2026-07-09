@@ -48,7 +48,19 @@ function extractJSON(content: string): any {
       return JSON.parse(match[0])
     } catch {}
   }
-  throw new Error("No se pudo parsear la respuesta de Groq")
+  return {
+    resumenGeneral: "No se pudo analizar la imagen con claridad suficiente.",
+    tipoDePiel: "No determinado",
+    observations: [],
+    observationExplanations: "",
+    confidenceReason: "La imagen no tenía la claridad suficiente para un análisis confiable.",
+    factores: [],
+    recomendaciones: ["Por favor, repite el análisis con mejor iluminación y enfoque nítido."],
+    rutina: { manana: [], noche: [] },
+    productosRecomendados: [],
+    historialComparativo: "",
+    _fallback: true,
+  }
 }
 
 async function compressImage(file: File, maxDim = 512): Promise<Buffer> {
@@ -127,15 +139,10 @@ async function groqFetch(
   const content_text = data?.choices?.[0]?.message?.content
   if (!content_text) {
     logger.error("Groq empty response", { data: JSON.stringify(data).slice(0, 500) })
-    throw new Error("La IA no generó una respuesta válida.")
+    return extractJSON("")
   }
 
-  try {
-    return extractJSON(content_text)
-  } catch (e) {
-    logger.error("Groq invalid JSON", { content: content_text.slice(0, 1000) })
-    throw new Error("La IA devolvió un formato inválido. Intenta con fotos más claras.")
-  }
+  return extractJSON(content_text)
 }
 
 export async function analyzeSkinWithGroq(files: File[]) {

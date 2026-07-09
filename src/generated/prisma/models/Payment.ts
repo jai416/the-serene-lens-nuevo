@@ -591,14 +591,6 @@ export type PaymentUncheckedUpdateManyWithoutUserNestedInput = {
   deleteMany?: Prisma.PaymentScalarWhereInput | Prisma.PaymentScalarWhereInput[]
 }
 
-export type NullableFloatFieldUpdateOperationsInput = {
-  set?: number | null
-  increment?: number
-  decrement?: number
-  multiply?: number
-  divide?: number
-}
-
 export type PaymentCreateWithoutUserInput = {
   id?: string
   provider?: string

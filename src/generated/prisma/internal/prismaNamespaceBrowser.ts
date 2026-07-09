@@ -52,6 +52,7 @@ export const AnyNull = runtime.AnyNull
 
 export const ModelName = {
   User: 'User',
+  AnalysisJob: 'AnalysisJob',
   Account: 'Account',
   Session: 'Session',
   VerificationToken: 'VerificationToken',
@@ -128,21 +129,44 @@ export const UserScalarFieldEnum = {
   emailVerified: 'emailVerified',
   image: 'image',
   password: 'password',
+  username: 'username',
   role: 'role',
   plan: 'plan',
   qvapayId: 'qvapayId',
   analysisLimit: 'analysisLimit',
   analysisUsed: 'analysisUsed',
   analysisResetAt: 'analysisResetAt',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt',
   telegramId: 'telegramId',
+  telegramTrialStartedAt: 'telegramTrialStartedAt',
+  isTelegramPremiumActive: 'isTelegramPremiumActive',
+  latitude: 'latitude',
+  longitude: 'longitude',
   currentStreak: 'currentStreak',
   maxStreak: 'maxStreak',
-  lastCheckInDate: 'lastCheckInDate'
+  lastCheckInDate: 'lastCheckInDate',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
 } as const
 
 export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum]
+
+
+export const AnalysisJobScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  status: 'status',
+  priority: 'priority',
+  attempts: 'attempts',
+  photos: 'photos',
+  body: 'body',
+  result: 'result',
+  error: 'error',
+  position: 'position',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type AnalysisJobScalarFieldEnum = (typeof AnalysisJobScalarFieldEnum)[keyof typeof AnalysisJobScalarFieldEnum]
 
 
 export const AccountScalarFieldEnum = {
@@ -525,6 +549,7 @@ export const CommentScalarFieldEnum = {
   postId: 'postId',
   userId: 'userId',
   content: 'content',
+  approved: 'approved',
   createdAt: 'createdAt'
 } as const
 
@@ -652,6 +677,7 @@ export const ReferralScalarFieldEnum = {
   groupId: 'groupId',
   status: 'status',
   discountPrice: 'discountPrice',
+  firstAnalysisAt: 'firstAnalysisAt',
   createdAt: 'createdAt',
   completedAt: 'completedAt'
 } as const

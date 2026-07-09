@@ -4,6 +4,7 @@ import { analyzeSkinWithGroq } from "@/lib/groq"
 
 const THROTTLE_MS = 2500
 const POLL_INTERVAL_MS = 3000
+const MAX_ATTEMPTS = 3
 
 class AnalysisQueue {
   private processing = false
@@ -91,13 +92,17 @@ class AnalysisQueue {
         logger.info("Queue job completed", { jobId: job.id, userId: job.userId })
       } catch (e) {
         const errorMsg = e instanceof Error ? e.message : String(e)
-        logger.error("Queue job failed", { jobId: job.id, error: errorMsg })
+        const nextAttempts = job.attempts + 1
+        const failed = nextAttempts >= MAX_ATTEMPTS
+
+        logger.error("Queue job failed", { jobId: job.id, error: errorMsg, attempt: nextAttempts, failed })
 
         await db.analysisJob.update({
           where: { id: job.id },
           data: {
-            status: "FAILED",
-            error: errorMsg,
+            status: failed ? "FAILED" : "PENDING",
+            attempts: nextAttempts,
+            error: failed ? errorMsg : null,
             updatedAt: new Date(),
           },
         })

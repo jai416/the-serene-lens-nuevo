@@ -385,6 +385,7 @@ type FieldRefInputType<Model, FieldType> = Model extends never ? never : FieldRe
 
 export const ModelName = {
   User: 'User',
+  AnalysisJob: 'AnalysisJob',
   Account: 'Account',
   Session: 'Session',
   VerificationToken: 'VerificationToken',
@@ -451,7 +452,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "user" | "account" | "session" | "verificationToken" | "skinAnalysis" | "blogPost" | "product" | "payment" | "transferPayment" | "auditLog" | "subscription" | "purchasePack" | "usageTracking" | "feedback" | "clinic" | "affiliateClick" | "contactMessage" | "botLog" | "botKnowledge" | "botFeedback" | "cache" | "webhookEvent" | "userEvolution" | "rateLimit" | "appConfig" | "surveyFeedback" | "communityPost" | "comment" | "communityGroup" | "communityMember" | "postReaction" | "conversationState" | "skinDiary" | "challenge" | "userChallenge" | "productReview" | "groupAnalytics" | "referral" | "digitalProduct" | "digitalProductPurchase" | "dailyCheckIn" | "ingredientKB" | "client" | "telegramAuth" | "telegramLog" | "notification" | "telegramAlert" | "discountCode" | "telegramReminder" | "supportTicket" | "supportTicketResponse" | "chatMessage"
+    modelProps: "user" | "analysisJob" | "account" | "session" | "verificationToken" | "skinAnalysis" | "blogPost" | "product" | "payment" | "transferPayment" | "auditLog" | "subscription" | "purchasePack" | "usageTracking" | "feedback" | "clinic" | "affiliateClick" | "contactMessage" | "botLog" | "botKnowledge" | "botFeedback" | "cache" | "webhookEvent" | "userEvolution" | "rateLimit" | "appConfig" | "surveyFeedback" | "communityPost" | "comment" | "communityGroup" | "communityMember" | "postReaction" | "conversationState" | "skinDiary" | "challenge" | "userChallenge" | "productReview" | "groupAnalytics" | "referral" | "digitalProduct" | "digitalProductPurchase" | "dailyCheckIn" | "ingredientKB" | "client" | "telegramAuth" | "telegramLog" | "notification" | "telegramAlert" | "discountCode" | "telegramReminder" | "supportTicket" | "supportTicketResponse" | "chatMessage"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -526,6 +527,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         count: {
           args: Prisma.UserCountArgs<ExtArgs>
           result: runtime.Types.Utils.Optional<Prisma.UserCountAggregateOutputType> | number
+        }
+      }
+    }
+    AnalysisJob: {
+      payload: Prisma.$AnalysisJobPayload<ExtArgs>
+      fields: Prisma.AnalysisJobFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.AnalysisJobFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AnalysisJobPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.AnalysisJobFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AnalysisJobPayload>
+        }
+        findFirst: {
+          args: Prisma.AnalysisJobFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AnalysisJobPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.AnalysisJobFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AnalysisJobPayload>
+        }
+        findMany: {
+          args: Prisma.AnalysisJobFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AnalysisJobPayload>[]
+        }
+        create: {
+          args: Prisma.AnalysisJobCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AnalysisJobPayload>
+        }
+        createMany: {
+          args: Prisma.AnalysisJobCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.AnalysisJobCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AnalysisJobPayload>[]
+        }
+        delete: {
+          args: Prisma.AnalysisJobDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AnalysisJobPayload>
+        }
+        update: {
+          args: Prisma.AnalysisJobUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AnalysisJobPayload>
+        }
+        deleteMany: {
+          args: Prisma.AnalysisJobDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.AnalysisJobUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.AnalysisJobUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AnalysisJobPayload>[]
+        }
+        upsert: {
+          args: Prisma.AnalysisJobUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AnalysisJobPayload>
+        }
+        aggregate: {
+          args: Prisma.AnalysisJobAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateAnalysisJob>
+        }
+        groupBy: {
+          args: Prisma.AnalysisJobGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AnalysisJobGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.AnalysisJobCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AnalysisJobCountAggregateOutputType> | number
         }
       }
     }
@@ -4349,21 +4424,44 @@ export const UserScalarFieldEnum = {
   emailVerified: 'emailVerified',
   image: 'image',
   password: 'password',
+  username: 'username',
   role: 'role',
   plan: 'plan',
   qvapayId: 'qvapayId',
   analysisLimit: 'analysisLimit',
   analysisUsed: 'analysisUsed',
   analysisResetAt: 'analysisResetAt',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt',
   telegramId: 'telegramId',
+  telegramTrialStartedAt: 'telegramTrialStartedAt',
+  isTelegramPremiumActive: 'isTelegramPremiumActive',
+  latitude: 'latitude',
+  longitude: 'longitude',
   currentStreak: 'currentStreak',
   maxStreak: 'maxStreak',
-  lastCheckInDate: 'lastCheckInDate'
+  lastCheckInDate: 'lastCheckInDate',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
 } as const
 
 export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum]
+
+
+export const AnalysisJobScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  status: 'status',
+  priority: 'priority',
+  attempts: 'attempts',
+  photos: 'photos',
+  body: 'body',
+  result: 'result',
+  error: 'error',
+  position: 'position',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type AnalysisJobScalarFieldEnum = (typeof AnalysisJobScalarFieldEnum)[keyof typeof AnalysisJobScalarFieldEnum]
 
 
 export const AccountScalarFieldEnum = {
@@ -4746,6 +4844,7 @@ export const CommentScalarFieldEnum = {
   postId: 'postId',
   userId: 'userId',
   content: 'content',
+  approved: 'approved',
   createdAt: 'createdAt'
 } as const
 
@@ -4873,6 +4972,7 @@ export const ReferralScalarFieldEnum = {
   groupId: 'groupId',
   status: 'status',
   discountPrice: 'discountPrice',
+  firstAnalysisAt: 'firstAnalysisAt',
   createdAt: 'createdAt',
   completedAt: 'completedAt'
 } as const
@@ -5302,6 +5402,7 @@ export type PrismaClientOptions = ({
 }
 export type GlobalOmitConfig = {
   user?: Prisma.UserOmit
+  analysisJob?: Prisma.AnalysisJobOmit
   account?: Prisma.AccountOmit
   session?: Prisma.SessionOmit
   verificationToken?: Prisma.VerificationTokenOmit

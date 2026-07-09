@@ -1,7 +1,7 @@
 import { db } from "@/lib/db"
 import {
   sendTelegramMessage, sendTelegramMenu, sendTelegramKeyboard, removeKeyboard,
-  editTelegramMenu, answerCallback, getUserRole, authAdmin, authValidator,
+  editTelegramMenu, editTelegramButtons, answerCallback, getUserRole, authAdmin, authValidator,
   logTelegramCommand, getTelegramLogs, setAlertSub, getAlertSub, notifyAdmins,
   setReminder, getReminderStatus, generateDiscountCode, validateDiscountCode,
   saveFeedback, getFeedbackAvg, getRandomMeme,
@@ -424,10 +424,17 @@ export async function handleValidar(chatId: string, userId: string, args: string
         conversationState.delete(chatId)
         return
       }
-      await db.$transaction([
-        db.transferPayment.update({ where: { id: transfer.id }, data: { status: "validated", validatedById: userId, validatedAt: new Date() } }),
-        db.auditLog.create({ data: { userId, action: "validate_transfer", targetId: transfer.id, targetType: "transfer", details: `Validated ${ref}` } }),
-      ])
+      try {
+        await Promise.all([
+          db.transferPayment.update({ where: { id: transfer.id }, data: { status: "validated", validatedById: userId, validatedAt: new Date() } }),
+          db.auditLog.create({ data: { userId, action: "validate_transfer", targetId: transfer.id, targetType: "transfer", details: `Validated ${ref}` } }),
+        ])
+      } catch {
+        await db.transferPayment.update({ where: { id: transfer.id }, data: { status: "pending" } }).catch(() => {})
+        await sendTelegramMessage(chatId, "❌ Error al validar. Intenta de nuevo.")
+        conversationState.delete(chatId)
+        return
+      }
       await sendTelegramMessage(chatId, `✅ Pago <b>${ref}</b> validado. Admin debe activar: /activar ${ref}`)
       conversationState.delete(chatId)
       return
@@ -442,12 +449,15 @@ export async function handleValidar(chatId: string, userId: string, args: string
     let ok = 0, fail = 0
     for (const p of pendings) {
       try {
-        await db.$transaction([
+        await Promise.all([
           db.transferPayment.update({ where: { id: p.id }, data: { status: "validated", validatedById: userId, validatedAt: new Date() } }),
           db.auditLog.create({ data: { userId, action: "validate_transfer", targetId: p.id, targetType: "transfer", details: `Batch validated ${p.referenceCode}` } }),
         ])
         ok++
-      } catch { fail++ }
+      } catch {
+        await db.transferPayment.update({ where: { id: p.id }, data: { status: "pending" } }).catch(() => {})
+        fail++
+      }
     }
     await sendTelegramMessage(chatId, R.batchValidateResult(ok, fail))
     return
@@ -463,19 +473,21 @@ export async function handleValidar(chatId: string, userId: string, args: string
       const p = pendings[idx - 1]
       if (!p) { fail++; continue }
       try {
-        await db.$transaction([
+        await Promise.all([
           db.transferPayment.update({ where: { id: p.id }, data: { status: "validated", validatedById: userId, validatedAt: new Date() } }),
           db.auditLog.create({ data: { userId, action: "validate_transfer", targetId: p.id, targetType: "transfer", details: `Batch validated ${p.referenceCode}` } }),
         ])
         ok++
-      } catch { fail++ }
+      } catch {
+        await db.transferPayment.update({ where: { id: p.id }, data: { status: "pending" } }).catch(() => {})
+        fail++
+      }
     }
     await sendTelegramMessage(chatId, R.batchValidateResult(ok, fail))
     return
   }
 
-  // Single with multi-step confirmation
-  const ref = args[0]
+  // Single: /validar TRF-xxx
   const transfer = await db.transferPayment.findUnique({ where: { referenceCode: ref }, include: { user: true } })
   if (!transfer) { await sendTelegramMessage(chatId, `❌ No encontrado: ${ref}`); return }
   if (transfer.status !== "pending") { await sendTelegramMessage(chatId, `⚠️ Estado actual: ${transfer.status}`); return }
@@ -606,12 +618,19 @@ export async function handleActivar(chatId: string, userId: string, args: string
         conversationState.delete(chatId)
         return
       }
-      await db.$transaction([
-        db.transferPayment.update({ where: { id: transfer.id }, data: { status: "activated", activatedById: userId, activatedAt: new Date() } }),
-        db.subscription.create({ data: { userId: transfer.userId, plan: transfer.plan, provider: "transfer", status: "active", currentPeriodStart: new Date(), currentPeriodEnd: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000) } }),
-        db.payment.create({ data: { userId: transfer.userId, provider: "transfer", plan: transfer.plan, amount: transfer.amount, status: "completed", confirmedAt: new Date(), remoteId: transfer.referenceCode } }),
-        db.auditLog.create({ data: { userId, action: "activate_transfer", targetId: transfer.id, targetType: "transfer", details: `Activated ${ref2}` } }),
-      ])
+      try {
+        await db.transferPayment.update({ where: { id: transfer.id }, data: { status: "activated", activatedById: userId, activatedAt: new Date() } })
+        await Promise.all([
+          db.subscription.create({ data: { userId: transfer.userId, plan: transfer.plan, provider: "transfer", status: "active", currentPeriodStart: new Date(), currentPeriodEnd: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000) } }),
+          db.payment.create({ data: { userId: transfer.userId, provider: "transfer", plan: transfer.plan, amount: transfer.amount, status: "completed", confirmedAt: new Date(), remoteId: transfer.referenceCode } }),
+          db.auditLog.create({ data: { userId, action: "activate_transfer", targetId: transfer.id, targetType: "transfer", details: `Activated ${ref2}` } }),
+        ])
+      } catch {
+        await db.transferPayment.update({ where: { id: transfer.id }, data: { status: "validated" } }).catch(() => {})
+        await sendTelegramMessage(chatId, "❌ Error al activar. Intenta de nuevo.")
+        conversationState.delete(chatId)
+        return
+      }
       await sendTelegramMessage(chatId, R.activateResult(ref2, transfer.user?.name || "?", transfer.plan))
       conversationState.delete(chatId)
       return
@@ -628,14 +647,17 @@ export async function handleActivar(chatId: string, userId: string, args: string
       const t = validated[idx - 1]
       if (!t) { fail++; continue }
       try {
-        await db.$transaction([
-          db.transferPayment.update({ where: { id: t.id }, data: { status: "activated", activatedById: userId, activatedAt: new Date() } }),
+        await db.transferPayment.update({ where: { id: t.id }, data: { status: "activated", activatedById: userId, activatedAt: new Date() } })
+        await Promise.all([
           db.subscription.create({ data: { userId: t.userId, plan: t.plan, provider: "transfer", status: "active", currentPeriodStart: new Date(), currentPeriodEnd: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000) } }),
           db.payment.create({ data: { userId: t.userId, provider: "transfer", plan: t.plan, amount: t.amount, status: "completed", confirmedAt: new Date(), remoteId: t.referenceCode } }),
           db.auditLog.create({ data: { userId, action: "activate_transfer", targetId: t.id, targetType: "transfer", details: `Batch activated ${t.referenceCode}` } }),
         ])
         ok++
-      } catch { fail++ }
+      } catch {
+        await db.transferPayment.update({ where: { id: t.id }, data: { status: "validated" } }).catch(() => {})
+        fail++
+      }
     }
     await sendTelegramMessage(chatId, R.batchValidateResult(ok, fail))
     return
@@ -657,12 +679,18 @@ export async function handleActivarConfirm(chatId: string, userId: string, ref: 
   const transfer = await db.transferPayment.findUnique({ where: { referenceCode: ref }, include: { user: true } })
   if (!transfer) { await sendTelegramMessage(chatId, `❌ No encontrado: ${ref}`); return }
   if (transfer.status !== "validated") { await sendTelegramMessage(chatId, `⚠️ Estado: ${transfer.status}`); return }
-  await db.$transaction([
-    db.transferPayment.update({ where: { id: transfer.id }, data: { status: "activated", activatedById: userId, activatedAt: new Date() } }),
-    db.subscription.create({ data: { userId: transfer.userId, plan: transfer.plan, provider: "transfer", status: "active", currentPeriodStart: new Date(), currentPeriodEnd: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000) } }),
-    db.payment.create({ data: { userId: transfer.userId, provider: "transfer", plan: transfer.plan, amount: transfer.amount, status: "completed", confirmedAt: new Date(), remoteId: transfer.referenceCode } }),
-    db.auditLog.create({ data: { userId, action: "activate_transfer", targetId: transfer.id, targetType: "transfer", details: `Activated ${ref} via callback` } }),
-  ])
+  try {
+    await db.transferPayment.update({ where: { id: transfer.id }, data: { status: "activated", activatedById: userId, activatedAt: new Date() } })
+    await Promise.all([
+      db.subscription.create({ data: { userId: transfer.userId, plan: transfer.plan, provider: "transfer", status: "active", currentPeriodStart: new Date(), currentPeriodEnd: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000) } }),
+      db.payment.create({ data: { userId: transfer.userId, provider: "transfer", plan: transfer.plan, amount: transfer.amount, status: "completed", confirmedAt: new Date(), remoteId: transfer.referenceCode } }),
+      db.auditLog.create({ data: { userId, action: "activate_transfer", targetId: transfer.id, targetType: "transfer", details: `Activated ${ref} via callback` } }),
+    ])
+  } catch {
+    await db.transferPayment.update({ where: { id: transfer.id }, data: { status: "validated" } }).catch(() => {})
+    await sendTelegramMessage(chatId, "❌ Error al activar. Intenta de nuevo.")
+    return
+  }
   await sendTelegramMessage(chatId, R.activateResult(ref, transfer.user?.name || "?", transfer.plan))
 }
 
@@ -1099,10 +1127,17 @@ export async function handleCallback(data: string, chatId: string, userId: strin
     const pending = await db.transferPayment.findMany({ where: { status: "pending" }, orderBy: { createdAt: "asc" } })
     const p = pending[idx]
     if (!p) { await sendTelegramMessage(chatId, "❌ Pago no encontrado."); return }
-    await db.$transaction([
-      db.transferPayment.update({ where: { id: p.id }, data: { status: "validated", validatedById: userId, validatedAt: new Date() } }),
-      db.auditLog.create({ data: { userId, action: "validate_transfer", targetId: p.id, targetType: "transfer", details: `Validated ${p.referenceCode} via button` } }),
-    ])
+    await editTelegramButtons(chatId, messageId, [])
+    try {
+      await Promise.all([
+        db.transferPayment.update({ where: { id: p.id }, data: { status: "validated", validatedById: userId, validatedAt: new Date() } }),
+        db.auditLog.create({ data: { userId, action: "validate_transfer", targetId: p.id, targetType: "transfer", details: `Validated ${p.referenceCode} via button` } }),
+      ])
+    } catch {
+      await db.transferPayment.update({ where: { id: p.id }, data: { status: "pending" } }).catch(() => {})
+      await sendTelegramMessage(chatId, "❌ Error al validar. Intenta de nuevo.")
+      return
+    }
     await sendTelegramMessage(chatId, R.validateResult(p.referenceCode, true))
     return
   }

@@ -101,14 +101,6 @@ export async function POST(req: NextRequest) {
       return ok({ received: true, verified: false, type: "plan" })
     }
 
-    await db.payment.update({
-      where: { id: payment.id },
-      data: {
-        status: "completed",
-        confirmedAt: new Date(),
-      },
-    })
-
     const isPack = ["BASIC", "POPULAR", "ADVANCED"].includes(payment.plan)
     const amountUsd = payment.amount
     let cupRate = 500
@@ -118,40 +110,50 @@ export async function POST(req: NextRequest) {
       logger.warn("CUP rate failed in webhook, using default")
     }
 
-    if (isPack) {
-      const analyses = PACK_ANALYSES[payment.plan] || 0
-      await db.purchasePack.create({
+    await db.$transaction(async (tx) => {
+      await tx.payment.update({
+        where: { id: payment.id },
         data: {
-          userId: payment.userId,
-          packType: payment.plan,
-          provider: "qvapay",
-          amountUsd,
-          amountCup: amountUsd * cupRate,
-          analyses,
           status: "completed",
+          confirmedAt: new Date(),
         },
       })
-    } else if (payment.plan) {
-      await db.user.update({
-        where: { id: payment.userId },
-        data: { plan: payment.plan },
-      })
 
-      const periodEnd = new Date()
-      periodEnd.setDate(periodEnd.getDate() + 30)
+      if (isPack) {
+        const analyses = PACK_ANALYSES[payment.plan] || 0
+        await tx.purchasePack.create({
+          data: {
+            userId: payment.userId,
+            packType: payment.plan,
+            provider: "qvapay",
+            amountUsd,
+            amountCup: amountUsd * cupRate,
+            analyses,
+            status: "completed",
+          },
+        })
+      } else if (payment.plan) {
+        await tx.user.update({
+          where: { id: payment.userId },
+          data: { plan: payment.plan },
+        })
 
-      await db.subscription.create({
-        data: {
-          userId: payment.userId,
-          provider: "qvapay",
-          qvapayInvoiceId: transactionUuid,
-          plan: payment.plan,
-          status: "active",
-          currentPeriodStart: new Date(),
-          currentPeriodEnd: periodEnd,
-        },
-      })
-    }
+        const periodEnd = new Date()
+        periodEnd.setDate(periodEnd.getDate() + 30)
+
+        await tx.subscription.create({
+          data: {
+            userId: payment.userId,
+            provider: "qvapay",
+            qvapayInvoiceId: transactionUuid,
+            plan: payment.plan,
+            status: "active",
+            currentPeriodStart: new Date(),
+            currentPeriodEnd: periodEnd,
+          },
+        })
+      }
+    })
 
     return ok({ received: true, type: "plan" })
   } catch (e) {

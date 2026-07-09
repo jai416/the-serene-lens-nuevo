@@ -8,6 +8,7 @@ const {
   mockQvaPayStatus,
   mockGetCUPRate,
   mockCheckRateLimit,
+  mockTransaction,
 } = vi.hoisted(() => ({
   mockFindUnique: vi.fn(),
   mockfindFirst: vi.fn().mockResolvedValue(null),
@@ -16,6 +17,12 @@ const {
   mockQvaPayStatus: vi.fn(),
   mockGetCUPRate: vi.fn(),
   mockCheckRateLimit: vi.fn().mockResolvedValue({ allowed: true, remaining: 29 }),
+  mockTransaction: vi.fn(async (cb: any) => cb({
+    payment: { update: mockUpdate },
+    purchasePack: { create: mockCreate },
+    user: { update: mockUpdate },
+    subscription: { create: mockCreate },
+  })),
 }))
 
 vi.mock("@/lib/db", () => ({
@@ -41,6 +48,7 @@ vi.mock("@/lib/db", () => ({
       findFirst: vi.fn().mockResolvedValue(null),
       create: vi.fn(),
     },
+    $transaction: mockTransaction,
   },
 }))
 
