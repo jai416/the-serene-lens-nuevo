@@ -1,14 +1,19 @@
-import nodemailer from "nodemailer"
-
 const GMAIL_USER = process.env.GMAIL_USER || ""
 const GMAIL_APP_PASSWORD = process.env.GMAIL_APP_PASSWORD || ""
 const FROM_EMAIL = GMAIL_USER || "noreply@theserenelens.com"
 const APP_URL = process.env.NEXT_PUBLIC_APP_URL || "https://the-serene-lens-nuevo.onrender.com"
 const APP_NAME = "The Serene Lens"
 
-let transporter: nodemailer.Transporter | null = null
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+let nodemailer: any = null
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+let transporter: any = null
 
-function getTransport(): nodemailer.Transporter {
+function getTransport() {
+  if (!nodemailer) {
+    // eslint-disable-next-line @typescript-eslint/no-require-imports
+    nodemailer = require("nodemailer")
+  }
   if (!transporter) {
     transporter = nodemailer.createTransport({
       host: "smtp.gmail.com",
