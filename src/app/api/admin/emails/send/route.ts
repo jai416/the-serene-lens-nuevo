@@ -38,20 +38,13 @@ export async function POST(req: NextRequest) {
       return error("Faltan campos requeridos: subject, message", 400)
     }
 
-    let users: { email: string }[]
-    if (userIds && Array.isArray(userIds)) {
-      users = await db.user.findMany({
-        where: { id: { in: userIds }, email: { not: null } },
-        select: { email: true },
-      })
-    } else if (segment && SEGMENT_FILTERS[segment]) {
-      users = await db.user.findMany({
-        where: SEGMENT_FILTERS[segment],
-        select: { email: true },
-      })
-    } else {
-      return error("Segmento inválido o lista de usuarios requerida", 400)
-    }
+    const baseFilter = (segment && SEGMENT_FILTERS[segment]) ? SEGMENT_FILTERS[segment] : {}
+    const emailFilter = userIds && Array.isArray(userIds) ? { id: { in: userIds } } : baseFilter
+
+    const users = await db.user.findMany({
+      where: emailFilter,
+      select: { email: true },
+    })
 
     const html = buildEmailHtml(subject, message)
     let sent = 0

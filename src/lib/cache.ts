@@ -34,14 +34,7 @@ let cache: CacheAdapter | null = null
 
 function getCacheAdapter(): CacheAdapter {
   if (cache) return cache
-
-  try {
-    const NodeCache = require("node-cache")
-    cache = new NodeCache({ stdTTL: 600, checkperiod: 120 }) as CacheAdapter
-  } catch {
-    cache = createMemoryCache()
-  }
-
+  cache = createMemoryCache()
   return cache
 }
 
