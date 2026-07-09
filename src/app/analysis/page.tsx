@@ -17,6 +17,7 @@ import {
   ClipboardList,
   Trash2,
 } from "lucide-react"
+import { WebcamCapture } from "@/components/webcam-capture"
 import Image from "next/image"
 import { useSession } from "next-auth/react"
 import { compressImage } from "@/lib/image-compression"
@@ -64,9 +65,21 @@ export default function AnalysisPage() {
   const [error, setError] = useState("")
   const [isAnalyzing, setIsAnalyzing] = useState(false)
   const [activePhotoSlot, setActivePhotoSlot] = useState<string | null>(null)
+  const [webcamSlot, setWebcamSlot] = useState<string | null>(null)
   const fileInputRef = useRef<HTMLInputElement>(null)
   const hasTrackedStart = useRef(false)
   const abandonTracked = useRef(false)
+
+  const handleWebcamCapture = useCallback((blob: Blob) => {
+    if (!webcamSlot) return
+    const file = new File([blob], `webcam-${webcamSlot}-${Date.now()}.jpg`, { type: "image/jpeg" })
+    handlePhoto(webcamSlot, file)
+    setWebcamSlot(null)
+  }, [webcamSlot, handlePhoto])
+
+  const openWebcam = (slotId: string) => {
+    setWebcamSlot(slotId)
+  }
 
   useEffect(() => {
     const handleAbandon = () => {
@@ -362,6 +375,15 @@ export default function AnalysisPage() {
                           <span className="text-xs font-medium" style={{ color: "#666666" }}>Agregar foto</span>
                           <span className="text-[10px]" style={{ color: "#666666" }}>{slot.label}</span>
                         </button>
+                        <button
+                          onClick={() => openWebcam(slot.id)}
+                          className="w-full mt-2 text-xs py-2 rounded-lg border flex items-center justify-center gap-1.5 transition-all hover:opacity-80"
+                          style={{ borderColor: "#88B078", color: "#88B078", backgroundColor: "#E2ECE0" }}
+                          aria-label={`Cámara: ${slot.label}`}
+                        >
+                          <Camera className="w-3.5 h-3.5" />
+                          Cámara
+                        </button>
                       )}
                     </div>
                   )
@@ -513,6 +535,14 @@ export default function AnalysisPage() {
           </div>
         )}
       </div>
+      </div>
+
+      {webcamSlot && (
+        <WebcamCapture
+          onCapture={handleWebcamCapture}
+          onClose={() => setWebcamSlot(null)}
+        />
+      )}
     </div>
   )
 }

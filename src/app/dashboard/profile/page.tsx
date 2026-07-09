@@ -10,6 +10,14 @@ import { User, Save, AlertCircle, Trash2, LogOut } from "lucide-react"
 import { toast } from "sonner"
 import { ProfileSkeleton } from "@/components/ui/skeleton"
 
+const PLAN_LABELS: Record<string, string> = {
+  FREE: "Essential",
+  PREMIUM: "Premium",
+  PRO: "Pro",
+  PRO_PLUS: "Pro+",
+  ESTHETICIAN: "Esteticista",
+}
+
 export default function ProfilePage() {
   const pathname = usePathname()
   const { data: session, status, update } = useSession()
@@ -99,7 +107,7 @@ export default function ProfilePage() {
               <label className="text-sm font-medium mb-1.5 block text-[#1A1A1A]">Plan</label>
               <input
                 type="text"
-                value={(session.user as any).plan === "PREMIUM" ? "Premium" : (session.user as any).plan === "PRO" ? "Pro" : "Gratuito"}
+                value={PLAN_LABELS[(session.user as any).plan] || "Essential"}
                 disabled
                 className="w-full rounded-xl border border-[#E8E8E8] bg-[#E2ECE0] px-4 py-2.5 text-sm text-[#666666] cursor-not-allowed"
               />

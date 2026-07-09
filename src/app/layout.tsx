@@ -24,7 +24,7 @@ export const metadata: Metadata = {
     default: "The Serene Lens | Observación Cosmética de tu Piel",
   },
   icons: {
-    icon: [{ url: "/favicon.svg", type: "image/svg+xml" }, { url: "/favicon.ico", sizes: "32x32" }],
+    icon: [{ url: "/logo.webp", type: "image/webp" }, { url: "/favicon.ico", sizes: "32x32" }],
     apple: "/icons/icon-152.png",
   },
   description:

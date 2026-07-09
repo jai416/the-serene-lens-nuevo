@@ -210,10 +210,21 @@ export const authOptions: NextAuthOptions = {
         token.latitude = user.latitude ?? null
         token.longitude = user.longitude ?? null
       }
-      if (token.role === "ADMIN" && token.plan !== "PRO_PLUS") {
+      if (token.sub) {
         try {
-          await db.user.update({ where: { id: token.sub! }, data: { plan: "PRO_PLUS" } })
-          token.plan = "PRO_PLUS"
+          const dbUser = await db.user.findUnique({
+            where: { id: token.sub },
+            select: { name: true, plan: true, role: true, username: true, latitude: true, longitude: true },
+          })
+          if (dbUser) {
+            token.name = dbUser.name
+            token.picture = dbUser.name ? undefined : token.picture
+            token.plan = dbUser.plan
+            token.role = dbUser.role
+            token.username = dbUser.username
+            token.latitude = dbUser.latitude
+            token.longitude = dbUser.longitude
+          }
         } catch {}
       }
       return token
