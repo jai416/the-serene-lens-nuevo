@@ -29,6 +29,14 @@ export async function POST(req: NextRequest) {
       return error("transaction_uuid requerido")
     }
 
+    const existingEvent = await db.webhookEvent.findFirst({
+      where: { provider: "qvapay", eventType: transactionUuid, processedAt: { not: null } },
+    })
+    if (existingEvent) {
+      logger.info("Webhook already processed, skipping", { transactionUuid })
+      return ok({ received: true, duplicate: true })
+    }
+
     const guidePurchase = await db.digitalProductPurchase.findFirst({
       where: { qvapayId: transactionUuid },
       include: { digitalProduct: true },

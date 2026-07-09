@@ -6,6 +6,7 @@ import { buttonVariants } from "@/components/ui/button"
 export const metadata: Metadata = {
   title: "Rutina Skincare Personalizada con IA | The Serene Lens",
   description: "Obtén una rutina de skincare personalizada según tu tipo de piel y preocupaciones. Analiza tu piel con IA y recibe recomendaciones.",
+  alternates: { canonical: "https://the-serene-lens-nuevo.onrender.com/rutina-skincare-personalizada" },
   openGraph: {
     title: "Rutina Skincare Personalizada",
     description: "Rutina de skincare personalizada según tu tipo de piel. Análisis gratuito con IA.",

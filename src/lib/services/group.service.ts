@@ -83,9 +83,7 @@ export async function joinReferralGroup(code: string, newUserId: string) {
       referredId: newUserId,
       code,
       groupId: code,
-      status: "completed",
-      discountPrice: GROUP_DISCOUNT_PRICE,
-      completedAt: new Date(),
+      status: "pending",
     },
   })
 
@@ -94,16 +92,42 @@ export async function joinReferralGroup(code: string, newUserId: string) {
     where: { id: group.id },
     data: {
       invitedCount: newCount,
-      completedCount: newCount,
-      totalRevenue: newCount * GROUP_DISCOUNT_PRICE,
     },
   })
 
-  if (newCount >= GROUP_REQUIRED) {
-    await completeGroup(group.id, group.groupId, group.referrerId, newCount)
-  }
+  return { success: true, groupId: code, count: newCount, completed: false }
+}
 
-  return { success: true, groupId: code, count: newCount, completed: newCount >= GROUP_REQUIRED }
+export async function checkAndCompleteReferral(userId: string) {
+  const pendingReferrals = await db.referral.findMany({
+    where: { referredId: userId, status: "pending" },
+    select: { id: true, groupId: true, referrerId: true },
+  })
+
+  for (const ref of pendingReferrals) {
+    await db.referral.update({
+      where: { id: ref.id },
+      data: { status: "completed", completedAt: new Date(), firstAnalysisAt: new Date() },
+    })
+
+    if (ref.groupId) {
+      const group = await db.groupAnalytics.findUnique({ where: { groupId: ref.groupId } })
+      if (!group) continue
+
+      const newCount = (group.completedCount || 0) + 1
+      await db.groupAnalytics.update({
+        where: { id: group.id },
+        data: {
+          completedCount: newCount,
+          totalRevenue: newCount * GROUP_DISCOUNT_PRICE,
+        },
+      })
+
+      if (newCount >= GROUP_REQUIRED && group.status === "pending") {
+        await completeGroup(group.id, group.groupId, ref.referrerId, newCount)
+      }
+    }
+  }
 }
 
 async function completeGroup(

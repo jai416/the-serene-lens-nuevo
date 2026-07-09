@@ -22,6 +22,7 @@ interface ContactMessage {
   subject: string
   message: string
   read: boolean
+  reply: string | null
   createdAt: string
 }
 
@@ -29,6 +30,8 @@ export default function AdminMessagesPage() {
   const { data: session, status } = useSession()
   const [messages, setMessages] = useState<ContactMessage[]>([])
   const [selected, setSelected] = useState<ContactMessage | null>(null)
+  const [replyText, setReplyText] = useState("")
+  const [sending, setSending] = useState(false)
 
   useEffect(() => {
     if (session?.user?.role === "ADMIN") {
@@ -54,6 +57,27 @@ export default function AdminMessagesPage() {
       }
     } catch {
       toast.error("Error al actualizar mensaje")
+    }
+  }
+
+  const handleReply = async () => {
+    if (!replyText.trim() || !selected || sending) return
+    setSending(true)
+    try {
+      const res = await fetch("/api/admin/messages", {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ id: selected.id, reply: replyText.trim() }),
+      })
+      if (!res.ok) throw new Error()
+      toast.success("Respuesta enviada")
+      setMessages(messages.map((m) => m.id === selected.id ? { ...m, reply: replyText.trim() } : m))
+      setSelected({ ...selected, reply: replyText.trim() })
+      setReplyText("")
+    } catch {
+      toast.error("Error al enviar respuesta")
+    } finally {
+      setSending(false)
     }
   }
 
@@ -145,7 +169,36 @@ export default function AdminMessagesPage() {
             <p className="text-sm text-[#E2E8F0] leading-relaxed whitespace-pre-wrap">
               {selected.message}
             </p>
-            <p className="text-xs text-[#5A6485] mt-6">
+
+            {selected.reply && (
+              <div className="mt-4 p-4 rounded-xl" style={{ backgroundColor: "#1A1D27", border: "1px solid #2D3350" }}>
+                <p className="text-xs font-medium mb-1" style={{ color: "#7C8CFF" }}>Tu respuesta:</p>
+                <p className="text-sm" style={{ color: "#E2E8F0" }}>{selected.reply}</p>
+              </div>
+            )}
+
+            <div className="mt-4">
+              <label className="text-xs block mb-1" style={{ color: "#5A6485" }}>Responder:</label>
+              <textarea
+                value={replyText}
+                onChange={(e) => setReplyText(e.target.value)}
+                rows={3}
+                className="w-full rounded-xl p-3 text-sm resize-none focus:outline-none"
+                style={{ backgroundColor: "#1A1D27", border: "1px solid #2D3350", color: "#E2E8F0" }}
+                placeholder="Escribe tu respuesta..."
+              />
+              <Button
+                onClick={handleReply}
+                disabled={!replyText.trim() || sending}
+                size="sm"
+                className="mt-2"
+                style={{ backgroundColor: "#7C8CFF", color: "#0F1117" }}
+              >
+                {sending ? "Enviando..." : "Enviar respuesta"}
+              </Button>
+            </div>
+
+            <p className="text-xs mt-4" style={{ color: "#5A6485" }}>
               Recibido: {formatDate(selected.createdAt)}
             </p>
           </CardContent>

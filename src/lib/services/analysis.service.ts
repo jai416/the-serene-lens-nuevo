@@ -70,10 +70,14 @@ export const AnalysisService = {
       throw new AnalysisError("Error al analizar la imagen. Intenta de nuevo.", "AI_ERROR", e)
     }
 
-    const skinType = (result as { skinType?: string })?.skinType || null
-    const observations = (result as { observations?: string[] })?.observations || []
-    const recommendations = (result as { recommendations?: string[] })?.recommendations || []
-    const routine = (result as { routine?: { morning?: string[]; evening?: string[] } })?.routine || null
+    const skinType = (result as { tipoDePiel?: string; skinType?: string })?.tipoDePiel || (result as { skinType?: string })?.skinType || null
+    const observationsRaw = (result as { observations?: string | unknown[] })?.observations || []
+    const observations = typeof observationsRaw === "string" ? [observationsRaw] : (observationsRaw as { detalle?: string }[]).map((o) => o.detalle || String(o))
+    const recommendations = (result as { recomendaciones?: string[]; recommendations?: string[] })?.recomendaciones || (result as { recomendaciones?: string[]; recommendations?: string[] })?.recommendations || []
+    const routineRaw = (result as { rutina?: { manana?: string[]; noche?: string[] }; routine?: { morning?: string[]; evening?: string[] } })?.rutina
+    const routine = routineRaw
+      ? JSON.parse(JSON.stringify(routineRaw).replace(/"manana"/g, '"morning"').replace(/"noche"/g, '"evening"'))
+      : (result as { routine?: { morning?: string[]; evening?: string[] } })?.routine || null
 
     let analysis
     try {
@@ -100,7 +104,7 @@ export const AnalysisService = {
         (result as Record<string, unknown>)?.uniformity,
         (result as Record<string, unknown>)?.apparentSensitivity,
         (result as Record<string, unknown>)?.apparentOil,
-      ]
+      ].filter(Boolean)
 
       const positiveValues = ["uniform", "barely visible", "low", "baja", "uniforme", "poco visibles", "poco visible"]
       const positiveCount = scoreFields.filter((f) => positiveValues.includes(String(f).toLowerCase())).length
@@ -120,6 +124,12 @@ export const AnalysisService = {
     } catch {
       // Diary auto-save is optional — don't break the analysis flow
     }
+
+    // Check referral completion after first analysis
+    try {
+      const { checkAndCompleteReferral } = await import("./group.service")
+      await checkAndCompleteReferral(userId)
+    } catch {}
 
     return { analysis, result }
   },

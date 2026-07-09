@@ -42,9 +42,17 @@ async function verifyPassword(password: string, hash: string): Promise<boolean> 
   })
 }
 
-export async function registerUser(email: string, password: string, name?: string) {
+export async function registerUser(email: string, password: string, name?: string, username?: string) {
   const existing = await db.user.findUnique({ where: { email } })
   if (existing) return { error: "Ya existe una cuenta con este email" }
+
+  let usernameClean: string | undefined
+  if (username) {
+    usernameClean = username.replace(/[^a-zA-Z0-9_]/g, "").toLowerCase()
+    if (usernameClean.length < 3) return { error: "El nombre de usuario debe tener al menos 3 caracteres" }
+    const existingUsername = await db.user.findFirst({ where: { username: usernameClean } })
+    if (existingUsername) return { error: "Este nombre de usuario ya está en uso" }
+  }
 
   const authEnv = getAuthEnv()
   const isAdmin = email === authEnv?.ROOT_ADMIN_EMAIL
@@ -53,6 +61,7 @@ export async function registerUser(email: string, password: string, name?: strin
     data: {
       email,
       name: name || null,
+      username: usernameClean || undefined,
       password: await hashPassword(password),
       role: isAdmin ? "ADMIN" : "USER",
       plan: isAdmin ? "PRO_PLUS" : "FREE",
@@ -144,6 +153,14 @@ export const authOptions: NextAuthOptions = {
       })
 
       if (!existingUser) return true
+
+      // Auto-generate username for Google/GitHub users if not set
+      if (!existingUser.username && user.email) {
+        let username = user.email.split("@")[0].replace(/[^a-zA-Z0-9_]/g, "").toLowerCase().slice(0, 20)
+        const existingUsername = await db.user.findFirst({ where: { username } })
+        if (existingUsername) username += Math.floor(100 + Math.random() * 900)
+        await db.user.update({ where: { id: existingUser.id }, data: { username } }).catch(() => {})
+      }
 
       const hasLinkedAccount = existingUser.accounts.some(
         (a) => a.provider === account.provider

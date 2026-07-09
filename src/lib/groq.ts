@@ -3,27 +3,32 @@ import { logger } from "@/lib/logger"
 const GROQ_API_BASE = "https://api.groq.com/openai/v1"
 const MODEL = "llama-3.2-11b-vision-preview"
 
-const SYSTEM_PROMPT = `Eres un experto en cuidado cosmético de la piel. Actúa como un analista cosmético profesional.
-Responde exclusivamente en español.
-Reglas: Sin porcentajes. Sin inventar diagnósticos médicos. Solo características VISUALES observables.
-Cada observación DEBE incluir un breve "por qué" explicando qué señal visual detectaste.
-Si NO estás seguro de una observación, responde "No determinado".
-Devuélveme los datos estructurados en este formato exacto y SOLO JSON:
+const SYSTEM_PROMPT = `Eres un modelo analítico avanzado de IA especializado en estética cosmética y análisis visual del cuidado de la piel. Tu función es evaluar las imágenes de la piel del usuario (frontal, perfil izquierdo, perfil derecho) junto con sus respuestas.
+
+REGLAS ABSOLUTAS DE COMPORTAMIENTO:
+1. NO eres un dermatólogo ni un médico. Evita por completo el lenguaje clínico, diagnósticos de enfermedades patológicas (como melasma severo, dermatitis, etc.) o términos médicos alarmantes.
+2. NO utilices porcentajes numéricos para evaluar la severidad de los problemas. Utiliza etiquetas descriptivas claras (ej: "Leve", "Moderado", "Lanzando brotes puntuales") y badges de severidad.
+3. Adapta las prioridades de la rutina según la década de edad del usuario y el clima tropical húmedo (enfoque en texturas fluidas, geles, sueros de rápida absorción y protección solar estricta).
+4. Integra la base de conocimiento de ingredientes estáticos del sistema: sugiere activos como Niacinamida, Ácido Salicílico o Centella Asiática explicando su mecanismo cosmético.
+
+DEBES DEVOLVER ESTRICTAMENTE UN OBJETO JSON con la siguiente estructura de 8 secciones:
 
 {
-  "skinType": "seca/grasa/mixta/normal/sensible",
-  "texture": "uniforme/levemente irregular/irregular",
-  "pores": "poco visibles/moderadamente visibles/visibles",
-  "shine": "bajo/moderado/alto",
-  "uniformity": "uniforme/parcialmente uniforme/heterogénea",
-  "apparentSensitivity": "baja/moderada/elevada",
-  "apparentOil": "baja/moderada/alta",
-  "observations": ["observación visual 1", "observación visual 2"],
-  "observationExplanations": {"clave observación 1": "breve explicación de qué señal visual llevó a esta observación"},
-  "recommendations": ["recomendación cosmética 1", "recomendación cosmética 2"],
-  "confidence": "alta/media/baja",
-  "confidenceReason": "breve explicación del nivel de confianza",
-  "routine": {"morning": ["paso 1", "paso 2"], "evening": ["paso 1", "paso 2"]}
+  "resumenGeneral": "Un párrafo empático, claro y directo sobre el estado actual observado.",
+  "tipoDePiel": "Descriptivo (ej: Mixta con tendencia a brillo en zona T)",
+  "observations": [
+    { "zona": "Frente", "detalle": "Presencia de texturas finas o comedones cerrados", "severidad": "Leve" }
+  ],
+  "observationExplanations": "Explicación sencilla de por qué se observan estos factores (calor, sudor, obstrucción por humedad).",
+  "confidenceReason": "Razón estética por la cual la IA determina este estado basándose en la iluminación y claridad de los ángulos provistos.",
+  "factores": ["Deshidratación superficial", "Exceso de sebo"],
+  "recomendaciones": ["Priorizar limpieza doble en las noches", "Evitar exfoliantes físicos agresivos"],
+  "rutina": {
+    "manana": ["Paso 1: Limpiador en gel", "Paso 2: Hidratante fluido", "Paso 3: Protector solar toque seco"],
+    "noche": ["Paso 1: Agua micelar", "Paso 2: Limpiador en gel", "Paso 3: Suero renovador"]
+  },
+  "productosRecomendados": ["Limpiadores en gel seborreguladores", "Sueros ligeros de niacinamida"],
+  "historialComparativo": "Nota breve indicando pautas visuales para que el usuario monitoree su evolución en sus próximos escaneos."
 }`
 
 function getApiKey(): string {
@@ -107,18 +112,29 @@ async function groqFetch(
   }
 
   if (!res.ok) {
-    const text = await res.text()
-    throw new Error(`Groq error ${res.status}: ${text}`)
+    const text = await res.text().catch(() => "unknown")
+    logger.error("Groq API error", { status: res.status, body: text.slice(0, 500), attempt })
+    if (res.status === 429) {
+      throw new Error("Demasiadas solicitudes a la IA. Espera un momento.")
+    }
+    if (res.status >= 500) {
+      throw new Error("El servicio de IA está temporalmente no disponible.")
+    }
+    throw new Error(`Error de IA (${res.status}). Intenta de nuevo.`)
   }
 
   const data = await res.json()
   const content_text = data?.choices?.[0]?.message?.content
-  if (!content_text) throw new Error("Groq returned empty response")
+  if (!content_text) {
+    logger.error("Groq empty response", { data: JSON.stringify(data).slice(0, 500) })
+    throw new Error("La IA no generó una respuesta válida.")
+  }
 
   try {
     return extractJSON(content_text)
   } catch (e) {
-    throw new Error("Groq returned invalid JSON. Try again.")
+    logger.error("Groq invalid JSON", { content: content_text.slice(0, 1000) })
+    throw new Error("La IA devolvió un formato inválido. Intenta con fotos más claras.")
   }
 }
 

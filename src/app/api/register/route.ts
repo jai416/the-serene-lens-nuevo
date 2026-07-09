@@ -3,6 +3,7 @@ import { registerUser } from "@/lib/auth"
 import { checkRateLimit } from "@/lib/rate-limit"
 import { registerSchema } from "@/lib/validations"
 import { error, ok, serverError } from "@/lib/api-response"
+import { sendEmail, buildWelcomeEmail } from "@/lib/email"
 
 export async function POST(req: NextRequest) {
   try {
@@ -19,12 +20,17 @@ export async function POST(req: NextRequest) {
       return error(parsed.error.issues.map((i) => i.message).join(", "), 400)
     }
 
-    const { name, email, password } = parsed.data
+    const { name, email, password, username } = parsed.data
 
-    const result = await registerUser(email, password, name)
+    const result = await registerUser(email, password, name, username)
     if (result.error) {
       return error(result.error, 400)
     }
+
+    const { subject, html } = buildWelcomeEmail(name || username || "")
+    sendEmail({ to: email, subject, html }).catch((e) =>
+      console.error("Welcome email failed to send:", e),
+    )
 
     return ok({ userId: result.user?.id })
   } catch {

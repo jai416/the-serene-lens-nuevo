@@ -31,6 +31,7 @@ export const registerSchema = z.object({
   email: z.string().email(),
   password: z.string().min(6).max(128),
   name: z.string().min(1).max(100),
+  username: z.string().min(3).max(30).regex(/^[a-zA-Z0-9_]+$/, "Solo letras, números y guión bajo").optional(),
 }).strict()
 
 export const clinicSchema = z.object({
@@ -120,6 +121,11 @@ export const adminUserUpdateSchema = z.object({
 export const adminMessageUpdateSchema = z.object({
   id: z.string().min(1),
   read: z.boolean(),
+}).strict()
+
+export const adminMessageReplySchema = z.object({
+  id: z.string().min(1),
+  reply: z.string().min(1).max(5000),
 }).strict()
 
 export const adminDeleteSchema = z.object({

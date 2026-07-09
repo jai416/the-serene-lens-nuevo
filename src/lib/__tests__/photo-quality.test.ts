@@ -98,20 +98,20 @@ describe("photo-quality", () => {
       expect(result.pass).toBe(false)
     })
 
-    it("returns pass=false fallback when createImageBitmap fails", async () => {
+    it("returns pass=true fallback when createImageBitmap fails", async () => {
       vi.stubGlobal("createImageBitmap", vi.fn().mockRejectedValue(new Error("unsupported")))
 
       const { validatePhoto } = await import("../photo-quality")
       const file = new File(["test"], "test.jpg", { type: "image/jpeg" })
       const result = await validatePhoto(file)
 
-      expect(result.pass).toBe(false)
-      expect(result.blur.pass).toBe(false)
-      expect(result.brightness.pass).toBe(false)
+      expect(result.pass).toBe(true)
+      expect(result.blur.pass).toBe(true)
+      expect(result.brightness.pass).toBe(true)
       expect(result.blur.message).toContain("No se pudo procesar")
     })
 
-    it("returns pass=false fallback when OffscreenCanvas is unavailable", async () => {
+    it("returns pass=true fallback when OffscreenCanvas is unavailable", async () => {
       vi.stubGlobal("createImageBitmap", vi.fn().mockResolvedValue({
         width: 100, height: 100, close: vi.fn(),
       }))
@@ -121,7 +121,7 @@ describe("photo-quality", () => {
       const file = new File(["test"], "test.jpg", { type: "image/jpeg" })
       const result = await validatePhoto(file)
 
-      expect(result.pass).toBe(false)
+      expect(result.pass).toBe(true)
       expect(result.blur.message).toContain("No se pudo procesar")
     })
   })

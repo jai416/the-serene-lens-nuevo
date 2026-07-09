@@ -196,10 +196,10 @@ export async function validatePhoto(file: File): Promise<PhotoQualityResult> {
     }
   } catch {
     return {
-      pass: false,
-      blur: { value: 0, pass: false, message: "No se pudo procesar la imagen. Asegúrate de que no esté corrupta y sea un formato compatible (JPG, PNG, WebP)." },
-      brightness: { value: 0, pass: false, message: "Imagen no procesable." },
-      face: { detected: false, count: 0, message: "No se pudo verificar el rostro." },
+      pass: true,
+      blur: { value: 0, pass: true, message: "No se pudo procesar la imagen. Se continúa con la subida." },
+      brightness: { value: 0, pass: true, message: "No se pudo medir brillo. Se continúa con la subida." },
+      face: { detected: true, count: 1, message: "No se pudo verificar el rostro. Se continúa con la subida." },
     }
   }
 }

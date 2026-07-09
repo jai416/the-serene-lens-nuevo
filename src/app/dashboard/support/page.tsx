@@ -1,44 +1,37 @@
-'use client'
+"use client"
 
 import { useState, useEffect } from "react"
-import { useRouter } from "next/navigation"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { Card, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { CardSkeleton } from "@/components/ui/skeleton"
+import { MessageSquare, Send, AlertCircle, CheckCircle2 } from "lucide-react"
+import { toast } from "sonner"
 
-interface Ticket {
+interface SupportMessage {
   id: string
   subject: string
+  message: string
   status: string
-  priority: string
+  read: boolean
+  reply: string | null
   createdAt: string
-  responseCount: number
-}
-
-const statusMap: Record<string, { label: string; variant: "mint" | "secondary" | "success" | "outline" }> = {
-  open: { label: "Abierto", variant: "mint" },
-  in_progress: { label: "En Progreso", variant: "secondary" },
-  resolved: { label: "Resuelto", variant: "success" },
-  closed: { label: "Cerrado", variant: "outline" },
 }
 
 export default function SupportPage() {
-  const router = useRouter()
-  const [tickets, setTickets] = useState<Ticket[]>([])
+  const [messages, setMessages] = useState<SupportMessage[]>([])
   const [loading, setLoading] = useState(true)
   const [subject, setSubject] = useState("")
   const [message, setMessage] = useState("")
-  const [priority, setPriority] = useState("normal")
   const [submitting, setSubmitting] = useState(false)
   const [success, setSuccess] = useState(false)
   const [error, setError] = useState("")
 
-  const fetchTickets = async () => {
+  const fetchMessages = async () => {
     try {
-      const res = await fetch("/api/support/tickets")
+      const res = await fetch("/api/support/messages")
       const data = await res.json()
-      setTickets(Array.isArray(data.data?.tickets) ? data.data.tickets : [])
+      setMessages(Array.isArray(data.data?.messages) ? data.data.messages : [])
     } catch {
       // silent
     } finally {
@@ -47,7 +40,7 @@ export default function SupportPage() {
   }
 
   useEffect(() => {
-    fetchTickets()
+    fetchMessages()
   }, [])
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -56,19 +49,22 @@ export default function SupportPage() {
     setError("")
     setSuccess(false)
     try {
-      const res = await fetch("/api/support/tickets", {
+      const res = await fetch("/api/support/messages", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ subject, message, priority }),
+        body: JSON.stringify({ subject, message }),
       })
-      if (!res.ok) throw new Error()
+      if (!res.ok) {
+        const d = await res.json()
+        throw new Error(d.error || "Error al enviar mensaje")
+      }
       setSuccess(true)
       setSubject("")
       setMessage("")
-      setPriority("normal")
-      fetchTickets()
-    } catch {
-      setError("Error al crear el ticket. Intenta de nuevo.")
+      toast.success("Mensaje enviado. Te responderemos pronto.")
+      fetchMessages()
+    } catch (e: any) {
+      setError(e.message || "Error al enviar")
     } finally {
       setSubmitting(false)
     }
@@ -76,84 +72,114 @@ export default function SupportPage() {
 
   return (
     <div className="mx-auto max-w-2xl space-y-8 p-6">
-      <h1 className="text-2xl font-bold text-[#1A1A1A]">🎫 Soporte</h1>
+      <div className="text-center mb-4">
+        <Badge variant="mint" className="mb-3 rounded-full px-4 py-1.5 border-0">
+          <MessageSquare className="w-3.5 h-3.5 mr-2" />
+          Soporte
+        </Badge>
+        <h1 className="text-2xl font-bold text-[#1A1A1A]">¿Necesitas ayuda?</h1>
+        <p className="text-sm text-[#666666] mt-1">
+          Envíanos un mensaje y te responderemos a la brevedad.
+        </p>
+      </div>
 
       <Card>
-        <CardHeader>
-          <CardTitle>Crear Ticket</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <form onSubmit={handleSubmit} className="space-y-4">
-            <input
-              aria-label="Asunto"
-              value={subject}
-              onChange={(e) => setSubject(e.target.value)}
-              placeholder="Asunto"
-              required
-              className="w-full rounded-lg border border-[#E8E8E8] bg-white px-4 py-2.5 text-sm text-[#1A1A1A] placeholder:text-[#666666]/50 focus:outline-none focus:ring-1 focus:ring-[#88B078]"
-            />
-            <textarea
-              aria-label="Mensaje"
-              value={message}
-              onChange={(e) => setMessage(e.target.value)}
-              placeholder="Describe tu problema..."
-              required
-              rows={4}
-              className="w-full rounded-lg border border-[#E8E8E8] bg-white px-4 py-2.5 text-sm text-[#1A1A1A] placeholder:text-[#666666]/50 focus:outline-none focus:ring-1 focus:ring-[#88B078] resize-none"
-            />
-            <select
-              aria-label="Prioridad"
-              value={priority}
-              onChange={(e) => setPriority(e.target.value)}
-              className="w-full rounded-lg border border-[#E8E8E8] bg-white px-4 py-2.5 text-sm text-[#1A1A1A] focus:outline-none focus:ring-1 focus:ring-[#88B078]"
-            >
-              <option value="normal">Normal</option>
-              <option value="urgent">Urgente</option>
-            </select>
-            {error && <p className="text-sm text-red-500">{error}</p>}
-            {success && (
-              <p className="text-sm text-green-600">Ticket creado con éxito.</p>
-            )}
-            <Button type="submit" variant="primary" disabled={submitting}>
-              {submitting ? "Enviando..." : "Enviar"}
-            </Button>
-          </form>
+        <CardContent className="p-6">
+          {success ? (
+            <div className="text-center py-8">
+              <div className="w-14 h-14 rounded-2xl bg-[#E2ECE0] flex items-center justify-center mx-auto mb-4">
+                <CheckCircle2 className="w-7 h-7 text-[#88B078]" />
+              </div>
+              <h2 className="text-lg font-semibold text-[#1A1A1A] mb-2">¡Mensaje enviado!</h2>
+              <p className="text-sm text-[#666666] mb-6">Gracias por contactarnos. Te responderemos pronto.</p>
+              <Button onClick={() => setSuccess(false)} variant="outline">
+                Enviar otro mensaje
+              </Button>
+            </div>
+          ) : (
+            <form onSubmit={handleSubmit} className="space-y-4">
+              {error && (
+                <div className="flex items-center gap-2 p-4 rounded-xl bg-red-50 text-red-600 text-sm">
+                  <AlertCircle className="w-4 h-4 shrink-0" />
+                  {error}
+                </div>
+              )}
+
+              <div>
+                <label className="text-sm font-medium mb-1.5 block text-[#1A1A1A]">Asunto</label>
+                <input
+                  aria-label="Asunto"
+                  value={subject}
+                  onChange={(e) => setSubject(e.target.value)}
+                  placeholder="¿Sobre qué quieres hablar?"
+                  required
+                  className="w-full rounded-xl border border-[#E8E8E8] bg-white px-4 py-2.5 text-sm text-[#1A1A1A] placeholder:text-[#666666]/50 focus:outline-none focus:ring-2 focus:ring-[#88B078]"
+                />
+              </div>
+
+              <div>
+                <label className="text-sm font-medium mb-1.5 block text-[#1A1A1A]">Mensaje</label>
+                <textarea
+                  aria-label="Mensaje"
+                  value={message}
+                  onChange={(e) => setMessage(e.target.value)}
+                  placeholder="Describe tu consulta o problema..."
+                  required
+                  rows={5}
+                  className="w-full rounded-xl border border-[#E8E8E8] bg-white px-4 py-2.5 text-sm text-[#1A1A1A] placeholder:text-[#666666]/50 focus:outline-none focus:ring-2 focus:ring-[#88B078] resize-none"
+                />
+              </div>
+
+              <Button type="submit" disabled={submitting} className="rounded-full">
+                <Send className="w-4 h-4 mr-2" />
+                {submitting ? "Enviando..." : "Enviar mensaje"}
+              </Button>
+            </form>
+          )}
         </CardContent>
       </Card>
 
       <div>
-        <h2 className="mb-4 text-lg font-semibold text-[#1A1A1A]">Mis Tickets</h2>
+        <h2 className="text-lg font-semibold text-[#1A1A1A] mb-4">Mis mensajes</h2>
         {loading ? (
           <CardSkeleton />
-        ) : tickets.length === 0 ? (
+        ) : messages.length === 0 ? (
           <Card>
             <CardContent className="py-8 text-center">
-              <p className="text-[#666666]">No tienes tickets de soporte todavía.</p>
+              <p className="text-[#666666]">No has enviado mensajes todavía.</p>
             </CardContent>
           </Card>
         ) : (
           <div className="space-y-3">
-            {tickets.map((ticket) => (
-              <button
-                key={ticket.id}
-                onClick={() => router.push(`/dashboard/support/${ticket.id}`)}
-                className="w-full text-left"
-              >
-                <Card className="transition-shadow hover:shadow-md cursor-pointer">
-                  <CardContent className="p-4">
-                    <div className="flex items-center justify-between mb-2">
-                      <span className="font-medium text-[#1A1A1A]">{ticket.subject}</span>
-                      <Badge variant={statusMap[ticket.status]?.variant || "outline"}>
-                        {statusMap[ticket.status]?.label || ticket.status}
-                      </Badge>
+            {messages.map((m) => (
+              <Card key={m.id} className="transition-shadow hover:shadow-md">
+                <CardContent className="p-4">
+                  <div className="flex items-center justify-between mb-2">
+                    <span className="font-medium text-[#1A1A1A]">{m.subject}</span>
+                    <div className="flex items-center gap-2">
+                      {m.reply && (
+                        <Badge variant="success" className="text-[10px]">Respondido</Badge>
+                      )}
+                      {!m.read && (
+                        <span className="w-2 h-2 rounded-full bg-[#88B078]" />
+                      )}
                     </div>
-                    <div className="flex items-center gap-3 text-sm text-[#666666]">
-                      <span>{new Date(ticket.createdAt).toLocaleDateString()}</span>
-                      <span>{ticket.responseCount} respuestas</span>
+                  </div>
+                  <p className="text-sm text-[#666666] line-clamp-2 mb-2">{m.message}</p>
+                  {m.reply && (
+                    <div className="mt-2 p-3 rounded-xl bg-[#F8F9FA] border border-[#E8E8E8]">
+                      <p className="text-xs font-medium text-[#88B078] mb-1">Respuesta:</p>
+                      <p className="text-sm text-[#666666]">{m.reply}</p>
                     </div>
-                  </CardContent>
-                </Card>
-              </button>
+                  )}
+                  <p className="text-xs text-[#999999] mt-2">
+                    {new Date(m.createdAt).toLocaleDateString("es-ES", {
+                      year: "numeric", month: "long", day: "numeric",
+                      hour: "2-digit", minute: "2-digit",
+                    })}
+                  </p>
+                </CardContent>
+              </Card>
             ))}
           </div>
         )}

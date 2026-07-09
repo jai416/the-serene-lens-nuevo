@@ -1,5 +1,6 @@
 import { db } from "@/lib/db"
-import { ok, notFound, serverError } from "@/lib/api-response"
+import { NextResponse } from "next/server"
+import { notFound, serverError } from "@/lib/api-response"
 
 export async function GET(_req: Request, { params }: { params: Promise<{ slug: string }> }) {
   try {
@@ -16,7 +17,12 @@ export async function GET(_req: Request, { params }: { params: Promise<{ slug: s
       data: { views: { increment: 1 } },
     })
 
-    return ok({ post })
+    return NextResponse.json({ success: true, data: { post } }, {
+      status: 200,
+      headers: {
+        "Cache-Control": "public, s-maxage=600, stale-while-revalidate=300",
+      },
+    })
   } catch (e) {
     return serverError(e)
   }

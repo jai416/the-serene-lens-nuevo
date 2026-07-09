@@ -1,0 +1,108 @@
+import nodemailer from "nodemailer"
+
+const GMAIL_USER = process.env.GMAIL_USER || ""
+const GMAIL_APP_PASSWORD = process.env.GMAIL_APP_PASSWORD || ""
+const FROM_EMAIL = GMAIL_USER || "noreply@theserenelens.com"
+const APP_URL = process.env.NEXT_PUBLIC_APP_URL || "https://the-serene-lens-nuevo.onrender.com"
+const APP_NAME = "The Serene Lens"
+
+let transporter: nodemailer.Transporter | null = null
+
+function getTransport(): nodemailer.Transporter {
+  if (!transporter) {
+    transporter = nodemailer.createTransport({
+      host: "smtp.gmail.com",
+      port: 587,
+      secure: false,
+      auth: {
+        user: GMAIL_USER,
+        pass: GMAIL_APP_PASSWORD,
+      },
+    })
+  }
+  return transporter
+}
+
+export interface SendEmailInput {
+  to: string
+  subject: string
+  html: string
+}
+
+export async function sendEmail(input: SendEmailInput): Promise<boolean> {
+  if (!GMAIL_USER || !GMAIL_APP_PASSWORD) {
+    console.warn("GMAIL_USER or GMAIL_APP_PASSWORD not configured, email not sent")
+    return false
+  }
+
+  try {
+    const info = await getTransport().sendMail({
+      from: `"${APP_NAME}" <${FROM_EMAIL}>`,
+      to: input.to,
+      subject: input.subject,
+      html: input.html,
+    })
+    console.log(`Email sent to ${input.to}: ${info.messageId}`)
+    return true
+  } catch (e) {
+    console.error("Email send error:", e)
+    return false
+  }
+}
+
+export function buildEmailHtml(title: string, message: string, link?: string): string {
+  return `
+    <!DOCTYPE html>
+    <html>
+    <head><meta charset="utf-8"></head>
+    <body style="font-family: sans-serif; background: #F8F9FA; padding: 24px;">
+      <div style="max-width: 600px; margin: 0 auto; background: white; border-radius: 20px; padding: 32px;">
+        <h2 style="color: #1A1A1A; margin: 0 0 16px;">${title}</h2>
+        <p style="color: #666666; line-height: 1.6; white-space: pre-wrap;">${message}</p>
+        ${link ? `<p><a href="${link}" style="display: inline-block; background: #88B078; color: #1A1A1A; padding: 12px 24px; border-radius: 12px; text-decoration: none; font-weight: 600;">Ver más</a></p>` : ""}
+        <hr style="border: none; border-top: 1px solid #E8E8E8; margin: 24px 0;">
+        <p style="font-size: 12px; color: #999;">
+          ${APP_NAME} &mdash; Cuidado facial con IA
+        </p>
+      </div>
+    </body>
+    </html>
+  `
+}
+
+export function buildPasswordResetEmail(resetUrl: string): { subject: string; html: string } {
+  return {
+    subject: "Recuperación de contraseña — The Serene Lens",
+    html: buildEmailHtml(
+      "¿Olvidaste tu contraseña?",
+      "Haz clic en el botón de abajo para restablecer tu contraseña. Este enlace expira en 1 hora.\n\nSi no solicitaste este cambio, ignora este mensaje.",
+      resetUrl,
+    ),
+  }
+}
+
+export function buildWelcomeEmail(name: string): { subject: string; html: string } {
+  return {
+    subject: "¡Bienvenido a The Serene Lens!",
+    html: buildEmailHtml(
+      `¡Bienvenido${name ? `, ${name}` : ""}!`,
+      `Gracias por registrarte en ${APP_NAME}.\n\nYa puedes comenzar a analizar tu piel con IA, descubrir tu rutina personalizada y seguir tu evolución.\n\nTu plan actual: Essential (1 análisis gratis por mes).`,
+      `${APP_URL}/dashboard`,
+    ),
+  }
+}
+
+export function buildPaymentSuccessEmail(plan: string, amount: number): { subject: string; html: string } {
+  const planNames: Record<string, string> = {
+    PREMIUM: "Premium", PRO: "Pro", PRO_PLUS: "Pro+",
+    BASIC: "Pack Básico", POPULAR: "Pack Popular", ADVANCED: "Pack Avanzado",
+  }
+  return {
+    subject: `¡Pago recibido! Plan ${planNames[plan] || plan} activado`,
+    html: buildEmailHtml(
+      "¡Pago confirmado!",
+      `Tu plan ${planNames[plan] || plan} ha sido activado exitosamente.\n\nMonto: $${amount.toFixed(2)} USD\n\nYa puedes disfrutar de todas las funciones incluidas en tu plan.`,
+      `${APP_URL}/dashboard/subscription`,
+    ),
+  }
+}

@@ -11,8 +11,11 @@ import * as R from "@/lib/telegram-responses"
 
 const MENU_BACK_ROW = [{ text: "🔙 Menú principal", callback_data: "menu_main" }]
 const USER_KEYBOARD: { text: string }[][] = [
-  [{ text: "🌐 Web" }, { text: "💰 Precios" }],
-  [{ text: "📈 Mi Estado" }, { text: "🆘 Ayuda" }],
+  [{ text: "🌐 Web" }, { text: "💰 Precios" }, { text: "📈 Mi Estado" }],
+  [{ text: "🆘 Ayuda" }, { text: "💡 Tip" }, { text: "📬 Contacto" }],
+  [{ text: "🌿 Recomendar" }, { text: "⭐ Valorar" }, { text: "⏰ Recordatorio" }],
+  [{ text: "🎭 Meme" }, { text: "🧪 Test Piel" }, { text: "📋 Mi Rutina" }],
+  [{ text: "📅 Diario" }],
 ]
 
 type MenuContext = { chatId: string; userId: string; messageId?: number; callbackId?: string }
@@ -95,14 +98,16 @@ export async function handleStart(chatId: string, userId: string, username?: str
     ])
     const text = R.welcomeAdmin(username, pending, newUsers)
     await sendTelegramMessage(chatId, text)
-    await sendTelegramMessage(chatId, R.adminHelpText())
+    const ctx: MenuContext = { chatId, userId }
+    await showMainMenu(ctx)
     return
   }
 
   if (role === "VALIDATOR") {
     const text = R.welcomeValidator(username)
     await sendTelegramMessage(chatId, text)
-    await sendTelegramMessage(chatId, R.validatorHelpText())
+    const ctx: MenuContext = { chatId, userId }
+    await showMainMenu(ctx)
     return
   }
 
@@ -211,6 +216,172 @@ export async function handleRecomendar(chatId: string, userId: string) {
   let concerns: string[] = []
   try { concerns = JSON.parse(last.concerns || "[]") } catch {}
   await sendTelegramMessage(chatId, R.personalizedRecommendation(last.skinType, concerns))
+}
+
+// ─── /mi_rutina (sin IA, consulta directa DB) ────────────────────
+
+export async function handleMiRutina(chatId: string, userId: string) {
+  await logTelegramCommand(chatId, "mi_rutina", null, null)
+  const user = await db.user.findFirst({ where: { telegramId: chatId } })
+  if (!user) {
+    const url = process.env.NEXT_PUBLIC_APP_URL || "https://the-serene-lens-nuevo.onrender.com"
+    await sendTelegramMessage(chatId, R.notRegistered(url))
+    return
+  }
+
+  const lastAnalysis = await db.skinAnalysis.findFirst({
+    where: { userId: user.id },
+    orderBy: { createdAt: "desc" },
+    select: { routine: true, skinType: true, createdAt: true },
+  })
+
+  if (!lastAnalysis?.routine) {
+    await sendTelegramMessage(chatId, "🌿 Aún no tienes una rutina generada. Haz un análisis en la web primero:\n\n/web")
+    return
+  }
+
+  let routine: { manana?: string[]; noche?: string[] }
+  try { routine = JSON.parse(lastAnalysis.routine) } catch {
+    await sendTelegramMessage(chatId, "❌ No se pudo leer tu rutina. Haz un nuevo análisis en la web.")
+    return
+  }
+
+  let text = `<b>🌅 Tu Rutina Matutina</b>\n`
+  if (routine.manana?.length) {
+    text += routine.manana.map((s, i) => `${i + 1}. ${s}`).join("\n")
+  } else {
+    text += "No registrada"
+  }
+
+  text += `\n\n<b>🌙 Tu Rutina Nocturna</b>\n`
+  if (routine.noche?.length) {
+    text += routine.noche.map((s, i) => `${i + 1}. ${s}`).join("\n")
+  } else {
+    text += "No registrada"
+  }
+
+  text += `\n\n📅 Última actualización: ${lastAnalysis.createdAt.toLocaleDateString("es-ES")}`
+  text += `\n💡 Haz un nuevo análisis en /web para actualizar tu rutina.`
+
+  await sendTelegramMessage(chatId, text)
+}
+
+// ─── /diario (sin IA, consulta directa DB) ──────────────────────
+
+export async function handleDiario(chatId: string, userId: string) {
+  await logTelegramCommand(chatId, "diario", null, null)
+  const user = await db.user.findFirst({ where: { telegramId: chatId } })
+  if (!user) {
+    const url = process.env.NEXT_PUBLIC_APP_URL || "https://the-serene-lens-nuevo.onrender.com"
+    await sendTelegramMessage(chatId, R.notRegistered(url))
+    return
+  }
+
+  const recentEntries = await db.skinDiary.findMany({
+    where: { userId: user.id },
+    orderBy: { date: "desc" },
+    take: 7,
+  })
+
+  if (recentEntries.length === 0) {
+    await sendTelegramMessage(chatId, "📓 Aún no tienes entradas en tu diario de piel. Registra cómo se siente tu piel cada día en la web:\n\n/web")
+    return
+  }
+
+  let text = `<b>📓 Tu Diario de Piel (últimos 7 días)</b>\n\n`
+  for (const entry of recentEntries) {
+    const feelingEmoji = entry.feeling >= 70 ? "😊" : entry.feeling >= 40 ? "😐" : "😟"
+    text += `${feelingEmoji} <b>${entry.date.toLocaleDateString("es-ES", { weekday: "short", day: "numeric", month: "short" })}</b> — ${entry.feeling}/100\n`
+    if (entry.notes) text += `  📝 ${entry.notes.slice(0, 100)}\n`
+  }
+
+  const avg = Math.round(recentEntries.reduce((s, e) => s + e.feeling, 0) / recentEntries.length)
+  text += `\n📊 Piel promedio: ${avg}/100`
+
+  await sendTelegramMessage(chatId, text)
+}
+
+// ─── /test_piel (3 preguntas, sin IA) ──────────────────────────
+
+const TEST_PIEL_STATE = new Map<string, { step: number; answers: string[] }>()
+
+export async function handleTestPiel(chatId: string, userId: string) {
+  await logTelegramCommand(chatId, "test_piel", null, null)
+  TEST_PIEL_STATE.set(chatId, { step: 1, answers: [] })
+  await sendTelegramMessage(chatId,
+    "🧴 <b>Test Rápido de Tipo de Piel</b>\n\n" +
+    "Responde 3 preguntas para obtener un diagnóstico preliminar.\n\n" +
+    "<b>Pregunta 1:</b> ¿Cómo sientes tu piel al despertar?\n" +
+    "a) Normal, equilibrada\n" +
+    "b) Brillante o grasosa\n" +
+    "c) Tirante o seca"
+  )
+}
+
+// ─── Handle test_piel answer ───────────────────────────────────
+
+export async function handleTestPielAnswer(chatId: string, text: string) {
+  const state = TEST_PIEL_STATE.get(chatId)
+  if (!state) return false // not in test mode
+
+  const answer = text.toLowerCase().trim()
+  if (!["a", "b", "c", "normal", "brillante", "grasosa", "tirante", "seca", "equilibrada"].some(s => answer.includes(s))) {
+    await sendTelegramMessage(chatId, "Por favor responde a, b o c.")
+    return true
+  }
+
+  state.answers.push(answer)
+  state.step++
+
+  if (state.step === 2) {
+    await sendTelegramMessage(chatId,
+      "<b>Pregunta 2:</b> ¿Tu piel brilla durante el día?\n" +
+      "a) Casi nada\n" +
+      "b) Sí, especialmente en zona T (frente, nariz, barbilla)\n" +
+      "c) No, se mantiene mate o se reseca"
+    )
+    return true
+  }
+
+  if (state.step === 3) {
+    await sendTelegramMessage(chatId,
+      "<b>Pregunta 3:</b> ¿Cómo se siente tu piel después de lavarla?\n" +
+      "a) Cómoda y fresca\n" +
+      "b) Aún con algo de brillo\n" +
+      "c) Tirante o irritada"
+    )
+    return true
+  }
+
+  // Calculate result
+  TEST_PIEL_STATE.delete(chatId)
+
+  const hasA = state.answers.filter(a => a.includes("a") || a.includes("normal") || a.includes("equilibrada") || a.includes("casi")).length
+  const hasB = state.answers.filter(a => a.includes("b") || a.includes("brillante") || a.includes("grasosa") || a.includes("brillo")).length
+  const hasC = state.answers.filter(a => a.includes("c") || a.includes("tirante") || a.includes("seca") || a.includes("irritada") || a.includes("reseca") || a.includes("mate")).length
+
+  let skinType = "Normal"
+  let emoji = "🌿"
+  let desc = "Tu piel tiene un buen equilibrio. Mantén tu rutina actual."
+
+  if (hasB >= 2) {
+    skinType = "Mixta o Grasa"
+    emoji = "✨"
+    desc = "Tu piel tiende a producir más sebo. Prioriza limpiadores suaves, hidratación ligera en gel y protector solar oil-free."
+  } else if (hasC >= 2) {
+    skinType = "Seca o Sensible"
+    emoji = "🌸"
+    desc = "Tu piel tiende a la sequedad. Prioriza limpiadores cremosos, hidratantes ricos y evitar exfoliantes agresivos."
+  }
+
+  const url = process.env.NEXT_PUBLIC_APP_URL || "https://the-serene-lens-nuevo.onrender.com"
+
+  await sendTelegramMessage(chatId,
+    `${emoji} <b>Resultado del Test</b>\n\n` +
+    `🧴 <b>Tipo probable:</b> ${skinType}\n\n${desc}\n\n` +
+    `📱 Para un análisis profundo con escáner fotográfico de IA y ver tus gráficos de evolución, <a href="${url}/analysis">toca aquí de forma gratuita</a>.`
+  )
+  return true
 }
 
 // ================================================================
@@ -637,8 +808,27 @@ export async function handleLogs(chatId: string, userId: string, args: string[])
   if (role !== "ADMIN") { await sendTelegramMessage(chatId, R.notAuthorized("ADMIN")); return }
   const fecha = args[0]
   await logTelegramCommand(chatId, "logs", fecha || null, role)
+
+  // Show recent bot logs
   const logs = await getTelegramLogs(fecha)
-  const text = `📋 <b>Logs${fecha ? ` (${fecha})` : ""}</b>\n\n${logs.join("\n") || "Sin registros."}`
+
+  // Also show recent API errors from audit log
+  let errorSection = ""
+  try {
+    const recentErrors = await db.auditLog.findMany({
+      where: { createdAt: { gte: new Date(Date.now() - 24 * 60 * 60 * 1000) } },
+      orderBy: { createdAt: "desc" },
+      take: 5,
+    })
+    if (recentErrors.length > 0) {
+      errorSection = "\n\n⚠️ <b>Últimos errores (24h):</b>\n" +
+        recentErrors.map(e =>
+          `• ${e.createdAt.toLocaleTimeString("es")} | <code>${e.action}</code> | ${e.details?.slice(0, 100) || "—"}`
+        ).join("\n")
+    }
+  } catch {}
+
+  let text = `📋 <b>Logs${fecha ? ` (${fecha})` : ""}</b>\n\n${logs.join("\n") || "Sin registros."}${errorSection}`
   if (text.length > 4000) {
     const chunks = text.match(/.{1,4000}/g) || []
     for (const chunk of chunks) await sendTelegramMessage(chatId, chunk)
@@ -855,11 +1045,24 @@ export async function handleCallback(data: string, chatId: string, userId: strin
   const ctx: MenuContext = { chatId, userId, messageId, callbackId }
 
   if (data === "menu_main") { await answerCallback(chatId, callbackId); await showMainMenu(ctx); return }
-  if (data === "menu_user") { await answerCallback(chatId, callbackId); await sendTelegramMessage(chatId, "🌐 Web — /web\n💰 Precios — /precios\n📈 Estado — /status\n🆘 Ayuda — /ayuda\n💡 Tip — /skincare\n📬 Contacto — /contacto\n⭐ Valorar — /feedback N\n⏰ Recordatorio — /recordatorio\n🎭 Meme — /meme\n🌿 Recomendar — /recomendar"); return }
   if (data === "action_pending") { await answerCallback(chatId, callbackId); return await handlePendientesCb(ctx) }
   if (data === "action_users") { await answerCallback(chatId, callbackId); return await handleUsuarios(chatId, userId) }
   if (data === "action_reporte") { await answerCallback(chatId, callbackId); return await handleReporte(chatId, userId) }
   if (data === "action_trending") { await answerCallback(chatId, callbackId); return await handleTrending(chatId, userId) }
+
+  // ─── Admin command buttons (show prompt) ─────────
+  if (data === "cmd_cliente") { await answerCallback(chatId, callbackId); return await sendTelegramMessage(chatId, "🔍 Escribe: /cliente EMAIL") }
+  if (data === "cmd_analisis") { await answerCallback(chatId, callbackId); return await sendTelegramMessage(chatId, "📋 Escribe: /analisis ID") }
+  if (data === "cmd_broadcast") { await answerCallback(chatId, callbackId); return await sendTelegramMessage(chatId, "📢 Escribe: /broadcast MENSAJE") }
+  if (data === "cmd_logs") { await answerCallback(chatId, callbackId); return await handleLogs(chatId, userId, []) }
+  if (data === "cmd_alerta") { await answerCallback(chatId, callbackId); return await sendTelegramMessage(chatId, "🚨 Escribe: /alerta TEXTO") }
+  if (data === "cmd_promocion") { await answerCallback(chatId, callbackId); return await sendTelegramMessage(chatId, "🏷️ Escribe: /promocion DESCUENTO") }
+  if (data === "cmd_whois") { await answerCallback(chatId, callbackId); return await sendTelegramMessage(chatId, "🔎 Escribe: /whois TELEGRAM_ID") }
+  if (data === "cmd_consultar") { await answerCallback(chatId, callbackId); return await sendTelegramMessage(chatId, "🤖 Escribe: /consultar PREGUNTA") }
+
+  // ─── Validator command buttons ─────────
+  if (data === "cmd_buscar") { await answerCallback(chatId, callbackId); return await sendTelegramMessage(chatId, "🔍 Escribe: /buscar EMAIL") }
+  if (data === "cmd_historial") { await answerCallback(chatId, callbackId); return await sendTelegramMessage(chatId, "📋 Escribe: /historial EMAIL") }
 
   if (data === "broadcast_go") {
     await answerCallback(chatId, callbackId, "Enviando..."); await handleBroadcastGo(chatId, userId); return
@@ -911,37 +1114,24 @@ async function showMainMenu(ctx: MenuContext) {
   const role = await getUserRole(ctx.chatId)
   if (!role) { await sendTelegramMessage(ctx.chatId, "❌ No autorizado."); return }
   if (role === "ADMIN") {
-    const text = `👑 <b>Panel Admin</b>\n\n` +
-      `/pendientes — Pagos pendientes\n` +
-      `/validar REF — Validar pago\n` +
-      `/activar REF — Activar plan\n` +
-      `/cliente email — Info del cliente\n` +
-      `/reporte — Resumen del día\n` +
-      `/usuarios — Estadísticas\n` +
-      `/trending — Tendencias\n` +
-      `/broadcast msg — Mensaje a todos\n` +
-      `/analisis ID — Ver análisis\n` +
-      `/logs — Actividad del bot\n` +
-      `/alerta — Configurar notificaciones\n` +
-      `/promocion 20% — Crear descuento\n` +
-      `/whois — Usuarios vinculados\n` +
-      `/consultar — Consulta IA`
+    const text = `👑 <b>Panel de Administración</b>\n\nSelecciona una opción:`
     const buttons = [
       [{ text: "⏳ Pendientes", callback_data: "action_pending" }, { text: "📈 Reporte", callback_data: "action_reporte" }],
       [{ text: "👥 Usuarios", callback_data: "action_users" }, { text: "📊 Trending", callback_data: "action_trending" }],
+      [{ text: "🔍 Cliente", callback_data: "cmd_cliente" }, { text: "📋 Analisis", callback_data: "cmd_analisis" }],
+      [{ text: "📢 Broadcast", callback_data: "cmd_broadcast" }, { text: "📝 Logs", callback_data: "cmd_logs" }],
+      [{ text: "🚨 Alerta", callback_data: "cmd_alerta" }, { text: "🏷️ Promocion", callback_data: "cmd_promocion" }],
+      [{ text: "🔎 WhoIS", callback_data: "cmd_whois" }, { text: "🤖 Consultar", callback_data: "cmd_consultar" }],
     ]
     await sendOrEdit(ctx, text, buttons)
   } else {
     await sendOrEdit(ctx,
-      `🛡️ <b>Panel Validador</b>\n\n` +
-      `/pendientes — Lista de pagos\n` +
-      `/validar REF — Validar pago\n` +
-      `/validar 1,2,3 — Validar varios\n` +
-      `/validar todos — Validar todos\n` +
-      `/buscar email/ref — Buscar pago\n` +
-      `/historial email — Historial\n` +
-      `/consultar — Consulta IA`,
-      [[{ text: "⏳ Pendientes", callback_data: "action_pending" }]]
+      `🛡️ <b>Panel Validador</b>\n\nSelecciona una opción:`,
+      [
+        [{ text: "⏳ Pendientes", callback_data: "action_pending" }],
+        [{ text: "🔍 Buscar", callback_data: "cmd_buscar" }, { text: "📋 Historial", callback_data: "cmd_historial" }],
+        [{ text: "🤖 Consultar", callback_data: "cmd_consultar" }],
+      ]
     )
   }
 }

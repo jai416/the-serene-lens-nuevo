@@ -3,6 +3,7 @@ import crypto from "crypto"
 import { db } from "@/lib/db"
 import { checkRateLimit } from "@/lib/rate-limit"
 import { ok, error, serverError } from "@/lib/api-response"
+import { sendEmail, buildPasswordResetEmail } from "@/lib/email"
 
 export async function POST(req: NextRequest) {
   try {
@@ -40,11 +41,11 @@ export async function POST(req: NextRequest) {
     const baseUrl = process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000"
     const resetUrl = `${baseUrl}/reset-password?token=${token}&email=${encodeURIComponent(email)}`
 
-    const isDev = process.env.NODE_ENV === "development"
+    const { subject, html } = buildPasswordResetEmail(resetUrl)
+    await sendEmail({ to: email, subject, html })
 
     return ok({
-      message: "Enlace de recuperación generado.",
-      ...(isDev && { resetUrl }),
+      message: "Si el email existe, recibirás un enlace de recuperación.",
     })
   } catch {
     return serverError()

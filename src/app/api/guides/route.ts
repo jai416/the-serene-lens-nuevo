@@ -16,7 +16,6 @@ export async function GET() {
         image: true,
         category: true,
         price: true,
-        fileUrl: true,
       },
     })
 

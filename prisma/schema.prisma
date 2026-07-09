@@ -14,18 +14,28 @@ model User {
   emailVerified     DateTime?
   image             String?
   password          String?
+  username          String?   @unique
   role              String    @default("USER")
   plan              String    @default("FREE")
   qvapayId          String?
   analysisLimit     Int       @default(1)
   analysisUsed      Int       @default(0)
   analysisResetAt   DateTime?
+  telegramId        String?
+  telegramTrialStartedAt DateTime?
+  isTelegramPremiumActive Boolean @default(false)
+  latitude          Float?
+  longitude         Float?
+  currentStreak     Int       @default(0)
+  maxStreak         Int       @default(0)
+  lastCheckInDate   DateTime?
   createdAt         DateTime  @default(now())
   updatedAt         DateTime  @updatedAt
 
   accounts      Account[]
   sessions      Session[]
   analyses      SkinAnalysis[]
+  analysisJobs  AnalysisJob[]
   payments      Payment[]
   subscriptions Subscription[]
   purchasePacks PurchasePack[]
@@ -48,7 +58,6 @@ model User {
   validatedTransfers TransferPayment[] @relation("TransferValidator")
   activatedTransfers TransferPayment[] @relation("TransferActivator")
   auditLogs         AuditLog[]
-
   notifications     Notification[]
   supportTickets    SupportTicket[]
   ticketResponses   SupportTicketResponse[]
@@ -58,14 +67,28 @@ model User {
   communityMemberships CommunityMember[]
   postReactions      PostReaction[]
 
-  telegramId        String?
-  currentStreak     Int       @default(0)
-  maxStreak         Int       @default(0)
-  lastCheckInDate   DateTime?
-
   @@index([plan])
   @@index([role])
   @@index([createdAt])
+}
+
+model AnalysisJob {
+  id        String   @id @default(cuid())
+  userId    String
+  status    String   @default("PENDING")
+  priority  Int      @default(0)
+  photos    String   // JSON array of base64
+  body      String?  // JSON with concerns, age, gender, etc
+  result    String?  // JSON result from Groq
+  error     String?
+  position  Int      @default(0)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([status, createdAt])
+  @@index([userId])
 }
 
 model Account {
@@ -255,7 +278,7 @@ model PurchasePack {
   id        String   @id @default(cuid())
   userId    String
   packType  String
-  provider  String   @default("stripe")
+  provider  String   @default("qvapay")
   amountUsd Float
   amountCup Float
   analyses  Int
@@ -492,6 +515,7 @@ model Comment {
   postId    String
   userId    String
   content   String
+  approved  Boolean  @default(true)
   createdAt DateTime @default(now())
 
   post CommunityPost @relation(fields: [postId], references: [id], onDelete: Cascade)
@@ -638,15 +662,16 @@ model GroupAnalytics {
 }
 
 model Referral {
-  id           String    @id @default(cuid())
-  referrerId   String
-  referredId   String?
-  code         String    @unique
-  groupId      String?
-  status       String    @default("pending")
-  discountPrice Float?
-  createdAt    DateTime  @default(now())
-  completedAt  DateTime?
+  id              String    @id @default(cuid())
+  referrerId      String
+  referredId      String?
+  code            String    @unique
+  groupId         String?
+  status          String    @default("pending")
+  discountPrice   Float?
+  firstAnalysisAt DateTime?
+  createdAt       DateTime  @default(now())
+  completedAt     DateTime?
 
   referrer User     @relation("ReferralOwner", fields: [referrerId], references: [id], onDelete: Cascade)
   referred User?    @relation("ReferralReferred", fields: [referredId], references: [id], onDelete: SetNull)

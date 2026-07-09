@@ -2,26 +2,19 @@
 
 import { useMemo } from "react"
 
+// Tropical seasons for Cuba (Northern Hemisphere):
+// Seca/fresca: Noviembre - Abril (menos lluvia, temperaturas más suaves)
+// Lluviosa/caliente: Mayo - Octubre (alta humedad, calor intenso, UV extremo)
 const seasons = [
   {
-    name: "verano",
-    months: [12, 1, 2],
-    message: "El calor aumenta el brillo facial. Analiza tu piel ahora.",
+    name: "lluviosa",
+    months: [5, 6, 7, 8, 9, 10],
+    message: "🌧️ Temporada lluviosa — la humedad y el calor intenso aumentan el brillo facial y los poros dilatados. Prioriza texturas ligeras y protección solar estricta.",
   },
   {
-    name: "otoño",
-    months: [3, 4, 5],
-    message: "Los cambios de temperatura afectan tu piel. Descubre cómo está.",
-  },
-  {
-    name: "invierno",
-    months: [6, 7, 8],
-    message: "El frío reseca la piel. Descubre cómo está la tuya.",
-  },
-  {
-    name: "primavera",
-    months: [9, 10, 11],
-    message: "La primavera renueva tu piel. Analiza tu rutina.",
+    name: "seca",
+    months: [11, 12, 1, 2, 3, 4],
+    message: "☀️ Temporada seca — el sol está más fuerte y el ambiente más seco. Mantén la hidratación ligera y no olvides el protector solar a diario.",
   },
 ]
 

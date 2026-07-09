@@ -4,6 +4,7 @@ import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { useSession, signOut } from "next-auth/react"
 import { cn } from "@/lib/utils"
+import Image from "next/image"
 import {
   Home,
   Scan,
@@ -17,7 +18,6 @@ import {
   LogOut,
   Menu,
   X,
-  Flower2,
   Crown,
   ArrowRight,
   BookOpen,
@@ -67,8 +67,8 @@ export function Sidebar() {
     <div className="flex flex-col h-full bg-white dark:bg-[#222222]">
       <div className="p-6 pb-4">
         <Link href="/" className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-2xl bg-[#88B078] dark:bg-[#88B078] flex items-center justify-center shadow-sm">
-            <Flower2 className="w-5 h-5 text-white" />
+          <div className="w-10 h-10 rounded-2xl bg-[#88B078] dark:bg-[#88B078] flex items-center justify-center shadow-sm overflow-hidden">
+            <Image src="/logo.webp" alt="The Serene Lens" width={40} height={40} className="w-full h-full object-cover" />
           </div>
           <div>
             <span className="block text-lg font-semibold leading-tight text-[#1A1A1A] dark:text-[#F0F0F0]">The Serene Lens</span>

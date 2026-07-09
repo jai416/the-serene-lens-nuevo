@@ -7,7 +7,7 @@ import Link from "next/link"
 import { Card, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
-import { Newspaper, ArrowLeft, Plus, Trash2, ExternalLink } from "lucide-react"
+import { Sparkles, Newspaper, ArrowLeft, Plus, Trash2, ExternalLink, Loader2 } from "lucide-react"
 import { formatDate } from "@/lib/utils"
 import { toast } from "sonner"
 import { ListSkeleton } from "@/components/ui/skeleton"
@@ -27,6 +27,30 @@ export default function AdminBlogPage() {
   const [posts, setPosts] = useState<BlogPost[]>([])
   const [editing, setEditing] = useState<string | null>(null)
   const [form, setForm] = useState({ title: "", slug: "", excerpt: "", content: "", category: "", image: "", published: false })
+  const [generating, setGenerating] = useState(false)
+  const [genKeyword, setGenKeyword] = useState("")
+  const [genContext, setGenContext] = useState("")
+
+  const generateDraft = async () => {
+    if (!genKeyword.trim()) return
+    setGenerating(true)
+    try {
+      const res = await fetch("/api/admin/blog/generate", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ keyword: genKeyword, context: genContext }),
+      })
+      const data = await res.json()
+      const payload = data?.data || data
+      if (payload?.content) {
+        setForm({ ...form, content: payload.content })
+        toast.success("Borrador generado. Revisa y ajusta antes de publicar.")
+      } else {
+        toast.error(payload?.error || "Error al generar")
+      }
+    } catch { toast.error("Error al generar borrador") }
+    finally { setGenerating(false) }
+  }
 
   useEffect(() => {
     if (session?.user?.role === "ADMIN") {
@@ -124,6 +148,32 @@ export default function AdminBlogPage() {
             <h2 className="font-serif text-lg font-semibold mb-4 flex items-center gap-2">
               <Plus className="w-4 h-4 text-primary" /> Nuevo Artículo
             </h2>
+
+            {/* Generar con IA */}
+            <div className="mb-4 p-4 rounded-xl bg-[#FFF9E6] border border-[#FCEAA6]">
+              <p className="text-sm font-medium mb-2 flex items-center gap-1.5">
+                <Sparkles className="w-4 h-4 text-amber-600" /> Generar Borrador con IA
+              </p>
+              <div className="flex gap-2 mb-2">
+                <input
+                  placeholder="Keyword (ej: Ácido Salicílico)"
+                  value={genKeyword}
+                  onChange={(e) => setGenKeyword(e.target.value)}
+                  className="flex-1 rounded-lg border border-input bg-white px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-ring"
+                />
+                <Button onClick={generateDraft} disabled={generating || !genKeyword.trim()} className="rounded-lg" size="sm">
+                  {generating ? <Loader2 className="w-4 h-4 animate-spin" /> : <Sparkles className="w-4 h-4" />}
+                  {generating ? "Generando..." : "Generar"}
+                </Button>
+              </div>
+              <input
+                placeholder="Contexto opcional (ej: Control de brotes de acné en climas húmedos)"
+                value={genContext}
+                onChange={(e) => setGenContext(e.target.value)}
+                className="w-full rounded-lg border border-input bg-white px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-ring"
+              />
+            </div>
+
             <div className="grid sm:grid-cols-2 gap-4 mb-4">
               <input
                 placeholder="Título"

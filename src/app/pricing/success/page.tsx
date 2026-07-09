@@ -14,35 +14,57 @@ export default function PricingSuccessPage() {
   const { data: session } = useSession()
   const searchParams = useSearchParams()
   const qvapayId = searchParams.get("payment_id") || searchParams.get("transaction_uuid")
-  const [verifying, setVerifying] = useState(!!qvapayId)
+  const paypalOrderId = searchParams.get("paypal_order_id") || searchParams.get("token")
+  const plan = searchParams.get("plan")
+  const [verifying, setVerifying] = useState(!!qvapayId || !!paypalOrderId)
   const [verified, setVerified] = useState(false)
   const [error, setError] = useState<string | null>(null)
 
   useEffect(() => {
-    if (!qvapayId) return
-
-    const verify = async () => {
-      try {
-        const res = await fetch("/api/payments/verify", {
-          method: "POST",
-          headers: { "Content-Type": "application/json", "x-csrf-token": getCsrfToken() },
-          body: JSON.stringify({ qvapayId }),
-        })
-        const data = await res.json()
-        if (data?.data?.completed || data?.data?.alreadyCompleted) {
-          setVerified(true)
-        } else {
-          setError("El pago aún está pendiente de confirmación. Si ya pagaste, espera unos minutos y recarga.")
+    if (qvapayId) {
+      const verify = async () => {
+        try {
+          const res = await fetch("/api/payments/verify", {
+            method: "POST",
+            headers: { "Content-Type": "application/json", "x-csrf-token": getCsrfToken() },
+            body: JSON.stringify({ qvapayId }),
+          })
+          const data = await res.json()
+          if (data?.data?.completed || data?.data?.alreadyCompleted) {
+            setVerified(true)
+          } else {
+            setError("El pago aún está pendiente de confirmación. Si ya pagaste, espera unos minutos y recarga.")
+          }
+        } catch {
+          setError("No se pudo verificar el pago. Intenta de nuevo.")
+        } finally {
+          setVerifying(false)
         }
-      } catch {
-        setError("No se pudo verificar el pago. Intenta de nuevo.")
-      } finally {
-        setVerifying(false)
       }
+      verify()
+    } else if (paypalOrderId && plan) {
+      const capture = async () => {
+        try {
+          const res = await fetch("/api/payments/capture-paypal", {
+            method: "POST",
+            headers: { "Content-Type": "application/json", "x-csrf-token": getCsrfToken() },
+            body: JSON.stringify({ orderId: paypalOrderId, plan }),
+          })
+          const data = await res.json()
+          if (data?.data?.captured) {
+            setVerified(true)
+          } else {
+            setError(data?.error || "No se pudo procesar el pago con PayPal")
+          }
+        } catch {
+          setError("No se pudo procesar el pago con PayPal")
+        } finally {
+          setVerifying(false)
+        }
+      }
+      capture()
     }
-
-    verify()
-  }, [qvapayId])
+  }, [qvapayId, paypalOrderId, plan])
 
   if (verifying) {
     return (

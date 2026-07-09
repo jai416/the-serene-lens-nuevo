@@ -4,17 +4,99 @@ import { authOptions } from "@/lib/auth"
 import { ok, error, serverError, unauthorized } from "@/lib/api-response"
 import { checkRateLimit } from "@/lib/rate-limit"
 import { AnalysisService, AnalysisError } from "@/lib/services/analysis.service"
+import { analysisQueue } from "@/lib/queue"
+import { db } from "@/lib/db"
 import { logger } from "@/lib/logger"
 import { analysisBodySchema } from "@/lib/validations"
 
 export async function POST(req: NextRequest) {
   const startTime = Date.now()
   try {
+    // 1. AUTH — session (web) or x-api-key (Telegram)
     const session = await getServerSession(authOptions)
-    if (!session?.user) return unauthorized()
+    const apiKey = req.headers.get("x-api-key")
 
+    let userId: string
+    let userPlan: string = "FREE"
+    let userRole: string = "USER"
+
+    if (session?.user) {
+      const user = await db.user.findUnique({
+        where: { id: session.user.id },
+        select: { id: true, plan: true, role: true },
+      })
+      if (!user) return unauthorized()
+      userId = user.id
+      userPlan = user.plan
+      userRole = user.role
+    } else if (apiKey === process.env.TELEGRAM_BOT_SECRET_TOKEN) {
+      const bodyJson = await req.clone().json()
+      const telegramId = bodyJson?.telegramId
+      if (!telegramId) return error("telegramId requerido para autenticación por API key", 401)
+
+      const user = await db.user.findFirst({
+        where: { telegramId: String(telegramId) },
+        select: { id: true, plan: true, role: true },
+      })
+      if (!user) return error("Usuario de Telegram no encontrado", 404)
+      userId = user.id
+      userPlan = user.plan
+      userRole = user.role
+    } else {
+      return unauthorized()
+    }
+
+    // 2. ESTHETICIAN — bypass total de límites
+    const isEsthetician = userRole === "ESTHETICIAN" || userPlan === "ESTHETICIAN"
+
+    // 3. LÍMITE DE 3 ANÁLISIS/DÍA (no ESTHETICIAN)
+    if (!isEsthetician) {
+      const todayStart = new Date()
+      todayStart.setHours(0, 0, 0, 0)
+
+      const todayCount = await db.skinAnalysis.count({
+        where: {
+          userId,
+          createdAt: { gte: todayStart },
+        },
+      })
+
+      if (todayCount >= 3) {
+        return error("Has alcanzado tu límite de 3 análisis por hoy.", 429)
+      }
+    }
+
+    // 4. FRENO GLOBAL DE CONCURRENCIA
+    const processingCount = await db.analysisJob.count({
+      where: { status: { in: ["PENDING", "PROCESSING"] } },
+    })
+    const CONCURRENT_LIMIT = isEsthetician ? 10 : 2
+
+    if (processingCount >= CONCURRENT_LIMIT) {
+      const formData = await req.formData()
+      const photos = formData.getAll("photos") as File[]
+      const body: Record<string, string> = {}
+      for (const key of ["concerns", "age", "gender", "climate", "routine", "language"]) {
+        const val = formData.get(key)
+        if (val) body[key] = val as string
+      }
+
+      const { jobId, position } = await analysisQueue.add(userId, photos, body)
+
+      logger.info("Analysis queued due to concurrency limit", { userId, processingCount, position })
+
+      return NextResponse.json({
+        success: true,
+        status: "QUEUED",
+        message: "El escáner está calibrando sus ópticas debido a alta demanda. Tu análisis ha sido guardado de forma segura y se procesará automáticamente en la cola en un estimado de 2 minutos. No necesitas reintentar.",
+        jobId,
+        position,
+      }, { status: 202 })
+    }
+
+    // 5. PROCESAMIENTO NORMAL
     const ip = req.headers.get("x-forwarded-for") || req.headers.get("x-real-ip") || "unknown"
-    const rl = await checkRateLimit(`analyze:${session.user.id}:${ip}`, 5, 60 * 1000)
+    const rl = await checkRateLimit(`analyze:${userId}:${ip}`, 5, 60 * 1000)
     if (!rl.allowed) {
       return error("Demasiadas solicitudes. Espera un minuto antes de intentar de nuevo.")
     }
@@ -35,15 +117,15 @@ export async function POST(req: NextRequest) {
       return error("Datos inválidos: " + parsed.error.issues.map((i) => i.message).join(", "))
     }
 
-    logger.info("Analysis started", { userId: session.user.id, photoCount: photos.length })
+    logger.info("Analysis started", { userId, photoCount: photos.length })
 
-    const { analysis, result } = await AnalysisService.processAnalysis(session.user.id, photos, body)
+    const { analysis, result } = await AnalysisService.processAnalysis(userId, photos, body)
 
     const duration = Date.now() - startTime
-    logger.info("Analysis completed", { userId: session.user.id, analysisId: analysis.id, duration })
+    logger.info("Analysis completed", { userId, analysisId: analysis.id, duration })
 
     if (duration > 15000) {
-      logger.warn("Slow analysis", { userId: session.user.id, duration, photoCount: photos.length })
+      logger.warn("Slow analysis", { userId, duration, photoCount: photos.length })
     }
 
     return ok({ analysis, result })

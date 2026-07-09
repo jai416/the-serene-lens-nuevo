@@ -27,14 +27,14 @@ export default function ProductsPage() {
   const [selectedCategory, setSelectedCategory] = useState("")
 
   const categoryImages: Record<string, string> = {
-    limpiadores: "https://images.pexels.com/photos/7691100/pexels-photo-7691100.jpeg",
-    hidratantes: "https://images.pexels.com/photos/7691102/pexels-photo-7691102.jpeg",
-    serums: "https://images.pexels.com/photos/7321647/pexels-photo-7321647.jpeg",
-    "proteccion-solar": "https://images.pexels.com/photos/7691166/pexels-photo-7691166.jpeg",
-    exfoliantes: "https://images.pexels.com/photos/6167866/pexels-photo-6167866.jpeg",
-    mascarillas: "https://images.pexels.com/photos/4760317/pexels-photo-4760317.jpeg",
-    aceites: "https://images.pexels.com/photos/7321507/pexels-photo-7321507.jpeg",
-    contornos: "https://images.pexels.com/photos/8076226/pexels-photo-8076226.jpeg",
+    limpiadores: "/images/products/pexels-7691100.jpg",
+    hidratantes: "/images/products/pexels-7691102.jpg",
+    serums: "/images/products/pexels-7321647.jpg",
+    "proteccion-solar": "/images/products/pexels-7691166.jpg",
+    exfoliantes: "/images/products/pexels-6167866.jpg",
+    mascarillas: "/images/products/pexels-4760317.jpg",
+    aceites: "/images/products/pexels-7321507.jpg",
+    contornos: "/images/products/pexels-8076226.jpg",
   }
 
   useEffect(() => {
@@ -49,7 +49,7 @@ export default function ProductsPage() {
           const rawProducts = Array.isArray(raw) ? raw : []
           const productsWithImages = rawProducts.map((p) => ({
             ...p,
-            image: p.image || categoryImages[p.category] || "https://images.pexels.com/photos/7691166/pexels-photo-7691166.jpeg"
+            image: p.image || categoryImages[p.category] || "/images/products/pexels-7691166.jpg"
           }))
           setAllProducts(productsWithImages)
         }

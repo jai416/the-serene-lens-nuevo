@@ -4,7 +4,7 @@ import { db } from "@/lib/db"
 import { NextRequest, NextResponse } from "next/server"
 import { checkRateLimit } from "@/lib/rate-limit"
 import { ok, unauthorized, serverError, error } from "@/lib/api-response"
-import { adminMessageUpdateSchema } from "@/lib/validations"
+import { adminMessageUpdateSchema, adminMessageReplySchema } from "@/lib/validations"
 
 async function requireAdmin() {
   const session = await getServerSession(authOptions)
@@ -47,6 +47,34 @@ export async function PUT(req: NextRequest) {
     const message = await db.contactMessage.update({
       where: { id },
       data: { read },
+    })
+
+    return ok({ message })
+  } catch (e) {
+    return serverError(e)
+  }
+}
+
+export async function PATCH(req: NextRequest) {
+  try {
+    const admin = await requireAdmin()
+    if (!admin) return unauthorized()
+
+    const body = await req.json()
+    const { allowed } = await checkRateLimit(`admin:messages:reply:${admin.id}`, 10, 60000)
+    if (!allowed) {
+      return NextResponse.json({ success: false, error: "Demasiadas solicitudes" }, { status: 429 })
+    }
+    const parsed = adminMessageReplySchema.safeParse(body)
+    if (!parsed.success) {
+      return error(parsed.error.issues.map((i) => i.message).join(", "), 400)
+    }
+
+    const { id, reply } = parsed.data
+
+    const message = await db.contactMessage.update({
+      where: { id },
+      data: { reply, repliedAt: new Date(), read: true },
     })
 
     return ok({ message })

@@ -2,6 +2,7 @@ import { notFound } from "next/navigation"
 import { db } from "@/lib/db"
 import { formatDate } from "@/lib/utils"
 import Link from "next/link"
+import Image from "next/image"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { Newspaper, ArrowLeft, Clock, Eye, Calendar } from "lucide-react"
@@ -75,7 +76,7 @@ export default async function BlogPostPage({
       name: "The Serene Lens",
       logo: {
         "@type": "ImageObject",
-        url: `${baseUrl}/logo.svg`,
+        url: `${baseUrl}/logo.webp`,
       },
     },
     mainEntityOfPage: {
@@ -143,11 +144,16 @@ export default async function BlogPostPage({
         </div>
 
         {post.image && (
-          <img
-            src={post.image}
-            alt={post.title}
-            className="w-full rounded-2xl shadow-sm mb-8 object-cover max-h-[400px]"
-          />
+          <div className="relative w-full h-[300px] sm:h-[400px] rounded-2xl overflow-hidden shadow-sm mb-8">
+            <Image
+              src={post.image}
+              alt={post.title}
+              fill
+              className="object-cover"
+              sizes="(max-width: 768px) 100vw, 768px"
+              priority
+            />
+          </div>
         )}
 
         <div

@@ -1,105 +1,69 @@
 import { NextRequest } from "next/server"
 import { getServerSession } from "next-auth"
 import { authOptions } from "@/lib/auth"
-import { z } from "zod"
 import { db } from "@/lib/db"
-import { logger } from "@/lib/logger"
-import { checkRateLimit } from "@/lib/rate-limit"
-import { ok, error, unauthorized, serverError } from "@/lib/api-response"
+import { ok, error, serverError, unauthorized } from "@/lib/api-response"
 
-const sendNotificationSchema = z.object({
-  title: z.string().min(1).max(100),
-  message: z.string().min(1),
-  segment: z.enum(["all", "free", "premium", "pro", "proPlus", "new"]),
-  link: z.string().optional(),
-})
+const SEGMENT_FILTERS: Record<string, any> = {
+  all: {},
+  free: { plan: "FREE" },
+  premium: { plan: "PREMIUM" },
+  pro: { plan: "PRO" },
+  proPlus: { plan: "PRO_PLUS" },
+}
 
-export async function POST(request: NextRequest) {
+export async function POST(req: NextRequest) {
   try {
     const session = await getServerSession(authOptions)
-    if (!session?.user || session.user.role !== "ADMIN") {
-      return unauthorized()
+    if (!session?.user || session.user.role !== "ADMIN") return unauthorized()
+
+    let body: { title?: string; message?: string; segment?: string; link?: string; userId?: string }
+    try {
+      body = await req.json()
+    } catch {
+      return error("Cuerpo de solicitud inválido")
     }
 
-    const rl = await checkRateLimit(`admin-notification:${session.user.id}`, 5, 60 * 60 * 1000)
-    if (!rl.allowed) {
-      return error("Demasiados envíos. Intenta más tarde.", 429)
+    const { title, message, segment = "all", link, userId } = body
+    if (!title || !message) {
+      return error("Título y mensaje son requeridos")
     }
 
-    const body = await request.json()
-    const parsed = sendNotificationSchema.safeParse(body)
-
-    if (!parsed.success) {
-      return error("Datos inválidos", 400)
+    if (userId) {
+      await db.notification.create({
+        data: { userId, title, message, link },
+      })
+      return ok({ sent: 1, failed: 0 })
     }
 
-    const { title, message, segment, link } = parsed.data
-
-    let where: Record<string, unknown> = {}
-
-    switch (segment) {
-      case "all":
-        where = {}
-        break
-      case "free":
-        where = { plan: "FREE" }
-        break
-      case "premium":
-        where = { plan: "PREMIUM" }
-        break
-      case "pro":
-        where = { plan: "PRO" }
-        break
-      case "proPlus":
-        where = { plan: "PRO_PLUS" }
-        break
-      case "new": {
-        const thirtyDaysAgo = new Date()
-        thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30)
-        where = { createdAt: { gte: thirtyDaysAgo } }
-        break
-      }
-    }
-
+    const filter = SEGMENT_FILTERS[segment] || SEGMENT_FILTERS.all
     const users = await db.user.findMany({
-      where,
+      where: filter,
       select: { id: true },
     })
 
     if (users.length === 0) {
-      return ok({ sent: 0, failed: 0 })
+      return ok({ sent: 0, failed: 0, message: "No hay usuarios en ese segmento" })
     }
 
     let sent = 0
-    let failed = 0
-
-    for (const user of users) {
-      try {
-        await db.notification.create({
-          data: {
-            userId: user.id,
-            title,
-            message,
-            link: link || null,
-          },
-        })
-        sent++
-      } catch {
-        failed++
-      }
+    const batchSize = 100
+    for (let i = 0; i < users.length; i += batchSize) {
+      const batch = users.slice(i, i + batchSize)
+      await db.notification.createMany({
+        data: batch.map((u) => ({
+          userId: u.id,
+          title,
+          message,
+          link,
+        })),
+      })
+      sent += batch.length
     }
 
-    logger.info("Admin notification sent", {
-      title,
-      segment,
-      recipientCount: users.length,
-      sent,
-      failed,
-      adminId: session.user.id,
-    })
-
-    return ok({ sent, failed })
-  } catch {
-    return serverError()
+    return ok({ sent, failed: 0 })
+  } catch (e) {
+    console.error("Notification send error:", e)
+    return serverError(e)
   }
 }

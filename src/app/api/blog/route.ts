@@ -1,6 +1,6 @@
-import { NextRequest } from "next/server"
+import { NextRequest, NextResponse } from "next/server"
 import { db } from "@/lib/db"
-import { ok, serverError } from "@/lib/api-response"
+import { serverError } from "@/lib/api-response"
 
 export async function GET(req: NextRequest) {
   try {
@@ -37,7 +37,12 @@ export async function GET(req: NextRequest) {
 
     const totalPages = Math.ceil(total / limit)
 
-    return ok({ posts, total, totalPages })
+    return NextResponse.json({ success: true, data: { posts, total, totalPages } }, {
+      status: 200,
+      headers: {
+        "Cache-Control": "public, s-maxage=600, stale-while-revalidate=300",
+      },
+    })
   } catch (e) {
     return serverError(e)
   }

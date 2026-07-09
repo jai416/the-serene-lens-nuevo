@@ -1,93 +1,118 @@
+import { db } from "@/lib/db"
 import { logger } from "@/lib/logger"
+import { analyzeSkinWithGroq } from "@/lib/groq"
 
-export interface QueueJob<T = unknown> {
-  id: string
-  data: T
-  queue: string
-  status: "pending" | "processing" | "completed" | "failed"
-  attempts: number
-  maxAttempts: number
-  createdAt: Date
-  processedAt?: Date
-  completedAt?: Date
-  error?: string
-}
-
-type QueueHandler<T> = (data: T) => Promise<void>
+const THROTTLE_MS = 2500
+const POLL_INTERVAL_MS = 3000
 
 class AnalysisQueue {
-  private jobs: Map<string, QueueJob> = new Map()
-  private handlers: Map<string, QueueHandler<unknown>> = new Map()
   private processing = false
   private interval: ReturnType<typeof setInterval> | null = null
 
-  registerHandler<T>(name: string, handler: QueueHandler<T>) {
-    this.handlers.set(name, handler as QueueHandler<unknown>)
+  async add(userId: string, files: File[], body: Record<string, string>): Promise<{ jobId: string; position: number }> {
+    const photosBase64 = await Promise.all(
+      files.map(async (f) => {
+        const buf = Buffer.from(await f.arrayBuffer())
+        return buf.toString("base64")
+      })
+    )
+
+    const job = await db.analysisJob.create({
+      data: {
+        userId,
+        status: "PENDING",
+        photos: JSON.stringify(photosBase64),
+        body: JSON.stringify(body),
+      },
+    })
+
+    const pendingBefore = await db.analysisJob.count({
+      where: { status: { in: ["PENDING", "PROCESSING"] }, createdAt: { lt: job.createdAt } },
+    })
+
+    logger.info("Analysis job queued", { jobId: job.id, userId, position: pendingBefore + 1 })
+
+    return { jobId: job.id, position: pendingBefore + 1 }
   }
 
-  async add<T>(name: string, data: T, options?: { maxAttempts?: number }): Promise<string> {
-    const id = `job_${Date.now()}_${Math.random().toString(36).slice(2, 8)}`
-    const job: QueueJob<T> = {
-      id,
-      data,
-      queue: name,
-      status: "pending",
-      attempts: 0,
-      maxAttempts: options?.maxAttempts ?? 3,
-      createdAt: new Date(),
+  async getStatus(jobId: string): Promise<{ status: string; position: number; result?: unknown }> {
+    const job = await db.analysisJob.findUnique({ where: { id: jobId } })
+    if (!job) return { status: "NOT_FOUND", position: 0 }
+
+    const pendingBefore = await db.analysisJob.count({
+      where: { status: { in: ["PENDING", "PROCESSING"] }, createdAt: { lt: job.createdAt } },
+    })
+
+    return {
+      status: job.status,
+      position: pendingBefore + 1,
+      result: job.result ? JSON.parse(job.result) : undefined,
     }
-    this.jobs.set(id, job)
-    logger.info("Job queued", { jobId: id, name })
-
-    this.processNext(name)
-    return id
   }
 
-  getJob(id: string): QueueJob | undefined {
-    return this.jobs.get(id)
-  }
-
-  private async processNext(name: string) {
+  private async processNext() {
     if (this.processing) return
     this.processing = true
 
     try {
-      const handler = this.handlers.get(name)
-      if (!handler) return
-
-      const job = Array.from(this.jobs.values()).find(
-        (j) => j.queue === name && j.status === "pending" && j.attempts < j.maxAttempts
-      )
+      const job = await db.analysisJob.findFirst({
+        where: { status: "PENDING" },
+        orderBy: [{ priority: "desc" }, { createdAt: "asc" }],
+      })
       if (!job) return
 
-      job.status = "processing"
-      job.attempts++
-      job.processedAt = new Date()
+      await db.analysisJob.update({
+        where: { id: job.id },
+        data: { status: "PROCESSING", updatedAt: new Date() },
+      })
 
       try {
-        await handler(job.data)
-        job.status = "completed"
-        job.completedAt = new Date()
-        logger.info("Job completed", { jobId: job.id, duration: Date.now() - job.processedAt.getTime() })
+        const photosBase64: string[] = JSON.parse(job.photos)
+        const body: Record<string, string> = job.body ? JSON.parse(job.body) : {}
+
+        const files = await Promise.all(
+          photosBase64.map((b64, i) => {
+            const buf = Buffer.from(b64, "base64")
+            return new File([buf], `photo_${i}.jpg`, { type: "image/jpeg" })
+          })
+        )
+
+        const result = await analyzeSkinWithGroq(files)
+
+        await db.analysisJob.update({
+          where: { id: job.id },
+          data: {
+            status: "COMPLETED",
+            result: JSON.stringify(result),
+            updatedAt: new Date(),
+          },
+        })
+
+        logger.info("Queue job completed", { jobId: job.id, userId: job.userId })
       } catch (e) {
-        job.error = e instanceof Error ? e.message : "Unknown error"
-        if (job.attempts >= job.maxAttempts) {
-          job.status = "failed"
-          logger.error("Job failed permanently", { jobId: job.id, error: job.error, attempts: job.attempts })
-        } else {
-          job.status = "pending"
-          logger.warn("Job failed, will retry", { jobId: job.id, error: job.error, attempt: job.attempts })
-          setTimeout(() => this.processNext(name), 1000 * Math.pow(2, job.attempts - 1))
-        }
+        const errorMsg = e instanceof Error ? e.message : String(e)
+        logger.error("Queue job failed", { jobId: job.id, error: errorMsg })
+
+        await db.analysisJob.update({
+          where: { id: job.id },
+          data: {
+            status: "FAILED",
+            error: errorMsg,
+            updatedAt: new Date(),
+          },
+        })
       }
+
+      setTimeout(() => this.processNext(), THROTTLE_MS)
     } finally {
       this.processing = false
     }
   }
 
-  startPolling(name: string, intervalMs = 5000) {
+  startPolling() {
     if (this.interval) return
-    this.interval = setInterval(() => this.processNext(name), intervalMs)
+    this.interval = setInterval(() => this.processNext(), POLL_INTERVAL_MS)
+    logger.info("Analysis queue polling started", { intervalMs: POLL_INTERVAL_MS })
   }
 
   stopPolling() {
@@ -97,33 +122,19 @@ class AnalysisQueue {
     }
   }
 
-  getStats() {
-    const jobs = Array.from(this.jobs.values())
-    return {
-      total: jobs.length,
-      pending: jobs.filter((j) => j.status === "pending").length,
-      processing: jobs.filter((j) => j.status === "processing").length,
-      completed: jobs.filter((j) => j.status === "completed").length,
-      failed: jobs.filter((j) => j.status === "failed").length,
-    }
-  }
-
-  cleanup(maxAgeMs = 60 * 60 * 1000) {
-    const cutoff = new Date(Date.now() - maxAgeMs)
-    for (const [id, job] of this.jobs) {
-      if (
-        (job.status === "completed" || job.status === "failed") &&
-        job.createdAt < cutoff
-      ) {
-        this.jobs.delete(id)
-      }
-    }
+  async getStats() {
+    const [pending, processing, completed, failed] = await Promise.all([
+      db.analysisJob.count({ where: { status: "PENDING" } }),
+      db.analysisJob.count({ where: { status: "PROCESSING" } }),
+      db.analysisJob.count({ where: { status: "COMPLETED" } }),
+      db.analysisJob.count({ where: { status: "FAILED" } }),
+    ])
+    return { pending, processing, completed, failed }
   }
 }
 
 export const analysisQueue = new AnalysisQueue()
 
 if (process.env.NODE_ENV === "production") {
-  analysisQueue.startPolling("analysis", 5000)
-  setInterval(() => analysisQueue.cleanup(), 60 * 60 * 1000)
+  analysisQueue.startPolling()
 }

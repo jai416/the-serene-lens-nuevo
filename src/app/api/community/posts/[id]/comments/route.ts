@@ -71,9 +71,18 @@ export async function POST(
         postId: id,
         userId: user.id,
         content: parsed.data.content,
+        approved: !/https?:\/\/|\.com\b|\.net\b|casino|bets?|gambl|click here|buy now/i.test(parsed.data.content),
       },
       include: { user: { select: { name: true } } },
     });
+
+    if (!comment.approved) {
+      const { sendTelegramMessage } = await import("@/lib/telegram");
+      const adminChats = await db.telegramAuth.findMany({ where: { role: "ADMIN" }, select: { chatId: true } });
+      for (const ac of adminChats) {
+        sendTelegramMessage(ac.chatId, `🚨 Nuevo comentario retenido por spam en "${post.title}".\n\n"${parsed.data.content.slice(0, 200)}"`).catch(() => {})
+      }
+    }
 
     return ok(comment, 201);
   } catch (err) {

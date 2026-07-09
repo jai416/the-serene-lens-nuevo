@@ -1,13 +1,18 @@
 import { NextRequest } from "next/server"
 import { getServerSession } from "next-auth"
 import { authOptions } from "@/lib/auth"
+import { createPayPalOrder } from "@/lib/paypal"
 import { ok, error, serverError, unauthorized } from "@/lib/api-response"
-import { validateCsrf } from "@/lib/csrf-middleware"
+
+const VALID_PLANS = ["FREE", "PREMIUM", "PRO", "PRO_PLUS"] as const
+const PLAN_PRICES: Record<string, number> = {
+  PREMIUM: 4.99,
+  PRO: 9.99,
+  PRO_PLUS: 14.99,
+}
 
 export async function POST(req: NextRequest) {
   try {
-    if (!validateCsrf(req)) return error("CSRF token inválido", 403)
-
     const session = await getServerSession(authOptions)
     if (!session?.user) return unauthorized()
 
@@ -19,15 +24,27 @@ export async function POST(req: NextRequest) {
     }
 
     const { plan, amount } = body
-    if (!plan || !amount) {
-      return error("Faltan campos requeridos: plan, amount")
+    if (!plan) {
+      return error("Falta campo requerido: plan")
     }
 
-    const orderId = "PAYPAL_" + Date.now()
-    const approvalUrl = `https://paypal.com/checkout?token=${orderId}`
+    const price = amount || PLAN_PRICES[plan]
+    if (!price || price <= 0) {
+      return error("Monto inválido")
+    }
 
-    return ok({ orderId, approvalUrl })
+    const appUrl = process.env.NEXT_PUBLIC_APP_URL || "https://the-serene-lens-nuevo.onrender.com"
+    const order = await createPayPalOrder({
+      amount: price,
+      description: `Plan ${plan} - The Serene Lens`,
+      returnUrl: `${appUrl}/pricing/success?plan=${plan}`,
+      cancelUrl: `${appUrl}/pricing/cancel`,
+      invoiceId: `${session.user.id}_${Date.now()}`,
+    })
+
+    return ok({ orderId: order.orderId, approvalUrl: order.approvalUrl })
   } catch (e) {
+    console.error("PayPal create error:", e)
     return serverError(e)
   }
 }

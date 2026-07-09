@@ -6,7 +6,8 @@ import { useSearchParams, useRouter } from "next/navigation"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
-import { Mail, Lock, Eye, EyeOff, LogIn, UserPlus, ArrowLeft, AlertCircle, Flower2 } from "lucide-react"
+import { Mail, Lock, Eye, EyeOff, LogIn, UserPlus, ArrowLeft, AlertCircle } from "lucide-react"
+import Image from "next/image"
 import Link from "next/link"
 import { toast } from "sonner"
 import { SocialLoginButtons } from "@/components/social-login-buttons"
@@ -90,8 +91,8 @@ function LoginForm() {
     <div className="min-h-screen flex items-center justify-center px-4 py-12 bg-[#F8F9FA] dark:bg-[#1A1F19]">
       <div className="w-full max-w-md">
         <div className="text-center mb-8">
-          <div className="w-14 h-14 rounded-2xl bg-[#88B078] flex items-center justify-center mx-auto mb-4">
-            <Flower2 className="w-7 h-7 text-[#1A1A1A]" />
+          <div className="w-14 h-14 rounded-2xl bg-[#88B078] flex items-center justify-center mx-auto mb-4 overflow-hidden">
+            <Image src="/logo.webp" alt="The Serene Lens" width={56} height={56} className="w-full h-full object-cover" />
           </div>
           <Badge variant="mint" className="mb-4 rounded-full px-4 py-1.5 border-0">
             {isRegister ? <UserPlus className="w-3.5 h-3.5 mr-2" /> : <LogIn className="w-3.5 h-3.5 mr-2" />}

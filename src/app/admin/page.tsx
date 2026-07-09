@@ -2,7 +2,7 @@
 
 import { useSession } from "next-auth/react"
 import { redirect } from "next/navigation"
-import { useEffect, useState } from "react"
+import { useEffect, useState, useCallback } from "react"
 import Link from "next/link"
 import { Card, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
@@ -11,7 +11,7 @@ import {
   DollarSign, Activity, Eye, TrendingUp, UserPlus, BarChart3, ArrowUpRight,
   Calendar, Sparkles, CheckCircle2, Clock, Bell, BookOpen, Trophy, Heart,
   ShoppingBag, MessageCircle, Settings, TrendingDown, Zap, Download, UsersRound,
-  ShieldCheck
+  ShieldCheck, RefreshCw
 } from "lucide-react"
 import { NewUserToast } from "@/components/admin/new-user-toast"
 import { getPlanLabel } from "@/lib/utils"
@@ -30,8 +30,8 @@ interface Stats {
   products: number
   revenue: number
   revenueQvaPay: number
-  revenueTransfer: number
   revenuePayPal: number
+  revenueTransfer: number
   activeUsers: number
   newUsersThisMonth: number
   newUsersThisWeek: number
@@ -82,39 +82,42 @@ export default function AdminPage() {
   const [planDistribution, setPlanDistribution] = useState<Record<string, number>>({})
   const [skinTypeDistribution, setSkinTypeDistribution] = useState<Record<string, number>>({})
   const [healthCheck, setHealthCheck] = useState<any>(null)
+  const [refreshing, setRefreshing] = useState(false)
+  const fetchStats = useCallback(() => {
+    setRefreshing(true)
+    fetch("/api/admin/stats")
+      .then((r) => {
+        if (!r.ok) {
+          logger.error("Admin stats HTTP", { status: r.status, statusText: r.statusText })
+          return null
+        }
+        return r.json()
+      })
+      .then((d) => {
+        const body = d?.data || d
+        if (body?.stats) {
+          setStats(body.stats)
+          setRecentUsers(body.recentUsers || [])
+          setRecentAnalyses(body.recentAnalyses || [])
+          setPlanDistribution(body.planDistribution || {})
+          setSkinTypeDistribution(body.skinTypeDistribution || {})
+        } else {
+          logger.error("Admin stats empty response:", { response: d })
+        }
+        setRefreshing(false)
+      })
+      .catch((e) => { logger.error("Admin stats fetch error:", { error: e }); setRefreshing(false) })
+  }, [])
+
   useEffect(() => {
     if (session?.user?.role !== "ADMIN") return
-
-    const fetchStats = () => {
-      fetch("/api/admin/stats")
-        .then((r) => {
-          if (!r.ok) {
-            logger.error("Admin stats HTTP", { status: r.status, statusText: r.statusText })
-            return null
-          }
-          return r.json()
-        })
-        .then((d) => {
-          const body = d?.data || d
-          if (body?.stats) {
-            setStats(body.stats)
-            setRecentUsers(body.recentUsers || [])
-            setRecentAnalyses(body.recentAnalyses || [])
-            setPlanDistribution(body.planDistribution || {})
-            setSkinTypeDistribution(body.skinTypeDistribution || {})
-          } else {
-            logger.error("Admin stats empty response:", { response: d })
-          }
-        })
-        .catch((e) => logger.error("Admin stats fetch error:", { error: e }))
-    }
 
     fetchStats()
     fetch("/api/health")
       .then((r) => r.json())
       .then((d) => setHealthCheck(d))
       .catch((e) => logger.error("Health check error:", { error: e }))
-    const interval = setInterval(fetchStats, 30000)
+    const interval = setInterval(fetchStats, 120000)
     return () => clearInterval(interval)
   }, [session])
 
@@ -142,7 +145,7 @@ export default function AdminPage() {
   const mainCards = [
     { label: "Usuarios Totales", value: stats?.users ?? "—", icon: Users, href: "/admin/users", color: "bg-[#3D3228]", trend: `+${stats?.newUsersThisWeek ?? 0} esta semana` },
     { label: "Análisis Totales", value: stats?.analyses ?? "—", icon: Activity, href: "/admin", color: "bg-[#D4B896]", trend: `${stats?.analysesToday ?? 0} hoy · ${stats?.analysesThisMonth ?? 0} este mes` },
-    { label: "Ingresos Totales", value: stats?.revenue ? `$${stats.revenue.toFixed(2)}` : "$0", icon: DollarSign, href: "/admin/payments", color: "bg-amber-700", trend: `QvaPay: $${stats?.revenueQvaPay?.toFixed(2) ?? "0.00"}` },
+    { label: "Ingresos Totales", value: stats?.revenue ? `$${stats.revenue.toFixed(2)}` : "$0", icon: DollarSign, href: "/admin/payments", color: "bg-amber-700", trend: `QvaPay: $${stats?.revenueQvaPay?.toFixed(2) ?? "0.00"} | PayPal: $${stats?.revenuePayPal?.toFixed(2) ?? "0.00"}` },
     { label: "Mensajes", value: stats?.messages ?? "—", icon: MessageSquare, href: "/admin/messages", color: "bg-stone-600", trend: `${stats?.unreadMessages ?? 0} sin leer` },
   ]
 
@@ -179,8 +182,11 @@ export default function AdminPage() {
             Dashboard
           </Badge>
           {stats?.timestamp && (
-            <span className="text-[10px] text-[#6B5C4F]">
+            <span className="text-[10px] text-[#6B5C4F] flex items-center gap-2">
               {new Date(stats.timestamp).toLocaleTimeString("es")}
+              <button onClick={fetchStats} className="hover:text-[#88B078] transition-colors" title="Refrescar ahora">
+                <RefreshCw className={`w-3 h-3 ${refreshing ? "animate-spin" : ""}`} />
+              </button>
             </span>
           )}
         </div>
@@ -278,38 +284,38 @@ export default function AdminPage() {
               <span className="font-medium text-[#E8DED5]">${stats?.revenueQvaPay?.toFixed(2) ?? "0.00"}</span>
             </div>
             <div className="flex justify-between items-center">
-              <span className="text-sm text-[#9BAA93]">Transfermóvil</span>
-              <span className="font-medium text-[#E8DED5]">${stats?.revenueTransfer?.toFixed(2) ?? "0.00"}</span>
-            </div>
-            <div className="flex justify-between items-center">
               <span className="text-sm text-[#9BAA93]">PayPal</span>
               <span className="font-medium text-[#E8DED5]">${stats?.revenuePayPal?.toFixed(2) ?? "0.00"}</span>
+            </div>
+            <div className="flex justify-between items-center">
+              <span className="text-sm text-[#9BAA93]">Transfermóvil</span>
+              <span className="font-medium text-[#E8DED5]">${stats?.revenueTransfer?.toFixed(2) ?? "0.00"}</span>
             </div>
             <div className="w-full h-3 rounded-full bg-[#1E251C] flex overflow-hidden ring-1 ring-inset ring-[#222920]">
               {(() => {
                 const q = stats?.revenueQvaPay || 0
-                const t = stats?.revenueTransfer || 0
                 const p = stats?.revenuePayPal || 0
-                const total = q + t + p || 1
+                const t = stats?.revenueTransfer || 0
+                const total = q + p + t || 1
                 const qp = ((q/total)*100).toFixed(1)
-                const tp = ((t/total)*100).toFixed(1)
                 const pp = ((p/total)*100).toFixed(1)
+                const tp = ((t/total)*100).toFixed(1)
                 return <>
                   {q > 0 && <div className="h-full bg-[#88B078] relative group cursor-pointer transition-all hover:brightness-110" style={{ width: `${qp}%` }} title={`QvaPay: $${q.toFixed(2)} (${qp}%)`} />}
-                  {t > 0 && <div className="h-full bg-[#D4A574] relative group cursor-pointer transition-all hover:brightness-110" style={{ width: `${tp}%` }} title={`Transfermóvil: $${t.toFixed(2)} (${tp}%)`} />}
                   {p > 0 && <div className="h-full bg-[#C9A96E] relative group cursor-pointer transition-all hover:brightness-110" style={{ width: `${pp}%` }} title={`PayPal: $${p.toFixed(2)} (${pp}%)`} />}
+                  {t > 0 && <div className="h-full bg-[#D4A574] relative group cursor-pointer transition-all hover:brightness-110" style={{ width: `${tp}%` }} title={`Transfermóvil: $${t.toFixed(2)} (${tp}%)`} />}
                 </>
               })()}
             </div>
-            <div className="grid grid-cols-3 gap-2">
+            <div className="grid grid-cols-2 gap-2">
               {(() => {
                 const q = stats?.revenueQvaPay || 0
-                const t = stats?.revenueTransfer || 0
                 const p = stats?.revenuePayPal || 0
-                const total = q + t + p || 1
+                const t = stats?.revenueTransfer || 0
+                const total = q + p + t || 1
                 const qp = ((q/total)*100).toFixed(1)
-                const tp = ((t/total)*100).toFixed(1)
                 const pp = ((p/total)*100).toFixed(1)
+                const tp = ((t/total)*100).toFixed(1)
                 return <>
                   <div className="p-2 rounded-lg bg-[#1E251C] border border-[#222920]">
                     <div className="flex items-center gap-1.5 mb-1">
@@ -321,19 +327,19 @@ export default function AdminPage() {
                   </div>
                   <div className="p-2 rounded-lg bg-[#1E251C] border border-[#222920]">
                     <div className="flex items-center gap-1.5 mb-1">
-                      <span className="w-2 h-2 rounded-full bg-[#D4A574]" />
-                      <span className="text-[10px] text-[#9BAA93]">Transf.</span>
-                    </div>
-                    <p className="text-xs font-semibold text-[#E8DED5]">${t.toFixed(2)}</p>
-                    <p className="text-[9px] text-[#6B5C4F]">{tp}%</p>
-                  </div>
-                  <div className="p-2 rounded-lg bg-[#1E251C] border border-[#222920]">
-                    <div className="flex items-center gap-1.5 mb-1">
                       <span className="w-2 h-2 rounded-full bg-[#C9A96E]" />
                       <span className="text-[10px] text-[#9BAA93]">PayPal</span>
                     </div>
                     <p className="text-xs font-semibold text-[#E8DED5]">${p.toFixed(2)}</p>
                     <p className="text-[9px] text-[#6B5C4F]">{pp}%</p>
+                  </div>
+                  <div className="p-2 rounded-lg bg-[#1E251C] border border-[#222920]">
+                    <div className="flex items-center gap-1.5 mb-1">
+                      <span className="w-2 h-2 rounded-full bg-[#D4A574]" />
+                      <span className="text-[10px] text-[#9BAA93]">Transf.</span>
+                    </div>
+                    <p className="text-xs font-semibold text-[#E8DED5]">${t.toFixed(2)}</p>
+                    <p className="text-[9px] text-[#6B5C4F]">{tp}%</p>
                   </div>
                 </>
               })()}
@@ -482,7 +488,6 @@ export default function AdminPage() {
             { href: "/admin/payments", label: "Pagos", icon: CreditCard },
             { href: "/admin/messages", label: "Mensajes", icon: MessageSquare },
             { href: "/admin/emails", label: "Correos", icon: Bell },
-            { href: "/admin/support", label: "Soporte", icon: MessageCircle },
             { href: "/admin/blog", label: "Blog", icon: Newspaper },
             { href: "/admin/products", label: "Productos", icon: Package },
             { href: "/admin/guides", label: "Guías", icon: Download },

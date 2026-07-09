@@ -7,7 +7,7 @@ import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
-import { CreditCard, CheckCircle2, XCircle, Clock, ShoppingBag, Repeat, BarChart3, AlertCircle, Loader2, DollarSign, WalletCards } from "lucide-react"
+import { CreditCard, CheckCircle2, XCircle, Clock, ShoppingBag, Repeat, BarChart3, AlertCircle, Loader2, WalletCards } from "lucide-react"
 import { getPlanLabel, formatPrice, formatDate } from "@/lib/utils"
 import { toast } from "sonner"
 import { useRouter } from "next/navigation"
@@ -78,12 +78,12 @@ export default function SubscriptionPage() {
       const res = await fetch("/api/payments/create-paypal", {
         method: "POST",
         headers: { "Content-Type": "application/json", "x-csrf-token": getCsrfToken() },
-        body: JSON.stringify({ plan: planId, amount: 0 }),
+        body: JSON.stringify({ plan: planId }),
       })
       const data = await res.json()
       const payload = data?.data || data
-      if (payload?.url || payload?.approvalUrl) window.location.href = payload.url || payload.approvalUrl
-      else toast.error("No se recibió URL de pago")
+      if (payload?.approvalUrl) window.location.href = payload.approvalUrl
+      else toast.error(payload?.error || "Error al crear pago con PayPal")
     } catch {
       toast.error("Error al procesar pago con PayPal")
     } finally {
@@ -199,19 +199,6 @@ export default function SubscriptionPage() {
                     {loadingPayment === "qvapay-PREMIUM" ? "Procesando..." : "Pagar con QvaPay"}
                   </Button>
                   <Button
-                    onClick={() => handlePayPal("PREMIUM")}
-                    disabled={!!loadingPayment}
-                    variant="secondary"
-                    className="w-full py-3"
-                  >
-                    {loadingPayment === "paypal-PREMIUM" ? (
-                      <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-                    ) : (
-                      <DollarSign className="w-4 h-4 mr-2" />
-                    )}
-                    {loadingPayment === "paypal-PREMIUM" ? "Procesando..." : "Pagar con PayPal"}
-                  </Button>
-                  <Button
                     onClick={() => handleTransfer("PREMIUM")}
                     disabled={!!loadingPayment}
                     variant="outline"
@@ -223,6 +210,19 @@ export default function SubscriptionPage() {
                       <CreditCard className="w-4 h-4 mr-2" />
                     )}
                     {loadingPayment === "transfer-PREMIUM" ? "Procesando..." : "Pagar con Transfermovil"}
+                  </Button>
+                  <Button
+                    onClick={() => handlePayPal("PREMIUM")}
+                    disabled={!!loadingPayment}
+                    variant="outline"
+                    className="w-full py-3"
+                  >
+                    {loadingPayment === "paypal-PREMIUM" ? (
+                      <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                    ) : (
+                      <CreditCard className="w-4 h-4 mr-2" />
+                    )}
+                    {loadingPayment === "paypal-PREMIUM" ? "Procesando..." : "Pagar con PayPal"}
                   </Button>
                 </div>
                 <Link href="/pricing" className="block text-center text-xs text-[#666666] hover:text-[#1A1A1A] mt-2">

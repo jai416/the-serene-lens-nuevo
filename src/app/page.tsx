@@ -16,7 +16,6 @@ import {
   Leaf,
   Shield,
   ArrowRight,
-  Flower2,
   History,
   Package,
 } from "lucide-react"

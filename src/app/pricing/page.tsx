@@ -108,43 +108,6 @@ export default function PricingPage() {
     }
   }
 
-  const handlePayPal = async (id: string, amount: number) => {
-    if (!session) {
-      router.push("/login?callbackUrl=/pricing")
-      return
-    }
-
-    setLoading(`${id}-paypal`)
-    setError("")
-
-    try {
-      const res = await fetch("/api/payments/create-paypal", {
-        method: "POST",
-        headers: { "Content-Type": "application/json", "x-csrf-token": getCsrfToken() },
-        body: JSON.stringify({ plan: id, amount }),
-      })
-
-      const data = await res.json()
-      const payload = data?.data || data
-
-      if (!res.ok) {
-        throw new Error(data.error?.message || payload?.error || "Error al crear pago con PayPal")
-      }
-
-      if (payload?.url || payload?.approvalUrl) {
-        window.location.href = payload.url || payload.approvalUrl
-      } else {
-        throw new Error("No se recibió URL de pago")
-      }
-    } catch (e: any) {
-      const msg = e.message || "Error al procesar pago con PayPal"
-      setError(msg)
-      toast.error(msg)
-    } finally {
-      setLoading(null)
-    }
-  }
-
   const handleTransfer = async (id: string, amount: number) => {
     if (!session) {
       router.push("/login?callbackUrl=/pricing")
@@ -295,8 +258,8 @@ export default function PricingPage() {
                 )}
                 {plan.id === "ESTHETICIAN" && (
                   <div className="mb-4">
-                    <Badge variant="secondary" className="rounded-full px-4 py-1 text-xs font-bold">
-                      Proximamente
+                    <Badge variant="primary" className="rounded-full px-4 py-1 text-xs font-bold">
+                      Para Clinicas
                     </Badge>
                   </div>
                 )}
@@ -333,20 +296,6 @@ export default function PricingPage() {
 
                 {plan.priceUSD > 0 ? (
                   <div className="flex flex-col gap-2">
-                    <Button
-                      onClick={() => handlePayPal(plan.id, plan.priceUSD)}
-                      disabled={isLoadingPlan(plan.id)}
-                      variant={plan.popular ? "primary" : "secondary"}
-                      className="w-full py-4"
-                      aria-label={`${plan.name} - PayPal`}
-                    >
-                      {loading === `${plan.id}-paypal` ? (
-                        <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-                      ) : (
-                        <DollarSign className="w-4 h-4 mr-2" />
-                      )}
-                      {loading === `${plan.id}-paypal` ? "Procesando..." : "Pagar con PayPal"}
-                    </Button>
                     <Button
                       onClick={() => handleSubscribe(plan.id)}
                       disabled={isLoadingPlan(plan.id)}
@@ -448,20 +397,6 @@ export default function PricingPage() {
 
                 <div className="flex flex-col gap-2">
                   <Button
-                    onClick={() => handlePayPal(pack.id, pack.priceUSD)}
-                    disabled={isLoadingPlan(pack.id)}
-                    variant={pack.popular ? "primary" : "secondary"}
-                    className="w-full py-4"
-                    aria-label={`${pack.name} - PayPal`}
-                  >
-                    {loading === `${pack.id}-paypal` ? (
-                      <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-                    ) : (
-                      <DollarSign className="w-4 h-4 mr-2" />
-                    )}
-                    {loading === `${pack.id}-paypal` ? "Procesando..." : "Pagar con PayPal"}
-                  </Button>
-                  <Button
                     onClick={() => handleBuyPack(pack.id)}
                     disabled={isLoadingPlan(pack.id)}
                     variant={pack.popular ? "primary" : "secondary"}
@@ -510,7 +445,7 @@ export default function PricingPage() {
         </div>
 
         <p className="text-xs text-[#9BAA93] text-center max-w-md mx-auto mt-6">
-          Pagos procesados de forma segura a traves de QvaPay, PayPal y Transfermovil.
+          Pagos procesados de forma segura a traves de QvaPay y Transfermovil.
           No almacenamos informacion de pago.
         </p>
       </div>

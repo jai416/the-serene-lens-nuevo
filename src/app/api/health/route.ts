@@ -66,7 +66,7 @@ export async function GET() {
     checks.featureFlags = { status: "degraded", detail: "No disponible" }
   }
 
-  const queueStats = analysisQueue.getStats()
+  const queueStats = await analysisQueue.getStats()
   checks.queue = {
     status: queueStats.failed > 0 ? "degraded" : "ok",
     latencyMs: queueStats.pending,

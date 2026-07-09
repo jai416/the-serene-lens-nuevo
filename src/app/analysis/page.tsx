@@ -25,22 +25,42 @@ import { getPhotoSteps } from "@/lib/photo-steps"
 import { getCsrfToken } from "@/lib/csrf-client"
 import { trackAnalysisStarted, trackAnalysisPhotoUploaded, trackAnalysisAbandoned } from "@/lib/tracking"
 import Link from "next/link"
-
 const photoSteps = getPhotoSteps()
+const STORAGE_KEY = "tsl_analysis_draft"
+
+function loadDraft() {
+  if (typeof window === "undefined") return null
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY)
+    if (!raw) return null
+    return JSON.parse(raw)
+  } catch { return null }
+}
+
+function saveDraft(data: Record<string, string>) {
+  try {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(data))
+  } catch {}
+}
+
+function clearDraft() {
+  try { localStorage.removeItem(STORAGE_KEY) } catch {}
+}
 
 export default function AnalysisPage() {
   const router = useRouter()
   const { data: session, status } = useSession()
-  const [consentAccepted, setConsentAccepted] = useState(false)
+  const draft = loadDraft()
+  const [consentAccepted, setConsentAccepted] = useState(draft?.consentAccepted === "true")
   const initialPhotos = Object.fromEntries(
     photoSteps.map((s) => [s.id, { file: null as File | null, preview: null as string | null }])
   )
   const [photos, setPhotos] = useState<Record<string, { file: File | null; preview: string | null }>>(initialPhotos)
-  const [age, setAge] = useState("")
-  const [gender, setGender] = useState("")
-  const [climate, setClimate] = useState("")
-  const [concerns, setConcerns] = useState("")
-  const [routine, setRoutine] = useState("")
+  const [age, setAge] = useState(draft?.age || "")
+  const [gender, setGender] = useState(draft?.gender || "")
+  const [climate, setClimate] = useState(draft?.climate || "")
+  const [concerns, setConcerns] = useState(draft?.concerns || "")
+  const [routine, setRoutine] = useState(draft?.routine || "")
   const [error, setError] = useState("")
   const [isAnalyzing, setIsAnalyzing] = useState(false)
   const [activePhotoSlot, setActivePhotoSlot] = useState<string | null>(null)
@@ -60,6 +80,16 @@ export default function AnalysisPage() {
     window.addEventListener("beforeunload", handleAbandon)
     return () => window.removeEventListener("beforeunload", handleAbandon)
   }, [photos])
+
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      saveDraft({
+        consentAccepted: String(consentAccepted),
+        age, gender, climate, concerns, routine,
+      })
+    }, 500)
+    return () => clearTimeout(timeout)
+  }, [consentAccepted, age, gender, climate, concerns, routine])
 
   const handlePhoto = useCallback(async (slotId: string, file: File) => {
     if (!file.type.startsWith("image/")) {
@@ -148,6 +178,7 @@ export default function AnalysisPage() {
       }
 
       const data = await res.json()
+      clearDraft()
       router.push(`/analysis/results/${data.analysis.id}`)
     } catch (e: any) {
       setError(e.message || "Error al analizar las imágenes")
@@ -234,7 +265,7 @@ export default function AnalysisPage() {
         {!isAnalyzing && (
           <div className="space-y-6">
             {/* ─── Section 1: Consentimiento ─── */}
-            <section className="bg-white rounded-[20px] border p-6" style={{ borderColor: "#E8E8E8" }}>
+            <section className="bg-white rounded-[20px] border p-6 animate-fadeIn" style={{ borderColor: "#E8E8E8" }}>
               <div className="flex items-center gap-3 mb-4">
                 <div className="w-10 h-10 rounded-xl flex items-center justify-center" style={{ backgroundColor: "#88B078" }}>
                   <Shield className="w-5 h-5" style={{ color: "#1A1A1A" }} />
@@ -268,7 +299,7 @@ export default function AnalysisPage() {
             </section>
 
             {/* ─── Section 2: Fotos ─── */}
-            <section className="bg-white rounded-[20px] border p-6" style={{ borderColor: "#E8E8E8" }}>
+            <section className="bg-white rounded-[20px] border p-6 animate-fade-in" style={{ borderColor: "#E8E8E8" }}>
               <div className="flex items-center gap-3 mb-4">
                 <div className="w-10 h-10 rounded-xl flex items-center justify-center" style={{ backgroundColor: "#88B078" }}>
                   <Camera className="w-5 h-5" style={{ color: "#1A1A1A" }} />
@@ -277,6 +308,11 @@ export default function AnalysisPage() {
                   <h2 className="font-serif text-lg font-semibold" style={{ color: "#1A1A1A" }}>Fotos</h2>
                   <p className="text-xs" style={{ color: "#666666" }}>{photosCount}/{photoSteps.length} fotos · Arrastra o toca para agregar</p>
                 </div>
+              </div>
+
+              <div className="text-sm text-[#666666] bg-[#E2ECE0] p-4 rounded-xl mb-4">
+                Nuestra IA analiza la simetría de la piel, zonas de exposición solar y distribución de brotes.
+                Tres ángulos nos permiten darte un reporte profesional de nivel clínico sin costo.
               </div>
 
               <div className="grid grid-cols-2 gap-4">
@@ -342,7 +378,7 @@ export default function AnalysisPage() {
             </section>
 
             {/* ─── Section 3: Datos ─── */}
-            <section className="bg-white rounded-[20px] border p-6" style={{ borderColor: "#E8E8E8" }}>
+            <section className="bg-white rounded-[20px] border p-6 animate-fade-in" style={{ borderColor: "#E8E8E8" }}>
               <div className="flex items-center gap-3 mb-4">
                 <div className="w-10 h-10 rounded-xl flex items-center justify-center" style={{ backgroundColor: "#88B078" }}>
                   <User className="w-5 h-5" style={{ color: "#1A1A1A" }} />

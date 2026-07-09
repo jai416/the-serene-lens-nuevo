@@ -4,7 +4,8 @@ import { useState } from "react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
-import { Mail, ArrowLeft, AlertCircle, CheckCircle2, Loader2, KeyRound, Flower2 } from "lucide-react"
+import { Mail, ArrowLeft, AlertCircle, CheckCircle2, Loader2, KeyRound } from "lucide-react"
+import Image from "next/image"
 import Link from "next/link"
 
 export default function ForgotPasswordPage() {
@@ -48,7 +49,7 @@ export default function ForgotPasswordPage() {
       <div className="w-full max-w-md">
         <div className="text-center mb-8">
           <div className="w-14 h-14 rounded-2xl bg-[#88B078] flex items-center justify-center mx-auto mb-4">
-            <Flower2 className="w-7 h-7 text-[#1A1A1A] dark:text-[#1A1F19]" />
+            <Image src="/logo.webp" alt="The Serene Lens" width={28} height={28} className="w-7 h-7 object-cover" />
           </div>
           <Badge variant="mint" className="mb-4 rounded-full px-4 py-1.5 border-0">
             <KeyRound className="w-3.5 h-3.5 mr-2" />

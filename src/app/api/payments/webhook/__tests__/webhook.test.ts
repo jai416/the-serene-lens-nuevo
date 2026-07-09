@@ -37,6 +37,10 @@ vi.mock("@/lib/db", () => ({
     subscription: {
       create: mockCreate,
     },
+    webhookEvent: {
+      findFirst: vi.fn().mockResolvedValue(null),
+      create: vi.fn(),
+    },
   },
 }))
 

@@ -7,6 +7,7 @@ import { buttonVariants } from "@/components/ui/button"
 export const metadata: Metadata = {
   title: "Test de Tipo de Piel Gratis con IA | The Serene Lens",
   description: "Descubre tu tipo de piel (grasa, seca, mixta, normal, sensible) con un análisis de IA gratuito. Solo sube una foto.",
+  alternates: { canonical: "https://the-serene-lens-nuevo.onrender.com/test-tipo-de-piel" },
   openGraph: {
     title: "Test de Tipo de Piel Gratis",
     description: "¿Tienes piel grasa, seca o mixta? Nuestra IA analiza tu piel y te dice tu tipo exacto.",
