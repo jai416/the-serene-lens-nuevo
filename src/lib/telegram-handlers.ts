@@ -412,6 +412,8 @@ export async function handleValidar(chatId: string, userId: string, args: string
 
   if (args.length === 0) { await sendTelegramMessage(chatId, "Uso: /validar TRF-xxx\n/validar 1,2,3\n/validar todos"); return }
 
+  const ref = args[0]
+
   // Multi-step: if user confirms in conversation
   const state = conversationState.get(chatId)
   if (state?.step === "awaiting_validate_confirm") {
