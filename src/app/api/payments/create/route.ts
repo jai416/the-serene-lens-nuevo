@@ -4,15 +4,15 @@ import { authOptions } from "@/lib/auth"
 import { db } from "@/lib/db"
 import { ok, error, serverError, unauthorized } from "@/lib/api-response"
 import { checkRateLimit } from "@/lib/rate-limit"
-import { createQvaPayPayment } from "@/lib/payments"
-import { getPlan } from "@/lib/pricing"
+import { createQvaPayPayment, createQvaPayPackPayment } from "@/lib/payments"
+import { getPlan, getPack } from "@/lib/pricing"
 import { getCUPRate } from "@/lib/cup-rate"
 import { z } from "zod"
 import { logger } from "@/lib/logger"
 import { validateCsrf } from "@/lib/csrf-middleware"
 
 const createPaymentSchema = z.object({
-  plan: z.enum(["FREE", "PREMIUM", "PRO", "PRO_PLUS", "ESTHETICIAN"]),
+  plan: z.string().min(1),
   provider: z.string().optional(),
 })
 
@@ -41,11 +41,16 @@ export async function POST(req: NextRequest) {
     }
 
     const planDef = getPlan(parsed.data.plan)
-    if (!planDef || planDef.priceUSD === 0) {
-      return error("Plan inválido o gratuito")
+    const packDef = getPack(parsed.data.plan)
+    if (!planDef && !packDef) {
+      return error("Plan o pack inválido")
+    }
+    if (planDef && planDef.priceUSD === 0) {
+      return error("Plan gratuito no requiere pago")
     }
 
-    const amount = planDef.priceUSD
+    const isPack = !!packDef
+    const amount = planDef?.priceUSD ?? packDef!.priceUSD
     let cupRate = 500
     try {
       cupRate = await getCUPRate()
@@ -53,14 +58,25 @@ export async function POST(req: NextRequest) {
       logger.warn("CUP rate fetch failed, using default 500")
     }
 
-    logger.info("Creating QvaPay payment", { plan: parsed.data.plan, amount, userId: session.user.id })
+    logger.info("Creating QvaPay payment", { plan: parsed.data.plan, amount, userId: session.user.id, isPack })
 
-    const qvapayPayment = await createQvaPayPayment({
-      amount,
-      description: `Plan ${planDef.name} - The Serene Lens`,
-      plan: parsed.data.plan,
-      userId: session.user.id,
-    })
+    let qvapayPayment: any
+    if (isPack) {
+      qvapayPayment = await createQvaPayPackPayment({
+        amount,
+        description: `${packDef!.name} - The Serene Lens`,
+        plan: parsed.data.plan,
+        userId: session.user.id,
+        packType: parsed.data.plan,
+      })
+    } else {
+      qvapayPayment = await createQvaPayPayment({
+        amount,
+        description: `Plan ${planDef!.name} - The Serene Lens`,
+        plan: parsed.data.plan,
+        userId: session.user.id,
+      })
+    }
 
     logger.info("QvaPay invoice created", {
       invoice_id: qvapayPayment?.invoice_id,
@@ -98,7 +114,6 @@ export async function POST(req: NextRequest) {
       return error("El servicio de pagos no está disponible. Intenta de nuevo.", 503)
     }
 
-    logger.error("QvaPay payment failed (unhandled)", { error: errMsg })
-    return error("Error al procesar el pago. Verifica los datos e intenta de nuevo.", 500)
+    return serverError(e)
   }
 }
