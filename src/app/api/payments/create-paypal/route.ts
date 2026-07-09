@@ -1,9 +1,11 @@
 import { NextRequest } from "next/server"
 import { getServerSession } from "next-auth"
 import { authOptions } from "@/lib/auth"
+import { handlePrismaError } from "@/lib/prisma-error"
 import { createPayPalOrder } from "@/lib/paypal"
 import { getPlan, getPack } from "@/lib/pricing"
 import { ok, error, serverError, unauthorized } from "@/lib/api-response"
+import { logger } from "@/lib/logger"
 
 export async function POST(req: NextRequest) {
   try {
@@ -41,7 +43,10 @@ export async function POST(req: NextRequest) {
 
     return ok({ orderId: order.orderId, approvalUrl: order.approvalUrl })
   } catch (e) {
-    console.error("PayPal create error:", e)
+    const prismaRes = handlePrismaError(e)
+    if (prismaRes) return prismaRes
+
+    logger.error("PayPal create error", { error: e instanceof Error ? e.message : String(e) })
     return serverError(e)
   }
 }

@@ -2,6 +2,7 @@ import { NextRequest } from "next/server"
 import { getServerSession } from "next-auth"
 import { authOptions } from "@/lib/auth"
 import { db } from "@/lib/db"
+import { handlePrismaError } from "@/lib/prisma-error"
 import { generateReferenceCode, getTransferConfig } from "@/lib/transfer-payment"
 import { ok, error, unauthorized, serverError } from "@/lib/api-response"
 import { z } from "zod"
@@ -71,6 +72,9 @@ export async function POST(req: NextRequest) {
       id: transfer.id,
     })
   } catch (e) {
+    const prismaRes = handlePrismaError(e)
+    if (prismaRes) return prismaRes
+
     const errMsg = e instanceof Error ? e.message : String(e)
     logger.error("Transfer payment create error", { error: errMsg })
     if (errMsg.includes("does not exist in the database") || errMsg.includes("relation") || errMsg.includes("does not exist")) {

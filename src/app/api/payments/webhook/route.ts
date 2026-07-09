@@ -1,6 +1,7 @@
 import { NextRequest } from "next/server"
 import { db } from "@/lib/db"
 import { ok, error, serverError } from "@/lib/api-response"
+import { handlePrismaError } from "@/lib/prisma-error"
 import { getQvaPayPaymentStatus } from "@/lib/payments"
 import { getCUPRate } from "@/lib/cup-rate"
 import { checkRateLimit } from "@/lib/rate-limit"
@@ -157,6 +158,9 @@ export async function POST(req: NextRequest) {
 
     return ok({ received: true, type: "plan" })
   } catch (e) {
+    const prismaRes = handlePrismaError(e)
+    if (prismaRes) return prismaRes
+
     logger.error("Webhook error", { error: e instanceof Error ? e.message : "Unknown" })
     return serverError(e)
   }

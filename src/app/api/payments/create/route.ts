@@ -3,6 +3,7 @@ import { getServerSession } from "next-auth"
 import { authOptions } from "@/lib/auth"
 import { db } from "@/lib/db"
 import { ok, error, serverError, unauthorized } from "@/lib/api-response"
+import { handlePrismaError } from "@/lib/prisma-error"
 import { checkRateLimit } from "@/lib/rate-limit"
 import { createQvaPayPayment, createQvaPayPackPayment } from "@/lib/payments"
 import { getPlan, getPack } from "@/lib/pricing"
@@ -104,6 +105,9 @@ export async function POST(req: NextRequest) {
 
     return ok({ url: qvapayPayment?.url, id: transactionUuid, provider: "qvapay" })
   } catch (e) {
+    const prismaRes = handlePrismaError(e)
+    if (prismaRes) return prismaRes
+
     const errMsg = e instanceof Error ? e.message : String(e)
     logger.error("Payment create error", { error: errMsg })
 

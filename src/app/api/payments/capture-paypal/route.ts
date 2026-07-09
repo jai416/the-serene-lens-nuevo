@@ -1,9 +1,11 @@
 import { NextRequest } from "next/server"
 import { getServerSession } from "next-auth"
 import { authOptions } from "@/lib/auth"
+import { handlePrismaError } from "@/lib/prisma-error"
 import { capturePayPalOrder } from "@/lib/paypal"
 import { handleSuccessfulPlanPayment } from "@/lib/services/payment.service"
 import { ok, error, serverError, unauthorized } from "@/lib/api-response"
+import { logger } from "@/lib/logger"
 
 export async function POST(req: NextRequest) {
   try {
@@ -35,7 +37,10 @@ export async function POST(req: NextRequest) {
 
     return ok({ captured: true, captureId: result.captureId })
   } catch (e) {
-    console.error("PayPal capture error:", e)
+    const prismaRes = handlePrismaError(e)
+    if (prismaRes) return prismaRes
+
+    logger.error("PayPal capture error", { error: e instanceof Error ? e.message : String(e) })
     return serverError(e)
   }
 }
