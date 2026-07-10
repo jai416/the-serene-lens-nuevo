@@ -16,6 +16,7 @@ import { TopHeader } from "@/components/layout/top-header"
 import { MobileNav } from "@/components/layout/mobile-nav"
 import { ClientInit } from "@/components/client-init"
 import { FeatureFlagProvider } from "@/components/feature-flag-provider"
+import { LocaleProvider } from "@/lib/locale/locale-context"
 
 export const metadata: Metadata = {
   metadataBase: new URL(process.env.NEXT_PUBLIC_APP_URL || "https://the-serene-lens-nuevo.onrender.com"),
@@ -82,6 +83,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <ThemeProvider>
           <QueryProvider>
             <AuthProvider>
+              <LocaleProvider>
               <FeatureFlagProvider>
                 <Sidebar />
                 <main id="main-content" className="md:ml-[280px] min-h-screen pb-20 md:pb-0 bg-[var(--background)]">
@@ -102,6 +104,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                 />
                 <ClientInit />
               </FeatureFlagProvider>
+              </LocaleProvider>
             </AuthProvider>
           </QueryProvider>
         </ThemeProvider>

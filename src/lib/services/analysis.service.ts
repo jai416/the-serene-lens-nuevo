@@ -2,6 +2,7 @@ import { analyzeSkinWithGroq } from "@/lib/groq"
 import { checkAndDeductUsage } from "@/lib/usage"
 import { getCachedAnalysis, setCachedAnalysis } from "@/lib/analysis-cache"
 import { AnalysisRepository } from "@/lib/repositories"
+import { logger, getCorrelationId } from "@/lib/logger"
 
 export class AnalysisError extends Error {
   constructor(
@@ -121,15 +122,26 @@ export const AnalysisService = {
         update: { feeling: score, notes },
         create: { userId, date: today, feeling: score, notes },
       })
-    } catch {
-      // Diary auto-save is optional — don't break the analysis flow
+    } catch (e) {
+      logger.error("Diary auto-save failed", {
+        userId,
+        skinType,
+        error: e instanceof Error ? e.message : String(e),
+        correlationId: getCorrelationId() || undefined,
+      })
     }
 
     // Check referral completion after first analysis
     try {
       const { checkAndCompleteReferral } = await import("./group.service")
       await checkAndCompleteReferral(userId)
-    } catch {}
+    } catch (e) {
+      logger.error("Referral check failed", {
+        userId,
+        error: e instanceof Error ? e.message : String(e),
+        correlationId: getCorrelationId() || undefined,
+      })
+    }
 
     return { analysis, result }
   },

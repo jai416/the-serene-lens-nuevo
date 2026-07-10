@@ -1,7 +1,7 @@
 import { logger } from "@/lib/logger"
 
 const GROQ_API_BASE = "https://api.groq.com/openai/v1"
-const MODEL = "llama-3.1-8b-instant"
+const MODEL = "qwen3-32b"
 
 function getApiKey(): string {
   const key = process.env.GROQ_API_KEY
