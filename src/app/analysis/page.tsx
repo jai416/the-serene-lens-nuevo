@@ -70,6 +70,43 @@ export default function AnalysisPage() {
   const hasTrackedStart = useRef(false)
   const abandonTracked = useRef(false)
 
+  const handlePhoto = useCallback(async (slotId: string, file: File) => {
+    if (!file.type.startsWith("image/")) {
+      setError("Por favor selecciona una imagen válida")
+      return
+    }
+    if (file.size > 10 * 1024 * 1024) {
+      setError("La imagen no debe superar los 10MB")
+      return
+    }
+    setError("")
+    try {
+      const quality = await validatePhoto(file)
+      if (!quality.pass) {
+        const reasons: string[] = []
+        if (!quality.blur.pass) reasons.push("Foto muy borrosa")
+        if (!quality.brightness.pass) {
+          reasons.push(quality.brightness.value < 40 ? "Foto muy oscura" : "Foto muy sobreexpuesta")
+        }
+        setError(reasons.join(". ") + ". Toma una foto con mejor iluminación y enfoca bien.")
+        trackAnalysisPhotoUploaded(photoSteps.findIndex((s) => s.id === slotId) + 1, false)
+        return
+      }
+      trackAnalysisPhotoUploaded(photoSteps.findIndex((s) => s.id === slotId) + 1, true)
+      const compressed = await compressImage(file)
+      const reader = new FileReader()
+      reader.onload = (e) => {
+        setPhotos((prev) => ({
+          ...prev,
+          [slotId]: { file: compressed, preview: e.target?.result as string },
+        }))
+      }
+      reader.readAsDataURL(compressed)
+    } catch {
+      setError("Error al procesar la imagen")
+    }
+  }, [])
+
   const handleWebcamCapture = useCallback((blob: Blob) => {
     if (!webcamSlot) return
     const file = new File([blob], `webcam-${webcamSlot}-${Date.now()}.jpg`, { type: "image/jpeg" })
@@ -103,48 +140,6 @@ export default function AnalysisPage() {
     }, 500)
     return () => clearTimeout(timeout)
   }, [consentAccepted, age, gender, climate, concerns, routine])
-
-  const handlePhoto = useCallback(async (slotId: string, file: File) => {
-    if (!file.type.startsWith("image/")) {
-      setError("Por favor selecciona una imagen válida")
-      return
-    }
-    if (file.size > 10 * 1024 * 1024) {
-      setError("La imagen no debe superar los 10MB")
-      return
-    }
-
-    setError("")
-
-    try {
-      const quality = await validatePhoto(file)
-      if (!quality.pass) {
-        const reasons: string[] = []
-        if (!quality.blur.pass) reasons.push("Foto muy borrosa")
-        if (!quality.brightness.pass) {
-          reasons.push(quality.brightness.value < 40 ? "Foto muy oscura" : "Foto muy sobreexpuesta")
-        }
-        setError(reasons.join(". ") + ". Toma una foto con mejor iluminación y enfoca bien.")
-        trackAnalysisPhotoUploaded(photoSteps.findIndex((s) => s.id === slotId) + 1, false)
-        return
-      }
-
-      trackAnalysisPhotoUploaded(photoSteps.findIndex((s) => s.id === slotId) + 1, true)
-
-      const compressed = await compressImage(file)
-
-      const reader = new FileReader()
-      reader.onload = (e) => {
-        setPhotos((prev) => ({
-          ...prev,
-          [slotId]: { file: compressed, preview: e.target?.result as string },
-        }))
-      }
-      reader.readAsDataURL(compressed)
-    } catch {
-      setError("Error al procesar la imagen")
-    }
-  }, [])
 
   const removePhoto = (slotId: string) => {
     setPhotos((prev) => ({ ...prev, [slotId]: { file: null, preview: null } }))
