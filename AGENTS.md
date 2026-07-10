@@ -2,7 +2,8 @@
 
 ## Project Status
 **Next.js 16 + Prisma 7 + Groq AI + QvaPay/PayPal/Transfermóvil + Telegram Bot.**
-- Landing, AI skin analysis (Groq Llama 3.2 11B Vision + Llama 3.1 8B text), history, evolution
+- Landing, AI skin analysis (Groq Llama 3.2 11B Vision + qwen3-32b text), history, evolution
+- Locale system: EN/ES auto-detect + manual toggle (on top-header and profile)
 - 3 payment providers: QvaPay (CUP), PayPal (REST API v2 USD), Transfermóvil (manual)
 - Blog, products, ingredient analyzer, community (comments + spam filter)
 - Admin: users, payments, blog, products, guides, feature flags, analytics, health check, Telegram broadcast, AI blog generator
@@ -85,6 +86,16 @@ If you need analysis count / usage info on the profile, fetch it lazily (on clic
 
 The WebcamCapture component is conditionally rendered (`{webcamSlot && <WebcamCapture .../>}`) inside the main JSX return. It must NOT be placed after the closing `</div>` tags — Turbopack will fail with "Expected '</', got 'ident'". Always keep inline conditionals within the JSX tree.
 
+### 9. CSRF cookie must be readable by JavaScript
+
+The middleware sets `csrf-token` cookie via `response.cookies.set()` with `httpOnly: false` explicitly. If this were `httpOnly: true` (default in some Next.js versions), `document.cookie` could not read it and `getCsrfToken()` in `csrf-client.ts` would return empty string, causing all CSPF validations to fail with 403. Always keep `httpOnly: false` for CSRF cookies.
+
+### 10. Modelos de IA
+
+- **Visión (análisis de piel, product scanner):** `llama-3.2-11b-vision-preview` en Groq (gratis)
+- **Texto (chat, RAG, SEO, blog):** `qwen3-32b` en Groq (gratis) — mejora soporte multilingual vs. anterior `llama-3.1-8b-instant`
+- Sin OpenRouter, sin Gemini. Solo Groq free tier.
+
 ## Environment
 
 All env vars in `.env.example`. Key vars:
@@ -116,7 +127,8 @@ All env vars in `.env.example`. Key vars:
 - **Auth**: NextAuth v4 JWT strategy. `PrismaAdapter(db) as any`. Google/GitHub providers optional (env-gated). Auto-links OAuth to existing credentials accounts.
 - **Payments**: QvaPay via `app-id`/`app-secret` headers. PayPal via REST API v2. Transfermóvil manual validation via Telegram bot. Webhook idempotency via `WebhookEvent.processedAt`.
 - **Queue**: `src/lib/queue.ts` — `AnalysisQueue` class. Polls `AnalysisJob` every 3s, processes one at a time, 2.5s throttle. Starts automatically in production.
-- **Groq AI**: System prompt is JSON with 8 sections. Descriptive severity labels (Leve/Moderado/Visible), no percentages. Prompt explicitly says "NOT a dermatologist."
+- **Groq AI**: Vision: `llama-3.2-11b-vision-preview` (skin analysis). Text: `qwen3-32b` (chat, RAG, SEO, blog). System prompt is JSON with 8 sections. Descriptive severity labels (Leve/Moderado/Visible), no percentages. Prompt explicitly says "NOT a dermatologist."
+- **Locale**: EN/ES via React context. Auto-detects from `navigator.language`, stored in localStorage. Manual toggle in top-header and profile page. Translations in `src/lib/locale/translations.ts`.
 - **Feature flags**: `AppConfig` table, 60s cache. No external service.
 - **Rate limiting**: DB-backed via `lib/rate-limit.ts`.
 - **Emails**: Gmail SMTP via nodemailer (`src/lib/email.ts`). XSS protection via `sanitizeHtml()`.
@@ -220,6 +232,7 @@ All env vars in `.env.example`. Key vars:
 - `/blog` — articles with category filter
 - `/dashboard/` — user dashboard, welcome banner (`?welcome=1`)
 - `/dashboard/history`, `/dashboard/subscription`, `/dashboard/profile`, `/dashboard/diary`, `/dashboard/challenges`, `/dashboard/referrals`, `/dashboard/guides`, `/dashboard/report`
+- `/dashboard/esthetician` — Panel esteticista con pacientes, stats, herramientas profesionales
 - `/pricing` — subscriptions + packs, USD/CUP, QvaPay payments
 - `/admin/` — admin panel: stats, users, payments, blog, products, guides, feature flags, analytics, health check, emails, notifications
 - `/terms`, `/privacy` — legal pages
@@ -255,8 +268,13 @@ Client-side validation via `src/lib/photo-quality.ts` (OffscreenCanvas). Fallbac
 - `src/lib/photo-quality.ts` — OffscreenCanvas with fallback (pass: true on error)
 - `src/lib/ingredient-kb.ts` — static ingredient RAG knowledge base (6 categories, 22 entries)
 - `src/components/webcam-capture.tsx` — reusable modal with getUserMedia, privacy explanation, JPEG capture
+- `src/components/locale-switcher.tsx` — EN/ES language toggle button
+- `src/lib/locale/translations.ts` — Translation dictionaries (50+ keys per locale)
+- `src/lib/locale/locale-context.tsx` — React context + provider for locale state
+- `src/lib/locale/index.ts` — Barrel export
 - `src/middleware.ts` — excludes `/api/auth` and `/api/register` from CSRF check
 - `src/app/api/payments/webhook/route.ts` — QvaPay webhook (uses $transaction)
 - `src/app/api/payments/activate-transfer/route.ts` — uses $transaction (atomic)
-- `src/app/dashboard/profile/page.tsx` — session-only profile (no DB fetch on mount)
+- `src/app/dashboard/profile/page.tsx` — session-only profile (no DB fetch on mount), clean info table, locale switcher
+- `src/app/dashboard/esthetician/page.tsx` — Panel esteticista: pacientes, stats, tabla, herramientas
 - `prisma/schema.prisma` — all models

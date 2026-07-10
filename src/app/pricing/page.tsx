@@ -184,8 +184,15 @@ export default function PricingPage() {
     <div className="min-h-screen pt-24 pb-16 px-4 bg-[#F8F9FA]">
       {/* Transfer Modal */}
       {selectedTransfer && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 px-4">
-          <div className="bg-white rounded-2xl p-6 max-w-sm w-full shadow-xl">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 px-4" onClick={() => setSelectedTransfer(null)}>
+          <div className="bg-white rounded-2xl p-6 max-w-sm w-full shadow-xl relative" onClick={(e) => e.stopPropagation()}>
+            <button
+              onClick={() => setSelectedTransfer(null)}
+              className="absolute top-3 right-3 w-8 h-8 rounded-full flex items-center justify-center hover:bg-[#E8E8E8] transition-colors text-[#666666]"
+              aria-label="Cerrar"
+            >
+              ✕
+            </button>
             <h3 className="text-lg font-semibold text-[#1A1A1A] mb-4">
               Transferencia por Transfermovil
             </h3>

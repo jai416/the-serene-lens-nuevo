@@ -38,6 +38,7 @@ export async function middleware(request: NextRequest) {
       sameSite: "strict",
       maxAge: 3600,
       secure: process.env.NODE_ENV === "production",
+      httpOnly: false,
     })
   }
 

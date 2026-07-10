@@ -24,7 +24,7 @@ export async function createQvaPayPayment({ amount, description, plan, userId }:
   const e = getPaymentsEnv()
   const appUrl = process.env.NEXT_PUBLIC_APP_URL || e.NEXTAUTH_URL
   const controller = new AbortController()
-  const timeout = setTimeout(() => controller.abort(), 30000)
+  const timeout = setTimeout(() => controller.abort(), 10000)
 
   try {
     const res = await fetch(`${e.QVAPAY_API_URL}/v2/create_invoice`, {
@@ -61,7 +61,7 @@ export async function createQvaPayPackPayment({ amount, description, packType, u
   const e = getPaymentsEnv()
   const appUrl = process.env.NEXT_PUBLIC_APP_URL || e.NEXTAUTH_URL
   const controller = new AbortController()
-  const timeout = setTimeout(() => controller.abort(), 30000)
+  const timeout = setTimeout(() => controller.abort(), 10000)
 
   try {
     const res = await fetch(`${e.QVAPAY_API_URL}/v2/create_invoice`, {

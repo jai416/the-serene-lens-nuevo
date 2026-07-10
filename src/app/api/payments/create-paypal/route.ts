@@ -33,6 +33,14 @@ export async function POST(req: NextRequest) {
 
     const label = planDef?.name || packDef?.name || plan
     const appUrl = process.env.NEXT_PUBLIC_APP_URL || "https://the-serene-lens-nuevo.onrender.com"
+
+    logger.info("PayPal env check", {
+      hasClientId: !!process.env.PAYPAL_CLIENT_ID,
+      hasClientSecret: !!process.env.PAYPAL_CLIENT_SECRET,
+      sandbox: process.env.PAYPAL_SANDBOX === "true",
+      env: process.env.NODE_ENV,
+    })
+
     const order = await createPayPalOrder({
       amount: price,
       description: `${label} - The Serene Lens`,
