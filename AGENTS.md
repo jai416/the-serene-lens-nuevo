@@ -17,10 +17,10 @@
 |---------|-------------|
 | `npm run dev` | Dev server (Turbopack) |
 | `npm run build` | Production build |
-| `npm test` | Vitest (170+ tests, 15 suites) |
+| `npm test` | Vitest (175 tests, 16 suites) |
 | `npm run test:watch` | Vitest watch mode |
 | `npm run type-check` | `tsc --noEmit` |
-| `npm run seed` | Seed DB (admin + demo + 50 products + 30 challenges + 5 guides) |
+| `npm run seed` | Seed DB (admin + demo + 41 products + 31 challenges + 11 guides) |
 | `npm run seed:knowledge` | Seed RAG knowledge base |
 | `npm run db:generate` | Regenerate Prisma client |
 | `npm run db:push` | Push Prisma schema to DB |
@@ -65,17 +65,25 @@ However, batch operations (`/validar todos`, `/validar 1,2,3`) run in a `for` lo
 
 `src/lib/cache.ts` uses a `Map` with TTL. On Render container restarts (deploy, inactivity, RAM spike), the cache empties. The first requests to `/api/products` after restart will be slow as the cache re-warms from DB. This is expected behavior — no code change needed, but monitor logs for cold-start latency.
 
-### 5. Session: `PrismaAdapter(db) as any` hides missing fields
+### 5. Session: JWT refreshes from DB on every access
 
-In `src/lib/auth.ts:76`, the adapter is cast as `any` due to version mismatch (adapter v2.8 vs next-auth v4.24). The `session` callback (line 215) only injects `role` and `plan`:
+In `src/lib/auth.ts:76`, the adapter is cast as `any` due to version mismatch (adapter v2.8 vs next-auth v4.24). The `jwt` callback now calls `db.user.findUnique()` to refresh `name`, `plan`, `role`, and `username` from DB on every token refresh. This means plan changes (admin upgrades) reflect immediately without logout.
 
-```typescript
-session.user.role = token.role as string
-session.user.plan = token.plan as string
-session.user.id = token.sub!
-```
+The `session` callback injects: `role`, `plan`, `id`, `name`, `email`, `username`. It does NOT inject `latitude`, `longitude`, or `telegramTrialStartedAt`.
 
-It does NOT inject `username`, `latitude`, `longitude`, or `telegramTrialStartedAt`. TypeScript won't catch this because of the `as any`. If a frontend component tries to access `session.user.username`, it will be `undefined`. The session type in `next-auth`.d.ts may declare these fields, but they won't be populated at runtime.
+### 6. `tsc --noEmit` timeout on low-memory machines
+
+On machines with limited RAM (e.g. Render free tier, small VPS), `npx tsc --noEmit` may crash with a Bus Error or timeout. This is a memory issue, not a code error. The pre-commit hook runs `tsc --noEmit` — if it fails due to memory, use `git commit --no-verify` to bypass.
+
+### 7. Profile page: session-only data, no DB on mount
+
+`/dashboard/profile` (`page.tsx`) does NOT fetch analyses or usage from DB on mount. It relies entirely on session data. The only DB call is `PUT /api/user/profile` when the user saves their name. This keeps the page fast and avoids unnecessary DB reads.
+
+If you need analysis count / usage info on the profile, fetch it lazily (on click or via a dedicated component that loads independently).
+
+### 8. Analysis page: `webcamSlot` conditional must be inside `return`
+
+The WebcamCapture component is conditionally rendered (`{webcamSlot && <WebcamCapture .../>}`) inside the main JSX return. It must NOT be placed after the closing `</div>` tags — Turbopack will fail with "Expected '</', got 'ident'". Always keep inline conditionals within the JSX tree.
 
 ## Environment
 
@@ -237,14 +245,18 @@ Client-side validation via `src/lib/photo-quality.ts` (OffscreenCanvas). Fallbac
 
 - `src/lib/queue.ts` — DB-persisted job queue (polls AnalysisJob every 3s)
 - `src/lib/groq.ts` — system prompt (8 sections, severity labels, no percentages), retry on 429 only
-- `src/lib/auth.ts` — registerUser, Google callback auto-username, session callback (role + plan only)
+- `src/lib/auth.ts` — registerUser, Google callback auto-username, jwt callback refreshes from DB
 - `src/lib/paypal.ts` — PayPal REST API utility
 - `src/lib/cache.ts` — in-memory Map + TTL (products API)
+- `src/lib/prisma-error.ts` — centralized `handlePrismaError(e)` helper (P2003/P2025/P2002)
 - `src/lib/services/analysis.service.ts` — analysis flow with fire-and-forget diary + referral steps
 - `src/lib/services/group.service.ts` — referral group logic
 - `src/lib/telegram-handlers.ts` — all command handlers, text-based confirmation flow
 - `src/lib/photo-quality.ts` — OffscreenCanvas with fallback (pass: true on error)
 - `src/lib/ingredient-kb.ts` — static ingredient RAG knowledge base (6 categories, 22 entries)
-- `src/app/api/payments/webhook/route.ts` — QvaPay webhook (sequential ops, no $transaction)
+- `src/components/webcam-capture.tsx` — reusable modal with getUserMedia, privacy explanation, JPEG capture
+- `src/middleware.ts` — excludes `/api/auth` and `/api/register` from CSRF check
+- `src/app/api/payments/webhook/route.ts` — QvaPay webhook (uses $transaction)
 - `src/app/api/payments/activate-transfer/route.ts` — uses $transaction (atomic)
+- `src/app/dashboard/profile/page.tsx` — session-only profile (no DB fetch on mount)
 - `prisma/schema.prisma` — all models
