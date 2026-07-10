@@ -23,7 +23,6 @@ import {
   BookOpen,
   Bookmark,
   Trophy,
-  LayoutDashboard,
   FileText,
   HelpCircle,
 } from "lucide-react"
@@ -37,7 +36,6 @@ const guestLinks = [
 
 const authLinks = [
   { href: "/", label: "Inicio", icon: Home },
-  { href: "/dashboard", label: "Dashboard", icon: LayoutDashboard },
   { href: "/analysis", label: "Análisis de piel", icon: Scan },
   { href: "/dashboard/history", label: "Historial", icon: History },
   { href: "/dashboard/diary", label: "Rutinas", icon: BookOpen },
@@ -49,7 +47,7 @@ const authLinks = [
   { href: "/dashboard/report", label: "Informe", icon: FileText },
   { href: "/dashboard/guides", label: "Mis Guías", icon: Bookmark },
   { href: "/dashboard/support", label: "Soporte", icon: HelpCircle },
-  { href: "/dashboard/profile", label: "Cuenta", icon: User },
+  { href: "/dashboard/profile", label: "Mi Cuenta", icon: User },
 ]
 
 export function Sidebar() {
@@ -111,6 +109,22 @@ export function Sidebar() {
           >
             <Settings className="w-4.5 h-4.5 shrink-0" />
             Admin
+          </Link>
+        )}
+
+        {(session?.user as any)?.plan === "ESTHETICIAN" && (
+          <Link
+            href="/dashboard/esthetician"
+            onClick={() => setMobileOpen(false)}
+            className={cn(
+              "flex items-center gap-3 px-4 py-2.5 text-sm font-medium rounded-xl transition-all duration-200",
+              isActive("/dashboard/esthetician")
+                ? "bg-[#E2ECE0] dark:bg-[#2A3A2A] text-[#1A1A1A] dark:text-[#F0F0F0]"
+                : "text-[#666666] dark:text-[#999999] hover:bg-[#F8F9FA] dark:hover:bg-[#2A2A2A] hover:text-[#1A1A1A] dark:hover:text-[#F0F0F0]"
+            )}
+          >
+            <User className="w-4.5 h-4.5 shrink-0" />
+            Esteticista
           </Link>
         )}
 

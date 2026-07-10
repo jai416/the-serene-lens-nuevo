@@ -3,7 +3,7 @@
 import { useSession } from "next-auth/react"
 import { NotificationBell } from "@/components/notifications/notification-bell"
 
-const premiumPlans = new Set(["PREMIUM", "PRO", "PRO_PLUS"])
+const premiumPlans = new Set(["PREMIUM", "PRO", "PRO_PLUS", "ESTHETICIAN"])
 
 export function TopHeader() {
   const { data: session } = useSession()

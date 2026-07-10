@@ -365,25 +365,27 @@ export default function AnalysisPage() {
                           </div>
                         </div>
                       ) : (
-                        <button
-                          onClick={() => handleTriggerUpload(slot.id)}
-                          className="w-full aspect-square rounded-xl border-2 border-dashed flex flex-col items-center justify-center gap-1.5 transition-all hover:opacity-80"
-                          style={{ borderColor: "#E8E8E8", backgroundColor: "#F8F9FA" }}
-                          aria-label={`Agregar ${slot.label}`}
-                        >
-                          <Camera className="w-6 h-6" style={{ color: "#666666" }} />
-                          <span className="text-xs font-medium" style={{ color: "#666666" }}>Agregar foto</span>
-                          <span className="text-[10px]" style={{ color: "#666666" }}>{slot.label}</span>
-                        </button>
-                        <button
-                          onClick={() => openWebcam(slot.id)}
-                          className="w-full mt-2 text-xs py-2 rounded-lg border flex items-center justify-center gap-1.5 transition-all hover:opacity-80"
-                          style={{ borderColor: "#88B078", color: "#88B078", backgroundColor: "#E2ECE0" }}
-                          aria-label={`Cámara: ${slot.label}`}
-                        >
-                          <Camera className="w-3.5 h-3.5" />
-                          Cámara
-                        </button>
+                        <div className="space-y-2">
+                          <button
+                            onClick={() => handleTriggerUpload(slot.id)}
+                            className="w-full aspect-square rounded-xl border-2 border-dashed flex flex-col items-center justify-center gap-1.5 transition-all hover:opacity-80"
+                            style={{ borderColor: "#E8E8E8", backgroundColor: "#F8F9FA" }}
+                            aria-label={`Agregar ${slot.label}`}
+                          >
+                            <Camera className="w-6 h-6" style={{ color: "#666666" }} />
+                            <span className="text-xs font-medium" style={{ color: "#666666" }}>Agregar foto</span>
+                            <span className="text-[10px]" style={{ color: "#666666" }}>{slot.label}</span>
+                          </button>
+                          <button
+                            onClick={() => openWebcam(slot.id)}
+                            className="w-full text-xs py-2 rounded-lg border flex items-center justify-center gap-1.5 transition-all hover:opacity-80"
+                            style={{ borderColor: "#88B078", color: "#88B078", backgroundColor: "#E2ECE0" }}
+                            aria-label={`Cámara: ${slot.label}`}
+                          >
+                            <Camera className="w-3.5 h-3.5" />
+                            Cámara
+                          </button>
+                        </div>
                       )}
                     </div>
                   )
@@ -534,15 +536,14 @@ export default function AnalysisPage() {
             </div>
           </div>
         )}
-      </div>
-      </div>
 
-      {webcamSlot && (
-        <WebcamCapture
-          onCapture={handleWebcamCapture}
-          onClose={() => setWebcamSlot(null)}
-        />
-      )}
+        {webcamSlot && (
+          <WebcamCapture
+            onCapture={handleWebcamCapture}
+            onClose={() => setWebcamSlot(null)}
+          />
+        )}
+      </div>
     </div>
   )
 }
