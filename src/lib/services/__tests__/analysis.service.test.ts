@@ -110,6 +110,12 @@ describe("AnalysisService.processAnalysis", () => {
       { concerns: "acné" }
     )
 
-    expect(mockAnalyzeSkin).toHaveBeenCalledWith(files)
+    expect(mockAnalyzeSkin).toHaveBeenCalledWith(files, {
+      age: undefined,
+      concerns: "acné",
+      gender: undefined,
+      climate: undefined,
+      routine: undefined,
+    })
   })
 })

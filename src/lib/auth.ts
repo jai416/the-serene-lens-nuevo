@@ -64,9 +64,19 @@ export async function registerUser(email: string, password: string, name?: strin
       username: usernameClean || undefined,
       password: await hashPassword(password),
       role: isAdmin ? "ADMIN" : "USER",
-      plan: isAdmin ? "PRO_PLUS" : "FREE",
+      plan: isAdmin ? "PRO_PLUS" : "PREMIUM",
+      analysisLimit: 0,
+      trialEndsAt: isAdmin ? undefined : new Date(Date.now() + 7 * 86400000),
     },
   })
+
+  if (!isAdmin) {
+    try {
+      const { sendEmail, buildWelcomeEmail } = await import("@/lib/email")
+      const { subject, html } = buildWelcomeEmail(name || "Usuario")
+      sendEmail({ to: email, subject, html }).catch(() => {})
+    } catch {}
+  }
 
   return { user: { id: user.id, email: user.email, name: user.name } }
 }
@@ -155,7 +165,22 @@ export const authOptions: NextAuthOptions = {
         include: { accounts: true },
       })
 
-      if (!existingUser) return true
+      if (!existingUser) {
+        // New OAuth user — assign 7-day trial
+        if (user.email && !user.email.endsWith("@theserene.app")) {
+          try {
+            await db.user.update({
+              where: { email: user.email! },
+              data: {
+                plan: "PREMIUM",
+                analysisLimit: 0,
+                trialEndsAt: new Date(Date.now() + 7 * 86400000),
+              },
+            })
+          } catch {}
+        }
+        return true
+      }
 
       // Auto-generate username for Google/GitHub users if not set
       if (!existingUser.username && user.email) {
@@ -214,7 +239,7 @@ export const authOptions: NextAuthOptions = {
         try {
           const dbUser = await db.user.findUnique({
             where: { id: token.sub },
-            select: { name: true, plan: true, role: true, username: true, latitude: true, longitude: true },
+            select: { name: true, plan: true, role: true, username: true, latitude: true, longitude: true, trialEndsAt: true },
           })
           if (dbUser) {
             token.name = dbUser.name
@@ -224,6 +249,7 @@ export const authOptions: NextAuthOptions = {
             token.username = dbUser.username
             token.latitude = dbUser.latitude
             token.longitude = dbUser.longitude
+            token.trialEndsAt = dbUser.trialEndsAt?.toISOString() ?? null
           }
         } catch {}
       }
@@ -237,6 +263,7 @@ export const authOptions: NextAuthOptions = {
         session.user.username = (token.username as string) ?? null
         session.user.latitude = (token.latitude as number) ?? null
         session.user.longitude = (token.longitude as number) ?? null
+        session.user.trialEndsAt = (token.trialEndsAt as string) ?? null
       }
       return session
     },

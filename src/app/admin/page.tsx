@@ -11,7 +11,7 @@ import {
   DollarSign, Activity, Eye, TrendingUp, UserPlus, BarChart3, ArrowUpRight,
   Calendar, Sparkles, CheckCircle2, Clock, Bell, BookOpen, Trophy, Heart,
   ShoppingBag, MessageCircle, Settings, TrendingDown, Zap, Download, UsersRound,
-  ShieldCheck, RefreshCw
+  ShieldCheck, RefreshCw, Loader2, AlertCircle
 } from "lucide-react"
 import { NewUserToast } from "@/components/admin/new-user-toast"
 import { getPlanLabel } from "@/lib/utils"
@@ -30,7 +30,6 @@ interface Stats {
   products: number
   revenue: number
   revenueQvaPay: number
-  revenuePayPal: number
   revenueTransfer: number
   activeUsers: number
   newUsersThisMonth: number
@@ -82,6 +81,7 @@ export default function AdminPage() {
   const [planDistribution, setPlanDistribution] = useState<Record<string, number>>({})
   const [skinTypeDistribution, setSkinTypeDistribution] = useState<Record<string, number>>({})
   const [healthCheck, setHealthCheck] = useState<any>(null)
+  const [queueStats, setQueueStats] = useState<{ pending: number; processing: number; completed: number; failed: number } | null>(null)
   const [refreshing, setRefreshing] = useState(false)
   const fetchStats = useCallback(() => {
     setRefreshing(true)
@@ -117,6 +117,10 @@ export default function AdminPage() {
       .then((r) => r.json())
       .then((d) => setHealthCheck(d))
       .catch((e) => logger.error("Health check error:", { error: e }))
+    fetch("/api/admin/queue-status")
+      .then((r) => r.json())
+      .then((d) => setQueueStats(d?.data?.stats || null))
+      .catch((e) => logger.error("Queue stats error:", { error: e }))
     const interval = setInterval(fetchStats, 120000)
     return () => clearInterval(interval)
   }, [session])
@@ -145,7 +149,7 @@ export default function AdminPage() {
   const mainCards = [
     { label: "Usuarios Totales", value: stats?.users ?? "—", icon: Users, href: "/admin/users", color: "bg-[#3D3228]", trend: `+${stats?.newUsersThisWeek ?? 0} esta semana` },
     { label: "Análisis Totales", value: stats?.analyses ?? "—", icon: Activity, href: "/admin", color: "bg-[#D4B896]", trend: `${stats?.analysesToday ?? 0} hoy · ${stats?.analysesThisMonth ?? 0} este mes` },
-    { label: "Ingresos Totales", value: stats?.revenue ? `$${stats.revenue.toFixed(2)}` : "$0", icon: DollarSign, href: "/admin/payments", color: "bg-amber-700", trend: `QvaPay: $${stats?.revenueQvaPay?.toFixed(2) ?? "0.00"} | PayPal: $${stats?.revenuePayPal?.toFixed(2) ?? "0.00"}` },
+    { label: "Ingresos Totales", value: stats?.revenue ? `$${stats.revenue.toFixed(2)}` : "$0", icon: DollarSign, href: "/admin/payments", color: "bg-amber-700", trend: `QvaPay: $${stats?.revenueQvaPay?.toFixed(2) ?? "0.00"} | Transfer: $${stats?.revenueTransfer?.toFixed(2) ?? "0.00"}` },
     { label: "Mensajes", value: stats?.messages ?? "—", icon: MessageSquare, href: "/admin/messages", color: "bg-stone-600", trend: `${stats?.unreadMessages ?? 0} sin leer` },
   ]
 
@@ -284,25 +288,18 @@ export default function AdminPage() {
               <span className="font-medium text-[#E8DED5]">${stats?.revenueQvaPay?.toFixed(2) ?? "0.00"}</span>
             </div>
             <div className="flex justify-between items-center">
-              <span className="text-sm text-[#9BAA93]">PayPal</span>
-              <span className="font-medium text-[#E8DED5]">${stats?.revenuePayPal?.toFixed(2) ?? "0.00"}</span>
-            </div>
-            <div className="flex justify-between items-center">
               <span className="text-sm text-[#9BAA93]">Transfermóvil</span>
               <span className="font-medium text-[#E8DED5]">${stats?.revenueTransfer?.toFixed(2) ?? "0.00"}</span>
             </div>
             <div className="w-full h-3 rounded-full bg-[#1E251C] flex overflow-hidden ring-1 ring-inset ring-[#222920]">
               {(() => {
                 const q = stats?.revenueQvaPay || 0
-                const p = stats?.revenuePayPal || 0
                 const t = stats?.revenueTransfer || 0
-                const total = q + p + t || 1
+                const total = q + t || 1
                 const qp = ((q/total)*100).toFixed(1)
-                const pp = ((p/total)*100).toFixed(1)
                 const tp = ((t/total)*100).toFixed(1)
                 return <>
                   {q > 0 && <div className="h-full bg-[#88B078] relative group cursor-pointer transition-all hover:brightness-110" style={{ width: `${qp}%` }} title={`QvaPay: $${q.toFixed(2)} (${qp}%)`} />}
-                  {p > 0 && <div className="h-full bg-[#C9A96E] relative group cursor-pointer transition-all hover:brightness-110" style={{ width: `${pp}%` }} title={`PayPal: $${p.toFixed(2)} (${pp}%)`} />}
                   {t > 0 && <div className="h-full bg-[#D4A574] relative group cursor-pointer transition-all hover:brightness-110" style={{ width: `${tp}%` }} title={`Transfermóvil: $${t.toFixed(2)} (${tp}%)`} />}
                 </>
               })()}
@@ -310,11 +307,9 @@ export default function AdminPage() {
             <div className="grid grid-cols-2 gap-2">
               {(() => {
                 const q = stats?.revenueQvaPay || 0
-                const p = stats?.revenuePayPal || 0
                 const t = stats?.revenueTransfer || 0
-                const total = q + p + t || 1
+                const total = q + t || 1
                 const qp = ((q/total)*100).toFixed(1)
-                const pp = ((p/total)*100).toFixed(1)
                 const tp = ((t/total)*100).toFixed(1)
                 return <>
                   <div className="p-2 rounded-lg bg-[#1E251C] border border-[#222920]">
@@ -324,14 +319,6 @@ export default function AdminPage() {
                     </div>
                     <p className="text-xs font-semibold text-[#E8DED5]">${q.toFixed(2)}</p>
                     <p className="text-[9px] text-[#6B5C4F]">{qp}%</p>
-                  </div>
-                  <div className="p-2 rounded-lg bg-[#1E251C] border border-[#222920]">
-                    <div className="flex items-center gap-1.5 mb-1">
-                      <span className="w-2 h-2 rounded-full bg-[#C9A96E]" />
-                      <span className="text-[10px] text-[#9BAA93]">PayPal</span>
-                    </div>
-                    <p className="text-xs font-semibold text-[#E8DED5]">${p.toFixed(2)}</p>
-                    <p className="text-[9px] text-[#6B5C4F]">{pp}%</p>
                   </div>
                   <div className="p-2 rounded-lg bg-[#1E251C] border border-[#222920]">
                     <div className="flex items-center gap-1.5 mb-1">
@@ -475,6 +462,29 @@ export default function AdminPage() {
           })()}
         </div>
       </div>
+
+      {/* Queue Status */}
+      {queueStats && (
+        <div className="bg-[#1A1F19] border border-[#222920] rounded-xl p-5 mb-6">
+          <h2 className="text-base font-semibold mb-4 text-[#E8DED5] flex items-center gap-2">
+            <Loader2 className="w-4 h-4 text-[#88B078]" />
+            Cola de Análisis
+          </h2>
+          <div className="grid grid-cols-4 gap-3">
+            {[
+              { label: "Pendientes", value: queueStats.pending, color: "text-[#FCD34D]", bg: "bg-[#FCD34D]/10" },
+              { label: "Procesando", value: queueStats.processing, color: "text-[#60A5FA]", bg: "bg-[#60A5FA]/10" },
+              { label: "Completados", value: queueStats.completed, color: "text-[#4ADE80]", bg: "bg-[#4ADE80]/10" },
+              { label: "Fallidos", value: queueStats.failed, color: "text-[#FB7185]", bg: "bg-[#FB7185]/10" },
+            ].map((item) => (
+              <div key={item.label} className={`p-3 rounded-lg border border-[#222920] ${item.bg}`}>
+                <p className="text-xs text-[#9BAA93] mb-1">{item.label}</p>
+                <p className={`text-2xl font-bold ${item.color}`}>{item.value}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
 
       {/* Quick Links */}
       <div className="bg-[#1A1F19] border border-[#222920] rounded-xl p-5 mb-6">

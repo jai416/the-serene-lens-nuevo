@@ -11,6 +11,8 @@ import { Scan, History, Droplets, Beaker, ArrowRight, Sparkles, Sun, Clock, Chev
 import { formatDate } from "@/lib/utils"
 import { CardSkeleton } from "@/components/ui/skeleton"
 import { toast } from "sonner"
+import { useLocale } from "@/lib/locale/locale-context"
+import { t } from "@/lib/locale/translations"
 
 interface Analysis {
   id: string
@@ -30,6 +32,7 @@ interface Usage {
 export default function DashboardPage() {
   const pathname = usePathname()
   const { data: session, status } = useSession()
+  const { locale } = useLocale()
   const [analyses, setAnalyses] = useState<Analysis[]>([])
   const [usage, setUsage] = useState<Usage | null>(null)
 
@@ -41,7 +44,7 @@ export default function DashboardPage() {
           const raw = data?.data?.analyses ?? data.analyses
           setAnalyses(Array.isArray(raw) ? raw : [])
         })
-        .catch(() => toast.error("Error al cargar análisis"))
+        .catch(() => toast.error(t("dashboard.errorLoading", locale)))
 
       fetch("/api/user/usage")
         .then((res) => (res.ok ? res.json() : { usage: null }))
@@ -85,26 +88,25 @@ export default function DashboardPage() {
             <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-6">
               <div className="max-w-xl">
                 <p className="text-sm font-medium text-[#666666] dark:text-[#999999] mb-2">
-                  ¡Hola, {session.user.name || "Usuario"}! 👋
+                  {t("dashboard.greeting", locale).replace("{name}", session.user.name || t("common.user", locale))} 👋
                 </p>
                 <h1 className="text-3xl md:text-4xl font-bold text-[#1A1A1A] dark:text-[#F0F0F0] mb-3 leading-tight">
-                  Conoce mejor tu piel
+                  {t("dashboard.heroTitle", locale)}
                 </h1>
                 <p className="text-[#666666] dark:text-[#999999] text-sm leading-relaxed mb-6 max-w-lg">
-                  Descubre las características visibles de tu piel con análisis cosmético por IA.
-                  Observa, aprende y mejora tu rutina de cuidado personal.
+                  {t("dashboard.heroDesc", locale)}
                 </p>
                 <div className="flex flex-wrap gap-3">
                   <Link href="/analysis">
                     <Button className="gap-2">
                       <Scan className="w-4 h-4" />
-                      Comenzar análisis
+                      {t("dashboard.startAnalysis", locale)}
                     </Button>
                   </Link>
                   <Link href="/dashboard/diary">
                     <Button variant="secondary" className="gap-2">
                       <Droplets className="w-4 h-4" />
-                      Ver cómo funciona
+                      {t("dashboard.seeHow", locale)}
                     </Button>
                   </Link>
                 </div>
@@ -113,17 +115,17 @@ export default function DashboardPage() {
           </CardContent>
         </Card>
 
-        {/* Grid Categories Block — ¿Qué quieres hacer hoy? */}
+        {/* Grid Categories Block */}
         <div>
           <h2 className="text-base font-semibold text-[#1A1A1A] dark:text-[#F0F0F0] mb-4">
-            ¿Qué quieres hacer hoy?
+            {t("dashboard.whatToDo", locale)}
           </h2>
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
             {[
-              { title: "Análisis de piel", desc: "Escanea tu rostro con IA", icon: Scan, href: "/analysis" },
-              { title: "Historial", desc: `${analyses.length} análisis guardados`, icon: History, href: "/dashboard/history" },
-              { title: "Rutinas", desc: "Tu diario de cuidado diario", icon: Droplets, href: "/dashboard/diary" },
-              { title: "Ingredientes", desc: "Analiza productos y componentes", icon: Beaker, href: "/ingredients-analyzer" },
+              { title: t("dashboard.card1Title", locale), desc: t("dashboard.card1Desc", locale), icon: Scan, href: "/analysis" },
+              { title: t("dashboard.card2Title", locale), desc: t("dashboard.card2Desc", locale).replace("{n}", String(analyses.length)), icon: History, href: "/dashboard/history" },
+              { title: t("dashboard.card3Title", locale), desc: t("dashboard.card3Desc", locale), icon: Droplets, href: "/dashboard/diary" },
+              { title: t("dashboard.card4Title", locale), desc: t("dashboard.card4Desc", locale), icon: Beaker, href: "/ingredients-analyzer" },
             ].map((card) => (
               <Link key={card.href} href={card.href}>
                 <Card className="p-5 hover:-translate-y-1 cursor-pointer border border-[#E8E8E8]/60 dark:border-[#333333]/60">
@@ -147,10 +149,10 @@ export default function DashboardPage() {
             <CardContent className="p-0">
               <h3 className="font-semibold text-sm text-[#1A1A1A] dark:text-[#F0F0F0] mb-1 flex items-center gap-2">
                 <TrendingUp className="w-4 h-4 text-[#88B078]" />
-                Tu progreso
+                {t("dashboard.yourProgress", locale)}
               </h3>
               <p className="text-xs text-[#666666] dark:text-[#999999] mb-6">
-                Evolución de tu cuidado facial
+                {t("dashboard.progressDesc", locale)}
               </p>
 
               <div className="flex items-center gap-8">
@@ -201,7 +203,7 @@ export default function DashboardPage() {
                       </span>
                     </div>
                   </div>
-                  <p className="text-xs text-[#666666] dark:text-[#999999] mt-2 font-medium">Buen estado</p>
+                  <p className="text-xs text-[#666666] dark:text-[#999999] mt-2 font-medium">{t("dashboard.goodStatus", locale)}</p>
                 </div>
               </div>
 
@@ -210,13 +212,13 @@ export default function DashboardPage() {
                   <div className="flex items-center gap-2 text-xs text-[#666666] dark:text-[#999999]">
                     <Shield className="w-3.5 h-3.5 text-[#88B078]" />
                     {usage.isUnlimited
-                      ? "Análisis ilimitados"
-                      : `${usage.monthlyRemaining} análisis restantes este mes`
+                      ? t("dashboard.unlimited", locale)
+                      : t("dashboard.remainingMonthly", locale).replace("{n}", String(usage.monthlyRemaining))
                     }
                   </div>
                   <Link href="/dashboard/subscription">
                     <Button variant="ghost" size="sm" className="text-xs gap-1">
-                      Ver plan
+                      {t("dashboard.viewPlan", locale)}
                       <ChevronRight className="w-3 h-3" />
                     </Button>
                   </Link>
@@ -232,7 +234,7 @@ export default function DashboardPage() {
               <CardContent className="p-0">
                 <h3 className="font-semibold text-sm text-[#1A1A1A] dark:text-[#F0F0F0] mb-3 flex items-center gap-2">
                   <Scan className="w-4 h-4 text-[#88B078]" />
-                  Último análisis
+                  {t("dashboard.latestAnalysis", locale)}
                 </h3>
                 {hasAnalyses && latestAnalysis ? (
                   <div>
@@ -244,25 +246,25 @@ export default function DashboardPage() {
                         <p className="text-xs text-[#666666] dark:text-[#999999]">{formatDate(latestAnalysis.createdAt)}</p>
                         {latestAnalysis.skinType && (
                           <Badge variant="mint" className="text-[10px] mt-1">
-                            Piel {latestAnalysis.skinType}
+                            {locale === "en" ? "Skin" : "Piel"} {latestAnalysis.skinType}
                           </Badge>
                         )}
                       </div>
                     </div>
                     <Link href={`/analysis/results/${latestAnalysis.id}`}>
                       <Button variant="ghost" size="sm" className="text-xs gap-1 w-full justify-between">
-                        Ver resultados
+                        {t("dashboard.viewResults", locale)}
                         <ChevronRight className="w-3 h-3" />
                       </Button>
                     </Link>
                   </div>
                 ) : (
                   <div>
-                    <p className="text-xs text-[#666666] dark:text-[#999999] mb-3">Aún no has realizado ningún análisis.</p>
+                    <p className="text-xs text-[#666666] dark:text-[#999999] mb-3">{t("dashboard.noAnalysis", locale)}</p>
                     <Link href="/analysis">
                       <Button size="sm" className="text-xs gap-1 w-full">
                         <Scan className="w-3 h-3" />
-                        Comenzar ahora
+                        {t("dashboard.startNow", locale)}
                       </Button>
                     </Link>
                   </div>
@@ -275,25 +277,25 @@ export default function DashboardPage() {
               <CardContent className="p-0">
                 <h3 className="font-semibold text-sm text-[#1A1A1A] dark:text-[#F0F0F0] mb-3 flex items-center gap-2">
                   <Bell className="w-4 h-4 text-[#88B078]" />
-                  Recordatorios
+                  {t("dashboard.reminders", locale)}
                 </h3>
                 <ul className="space-y-2 mb-4">
                   <li className="flex items-start gap-2 text-xs text-[#666666] dark:text-[#999999]">
                     <span className="w-1.5 h-1.5 rounded-full bg-[#88B078] mt-1.5 shrink-0" />
-                    Aplica protector solar cada 2 horas
+                    {t("dashboard.reminder1", locale)}
                   </li>
                   <li className="flex items-start gap-2 text-xs text-[#666666] dark:text-[#999999]">
                     <span className="w-1.5 h-1.5 rounded-full bg-[#88B078] mt-1.5 shrink-0" />
-                    Limpieza facial mañana y noche
+                    {t("dashboard.reminder2", locale)}
                   </li>
                   <li className="flex items-start gap-2 text-xs text-[#666666] dark:text-[#999999]">
                     <span className="w-1.5 h-1.5 rounded-full bg-[#88B078] mt-1.5 shrink-0" />
-                    Hidrata tu piel después de cada limpieza
+                    {t("dashboard.reminder3", locale)}
                   </li>
                 </ul>
                 <Link href="/dashboard/diary">
                   <Button variant="ghost" size="sm" className="text-xs gap-1 w-full justify-between">
-                    Ver rutina
+                    {t("dashboard.viewRoutine", locale)}
                     <ChevronRight className="w-3 h-3" />
                   </Button>
                 </Link>
@@ -307,12 +309,12 @@ export default function DashboardPage() {
                   <Sun className="w-5 h-5 text-[#1A1A1A] dark:text-[#F0F0F0]" />
                 </div>
                 <div className="flex-1 min-w-0">
-                  <p className="text-sm font-medium text-[#1A1A1A] dark:text-[#F0F0F0]">Protección solar</p>
-                  <p className="text-xs text-[#666666] dark:text-[#999999]">Usa SPF 50+ todos los días</p>
+                  <p className="text-sm font-medium text-[#1A1A1A] dark:text-[#F0F0F0]">{t("dashboard.sunProtection", locale)}</p>
+                  <p className="text-xs text-[#666666] dark:text-[#999999]">{t("dashboard.spfReminder", locale)}</p>
                 </div>
                 <Link href="/products?category=proteccion-solar">
                   <Button variant="ghost" size="sm" className="shrink-0 text-xs gap-1">
-                    Ver
+                    {t("common.see", locale)}
                     <ArrowRight className="w-3 h-3" />
                   </Button>
                 </Link>
@@ -325,7 +327,7 @@ export default function DashboardPage() {
         {hasAnalyses && analyses.length > 1 && (
           <div>
             <h2 className="font-semibold text-base text-[#1A1A1A] dark:text-[#F0F0F0] mb-4">
-              Análisis recientes
+              {t("dashboard.recentAnalyses", locale)}
             </h2>
             <div className="space-y-2">
               {analyses.slice(1, 4).map((a, i) => (
@@ -338,7 +340,7 @@ export default function DashboardPage() {
                         </div>
                         <div className="min-w-0">
                           <p className="text-sm font-medium text-[#1A1A1A] dark:text-[#F0F0F0] truncate">
-                            Análisis {a.skinType ? `- ${a.skinType}` : `#${i + 2}`}
+                            {t("dashboard.analysisLabel", locale).replace("{type}", a.skinType ? `- ${a.skinType}` : `#${i + 2}`)}
                           </p>
                           <p className="text-xs text-[#666666] dark:text-[#999999]">
                             {formatDate(a.createdAt)}

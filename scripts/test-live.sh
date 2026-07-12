@@ -71,7 +71,6 @@ echo ""
 echo "--- API Auth Guards (POST no auth → 401) ---"
 check_post_status "$BASE_URL/api/payments/create" 401 "POST /api/payments/create"
 check_post_status "$BASE_URL/api/payments/create-transfer" 401 "POST /api/payments/create-transfer"
-check_post_status "$BASE_URL/api/payments/create-paypal" 401 "POST /api/payments/create-paypal"
 check_post_status "$BASE_URL/api/payments/create-pack" 401 "POST /api/payments/create-pack"
 
 # --- GET API (no auth) - expect 401 ---

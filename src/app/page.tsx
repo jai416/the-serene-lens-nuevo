@@ -18,6 +18,9 @@ import {
   ArrowRight,
   History,
   Package,
+  Timer,
+  Lock,
+  Star,
 } from "lucide-react"
 import { useSession } from "next-auth/react"
 import { SeasonalHero } from "@/components/seasonal-hero"
@@ -67,17 +70,17 @@ export default function HomePage() {
               <SeasonalHero />
               <span className="inline-block bg-[#88B078] text-[#1A1A1A] px-4 py-1.5 rounded-full text-sm font-medium mb-4 shadow-md">
                 <Sparkles className="w-3.5 h-3.5 mr-2 inline" />
-                Observación cosmética con IA
+                Análisis cosmético con IA
               </span>
 
               <h1 className="font-serif text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-semibold leading-[1.08] mb-6 text-[#1A1A1A] dark:text-[#E8DED5]">
-                Conoce mejor
+                Descubre lo que tu
                 <br />
-                tu piel
+                piel necesita
               </h1>
 
-              <p className="text-base sm:text-lg text-[#666666] dark:text-[#9BAA93] leading-relaxed mb-10 max-w-lg">
-                Obtén observaciones cosméticas personalizadas mediante fotografías y seguimiento continuo.
+              <p className="text-base sm:text-lg text-[#666666] dark:text-[#9BAA93] leading-relaxed mb-6 max-w-lg">
+                Sube una selfie y recibe un análisis personalizado con IA en segundos. Sin esperas, sin agendas.
               </p>
 
               <div className="flex flex-col sm:flex-row gap-3">
@@ -95,9 +98,24 @@ export default function HomePage() {
                 </Link>
               </div>
 
-              <p className="text-xs text-[#666666] dark:text-[#666666] mt-4">
-                Sin tarjeta de crédito · Resultados en segundos · Privacidad garantizada
-              </p>
+              <div className="flex flex-wrap gap-4 mt-6">
+                <div className="flex items-center gap-1.5 text-xs text-[#666666]">
+                  <Timer className="w-3.5 h-3.5 text-[#88B078]" />
+                  Análisis en menos de 30 segundos
+                </div>
+                <div className="flex items-center gap-1.5 text-xs text-[#666666]">
+                  <Shield className="w-3.5 h-3.5 text-[#88B078]" />
+                  Privacidad protegida
+                </div>
+                <div className="flex items-center gap-1.5 text-xs text-[#666666]">
+                  <CheckCircle2 className="w-3.5 h-3.5 text-[#88B078]" />
+                  Sin tarjeta de crédito
+                </div>
+                <div className="flex items-center gap-1.5 text-xs text-[#666666]">
+                  <Star className="w-3.5 h-3.5 text-[#88B078]" />
+                  Recomendaciones personalizadas
+                </div>
+              </div>
             </div>
 
             {/* ─── Right: Hero Image ─── */}

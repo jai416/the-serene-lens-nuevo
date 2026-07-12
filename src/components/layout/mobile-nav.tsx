@@ -6,23 +6,27 @@ import { useSession } from "next-auth/react"
 import { Home, Scan, History, Leaf, User } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { ThemeToggleCompact } from "@/components/theme-toggle"
+import { useLocale } from "@/lib/locale/locale-context"
+import { t } from "@/lib/locale/translations"
+import type { TranslationKey } from "@/lib/locale/translations"
 
-const guestItems = [
-  { href: "/", label: "Inicio", icon: Home },
-  { href: "/products", label: "Productos", icon: Leaf },
+const guestItems: Array<{ href: string; labelKey: TranslationKey; icon: any }> = [
+  { href: "/", labelKey: "nav.home", icon: Home },
+  { href: "/products", labelKey: "nav.products", icon: Leaf },
 ]
 
-const authItems = [
-  { href: "/", label: "Inicio", icon: Home },
-  { href: "/analysis", label: "Análisis", icon: Scan },
-  { href: "/dashboard/history", label: "Historial", icon: History },
-  { href: "/products", label: "Productos", icon: Leaf },
-  { href: "/dashboard/profile", label: "Cuenta", icon: User },
+const authItems: Array<{ href: string; labelKey: TranslationKey; icon: any }> = [
+  { href: "/", labelKey: "nav.home", icon: Home },
+  { href: "/analysis", labelKey: "nav.analysis", icon: Scan },
+  { href: "/dashboard/history", labelKey: "nav.history", icon: History },
+  { href: "/products", labelKey: "nav.products", icon: Leaf },
+  { href: "/dashboard/profile", labelKey: "nav.profile", icon: User },
 ]
 
 export function MobileNav() {
   const pathname = usePathname()
   const { data: session } = useSession()
+  const { locale } = useLocale()
   const items = session ? authItems : guestItems
 
   return (
@@ -45,7 +49,7 @@ export function MobileNav() {
                 <span className="absolute -top-1 left-1/2 -translate-x-1/2 w-1 h-1 rounded-full bg-[#88B078]" />
               )}
               <item.icon className="w-5 h-5" />
-              <span className={cn("text-[10px] font-medium whitespace-nowrap", active ? "text-[#88B078] dark:text-[#88B078]" : "")}>{item.label}</span>
+              <span className={cn("text-[10px] font-medium whitespace-nowrap", active ? "text-[#88B078] dark:text-[#88B078]" : "")}>{t(item.labelKey, locale)}</span>
             </Link>
           )
         })}

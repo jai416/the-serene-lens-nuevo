@@ -4,6 +4,7 @@ import { authOptions } from "@/lib/auth"
 import { db } from "@/lib/db"
 import { ok, error, unauthorized, serverError } from "@/lib/api-response"
 import { getQvaPayPaymentStatus } from "@/lib/payments"
+import { validateCsrf } from "@/lib/csrf-middleware"
 import { logger } from "@/lib/logger"
 
 const PACK_ANALYSES: Record<string, number> = {
@@ -14,6 +15,8 @@ const PACK_ANALYSES: Record<string, number> = {
 
 export async function POST(req: NextRequest) {
   try {
+    if (!validateCsrf(req)) return error("CSRF token inválido", 403)
+
     const session = await getServerSession(authOptions)
     if (!session?.user) return unauthorized()
 
@@ -24,7 +27,9 @@ export async function POST(req: NextRequest) {
       return error("Cuerpo inválido")
     }
 
-    const { qvapayId } = body as { qvapayId?: string }
+    const bodyData = body as { qvapayId?: string }
+    const { qvapayId } = bodyData
+
     if (!qvapayId || typeof qvapayId !== "string") {
       return error("qvapayId requerido")
     }

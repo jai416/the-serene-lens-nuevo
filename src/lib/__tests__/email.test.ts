@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest"
-import { buildEmailHtml, buildPasswordResetEmail, buildWelcomeEmail, buildPaymentSuccessEmail } from "@/lib/email"
+import { buildEmailHtml, buildPasswordResetEmail, buildWelcomeEmail, buildPaymentSuccessEmail, buildTrialEndedEmail } from "@/lib/email"
 
 describe("buildEmailHtml", () => {
   it("renders basic email with title and message", () => {
@@ -35,11 +35,30 @@ describe("buildWelcomeEmail", () => {
     const result = buildWelcomeEmail("Juan")
     expect(result.subject).toContain("Bienvenido")
     expect(result.html).toContain("Juan")
+    expect(result.html).toContain("7 días")
+    expect(result.html).toContain("PREMIUM")
   })
 
   it("works with empty name", () => {
     const result = buildWelcomeEmail("")
     expect(result.subject).toContain("Bienvenido")
+    expect(result.html).toContain("7 días")
+    expect(result.html).toContain("PREMIUM")
+  })
+})
+
+describe("buildTrialEndedEmail", () => {
+  it("includes user name and trial ended message", () => {
+    const result = buildTrialEndedEmail("Juan")
+    expect(result.subject).toContain("prueba")
+    expect(result.html).toContain("Juan")
+    expect(result.html).toContain("7 días")
+    expect(result.html).toContain("Essential")
+  })
+
+  it("works with empty name", () => {
+    const result = buildTrialEndedEmail("")
+    expect(result.subject).toContain("prueba")
     expect(result.html).toContain("Essential")
   })
 })

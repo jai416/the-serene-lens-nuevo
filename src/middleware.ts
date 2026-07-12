@@ -47,6 +47,7 @@ export async function middleware(request: NextRequest) {
       !request.nextUrl.pathname.startsWith("/api/auth") &&
       !request.nextUrl.pathname.startsWith("/api/register") &&
       !request.nextUrl.pathname.startsWith("/api/telegram/webhook") &&
+      !request.nextUrl.pathname.startsWith("/api/cron") &&
       !request.nextUrl.pathname.startsWith("/api/chat")) {
     if (!request.headers.get("x-csrf-skip")) {
       const headerToken = request.headers.get("x-csrf-token")
@@ -69,7 +70,8 @@ export async function middleware(request: NextRequest) {
   response.headers.set("X-Content-Type-Options", "nosniff")
   response.headers.set("Referrer-Policy", "strict-origin-when-cross-origin")
 
-  if (request.nextUrl.pathname.startsWith("/admin") || request.nextUrl.pathname.startsWith("/api/admin")) {
+  if ((request.nextUrl.pathname.startsWith("/admin") || request.nextUrl.pathname.startsWith("/api/admin")) &&
+      !request.nextUrl.pathname.startsWith("/api/cron")) {
     const token = await getToken({ req: request, cookieName: "next-auth.session-token" })
     if (!token || token.role !== "ADMIN") {
       if (request.nextUrl.pathname.startsWith("/api/admin")) {

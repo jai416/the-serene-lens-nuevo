@@ -91,8 +91,19 @@ export function buildWelcomeEmail(name: string): { subject: string; html: string
     subject: "¡Bienvenido a The Serene Lens!",
     html: buildEmailHtml(
       `¡Bienvenido${name ? `, ${name}` : ""}!`,
-      `Gracias por registrarte en ${APP_NAME}.\n\nYa puedes comenzar a analizar tu piel con IA, descubrir tu rutina personalizada y seguir tu evolución.\n\nTu plan actual: Essential (1 análisis gratis por mes).`,
+      `Gracias por registrarte en ${APP_NAME}.\n\nTu prueba PREMIUM de 7 días ya comenzó. Disfruta de todos los beneficios: análisis de piel ilimitados, rutinas personalizadas, historial y más.\n\nAl terminar el periodo de prueba, seguirás con el plan Essential (1 análisis gratis por mes).`,
       `${APP_URL}/dashboard`,
+    ),
+  }
+}
+
+export function buildTrialEndedEmail(name: string): { subject: string; html: string } {
+  return {
+    subject: "Tu prueba PREMIUM ha terminado",
+    html: buildEmailHtml(
+      `Tu prueba gratuita terminó${name ? `, ${name}` : ""}`,
+      `Tu periodo de prueba PREMIUM de 7 días ha finalizado.\n\nNo te preocupes, tu cuenta sigue activa en el plan Essential con 1 análisis gratis por mes.\n\nSi quieres seguir disfrutando de todas las funciones premium, puedes suscribirte desde tu panel.`,
+      `${APP_URL}/pricing`,
     ),
   }
 }

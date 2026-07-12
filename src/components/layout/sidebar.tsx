@@ -27,32 +27,36 @@ import {
   HelpCircle,
 } from "lucide-react"
 import { useState } from "react"
+import { useLocale } from "@/lib/locale/locale-context"
+import { t } from "@/lib/locale/translations"
+import type { TranslationKey } from "@/lib/locale/translations"
 
-const guestLinks = [
-  { href: "/", label: "Inicio", icon: Home },
-  { href: "/products", label: "Productos", icon: Package },
-  { href: "/ingredients-analyzer", label: "Ingredientes", icon: Beaker },
+const guestLinks: Array<{ href: string; labelKey: TranslationKey; icon: any }> = [
+  { href: "/", labelKey: "nav.home", icon: Home },
+  { href: "/products", labelKey: "nav.products", icon: Package },
+  { href: "/ingredients-analyzer", labelKey: "nav.ingredients", icon: Beaker },
 ]
 
-const authLinks = [
-  { href: "/", label: "Inicio", icon: Home },
-  { href: "/analysis", label: "Análisis de piel", icon: Scan },
-  { href: "/dashboard/history", label: "Historial", icon: History },
-  { href: "/dashboard/diary", label: "Rutinas", icon: BookOpen },
-  { href: "/dashboard/challenges", label: "Desafíos", icon: Trophy },
-  { href: "/products", label: "Productos", icon: Package },
-  { href: "/guides", label: "Guías", icon: BookOpen },
-  { href: "/ingredients-analyzer", label: "Ingredientes", icon: Beaker },
-  { href: "/dashboard/subscription", label: "Plan", icon: TrendingUp },
-  { href: "/dashboard/report", label: "Informe", icon: FileText },
-  { href: "/dashboard/guides", label: "Mis Guías", icon: Bookmark },
-  { href: "/dashboard/support", label: "Soporte", icon: HelpCircle },
-  { href: "/dashboard/profile", label: "Mi Cuenta", icon: User },
+const authLinks: Array<{ href: string; labelKey: TranslationKey; icon: any }> = [
+  { href: "/", labelKey: "nav.home", icon: Home },
+  { href: "/analysis", labelKey: "nav.analysis", icon: Scan },
+  { href: "/dashboard/history", labelKey: "nav.history", icon: History },
+  { href: "/dashboard/diary", labelKey: "nav.diary", icon: BookOpen },
+  { href: "/dashboard/challenges", labelKey: "nav.challenges", icon: Trophy },
+  { href: "/products", labelKey: "nav.products", icon: Package },
+  { href: "/guides", labelKey: "nav.guides", icon: BookOpen },
+  { href: "/ingredients-analyzer", labelKey: "nav.ingredients", icon: Beaker },
+  { href: "/dashboard/subscription", labelKey: "sidebar.plan", icon: TrendingUp },
+  { href: "/dashboard/report", labelKey: "sidebar.report", icon: FileText },
+  { href: "/dashboard/guides", labelKey: "sidebar.myGuides", icon: Bookmark },
+  { href: "/dashboard/support", labelKey: "nav.support", icon: HelpCircle },
+  { href: "/dashboard/profile", labelKey: "nav.profile", icon: User },
 ]
 
 export function Sidebar() {
   const pathname = usePathname()
   const { data: session } = useSession()
+  const { locale } = useLocale()
   const [mobileOpen, setMobileOpen] = useState(false)
   const links = session ? authLinks : guestLinks
 
@@ -69,8 +73,8 @@ export function Sidebar() {
             <Image src="/logo.webp" alt="The Serene Lens" width={40} height={40} className="w-full h-full object-cover" />
           </div>
           <div>
-            <span className="block text-lg font-semibold leading-tight text-[#1A1A1A] dark:text-[#F0F0F0]">The Serene Lens</span>
-            <span className="text-[11px] text-[#666666] dark:text-[#999999] block leading-tight">Conoce mejor tu piel</span>
+            <span className="block text-lg font-semibold leading-tight text-[#1A1A1A] dark:text-[#F0F0F0]">{t("app.name", locale)}</span>
+            <span className="text-[11px] text-[#666666] dark:text-[#999999] block leading-tight">{t("sidebar.tagline", locale)}</span>
           </div>
         </Link>
       </div>
@@ -91,7 +95,7 @@ export function Sidebar() {
               )}
             >
               <link.icon className={cn("w-4.5 h-4.5 shrink-0", active ? "text-[#88B078]" : "text-[#999999] dark:text-[#777777]")} />
-              {link.label}
+              {t(link.labelKey, locale)}
             </Link>
           )
         })}
@@ -108,7 +112,7 @@ export function Sidebar() {
             )}
           >
             <Settings className="w-4.5 h-4.5 shrink-0" />
-            Admin
+            {t("nav.admin", locale)}
           </Link>
         )}
 
@@ -124,7 +128,7 @@ export function Sidebar() {
             )}
           >
             <User className="w-4.5 h-4.5 shrink-0" />
-            Esteticista
+            {t("nav.esthetician", locale)}
           </Link>
         )}
 
@@ -132,17 +136,17 @@ export function Sidebar() {
           <div className="p-5 rounded-2xl bg-[#FFF9E6] dark:bg-[#3A3A2A] border border-[#FCEAA6]/50 dark:border-[#4A4A2A]/50">
             <Crown className="w-5 h-5 text-[#D4A843] mb-2" />
             <p className="text-sm font-semibold text-[#1A1A1A] dark:text-[#F0F0F0] mb-1">
-              Versión Premium
+              {t("sidebar.premiumVersion", locale)}
             </p>
             <p className="text-xs text-[#666666] dark:text-[#999999] leading-relaxed mb-3">
-              Desbloquea análisis ilimitados e historial completo
+              {t("sidebar.premiumDesc", locale)}
             </p>
             <Link
               href="/pricing"
               onClick={() => setMobileOpen(false)}
               className="inline-flex items-center gap-1.5 text-xs font-semibold text-[#1A1A1A] bg-[#FCEAA6] dark:bg-[#4A4A2A] dark:text-[#F0F0F0] rounded-full px-4 py-2 hover:bg-[#F5E090] dark:hover:bg-[#5A5A3A] transition-colors"
             >
-              Mejorar ahora
+              {t("sidebar.upgradeNow", locale)}
               <ArrowRight className="w-3 h-3" />
             </Link>
           </div>
@@ -165,7 +169,7 @@ export function Sidebar() {
               className="flex items-center gap-3 px-4 py-2.5 text-sm rounded-xl text-[#666666] dark:text-[#999999] hover:bg-[#E2ECE0] dark:hover:bg-[#2A3A2A] hover:text-[#1A1A1A] dark:hover:text-[#F0F0F0] transition-all duration-200 w-full text-left"
             >
               <LogOut className="w-4.5 h-4.5 shrink-0 text-[#88B078]" />
-              Cerrar sesión
+              {t("nav.logout", locale)}
             </button>
           </div>
         ) : (
@@ -175,7 +179,7 @@ export function Sidebar() {
             className="flex items-center gap-3 px-4 py-2.5 text-sm font-medium rounded-xl bg-[#88B078] text-white hover:bg-[#78A068] transition-all duration-200 mt-1"
           >
             <User className="w-4.5 h-4.5 shrink-0" />
-            Iniciar sesión
+            {t("sidebar.login", locale)}
           </Link>
         )}
         <p className="text-[10px] text-[#999999] dark:text-[#888888] text-center mt-2">
@@ -210,7 +214,7 @@ export function Sidebar() {
       <button
         onClick={() => setMobileOpen(!mobileOpen)}
         className="md:hidden fixed top-4 left-4 z-50 w-10 h-10 rounded-xl bg-white dark:bg-[#222222] border border-[#E8E8E8] dark:border-[#333333] flex items-center justify-center shadow-sm"
-        aria-label="Menú"
+        aria-label={t("sidebar.menuLabel", locale)}
       >
         {mobileOpen ? <X className="w-5 h-5 text-[#1A1A1A] dark:text-[#F0F0F0]" /> : <Menu className="w-5 h-5 text-[#1A1A1A] dark:text-[#F0F0F0]" />}
       </button>

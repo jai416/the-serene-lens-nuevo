@@ -4,6 +4,10 @@ const nextConfig = {
   compiler: {
     removeConsole: false,
   },
+  webpack: (config) => {
+    config.optimization.minimize = true
+    return config
+  },
   images: {
     remotePatterns: [
       { protocol: "https", hostname: "avatars.githubusercontent.com" },

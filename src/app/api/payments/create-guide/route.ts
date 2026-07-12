@@ -7,12 +7,12 @@ import { logger } from "@/lib/logger"
 import { validateCsrf } from "@/lib/csrf-middleware"
 
 export async function POST(req: NextRequest) {
-  if (!validateCsrf(req)) return error("CSRF token inválido", 403)
-
-  const session = await getServerSession(authOptions)
-  if (!session?.user) return unauthorized()
-
   try {
+    if (!validateCsrf(req)) return error("CSRF token inválido", 403)
+
+    const session = await getServerSession(authOptions)
+    if (!session?.user) return unauthorized()
+
     let body: unknown
     try {
       body = await req.json()
@@ -122,6 +122,7 @@ export async function POST(req: NextRequest) {
       invoiceId: qvapayData.invoice_id,
     })
   } catch (e) {
-    return error("Error al procesar el pago", 500)
+    logger.error("create-guide error", { error: e instanceof Error ? e.message : String(e) })
+    return serverError(e)
   }
 }

@@ -40,7 +40,6 @@ export async function GET() {
 
     const revenueResult = await db.payment.aggregate({ where: { status: "completed" }, _sum: { amount: true } })
     const qvapayRevenue = await db.payment.aggregate({ where: { status: "completed", provider: "qvapay" }, _sum: { amount: true } })
-    const paypalRevenue = await db.payment.aggregate({ where: { status: "completed", provider: "paypal" }, _sum: { amount: true } })
     const transferRevenue = await db.payment.aggregate({ where: { status: "completed", provider: "transfer" }, _sum: { amount: true } })
     let transferDirectRevenue = 0
     try {
@@ -110,11 +109,9 @@ export async function GET() {
         messages, unreadMessages, posts, products,
         revenue: revenueResult._sum.amount || 0,
         revenueQvaPay: qvapayRevenue._sum.amount || 0,
-        revenuePayPal: paypalRevenue._sum.amount || 0,
         revenueTransfer: transferRevenue._sum.amount || 0,
         revenueByProvider: {
           qvapay: qvapayRevenue._sum.amount || 0,
-          paypal: paypalRevenue._sum.amount || 0,
           transfer: transferRevenue._sum.amount || 0,
           transferDirect: transferDirectRevenue || 0,
         },

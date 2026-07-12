@@ -3,11 +3,14 @@
 import { useSession } from "next-auth/react"
 import { NotificationBell } from "@/components/notifications/notification-bell"
 import { LocaleSwitcher } from "@/components/locale-switcher"
+import { useLocale } from "@/lib/locale/locale-context"
+import { t } from "@/lib/locale/translations"
 
 const premiumPlans = new Set(["PREMIUM", "PRO", "PRO_PLUS", "ESTHETICIAN"])
 
 export function TopHeader() {
   const { data: session } = useSession()
+  const { locale } = useLocale()
 
   if (!session?.user) return null
 
@@ -23,10 +26,10 @@ export function TopHeader() {
         </div>
         <div className="hidden sm:block">
           <p className="text-sm font-medium text-[#1A1A1A] dark:text-[#F0F0F0]">
-            {session.user.name || "Usuario"}
+            {session.user.name || t("common.user", locale)}
           </p>
           {isPremium && (
-            <p className="text-xs font-medium text-[#88B078]">Usuario Premium</p>
+            <p className="text-xs font-medium text-[#88B078]">{t("topHeader.premiumUser", locale)}</p>
           )}
         </div>
       </div>

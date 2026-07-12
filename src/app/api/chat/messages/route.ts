@@ -8,6 +8,9 @@ const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/
 
 export async function GET(req: NextRequest) {
   try {
+    const session = await getServerSession(authOptions)
+    if (!session?.user) return error("No autorizado", 401)
+
     const sessionId = req.nextUrl.searchParams.get("sessionId")
     if (!sessionId || !UUID_RE.test(sessionId)) {
       return error("sessionId inválido", 400)

@@ -149,9 +149,6 @@ export async function POST(req: NextRequest) {
     if (msg.includes("ETIMEDOUT") || msg.includes("fetch failed") || msg.includes("timeout")) {
       return error("El servicio de análisis IA está temporalmente no disponible. Intenta de nuevo en unos minutos.", 503)
     }
-    return NextResponse.json(
-      { success: false, error: "Error al analizar las imágenes. Intenta de nuevo." },
-      { status: 500 }
-    )
+    return error("Error al analizar las imágenes. Intenta de nuevo.", 500)
   }
 }

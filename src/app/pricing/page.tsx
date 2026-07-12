@@ -108,42 +108,6 @@ export default function PricingPage() {
     }
   }
 
-  const handlePayPal = async (id: string) => {
-    if (!session) {
-      router.push("/login?callbackUrl=/pricing")
-      return
-    }
-
-    setLoading(`${id}-paypal`)
-    setError("")
-
-    try {
-      const res = await fetch("/api/payments/create-paypal", {
-        method: "POST",
-        headers: { "Content-Type": "application/json", "x-csrf-token": getCsrfToken() },
-        body: JSON.stringify({ plan: id }),
-      })
-
-      const data = await res.json()
-      const payload = data?.data || data
-
-      if (!res.ok) {
-        throw new Error(data.error?.message || payload?.error || "Error al crear pago PayPal")
-      }
-
-      if (payload?.approvalUrl) {
-        window.location.href = payload.approvalUrl
-      } else {
-        throw new Error("No se recibió URL de pago")
-      }
-    } catch (e) {
-      setError(e instanceof Error ? e.message : "Error al procesar pago con PayPal")
-      toast.error(e instanceof Error ? e.message : "Error al procesar pago con PayPal")
-    } finally {
-      setLoading(null)
-    }
-  }
-
   const handleTransfer = async (id: string, amount: number) => {
     if (!session) {
       router.push("/login?callbackUrl=/pricing")
@@ -178,7 +142,7 @@ export default function PricingPage() {
   }
 
   const isLoadingPlan = (id: string) =>
-    loading === `${id}-paypal` || loading === `${id}-qvapay` || loading === `${id}-transfer`
+    loading === `${id}-qvapay` || loading === `${id}-transfer`
 
   return (
     <div className="min-h-screen pt-24 pb-16 px-4 bg-[#F8F9FA]">
@@ -229,6 +193,17 @@ export default function PricingPage() {
               Entendido
             </Button>
           </div>
+        </div>
+      )}
+
+      {/* Trial banner */}
+      {session?.user?.plan === "PREMIUM" && session?.user?.trialEndsAt && (
+        <div className="max-w-6xl mx-auto mb-8 p-4 rounded-2xl bg-gradient-to-r from-[#FFF9E6] to-[#FFF3CC] border border-[#FCEAA6]">
+          <p className="text-sm text-[#1A1A1A] font-medium text-center">
+            Estas disfrutando de tu prueba PREMIUM de 7 dias. 
+            Tu plan volvera a Essential el {new Date(session.user.trialEndsAt).toLocaleDateString("es-ES", { day: "numeric", month: "long", year: "numeric" })}.
+            {new Date(session.user.trialEndsAt) < new Date() ? " Tu prueba ya expiro. Suscribete para seguir disfrutando." : ""}
+          </p>
         </div>
       )}
 
@@ -367,20 +342,6 @@ export default function PricingPage() {
                       )}
                       {loading === `${plan.id}-transfer` ? "Procesando..." : "Pagar con Transfermovil"}
                     </Button>
-                    <Button
-                      onClick={() => handlePayPal(plan.id)}
-                      disabled={isLoadingPlan(plan.id)}
-                      variant="outline"
-                      className="w-full py-4"
-                      aria-label={`${plan.name} - PayPal`}
-                    >
-                      {loading === `${plan.id}-paypal` ? (
-                        <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-                      ) : (
-                        <DollarSign className="w-4 h-4 mr-2" />
-                      )}
-                      {loading === `${plan.id}-paypal` ? "Procesando..." : "Pagar con PayPal"}
-                    </Button>
                   </div>
                 ) : (
                   <Button
@@ -480,21 +441,7 @@ export default function PricingPage() {
                       <CreditCard className="w-4 h-4 mr-2" />
                     )}
                     {loading === `${pack.id}-transfer` ? "Procesando..." : "Pagar con Transfermovil"}
-                  </Button>
-                  <Button
-                    onClick={() => handlePayPal(pack.id)}
-                    disabled={isLoadingPlan(pack.id)}
-                    variant="outline"
-                    className="w-full py-4"
-                    aria-label={`${pack.name} - PayPal`}
-                  >
-                    {loading === `${pack.id}-paypal` ? (
-                      <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-                    ) : (
-                      <DollarSign className="w-4 h-4 mr-2" />
-                    )}
-                    {loading === `${pack.id}-paypal` ? "Procesando..." : "Pagar con PayPal"}
-                  </Button>
+                    </Button>
                 </div>
               </Card>
             ))}
@@ -507,10 +454,6 @@ export default function PricingPage() {
           <Badge variant="outline" className="rounded-full px-3 py-1.5 gap-1.5 text-xs">
             <DollarSign className="w-3 h-3 text-[#88B078]" />
             USD
-          </Badge>
-          <Badge variant="outline" className="rounded-full px-3 py-1.5 gap-1.5 text-xs">
-            <CreditCard className="w-3 h-3 text-[#88B078]" />
-            PayPal
           </Badge>
           <Badge variant="outline" className="rounded-full px-3 py-1.5 gap-1.5 text-xs">
             <Coins className="w-3 h-3 text-[#88B078]" />

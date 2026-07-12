@@ -14,9 +14,7 @@ export default function PricingSuccessPage() {
   const { data: session } = useSession()
   const searchParams = useSearchParams()
   const qvapayId = searchParams.get("payment_id") || searchParams.get("transaction_uuid")
-  const paypalOrderId = searchParams.get("paypal_order_id") || searchParams.get("token")
-  const plan = searchParams.get("plan")
-  const [verifying, setVerifying] = useState(!!qvapayId || !!paypalOrderId)
+  const [verifying, setVerifying] = useState(!!qvapayId)
   const [verified, setVerified] = useState(false)
   const [error, setError] = useState<string | null>(null)
 
@@ -42,29 +40,8 @@ export default function PricingSuccessPage() {
         }
       }
       verify()
-    } else if (paypalOrderId && plan) {
-      const capture = async () => {
-        try {
-          const res = await fetch("/api/payments/capture-paypal", {
-            method: "POST",
-            headers: { "Content-Type": "application/json", "x-csrf-token": getCsrfToken() },
-            body: JSON.stringify({ orderId: paypalOrderId, plan }),
-          })
-          const data = await res.json()
-          if (data?.data?.captured) {
-            setVerified(true)
-          } else {
-            setError(data?.error || "No se pudo procesar el pago con PayPal")
-          }
-        } catch {
-          setError("No se pudo procesar el pago con PayPal")
-        } finally {
-          setVerifying(false)
-        }
-      }
-      capture()
     }
-  }, [qvapayId, paypalOrderId, plan])
+  }, [qvapayId])
 
   if (verifying) {
     return (

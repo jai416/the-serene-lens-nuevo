@@ -72,25 +72,6 @@ export default function SubscriptionPage() {
     }
   }
 
-  const handlePayPal = async (planId: string) => {
-    setLoadingPayment(`paypal-${planId}`)
-    try {
-      const res = await fetch("/api/payments/create-paypal", {
-        method: "POST",
-        headers: { "Content-Type": "application/json", "x-csrf-token": getCsrfToken() },
-        body: JSON.stringify({ plan: planId }),
-      })
-      const data = await res.json()
-      const payload = data?.data || data
-      if (payload?.approvalUrl) window.location.href = payload.approvalUrl
-      else toast.error(payload?.error || "Error al crear pago con PayPal")
-    } catch {
-      toast.error("Error al procesar pago con PayPal")
-    } finally {
-      setLoadingPayment(null)
-    }
-  }
-
   const handleTransfer = async (planId: string) => {
     setLoadingPayment(`transfer-${planId}`)
     try {
@@ -157,6 +138,21 @@ export default function SubscriptionPage() {
           </h1>
         </div>
 
+        {/* Trial banner */}
+        {session.user.trialEndsAt && (
+          <div className="mb-6 p-4 rounded-2xl bg-gradient-to-r from-[#FFF9E6] to-[#FFF3CC] border border-[#FCEAA6]">
+            <p className="text-sm text-[#1A1A1A] font-medium text-center">
+              Estas disfrutando de tu prueba PREMIUM de 7 dias. Tu plan volvera a Essential el{" "}
+              {new Date(session.user.trialEndsAt).toLocaleDateString("es-ES", { day: "numeric", month: "long", year: "numeric" })}.
+              {new Date(session.user.trialEndsAt) < new Date() && (
+                <span className="block mt-1 text-[#D97706]">
+                  Tu prueba ya expiro. Suscribete para seguir disfrutando de todas las funciones premium.
+                </span>
+              )}
+            </p>
+          </div>
+        )}
+
         {/* Current Plan */}
         <Card className={`p-6 mb-6 ${isPaid ? "ring-1 ring-[#88B078]" : ""}`}>
           <CardContent className="p-0">
@@ -210,19 +206,6 @@ export default function SubscriptionPage() {
                       <CreditCard className="w-4 h-4 mr-2" />
                     )}
                     {loadingPayment === "transfer-PREMIUM" ? "Procesando..." : "Pagar con Transfermovil"}
-                  </Button>
-                  <Button
-                    onClick={() => handlePayPal("PREMIUM")}
-                    disabled={!!loadingPayment}
-                    variant="outline"
-                    className="w-full py-3"
-                  >
-                    {loadingPayment === "paypal-PREMIUM" ? (
-                      <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-                    ) : (
-                      <CreditCard className="w-4 h-4 mr-2" />
-                    )}
-                    {loadingPayment === "paypal-PREMIUM" ? "Procesando..." : "Pagar con PayPal"}
                   </Button>
                 </div>
                 <Link href="/pricing" className="block text-center text-xs text-[#666666] hover:text-[#1A1A1A] mt-2">

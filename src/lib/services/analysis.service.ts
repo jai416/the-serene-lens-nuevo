@@ -55,7 +55,13 @@ export const AnalysisService = {
 
     let result: Record<string, unknown>
     try {
-      result = await analyzeSkinWithGroq(files)
+      result = await analyzeSkinWithGroq(files, {
+        age: body.age,
+        concerns: body.concerns,
+        gender: body.gender,
+        climate: body.climate,
+        routine: body.routine,
+      })
       await setCachedAnalysis([cacheKeyBase64], body.concerns, body.age, result).catch(() => {})
     } catch (e) {
       const msg = e instanceof Error ? e.message : String(e)

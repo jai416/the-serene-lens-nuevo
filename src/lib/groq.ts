@@ -3,33 +3,49 @@ import { logger } from "@/lib/logger"
 const GROQ_API_BASE = "https://api.groq.com/openai/v1"
 const MODEL = "llama-3.2-11b-vision-preview"
 
-const SYSTEM_PROMPT = `Eres un modelo analítico avanzado de IA especializado en estética cosmética y análisis visual del cuidado de la piel. Tu función es evaluar las imágenes de la piel del usuario (frontal, perfil izquierdo, perfil derecho) junto con sus respuestas.
+function buildSystemPrompt(context: { age?: string; concerns?: string; gender?: string; climate?: string; routine?: string }): string {
+  const ageContext = context.age ? `El/la usuario/a tiene ${context.age} años.` : ""
+  const concernsContext = context.concerns ? `Sus principales preocupaciones son: ${context.concerns}.` : ""
+  const routineContext = context.routine ? `Rutina actual: ${context.routine}.` : ""
+  const climateContext = context.climate ? `Clima: ${context.climate}.` : "Clima: Tropical húmedo (predeterminado)."
 
-REGLAS ABSOLUTAS DE COMPORTAMIENTO:
-1. NO eres un dermatólogo ni un médico. Evita por completo el lenguaje clínico, diagnósticos de enfermedades patológicas (como melasma severo, dermatitis, etc.) o términos médicos alarmantes.
-2. NO utilices porcentajes numéricos para evaluar la severidad de los problemas. Utiliza etiquetas descriptivas claras (ej: "Leve", "Moderado", "Lanzando brotes puntuales") y badges de severidad.
-3. Adapta las prioridades de la rutina según la década de edad del usuario y el clima tropical húmedo (enfoque en texturas fluidas, geles, sueros de rápida absorción y protección solar estricta).
-4. Integra la base de conocimiento de ingredientes estáticos del sistema: sugiere activos como Niacinamida, Ácido Salicílico o Centella Asiática explicando su mecanismo cosmético.
+  return `Eres un experto en análisis cosmético y cuidado de la piel. Tu función es evaluar imágenes faciales del usuario (frontal, perfil izquierdo, perfil derecho) combinadas con su información personal para generar un análisis completo y útil.
 
-DEBES DEVOLVER ESTRICTAMENTE UN OBJETO JSON con la siguiente estructura de 8 secciones:
+CONTEXTO DEL USUARIO:
+${ageContext}
+${concernsContext}
+${routineContext}
+${climateContext}
+
+REGLAS ABSOLUTAS:
+1. NO eres un dermatólogo ni un médico. Nunca uses lenguaje clínico, diagnósticos de enfermedades (melasma, dermatitis, rosácea severa, etc.) ni términos que puedan alarmar.
+2. NO uses porcentajes ni números para severidad. Usa SOLO etiquetas descriptivas: "Leve", "Moderado", "Visible", "Lanzando brotes puntuales", "Mínimo".
+3. Clima tropical húmedo: prioriza texturas fluidas, geles, sueros, protección solar de amplio espectro (SPF 50+), limpieza doble.
+4. Según la edad del usuario, ajusta el enfoque: menor de 25 (prevención + control de sebo), 25-35 (primeros signos + hidratación), 35-45 (firmeza + luminosidad), 45+ (nutrición + soporte).
+5. Si el usuario indicó preocupaciones específicas, priorízalas en el análisis.
+6. Sugiere activos cosméticos explicando brevemente su función (ej: "Niacinamida: regula el sebo y unifica el tono"). Usa ingredientes como: Niacinamida, Ácido Salicílico, Ácido Hialurónico, Centella Asiática, Vitamina C, Retinol (uso nocturno), Escualano, Ceramidas, Zinc, Té Verde.
+7. El lenguaje de la respuesta debe coincidir con el mismo idioma de las preguntas (español por defecto).
+
+DEBES DEVOLVER ESTRICTAMENTE UN JSON con esta estructura exacta:
 
 {
-  "resumenGeneral": "Un párrafo empático, claro y directo sobre el estado actual observado.",
-  "tipoDePiel": "Descriptivo (ej: Mixta con tendencia a brillo en zona T)",
+  "resumenGeneral": "Texto empático y claro sobre el estado general observado.",
+  "tipoDePiel": "Ej: Mixta con tendencia a brillo en zona T",
   "observations": [
-    { "zona": "Frente", "detalle": "Presencia de texturas finas o comedones cerrados", "severidad": "Leve" }
+    { "zona": "Frente", "detalle": "Descripción corta", "severidad": "Leve" }
   ],
-  "observationExplanations": "Explicación sencilla de por qué se observan estos factores (calor, sudor, obstrucción por humedad).",
-  "confidenceReason": "Razón estética por la cual la IA determina este estado basándose en la iluminación y claridad de los ángulos provistos.",
-  "factores": ["Deshidratación superficial", "Exceso de sebo"],
-  "recomendaciones": ["Priorizar limpieza doble en las noches", "Evitar exfoliantes físicos agresivos"],
+  "observationExplanations": "Por qué aparecen estos factores en clima tropical.",
+  "confidenceReason": "Qué tan claras están las imágenes para este análisis.",
+  "factores": ["Factor 1", "Factor 2"],
+  "recomendaciones": ["Recomendación 1", "Recomendación 2"],
   "rutina": {
-    "manana": ["Paso 1: Limpiador en gel", "Paso 2: Hidratante fluido", "Paso 3: Protector solar toque seco"],
-    "noche": ["Paso 1: Agua micelar", "Paso 2: Limpiador en gel", "Paso 3: Suero renovador"]
+    "manana": ["Paso 1", "Paso 2", "Paso 3"],
+    "noche": ["Paso 1", "Paso 2", "Paso 3"]
   },
-  "productosRecomendados": ["Limpiadores en gel seborreguladores", "Sueros ligeros de niacinamida"],
-  "historialComparativo": "Nota breve indicando pautas visuales para que el usuario monitoree su evolución en sus próximos escaneos."
+  "productosRecomendados": ["Tipo de producto sugerido con activo clave"],
+  "historialComparativo": "Qué monitorear en el próximo análisis para ver evolución."
 }`
+}
 
 function getApiKey(): string {
   const key = process.env.GROQ_API_KEY
@@ -85,6 +101,7 @@ function sleep(ms: number) {
 async function groqFetch(
   imagesBuffer: Buffer[],
   prompt: string,
+  systemPrompt: string,
   attempt = 1
 ): Promise<any> {
   const key = getApiKey()
@@ -107,7 +124,7 @@ async function groqFetch(
     body: JSON.stringify({
       model: MODEL,
       messages: [
-        { role: "system", content: SYSTEM_PROMPT },
+        { role: "system", content: systemPrompt },
         { role: "user", content },
       ],
       temperature: 0.2,
@@ -120,7 +137,7 @@ async function groqFetch(
     const delay = Math.min(2000 * Math.pow(2, attempt - 1), 10000)
     logger.warn("Groq rate limited, retrying", { attempt, delay })
     await sleep(delay)
-    return groqFetch(imagesBuffer, prompt, attempt + 1)
+    return groqFetch(imagesBuffer, prompt, systemPrompt, attempt + 1)
   }
 
   if (!res.ok) {
@@ -145,7 +162,12 @@ async function groqFetch(
   return extractJSON(content_text)
 }
 
-export async function analyzeSkinWithGroq(files: File[]) {
+export async function analyzeSkinWithGroq(
+  files: File[],
+  context: { age?: string; concerns?: string; gender?: string; climate?: string; routine?: string } = {}
+) {
   const buffers = await Promise.all(files.map((f) => compressImage(f)))
-  return groqFetch(buffers, "Analiza esta foto facial y devuelve el JSON en el formato especificado.")
+  const systemPrompt = buildSystemPrompt(context)
+  const userPrompt = `Analiza estas fotos faciales del usuario. Evalúa: textura, poros, hidratación, sebo, pigmentación, líneas de expresión, ojeras, y uniformidad del tono. Identifica las zonas específicas (frente, mejillas, nariz, barbilla, contorno de ojos). Devuelve el JSON exacto en el formato especificado.`
+  return groqFetch(buffers, userPrompt, systemPrompt)
 }

@@ -35,7 +35,7 @@ export default function ProfilePage() {
   const [saveError, setSaveError] = useState("")
   const [showDelete, setShowDelete] = useState(false)
 
-  if (status === "loading") return <div className="p-8 text-center text-[#666666]">Cargando...</div>
+  if (status === "loading") return <div className="p-8 text-center text-[#666666]">{t("common.loading", locale)}</div>
   if (!session) redirect("/login?callbackUrl=" + encodeURIComponent(pathname))
 
   const handleSave = async () => {
@@ -51,7 +51,7 @@ export default function ProfilePage() {
       await update()
       toast.success(t("profile.saved", locale))
     } catch {
-      setSaveError("Error al guardar los cambios")
+      setSaveError(t("profile.saveError", locale))
     } finally {
       setSaving(false)
     }
@@ -61,10 +61,10 @@ export default function ProfilePage() {
     try {
       const res = await fetch("/api/user/delete-account", { method: "DELETE" })
       if (!res.ok) throw new Error()
-      toast.success("Cuenta eliminada")
+      toast.success(t("profile.accountDeleted", locale))
       signOut({ callbackUrl: "/" })
     } catch {
-      toast.error("No se pudo eliminar la cuenta")
+      toast.error(t("profile.deleteError", locale))
     }
   }
 
@@ -82,7 +82,7 @@ export default function ProfilePage() {
               <div className="flex-1 min-w-0">
                 <div className="flex items-center gap-2 mb-0.5">
                   <h1 className="font-serif text-xl font-semibold text-[#1A1A1A] truncate">
-                    {user.name || "Usuario"}
+                    {user.name || t("common.user", locale)}
                   </h1>
                   <Badge className="rounded-full px-2.5 py-0.5 text-[10px] font-medium shrink-0 bg-[#E2ECE0] text-[#88B078] border-0">
                     {planLabel}
@@ -90,10 +90,10 @@ export default function ProfilePage() {
                 </div>
                 <p className="text-sm text-[#666666]">{user.email}</p>
               </div>
-              <Button variant="outline" size="sm" onClick={() => signOut({ callbackUrl: "/login" })}>
-                <LogOut className="w-3.5 h-3.5 mr-1" />
-                {locale === "en" ? "Sign Out" : "Salir"}
-              </Button>
+                  <Button variant="outline" size="sm" onClick={() => signOut({ callbackUrl: "/login" })}>
+                    <LogOut className="w-3.5 h-3.5 mr-1" />
+                    {t("nav.logout", locale)}
+                  </Button>
             </div>
           </CardContent>
         </Card>
@@ -135,7 +135,7 @@ export default function ProfilePage() {
                 </td>
                 <td className="py-3.5 px-5 text-[#1A1A1A] font-medium">
                   <Link href="/dashboard/history" className="text-[#88B078] hover:underline">
-                    Ver historial
+                    {t("profile.viewHistory", locale)}
                   </Link>
                 </td>
               </tr>
@@ -172,7 +172,7 @@ export default function ProfilePage() {
               value={name}
               onChange={(e) => setName(e.target.value)}
               className="w-full rounded-xl border border-[#E8E8E8] bg-white px-4 py-2.5 text-sm focus:outline-none focus:ring-1 focus:ring-[#88B078] text-[#1A1A1A]"
-              placeholder={locale === "en" ? "Your name" : "Tu nombre"}
+              placeholder={t("profile.namePlaceholder", locale)}
             />
             {saveError && (
               <div className="flex items-center gap-2 p-3 rounded-xl bg-[#FEF2F2] border border-[#FECACA] text-sm text-[#E07070]">

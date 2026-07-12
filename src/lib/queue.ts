@@ -78,7 +78,13 @@ class AnalysisQueue {
           })
         )
 
-        const result = await analyzeSkinWithGroq(files)
+        const result = await analyzeSkinWithGroq(files, {
+          age: body.age,
+          concerns: body.concerns,
+          gender: body.gender,
+          climate: body.climate,
+          routine: body.routine,
+        })
 
         await db.analysisJob.update({
           where: { id: job.id },

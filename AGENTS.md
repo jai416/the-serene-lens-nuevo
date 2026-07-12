@@ -1,16 +1,17 @@
 # AGENTS.md — The Serene Lens
 
 ## Project Status
-**Next.js 16 + Prisma 7 + Groq AI + QvaPay/PayPal/Transfermóvil + Telegram Bot.**
+**Next.js 16 + Prisma 7 + Groq AI + QvaPay/Transfermóvil + Telegram Bot.**
 - Landing, AI skin analysis (Groq Llama 3.2 11B Vision + qwen3-32b text), history, evolution
 - Locale system: EN/ES auto-detect + manual toggle (on top-header and profile)
-- 3 payment providers: QvaPay (CUP), PayPal (REST API v2 USD), Transfermóvil (manual)
+- 2 payment providers: QvaPay (USD, tarjeta internacional), Transfermóvil (CUP, Cuba)
 - Blog, products, ingredient analyzer, community (comments + spam filter)
 - Admin: users, payments, blog, products, guides, feature flags, analytics, health check, Telegram broadcast, AI blog generator
 - PRO+ ($14.99/mo): PDF reports, dynamic routine, monthly comparison
 - Digital guides: e-books sold via QvaPay, PDFs protected (not in public/)
 - Telegram Bot: webhook, permission matrix (FREE trial 72h, PREMIUM+ unlimited, ESTHETICIAN total), TransferSMS detection
 - DB-persistent queue: AnalysisJob polling every 3s, 2.5s throttle between jobs
+- **7-day PREMIUM trial on registration**: new users get PREMIUM plan + `trialEndsAt = now + 7d`. Cron endpoint `POST /api/cron/cleanup-trials` degrades expired trials to FREE + resets analysis limits. Trial banner shown on pricing + subscription pages.
 - **No Redis, no BullMQ, no Stripe**
 
 ## Commands
@@ -90,11 +91,14 @@ The WebcamCapture component is conditionally rendered (`{webcamSlot && <WebcamCa
 
 The middleware sets `csrf-token` cookie via `response.cookies.set()` with `httpOnly: false` explicitly. If this were `httpOnly: true` (default in some Next.js versions), `document.cookie` could not read it and `getCsrfToken()` in `csrf-client.ts` would return empty string, causing all CSPF validations to fail with 403. Always keep `httpOnly: false` for CSRF cookies.
 
-### 10. Modelos de IA
+### 10. Modelos de IA y Prompt
 
 - **Visión (análisis de piel, product scanner):** `llama-3.2-11b-vision-preview` en Groq (gratis)
 - **Texto (chat, RAG, SEO, blog):** `qwen3-32b` en Groq (gratis) — mejora soporte multilingual vs. anterior `llama-3.1-8b-instant`
 - Sin OpenRouter, sin Gemini. Solo Groq free tier.
+- **System prompt dinámico** (`groq.ts`): Se construye con `buildSystemPrompt(context)` que recibe `age`, `concerns`, `gender`, `climate`, `routine` del usuario. Así el análisis se personaliza según la edad, preocupaciones y clima del usuario.
+- **User prompt**: Pide explícitamente evaluar textura, poros, hidratación, sebo, pigmentación, líneas de expresión, ojeras y uniformidad del tono.
+- **Salida**: JSON con 8 secciones, severidades descriptivas (no porcentajes), rutinas AM/PM adaptadas al clima tropical.
 
 ## Environment
 
@@ -103,7 +107,7 @@ All env vars in `.env.example`. Key vars:
 - `GROQ_API_KEY` — AI analysis (vision + text)
 - `GMAIL_USER` / `GMAIL_APP_PASSWORD` — SMTP for all transactional emails
 - `CRON_SECRET` — cron job authorization
-- `PAYPAL_CLIENT_ID` / `PAYPAL_CLIENT_SECRET` — PayPal REST API
+
 - `ROOT_ADMIN_EMAIL` — gets ADMIN role on registration
 - `NEXT_PUBLIC_APP_URL` — `https://the-serene-lens-nuevo.onrender.com`
 
@@ -125,7 +129,7 @@ All env vars in `.env.example`. Key vars:
 - **Prisma 7 with driver adapter**: `@prisma/adapter-pg` + `pg`. Config in `prisma.config.ts`. Imports from `@/generated/prisma/client`.
 - **DB**: PostgreSQL via Supabase. `src/lib/db.ts` creates a singleton `PrismaClient` with a `pg.Pool`.
 - **Auth**: NextAuth v4 JWT strategy. `PrismaAdapter(db) as any`. Google/GitHub providers optional (env-gated). Auto-links OAuth to existing credentials accounts.
-- **Payments**: QvaPay via `app-id`/`app-secret` headers. PayPal via REST API v2. Transfermóvil manual validation via Telegram bot. Webhook idempotency via `WebhookEvent.processedAt`.
+- **Payments**: QvaPay via `app-id`/`app-secret` headers. Transfermóvil manual validation via Telegram bot. Webhook idempotency via `WebhookEvent.processedAt`.
 - **Queue**: `src/lib/queue.ts` — `AnalysisQueue` class. Polls `AnalysisJob` every 3s, processes one at a time, 2.5s throttle. Starts automatically in production.
 - **Groq AI**: Vision: `llama-3.2-11b-vision-preview` (skin analysis). Text: `qwen3-32b` (chat, RAG, SEO, blog). System prompt is JSON with 8 sections. Descriptive severity labels (Leve/Moderado/Visible), no percentages. Prompt explicitly says "NOT a dermatologist."
 - **Locale**: EN/ES via React context. Auto-detects from `navigator.language`, stored in localStorage. Manual toggle in top-header and profile page. Translations in `src/lib/locale/translations.ts`.
@@ -158,8 +162,6 @@ All env vars in `.env.example`. Key vars:
 - `POST /api/payments/create-pack` — QvaPay pack invoice
 - `POST /api/payments/create-guide` — QvaPay invoice for guide
 - `POST /api/payments/webhook` — QvaPay webhook (idempotent)
-- `POST /api/payments/create-paypal` — PayPal order → returns approvalUrl
-- `POST /api/payments/capture-paypal` — capture PayPal after approval
 - `POST /api/payments/validate-transfer` — validator confirms transfer
 - `POST /api/payments/activate-transfer` — admin activates (uses `$transaction`)
 - `POST /api/payments/cancel-transfer` — cancel transfer
@@ -259,7 +261,7 @@ Client-side validation via `src/lib/photo-quality.ts` (OffscreenCanvas). Fallbac
 - `src/lib/queue.ts` — DB-persisted job queue (polls AnalysisJob every 3s)
 - `src/lib/groq.ts` — system prompt (8 sections, severity labels, no percentages), retry on 429 only
 - `src/lib/auth.ts` — registerUser, Google callback auto-username, jwt callback refreshes from DB
-- `src/lib/paypal.ts` — PayPal REST API utility
+
 - `src/lib/cache.ts` — in-memory Map + TTL (products API)
 - `src/lib/prisma-error.ts` — centralized `handlePrismaError(e)` helper (P2003/P2025/P2002)
 - `src/lib/services/analysis.service.ts` — analysis flow with fire-and-forget diary + referral steps

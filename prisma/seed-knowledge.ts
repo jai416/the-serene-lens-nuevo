@@ -541,7 +541,7 @@ También ofrecemos packs de análisis sin suscripción:
 - Pack Popular (5 análisis): $4.99
 - Pack Avanzado (15 análisis): $6.99
 
-Todos los precios están en USD. Aceptamos QvaPay, Transfermóvil (Cuba) y PayPal.`
+Todos los precios están en USD. Aceptamos QvaPay, NOWPayments (crypto/tarjeta) y Transfermóvil (Cuba).`
   },
   {
     title: "Métodos de pago",
@@ -550,7 +550,7 @@ Todos los precios están en USD. Aceptamos QvaPay, Transfermóvil (Cuba) y PayPa
     priority: 9,
     source: "web",
     sourceUrl: "/pricing",
-    keywords: ["pagar", "pago", "métodos", "transfermóvil", "qvapay", "paypal", "cuba"],
+    keywords: ["pagar", "pago", "métodos", "transfermóvil", "qvapay", "cuba"],
     synonyms: ["metodos", "como pagar", "forma de pago", "pagos", "divisa", "usd", "cup"],
     content: `Aceptamos 3 métodos de pago para adaptarnos a todos los usuarios:
 
@@ -565,10 +565,11 @@ Todos los precios están en USD. Aceptamos QvaPay, Transfermóvil (Cuba) y PayPa
    - Procesamiento en 24-48 horas
    - Recibes un código de referencia para validar tu pago
 
-3. PayPal (internacional)
-   - Pago seguro con PayPal
-   - Disponible globalmente
+3. NOWPayments (crypto/tarjeta)
+   - Pago con criptomonedas o tarjeta (sin wallet obligatorio)
+   - Disponible globalmente, incluyendo Cuba
    - Procesamiento automático
+   - Acepta USDT, BTC, ETH y más
 
 Tasa de cambio CUP: El sistema usa una tasa actualizada automáticamente. Si hay problemas con el API de cambio, usa el valor configurado en NEXT_PUBLIC_CUP_FALLBACK (default: 500).`
   },
@@ -885,7 +886,7 @@ El escáner funciona con cualquier producto, solo necesitas una foto clara de la
 - Las imágenes se comprimen antes de enviarse a la IA
 - No guardamos las imágenes originales después del análisis
 - Usamos encriptación SSL para toda la transmisión de datos
-- Los pagos se procesan a través de proveedores seguros (QvaPay, PayPal)
+- Los pagos se procesan a través de proveedores seguros (QvaPay, NOWPayments, Transfermóvil)
 
 Tienes derecho a:
 - Acceder a tus datos personales

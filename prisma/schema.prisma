@@ -29,6 +29,7 @@ model User {
   currentStreak     Int       @default(0)
   maxStreak         Int       @default(0)
   lastCheckInDate   DateTime?
+  trialEndsAt       DateTime?
   createdAt         DateTime  @default(now())
   updatedAt         DateTime  @updatedAt
 
@@ -146,6 +147,7 @@ model SkinAnalysis {
   @@index([createdAt])
   @@index([userId, createdAt])
   @@index([skinType])
+  @@index([userId, skinType])
 }
 
 model BlogPost {
@@ -213,6 +215,7 @@ model Payment {
   @@index([status])
   @@index([createdAt])
   @@index([userId, status])
+  @@index([provider, status])
 }
 
 model TransferPayment {
