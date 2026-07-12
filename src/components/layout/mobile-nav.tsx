@@ -36,7 +36,7 @@ export function MobileNav() {
           const active = item.href === "/" ? pathname === "/" : pathname.startsWith(item.href)
           return (
             <Link
-              key={`${item.href}-${item.label}`}
+              key={`${item.href}-${item.labelKey}`}
               href={item.href}
               className={cn(
                 "flex flex-col items-center gap-0.5 px-2 sm:px-4 py-1.5 rounded-xl transition-all duration-200 relative shrink-0",
