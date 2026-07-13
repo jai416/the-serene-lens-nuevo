@@ -84,7 +84,7 @@ export function Sidebar() {
           const active = isActive(link.href)
           return (
             <Link
-              key={`${link.href}-${link.label}`}
+              key={`${link.href}-${link.labelKey}`}
               href={link.href}
               onClick={() => setMobileOpen(false)}
               className={cn(
