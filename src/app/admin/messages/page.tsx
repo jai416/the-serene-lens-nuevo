@@ -96,17 +96,17 @@ export default function AdminMessagesPage() {
   return (
     <div className="overflow-x-hidden">
       <div className="mb-8">
-        <Link href="/admin" className="text-xs text-[#8892B0] hover:text-[#E2E8F0] inline-flex items-center gap-1 mb-4">
+          <Link href="/admin" className="text-xs text-[#666666] hover:text-[#1A1A1A] inline-flex items-center gap-1 mb-4">
           <ArrowLeft className="w-3 h-3" /> Volver al panel
         </Link>
-        <Badge className="bg-[#7C8CFF]/20 text-[#7C8CFF] border-0 rounded-full px-3 py-1 text-[10px] font-medium">
+        <Badge className="bg-[#88B078]/20 text-[#88B078] border-0 rounded-full px-3 py-1 text-[10px] font-medium">
           <MessageSquare className="w-3 h-3 mr-1.5" />
           Mensajes
         </Badge>
-        <h1 className="text-2xl sm:text-3xl font-bold text-[#E2E8F0] mt-3">
-          Buzón de <span style={{ color: "#7C8CFF" }}>Mensajes</span>
+        <h1 className="text-2xl sm:text-3xl font-bold text-[#1A1A1A] mt-3">
+          Buzón de <span style={{ color: "#88B078" }}>Mensajes</span>
         </h1>
-        <p className="text-sm text-[#8892B0] mt-1">
+        <p className="text-sm text-[#666666] mt-1">
           {unread > 0 ? `${unread} mensajes sin leer` : "Todos los mensajes leídos"}
         </p>
       </div>
@@ -115,8 +115,8 @@ export default function AdminMessagesPage() {
         <div className="mb-4">
           <div className="flex items-center gap-2 mb-2">
             <Crown className="w-4 h-4 text-[#FBBF24]" />
-            <span className="text-sm font-semibold text-[#E2E8F0]">PRO / PRO+</span>
-            <span className="text-[10px] text-[#5A6485]">({proMessages.length})</span>
+            <span className="text-sm font-semibold text-[#1A1A1A]">PRO / PRO+</span>
+            <span className="text-[10px] text-[#666666]">({proMessages.length})</span>
           </div>
           <MessageList messages={proMessages} selected={selected} onSelect={setSelected} onMarkRead={markRead} />
         </div>
@@ -125,9 +125,9 @@ export default function AdminMessagesPage() {
       {estheticianMessages.length > 0 && (
         <div className="mb-4">
           <div className="flex items-center gap-2 mb-2">
-            <Star className="w-4 h-4 text-[#4ADE80]" />
-            <span className="text-sm font-semibold text-[#E2E8F0]">Esteticistas</span>
-            <span className="text-[10px] text-[#5A6485]">({estheticianMessages.length})</span>
+            <Star className="w-4 h-4 text-[#88B078]" />
+            <span className="text-sm font-semibold text-[#1A1A1A]">Esteticistas</span>
+            <span className="text-[10px] text-[#666666]">({estheticianMessages.length})</span>
           </div>
           <MessageList messages={estheticianMessages} selected={selected} onSelect={setSelected} onMarkRead={markRead} />
         </div>
@@ -135,22 +135,22 @@ export default function AdminMessagesPage() {
 
       <div className="mb-4">
         <div className="flex items-center gap-2 mb-2">
-          <MessageSquare className="w-4 h-4 text-[#8892B0]" />
-          <span className="text-sm font-semibold text-[#E2E8F0]">Otros</span>
-          <span className="text-[10px] text-[#5A6485]">({otherMessages.length})</span>
+          <MessageSquare className="w-4 h-4 text-[#666666]" />
+          <span className="text-sm font-semibold text-[#1A1A1A]">Otros</span>
+          <span className="text-[10px] text-[#666666]">({otherMessages.length})</span>
         </div>
         <MessageList messages={otherMessages} selected={selected} onSelect={setSelected} onMarkRead={markRead} />
       </div>
 
       {/* Selected message detail */}
       {selected && (
-        <Card className="mt-4" style={{ backgroundColor: "#22263A", borderColor: "#2D3350" }}>
+        <Card className="mt-4" style={{ backgroundColor: "white", borderColor: "#E8E8E8" }}>
           <CardContent className="p-6">
             <div className="flex items-center justify-between mb-4">
               <div>
-                <h2 className="text-lg font-semibold text-[#E2E8F0]">{selected.name}</h2>
-                <p className="text-sm text-[#8892B0]">{selected.email}</p>
-                <Badge className="mt-1 text-[10px]" style={{ backgroundColor: "#2D3350", color: selected.plan === "PRO_PLUS" || selected.plan === "PRO" ? "#FBBF24" : "#8892B0" }}>
+                <h2 className="text-lg font-semibold text-[#1A1A1A]">{selected.name}</h2>
+                <p className="text-sm text-[#666666]">{selected.email}</p>
+                <Badge className="mt-1 text-[10px]" style={{ backgroundColor: "#E8E8E8", color: selected.plan === "PRO_PLUS" || selected.plan === "PRO" ? "#FBBF24" : "#666666" }}>
                   {selected.plan}
                 </Badge>
               </div>
@@ -159,32 +159,32 @@ export default function AdminMessagesPage() {
                   variant="ghost"
                   size="sm"
                   onClick={() => markRead(selected.id, !selected.read)}
-                  style={{ color: "#8892B0" }}
+                  style={{ color: "#666666" }}
                 >
                   {selected.read ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
                 </Button>
               </div>
             </div>
-            <Badge className="mb-4" style={{ backgroundColor: "#2D3350", color: "#8892B0" }}>{selected.subject}</Badge>
-            <p className="text-sm text-[#E2E8F0] leading-relaxed whitespace-pre-wrap">
+            <Badge className="mb-4" style={{ backgroundColor: "#E8E8E8", color: "#666666" }}>{selected.subject}</Badge>
+            <p className="text-sm text-[#1A1A1A] leading-relaxed whitespace-pre-wrap">
               {selected.message}
             </p>
 
             {selected.reply && (
-              <div className="mt-4 p-4 rounded-xl" style={{ backgroundColor: "#1A1D27", border: "1px solid #2D3350" }}>
-                <p className="text-xs font-medium mb-1" style={{ color: "#7C8CFF" }}>Tu respuesta:</p>
-                <p className="text-sm" style={{ color: "#E2E8F0" }}>{selected.reply}</p>
+              <div className="mt-4 p-4 rounded-xl" style={{ backgroundColor: "white", border: "1px solid #E8E8E8" }}>
+                <p className="text-xs font-medium mb-1" style={{ color: "#88B078" }}>Tu respuesta:</p>
+                <p className="text-sm" style={{ color: "#1A1A1A" }}>{selected.reply}</p>
               </div>
             )}
 
             <div className="mt-4">
-              <label className="text-xs block mb-1" style={{ color: "#5A6485" }}>Responder:</label>
+              <label className="text-xs block mb-1" style={{ color: "#666666" }}>Responder:</label>
               <textarea
                 value={replyText}
                 onChange={(e) => setReplyText(e.target.value)}
                 rows={3}
                 className="w-full rounded-xl p-3 text-sm resize-none focus:outline-none"
-                style={{ backgroundColor: "#1A1D27", border: "1px solid #2D3350", color: "#E2E8F0" }}
+                style={{ backgroundColor: "#F8F9FA", border: "1px solid #E8E8E8", color: "#1A1A1A" }}
                 placeholder="Escribe tu respuesta..."
               />
               <Button
@@ -192,13 +192,13 @@ export default function AdminMessagesPage() {
                 disabled={!replyText.trim() || sending}
                 size="sm"
                 className="mt-2"
-                style={{ backgroundColor: "#7C8CFF", color: "#0F1117" }}
+                style={{ backgroundColor: "#88B078", color: "#fff" }}
               >
                 {sending ? "Enviando..." : "Enviar respuesta"}
               </Button>
             </div>
 
-            <p className="text-xs mt-4" style={{ color: "#5A6485" }}>
+            <p className="text-xs mt-4" style={{ color: "#666666" }}>
               Recibido: {formatDate(selected.createdAt)}
             </p>
           </CardContent>
@@ -231,23 +231,23 @@ function MessageList({
           }}
           className="p-4 rounded-xl cursor-pointer transition-all"
           style={{
-            backgroundColor: selected?.id === m.id ? "#2D3350" : "#1A1D27",
-            border: `1px solid ${!m.read ? "#7C8CFF" : "#2D3350"}`,
+            backgroundColor: selected?.id === m.id ? "white" : "#F8F9FA",
+            border: `1px solid ${!m.read ? "#88B078" : "#E8E8E8"}`,
           }}
         >
           <div className="flex items-center justify-between mb-1">
             <div className="flex items-center gap-2">
-              {!m.read && <span className="w-2 h-2 rounded-full" style={{ backgroundColor: "#7C8CFF" }} />}
-              <p className="font-medium text-sm text-[#E2E8F0]">{m.name}</p>
-              <Badge className="text-[10px]" style={{ backgroundColor: "#2D3350", color: "#8892B0" }}>
+              {!m.read && <span className="w-2 h-2 rounded-full" style={{ backgroundColor: "#88B078" }} />}
+              <p className="font-medium text-sm text-[#1A1A1A]">{m.name}</p>
+              <Badge className="text-[10px]" style={{ backgroundColor: "#E8E8E8", color: "#666666" }}>
                 {m.plan}
               </Badge>
             </div>
-            <span className="text-xs text-[#5A6485]">{formatDate(m.createdAt)}</span>
+            <span className="text-xs text-[#666666]">{formatDate(m.createdAt)}</span>
           </div>
-          <p className="text-xs text-[#5A6485]">{m.email}</p>
-          <p className="text-xs text-[#8892B0] mt-1">{m.subject}</p>
-          <p className="text-sm text-[#8892B0] mt-1 line-clamp-2">{m.message}</p>
+          <p className="text-xs text-[#666666]">{m.email}</p>
+          <p className="text-xs text-[#666666] mt-1">{m.subject}</p>
+          <p className="text-sm text-[#666666] mt-1 line-clamp-2">{m.message}</p>
         </div>
       ))}
     </div>

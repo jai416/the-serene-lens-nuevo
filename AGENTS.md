@@ -2,11 +2,12 @@
 
 ## Project Status
 **Next.js 16 + Prisma 7 + Groq AI + QvaPay/Transfermóvil + Telegram Bot.**
-- Landing, AI skin analysis (Groq Llama 3.2 11B Vision + qwen3-32b text), history, evolution
+- Landing: benefit-driven hero ("Descubre lo que tu piel necesita") + trust signals (30s, privacidad, sin tarjeta)
+- AI skin analysis (Groq Llama 3.2 11B Vision + qwen3-32b text), step-by-step 4-step wizard
 - Locale system: EN/ES auto-detect + manual toggle (on top-header and profile)
 - 2 payment providers: QvaPay (USD, tarjeta internacional), Transfermóvil (CUP, Cuba)
 - Blog, products, ingredient analyzer, community (comments + spam filter)
-- Admin: users, payments, blog, products, guides, feature flags, analytics, health check, Telegram broadcast, AI blog generator
+- Admin panel: light mode (same palette as rest of app), users, payments, blog, products, guides, feature flags, analytics, health check, Telegram broadcast, AI blog generator, knowledge base sync
 - PRO+ ($14.99/mo): PDF reports, dynamic routine, monthly comparison
 - Digital guides: e-books sold via QvaPay, PDFs protected (not in public/)
 - Telegram Bot: webhook, permission matrix (FREE trial 72h, PREMIUM+ unlimited, ESTHETICIAN total), TransferSMS detection

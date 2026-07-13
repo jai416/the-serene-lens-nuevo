@@ -110,21 +110,21 @@ export default function AdminFeatureFlagsPage() {
   return (
     <div className="overflow-x-hidden">
       <div className="mb-8">
-        <Link href="/admin" className="text-xs text-[#8892B0] hover:text-[#E2E8F0] inline-flex items-center gap-1 mb-4">
-          <ArrowLeft className="w-3 h-3" /> Volver al panel
-        </Link>
-        <Badge className="bg-[#7C8CFF]/20 text-[#7C8CFF] border-0 rounded-full px-3 py-1 text-[10px] font-medium">
-          <Settings className="w-3 h-3 mr-1.5" />
-          Feature Flags
-        </Badge>
-        <h1 className="text-2xl sm:text-3xl font-bold text-[#E2E8F0] mt-3">
-          Gestionar <span style={{ color: "#7C8CFF" }}>Funciones</span>
-        </h1>
-        <p className="text-sm text-[#8892B0] mt-1">Activa/desactiva funciones, configura mensajes y redirecciones</p>
+          <Link href="/admin" className="text-xs text-[#666666] hover:text-[#1A1A1A] inline-flex items-center gap-1 mb-4">
+            <ArrowLeft className="w-3 h-3" /> Volver al panel
+          </Link>
+          <Badge className="bg-[#88B078]/20 text-[#88B078] border-0 rounded-full px-3 py-1 text-[10px] font-medium">
+            <Settings className="w-3 h-3 mr-1.5" />
+            Feature Flags
+          </Badge>
+          <h1 className="text-2xl sm:text-3xl font-bold text-[#1A1A1A] mt-3">
+            Gestionar <span style={{ color: "#88B078" }}>Funciones</span>
+          </h1>
+          <p className="text-sm text-[#666666] mt-1">Activa/desactiva funciones, configura mensajes y redirecciones</p>
       </div>
 
       {/* Add new flag */}
-      <Card className="mb-6" style={{ backgroundColor: "#22263A", borderColor: "#2D3350" }}>
+          <Card className="mb-6" style={{ backgroundColor: "white", borderColor: "#E8E8E8" }}>
         <CardContent className="p-4">
           <div className="flex gap-3 mb-3">
             <input
@@ -132,10 +132,10 @@ export default function AdminFeatureFlagsPage() {
               onChange={(e) => setNewFlag(e.target.value)}
               placeholder="Nombre (ej: product-analyzer)"
               className="flex-1 px-4 py-2 rounded-lg text-sm"
-              style={{ backgroundColor: "#2D3350", border: "1px solid #3D4270", color: "#E2E8F0" }}
+              style={{ backgroundColor: "#F8F9FA", border: "1px solid #E8E8E8", color: "#1A1A1A" }}
               onKeyDown={(e) => e.key === "Enter" && addFlag()}
             />
-            <Button onClick={addFlag} style={{ backgroundColor: "#7C8CFF", color: "#fff" }}>
+            <Button onClick={addFlag} style={{ backgroundColor: "#88B078", color: "#fff" }}>
               <Plus className="w-4 h-4 mr-2" />
               Crear
             </Button>
@@ -146,14 +146,14 @@ export default function AdminFeatureFlagsPage() {
               onChange={(e) => setNewMessage(e.target.value)}
               placeholder="Mensaje personalizado (opcional)"
               className="flex-1 px-4 py-2 rounded-lg text-sm"
-              style={{ backgroundColor: "#2D3350", border: "1px solid #3D4270", color: "#E2E8F0" }}
+              style={{ backgroundColor: "#F8F9FA", border: "1px solid #E8E8E8", color: "#1A1A1A" }}
             />
             <input
               value={newRedirect}
               onChange={(e) => setNewRedirect(e.target.value)}
               placeholder="URL de redirección (opcional, ej: /products)"
               className="flex-1 px-4 py-2 rounded-lg text-sm"
-              style={{ backgroundColor: "#2D3350", border: "1px solid #3D4270", color: "#E2E8F0" }}
+              style={{ backgroundColor: "#F8F9FA", border: "1px solid #E8E8E8", color: "#1A1A1A" }}
             />
           </div>
         </CardContent>
@@ -162,28 +162,28 @@ export default function AdminFeatureFlagsPage() {
       {loading ? (
         <ListSkeleton rows={4} />
       ) : Object.keys(flags).length === 0 ? (
-        <Card style={{ backgroundColor: "#22263A", borderColor: "#2D3350" }}>
-          <CardContent className="p-8 text-center" style={{ color: "#8892B0" }}>
+        <Card style={{ backgroundColor: "white", borderColor: "#E8E8E8" }}>
+          <CardContent className="p-8 text-center" style={{ color: "#666666" }}>
             No hay feature flags configurados
           </CardContent>
         </Card>
       ) : (
         <div className="space-y-2">
           {Object.entries(flags).sort(([a], [b]) => a.localeCompare(b)).map(([flag, config]) => (
-            <Card key={flag} style={{ backgroundColor: "#22263A", borderColor: "#2D3350" }}>
+        <Card key={flag} style={{ backgroundColor: "white", borderColor: "#E8E8E8" }}>
               <CardContent className="p-4">
                 <div className="flex items-center justify-between mb-2">
                   <div>
-                    <code className="text-sm font-mono" style={{ color: "#E2E8F0" }}>{flag}</code>
-                    {config.message && <p className="text-xs mt-1" style={{ color: "#8892B0" }}>📝 {config.message}</p>}
-                    {config.redirectUrl && <p className="text-xs" style={{ color: "#5A6485" }}>↪ {config.redirectUrl}</p>}
+                    <code className="text-sm font-mono" style={{ color: "#1A1A1A" }}>{flag}</code>
+                    {config.message && <p className="text-xs mt-1" style={{ color: "#666666" }}>📝 {config.message}</p>}
+                    {config.redirectUrl && <p className="text-xs" style={{ color: "#666666" }}>↪ {config.redirectUrl}</p>}
                   </div>
                   <Button
                     size="sm"
                     onClick={() => toggleFlag(flag, { ...config, enabled: !config.enabled })}
                     style={{
-                      backgroundColor: config.enabled ? "#4ADE80" : "#3D4270",
-                      color: config.enabled ? "#0F1117" : "#8892B0",
+                      backgroundColor: config.enabled ? "#88B078" : "#E8E8E8",
+                      color: config.enabled ? "#1A1A1A" : "#666666",
                       border: "none",
                     }}
                   >
@@ -198,16 +198,16 @@ export default function AdminFeatureFlagsPage() {
                       onChange={(e) => setEditMessage(e.target.value)}
                       placeholder="Mensaje"
                       className="flex-1 px-3 py-1.5 rounded-lg text-xs"
-                      style={{ backgroundColor: "#2D3350", border: "1px solid #3D4270", color: "#E2E8F0" }}
+                    style={{ backgroundColor: "#F8F9FA", border: "1px solid #E8E8E8", color: "#1A1A1A" }}
                     />
                     <input
                       value={editRedirect}
                       onChange={(e) => setEditRedirect(e.target.value)}
                       placeholder="URL redirección"
                       className="flex-1 px-3 py-1.5 rounded-lg text-xs"
-                      style={{ backgroundColor: "#2D3350", border: "1px solid #3D4270", color: "#E2E8F0" }}
+                      style={{ backgroundColor: "#F8F9FA", border: "1px solid #E8E8E8", color: "#1A1A1A" }}
                     />
-                    <Button size="sm" onClick={() => saveEdit(flag)} style={{ backgroundColor: "#7C8CFF", color: "#fff" }}>
+                    <Button size="sm" onClick={() => saveEdit(flag)} style={{ backgroundColor: "#88B078", color: "#fff" }}>
                       Guardar
                     </Button>
                   </div>
@@ -215,7 +215,7 @@ export default function AdminFeatureFlagsPage() {
                   <button
                     onClick={() => startEdit(flag, config)}
                     className="text-xs mt-1 opacity-50 hover:opacity-100"
-                    style={{ color: "#8892B0" }}
+                    style={{ color: "#666666" }}
                   >
                     ✏️ Editar mensaje y redirección
                   </button>

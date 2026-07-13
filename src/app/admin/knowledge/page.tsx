@@ -8,6 +8,7 @@ import { Card, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { BookOpen, ArrowLeft, Plus, Trash2, RefreshCw } from "lucide-react"
+import { getCsrfToken } from "@/lib/csrf-client"
 import { toast } from "sonner"
 import { ListSkeleton } from "@/components/ui/skeleton"
 
@@ -61,7 +62,10 @@ export default function AdminKnowledgePage() {
   const handleSync = async () => {
     setSyncing(true)
     try {
-      const res = await fetch("/api/admin/knowledge/sync", { method: "POST" })
+      const res = await fetch("/api/admin/knowledge/sync", {
+        method: "POST",
+        headers: { "x-csrf-token": getCsrfToken() },
+      })
       if (res.ok) {
         const d = await res.json()
         const data = d?.data || d
@@ -82,7 +86,7 @@ export default function AdminKnowledgePage() {
     try {
       const res = await fetch("/api/admin/knowledge", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: { "Content-Type": "application/json", "x-csrf-token": getCsrfToken() },
         body: JSON.stringify(newEntry),
       })
       if (res.ok) {
@@ -98,7 +102,10 @@ export default function AdminKnowledgePage() {
   const handleDelete = async (id: string) => {
     if (!confirm("¿Eliminar esta entrada?")) return
     try {
-      const res = await fetch(`/api/admin/knowledge/${id}`, { method: "DELETE" })
+      const res = await fetch(`/api/admin/knowledge/${id}`, {
+        method: "DELETE",
+        headers: { "x-csrf-token": getCsrfToken() },
+      })
       if (res.ok) {
         toast.success("Entrada eliminada")
         setEntries(entries.filter((e) => e.id !== id))
@@ -125,55 +132,52 @@ export default function AdminKnowledgePage() {
   }
 
   return (
-    <div className="overflow-x-hidden">
+    <div>
       <div className="mb-8">
-        <Link href="/admin" className="text-xs text-[#8892B0] hover:text-[#E2E8F0] inline-flex items-center gap-1 mb-4">
+        <Link href="/admin" className="text-xs text-[#666666] hover:text-[#1A1A1A] inline-flex items-center gap-1 mb-4">
           <ArrowLeft className="w-3 h-3" /> Volver al panel
         </Link>
-        <Badge className="bg-[#7C8CFF]/20 text-[#7C8CFF] border-0 rounded-full px-3 py-1 text-[10px] font-medium">
+        <Badge className="bg-[#E2ECE0] text-[#1A1A1A] border-0 rounded-full px-3 py-1 text-[10px] font-medium">
           <BookOpen className="w-3 h-3 mr-1.5" />
           Base de Conocimiento
         </Badge>
-        <h1 className="text-2xl sm:text-3xl font-bold text-[#E2E8F0] mt-3">
-          Conocimiento del <span style={{ color: "#7C8CFF" }}>Bot</span>
+        <h1 className="text-2xl sm:text-3xl font-bold text-[#1A1A1A] mt-3">
+          Conocimiento del <span className="text-[#88B078]">Bot</span>
         </h1>
-        <p className="text-sm text-[#8892B0] mt-1">Gestiona la información que usa el bot de Telegram para responder</p>
+        <p className="text-sm text-[#666666] mt-1">Gestiona la información que usa el bot de Telegram para responder</p>
       </div>
 
       {/* Actions */}
       <div className="flex gap-2 mb-6">
-        <Button onClick={handleSync} disabled={syncing} style={{ backgroundColor: "#7C8CFF", color: "#fff" }}>
+        <Button onClick={handleSync} disabled={syncing} className="bg-[#88B078] text-white hover:bg-[#6F9A5E]">
           <RefreshCw className={`w-4 h-4 mr-2 ${syncing ? "animate-spin" : ""}`} />
           {syncing ? "Sincronizando..." : "Sincronizar con la web"}
         </Button>
       </div>
 
       {/* Create new */}
-      <Card className="mb-6" style={{ backgroundColor: "#22263A", borderColor: "#2D3350" }}>
+      <Card className="mb-6 border border-[#E8E8E8]">
         <CardContent className="p-4">
-          <h3 className="text-sm font-semibold text-[#E2E8F0] mb-3">Nueva entrada</h3>
+          <h3 className="text-sm font-semibold text-[#1A1A1A] mb-3">Nueva entrada</h3>
           <div className="grid gap-3">
             <input
               value={newEntry.title}
               onChange={(e) => setNewEntry({ ...newEntry, title: e.target.value })}
               placeholder="Título"
-              className="px-4 py-2 rounded-lg text-sm"
-              style={{ backgroundColor: "#2D3350", border: "1px solid #3D4270", color: "#E2E8F0" }}
+              className="px-4 py-2 rounded-lg text-sm border border-[#E8E8E8] bg-[#F8F9FA] text-[#1A1A1A]"
             />
             <textarea
               value={newEntry.content}
               onChange={(e) => setNewEntry({ ...newEntry, content: e.target.value })}
               placeholder="Contenido (markdown o texto)"
               rows={3}
-              className="px-4 py-2 rounded-lg text-sm"
-              style={{ backgroundColor: "#2D3350", border: "1px solid #3D4270", color: "#E2E8F0" }}
+              className="px-4 py-2 rounded-lg text-sm border border-[#E8E8E8] bg-[#F8F9FA] text-[#1A1A1A]"
             />
             <div className="flex gap-3">
               <select
                 value={newEntry.category}
                 onChange={(e) => setNewEntry({ ...newEntry, category: e.target.value })}
-                className="px-4 py-2 rounded-lg text-sm"
-                style={{ backgroundColor: "#2D3350", border: "1px solid #3D4270", color: "#E2E8F0" }}
+                className="px-4 py-2 rounded-lg text-sm border border-[#E8E8E8] bg-[#F8F9FA] text-[#1A1A1A]"
               >
                 <option value="general">General</option>
                 <option value="pricing">Precios</option>
@@ -187,11 +191,10 @@ export default function AdminKnowledgePage() {
                 value={newEntry.priority}
                 onChange={(e) => setNewEntry({ ...newEntry, priority: parseInt(e.target.value) || 0 })}
                 placeholder="Prioridad (0-10)"
-                className="w-24 px-4 py-2 rounded-lg text-sm"
-                style={{ backgroundColor: "#2D3350", border: "1px solid #3D4270", color: "#E2E8F0" }}
+                className="w-24 px-4 py-2 rounded-lg text-sm border border-[#E8E8E8] bg-[#F8F9FA] text-[#1A1A1A]"
               />
             </div>
-            <Button onClick={handleCreate} style={{ backgroundColor: "#4ADE80", color: "#0F1117" }}>
+            <Button onClick={handleCreate} className="bg-[#88B078] text-white hover:bg-[#6F9A5E]">
               <Plus className="w-4 h-4 mr-2" />
               Crear entrada
             </Button>
@@ -203,28 +206,28 @@ export default function AdminKnowledgePage() {
       {loading ? (
         <ListSkeleton rows={5} />
       ) : entries.length === 0 ? (
-        <Card style={{ backgroundColor: "#22263A", borderColor: "#2D3350" }}>
-          <CardContent className="p-8 text-center text-[#8892B0]">No hay entradas de conocimiento</CardContent>
+        <Card className="border border-[#E8E8E8]">
+          <CardContent className="p-8 text-center text-[#666666]">No hay entradas de conocimiento</CardContent>
         </Card>
       ) : (
         <div className="space-y-2">
           {entries.map((entry) => (
-            <Card key={entry.id} style={{ backgroundColor: "#22263A", borderColor: "#2D3350" }}>
+            <Card key={entry.id} className="border border-[#E8E8E8]">
               <CardContent className="p-4">
                 <div className="flex items-start justify-between">
                   <div className="flex-1">
                     <div className="flex items-center gap-2 mb-1">
-                      <span className={`text-[10px] px-2 py-0.5 rounded-full font-medium ${entry.enabled ? "bg-[#4ADE80]/20 text-[#4ADE80]" : "bg-[#FB7185]/20 text-[#FB7185]"}`}>
+                      <span className={`text-[10px] px-2 py-0.5 rounded-full font-medium ${entry.enabled ? "bg-[#E2ECE0] text-[#88B078]" : "bg-[#FEF2F2] text-[#E07070]"}`}>
                         {entry.enabled ? "Activo" : "Inactivo"}
                       </span>
-                      <Badge className="text-[10px]" style={{ backgroundColor: "#2D3350", color: "#8892B0" }}>
+                      <Badge className="text-[10px] bg-[#F8F9FA] text-[#666666]">
                         {entry.category}{entry.subcategory ? ` / ${entry.subcategory}` : ""}
                       </Badge>
-                      <span className="text-[10px] text-[#5A6485]">v{entry.version}</span>
+                      <span className="text-[10px] text-[#666666]">v{entry.version}</span>
                     </div>
-                    <h3 className="text-sm font-semibold text-[#E2E8F0]">{entry.title}</h3>
-                    <p className="text-xs text-[#8892B0] mt-1 line-clamp-2">{entry.content.slice(0, 200)}</p>
-                    <div className="flex items-center gap-3 mt-2 text-[10px] text-[#5A6485]">
+                    <h3 className="text-sm font-semibold text-[#1A1A1A]">{entry.title}</h3>
+                    <p className="text-xs text-[#666666] mt-1 line-clamp-2">{entry.content.slice(0, 200)}</p>
+                    <div className="flex items-center gap-3 mt-2 text-[10px] text-[#666666]">
                       <span>👍 {entry.helpfulCount}</span>
                       <span>👎 {entry.unhelpfulCount}</span>
                       <span>Prioridad: {entry.priority}</span>
@@ -232,11 +235,11 @@ export default function AdminKnowledgePage() {
                     </div>
                   </div>
                   <div className="flex gap-1 ml-4">
-                    <button onClick={() => handleToggle(entry)} className="p-1.5 rounded hover:bg-[#2D3350]" title={entry.enabled ? "Desactivar" : "Activar"}>
+                    <button onClick={() => handleToggle(entry)} className="p-1.5 rounded hover:bg-[#F0F0F0]" title={entry.enabled ? "Desactivar" : "Activar"}>
                       {entry.enabled ? "✅" : "⏸️"}
                     </button>
-                    <button onClick={() => handleDelete(entry.id)} className="p-1.5 rounded hover:bg-[#2D3350]" title="Eliminar">
-                      <Trash2 className="w-3.5 h-3.5 text-[#FB7185]" />
+                    <button onClick={() => handleDelete(entry.id)} className="p-1.5 rounded hover:bg-[#F0F0F0]" title="Eliminar">
+                      <Trash2 className="w-3.5 h-3.5 text-[#E07070]" />
                     </button>
                   </div>
                 </div>
