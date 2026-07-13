@@ -17,7 +17,7 @@ const CSP_DIRECTIVES = [
   "frame-ancestors 'none'",
 ].join("; ")
 
-export async function proxy(request: NextRequest) {
+export async function middleware(request: NextRequest) {
   const start = performance.now()
   const correlationId = request.headers.get("x-correlation-id") || generateCorrelationId()
   setCorrelationId(correlationId)
