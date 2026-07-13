@@ -106,7 +106,7 @@ export default function AdminTransfersPage() {
         <Button
           size="sm"
           variant="outline"
-          className="text-xs border-[#88B078] text-[#1A1A1A] dark:text-[#E8EDE6] hover:bg-[#88B078]/20"
+          className="text-xs border-[#88B078] text-[#1A1A1A] hover:bg-[#88B078]/20"
           onClick={() => handleValidate(t.referenceCode)}
         >
           <CheckCircle2 className="w-3 h-3 mr-1" />
@@ -119,7 +119,7 @@ export default function AdminTransfersPage() {
         <Button
           size="sm"
           variant="outline"
-          className="text-xs border-[#88B078] text-[#1A1A1A] dark:text-[#E8EDE6] hover:bg-[#88B078]/20"
+          className="text-xs border-[#88B078] text-[#1A1A1A] hover:bg-[#88B078]/20"
           onClick={() => handleActivate(t.referenceCode)}
         >
           <ShieldCheck className="w-3 h-3 mr-1" />
@@ -128,16 +128,16 @@ export default function AdminTransfersPage() {
       )
     }
     if (t.status === "activated") {
-      return <span className="text-xs text-[#666666] dark:text-[#9BAA93]">Completado</span>
+      return <span className="text-xs text-[#666666]">Completado</span>
     }
     return null
   }
 
   return (
-    <div className="min-h-screen bg-[#F8F9FA] dark:bg-[#1A1F19] pt-24 pb-16 px-4">
+    <div className="min-h-screen bg-[#F8F9FA] pt-24 pb-16 px-4">
       <div className="max-w-6xl mx-auto">
         <div className="mb-8">
-          <Link href="/admin" className="text-sm text-[#666666] dark:text-[#9BAA93] hover:text-[#1A1A1A] dark:hover:text-[#E8EDE6] inline-flex items-center gap-1 mb-4">
+          <Link href="/admin" className="text-sm text-[#666666] hover:text-[#1A1A1A] inline-flex items-center gap-1 mb-4">
             <ArrowLeft className="w-3 h-3" /> Volver al panel
           </Link>
           <Badge variant="secondary" className="mb-4 rounded-full px-4 py-1.5">
@@ -147,7 +147,7 @@ export default function AdminTransfersPage() {
           <h1 className="font-serif text-3xl font-semibold mb-2">
             Gestión de <span className="gradient-text">Transferencias</span>
           </h1>
-          <p className="text-sm text-[#666666] dark:text-[#9BAA93]">
+          <p className="text-sm text-[#666666]">
             Valida y activa pagos por transferencia bancaria
           </p>
         </div>
@@ -156,38 +156,38 @@ export default function AdminTransfersPage() {
           <div className="overflow-x-auto">
             <table className="w-full text-sm">
               <thead>
-                <tr className="border-b border-[#E8E8E8] dark:border-[#3A4536]/20">
-                  <th className="text-left p-4 font-medium text-[#666666] dark:text-[#9BAA93]">Cliente</th>
-                  <th className="text-left p-4 font-medium text-[#666666] dark:text-[#9BAA93]">Plan</th>
-                  <th className="text-left p-4 font-medium text-[#666666] dark:text-[#9BAA93]">Monto</th>
-                  <th className="text-left p-4 font-medium text-[#666666] dark:text-[#9BAA93]">Referencia</th>
-                  <th className="text-left p-4 font-medium text-[#666666] dark:text-[#9BAA93]">Fecha</th>
-                  <th className="text-left p-4 font-medium text-[#666666] dark:text-[#9BAA93]">Estado</th>
-                  <th className="text-left p-4 font-medium text-[#666666] dark:text-[#9BAA93]">Acciones</th>
+                <tr className="border-b border-[#E8E8E8]">
+                  <th className="text-left p-4 font-medium text-[#666666]">Cliente</th>
+                  <th className="text-left p-4 font-medium text-[#666666]">Plan</th>
+                  <th className="text-left p-4 font-medium text-[#666666]">Monto</th>
+                  <th className="text-left p-4 font-medium text-[#666666]">Referencia</th>
+                  <th className="text-left p-4 font-medium text-[#666666]">Fecha</th>
+                  <th className="text-left p-4 font-medium text-[#666666]">Estado</th>
+                  <th className="text-left p-4 font-medium text-[#666666]">Acciones</th>
                 </tr>
               </thead>
               <tbody>
                 {loading ? (
                   <tr>
-                    <td colSpan={7} className="p-8 text-center text-[#666666] dark:text-[#9BAA93]">Cargando transferencias...</td>
+                    <td colSpan={7} className="p-8 text-center text-[#666666]">Cargando transferencias...</td>
                   </tr>
                 ) : transfers.length === 0 ? (
                   <tr>
-                    <td colSpan={7} className="p-8 text-center text-[#666666] dark:text-[#9BAA93]">No hay transferencias registradas</td>
+                    <td colSpan={7} className="p-8 text-center text-[#666666]">No hay transferencias registradas</td>
                   </tr>
                 ) : (
                   transfers.map((t) => {
                     const cfg = statusConfig[t.status] || { label: t.status, variant: "secondary" as const }
                     return (
-                      <tr key={t.id} className="border-b border-[#E8E8E8] dark:border-[#3A4536]/10 hover:bg-[#E2ECE0] dark:hover:bg-[#2A3228] transition-colors">
+                      <tr key={t.id} className="border-b border-[#E8E8E8] hover:bg-[#E2ECE0] transition-colors">
                         <td className="p-4">
                           <p className="font-medium">{t.user.name || "—"}</p>
-                          <p className="text-xs text-[#666666] dark:text-[#9BAA93]">{t.user.email}</p>
+                          <p className="text-xs text-[#666666]">{t.user.email}</p>
                         </td>
                         <td className="p-4">{t.plan}</td>
                         <td className="p-4 font-medium">${t.amount.toFixed(2)}</td>
-                        <td className="p-4 text-xs text-[#666666] dark:text-[#9BAA93] font-mono">{t.referenceCode}</td>
-                        <td className="p-4 text-xs text-[#666666] dark:text-[#9BAA93]">{formatDate(t.createdAt)}</td>
+                        <td className="p-4 text-xs text-[#666666] font-mono">{t.referenceCode}</td>
+                        <td className="p-4 text-xs text-[#666666]">{formatDate(t.createdAt)}</td>
                         <td className="p-4">
                           <Badge variant={cfg.variant} className="text-[10px]">{cfg.label}</Badge>
                         </td>

@@ -45,7 +45,7 @@ export default function ForgotPasswordPage() {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center px-4 py-12 bg-[#F8F9FA] dark:bg-[#1A1F19]">
+    <div className="min-h-screen flex items-center justify-center px-4 py-12 bg-[#F8F9FA]">
       <div className="w-full max-w-md">
         <div className="text-center mb-8">
           <div className="w-14 h-14 rounded-2xl bg-[#88B078] flex items-center justify-center mx-auto mb-4">
@@ -55,10 +55,10 @@ export default function ForgotPasswordPage() {
             <KeyRound className="w-3.5 h-3.5 mr-2" />
             Recuperar Contraseña
           </Badge>
-          <h1 className="font-serif text-3xl sm:text-4xl font-semibold text-[#1A1A1A] dark:text-[#E8DED5]">
+          <h1 className="font-serif text-3xl sm:text-4xl font-semibold text-[#1A1A1A]">
             ¿Olvidaste tu Contraseña?
           </h1>
-          <p className="text-[#666666] dark:text-[#9BAA93] mt-2 text-sm">
+          <p className="text-[#666666] mt-2 text-sm">
             Ingresa tu email y te enviaremos un enlace para restablecerla.
           </p>
         </div>
@@ -66,7 +66,7 @@ export default function ForgotPasswordPage() {
         <Card>
           <CardContent className="p-8">
             {error && (
-              <div className="flex items-center gap-2 bg-[#FEF2F2] dark:bg-[#3B1F1F] border border-[#FECACA] dark:border-[#6B2A2A] rounded-xl px-4 py-3 mb-4 text-sm text-[#E07070] dark:text-[#FCA5A5]">
+              <div className="flex items-center gap-2 bg-[#FEF2F2] border border-[#FECACA] rounded-xl px-4 py-3 mb-4 text-sm text-[#E07070]">
                 <AlertCircle className="w-4 h-4 flex-shrink-0" />
                 {error}
               </div>
@@ -75,16 +75,16 @@ export default function ForgotPasswordPage() {
             {success ? (
                 <div className="text-center">
                   <div className="w-14 h-14 rounded-2xl bg-[#88B078] flex items-center justify-center mx-auto mb-4">
-                    <CheckCircle2 className="w-6 h-6 text-[#1A1A1A] dark:text-[#1A1F19]" />
+                    <CheckCircle2 className="w-6 h-6 text-[#1A1A1A]" />
                   </div>
-                  <p className="text-sm text-[#666666] dark:text-[#9BAA93] mb-4">
+                  <p className="text-sm text-[#666666] mb-4">
                     {resetLink
                       ? "Modo desarrollo: usa el enlace para restablecer tu contraseña."
                       : "Si existe una cuenta con ese email, recibirás instrucciones para restablecer tu contraseña."}
                   </p>
                   {resetLink && (
-                    <div className="p-3 rounded-xl bg-[#E2ECE0] dark:bg-[#211C17] border border-[#88B078] dark:border-[#222920] mb-4 break-all">
-                      <a href={resetLink} className="text-sm text-[#1A1A1A] dark:text-[#E8DED5] underline font-medium">{resetLink}</a>
+                    <div className="p-3 rounded-xl bg-[#E2ECE0] border border-[#88B078] mb-4 break-all">
+                      <a href={resetLink} className="text-sm text-[#1A1A1A] underline font-medium">{resetLink}</a>
                     </div>
                   )}
                 <Link href="/login">
@@ -96,11 +96,11 @@ export default function ForgotPasswordPage() {
             ) : (
               <form onSubmit={handleSubmit} className="space-y-4">
                 <div>
-                  <label htmlFor="email" className="block text-sm font-medium mb-1.5 text-[#1A1A1A] dark:text-[#E8DED5]">
+                  <label htmlFor="email" className="block text-sm font-medium mb-1.5 text-[#1A1A1A]">
                     Email
                   </label>
                   <div className="relative">
-                    <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#9BAA93] dark:text-[#9BAA93]" />
+                    <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#9BAA93]" />
                     <input
                       id="email"
                       name="email"
@@ -108,7 +108,7 @@ export default function ForgotPasswordPage() {
                       autoComplete="email"
                       value={email}
                       onChange={(e) => setEmail(e.target.value)}
-                      className="w-full bg-white dark:bg-[#211C17] border border-[#E8E8E8] dark:border-[#222920] rounded-xl px-10 py-2.5 text-sm focus:outline-none focus:border-[#88B078] dark:focus:border-[#88B078] focus:ring-1 focus:ring-[#88B078] dark:focus:ring-[#88B078] transition-colors placeholder:text-[#9BAA93] dark:placeholder:text-[#9BAA93] text-[#1A1A1A] dark:text-[#E8DED5]"
+                      className="w-full bg-white border border-[#E8E8E8] rounded-xl px-10 py-2.5 text-sm focus:outline-none focus:border-[#88B078] focus:ring-1 focus:ring-[#88B078] transition-colors placeholder:text-[#9BAA93] text-[#1A1A1A]"
                       placeholder="tu@email.com"
                       required
                     />
@@ -131,7 +131,7 @@ export default function ForgotPasswordPage() {
         </Card>
 
         <div className="text-center mt-6">
-          <Link href="/login" className="text-sm text-[#666666] dark:text-[#9BAA93] hover:text-[#1A1A1A] dark:hover:text-[#E8EDE6] transition-colors inline-flex items-center gap-1.5">
+          <Link href="/login" className="text-sm text-[#666666] hover:text-[#1A1A1A] transition-colors inline-flex items-center gap-1.5">
             <ArrowLeft className="w-3.5 h-3.5" />
             Volver a iniciar sesión
           </Link>

@@ -63,7 +63,7 @@ export default function HomePage() {
   return (
     <div className="min-h-screen">
       {/* ─── Hero ─── */}
-      <section className="relative min-h-[90vh] flex items-center py-20 px-4 sm:px-8 overflow-hidden bg-gradient-to-b from-[#F8F9FA] via-[#F8F9FA] to-white dark:from-[#1A1F19] dark:via-[#1A1F19] dark:to-[#1A1612]">
+      <section className="relative min-h-[90vh] flex items-center py-20 px-4 sm:px-8 overflow-hidden bg-gradient-to-b from-[#F8F9FA] via-[#F8F9FA] to-white">
         <div className="max-w-7xl mx-auto w-full">
           <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
             <div className="animate-fade-in-up max-w-xl">
@@ -73,13 +73,13 @@ export default function HomePage() {
                 Análisis cosmético con IA
               </span>
 
-              <h1 className="font-serif text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-semibold leading-[1.08] mb-6 text-[#1A1A1A] dark:text-[#E8DED5]">
+              <h1 className="font-serif text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-semibold leading-[1.08] mb-6 text-[#1A1A1A]">
                 Descubre lo que tu
                 <br />
                 piel necesita
               </h1>
 
-              <p className="text-base sm:text-lg text-[#666666] dark:text-[#9BAA93] leading-relaxed mb-6 max-w-lg">
+              <p className="text-base sm:text-lg text-[#666666] leading-relaxed mb-6 max-w-lg">
                 Sube una selfie y recibe un análisis personalizado con IA en segundos. Sin esperas, sin agendas.
               </p>
 
@@ -91,7 +91,7 @@ export default function HomePage() {
                   </button>
                 </Link>
                 <Link href="#how-it-works">
-                  <button className="inline-flex items-center justify-center text-base font-semibold transition-all bg-white dark:bg-[#2A2A2A] text-[#1A1A1A] dark:text-[#E8DED5] px-8 py-6 rounded-full border-2 border-[#E8E8E8] dark:border-[#4A4A4A] hover:bg-[#F8F9FA] dark:hover:bg-[#333333]">
+                  <button className="inline-flex items-center justify-center text-base font-semibold transition-all bg-white text-[#1A1A1A] px-8 py-6 rounded-full border-2 border-[#E8E8E8] hover:bg-[#F8F9FA]">
                     Ver cómo funciona
                     <ArrowRight className="w-4 h-4 ml-2" />
                   </button>
@@ -143,15 +143,15 @@ export default function HomePage() {
             {actionCards.map((card, i) => (
               <Link key={card.title} href={card.href}>
                 <Card
-                  className="p-5 transition-all duration-300 hover:shadow-[0_8px_24px_rgba(61,50,41,0.1)] hover:-translate-y-1 cursor-pointer animate-fade-in-up h-full border-t-4 border-t-[#1A1A1A] dark:border-t-[#88B078]"
+                  className="p-5 transition-all duration-300 hover:shadow-[0_8px_24px_rgba(61,50,41,0.1)] hover:-translate-y-1 cursor-pointer animate-fade-in-up h-full border-t-4 border-t-[#1A1A1A]"
                   style={{ animationDelay: `${i * 100}ms` }}
                 >
                   <CardContent className="p-0">
                     <div className="w-10 h-10 rounded-xl bg-[#88B078] flex items-center justify-center mb-4">
                       <card.icon className="w-5 h-5 text-[#1A1A1A]" />
                     </div>
-                    <h3 className="font-serif text-base font-semibold text-[#1A1A1A] dark:text-[#E8DED5] mb-1">{card.title}</h3>
-                    <p className="text-xs text-[#666666] dark:text-[#9BAA93] leading-relaxed">{card.description}</p>
+                    <h3 className="font-serif text-base font-semibold text-[#1A1A1A] mb-1">{card.title}</h3>
+                    <p className="text-xs text-[#666666] leading-relaxed">{card.description}</p>
                   </CardContent>
                 </Card>
               </Link>
@@ -161,16 +161,16 @@ export default function HomePage() {
       </section>
 
       {/* ─── How It Works ─── */}
-      <section id="how-it-works" className="py-20 sm:py-28 px-4 sm:px-8 bg-[#F8F9FA] dark:bg-[#1A1F19]">
+      <section id="how-it-works" className="py-20 sm:py-28 px-4 sm:px-8 bg-[#F8F9FA]">
         <div className="max-w-7xl mx-auto">
           <div className="text-center max-w-2xl mx-auto mb-14">
             <Badge variant="secondary" className="mb-4 rounded-full px-4 py-1.5">
               Proceso Simple
             </Badge>
-            <h2 className="font-serif text-3xl sm:text-4xl lg:text-5xl font-semibold mb-4 text-[#1A1A1A] dark:text-[#E8DED5]">
+            <h2 className="font-serif text-3xl sm:text-4xl lg:text-5xl font-semibold mb-4 text-[#1A1A1A]">
               ¿Cómo Funciona?
             </h2>
-            <p className="text-[#666666] dark:text-[#9BAA93]">Tres pasos sencillos para conocer tu piel.</p>
+            <p className="text-[#666666]">Tres pasos sencillos para conocer tu piel.</p>
           </div>
 
           <div className="grid sm:grid-cols-3 gap-6 lg:gap-8">
@@ -181,11 +181,11 @@ export default function HomePage() {
                 style={{ animationDelay: `${i * 150}ms` }}
               >
                 <CardContent className="p-0">
-                  <div className="w-14 h-14 rounded-2xl bg-[#1A1A1A] dark:bg-[#88B078] flex items-center justify-center mx-auto mb-5">
-                    <step.icon className="w-6 h-6 text-white dark:text-[#1A1A1A]" />
+                  <div className="w-14 h-14 rounded-2xl bg-[#1A1A1A] flex items-center justify-center mx-auto mb-5">
+                    <step.icon className="w-6 h-6 text-white" />
                   </div>
-                  <h3 className="font-serif text-xl font-semibold mb-3 text-[#1A1A1A] dark:text-[#E8DED5]">{step.title}</h3>
-                  <p className="text-sm text-[#666666] dark:text-[#9BAA93] leading-relaxed">{step.description}</p>
+                  <h3 className="font-serif text-xl font-semibold mb-3 text-[#1A1A1A]">{step.title}</h3>
+                  <p className="text-sm text-[#666666] leading-relaxed">{step.description}</p>
                 </CardContent>
               </Card>
             ))}
@@ -201,21 +201,21 @@ export default function HomePage() {
               <Leaf className="w-3.5 h-3.5 mr-2" />
               Transparencia
             </Badge>
-            <h2 className="font-serif text-3xl sm:text-4xl lg:text-5xl font-semibold mb-4 text-[#1A1A1A] dark:text-[#E8DED5]">
+            <h2 className="font-serif text-3xl sm:text-4xl lg:text-5xl font-semibold mb-4 text-[#1A1A1A]">
               Sin Engaños
             </h2>
-            <p className="text-[#666666] dark:text-[#9BAA93]">Lo que ves es lo que obtienes. Sin métricas inventadas.</p>
+            <p className="text-[#666666]">Lo que ves es lo que obtienes. Sin métricas inventadas.</p>
           </div>
 
           <div className="grid sm:grid-cols-3 gap-6">
             {features.map((f, i) => (
               <Card key={f.title} className="p-6 animate-fade-in-up" style={{ animationDelay: `${i * 100}ms` }}>
                 <CardContent className="p-0">
-                  <div className="w-12 h-12 rounded-xl bg-[#1A1A1A] dark:bg-[#88B078] flex items-center justify-center mb-4">
-                    <f.icon className="w-5 h-5 text-white dark:text-[#1A1A1A]" />
+                  <div className="w-12 h-12 rounded-xl bg-[#1A1A1A] flex items-center justify-center mb-4">
+                    <f.icon className="w-5 h-5 text-white" />
                   </div>
-                  <h3 className="font-serif text-lg font-semibold mb-2 text-[#1A1A1A] dark:text-[#E8DED5]">{f.title}</h3>
-                  <p className="text-sm text-[#666666] dark:text-[#9BAA93]">{f.description}</p>
+                  <h3 className="font-serif text-lg font-semibold mb-2 text-[#1A1A1A]">{f.title}</h3>
+                  <p className="text-sm text-[#666666]">{f.description}</p>
                 </CardContent>
               </Card>
             ))}
@@ -224,29 +224,29 @@ export default function HomePage() {
       </section>
 
       {/* ─── Quick Skin Test ─── */}
-      <section className="py-16 sm:py-24 px-4 sm:px-8 bg-[#F8F9FA] dark:bg-[#1A1F19]">
+      <section className="py-16 sm:py-24 px-4 sm:px-8 bg-[#F8F9FA]">
         <div className="max-w-3xl mx-auto">
           <div className="text-center max-w-2xl mx-auto mb-10">
             <Badge variant="secondary" className="mb-4 rounded-full px-4 py-1.5">
               Mini Test
             </Badge>
-            <h2 className="font-serif text-3xl sm:text-4xl font-semibold mb-4 text-[#1A1A1A] dark:text-[#E8DED5]">
+            <h2 className="font-serif text-3xl sm:text-4xl font-semibold mb-4 text-[#1A1A1A]">
               ¿Qué tipo de piel tienes?
             </h2>
-            <p className="text-[#666666] dark:text-[#9BAA93]">Responde 3 preguntas rápidas y descúbrelo.</p>
+            <p className="text-[#666666]">Responde 3 preguntas rápidas y descúbrelo.</p>
           </div>
           <SkinTest />
         </div>
       </section>
 
       {/* ─── Pricing Preview ─── */}
-      <section className="py-20 sm:py-28 px-4 sm:px-8 bg-[#F8F9FA] dark:bg-[#1A1F19]">
+      <section className="py-20 sm:py-28 px-4 sm:px-8 bg-[#F8F9FA]">
         <div className="max-w-5xl mx-auto">
           <div className="text-center max-w-2xl mx-auto mb-12">
-            <h2 className="font-serif text-3xl sm:text-4xl lg:text-5xl font-semibold mb-4 text-[#1A1A1A] dark:text-[#E8DED5]">
+            <h2 className="font-serif text-3xl sm:text-4xl lg:text-5xl font-semibold mb-4 text-[#1A1A1A]">
               Un Plan para Cada Objetivo
             </h2>
-            <p className="text-[#666666] dark:text-[#9BAA93]">Sin letra pequeña. Sin sorpresas.</p>
+            <p className="text-[#666666]">Sin letra pequeña. Sin sorpresas.</p>
           </div>
 
           <div className="grid sm:grid-cols-3 gap-5">
@@ -274,7 +274,7 @@ export default function HomePage() {
               <Card
                 key={p.name}
                 className={`p-8 flex flex-col transition-all duration-300 animate-fade-in-up ${
-                   p.popular ? "sm:scale-[1.04] z-10 ring-2 ring-[#1A1A1A] dark:ring-[#88B078]" : ""
+                   p.popular ? "sm:scale-[1.04] z-10 ring-2 ring-[#1A1A1A]" : ""
                 }`}
                 style={{ animationDelay: `${i * 100}ms` }}
               >
@@ -295,17 +295,17 @@ export default function HomePage() {
                   )}
 
                   <div className="text-center mb-6">
-                    <p className="text-lg font-semibold mb-1 text-[#1A1A1A] dark:text-[#E8DED5]">{p.name}</p>
+                    <p className="text-lg font-semibold mb-1 text-[#1A1A1A]">{p.name}</p>
                     <div className="flex items-baseline justify-center gap-1">
-                      <span className={`font-bold text-[#1A1A1A] dark:text-[#E8DED5] ${p.popular ? "text-3xl" : "text-2xl"}`}>{p.price}</span>
-                      {p.price !== "$0" && <span className="text-sm text-[#666666] dark:text-[#9BAA93]">/mes</span>}
+                      <span className={`font-bold text-[#1A1A1A] ${p.popular ? "text-3xl" : "text-2xl"}`}>{p.price}</span>
+                      {p.price !== "$0" && <span className="text-sm text-[#666666]">/mes</span>}
                     </div>
                   </div>
 
                   <ul className="space-y-2.5 mb-6 flex-1">
                     {p.features.map((f) => (
-                      <li key={f} className="flex items-start gap-2.5 text-sm text-[#666666] dark:text-[#9BAA93]">
-                        <CheckCircle2 className="w-4 h-4 flex-shrink-0 mt-0.5 text-[#1A1A1A] dark:text-[#88B078]" />
+                      <li key={f} className="flex items-start gap-2.5 text-sm text-[#666666]">
+                        <CheckCircle2 className="w-4 h-4 flex-shrink-0 mt-0.5 text-[#1A1A1A]" />
                         {f}
                       </li>
                     ))}
@@ -330,7 +330,7 @@ export default function HomePage() {
 
       {/* ─── Disclaimer ─── */}
       <section className="pb-20 text-center px-4">
-        <p className="text-xs text-[#9BAA93] dark:text-[#666666] max-w-lg mx-auto leading-relaxed">
+        <p className="text-xs text-[#9BAA93] max-w-lg mx-auto leading-relaxed">
           Esta herramienta ofrece observaciones cosméticas orientativas basadas únicamente en fotografías proporcionadas por el usuario. No constituye diagnóstico médico ni reemplaza la evaluación de un dermatólogo.
         </p>
       </section>

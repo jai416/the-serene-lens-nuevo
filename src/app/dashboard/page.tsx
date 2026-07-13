@@ -80,20 +80,20 @@ export default function DashboardPage() {
       <div className="max-w-6xl mx-auto space-y-6">
 
         {/* Hero Module */}
-        <Card className="p-6 md:p-8 border-0 shadow-[0_2px_16px_rgba(0,0,0,0.04)] dark:shadow-[0_2px_16px_rgba(0,0,0,0.2)] relative overflow-hidden">
-          <div className="absolute -top-16 -right-16 w-48 h-48 rounded-full bg-[#E2ECE0]/40 dark:bg-[#2A3A2A]/40" />
-          <div className="absolute -bottom-10 -right-8 w-32 h-32 rounded-full bg-[#E2ECE0]/30 dark:bg-[#2A3A2A]/30" />
-          <div className="absolute top-20 right-24 w-20 h-20 rounded-full bg-[#E2ECE0]/20 dark:bg-[#2A3A2A]/20" />
+        <Card className="p-6 md:p-8 border-0 shadow-[0_2px_16px_rgba(0,0,0,0.04)] relative overflow-hidden">
+          <div className="absolute -top-16 -right-16 w-48 h-48 rounded-full bg-[#E2ECE0]/40" />
+          <div className="absolute -bottom-10 -right-8 w-32 h-32 rounded-full bg-[#E2ECE0]/30" />
+          <div className="absolute top-20 right-24 w-20 h-20 rounded-full bg-[#E2ECE0]/20" />
           <CardContent className="p-0 relative z-10">
             <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-6">
               <div className="max-w-xl">
-                <p className="text-sm font-medium text-[#666666] dark:text-[#999999] mb-2">
+                <p className="text-sm font-medium text-[#666666] mb-2">
                   {t("dashboard.greeting", locale).replace("{name}", session.user.name || t("common.user", locale))} 👋
                 </p>
-                <h1 className="text-3xl md:text-4xl font-bold text-[#1A1A1A] dark:text-[#F0F0F0] mb-3 leading-tight">
+                <h1 className="text-3xl md:text-4xl font-bold text-[#1A1A1A] mb-3 leading-tight">
                   {t("dashboard.heroTitle", locale)}
                 </h1>
-                <p className="text-[#666666] dark:text-[#999999] text-sm leading-relaxed mb-6 max-w-lg">
+                <p className="text-[#666666] text-sm leading-relaxed mb-6 max-w-lg">
                   {t("dashboard.heroDesc", locale)}
                 </p>
                 <div className="flex flex-wrap gap-3">
@@ -117,7 +117,7 @@ export default function DashboardPage() {
 
         {/* Grid Categories Block */}
         <div>
-          <h2 className="text-base font-semibold text-[#1A1A1A] dark:text-[#F0F0F0] mb-4">
+          <h2 className="text-base font-semibold text-[#1A1A1A] mb-4">
             {t("dashboard.whatToDo", locale)}
           </h2>
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
@@ -128,13 +128,13 @@ export default function DashboardPage() {
               { title: t("dashboard.card4Title", locale), desc: t("dashboard.card4Desc", locale), icon: Beaker, href: "/ingredients-analyzer" },
             ].map((card) => (
               <Link key={card.href} href={card.href}>
-                <Card className="p-5 hover:-translate-y-1 cursor-pointer border border-[#E8E8E8]/60 dark:border-[#333333]/60">
+                <Card className="p-5 hover:-translate-y-1 cursor-pointer border border-[#E8E8E8]/60">
                   <CardContent className="p-0">
-                    <div className="w-12 h-12 rounded-2xl bg-[#E2ECE0] dark:bg-[#2A3A2A] flex items-center justify-center mb-4">
+                    <div className="w-12 h-12 rounded-2xl bg-[#E2ECE0] flex items-center justify-center mb-4">
                       <card.icon className="w-5 h-5 text-[#88B078]" />
                     </div>
-                    <h3 className="font-semibold text-sm text-[#1A1A1A] dark:text-[#F0F0F0] mb-1">{card.title}</h3>
-                    <p className="text-xs text-[#666666] dark:text-[#999999]">{card.desc}</p>
+                    <h3 className="font-semibold text-sm text-[#1A1A1A] mb-1">{card.title}</h3>
+                    <p className="text-xs text-[#666666]">{card.desc}</p>
                   </CardContent>
                 </Card>
               </Link>
@@ -145,13 +145,13 @@ export default function DashboardPage() {
         {/* Two-column layout: Progress + Right widgets */}
         <div className="grid lg:grid-cols-3 gap-6">
           {/* Left: Progress Module */}
-          <Card className="lg:col-span-2 p-6 border border-[#E8E8E8]/60 dark:border-[#333333]/60">
+          <Card className="lg:col-span-2 p-6 border border-[#E8E8E8]/60">
             <CardContent className="p-0">
-              <h3 className="font-semibold text-sm text-[#1A1A1A] dark:text-[#F0F0F0] mb-1 flex items-center gap-2">
+              <h3 className="font-semibold text-sm text-[#1A1A1A] mb-1 flex items-center gap-2">
                 <TrendingUp className="w-4 h-4 text-[#88B078]" />
                 {t("dashboard.yourProgress", locale)}
               </h3>
-              <p className="text-xs text-[#666666] dark:text-[#999999] mb-6">
+              <p className="text-xs text-[#666666] mb-6">
                 {t("dashboard.progressDesc", locale)}
               </p>
 
@@ -198,18 +198,18 @@ export default function DashboardPage() {
                       />
                     </svg>
                     <div className="absolute inset-0 flex items-center justify-center">
-                      <span className="text-2xl font-bold text-[#1A1A1A] dark:text-[#F0F0F0]">
+                      <span className="text-2xl font-bold text-[#1A1A1A]">
                         {hasAnalyses ? progressScore : "—"}
                       </span>
                     </div>
                   </div>
-                  <p className="text-xs text-[#666666] dark:text-[#999999] mt-2 font-medium">{t("dashboard.goodStatus", locale)}</p>
+                  <p className="text-xs text-[#666666] mt-2 font-medium">{t("dashboard.goodStatus", locale)}</p>
                 </div>
               </div>
 
               {usage && (
-                <div className="mt-6 pt-4 border-t border-[#E8E8E8] dark:border-[#333333] flex items-center justify-between">
-                  <div className="flex items-center gap-2 text-xs text-[#666666] dark:text-[#999999]">
+                <div className="mt-6 pt-4 border-t border-[#E8E8E8] flex items-center justify-between">
+                  <div className="flex items-center gap-2 text-xs text-[#666666]">
                     <Shield className="w-3.5 h-3.5 text-[#88B078]" />
                     {usage.isUnlimited
                       ? t("dashboard.unlimited", locale)
@@ -230,20 +230,20 @@ export default function DashboardPage() {
           {/* Right: Widgets */}
           <div className="space-y-4">
             {/* Analysis Summary Widget */}
-            <Card className="p-5 border border-[#E8E8E8]/60 dark:border-[#333333]/60">
+            <Card className="p-5 border border-[#E8E8E8]/60">
               <CardContent className="p-0">
-                <h3 className="font-semibold text-sm text-[#1A1A1A] dark:text-[#F0F0F0] mb-3 flex items-center gap-2">
+                <h3 className="font-semibold text-sm text-[#1A1A1A] mb-3 flex items-center gap-2">
                   <Scan className="w-4 h-4 text-[#88B078]" />
                   {t("dashboard.latestAnalysis", locale)}
                 </h3>
                 {hasAnalyses && latestAnalysis ? (
                   <div>
                     <div className="flex items-center gap-3 mb-3">
-                      <div className="w-10 h-10 rounded-full bg-[#E2ECE0] dark:bg-[#2A3A2A] flex items-center justify-center text-sm font-semibold text-[#88B078] shrink-0">
+                      <div className="w-10 h-10 rounded-full bg-[#E2ECE0] flex items-center justify-center text-sm font-semibold text-[#88B078] shrink-0">
                         {session.user.name?.charAt(0)?.toUpperCase() || "U"}
                       </div>
                       <div>
-                        <p className="text-xs text-[#666666] dark:text-[#999999]">{formatDate(latestAnalysis.createdAt)}</p>
+                        <p className="text-xs text-[#666666]">{formatDate(latestAnalysis.createdAt)}</p>
                         {latestAnalysis.skinType && (
                           <Badge variant="mint" className="text-[10px] mt-1">
                             {locale === "en" ? "Skin" : "Piel"} {latestAnalysis.skinType}
@@ -260,7 +260,7 @@ export default function DashboardPage() {
                   </div>
                 ) : (
                   <div>
-                    <p className="text-xs text-[#666666] dark:text-[#999999] mb-3">{t("dashboard.noAnalysis", locale)}</p>
+                    <p className="text-xs text-[#666666] mb-3">{t("dashboard.noAnalysis", locale)}</p>
                     <Link href="/analysis">
                       <Button size="sm" className="text-xs gap-1 w-full">
                         <Scan className="w-3 h-3" />
@@ -273,22 +273,22 @@ export default function DashboardPage() {
             </Card>
 
             {/* Reminders & Insights Widget */}
-            <Card className="p-5 border border-[#E8E8E8]/60 dark:border-[#333333]/60">
+            <Card className="p-5 border border-[#E8E8E8]/60">
               <CardContent className="p-0">
-                <h3 className="font-semibold text-sm text-[#1A1A1A] dark:text-[#F0F0F0] mb-3 flex items-center gap-2">
+                <h3 className="font-semibold text-sm text-[#1A1A1A] mb-3 flex items-center gap-2">
                   <Bell className="w-4 h-4 text-[#88B078]" />
                   {t("dashboard.reminders", locale)}
                 </h3>
                 <ul className="space-y-2 mb-4">
-                  <li className="flex items-start gap-2 text-xs text-[#666666] dark:text-[#999999]">
+                  <li className="flex items-start gap-2 text-xs text-[#666666]">
                     <span className="w-1.5 h-1.5 rounded-full bg-[#88B078] mt-1.5 shrink-0" />
                     {t("dashboard.reminder1", locale)}
                   </li>
-                  <li className="flex items-start gap-2 text-xs text-[#666666] dark:text-[#999999]">
+                  <li className="flex items-start gap-2 text-xs text-[#666666]">
                     <span className="w-1.5 h-1.5 rounded-full bg-[#88B078] mt-1.5 shrink-0" />
                     {t("dashboard.reminder2", locale)}
                   </li>
-                  <li className="flex items-start gap-2 text-xs text-[#666666] dark:text-[#999999]">
+                  <li className="flex items-start gap-2 text-xs text-[#666666]">
                     <span className="w-1.5 h-1.5 rounded-full bg-[#88B078] mt-1.5 shrink-0" />
                     {t("dashboard.reminder3", locale)}
                   </li>
@@ -303,14 +303,14 @@ export default function DashboardPage() {
             </Card>
 
             {/* Sunscreen Reminder */}
-            <Card className="p-4 border-0 bg-[#FFF9E6] dark:bg-[#3A3A2A]">
+            <Card className="p-4 border-0 bg-[#FFF9E6]">
               <CardContent className="p-0 flex items-center gap-3">
-                <div className="w-10 h-10 rounded-xl bg-[#FCEAA6] dark:bg-[#4A4A2A] flex items-center justify-center shrink-0">
-                  <Sun className="w-5 h-5 text-[#1A1A1A] dark:text-[#F0F0F0]" />
+                <div className="w-10 h-10 rounded-xl bg-[#FCEAA6] flex items-center justify-center shrink-0">
+                  <Sun className="w-5 h-5 text-[#1A1A1A]" />
                 </div>
                 <div className="flex-1 min-w-0">
-                  <p className="text-sm font-medium text-[#1A1A1A] dark:text-[#F0F0F0]">{t("dashboard.sunProtection", locale)}</p>
-                  <p className="text-xs text-[#666666] dark:text-[#999999]">{t("dashboard.spfReminder", locale)}</p>
+                  <p className="text-sm font-medium text-[#1A1A1A]">{t("dashboard.sunProtection", locale)}</p>
+                  <p className="text-xs text-[#666666]">{t("dashboard.spfReminder", locale)}</p>
                 </div>
                 <Link href="/products?category=proteccion-solar">
                   <Button variant="ghost" size="sm" className="shrink-0 text-xs gap-1">
@@ -326,28 +326,28 @@ export default function DashboardPage() {
         {/* Recent Analyses */}
         {hasAnalyses && analyses.length > 1 && (
           <div>
-            <h2 className="font-semibold text-base text-[#1A1A1A] dark:text-[#F0F0F0] mb-4">
+            <h2 className="font-semibold text-base text-[#1A1A1A] mb-4">
               {t("dashboard.recentAnalyses", locale)}
             </h2>
             <div className="space-y-2">
               {analyses.slice(1, 4).map((a, i) => (
                 <Link key={a.id} href={`/analysis/results/${a.id}`}>
-                  <Card className="p-4 hover:-translate-y-0.5 transition-all duration-300 border border-[#E8E8E8]/60 dark:border-[#333333]/60">
+                  <Card className="p-4 hover:-translate-y-0.5 transition-all duration-300 border border-[#E8E8E8]/60">
                     <CardContent className="p-0 flex items-center justify-between">
                       <div className="flex items-center gap-3 min-w-0">
-                        <div className="w-8 h-8 rounded-xl bg-[#E2ECE0] dark:bg-[#2A3A2A] flex items-center justify-center shrink-0">
+                        <div className="w-8 h-8 rounded-xl bg-[#E2ECE0] flex items-center justify-center shrink-0">
                           <Scan className="w-4 h-4 text-[#88B078]" />
                         </div>
                         <div className="min-w-0">
-                          <p className="text-sm font-medium text-[#1A1A1A] dark:text-[#F0F0F0] truncate">
+                          <p className="text-sm font-medium text-[#1A1A1A] truncate">
                             {t("dashboard.analysisLabel", locale).replace("{type}", a.skinType ? `- ${a.skinType}` : `#${i + 2}`)}
                           </p>
-                          <p className="text-xs text-[#666666] dark:text-[#999999]">
+                          <p className="text-xs text-[#666666]">
                             {formatDate(a.createdAt)}
                           </p>
                         </div>
                       </div>
-                      <ChevronRight className="w-4 h-4 text-[#999999] dark:text-[#777777] shrink-0" />
+                      <ChevronRight className="w-4 h-4 text-[#999999] shrink-0" />
                     </CardContent>
                   </Card>
                 </Link>

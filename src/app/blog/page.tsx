@@ -122,7 +122,7 @@ export default function BlogPage() {
             placeholder="Buscar artículos..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full pl-10 pr-4 py-2 text-sm rounded-full border border-[#E8E8E8] dark:border-[#222920] bg-background text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-[#88B078] transition-colors"
+            className="w-full pl-10 pr-4 py-2 text-sm rounded-full border border-[#E8E8E8] bg-background text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-[#88B078] transition-colors"
           />
         </div>
 
@@ -181,7 +181,7 @@ export default function BlogPage() {
             <button
               onClick={() => setPage((p) => Math.max(1, p - 1))}
               disabled={page === 1}
-              className="px-4 py-2 text-sm rounded-full border border-[#E8E8E8] dark:border-[#222920] text-[#666666] dark:text-[#9BAA93] hover:bg-[#E2ECE0] dark:hover:bg-[#2E3829] disabled:opacity-40 transition-colors"
+              className="px-4 py-2 text-sm rounded-full border border-[#E8E8E8] text-[#666666] hover:bg-[#E2ECE0] disabled:opacity-40 transition-colors"
             >
               Anterior
             </button>
@@ -192,7 +192,7 @@ export default function BlogPage() {
                 className={`w-9 h-9 rounded-full text-sm font-medium transition-colors ${
                   page === p
                     ? "bg-[#88B078] text-[#1A1A1A]"
-                    : "border border-[#E8E8E8] dark:border-[#222920] text-[#666666] dark:text-[#9BAA93] hover:bg-[#E2ECE0] dark:hover:bg-[#2E3829]"
+                    : "border border-[#E8E8E8] text-[#666666] hover:bg-[#E2ECE0]"
                 }`}
               >
                 {p}
@@ -201,7 +201,7 @@ export default function BlogPage() {
             <button
               onClick={() => setPage((p) => Math.min(totalPages, p + 1))}
               disabled={page === totalPages}
-              className="px-4 py-2 text-sm rounded-full border border-[#E8E8E8] dark:border-[#222920] text-[#666666] dark:text-[#9BAA93] hover:bg-[#E2ECE0] dark:hover:bg-[#2E3829] disabled:opacity-40 transition-colors"
+              className="px-4 py-2 text-sm rounded-full border border-[#E8E8E8] text-[#666666] hover:bg-[#E2ECE0] disabled:opacity-40 transition-colors"
             >
               Siguiente
             </button>

@@ -11,8 +11,8 @@ export default function PricingCancelPage() {
     <div className="min-h-screen flex items-center justify-center px-4 py-16">
       <Card className="max-w-md w-full p-8 text-center">
         <CardContent className="p-0 space-y-6">
-          <div className="w-16 h-16 rounded-full bg-[#E2ECE0] dark:bg-[#2E3829] flex items-center justify-center mx-auto">
-            <XCircle className="w-8 h-8 text-[#9BAA93] dark:text-[#7A8A72]" />
+          <div className="w-16 h-16 rounded-full bg-[#E2ECE0] flex items-center justify-center mx-auto">
+            <XCircle className="w-8 h-8 text-[#9BAA93]" />
           </div>
 
           <div>
@@ -20,10 +20,10 @@ export default function PricingCancelPage() {
               <RefreshCw className="w-3.5 h-3.5 mr-2" />
               Pago Cancelado
             </Badge>
-            <h1 className="font-serif text-2xl font-semibold text-[#1A1A1A] dark:text-[#E8DED5] mb-2">
+            <h1 className="font-serif text-2xl font-semibold text-[#1A1A1A] mb-2">
               Pago cancelado
             </h1>
-            <p className="text-sm text-[#666666] dark:text-[#9BAA93]">
+            <p className="text-sm text-[#666666]">
               No se ha procesado ningún cargo. Puedes intentar de nuevo cuando quieras.
             </p>
           </div>

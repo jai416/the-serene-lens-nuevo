@@ -66,15 +66,15 @@ export function Sidebar() {
   }
 
   const sidebarContent = (
-    <div className="flex flex-col h-full bg-white dark:bg-[#222222]">
+    <div className="flex flex-col h-full bg-white">
       <div className="p-6 pb-4">
         <Link href="/" className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-2xl bg-[#88B078] dark:bg-[#88B078] flex items-center justify-center shadow-sm overflow-hidden">
+          <div className="w-10 h-10 rounded-2xl bg-[#88B078] flex items-center justify-center shadow-sm overflow-hidden">
             <Image src="/logo.webp" alt="The Serene Lens" width={40} height={40} className="w-full h-full object-cover" />
           </div>
           <div>
-            <span className="block text-lg font-semibold leading-tight text-[#1A1A1A] dark:text-[#F0F0F0]">{t("app.name", locale)}</span>
-            <span className="text-[11px] text-[#666666] dark:text-[#999999] block leading-tight">{t("sidebar.tagline", locale)}</span>
+            <span className="block text-lg font-semibold leading-tight text-[#1A1A1A]">{t("app.name", locale)}</span>
+            <span className="text-[11px] text-[#666666] block leading-tight">{t("sidebar.tagline", locale)}</span>
           </div>
         </Link>
       </div>
@@ -90,11 +90,11 @@ export function Sidebar() {
               className={cn(
                 "flex items-center gap-3 px-4 py-2.5 text-sm font-medium rounded-xl transition-all duration-200",
                 active
-                  ? "bg-[#E2ECE0] dark:bg-[#2A3A2A] text-[#1A1A1A] dark:text-[#F0F0F0]"
-                  : "text-[#666666] dark:text-[#999999] hover:bg-[#F8F9FA] dark:hover:bg-[#2A2A2A] hover:text-[#1A1A1A] dark:hover:text-[#F0F0F0]"
+                  ? "bg-[#E2ECE0] text-[#1A1A1A]"
+                  : "text-[#666666] hover:bg-[#F8F9FA] hover:text-[#1A1A1A]"
               )}
             >
-              <link.icon className={cn("w-4.5 h-4.5 shrink-0", active ? "text-[#88B078]" : "text-[#999999] dark:text-[#777777]")} />
+              <link.icon className={cn("w-4.5 h-4.5 shrink-0", active ? "text-[#88B078]" : "text-[#999999]")} />
               {t(link.labelKey, locale)}
             </Link>
           )
@@ -107,8 +107,8 @@ export function Sidebar() {
             className={cn(
               "flex items-center gap-3 px-4 py-2.5 text-sm font-medium rounded-xl transition-all duration-200",
               isActive("/admin")
-                ? "bg-[#E2ECE0] dark:bg-[#2A3A2A] text-[#1A1A1A] dark:text-[#F0F0F0]"
-                : "text-[#666666] dark:text-[#999999] hover:bg-[#F8F9FA] dark:hover:bg-[#2A2A2A] hover:text-[#1A1A1A] dark:hover:text-[#F0F0F0]"
+                ? "bg-[#E2ECE0] text-[#1A1A1A]"
+                : "text-[#666666] hover:bg-[#F8F9FA] hover:text-[#1A1A1A]"
             )}
           >
             <Settings className="w-4.5 h-4.5 shrink-0" />
@@ -123,8 +123,8 @@ export function Sidebar() {
             className={cn(
               "flex items-center gap-3 px-4 py-2.5 text-sm font-medium rounded-xl transition-all duration-200",
               isActive("/dashboard/esthetician")
-                ? "bg-[#E2ECE0] dark:bg-[#2A3A2A] text-[#1A1A1A] dark:text-[#F0F0F0]"
-                : "text-[#666666] dark:text-[#999999] hover:bg-[#F8F9FA] dark:hover:bg-[#2A2A2A] hover:text-[#1A1A1A] dark:hover:text-[#F0F0F0]"
+                ? "bg-[#E2ECE0] text-[#1A1A1A]"
+                : "text-[#666666] hover:bg-[#F8F9FA] hover:text-[#1A1A1A]"
             )}
           >
             <User className="w-4.5 h-4.5 shrink-0" />
@@ -133,18 +133,18 @@ export function Sidebar() {
         )}
 
         <div className="pt-4 px-1">
-          <div className="p-5 rounded-2xl bg-[#FFF9E6] dark:bg-[#3A3A2A] border border-[#FCEAA6]/50 dark:border-[#4A4A2A]/50">
+          <div className="p-5 rounded-2xl bg-[#FFF9E6] border border-[#FCEAA6]/50">
             <Crown className="w-5 h-5 text-[#D4A843] mb-2" />
-            <p className="text-sm font-semibold text-[#1A1A1A] dark:text-[#F0F0F0] mb-1">
+            <p className="text-sm font-semibold text-[#1A1A1A] mb-1">
               {t("sidebar.premiumVersion", locale)}
             </p>
-            <p className="text-xs text-[#666666] dark:text-[#999999] leading-relaxed mb-3">
+            <p className="text-xs text-[#666666] leading-relaxed mb-3">
               {t("sidebar.premiumDesc", locale)}
             </p>
             <Link
               href="/pricing"
               onClick={() => setMobileOpen(false)}
-              className="inline-flex items-center gap-1.5 text-xs font-semibold text-[#1A1A1A] bg-[#FCEAA6] dark:bg-[#4A4A2A] dark:text-[#F0F0F0] rounded-full px-4 py-2 hover:bg-[#F5E090] dark:hover:bg-[#5A5A3A] transition-colors"
+              className="inline-flex items-center gap-1.5 text-xs font-semibold text-[#1A1A1A] bg-[#FCEAA6] rounded-full px-4 py-2 hover:bg-[#F5E090] transition-colors"
             >
               {t("sidebar.upgradeNow", locale)}
               <ArrowRight className="w-3 h-3" />
@@ -153,20 +153,20 @@ export function Sidebar() {
         </div>
       </nav>
 
-      <div className="p-3 border-t border-[#E8E8E8] dark:border-[#333333]">
+      <div className="p-3 border-t border-[#E8E8E8]">
         {session ? (
           <div className="space-y-1">
               <Link
                 href="/dashboard/profile"
                 onClick={() => setMobileOpen(false)}
-                className="flex items-center gap-3 px-4 py-2.5 text-sm rounded-xl text-[#666666] dark:text-[#999999] hover:bg-[#E2ECE0] dark:hover:bg-[#2A3A2A] hover:text-[#1A1A1A] dark:hover:text-[#F0F0F0] transition-all duration-200"
+                className="flex items-center gap-3 px-4 py-2.5 text-sm rounded-xl text-[#666666] hover:bg-[#E2ECE0] hover:text-[#1A1A1A] transition-all duration-200"
               >
                 <User className="w-4.5 h-4.5 shrink-0 text-[#88B078]" />
                 <span className="truncate">{session.user.name || session.user.email}</span>
               </Link>
             <button
               onClick={() => signOut()}
-              className="flex items-center gap-3 px-4 py-2.5 text-sm rounded-xl text-[#666666] dark:text-[#999999] hover:bg-[#E2ECE0] dark:hover:bg-[#2A3A2A] hover:text-[#1A1A1A] dark:hover:text-[#F0F0F0] transition-all duration-200 w-full text-left"
+              className="flex items-center gap-3 px-4 py-2.5 text-sm rounded-xl text-[#666666] hover:bg-[#E2ECE0] hover:text-[#1A1A1A] transition-all duration-200 w-full text-left"
             >
               <LogOut className="w-4.5 h-4.5 shrink-0 text-[#88B078]" />
               {t("nav.logout", locale)}
@@ -182,7 +182,7 @@ export function Sidebar() {
             {t("sidebar.login", locale)}
           </Link>
         )}
-        <p className="text-[10px] text-[#999999] dark:text-[#888888] text-center mt-2">
+        <p className="text-[10px] text-[#999999] text-center mt-2">
           &copy; {new Date().getFullYear()} The Serene Lens
         </p>
       </div>
@@ -191,7 +191,7 @@ export function Sidebar() {
 
   return (
     <>
-      <aside className="hidden md:flex fixed left-0 top-0 h-screen w-[280px] z-40 flex-col border-r border-[#E8E8E8] dark:border-[#333333] bg-white dark:bg-[#222222]">
+      <aside className="hidden md:flex fixed left-0 top-0 h-screen w-[280px] z-40 flex-col border-r border-[#E8E8E8] bg-white">
         {sidebarContent}
       </aside>
 
@@ -204,7 +204,7 @@ export function Sidebar() {
 
       <aside
         className={cn(
-          "md:hidden fixed top-0 left-0 h-screen w-[280px] z-50 bg-white dark:bg-[#222222] flex-col transition-transform duration-300 border-r border-[#E8E8E8] dark:border-[#333333]",
+          "md:hidden fixed top-0 left-0 h-screen w-[280px] z-50 bg-white flex-col transition-transform duration-300 border-r border-[#E8E8E8]",
           mobileOpen ? "translate-x-0" : "-translate-x-full"
         )}
       >
@@ -213,10 +213,10 @@ export function Sidebar() {
 
       <button
         onClick={() => setMobileOpen(!mobileOpen)}
-        className="md:hidden fixed top-4 left-4 z-50 w-10 h-10 rounded-xl bg-white dark:bg-[#222222] border border-[#E8E8E8] dark:border-[#333333] flex items-center justify-center shadow-sm"
+        className="md:hidden fixed top-4 left-4 z-50 w-10 h-10 rounded-xl bg-white border border-[#E8E8E8] flex items-center justify-center shadow-sm"
         aria-label={t("sidebar.menuLabel", locale)}
       >
-        {mobileOpen ? <X className="w-5 h-5 text-[#1A1A1A] dark:text-[#F0F0F0]" /> : <Menu className="w-5 h-5 text-[#1A1A1A] dark:text-[#F0F0F0]" />}
+        {mobileOpen ? <X className="w-5 h-5 text-[#1A1A1A]" /> : <Menu className="w-5 h-5 text-[#1A1A1A]" />}
       </button>
     </>
   )

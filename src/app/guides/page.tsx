@@ -169,8 +169,8 @@ export default function GuidesPage() {
       <div className="px-4 py-8">
         <div className="max-w-4xl mx-auto space-y-6">
           <div className="text-center mb-10">
-            <div className="h-8 w-48 bg-[#E8E8E8] dark:bg-[#444] rounded-full mx-auto mb-4 animate-pulse" />
-            <div className="h-5 w-64 bg-[#E8E8E8] dark:bg-[#444] rounded mx-auto animate-pulse" />
+            <div className="h-8 w-48 bg-[#E8E8E8] rounded-full mx-auto mb-4 animate-pulse" />
+            <div className="h-5 w-64 bg-[#E8E8E8] rounded mx-auto animate-pulse" />
           </div>
           <div className="grid sm:grid-cols-2 gap-6">
             <CardSkeleton /><CardSkeleton /><CardSkeleton /><CardSkeleton />
@@ -188,10 +188,10 @@ export default function GuidesPage() {
             <BookOpen className="w-3.5 h-3.5 mr-2" />
             Guías Digitales
           </Badge>
-          <h1 className="font-serif text-3xl sm:text-4xl font-semibold text-[#1A1A1A] dark:text-[#E8EDE6]">
+          <h1 className="font-serif text-3xl sm:text-4xl font-semibold text-[#1A1A1A]">
             Guías de Skincare
           </h1>
-          <p className="text-[#666666] dark:text-[#9BAA93] mt-2 max-w-xl mx-auto">
+          <p className="text-[#666666] mt-2 max-w-xl mx-auto">
             Guías prácticas y profesionales para cuidar tu piel. Compra una vez, consulta siempre.
           </p>
         </div>
@@ -214,7 +214,7 @@ export default function GuidesPage() {
 
               return (
                 <Card key={guide.id} className="overflow-hidden hover:shadow-lg transition-shadow">
-                  <div className="aspect-[16/9] bg-[#E2ECE0] dark:bg-[#2A3A2A] relative">
+                  <div className="aspect-[16/9] bg-[#E2ECE0] relative">
                     <Image
                       src={guide.image}
                       alt={guide.title}
@@ -231,14 +231,14 @@ export default function GuidesPage() {
                     )}
                   </div>
                   <CardContent className="p-5">
-                    <h3 className="font-serif text-lg font-semibold text-[#1A1A1A] dark:text-[#E8EDE6] mb-2">
+                    <h3 className="font-serif text-lg font-semibold text-[#1A1A1A] mb-2">
                       {guide.title}
                     </h3>
-                    <p className="text-sm text-[#666666] dark:text-[#9BAA93] mb-4 line-clamp-2">
+                    <p className="text-sm text-[#666666] mb-4 line-clamp-2">
                       {guide.shortDesc || guide.description}
                     </p>
                     <div className="flex items-center justify-between">
-                      <span className="text-xl font-bold text-[#1A1A1A] dark:text-[#E8EDE6]">
+                      <span className="text-xl font-bold text-[#1A1A1A]">
                         {session?.user?.role === "ADMIN" ? (
                           <span className="text-[#88B078]">Gratis (Admin)</span>
                         ) : isPurchased ? (

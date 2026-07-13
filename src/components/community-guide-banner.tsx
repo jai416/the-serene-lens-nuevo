@@ -90,17 +90,17 @@ export default function CommunityGuideBanner({ content }: { content: string }) {
   const { guide, reason } = matched;
 
   return (
-    <div className="mt-3 rounded-lg bg-[#F0F7E6] dark:bg-[#1E2A1A] border border-[#D4E8B8] dark:border-[#2E3E28] px-4 py-3 flex items-start gap-3 text-sm">
+    <div className="mt-3 rounded-lg bg-[#F0F7E6] border border-[#D4E8B8] px-4 py-3 flex items-start gap-3 text-sm">
       <div className="flex-shrink-0 mt-0.5">
-        <div className="w-8 h-8 rounded-full bg-[#88B078]/30 dark:bg-[#88B078]/20 flex items-center justify-center">
-          <BookOpen className="w-4 h-4 text-[#5A7A3A] dark:text-[#88B078]" />
+        <div className="w-8 h-8 rounded-full bg-[#88B078]/30 flex items-center justify-center">
+          <BookOpen className="w-4 h-4 text-[#5A7A3A]" />
         </div>
       </div>
       <div className="flex-1 min-w-0">
-        <p className="text-[#1A1A1A] dark:text-[#E8EDE6] font-medium leading-snug">
+        <p className="text-[#1A1A1A] font-medium leading-snug">
           ¿Te interesa {reason}?
         </p>
-        <p className="text-[#666666] dark:text-[#9BAA93] mt-0.5">
+        <p className="text-[#666666] mt-0.5">
           {guide.title} — <span className="font-semibold">${guide.price}</span>
         </p>
         <a
@@ -112,7 +112,7 @@ export default function CommunityGuideBanner({ content }: { content: string }) {
       </div>
       <button
         onClick={() => setDismissed(true)}
-        className="flex-shrink-0 p-1 rounded hover:bg-[#D4E8B8] dark:hover:bg-[#2E3E28] text-[#999999] dark:text-[#7A8A72] transition-colors"
+        className="flex-shrink-0 p-1 rounded hover:bg-[#D4E8B8] text-[#999999] transition-colors"
         aria-label="Cerrar"
       >
         <X className="w-4 h-4" />

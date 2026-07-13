@@ -7,7 +7,7 @@ const EvolutionChart = dynamic(
   {
     ssr: false,
     loading: () => (
-      <div className="w-full h-64 bg-[#F8F9FA] dark:bg-[#1A1F19] animate-pulse rounded-xl border border-[#E8E8E8] dark:border-[#3A4536]" />
+      <div className="w-full h-64 bg-[#F8F9FA] animate-pulse rounded-xl border border-[#E8E8E8]" />
     ),
   }
 )

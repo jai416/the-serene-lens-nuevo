@@ -52,7 +52,7 @@ export default function AppTour({ onComplete }: Props) {
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
-      <div className="relative mx-4 max-w-md rounded-2xl bg-white p-8 shadow-2xl dark:bg-gray-900">
+      <div className="relative mx-4 max-w-md rounded-2xl bg-white p-8 shadow-2xl">
         <button
           onClick={handleComplete}
           className="absolute right-4 top-4 text-lg text-gray-400 hover:text-gray-600"
@@ -61,7 +61,7 @@ export default function AppTour({ onComplete }: Props) {
         </button>
 
         <h2 className="mb-2 text-xl font-bold">{current.title}</h2>
-        <p className="mb-6 text-gray-600 dark:text-gray-300">{current.desc}</p>
+        <p className="mb-6 text-gray-600">{current.desc}</p>
 
         <div className="mb-4 flex justify-center gap-2">
           {steps.map((_, i) => (

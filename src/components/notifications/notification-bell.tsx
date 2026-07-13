@@ -108,13 +108,13 @@ export function NotificationBell() {
     <div ref={ref} className="relative">
       <button
         onClick={() => setOpen(!open)}
-        className="relative flex items-center justify-center w-10 h-10 rounded-2xl bg-[#E2ECE0] dark:bg-[#88B078]/20 border border-[#88B078]/30 dark:border-[#88B078]/30 text-[#88B078] dark:text-[#88B078] hover:bg-[#88B078] dark:hover:bg-[#88B078] hover:text-white dark:hover:text-white shadow-sm hover:shadow-md transition-all duration-200"
+        className="relative flex items-center justify-center w-10 h-10 rounded-2xl bg-[#E2ECE0] border border-[#88B078]/30 text-[#88B078] hover:bg-[#88B078] hover:text-white shadow-sm hover:shadow-md transition-all duration-200"
         aria-label="Notificaciones"
       >
         {unread > 0 ? (
           <>
             <BellDot className="w-4.5 h-4.5" />
-            <span className="absolute -top-1 -right-1 w-4.5 h-4.5 rounded-full bg-[#E07070] text-white text-[9px] font-bold flex items-center justify-center ring-2 ring-white dark:ring-[#222222]">
+            <span className="absolute -top-1 -right-1 w-4.5 h-4.5 rounded-full bg-[#E07070] text-white text-[9px] font-bold flex items-center justify-center ring-2 ring-white">
               {unread > 9 ? "9+" : unread}
             </span>
           </>
@@ -126,17 +126,17 @@ export function NotificationBell() {
       {open && (
         <div
           className={cn(
-            "absolute right-0 top-full mt-3 w-[360px] rounded-2xl bg-white dark:bg-[#222222] border border-[#E8E8E8] dark:border-[#333333] shadow-[0_12px_40px_rgba(0,0,0,0.12)] dark:shadow-[0_12px_40px_rgba(0,0,0,0.5)] overflow-hidden z-50"
+            "absolute right-0 top-full mt-3 w-[360px] rounded-2xl bg-white border border-[#E8E8E8] shadow-[0_12px_40px_rgba(0,0,0,0.12)])] overflow-hidden z-50"
           )}
         >
-          <div className="flex items-center justify-between px-4 py-3 border-b border-[#E8E8E8] dark:border-[#333333]">
-            <span className="text-sm font-semibold text-[#1A1A1A] dark:text-[#F0F0F0]">
+          <div className="flex items-center justify-between px-4 py-3 border-b border-[#E8E8E8]">
+            <span className="text-sm font-semibold text-[#1A1A1A]">
               Notificaciones
             </span>
             {unread > 0 && (
               <button
                 onClick={markAllRead}
-                className="flex items-center gap-1 text-xs font-medium text-[#666666] dark:text-[#999999] hover:text-[#1A1A1A] dark:hover:text-[#F0F0F0] transition-colors"
+                className="flex items-center gap-1 text-xs font-medium text-[#666666] hover:text-[#1A1A1A] transition-colors"
               >
                 <CheckCheck className="w-3.5 h-3.5" />
                 Marcar todo como leído
@@ -146,11 +146,11 @@ export function NotificationBell() {
 
           <div className="max-h-[340px] overflow-y-auto">
             {loading && !data ? (
-              <div className="p-6 text-center text-sm text-[#999999] dark:text-[#888888]">
+              <div className="p-6 text-center text-sm text-[#999999]">
                 Cargando...
               </div>
             ) : !Array.isArray(data?.notifications) || data.notifications.length === 0 ? (
-              <div className="p-6 text-center text-sm text-[#999999] dark:text-[#888888]">
+              <div className="p-6 text-center text-sm text-[#999999]">
                 No tienes notificaciones
               </div>
             ) : (
@@ -159,8 +159,8 @@ export function NotificationBell() {
                   key={n.id}
                   onClick={() => markAsRead(n.id, n.link)}
                   className={cn(
-                    "w-full text-left px-4 py-3 flex items-start gap-3 transition-colors hover:bg-[#F8F9FA] dark:hover:bg-[#2A2A2A] border-b border-[#E8E8E8]/50 dark:border-[#333333]/50 last:border-b-0",
-                    !n.read && "bg-[#F8F9FA] dark:bg-[#2A2A2A]"
+                    "w-full text-left px-4 py-3 flex items-start gap-3 transition-colors hover:bg-[#F8F9FA] border-b border-[#E8E8E8]/50 last:border-b-0",
+                    !n.read && "bg-[#F8F9FA]"
                   )}
                 >
                   <div
@@ -170,13 +170,13 @@ export function NotificationBell() {
                     )}
                   />
                   <div className="flex-1 min-w-0">
-                    <p className="text-sm font-medium text-[#1A1A1A] dark:text-[#F0F0F0] truncate">
+                    <p className="text-sm font-medium text-[#1A1A1A] truncate">
                       {n.title}
                     </p>
-                    <p className="text-xs text-[#666666] dark:text-[#999999] mt-0.5 line-clamp-2">
+                    <p className="text-xs text-[#666666] mt-0.5 line-clamp-2">
                       {n.message}
                     </p>
-                    <p className="text-[10px] text-[#999999] dark:text-[#888888] mt-1">
+                    <p className="text-[10px] text-[#999999] mt-1">
                       {timeAgo(n.createdAt)}
                     </p>
                   </div>
@@ -185,7 +185,7 @@ export function NotificationBell() {
                       e.stopPropagation()
                       markAsRead(n.id)
                     }}
-                    className="shrink-0 p-1 rounded-lg text-[#999999] dark:text-[#888888] hover:text-[#666666] dark:hover:text-[#999999] hover:bg-[#E2ECE0] dark:hover:bg-[#2A3A2A] transition-colors"
+                    className="shrink-0 p-1 rounded-lg text-[#999999] hover:text-[#666666] hover:bg-[#E2ECE0] transition-colors"
                     aria-label="Eliminar"
                   >
                     <X className="w-3.5 h-3.5" />

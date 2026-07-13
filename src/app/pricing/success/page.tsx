@@ -50,10 +50,10 @@ export default function PricingSuccessPage() {
           <CardContent className="p-0 space-y-6">
             <Loader2 className="w-12 h-12 text-[#88B078] mx-auto animate-spin" />
             <div>
-              <h1 className="font-serif text-2xl font-semibold text-[#1A1A1A] dark:text-[#E8DED5] mb-2">
+              <h1 className="font-serif text-2xl font-semibold text-[#1A1A1A] mb-2">
                 Verificando tu pago...
               </h1>
-              <p className="text-sm text-[#666666] dark:text-[#9BAA93]">
+              <p className="text-sm text-[#666666]">
                 Esto solo toma unos segundos.
               </p>
             </div>
@@ -67,7 +67,7 @@ export default function PricingSuccessPage() {
     <div className="min-h-screen flex items-center justify-center px-4 py-16">
       <Card className="max-w-md w-full p-8 text-center">
         <CardContent className="p-0 space-y-6">
-          <div className={`w-16 h-16 rounded-full flex items-center justify-center mx-auto ${error ? "bg-red-100 dark:bg-red-900/20" : "bg-[#88B078]/20"}`}>
+          <div className={`w-16 h-16 rounded-full flex items-center justify-center mx-auto ${error ? "bg-red-100" : "bg-[#88B078]/20"}`}>
             {error ? (
               <AlertCircle className="w-8 h-8 text-red-500" />
             ) : (
@@ -76,14 +76,14 @@ export default function PricingSuccessPage() {
           </div>
 
           <div>
-            <Badge variant={error ? "default" : "primary"} className={`mb-4 rounded-full px-4 py-1.5 border-0 ${error ? "bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400" : ""}`}>
+            <Badge variant={error ? "default" : "primary"} className={`mb-4 rounded-full px-4 py-1.5 border-0 ${error ? "bg-red-100 text-red-700" : ""}`}>
               <CreditCard className="w-3.5 h-3.5 mr-2" />
               {error ? "Pago Pendiente" : "Pago Exitoso"}
             </Badge>
-            <h1 className="font-serif text-2xl font-semibold text-[#1A1A1A] dark:text-[#E8DED5] mb-2">
+            <h1 className="font-serif text-2xl font-semibold text-[#1A1A1A] mb-2">
               {error ? "Pago recibido" : "¡Gracias por tu compra!"}
             </h1>
-            <p className="text-sm text-[#666666] dark:text-[#9BAA93]">
+            <p className="text-sm text-[#666666]">
               {error
                 ? error
                 : "Tu plan ha sido activado. Ya puedes disfrutar de todas las funciones."}
@@ -107,7 +107,7 @@ export default function PricingSuccessPage() {
           </div>
 
           {session && (
-            <p className="text-xs text-[#9BAA93] dark:text-[#7A8A72]">
+            <p className="text-xs text-[#9BAA93]">
               Sesión activa como {session.user.email}
             </p>
           )}
