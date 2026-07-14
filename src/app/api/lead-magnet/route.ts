@@ -4,6 +4,8 @@ import { sendEmail, buildLeadMagnetEmail } from "@/lib/email"
 import { checkRateLimit } from "@/lib/rate-limit"
 import { logger } from "@/lib/logger"
 
+const APP_URL = process.env.NEXT_PUBLIC_APP_URL || "https://the-serene-lens-nuevo.onrender.com"
+
 export async function POST(req: Request) {
   try {
     const { email } = await req.json()
@@ -25,8 +27,10 @@ export async function POST(req: Request) {
     const { subject, html } = buildLeadMagnetEmail()
     await sendEmail({ to: email, subject, html })
 
+    const downloadUrl = `${APP_URL}/guides/skincare-tropical.pdf`
+
     logger.info("Lead magnet sent", { email })
-    return NextResponse.json({ success: true })
+    return NextResponse.json({ success: true, downloadUrl })
   } catch (e) {
     logger.error("Lead magnet error", { error: e instanceof Error ? e.message : String(e) })
     return NextResponse.json({ success: false, error: "Error interno" }, { status: 500 })

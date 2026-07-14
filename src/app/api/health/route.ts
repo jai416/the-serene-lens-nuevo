@@ -81,6 +81,9 @@ export async function GET() {
     latencyMs: heapUsedMB,
     detail: `${heapUsedMB}MB / ${heapTotalMB}MB`,
   }
+  if (heapUsedMB > 400) {
+    console.warn(`[MEMORY WARNING] ${heapUsedMB}MB used — near Render free tier limit`)
+  }
 
   const response = {
     status: overallStatus,

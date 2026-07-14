@@ -372,6 +372,170 @@ Con esta guía podrás leer cualquier etiqueta y tomar decisiones informadas sob
       published: true,
       readTime: 7,
     },
+    {
+      title: "Cuidado facial en clima tropical: rutina para la humedad",
+      slug: "cuidado-facial-clima-tropical",
+      excerpt: "El clima húmedo de Cuba exige ajustes en tu rutina. Aprende a mantener tu piel equilibrada sin importar la humedad.",
+      content: `El trópico cubano tiene características únicas que afectan tu piel. Aprende a adaptar tu rutina.
+      
+## ¿Cómo afecta la humedad a tu piel?
+La humedad alta (80%+ en Cuba) significa que tu piel ya recibe suficiente humedad del aire. Los humectantes pesados pueden ser contraproducentes.
+
+## Temporada seca (noviembre - abril)
+- Vientos alisios secan la piel
+- Necesitas hidratación más intensa
+- Buenos ingredientes: ácido hialurónico, glicerina, ceramidas
+- Protector solar SPF 50+ obligatorio
+
+## Temporada lluviosa (mayo - octubre)
+- Humedad al 90%, calor intenso
+- Rutina más ligera: gel hidratante en lugar de crema
+- Exfoliación 2-3 veces por semana para evitar poros tapados
+- Busca texturas oil-free y no comedogénicas
+
+## Ingredientes estrella para el trópico
+- **Niacinamida**: Regula el sebo, ideal para el calor
+- **Ácido Salicílico**: Mantiene poros limpios en clima húmedo
+- **Aloe Vera**: Calma y refresca después del sol
+- **Vitamina C**: Protege del daño solar acumulativo
+
+## Lo que debes evitar
+- Cremas muy pesadas oclusivas
+- Productos con aceites comedogénicos
+- Exfoliación excesiva (la humedad no justifica frotar más)
+- Saltarte el protector solar porque "está nublado"`,
+      image: "https://cdn-icons-png.flaticon.com/512/3076/3076671.png",
+      category: "cuidado-basico",
+      tags: "clima tropical,humedad,Cuba,verano",
+      published: true,
+      readTime: 7,
+    },
+    {
+      title: "Cómo adaptar tu skincare entre temporada seca y lluviosa",
+      slug: "adaptar-skincare-temporada-seca-lluviosa",
+      excerpt: "Cuba tiene dos estaciones bien marcadas. Tu rutina de skincare también debería cambiar entre noviembre y mayo.",
+      content: `En Cuba, las estaciones afectan directamente cómo debes cuidar tu piel. Aprende a hacer la transición.
+
+## Transición a temporada seca (noviembre)
+**Cambios en tu piel:**
+- Más tirantez después del lavado
+- Zonas secas en mejillas y contorno de boca
+- Menos brillo en zona T
+
+**Ajustes necesarios:**
+- Cambia tu limpiador a uno más cremoso (menos surfactante)
+- Añade un sérum con ácido hialurónico
+- Usa una crema nocturna más nutritiva
+- Reduce exfoliación a 1 vez por semana
+
+## Transición a temporada lluviosa (mayo)
+**Cambios en tu piel:**
+- Más brillo y sensación grasa
+- Poros más visibles
+- Posibles brotes por el calor y la humedad
+
+**Ajustes necesarios:**
+- Cambia a limpiador en espuma o gel
+- Reduce la hidratación a texturas ligeras (gel, loción)
+- Aumenta exfoliación 2-3 veces por semana
+- Incorpora niacinamida o zinc para controlar sebo
+- Protector solar oil-free
+
+## Productos que funcionan todo el año
+- Protector solar SPF 50+ (sin excepción)
+- Sérum de vitamina C por las mañanas
+- Limpieza suave (nunca jabón de lavar ropa)
+
+## Señales de que necesitas cambiar tu rutina
+- Tu crema habitual ahora te deja la piel pegajosa
+- Sientes la piel tirante al llegar la seca
+- Aparecen brotes sin razón aparente
+- El maquillaje se desvanece más rápido`,
+      image: "https://cdn-icons-png.flaticon.com/512/3076/3076674.png",
+      category: "rutinas",
+      tags: "temporada,seca,lluviosa,Cuba,transición",
+      published: true,
+      readTime: 8,
+    },
+    {
+      title: "Protección solar en el Caribe: lo que funciona realmente",
+      slug: "proteccion-solar-caribe",
+      excerpt: "El sol caribeño es implacable. Guía práctica para elegir y aplicar protector solar en condiciones extremas de radiación UV.",
+      content: `Cuba tiene índices UV extremos (11+) la mayor parte del año. Esto no es un juego — la protección solar correcta puede marcar la diferencia.
+
+## ¿FPS 30 o 50?
+Para el Caribe: **SPF 50+ siempre**. La diferencia entre FPS 30 (97% bloqueo) y FPS 50 (98%) es pequeña en teoría, pero en la práctica, la mayoría de las personas aplica menos cantidad de la necesaria, reduciendo la protección real.
+
+## Filtros químicos vs físicos en el trópico
+**Químicos (recomendados para el Caribe):**
+- Textura más ligera, agradable con el calor
+- Se absorben rápido, no se corren con el sudor
+- Algunos pueden irritar piel sensible
+
+**Físicos (minerales):**
+- Más estables al sol, no se degradan tan rápido
+- Pueden dejar residuo blanco (no ideal en piel morena)
+- Más espesos, pueden sentirse pesados con el calor
+
+## Cómo aplicar correctamente
+1. **Cantidad**: Un dedo completo para cara y cuello
+2. **Tiempo**: 15-20 minutos antes de exponerte
+3. **Reaplicación**: Cada 2 horas si estás al aire libre
+4. **Después del agua**: Inmediatamente (incluso si es resistente al agua)
+5. **Zonas olvidadas**: Orejas, parte posterior del cuello, dorso de manos, empeine
+
+## Protectores solares que amamos
+- Texturas en gel o agua para el calor
+- Con ácido hialurónico para no resecar
+- Oil-free para no obstruir poros
+- Resistentes al agua y al sudor`,
+      image: "https://cdn-icons-png.flaticon.com/512/3076/3076677.png",
+      category: "proteccion-solar",
+      tags: "protector solar,Caribe,UV,Cuba,FPS",
+      published: true,
+      readTime: 8,
+    },
+    {
+      title: "Manchas por el sol: prevención y tratamiento para piel latina",
+      slug: "manchas-sol-piel-latina",
+      excerpt: "Las pieles latinas tienen tendencia a la hiperpigmentación. Aprende a prevenir y tratar las manchas solares.",
+      content: `La piel latina (fototipos III-V) produce más melanina, lo que la protege mejor del cáncer de piel pero la hace más propensa a manchas.
+
+## ¿Por qué salen manchas?
+- Exposición solar acumulativa (la causa #1 en Cuba)
+- Cambios hormonales (melasma, común en mujeres)
+- Inflamación post-acné (cicatrices oscuras)
+- Fricción o presión constante en la piel
+
+## Prevención (más efectivo que tratar)
+1. **Protector solar SPF 50+ todos los días** (llueva o truene)
+2. **Sombrero de ala ancha** para exposición prolongada
+3. **Buscar sombra** entre 10am y 4pm
+4. **No reventar granos** (cada grano puede dejar una mancha)
+
+## Ingredientes para tratar manchas
+- **Vitamina C**: Ilumina y previene nueva pigmentación
+- **Niacinamida**: Reduce transferencia de melanina
+- **Ácido Tranexámico**: Efectivo para melasma
+- **Arbutina**: Despigmentante natural suave
+- **Ácido Kójico**: Inhibe producción de melanina
+- **Retinoides**: Aceleran renovación celular
+
+## Tratamientos profesionales
+- Peeling químico (en manos de expertos)
+- Láser Q-switched para manchas profundas
+- Microneedling con despigmentantes
+- Siempre bajo supervisión profesional
+
+## Rutina anti-manchas para el trópico
+**Mañana**: Limpieza → Vitamina C → Protector solar SPF 50+
+**Noche**: Doble limpieza → Tratamiento (arbutina/retinol) → Hidratante ligera`,
+      image: "https://cdn-icons-png.flaticon.com/512/3076/3076680.png",
+      category: "problemas-de-piel",
+      tags: "manchas,sol,hiperpigmentación,melasma,piel latina",
+      published: true,
+      readTime: 9,
+    },
   ]
 
   for (const post of posts) {
@@ -448,6 +612,10 @@ Con esta guía podrás leer cualquier etiqueta y tomar decisiones informadas sob
     { name: "Sérum Púrpura de Corea", slug: "serum-purpura-corea", description: "Sérum coreano con extracto de camelia púrpura y niacinamida. Iluminación y poros refinados.", shortDesc: "K-beauty: luminosidad coreana", image: productImage("Sérum Corea", "serums"), category: "serums", skinTypes: "normal,mixta", ingredients: "Extracto de Camelia Púrpura, Niacinamida, Ácido Hialurónico, Centella Asiática", isActive: true },
     { name: "Crema Solar con Tinte Invisible", slug: "crema-solar-tinte-invisible", description: "Protector solar con tinte invisible que se adapta a todos los tonos de piel.", shortDesc: "Protección invisible para todos", image: productImage("Solar Invisible", "proteccion-solar"), category: "proteccion-solar", skinTypes: "all", ingredients: "Filtros Solares Avanzados, Vitamina E, Aloe Vera, Ácido Hialurónico", isActive: true },
     { name: "Mascarilla de Bambú Purificante", slug: "mascarilla-bambu-purificante", description: "Mascarilla con extracto de bambú y caolín que purifica sin resecar la piel.", shortDesc: "Purificación suave con bambú", image: productImage("Mascarilla Bambú", "mascarillas"), category: "mascarillas", skinTypes: "normal,mixta", ingredients: "Extracto de Bambú, Caolín, Aloe Vera, Glicerina, Pantenol", isActive: true },
+    { name: "Protector Solar en Barra SPF 50+", slug: "protector-solar-barra-spf50", description: "Protector solar en barra transparente SPF 50+. Ideal para reaplicar sobre el maquillaje sin esfuerzo.", shortDesc: "Reaplicación fácil sobre maquillaje", image: productImage("Solar Barra", "proteccion-solar"), category: "proteccion-solar", skinTypes: "all", ingredients: "Óxido de Zinc, Manteca de Karité, Vitamina E, Cera de Candelilla", isActive: true },
+    { name: "Niebla Hidratante Refrescante", slug: "niebla-hidratante-refrescante", description: "Spray facial con agua de rosas, aloe vera y glicerina. Refresca e hidrata al instante en cualquier momento.", shortDesc: "Refrescante instantáneo para el calor", image: productImage("Niebla Hidratante", "hidratantes"), category: "hidratantes", skinTypes: "all", ingredients: "Agua de Rosas, Aloe Vera, Glicerina, Pantenol, Ácido Hialurónico", isActive: true },
+    { name: "Gel Post-Solar con Aloe y Pepino", slug: "gel-post-solar-aloe-pepino", description: "Gel refrescante post-exposición con aloe vera, pepino y vitamina E. Calma y repara la piel después del sol.", shortDesc: "Calma y repara después del sol", image: productImage("Gel Post-Solar", "hidratantes"), category: "hidratantes", skinTypes: "all", ingredients: "Aloe Vera, Extracto de Pepino, Vitamina E, Alantoína, Glicerina", isActive: true },
+    { name: "Sérum Iluminador con Vitamina C y Ácido Tranexámico", slug: "serum-iluminador-vitamina-c-tranexamico", description: "Sérum avanzado con Vitamina C 15% y ácido tranexámico para iluminar, unificar tono y reducir manchas persistentes.", shortDesc: "Iluminación avanzada anti-manchas", image: productImage("Sérum Iluminador", "serums"), category: "serums", skinTypes: "normal,mixta,madura", ingredients: "Ácido Ascórbico 15%, Ácido Tranexámico, Niacinamida, Ácido Hialurónico", isActive: true },
   ]
 
   for (const product of products) {
@@ -663,6 +831,46 @@ Con esta guía podrás leer cualquier etiqueta y tomar decisiones informadas sob
       category: "rutinas",
       price: 5.99,
       fileUrl: `${BASE_GUIDE_URL}/skincare-masculino.pdf`,
+    },
+    {
+      title: "Skincare tropical: rutina completa para Cuba",
+      slug: "skincare-tropical-cuba",
+      description: "Guía completa de cuidado facial adaptada al clima cubano. Rutinas para temporada seca y lluviosa, ingredientes que funcionan en el trópico y protección solar extrema.",
+      shortDesc: "Rutina facial para el clima cubano",
+      image: "/guides-covers/pexels-3735781.jpg",
+      category: "cuidado-basico",
+      price: 7.99,
+      fileUrl: `${BASE_GUIDE_URL}/guia-piel-grasa.pdf`,
+    },
+    {
+      title: "Cómo tratar el melasma y las manchas",
+      slug: "tratar-melasma-manchas",
+      description: "Guía especializada para tratar la hiperpigmentación en pieles latinas. Ingredientes activos, rutinas y prevención para el melasma y manchas solares.",
+      shortDesc: "Tratamiento de manchas para piel latina",
+      image: "/guides-covers/pexels-7654090.jpg",
+      category: "manchas",
+      price: 8.99,
+      fileUrl: `${BASE_GUIDE_URL}/eliminar-manchas-30-dias.pdf`,
+    },
+    {
+      title: "Protector solar en el trópico: guía avanzada",
+      slug: "protector-solar-tropico",
+      description: "Todo sobre protección solar en climas extremos. Filtros, texturas, reaplicación y mitos del protector solar en condiciones de radiación UV 11+.",
+      shortDesc: "Protección solar para radiación extrema",
+      image: "/guides-covers/pexels-3735778.jpg",
+      category: "proteccion-solar",
+      price: 6.99,
+      fileUrl: `${BASE_GUIDE_URL}/proteccion-solar-anual.pdf`,
+    },
+    {
+      title: "Rutina de 28 días para renovar tu piel",
+      slug: "rutina-28-dias-renovar",
+      description: "Plan intensivo de 28 días para renovar la textura, luminosidad y salud de tu piel. Con guía de productos, ingredientes y seguimiento semanal.",
+      shortDesc: "Plan intensivo de renovación facial",
+      image: "/guides-covers/pexels-7654090.jpg",
+      category: "rutinas",
+      price: 9.99,
+      fileUrl: `${BASE_GUIDE_URL}/guia-exfoliacion.pdf`,
     },
   ]
 

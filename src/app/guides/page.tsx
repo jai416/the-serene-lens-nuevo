@@ -3,15 +3,16 @@
 import { useEffect, useState, useCallback } from "react"
 import { useSession } from "next-auth/react"
 import { useRouter, useSearchParams } from "next/navigation"
-import Link from "next/link"
 import Image from "next/image"
 import { Card, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { CardSkeleton } from "@/components/ui/skeleton"
-import { BookOpen, Download, Loader2, ShoppingCart, CheckCircle2 } from "lucide-react"
+import { BookOpen, Download, Loader2, ShoppingCart, CheckCircle2, Gift, Sparkles, Mail } from "lucide-react"
 import { toast } from "sonner"
 import { getCsrfToken } from "@/lib/csrf-client"
+
+const FREE_GUIDE_KEY = "serene_free_guide_claimed"
 
 interface Guide {
   id: string
@@ -41,6 +42,11 @@ export default function GuidesPage() {
   const [loading, setLoading] = useState(true)
   const [purchasing, setPurchasing] = useState<string | null>(null)
   const [verifyingGuide, setVerifyingGuide] = useState<string | null>(null)
+  const [freeClaimed, setFreeClaimed] = useState(false)
+  const [showFreeForm, setShowFreeForm] = useState(false)
+  const [freeEmail, setFreeEmail] = useState("")
+  const [freeSubmitting, setFreeSubmitting] = useState(false)
+  const [freeDownloadUrl, setFreeDownloadUrl] = useState<string | null>(null)
 
   const loadPurchased = useCallback(async () => {
     if (!session) return
@@ -69,6 +75,42 @@ export default function GuidesPage() {
   useEffect(() => {
     loadPurchased()
   }, [loadPurchased])
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const claimed = localStorage.getItem(FREE_GUIDE_KEY)
+      if (claimed) setFreeClaimed(true)
+    }
+  }, [])
+
+  const handleClaimFree = async (e: React.FormEvent) => {
+    e.preventDefault()
+    if (!freeEmail || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(freeEmail)) {
+      toast.error("Ingresa un email válido")
+      return
+    }
+    setFreeSubmitting(true)
+    try {
+      const res = await fetch("/api/lead-magnet", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email: freeEmail }),
+      })
+      const data = await res.json()
+      if (data?.success && data?.downloadUrl) {
+        setFreeDownloadUrl(data.downloadUrl)
+        setFreeClaimed(true)
+        localStorage.setItem(FREE_GUIDE_KEY, "true")
+        toast.success("¡Guía gratuita lista para descargar!")
+      } else {
+        toast.error(data?.error || "Error al obtener la guía")
+      }
+    } catch {
+      toast.error("Error de conexión")
+    } finally {
+      setFreeSubmitting(false)
+    }
+  }
 
   useEffect(() => {
     const successGuideId = searchParams.get("success")
@@ -208,6 +250,100 @@ export default function GuidesPage() {
           </Card>
         ) : (
           <div className="grid sm:grid-cols-2 gap-6">
+            <Card className="overflow-hidden hover:shadow-lg transition-shadow border-2 border-[#FCEAA6] bg-[#FFF9E6] relative">
+              <div className="aspect-[16/9] bg-gradient-to-br from-[#FCEAA6] to-[#88B078] relative flex items-center justify-center">
+                <div className="text-center p-6">
+                  <Gift className="w-10 h-10 text-[#1A1A1A] mx-auto mb-2" />
+                  <p className="font-bold text-lg text-[#1A1A1A]">Guía Gratuita</p>
+                </div>
+                <Badge className="absolute top-3 left-3 bg-[#FCEAA6] text-[#1A1A1A] border border-[#E8E8E8]">
+                  <Sparkles className="w-3 h-3 mr-1" /> GRATIS
+                </Badge>
+              </div>
+              <CardContent className="p-5">
+                <h3 className="font-serif text-lg font-semibold text-[#1A1A1A] mb-2">
+                  Guía de Skincare Tropical
+                </h3>
+                <p className="text-sm text-[#666666] mb-4 line-clamp-2">
+                  Rutina básica para clima cubano, ingredientes clave, errores comunes y protección solar caribeña.
+                </p>
+                {freeDownloadUrl ? (
+                  <div className="flex items-center justify-between">
+                    <span className="text-[#88B078] font-semibold text-sm">¡Descarga lista!</span>
+                    <Button
+                      variant="primary"
+                      size="sm"
+                      className="gap-1"
+                      onClick={() => window.open(freeDownloadUrl, "_blank")}
+                    >
+                      <Download className="w-3.5 h-3.5" />
+                      Descargar
+                    </Button>
+                  </div>
+                ) : freeClaimed ? (
+                  <div className="flex items-center justify-between">
+                    <span className="text-[#88B078] font-semibold text-sm">Reclamada</span>
+                    <Button
+                      variant="secondary"
+                      size="sm"
+                      className="gap-1"
+                      onClick={() => {
+                        const url = `${window.location.origin}/guides/skincare-tropical.pdf`
+                        window.open(url, "_blank")
+                      }}
+                    >
+                      <Download className="w-3.5 h-3.5" />
+                      Descargar
+                    </Button>
+                  </div>
+                ) : showFreeForm ? (
+                  <form onSubmit={handleClaimFree} className="space-y-3">
+                    <div className="flex gap-2">
+                      <input
+                        type="email"
+                        value={freeEmail}
+                        onChange={(e) => setFreeEmail(e.target.value)}
+                        placeholder="tu@email.com"
+                        className="flex-1 px-3 py-2 text-sm border border-[#E8E8E8] rounded-xl bg-white focus:outline-none focus:border-[#88B078] text-[#1A1A1A] placeholder:text-[#999]"
+                        required
+                      />
+                      <Button
+                        type="submit"
+                        variant="primary"
+                        size="sm"
+                        disabled={freeSubmitting}
+                        className="gap-1 shrink-0"
+                      >
+                        {freeSubmitting ? (
+                          <Loader2 className="w-3.5 h-3.5 animate-spin" />
+                        ) : (
+                          <Mail className="w-3.5 h-3.5" />
+                        )}
+                        {freeSubmitting ? "Enviando..." : "Enviar"}
+                      </Button>
+                    </div>
+                    <p className="text-[10px] text-[#999] text-center">
+                      Recibirás la guía por email. Sin spam, cancela cuando quieras.
+                    </p>
+                  </form>
+                ) : (
+                  <div className="flex items-center justify-between">
+                    <span className="text-xl font-bold text-[#1A1A1A]">
+                      <span className="text-[#88B078]">GRATIS</span>
+                    </span>
+                    <Button
+                      variant="primary"
+                      size="sm"
+                      className="gap-1"
+                      onClick={() => setShowFreeForm(true)}
+                    >
+                      <Gift className="w-3.5 h-3.5" />
+                      Obtener
+                    </Button>
+                  </div>
+                )}
+              </CardContent>
+            </Card>
             {guides.map((guide) => {
               const btn = getButtonState(guide)
               const isPurchased = purchased[guide.id]?.status === "completed"
