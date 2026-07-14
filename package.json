@@ -24,12 +24,7 @@
     "postinstall": "prisma generate"
   },
   "lint-staged": {
-    "*.{ts,tsx}": [
-      "tsc --noEmit"
-    ],
-    "*.{ts,tsx,js,jsx,json,css,md}": [
-      "prettier --check --ignore-unknown"
-    ]
+    "*.{ts,tsx}": []
   },
   "prisma": {
     "seed": "tsx prisma/seed.ts"

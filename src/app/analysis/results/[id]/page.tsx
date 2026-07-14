@@ -497,6 +497,11 @@ export default function AnalysisResultsPage() {
             </CardContent>
           </Card>
 
+          {/* ─── 9. Evolución / Antes-Después ─── */}
+          {session && analysis.userId && (
+            <PreviousAnalysesComparison currentId={analysis.id} userId={analysis.userId} currentResult={result} />
+          )}
+
           {/* ─── Feedback ─── */}
           {session && (
           <Card className="p-6 border-t-4 border-t-[#88B078]">
