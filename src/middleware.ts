@@ -48,7 +48,8 @@ export async function middleware(request: NextRequest) {
       !request.nextUrl.pathname.startsWith("/api/register") &&
       !request.nextUrl.pathname.startsWith("/api/telegram/webhook") &&
       !request.nextUrl.pathname.startsWith("/api/cron") &&
-      !request.nextUrl.pathname.startsWith("/api/chat")) {
+      !request.nextUrl.pathname.startsWith("/api/chat") &&
+      !request.nextUrl.pathname.startsWith("/api/contact")) {
     if (!request.headers.get("x-csrf-skip")) {
       const headerToken = request.headers.get("x-csrf-token")
       const cookieToken = request.cookies.get("csrf-token")?.value

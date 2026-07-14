@@ -311,7 +311,7 @@ Client-side validation via `src/lib/photo-quality.ts` (OffscreenCanvas). Fallbac
 - `src/lib/locale/translations.ts` — Translation dictionaries (50+ keys per locale)
 - `src/lib/locale/locale-context.tsx` — React context + provider for locale state
 - `src/lib/locale/index.ts` — Barrel export
-- `src/middleware.ts` — excludes `/api/auth` and `/api/register` from CSRF check
+- `src/middleware.ts` — excludes `/api/auth`, `/api/register`, `/api/telegram/webhook`, `/api/cron`, `/api/chat`, `/api/contact` from CSRF check
 - `src/app/api/payments/webhook/route.ts` — QvaPay webhook (uses $transaction)
 - `src/app/api/payments/activate-transfer/route.ts` — uses $transaction (atomic)
 - `src/app/dashboard/profile/page.tsx` — session-only profile (no DB fetch on mount), clean info table, locale switcher
