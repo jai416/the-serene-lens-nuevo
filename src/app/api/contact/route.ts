@@ -10,7 +10,7 @@ export async function POST(req: NextRequest) {
     const { allowed } = await checkRateLimit(`contact:${ip}`, 5, 3600000)
     if (!allowed) return error("Demasiados mensajes. Intenta en una hora.", 429)
 
-    const { name, email, message } = await req.json().catch(() => ({}))
+    const { name, email, subject, message } = await req.json().catch(() => ({}))
     if (!name || !email || !message) return error("Nombre, email y mensaje requeridos", 400)
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return error("Email inválido", 400)
 
@@ -20,6 +20,7 @@ export async function POST(req: NextRequest) {
       data: {
         name: sanitized(name),
         email: sanitized(email),
+        subject: sanitized(subject || "Consulta desde formulario de contacto"),
         message: sanitized(message),
       },
     })
