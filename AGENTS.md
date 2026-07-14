@@ -19,14 +19,21 @@
 - **User Reminders**: Profile page allows setting weekly/biweekly/monthly email reminders. `GET/PUT /api/user/reminders`. `GET /api/cron/send-reminders` sends due reminders.
 - **Evolution Chart**: Upgraded to Recharts `LineChart` with 6 skin categories, trends grid, severity diff. Only shown to non-FREE users.
 - **Share results**: Web Share API + clipboard fallback on analysis results page.
+- **Before/After comparison**: New `PreviousAnalysesComparison` component on analysis results page. Shows trend indicators (improved/worsened/stable) for 6 skin categories vs the previous analysis.
+- **Dynamic sitemap**: Now includes blog posts, products, and guides from DB (not just static pages).
 - **No Redis, no BullMQ, no Stripe**
+
+## Tests
+- **19 test files, 194 tests**
+- Coverage: lib utils, services, validations, API routes (webhook, lead-magnet, contact, challenges)
+- Framework: Vitest v3
 
 ## Commands
 | Command | Description |
 |---------|-------------|
 | `npm run dev` | Dev server (Turbopack) |
 | `npm run build` | Production build |
-| `npm test` | Vitest (175 tests, 16 suites) |
+| `npm test` | Vitest (194 tests, 19 suites) |
 | `npm run test:watch` | Vitest watch mode |
 | `npm run type-check` | `tsc --noEmit` |
 | `npm run seed` | Seed DB (admin + demo + 41 products + 31 challenges + 11 guides) |
@@ -118,6 +125,30 @@ Both `next.config.mjs` (via `async headers()`) and `middleware.ts` set Content-S
 ### 12. Dashboard placeholder pages must have auth guards
 
 `/dashboard/referrals`, `/dashboard/social`, and `/dashboard/support` are all client components that must guard with `useSession()` + `redirect()`. The support page already does API calls to `/api/support/messages` which the backend protects, but the frontend must prevent rendering without auth. Always add `useSession()` + early redirect to any new dashboard page.
+
+### 13. QvaPay timeout and retry
+
+`src/lib/payments.ts` now uses:
+- 25s timeout (up from 10s) for all QvaPay API calls
+- 1 automatic retry with 1s backoff for network errors
+- `User-Agent` header to avoid Cloudflare blocks
+- `Accept: application/json` header
+- `getQvaPayPaymentStatus` now also has a proper timeout (was missing one)
+
+The QvaPay API is behind Cloudflare (104.26.x.x). If 502 persists from Render, it's a network-level block, not a code issue.
+
+### 14. `Span` wrapper for lucide icon tooltips
+
+Lucide icons in React do not accept a `title` prop directly. Wrap them in `<span title="...">`:
+
+```tsx
+// ❌ <TrendingUp title="Mejoró" />
+// ✅ <span title="Mejoró"><TrendingUp className="..." /></span>
+```
+
+### 15. Sitemap is async/dynamic
+
+`src/app/sitemap.ts` now queries the database for blog posts, products, and guides. It uses `try/catch` to fall back to static pages if the DB is unreachable.
 
 ### 10. Modelos de IA y Prompt
 
