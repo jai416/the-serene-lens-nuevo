@@ -29,6 +29,7 @@ import { useSession } from "next-auth/react"
 import Link from "next/link"
 import { toast } from "sonner"
 import { SatisfactionSurvey } from "@/components/satisfaction-survey"
+import { PreviousAnalysesComparison } from "@/components/previous-analyses-comparison"
 
 interface AIResult {
   skinType: string
