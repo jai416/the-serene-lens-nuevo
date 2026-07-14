@@ -37,7 +37,10 @@ export default async function BlogPage() {
       }),
       db.blogPost.count({ where }),
     ])
-    posts = fetchedPosts
+    posts = fetchedPosts.map((p) => ({
+      ...p,
+      publishedAt: p.publishedAt ? p.publishedAt.toISOString() : null,
+    }))
     total = fetchedTotal
   } catch {}
 
