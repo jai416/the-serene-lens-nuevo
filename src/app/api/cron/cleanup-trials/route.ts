@@ -11,8 +11,8 @@ export async function POST(req: Request) {
 
     const { count } = await db.user.updateMany({
       where: {
-        plan: "PREMIUM",
         trialEndsAt: { lt: new Date() },
+        plan: { in: ["PREMIUM", "PREMIUM_ANNUAL"] },
         NOT: { role: "ADMIN" },
       },
       data: {

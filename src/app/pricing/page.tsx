@@ -249,7 +249,7 @@ export default function PricingPage() {
       )}
 
       {/* Trial banner */}
-      {session?.user?.plan === "PREMIUM" && session?.user?.trialEndsAt && (
+      {(session?.user?.plan === "PREMIUM" || session?.user?.plan === "PREMIUM_ANNUAL") && session?.user?.trialEndsAt && (
         <div className="max-w-6xl mx-auto mb-8 p-4 rounded-2xl bg-gradient-to-r from-[#FFF9E6] to-[#FFF3CC] border border-[#FCEAA6]">
           <p className="text-sm text-[#1A1A1A] font-medium text-center">
             Estas disfrutando de tu prueba PREMIUM de 7 dias. 

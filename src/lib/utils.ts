@@ -25,7 +25,9 @@ export function getPlanLabel(plan: string) {
   const labels: Record<string, string> = {
     FREE: "Essential",
     PREMIUM: "Premium",
+    PREMIUM_ANNUAL: "Premium Anual",
     PRO: "Pro",
+    PRO_ANNUAL: "Pro Anual",
     PRO_PLUS: "Pro+",
     ESTHETICIAN: "Esteticista",
   }

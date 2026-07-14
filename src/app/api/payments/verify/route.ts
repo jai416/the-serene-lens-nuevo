@@ -97,8 +97,9 @@ export async function POST(req: NextRequest) {
         data: { plan: payment.plan },
       })
 
+      const isAnnual = payment.plan.endsWith("_ANNUAL")
       const periodEnd = new Date()
-      periodEnd.setDate(periodEnd.getDate() + 30)
+      periodEnd.setDate(periodEnd.getDate() + (isAnnual ? 365 : 30))
 
       await db.subscription.create({
         data: {

@@ -1,4 +1,5 @@
 import { db } from "@/lib/db"
+import { getPlan } from "@/lib/pricing"
 
 export async function getUsageStats(userId: string) {
   const user = await db.user.findUnique({
@@ -18,13 +19,15 @@ export async function getUsageStats(userId: string) {
   })
 
   const packAnalyses = packs.reduce((sum, p) => sum + p.analyses, 0)
+  const planDef = getPlan(user.plan)
+  const isUnlimited = planDef?.analysesPerMonth === -1
 
   return {
     plan: user.plan,
     monthlyLimit: user.analysisLimit,
     monthlyUsed: user.analysisUsed,
     packAnalyses,
-    remaining: user.plan === "PREMIUM" || user.plan === "PRO" || user.plan === "PRO_PLUS" || user.plan === "ESTHETICIAN"
+    remaining: isUnlimited
       ? null
       : Math.max(0, user.analysisLimit - user.analysisUsed) + packAnalyses,
     resetAt: user.analysisResetAt,
