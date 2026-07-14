@@ -33,6 +33,7 @@ export default function PricingPage() {
   const [loading, setLoading] = useState<string | null>(null)
   const [error, setError] = useState("")
   const [selectedTransfer, setSelectedTransfer] = useState<TransferData | null>(null)
+  const [giftModal, setGiftModal] = useState<{ packId: string; email: string; sending: boolean } | null>(null)
 
   const handleSubscribe = async (planId: string) => {
     if (!session) {
@@ -144,6 +145,35 @@ export default function PricingPage() {
   const isLoadingPlan = (id: string) =>
     loading === `${id}-qvapay` || loading === `${id}-transfer`
 
+  const handleGiftPack = (packId: string) => {
+    if (!session) { router.push("/login?callbackUrl=/pricing"); return }
+    setGiftModal({ packId, email: "", sending: false })
+  }
+
+  const submitGift = async () => {
+    if (!giftModal?.email || !giftModal.packId) return
+    setGiftModal({ ...giftModal, sending: true })
+    setError("")
+    try {
+      const res = await fetch("/api/payments/gift", {
+        method: "POST",
+        headers: { "Content-Type": "application/json", "x-csrf-token": getCsrfToken() },
+        body: JSON.stringify({ packType: giftModal.packId, recipientEmail: giftModal.email }),
+      })
+      const data = await res.json()
+      const payload = data?.data || data
+      if (!res.ok) throw new Error(payload?.error || "Error al enviar regalo")
+      toast.success("Regalo enviado correctamente. Revisa tu correo.")
+      setGiftModal(null)
+    } catch (e: any) {
+      const msg = e.message || "Error al enviar regalo"
+      setError(msg)
+      toast.error(msg)
+    } finally {
+      if (giftModal) setGiftModal({ ...giftModal, sending: false })
+    }
+  }
+
   return (
     <div className="min-h-screen pt-24 pb-16 px-4 bg-[#F8F9FA]">
       {/* Transfer Modal */}
@@ -191,6 +221,28 @@ export default function PricingPage() {
               className="w-full mt-4 py-3"
             >
               Entendido
+            </Button>
+          </div>
+        </div>
+      )}
+
+      {/* Gift Modal */}
+      {giftModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 px-4" onClick={() => setGiftModal(null)}>
+          <div className="bg-white rounded-2xl p-6 max-w-sm w-full shadow-xl relative" onClick={(e) => e.stopPropagation()}>
+            <button onClick={() => setGiftModal(null)} className="absolute top-3 right-3 text-[#666666] hover:text-[#1A1A1A] text-xl leading-none cursor-pointer">&times;</button>
+            <h3 className="font-semibold text-lg text-[#1A1A1A] mb-3">Regalar analisis</h3>
+            <p className="text-xs text-[#666666] mb-4">Ingresa el email de la persona que recibira este pack de analisis.</p>
+            <input
+              type="email"
+              value={giftModal.email}
+              onChange={(e) => setGiftModal({ ...giftModal, email: e.target.value })}
+              placeholder="email@ejemplo.com"
+              className="w-full rounded-xl border border-[#E8E8E8] bg-white px-4 py-2.5 text-sm mb-3 focus:outline-none focus:ring-1 focus:ring-[#88B078] text-[#1A1A1A]"
+            />
+            <Button onClick={submitGift} disabled={giftModal.sending || !giftModal.email} variant="primary" className="w-full">
+              {giftModal.sending ? <Loader2 className="w-4 h-4 mr-2 animate-spin" /> : null}
+              {giftModal.sending ? "Enviando..." : "Enviar regalo"}
             </Button>
           </div>
         </div>
@@ -284,14 +336,24 @@ export default function PricingPage() {
 
                 <div className="text-center mb-6">
                   <p className="text-lg font-semibold mb-1 text-[#1A1A1A]">{plan.name}</p>
+                  {plan.annual && (
+                    <div className="inline-block text-[10px] font-semibold px-1.5 py-0.5 rounded-full bg-[#88B078] text-white mb-2">
+                      AHORRA 16%
+                    </div>
+                  )}
                   {plan.priceUSD > 0 ? (
                     <>
                       <div className="flex items-baseline justify-center gap-1">
                         <span className={`font-bold text-[#1A1A1A] ${plan.popular ? "text-3xl" : "text-2xl"}`}>
                           ${plan.priceUSD.toFixed(2)}
                         </span>
-                        <span className="text-sm text-[#666666]">/{plan.period}</span>
+                        <span className="text-sm text-[#666666]">/{plan.period.replace("por ", "")}</span>
                       </div>
+                      {plan.monthlyPrice && (
+                        <p className="text-xs text-[#666666] mt-0.5">
+                          ${plan.monthlyPrice.toFixed(2)}/mes al pagar anual
+                        </p>
+                      )}
                       <p className="text-xs text-[#9BAA93] mt-1">
                         ≈ {plan.priceCUP.toLocaleString("es-CU")} CUP
                       </p>
@@ -441,6 +503,15 @@ export default function PricingPage() {
                       <CreditCard className="w-4 h-4 mr-2" />
                     )}
                     {loading === `${pack.id}-transfer` ? "Procesando..." : "Pagar con Transfermovil"}
+                    </Button>
+                    <Button
+                      onClick={() => handleGiftPack(pack.id)}
+                      disabled={isLoadingPlan(pack.id)}
+                      variant="outline"
+                      className="w-full py-2.5 text-xs border-[#88B078] text-[#88B078] hover:bg-[#E2ECE0]"
+                    >
+                      <CreditCard className="w-3.5 h-3.5 mr-1.5" />
+                      Regalar
                     </Button>
                 </div>
               </Card>

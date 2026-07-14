@@ -103,7 +103,10 @@ export const ModelName = {
   TelegramReminder: 'TelegramReminder',
   SupportTicket: 'SupportTicket',
   SupportTicketResponse: 'SupportTicketResponse',
-  ChatMessage: 'ChatMessage'
+  ChatMessage: 'ChatMessage',
+  LeadMagnet: 'LeadMagnet',
+  GiftPack: 'GiftPack',
+  UserReminder: 'UserReminder'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -144,6 +147,7 @@ export const UserScalarFieldEnum = {
   currentStreak: 'currentStreak',
   maxStreak: 'maxStreak',
   lastCheckInDate: 'lastCheckInDate',
+  trialEndsAt: 'trialEndsAt',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
@@ -871,6 +875,44 @@ export const ChatMessageScalarFieldEnum = {
 } as const
 
 export type ChatMessageScalarFieldEnum = (typeof ChatMessageScalarFieldEnum)[keyof typeof ChatMessageScalarFieldEnum]
+
+
+export const LeadMagnetScalarFieldEnum = {
+  id: 'id',
+  email: 'email',
+  createdAt: 'createdAt'
+} as const
+
+export type LeadMagnetScalarFieldEnum = (typeof LeadMagnetScalarFieldEnum)[keyof typeof LeadMagnetScalarFieldEnum]
+
+
+export const GiftPackScalarFieldEnum = {
+  id: 'id',
+  buyerId: 'buyerId',
+  recipientEmail: 'recipientEmail',
+  packType: 'packType',
+  analyses: 'analyses',
+  giftCode: 'giftCode',
+  status: 'status',
+  redeemedById: 'redeemedById',
+  redeemedAt: 'redeemedAt',
+  createdAt: 'createdAt'
+} as const
+
+export type GiftPackScalarFieldEnum = (typeof GiftPackScalarFieldEnum)[keyof typeof GiftPackScalarFieldEnum]
+
+
+export const UserReminderScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  frequency: 'frequency',
+  enabled: 'enabled',
+  lastSentAt: 'lastSentAt',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type UserReminderScalarFieldEnum = (typeof UserReminderScalarFieldEnum)[keyof typeof UserReminderScalarFieldEnum]
 
 
 export const SortOrder = {

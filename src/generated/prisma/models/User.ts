@@ -66,6 +66,7 @@ export type UserMinAggregateOutputType = {
   currentStreak: number | null
   maxStreak: number | null
   lastCheckInDate: Date | null
+  trialEndsAt: Date | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -92,6 +93,7 @@ export type UserMaxAggregateOutputType = {
   currentStreak: number | null
   maxStreak: number | null
   lastCheckInDate: Date | null
+  trialEndsAt: Date | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -118,6 +120,7 @@ export type UserCountAggregateOutputType = {
   currentStreak: number
   maxStreak: number
   lastCheckInDate: number
+  trialEndsAt: number
   createdAt: number
   updatedAt: number
   _all: number
@@ -164,6 +167,7 @@ export type UserMinAggregateInputType = {
   currentStreak?: true
   maxStreak?: true
   lastCheckInDate?: true
+  trialEndsAt?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -190,6 +194,7 @@ export type UserMaxAggregateInputType = {
   currentStreak?: true
   maxStreak?: true
   lastCheckInDate?: true
+  trialEndsAt?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -216,6 +221,7 @@ export type UserCountAggregateInputType = {
   currentStreak?: true
   maxStreak?: true
   lastCheckInDate?: true
+  trialEndsAt?: true
   createdAt?: true
   updatedAt?: true
   _all?: true
@@ -329,6 +335,7 @@ export type UserGroupByOutputType = {
   currentStreak: number
   maxStreak: number
   lastCheckInDate: Date | null
+  trialEndsAt: Date | null
   createdAt: Date
   updatedAt: Date
   _count: UserCountAggregateOutputType | null
@@ -378,6 +385,7 @@ export type UserWhereInput = {
   currentStreak?: Prisma.IntFilter<"User"> | number
   maxStreak?: Prisma.IntFilter<"User"> | number
   lastCheckInDate?: Prisma.DateTimeNullableFilter<"User"> | Date | string | null
+  trialEndsAt?: Prisma.DateTimeNullableFilter<"User"> | Date | string | null
   createdAt?: Prisma.DateTimeFilter<"User"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"User"> | Date | string
   accounts?: Prisma.AccountListRelationFilter
@@ -414,6 +422,9 @@ export type UserWhereInput = {
   communityGroups?: Prisma.CommunityGroupListRelationFilter
   communityMemberships?: Prisma.CommunityMemberListRelationFilter
   postReactions?: Prisma.PostReactionListRelationFilter
+  giftPacksBought?: Prisma.GiftPackListRelationFilter
+  giftPacksRedeemed?: Prisma.GiftPackListRelationFilter
+  reminders?: Prisma.UserReminderListRelationFilter
 }
 
 export type UserOrderByWithRelationInput = {
@@ -438,6 +449,7 @@ export type UserOrderByWithRelationInput = {
   currentStreak?: Prisma.SortOrder
   maxStreak?: Prisma.SortOrder
   lastCheckInDate?: Prisma.SortOrderInput | Prisma.SortOrder
+  trialEndsAt?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   accounts?: Prisma.AccountOrderByRelationAggregateInput
@@ -474,6 +486,9 @@ export type UserOrderByWithRelationInput = {
   communityGroups?: Prisma.CommunityGroupOrderByRelationAggregateInput
   communityMemberships?: Prisma.CommunityMemberOrderByRelationAggregateInput
   postReactions?: Prisma.PostReactionOrderByRelationAggregateInput
+  giftPacksBought?: Prisma.GiftPackOrderByRelationAggregateInput
+  giftPacksRedeemed?: Prisma.GiftPackOrderByRelationAggregateInput
+  reminders?: Prisma.UserReminderOrderByRelationAggregateInput
 }
 
 export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -501,6 +516,7 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   currentStreak?: Prisma.IntFilter<"User"> | number
   maxStreak?: Prisma.IntFilter<"User"> | number
   lastCheckInDate?: Prisma.DateTimeNullableFilter<"User"> | Date | string | null
+  trialEndsAt?: Prisma.DateTimeNullableFilter<"User"> | Date | string | null
   createdAt?: Prisma.DateTimeFilter<"User"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"User"> | Date | string
   accounts?: Prisma.AccountListRelationFilter
@@ -537,6 +553,9 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   communityGroups?: Prisma.CommunityGroupListRelationFilter
   communityMemberships?: Prisma.CommunityMemberListRelationFilter
   postReactions?: Prisma.PostReactionListRelationFilter
+  giftPacksBought?: Prisma.GiftPackListRelationFilter
+  giftPacksRedeemed?: Prisma.GiftPackListRelationFilter
+  reminders?: Prisma.UserReminderListRelationFilter
 }, "id" | "email" | "username">
 
 export type UserOrderByWithAggregationInput = {
@@ -561,6 +580,7 @@ export type UserOrderByWithAggregationInput = {
   currentStreak?: Prisma.SortOrder
   maxStreak?: Prisma.SortOrder
   lastCheckInDate?: Prisma.SortOrderInput | Prisma.SortOrder
+  trialEndsAt?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   _count?: Prisma.UserCountOrderByAggregateInput
@@ -595,6 +615,7 @@ export type UserScalarWhereWithAggregatesInput = {
   currentStreak?: Prisma.IntWithAggregatesFilter<"User"> | number
   maxStreak?: Prisma.IntWithAggregatesFilter<"User"> | number
   lastCheckInDate?: Prisma.DateTimeNullableWithAggregatesFilter<"User"> | Date | string | null
+  trialEndsAt?: Prisma.DateTimeNullableWithAggregatesFilter<"User"> | Date | string | null
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"User"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"User"> | Date | string
 }
@@ -621,6 +642,7 @@ export type UserCreateInput = {
   currentStreak?: number
   maxStreak?: number
   lastCheckInDate?: Date | string | null
+  trialEndsAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
@@ -657,6 +679,9 @@ export type UserCreateInput = {
   communityGroups?: Prisma.CommunityGroupCreateNestedManyWithoutCreatorInput
   communityMemberships?: Prisma.CommunityMemberCreateNestedManyWithoutUserInput
   postReactions?: Prisma.PostReactionCreateNestedManyWithoutUserInput
+  giftPacksBought?: Prisma.GiftPackCreateNestedManyWithoutBuyerInput
+  giftPacksRedeemed?: Prisma.GiftPackCreateNestedManyWithoutRedeemedByInput
+  reminders?: Prisma.UserReminderCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateInput = {
@@ -681,6 +706,7 @@ export type UserUncheckedCreateInput = {
   currentStreak?: number
   maxStreak?: number
   lastCheckInDate?: Date | string | null
+  trialEndsAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
@@ -717,6 +743,9 @@ export type UserUncheckedCreateInput = {
   communityGroups?: Prisma.CommunityGroupUncheckedCreateNestedManyWithoutCreatorInput
   communityMemberships?: Prisma.CommunityMemberUncheckedCreateNestedManyWithoutUserInput
   postReactions?: Prisma.PostReactionUncheckedCreateNestedManyWithoutUserInput
+  giftPacksBought?: Prisma.GiftPackUncheckedCreateNestedManyWithoutBuyerInput
+  giftPacksRedeemed?: Prisma.GiftPackUncheckedCreateNestedManyWithoutRedeemedByInput
+  reminders?: Prisma.UserReminderUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserUpdateInput = {
@@ -741,6 +770,7 @@ export type UserUpdateInput = {
   currentStreak?: Prisma.IntFieldUpdateOperationsInput | number
   maxStreak?: Prisma.IntFieldUpdateOperationsInput | number
   lastCheckInDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  trialEndsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
@@ -777,6 +807,9 @@ export type UserUpdateInput = {
   communityGroups?: Prisma.CommunityGroupUpdateManyWithoutCreatorNestedInput
   communityMemberships?: Prisma.CommunityMemberUpdateManyWithoutUserNestedInput
   postReactions?: Prisma.PostReactionUpdateManyWithoutUserNestedInput
+  giftPacksBought?: Prisma.GiftPackUpdateManyWithoutBuyerNestedInput
+  giftPacksRedeemed?: Prisma.GiftPackUpdateManyWithoutRedeemedByNestedInput
+  reminders?: Prisma.UserReminderUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateInput = {
@@ -801,6 +834,7 @@ export type UserUncheckedUpdateInput = {
   currentStreak?: Prisma.IntFieldUpdateOperationsInput | number
   maxStreak?: Prisma.IntFieldUpdateOperationsInput | number
   lastCheckInDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  trialEndsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
@@ -837,6 +871,9 @@ export type UserUncheckedUpdateInput = {
   communityGroups?: Prisma.CommunityGroupUncheckedUpdateManyWithoutCreatorNestedInput
   communityMemberships?: Prisma.CommunityMemberUncheckedUpdateManyWithoutUserNestedInput
   postReactions?: Prisma.PostReactionUncheckedUpdateManyWithoutUserNestedInput
+  giftPacksBought?: Prisma.GiftPackUncheckedUpdateManyWithoutBuyerNestedInput
+  giftPacksRedeemed?: Prisma.GiftPackUncheckedUpdateManyWithoutRedeemedByNestedInput
+  reminders?: Prisma.UserReminderUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateManyInput = {
@@ -861,6 +898,7 @@ export type UserCreateManyInput = {
   currentStreak?: number
   maxStreak?: number
   lastCheckInDate?: Date | string | null
+  trialEndsAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -887,6 +925,7 @@ export type UserUpdateManyMutationInput = {
   currentStreak?: Prisma.IntFieldUpdateOperationsInput | number
   maxStreak?: Prisma.IntFieldUpdateOperationsInput | number
   lastCheckInDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  trialEndsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -913,6 +952,7 @@ export type UserUncheckedUpdateManyInput = {
   currentStreak?: Prisma.IntFieldUpdateOperationsInput | number
   maxStreak?: Prisma.IntFieldUpdateOperationsInput | number
   lastCheckInDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  trialEndsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -939,6 +979,7 @@ export type UserCountOrderByAggregateInput = {
   currentStreak?: Prisma.SortOrder
   maxStreak?: Prisma.SortOrder
   lastCheckInDate?: Prisma.SortOrder
+  trialEndsAt?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -974,6 +1015,7 @@ export type UserMaxOrderByAggregateInput = {
   currentStreak?: Prisma.SortOrder
   maxStreak?: Prisma.SortOrder
   lastCheckInDate?: Prisma.SortOrder
+  trialEndsAt?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -1000,6 +1042,7 @@ export type UserMinOrderByAggregateInput = {
   currentStreak?: Prisma.SortOrder
   maxStreak?: Prisma.SortOrder
   lastCheckInDate?: Prisma.SortOrder
+  trialEndsAt?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -1551,6 +1594,50 @@ export type UserUpdateOneWithoutChatMessagesNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutChatMessagesInput, Prisma.UserUpdateWithoutChatMessagesInput>, Prisma.UserUncheckedUpdateWithoutChatMessagesInput>
 }
 
+export type UserCreateNestedOneWithoutGiftPacksBoughtInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutGiftPacksBoughtInput, Prisma.UserUncheckedCreateWithoutGiftPacksBoughtInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutGiftPacksBoughtInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserCreateNestedOneWithoutGiftPacksRedeemedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutGiftPacksRedeemedInput, Prisma.UserUncheckedCreateWithoutGiftPacksRedeemedInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutGiftPacksRedeemedInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneRequiredWithoutGiftPacksBoughtNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutGiftPacksBoughtInput, Prisma.UserUncheckedCreateWithoutGiftPacksBoughtInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutGiftPacksBoughtInput
+  upsert?: Prisma.UserUpsertWithoutGiftPacksBoughtInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutGiftPacksBoughtInput, Prisma.UserUpdateWithoutGiftPacksBoughtInput>, Prisma.UserUncheckedUpdateWithoutGiftPacksBoughtInput>
+}
+
+export type UserUpdateOneWithoutGiftPacksRedeemedNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutGiftPacksRedeemedInput, Prisma.UserUncheckedCreateWithoutGiftPacksRedeemedInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutGiftPacksRedeemedInput
+  upsert?: Prisma.UserUpsertWithoutGiftPacksRedeemedInput
+  disconnect?: Prisma.UserWhereInput | boolean
+  delete?: Prisma.UserWhereInput | boolean
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutGiftPacksRedeemedInput, Prisma.UserUpdateWithoutGiftPacksRedeemedInput>, Prisma.UserUncheckedUpdateWithoutGiftPacksRedeemedInput>
+}
+
+export type UserCreateNestedOneWithoutRemindersInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutRemindersInput, Prisma.UserUncheckedCreateWithoutRemindersInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutRemindersInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneRequiredWithoutRemindersNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutRemindersInput, Prisma.UserUncheckedCreateWithoutRemindersInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutRemindersInput
+  upsert?: Prisma.UserUpsertWithoutRemindersInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutRemindersInput, Prisma.UserUpdateWithoutRemindersInput>, Prisma.UserUncheckedUpdateWithoutRemindersInput>
+}
+
 export type UserCreateWithoutAnalysisJobsInput = {
   id?: string
   name?: string | null
@@ -1573,6 +1660,7 @@ export type UserCreateWithoutAnalysisJobsInput = {
   currentStreak?: number
   maxStreak?: number
   lastCheckInDate?: Date | string | null
+  trialEndsAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
@@ -1608,6 +1696,9 @@ export type UserCreateWithoutAnalysisJobsInput = {
   communityGroups?: Prisma.CommunityGroupCreateNestedManyWithoutCreatorInput
   communityMemberships?: Prisma.CommunityMemberCreateNestedManyWithoutUserInput
   postReactions?: Prisma.PostReactionCreateNestedManyWithoutUserInput
+  giftPacksBought?: Prisma.GiftPackCreateNestedManyWithoutBuyerInput
+  giftPacksRedeemed?: Prisma.GiftPackCreateNestedManyWithoutRedeemedByInput
+  reminders?: Prisma.UserReminderCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutAnalysisJobsInput = {
@@ -1632,6 +1723,7 @@ export type UserUncheckedCreateWithoutAnalysisJobsInput = {
   currentStreak?: number
   maxStreak?: number
   lastCheckInDate?: Date | string | null
+  trialEndsAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
@@ -1667,6 +1759,9 @@ export type UserUncheckedCreateWithoutAnalysisJobsInput = {
   communityGroups?: Prisma.CommunityGroupUncheckedCreateNestedManyWithoutCreatorInput
   communityMemberships?: Prisma.CommunityMemberUncheckedCreateNestedManyWithoutUserInput
   postReactions?: Prisma.PostReactionUncheckedCreateNestedManyWithoutUserInput
+  giftPacksBought?: Prisma.GiftPackUncheckedCreateNestedManyWithoutBuyerInput
+  giftPacksRedeemed?: Prisma.GiftPackUncheckedCreateNestedManyWithoutRedeemedByInput
+  reminders?: Prisma.UserReminderUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutAnalysisJobsInput = {
@@ -1707,6 +1802,7 @@ export type UserUpdateWithoutAnalysisJobsInput = {
   currentStreak?: Prisma.IntFieldUpdateOperationsInput | number
   maxStreak?: Prisma.IntFieldUpdateOperationsInput | number
   lastCheckInDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  trialEndsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
@@ -1742,6 +1838,9 @@ export type UserUpdateWithoutAnalysisJobsInput = {
   communityGroups?: Prisma.CommunityGroupUpdateManyWithoutCreatorNestedInput
   communityMemberships?: Prisma.CommunityMemberUpdateManyWithoutUserNestedInput
   postReactions?: Prisma.PostReactionUpdateManyWithoutUserNestedInput
+  giftPacksBought?: Prisma.GiftPackUpdateManyWithoutBuyerNestedInput
+  giftPacksRedeemed?: Prisma.GiftPackUpdateManyWithoutRedeemedByNestedInput
+  reminders?: Prisma.UserReminderUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutAnalysisJobsInput = {
@@ -1766,6 +1865,7 @@ export type UserUncheckedUpdateWithoutAnalysisJobsInput = {
   currentStreak?: Prisma.IntFieldUpdateOperationsInput | number
   maxStreak?: Prisma.IntFieldUpdateOperationsInput | number
   lastCheckInDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  trialEndsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
@@ -1801,6 +1901,9 @@ export type UserUncheckedUpdateWithoutAnalysisJobsInput = {
   communityGroups?: Prisma.CommunityGroupUncheckedUpdateManyWithoutCreatorNestedInput
   communityMemberships?: Prisma.CommunityMemberUncheckedUpdateManyWithoutUserNestedInput
   postReactions?: Prisma.PostReactionUncheckedUpdateManyWithoutUserNestedInput
+  giftPacksBought?: Prisma.GiftPackUncheckedUpdateManyWithoutBuyerNestedInput
+  giftPacksRedeemed?: Prisma.GiftPackUncheckedUpdateManyWithoutRedeemedByNestedInput
+  reminders?: Prisma.UserReminderUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutAccountsInput = {
@@ -1825,6 +1928,7 @@ export type UserCreateWithoutAccountsInput = {
   currentStreak?: number
   maxStreak?: number
   lastCheckInDate?: Date | string | null
+  trialEndsAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
@@ -1860,6 +1964,9 @@ export type UserCreateWithoutAccountsInput = {
   communityGroups?: Prisma.CommunityGroupCreateNestedManyWithoutCreatorInput
   communityMemberships?: Prisma.CommunityMemberCreateNestedManyWithoutUserInput
   postReactions?: Prisma.PostReactionCreateNestedManyWithoutUserInput
+  giftPacksBought?: Prisma.GiftPackCreateNestedManyWithoutBuyerInput
+  giftPacksRedeemed?: Prisma.GiftPackCreateNestedManyWithoutRedeemedByInput
+  reminders?: Prisma.UserReminderCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutAccountsInput = {
@@ -1884,6 +1991,7 @@ export type UserUncheckedCreateWithoutAccountsInput = {
   currentStreak?: number
   maxStreak?: number
   lastCheckInDate?: Date | string | null
+  trialEndsAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
@@ -1919,6 +2027,9 @@ export type UserUncheckedCreateWithoutAccountsInput = {
   communityGroups?: Prisma.CommunityGroupUncheckedCreateNestedManyWithoutCreatorInput
   communityMemberships?: Prisma.CommunityMemberUncheckedCreateNestedManyWithoutUserInput
   postReactions?: Prisma.PostReactionUncheckedCreateNestedManyWithoutUserInput
+  giftPacksBought?: Prisma.GiftPackUncheckedCreateNestedManyWithoutBuyerInput
+  giftPacksRedeemed?: Prisma.GiftPackUncheckedCreateNestedManyWithoutRedeemedByInput
+  reminders?: Prisma.UserReminderUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutAccountsInput = {
@@ -1959,6 +2070,7 @@ export type UserUpdateWithoutAccountsInput = {
   currentStreak?: Prisma.IntFieldUpdateOperationsInput | number
   maxStreak?: Prisma.IntFieldUpdateOperationsInput | number
   lastCheckInDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  trialEndsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
@@ -1994,6 +2106,9 @@ export type UserUpdateWithoutAccountsInput = {
   communityGroups?: Prisma.CommunityGroupUpdateManyWithoutCreatorNestedInput
   communityMemberships?: Prisma.CommunityMemberUpdateManyWithoutUserNestedInput
   postReactions?: Prisma.PostReactionUpdateManyWithoutUserNestedInput
+  giftPacksBought?: Prisma.GiftPackUpdateManyWithoutBuyerNestedInput
+  giftPacksRedeemed?: Prisma.GiftPackUpdateManyWithoutRedeemedByNestedInput
+  reminders?: Prisma.UserReminderUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutAccountsInput = {
@@ -2018,6 +2133,7 @@ export type UserUncheckedUpdateWithoutAccountsInput = {
   currentStreak?: Prisma.IntFieldUpdateOperationsInput | number
   maxStreak?: Prisma.IntFieldUpdateOperationsInput | number
   lastCheckInDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  trialEndsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
@@ -2053,6 +2169,9 @@ export type UserUncheckedUpdateWithoutAccountsInput = {
   communityGroups?: Prisma.CommunityGroupUncheckedUpdateManyWithoutCreatorNestedInput
   communityMemberships?: Prisma.CommunityMemberUncheckedUpdateManyWithoutUserNestedInput
   postReactions?: Prisma.PostReactionUncheckedUpdateManyWithoutUserNestedInput
+  giftPacksBought?: Prisma.GiftPackUncheckedUpdateManyWithoutBuyerNestedInput
+  giftPacksRedeemed?: Prisma.GiftPackUncheckedUpdateManyWithoutRedeemedByNestedInput
+  reminders?: Prisma.UserReminderUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutSessionsInput = {
@@ -2077,6 +2196,7 @@ export type UserCreateWithoutSessionsInput = {
   currentStreak?: number
   maxStreak?: number
   lastCheckInDate?: Date | string | null
+  trialEndsAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
@@ -2112,6 +2232,9 @@ export type UserCreateWithoutSessionsInput = {
   communityGroups?: Prisma.CommunityGroupCreateNestedManyWithoutCreatorInput
   communityMemberships?: Prisma.CommunityMemberCreateNestedManyWithoutUserInput
   postReactions?: Prisma.PostReactionCreateNestedManyWithoutUserInput
+  giftPacksBought?: Prisma.GiftPackCreateNestedManyWithoutBuyerInput
+  giftPacksRedeemed?: Prisma.GiftPackCreateNestedManyWithoutRedeemedByInput
+  reminders?: Prisma.UserReminderCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutSessionsInput = {
@@ -2136,6 +2259,7 @@ export type UserUncheckedCreateWithoutSessionsInput = {
   currentStreak?: number
   maxStreak?: number
   lastCheckInDate?: Date | string | null
+  trialEndsAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
@@ -2171,6 +2295,9 @@ export type UserUncheckedCreateWithoutSessionsInput = {
   communityGroups?: Prisma.CommunityGroupUncheckedCreateNestedManyWithoutCreatorInput
   communityMemberships?: Prisma.CommunityMemberUncheckedCreateNestedManyWithoutUserInput
   postReactions?: Prisma.PostReactionUncheckedCreateNestedManyWithoutUserInput
+  giftPacksBought?: Prisma.GiftPackUncheckedCreateNestedManyWithoutBuyerInput
+  giftPacksRedeemed?: Prisma.GiftPackUncheckedCreateNestedManyWithoutRedeemedByInput
+  reminders?: Prisma.UserReminderUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutSessionsInput = {
@@ -2211,6 +2338,7 @@ export type UserUpdateWithoutSessionsInput = {
   currentStreak?: Prisma.IntFieldUpdateOperationsInput | number
   maxStreak?: Prisma.IntFieldUpdateOperationsInput | number
   lastCheckInDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  trialEndsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
@@ -2246,6 +2374,9 @@ export type UserUpdateWithoutSessionsInput = {
   communityGroups?: Prisma.CommunityGroupUpdateManyWithoutCreatorNestedInput
   communityMemberships?: Prisma.CommunityMemberUpdateManyWithoutUserNestedInput
   postReactions?: Prisma.PostReactionUpdateManyWithoutUserNestedInput
+  giftPacksBought?: Prisma.GiftPackUpdateManyWithoutBuyerNestedInput
+  giftPacksRedeemed?: Prisma.GiftPackUpdateManyWithoutRedeemedByNestedInput
+  reminders?: Prisma.UserReminderUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutSessionsInput = {
@@ -2270,6 +2401,7 @@ export type UserUncheckedUpdateWithoutSessionsInput = {
   currentStreak?: Prisma.IntFieldUpdateOperationsInput | number
   maxStreak?: Prisma.IntFieldUpdateOperationsInput | number
   lastCheckInDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  trialEndsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
@@ -2305,6 +2437,9 @@ export type UserUncheckedUpdateWithoutSessionsInput = {
   communityGroups?: Prisma.CommunityGroupUncheckedUpdateManyWithoutCreatorNestedInput
   communityMemberships?: Prisma.CommunityMemberUncheckedUpdateManyWithoutUserNestedInput
   postReactions?: Prisma.PostReactionUncheckedUpdateManyWithoutUserNestedInput
+  giftPacksBought?: Prisma.GiftPackUncheckedUpdateManyWithoutBuyerNestedInput
+  giftPacksRedeemed?: Prisma.GiftPackUncheckedUpdateManyWithoutRedeemedByNestedInput
+  reminders?: Prisma.UserReminderUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutAnalysesInput = {
@@ -2329,6 +2464,7 @@ export type UserCreateWithoutAnalysesInput = {
   currentStreak?: number
   maxStreak?: number
   lastCheckInDate?: Date | string | null
+  trialEndsAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
@@ -2364,6 +2500,9 @@ export type UserCreateWithoutAnalysesInput = {
   communityGroups?: Prisma.CommunityGroupCreateNestedManyWithoutCreatorInput
   communityMemberships?: Prisma.CommunityMemberCreateNestedManyWithoutUserInput
   postReactions?: Prisma.PostReactionCreateNestedManyWithoutUserInput
+  giftPacksBought?: Prisma.GiftPackCreateNestedManyWithoutBuyerInput
+  giftPacksRedeemed?: Prisma.GiftPackCreateNestedManyWithoutRedeemedByInput
+  reminders?: Prisma.UserReminderCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutAnalysesInput = {
@@ -2388,6 +2527,7 @@ export type UserUncheckedCreateWithoutAnalysesInput = {
   currentStreak?: number
   maxStreak?: number
   lastCheckInDate?: Date | string | null
+  trialEndsAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
@@ -2423,6 +2563,9 @@ export type UserUncheckedCreateWithoutAnalysesInput = {
   communityGroups?: Prisma.CommunityGroupUncheckedCreateNestedManyWithoutCreatorInput
   communityMemberships?: Prisma.CommunityMemberUncheckedCreateNestedManyWithoutUserInput
   postReactions?: Prisma.PostReactionUncheckedCreateNestedManyWithoutUserInput
+  giftPacksBought?: Prisma.GiftPackUncheckedCreateNestedManyWithoutBuyerInput
+  giftPacksRedeemed?: Prisma.GiftPackUncheckedCreateNestedManyWithoutRedeemedByInput
+  reminders?: Prisma.UserReminderUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutAnalysesInput = {
@@ -2463,6 +2606,7 @@ export type UserUpdateWithoutAnalysesInput = {
   currentStreak?: Prisma.IntFieldUpdateOperationsInput | number
   maxStreak?: Prisma.IntFieldUpdateOperationsInput | number
   lastCheckInDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  trialEndsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
@@ -2498,6 +2642,9 @@ export type UserUpdateWithoutAnalysesInput = {
   communityGroups?: Prisma.CommunityGroupUpdateManyWithoutCreatorNestedInput
   communityMemberships?: Prisma.CommunityMemberUpdateManyWithoutUserNestedInput
   postReactions?: Prisma.PostReactionUpdateManyWithoutUserNestedInput
+  giftPacksBought?: Prisma.GiftPackUpdateManyWithoutBuyerNestedInput
+  giftPacksRedeemed?: Prisma.GiftPackUpdateManyWithoutRedeemedByNestedInput
+  reminders?: Prisma.UserReminderUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutAnalysesInput = {
@@ -2522,6 +2669,7 @@ export type UserUncheckedUpdateWithoutAnalysesInput = {
   currentStreak?: Prisma.IntFieldUpdateOperationsInput | number
   maxStreak?: Prisma.IntFieldUpdateOperationsInput | number
   lastCheckInDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  trialEndsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
@@ -2557,6 +2705,9 @@ export type UserUncheckedUpdateWithoutAnalysesInput = {
   communityGroups?: Prisma.CommunityGroupUncheckedUpdateManyWithoutCreatorNestedInput
   communityMemberships?: Prisma.CommunityMemberUncheckedUpdateManyWithoutUserNestedInput
   postReactions?: Prisma.PostReactionUncheckedUpdateManyWithoutUserNestedInput
+  giftPacksBought?: Prisma.GiftPackUncheckedUpdateManyWithoutBuyerNestedInput
+  giftPacksRedeemed?: Prisma.GiftPackUncheckedUpdateManyWithoutRedeemedByNestedInput
+  reminders?: Prisma.UserReminderUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutPaymentsInput = {
@@ -2581,6 +2732,7 @@ export type UserCreateWithoutPaymentsInput = {
   currentStreak?: number
   maxStreak?: number
   lastCheckInDate?: Date | string | null
+  trialEndsAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
@@ -2616,6 +2768,9 @@ export type UserCreateWithoutPaymentsInput = {
   communityGroups?: Prisma.CommunityGroupCreateNestedManyWithoutCreatorInput
   communityMemberships?: Prisma.CommunityMemberCreateNestedManyWithoutUserInput
   postReactions?: Prisma.PostReactionCreateNestedManyWithoutUserInput
+  giftPacksBought?: Prisma.GiftPackCreateNestedManyWithoutBuyerInput
+  giftPacksRedeemed?: Prisma.GiftPackCreateNestedManyWithoutRedeemedByInput
+  reminders?: Prisma.UserReminderCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutPaymentsInput = {
@@ -2640,6 +2795,7 @@ export type UserUncheckedCreateWithoutPaymentsInput = {
   currentStreak?: number
   maxStreak?: number
   lastCheckInDate?: Date | string | null
+  trialEndsAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
@@ -2675,6 +2831,9 @@ export type UserUncheckedCreateWithoutPaymentsInput = {
   communityGroups?: Prisma.CommunityGroupUncheckedCreateNestedManyWithoutCreatorInput
   communityMemberships?: Prisma.CommunityMemberUncheckedCreateNestedManyWithoutUserInput
   postReactions?: Prisma.PostReactionUncheckedCreateNestedManyWithoutUserInput
+  giftPacksBought?: Prisma.GiftPackUncheckedCreateNestedManyWithoutBuyerInput
+  giftPacksRedeemed?: Prisma.GiftPackUncheckedCreateNestedManyWithoutRedeemedByInput
+  reminders?: Prisma.UserReminderUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutPaymentsInput = {
@@ -2715,6 +2874,7 @@ export type UserUpdateWithoutPaymentsInput = {
   currentStreak?: Prisma.IntFieldUpdateOperationsInput | number
   maxStreak?: Prisma.IntFieldUpdateOperationsInput | number
   lastCheckInDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  trialEndsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
@@ -2750,6 +2910,9 @@ export type UserUpdateWithoutPaymentsInput = {
   communityGroups?: Prisma.CommunityGroupUpdateManyWithoutCreatorNestedInput
   communityMemberships?: Prisma.CommunityMemberUpdateManyWithoutUserNestedInput
   postReactions?: Prisma.PostReactionUpdateManyWithoutUserNestedInput
+  giftPacksBought?: Prisma.GiftPackUpdateManyWithoutBuyerNestedInput
+  giftPacksRedeemed?: Prisma.GiftPackUpdateManyWithoutRedeemedByNestedInput
+  reminders?: Prisma.UserReminderUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutPaymentsInput = {
@@ -2774,6 +2937,7 @@ export type UserUncheckedUpdateWithoutPaymentsInput = {
   currentStreak?: Prisma.IntFieldUpdateOperationsInput | number
   maxStreak?: Prisma.IntFieldUpdateOperationsInput | number
   lastCheckInDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  trialEndsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
@@ -2809,6 +2973,9 @@ export type UserUncheckedUpdateWithoutPaymentsInput = {
   communityGroups?: Prisma.CommunityGroupUncheckedUpdateManyWithoutCreatorNestedInput
   communityMemberships?: Prisma.CommunityMemberUncheckedUpdateManyWithoutUserNestedInput
   postReactions?: Prisma.PostReactionUncheckedUpdateManyWithoutUserNestedInput
+  giftPacksBought?: Prisma.GiftPackUncheckedUpdateManyWithoutBuyerNestedInput
+  giftPacksRedeemed?: Prisma.GiftPackUncheckedUpdateManyWithoutRedeemedByNestedInput
+  reminders?: Prisma.UserReminderUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutTransferPaymentsInput = {
@@ -2833,6 +3000,7 @@ export type UserCreateWithoutTransferPaymentsInput = {
   currentStreak?: number
   maxStreak?: number
   lastCheckInDate?: Date | string | null
+  trialEndsAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
@@ -2868,6 +3036,9 @@ export type UserCreateWithoutTransferPaymentsInput = {
   communityGroups?: Prisma.CommunityGroupCreateNestedManyWithoutCreatorInput
   communityMemberships?: Prisma.CommunityMemberCreateNestedManyWithoutUserInput
   postReactions?: Prisma.PostReactionCreateNestedManyWithoutUserInput
+  giftPacksBought?: Prisma.GiftPackCreateNestedManyWithoutBuyerInput
+  giftPacksRedeemed?: Prisma.GiftPackCreateNestedManyWithoutRedeemedByInput
+  reminders?: Prisma.UserReminderCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutTransferPaymentsInput = {
@@ -2892,6 +3063,7 @@ export type UserUncheckedCreateWithoutTransferPaymentsInput = {
   currentStreak?: number
   maxStreak?: number
   lastCheckInDate?: Date | string | null
+  trialEndsAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
@@ -2927,6 +3099,9 @@ export type UserUncheckedCreateWithoutTransferPaymentsInput = {
   communityGroups?: Prisma.CommunityGroupUncheckedCreateNestedManyWithoutCreatorInput
   communityMemberships?: Prisma.CommunityMemberUncheckedCreateNestedManyWithoutUserInput
   postReactions?: Prisma.PostReactionUncheckedCreateNestedManyWithoutUserInput
+  giftPacksBought?: Prisma.GiftPackUncheckedCreateNestedManyWithoutBuyerInput
+  giftPacksRedeemed?: Prisma.GiftPackUncheckedCreateNestedManyWithoutRedeemedByInput
+  reminders?: Prisma.UserReminderUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutTransferPaymentsInput = {
@@ -2956,6 +3131,7 @@ export type UserCreateWithoutValidatedTransfersInput = {
   currentStreak?: number
   maxStreak?: number
   lastCheckInDate?: Date | string | null
+  trialEndsAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
@@ -2991,6 +3167,9 @@ export type UserCreateWithoutValidatedTransfersInput = {
   communityGroups?: Prisma.CommunityGroupCreateNestedManyWithoutCreatorInput
   communityMemberships?: Prisma.CommunityMemberCreateNestedManyWithoutUserInput
   postReactions?: Prisma.PostReactionCreateNestedManyWithoutUserInput
+  giftPacksBought?: Prisma.GiftPackCreateNestedManyWithoutBuyerInput
+  giftPacksRedeemed?: Prisma.GiftPackCreateNestedManyWithoutRedeemedByInput
+  reminders?: Prisma.UserReminderCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutValidatedTransfersInput = {
@@ -3015,6 +3194,7 @@ export type UserUncheckedCreateWithoutValidatedTransfersInput = {
   currentStreak?: number
   maxStreak?: number
   lastCheckInDate?: Date | string | null
+  trialEndsAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
@@ -3050,6 +3230,9 @@ export type UserUncheckedCreateWithoutValidatedTransfersInput = {
   communityGroups?: Prisma.CommunityGroupUncheckedCreateNestedManyWithoutCreatorInput
   communityMemberships?: Prisma.CommunityMemberUncheckedCreateNestedManyWithoutUserInput
   postReactions?: Prisma.PostReactionUncheckedCreateNestedManyWithoutUserInput
+  giftPacksBought?: Prisma.GiftPackUncheckedCreateNestedManyWithoutBuyerInput
+  giftPacksRedeemed?: Prisma.GiftPackUncheckedCreateNestedManyWithoutRedeemedByInput
+  reminders?: Prisma.UserReminderUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutValidatedTransfersInput = {
@@ -3079,6 +3262,7 @@ export type UserCreateWithoutActivatedTransfersInput = {
   currentStreak?: number
   maxStreak?: number
   lastCheckInDate?: Date | string | null
+  trialEndsAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
@@ -3114,6 +3298,9 @@ export type UserCreateWithoutActivatedTransfersInput = {
   communityGroups?: Prisma.CommunityGroupCreateNestedManyWithoutCreatorInput
   communityMemberships?: Prisma.CommunityMemberCreateNestedManyWithoutUserInput
   postReactions?: Prisma.PostReactionCreateNestedManyWithoutUserInput
+  giftPacksBought?: Prisma.GiftPackCreateNestedManyWithoutBuyerInput
+  giftPacksRedeemed?: Prisma.GiftPackCreateNestedManyWithoutRedeemedByInput
+  reminders?: Prisma.UserReminderCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutActivatedTransfersInput = {
@@ -3138,6 +3325,7 @@ export type UserUncheckedCreateWithoutActivatedTransfersInput = {
   currentStreak?: number
   maxStreak?: number
   lastCheckInDate?: Date | string | null
+  trialEndsAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
@@ -3173,6 +3361,9 @@ export type UserUncheckedCreateWithoutActivatedTransfersInput = {
   communityGroups?: Prisma.CommunityGroupUncheckedCreateNestedManyWithoutCreatorInput
   communityMemberships?: Prisma.CommunityMemberUncheckedCreateNestedManyWithoutUserInput
   postReactions?: Prisma.PostReactionUncheckedCreateNestedManyWithoutUserInput
+  giftPacksBought?: Prisma.GiftPackUncheckedCreateNestedManyWithoutBuyerInput
+  giftPacksRedeemed?: Prisma.GiftPackUncheckedCreateNestedManyWithoutRedeemedByInput
+  reminders?: Prisma.UserReminderUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutActivatedTransfersInput = {
@@ -3213,6 +3404,7 @@ export type UserUpdateWithoutTransferPaymentsInput = {
   currentStreak?: Prisma.IntFieldUpdateOperationsInput | number
   maxStreak?: Prisma.IntFieldUpdateOperationsInput | number
   lastCheckInDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  trialEndsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
@@ -3248,6 +3440,9 @@ export type UserUpdateWithoutTransferPaymentsInput = {
   communityGroups?: Prisma.CommunityGroupUpdateManyWithoutCreatorNestedInput
   communityMemberships?: Prisma.CommunityMemberUpdateManyWithoutUserNestedInput
   postReactions?: Prisma.PostReactionUpdateManyWithoutUserNestedInput
+  giftPacksBought?: Prisma.GiftPackUpdateManyWithoutBuyerNestedInput
+  giftPacksRedeemed?: Prisma.GiftPackUpdateManyWithoutRedeemedByNestedInput
+  reminders?: Prisma.UserReminderUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutTransferPaymentsInput = {
@@ -3272,6 +3467,7 @@ export type UserUncheckedUpdateWithoutTransferPaymentsInput = {
   currentStreak?: Prisma.IntFieldUpdateOperationsInput | number
   maxStreak?: Prisma.IntFieldUpdateOperationsInput | number
   lastCheckInDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  trialEndsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
@@ -3307,6 +3503,9 @@ export type UserUncheckedUpdateWithoutTransferPaymentsInput = {
   communityGroups?: Prisma.CommunityGroupUncheckedUpdateManyWithoutCreatorNestedInput
   communityMemberships?: Prisma.CommunityMemberUncheckedUpdateManyWithoutUserNestedInput
   postReactions?: Prisma.PostReactionUncheckedUpdateManyWithoutUserNestedInput
+  giftPacksBought?: Prisma.GiftPackUncheckedUpdateManyWithoutBuyerNestedInput
+  giftPacksRedeemed?: Prisma.GiftPackUncheckedUpdateManyWithoutRedeemedByNestedInput
+  reminders?: Prisma.UserReminderUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserUpsertWithoutValidatedTransfersInput = {
@@ -3342,6 +3541,7 @@ export type UserUpdateWithoutValidatedTransfersInput = {
   currentStreak?: Prisma.IntFieldUpdateOperationsInput | number
   maxStreak?: Prisma.IntFieldUpdateOperationsInput | number
   lastCheckInDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  trialEndsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
@@ -3377,6 +3577,9 @@ export type UserUpdateWithoutValidatedTransfersInput = {
   communityGroups?: Prisma.CommunityGroupUpdateManyWithoutCreatorNestedInput
   communityMemberships?: Prisma.CommunityMemberUpdateManyWithoutUserNestedInput
   postReactions?: Prisma.PostReactionUpdateManyWithoutUserNestedInput
+  giftPacksBought?: Prisma.GiftPackUpdateManyWithoutBuyerNestedInput
+  giftPacksRedeemed?: Prisma.GiftPackUpdateManyWithoutRedeemedByNestedInput
+  reminders?: Prisma.UserReminderUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutValidatedTransfersInput = {
@@ -3401,6 +3604,7 @@ export type UserUncheckedUpdateWithoutValidatedTransfersInput = {
   currentStreak?: Prisma.IntFieldUpdateOperationsInput | number
   maxStreak?: Prisma.IntFieldUpdateOperationsInput | number
   lastCheckInDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  trialEndsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
@@ -3436,6 +3640,9 @@ export type UserUncheckedUpdateWithoutValidatedTransfersInput = {
   communityGroups?: Prisma.CommunityGroupUncheckedUpdateManyWithoutCreatorNestedInput
   communityMemberships?: Prisma.CommunityMemberUncheckedUpdateManyWithoutUserNestedInput
   postReactions?: Prisma.PostReactionUncheckedUpdateManyWithoutUserNestedInput
+  giftPacksBought?: Prisma.GiftPackUncheckedUpdateManyWithoutBuyerNestedInput
+  giftPacksRedeemed?: Prisma.GiftPackUncheckedUpdateManyWithoutRedeemedByNestedInput
+  reminders?: Prisma.UserReminderUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserUpsertWithoutActivatedTransfersInput = {
@@ -3471,6 +3678,7 @@ export type UserUpdateWithoutActivatedTransfersInput = {
   currentStreak?: Prisma.IntFieldUpdateOperationsInput | number
   maxStreak?: Prisma.IntFieldUpdateOperationsInput | number
   lastCheckInDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  trialEndsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
@@ -3506,6 +3714,9 @@ export type UserUpdateWithoutActivatedTransfersInput = {
   communityGroups?: Prisma.CommunityGroupUpdateManyWithoutCreatorNestedInput
   communityMemberships?: Prisma.CommunityMemberUpdateManyWithoutUserNestedInput
   postReactions?: Prisma.PostReactionUpdateManyWithoutUserNestedInput
+  giftPacksBought?: Prisma.GiftPackUpdateManyWithoutBuyerNestedInput
+  giftPacksRedeemed?: Prisma.GiftPackUpdateManyWithoutRedeemedByNestedInput
+  reminders?: Prisma.UserReminderUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutActivatedTransfersInput = {
@@ -3530,6 +3741,7 @@ export type UserUncheckedUpdateWithoutActivatedTransfersInput = {
   currentStreak?: Prisma.IntFieldUpdateOperationsInput | number
   maxStreak?: Prisma.IntFieldUpdateOperationsInput | number
   lastCheckInDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  trialEndsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
@@ -3565,6 +3777,9 @@ export type UserUncheckedUpdateWithoutActivatedTransfersInput = {
   communityGroups?: Prisma.CommunityGroupUncheckedUpdateManyWithoutCreatorNestedInput
   communityMemberships?: Prisma.CommunityMemberUncheckedUpdateManyWithoutUserNestedInput
   postReactions?: Prisma.PostReactionUncheckedUpdateManyWithoutUserNestedInput
+  giftPacksBought?: Prisma.GiftPackUncheckedUpdateManyWithoutBuyerNestedInput
+  giftPacksRedeemed?: Prisma.GiftPackUncheckedUpdateManyWithoutRedeemedByNestedInput
+  reminders?: Prisma.UserReminderUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutAuditLogsInput = {
@@ -3589,6 +3804,7 @@ export type UserCreateWithoutAuditLogsInput = {
   currentStreak?: number
   maxStreak?: number
   lastCheckInDate?: Date | string | null
+  trialEndsAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
@@ -3624,6 +3840,9 @@ export type UserCreateWithoutAuditLogsInput = {
   communityGroups?: Prisma.CommunityGroupCreateNestedManyWithoutCreatorInput
   communityMemberships?: Prisma.CommunityMemberCreateNestedManyWithoutUserInput
   postReactions?: Prisma.PostReactionCreateNestedManyWithoutUserInput
+  giftPacksBought?: Prisma.GiftPackCreateNestedManyWithoutBuyerInput
+  giftPacksRedeemed?: Prisma.GiftPackCreateNestedManyWithoutRedeemedByInput
+  reminders?: Prisma.UserReminderCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutAuditLogsInput = {
@@ -3648,6 +3867,7 @@ export type UserUncheckedCreateWithoutAuditLogsInput = {
   currentStreak?: number
   maxStreak?: number
   lastCheckInDate?: Date | string | null
+  trialEndsAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
@@ -3683,6 +3903,9 @@ export type UserUncheckedCreateWithoutAuditLogsInput = {
   communityGroups?: Prisma.CommunityGroupUncheckedCreateNestedManyWithoutCreatorInput
   communityMemberships?: Prisma.CommunityMemberUncheckedCreateNestedManyWithoutUserInput
   postReactions?: Prisma.PostReactionUncheckedCreateNestedManyWithoutUserInput
+  giftPacksBought?: Prisma.GiftPackUncheckedCreateNestedManyWithoutBuyerInput
+  giftPacksRedeemed?: Prisma.GiftPackUncheckedCreateNestedManyWithoutRedeemedByInput
+  reminders?: Prisma.UserReminderUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutAuditLogsInput = {
@@ -3723,6 +3946,7 @@ export type UserUpdateWithoutAuditLogsInput = {
   currentStreak?: Prisma.IntFieldUpdateOperationsInput | number
   maxStreak?: Prisma.IntFieldUpdateOperationsInput | number
   lastCheckInDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  trialEndsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
@@ -3758,6 +3982,9 @@ export type UserUpdateWithoutAuditLogsInput = {
   communityGroups?: Prisma.CommunityGroupUpdateManyWithoutCreatorNestedInput
   communityMemberships?: Prisma.CommunityMemberUpdateManyWithoutUserNestedInput
   postReactions?: Prisma.PostReactionUpdateManyWithoutUserNestedInput
+  giftPacksBought?: Prisma.GiftPackUpdateManyWithoutBuyerNestedInput
+  giftPacksRedeemed?: Prisma.GiftPackUpdateManyWithoutRedeemedByNestedInput
+  reminders?: Prisma.UserReminderUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutAuditLogsInput = {
@@ -3782,6 +4009,7 @@ export type UserUncheckedUpdateWithoutAuditLogsInput = {
   currentStreak?: Prisma.IntFieldUpdateOperationsInput | number
   maxStreak?: Prisma.IntFieldUpdateOperationsInput | number
   lastCheckInDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  trialEndsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
@@ -3817,6 +4045,9 @@ export type UserUncheckedUpdateWithoutAuditLogsInput = {
   communityGroups?: Prisma.CommunityGroupUncheckedUpdateManyWithoutCreatorNestedInput
   communityMemberships?: Prisma.CommunityMemberUncheckedUpdateManyWithoutUserNestedInput
   postReactions?: Prisma.PostReactionUncheckedUpdateManyWithoutUserNestedInput
+  giftPacksBought?: Prisma.GiftPackUncheckedUpdateManyWithoutBuyerNestedInput
+  giftPacksRedeemed?: Prisma.GiftPackUncheckedUpdateManyWithoutRedeemedByNestedInput
+  reminders?: Prisma.UserReminderUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutSubscriptionsInput = {
@@ -3841,6 +4072,7 @@ export type UserCreateWithoutSubscriptionsInput = {
   currentStreak?: number
   maxStreak?: number
   lastCheckInDate?: Date | string | null
+  trialEndsAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
@@ -3876,6 +4108,9 @@ export type UserCreateWithoutSubscriptionsInput = {
   communityGroups?: Prisma.CommunityGroupCreateNestedManyWithoutCreatorInput
   communityMemberships?: Prisma.CommunityMemberCreateNestedManyWithoutUserInput
   postReactions?: Prisma.PostReactionCreateNestedManyWithoutUserInput
+  giftPacksBought?: Prisma.GiftPackCreateNestedManyWithoutBuyerInput
+  giftPacksRedeemed?: Prisma.GiftPackCreateNestedManyWithoutRedeemedByInput
+  reminders?: Prisma.UserReminderCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutSubscriptionsInput = {
@@ -3900,6 +4135,7 @@ export type UserUncheckedCreateWithoutSubscriptionsInput = {
   currentStreak?: number
   maxStreak?: number
   lastCheckInDate?: Date | string | null
+  trialEndsAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
@@ -3935,6 +4171,9 @@ export type UserUncheckedCreateWithoutSubscriptionsInput = {
   communityGroups?: Prisma.CommunityGroupUncheckedCreateNestedManyWithoutCreatorInput
   communityMemberships?: Prisma.CommunityMemberUncheckedCreateNestedManyWithoutUserInput
   postReactions?: Prisma.PostReactionUncheckedCreateNestedManyWithoutUserInput
+  giftPacksBought?: Prisma.GiftPackUncheckedCreateNestedManyWithoutBuyerInput
+  giftPacksRedeemed?: Prisma.GiftPackUncheckedCreateNestedManyWithoutRedeemedByInput
+  reminders?: Prisma.UserReminderUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutSubscriptionsInput = {
@@ -3975,6 +4214,7 @@ export type UserUpdateWithoutSubscriptionsInput = {
   currentStreak?: Prisma.IntFieldUpdateOperationsInput | number
   maxStreak?: Prisma.IntFieldUpdateOperationsInput | number
   lastCheckInDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  trialEndsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
@@ -4010,6 +4250,9 @@ export type UserUpdateWithoutSubscriptionsInput = {
   communityGroups?: Prisma.CommunityGroupUpdateManyWithoutCreatorNestedInput
   communityMemberships?: Prisma.CommunityMemberUpdateManyWithoutUserNestedInput
   postReactions?: Prisma.PostReactionUpdateManyWithoutUserNestedInput
+  giftPacksBought?: Prisma.GiftPackUpdateManyWithoutBuyerNestedInput
+  giftPacksRedeemed?: Prisma.GiftPackUpdateManyWithoutRedeemedByNestedInput
+  reminders?: Prisma.UserReminderUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutSubscriptionsInput = {
@@ -4034,6 +4277,7 @@ export type UserUncheckedUpdateWithoutSubscriptionsInput = {
   currentStreak?: Prisma.IntFieldUpdateOperationsInput | number
   maxStreak?: Prisma.IntFieldUpdateOperationsInput | number
   lastCheckInDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  trialEndsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
@@ -4069,6 +4313,9 @@ export type UserUncheckedUpdateWithoutSubscriptionsInput = {
   communityGroups?: Prisma.CommunityGroupUncheckedUpdateManyWithoutCreatorNestedInput
   communityMemberships?: Prisma.CommunityMemberUncheckedUpdateManyWithoutUserNestedInput
   postReactions?: Prisma.PostReactionUncheckedUpdateManyWithoutUserNestedInput
+  giftPacksBought?: Prisma.GiftPackUncheckedUpdateManyWithoutBuyerNestedInput
+  giftPacksRedeemed?: Prisma.GiftPackUncheckedUpdateManyWithoutRedeemedByNestedInput
+  reminders?: Prisma.UserReminderUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutPurchasePacksInput = {
@@ -4093,6 +4340,7 @@ export type UserCreateWithoutPurchasePacksInput = {
   currentStreak?: number
   maxStreak?: number
   lastCheckInDate?: Date | string | null
+  trialEndsAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
@@ -4128,6 +4376,9 @@ export type UserCreateWithoutPurchasePacksInput = {
   communityGroups?: Prisma.CommunityGroupCreateNestedManyWithoutCreatorInput
   communityMemberships?: Prisma.CommunityMemberCreateNestedManyWithoutUserInput
   postReactions?: Prisma.PostReactionCreateNestedManyWithoutUserInput
+  giftPacksBought?: Prisma.GiftPackCreateNestedManyWithoutBuyerInput
+  giftPacksRedeemed?: Prisma.GiftPackCreateNestedManyWithoutRedeemedByInput
+  reminders?: Prisma.UserReminderCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutPurchasePacksInput = {
@@ -4152,6 +4403,7 @@ export type UserUncheckedCreateWithoutPurchasePacksInput = {
   currentStreak?: number
   maxStreak?: number
   lastCheckInDate?: Date | string | null
+  trialEndsAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
@@ -4187,6 +4439,9 @@ export type UserUncheckedCreateWithoutPurchasePacksInput = {
   communityGroups?: Prisma.CommunityGroupUncheckedCreateNestedManyWithoutCreatorInput
   communityMemberships?: Prisma.CommunityMemberUncheckedCreateNestedManyWithoutUserInput
   postReactions?: Prisma.PostReactionUncheckedCreateNestedManyWithoutUserInput
+  giftPacksBought?: Prisma.GiftPackUncheckedCreateNestedManyWithoutBuyerInput
+  giftPacksRedeemed?: Prisma.GiftPackUncheckedCreateNestedManyWithoutRedeemedByInput
+  reminders?: Prisma.UserReminderUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutPurchasePacksInput = {
@@ -4227,6 +4482,7 @@ export type UserUpdateWithoutPurchasePacksInput = {
   currentStreak?: Prisma.IntFieldUpdateOperationsInput | number
   maxStreak?: Prisma.IntFieldUpdateOperationsInput | number
   lastCheckInDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  trialEndsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
@@ -4262,6 +4518,9 @@ export type UserUpdateWithoutPurchasePacksInput = {
   communityGroups?: Prisma.CommunityGroupUpdateManyWithoutCreatorNestedInput
   communityMemberships?: Prisma.CommunityMemberUpdateManyWithoutUserNestedInput
   postReactions?: Prisma.PostReactionUpdateManyWithoutUserNestedInput
+  giftPacksBought?: Prisma.GiftPackUpdateManyWithoutBuyerNestedInput
+  giftPacksRedeemed?: Prisma.GiftPackUpdateManyWithoutRedeemedByNestedInput
+  reminders?: Prisma.UserReminderUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutPurchasePacksInput = {
@@ -4286,6 +4545,7 @@ export type UserUncheckedUpdateWithoutPurchasePacksInput = {
   currentStreak?: Prisma.IntFieldUpdateOperationsInput | number
   maxStreak?: Prisma.IntFieldUpdateOperationsInput | number
   lastCheckInDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  trialEndsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
@@ -4321,6 +4581,9 @@ export type UserUncheckedUpdateWithoutPurchasePacksInput = {
   communityGroups?: Prisma.CommunityGroupUncheckedUpdateManyWithoutCreatorNestedInput
   communityMemberships?: Prisma.CommunityMemberUncheckedUpdateManyWithoutUserNestedInput
   postReactions?: Prisma.PostReactionUncheckedUpdateManyWithoutUserNestedInput
+  giftPacksBought?: Prisma.GiftPackUncheckedUpdateManyWithoutBuyerNestedInput
+  giftPacksRedeemed?: Prisma.GiftPackUncheckedUpdateManyWithoutRedeemedByNestedInput
+  reminders?: Prisma.UserReminderUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutUsageRecordsInput = {
@@ -4345,6 +4608,7 @@ export type UserCreateWithoutUsageRecordsInput = {
   currentStreak?: number
   maxStreak?: number
   lastCheckInDate?: Date | string | null
+  trialEndsAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
@@ -4380,6 +4644,9 @@ export type UserCreateWithoutUsageRecordsInput = {
   communityGroups?: Prisma.CommunityGroupCreateNestedManyWithoutCreatorInput
   communityMemberships?: Prisma.CommunityMemberCreateNestedManyWithoutUserInput
   postReactions?: Prisma.PostReactionCreateNestedManyWithoutUserInput
+  giftPacksBought?: Prisma.GiftPackCreateNestedManyWithoutBuyerInput
+  giftPacksRedeemed?: Prisma.GiftPackCreateNestedManyWithoutRedeemedByInput
+  reminders?: Prisma.UserReminderCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutUsageRecordsInput = {
@@ -4404,6 +4671,7 @@ export type UserUncheckedCreateWithoutUsageRecordsInput = {
   currentStreak?: number
   maxStreak?: number
   lastCheckInDate?: Date | string | null
+  trialEndsAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
@@ -4439,6 +4707,9 @@ export type UserUncheckedCreateWithoutUsageRecordsInput = {
   communityGroups?: Prisma.CommunityGroupUncheckedCreateNestedManyWithoutCreatorInput
   communityMemberships?: Prisma.CommunityMemberUncheckedCreateNestedManyWithoutUserInput
   postReactions?: Prisma.PostReactionUncheckedCreateNestedManyWithoutUserInput
+  giftPacksBought?: Prisma.GiftPackUncheckedCreateNestedManyWithoutBuyerInput
+  giftPacksRedeemed?: Prisma.GiftPackUncheckedCreateNestedManyWithoutRedeemedByInput
+  reminders?: Prisma.UserReminderUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutUsageRecordsInput = {
@@ -4479,6 +4750,7 @@ export type UserUpdateWithoutUsageRecordsInput = {
   currentStreak?: Prisma.IntFieldUpdateOperationsInput | number
   maxStreak?: Prisma.IntFieldUpdateOperationsInput | number
   lastCheckInDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  trialEndsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
@@ -4514,6 +4786,9 @@ export type UserUpdateWithoutUsageRecordsInput = {
   communityGroups?: Prisma.CommunityGroupUpdateManyWithoutCreatorNestedInput
   communityMemberships?: Prisma.CommunityMemberUpdateManyWithoutUserNestedInput
   postReactions?: Prisma.PostReactionUpdateManyWithoutUserNestedInput
+  giftPacksBought?: Prisma.GiftPackUpdateManyWithoutBuyerNestedInput
+  giftPacksRedeemed?: Prisma.GiftPackUpdateManyWithoutRedeemedByNestedInput
+  reminders?: Prisma.UserReminderUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutUsageRecordsInput = {
@@ -4538,6 +4813,7 @@ export type UserUncheckedUpdateWithoutUsageRecordsInput = {
   currentStreak?: Prisma.IntFieldUpdateOperationsInput | number
   maxStreak?: Prisma.IntFieldUpdateOperationsInput | number
   lastCheckInDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  trialEndsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
@@ -4573,6 +4849,9 @@ export type UserUncheckedUpdateWithoutUsageRecordsInput = {
   communityGroups?: Prisma.CommunityGroupUncheckedUpdateManyWithoutCreatorNestedInput
   communityMemberships?: Prisma.CommunityMemberUncheckedUpdateManyWithoutUserNestedInput
   postReactions?: Prisma.PostReactionUncheckedUpdateManyWithoutUserNestedInput
+  giftPacksBought?: Prisma.GiftPackUncheckedUpdateManyWithoutBuyerNestedInput
+  giftPacksRedeemed?: Prisma.GiftPackUncheckedUpdateManyWithoutRedeemedByNestedInput
+  reminders?: Prisma.UserReminderUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutClinicInput = {
@@ -4597,6 +4876,7 @@ export type UserCreateWithoutClinicInput = {
   currentStreak?: number
   maxStreak?: number
   lastCheckInDate?: Date | string | null
+  trialEndsAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
@@ -4632,6 +4912,9 @@ export type UserCreateWithoutClinicInput = {
   communityGroups?: Prisma.CommunityGroupCreateNestedManyWithoutCreatorInput
   communityMemberships?: Prisma.CommunityMemberCreateNestedManyWithoutUserInput
   postReactions?: Prisma.PostReactionCreateNestedManyWithoutUserInput
+  giftPacksBought?: Prisma.GiftPackCreateNestedManyWithoutBuyerInput
+  giftPacksRedeemed?: Prisma.GiftPackCreateNestedManyWithoutRedeemedByInput
+  reminders?: Prisma.UserReminderCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutClinicInput = {
@@ -4656,6 +4939,7 @@ export type UserUncheckedCreateWithoutClinicInput = {
   currentStreak?: number
   maxStreak?: number
   lastCheckInDate?: Date | string | null
+  trialEndsAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
@@ -4691,6 +4975,9 @@ export type UserUncheckedCreateWithoutClinicInput = {
   communityGroups?: Prisma.CommunityGroupUncheckedCreateNestedManyWithoutCreatorInput
   communityMemberships?: Prisma.CommunityMemberUncheckedCreateNestedManyWithoutUserInput
   postReactions?: Prisma.PostReactionUncheckedCreateNestedManyWithoutUserInput
+  giftPacksBought?: Prisma.GiftPackUncheckedCreateNestedManyWithoutBuyerInput
+  giftPacksRedeemed?: Prisma.GiftPackUncheckedCreateNestedManyWithoutRedeemedByInput
+  reminders?: Prisma.UserReminderUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutClinicInput = {
@@ -4731,6 +5018,7 @@ export type UserUpdateWithoutClinicInput = {
   currentStreak?: Prisma.IntFieldUpdateOperationsInput | number
   maxStreak?: Prisma.IntFieldUpdateOperationsInput | number
   lastCheckInDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  trialEndsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
@@ -4766,6 +5054,9 @@ export type UserUpdateWithoutClinicInput = {
   communityGroups?: Prisma.CommunityGroupUpdateManyWithoutCreatorNestedInput
   communityMemberships?: Prisma.CommunityMemberUpdateManyWithoutUserNestedInput
   postReactions?: Prisma.PostReactionUpdateManyWithoutUserNestedInput
+  giftPacksBought?: Prisma.GiftPackUpdateManyWithoutBuyerNestedInput
+  giftPacksRedeemed?: Prisma.GiftPackUpdateManyWithoutRedeemedByNestedInput
+  reminders?: Prisma.UserReminderUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutClinicInput = {
@@ -4790,6 +5081,7 @@ export type UserUncheckedUpdateWithoutClinicInput = {
   currentStreak?: Prisma.IntFieldUpdateOperationsInput | number
   maxStreak?: Prisma.IntFieldUpdateOperationsInput | number
   lastCheckInDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  trialEndsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
@@ -4825,6 +5117,9 @@ export type UserUncheckedUpdateWithoutClinicInput = {
   communityGroups?: Prisma.CommunityGroupUncheckedUpdateManyWithoutCreatorNestedInput
   communityMemberships?: Prisma.CommunityMemberUncheckedUpdateManyWithoutUserNestedInput
   postReactions?: Prisma.PostReactionUncheckedUpdateManyWithoutUserNestedInput
+  giftPacksBought?: Prisma.GiftPackUncheckedUpdateManyWithoutBuyerNestedInput
+  giftPacksRedeemed?: Prisma.GiftPackUncheckedUpdateManyWithoutRedeemedByNestedInput
+  reminders?: Prisma.UserReminderUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutAffiliateClicksInput = {
@@ -4849,6 +5144,7 @@ export type UserCreateWithoutAffiliateClicksInput = {
   currentStreak?: number
   maxStreak?: number
   lastCheckInDate?: Date | string | null
+  trialEndsAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
@@ -4884,6 +5180,9 @@ export type UserCreateWithoutAffiliateClicksInput = {
   communityGroups?: Prisma.CommunityGroupCreateNestedManyWithoutCreatorInput
   communityMemberships?: Prisma.CommunityMemberCreateNestedManyWithoutUserInput
   postReactions?: Prisma.PostReactionCreateNestedManyWithoutUserInput
+  giftPacksBought?: Prisma.GiftPackCreateNestedManyWithoutBuyerInput
+  giftPacksRedeemed?: Prisma.GiftPackCreateNestedManyWithoutRedeemedByInput
+  reminders?: Prisma.UserReminderCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutAffiliateClicksInput = {
@@ -4908,6 +5207,7 @@ export type UserUncheckedCreateWithoutAffiliateClicksInput = {
   currentStreak?: number
   maxStreak?: number
   lastCheckInDate?: Date | string | null
+  trialEndsAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
@@ -4943,6 +5243,9 @@ export type UserUncheckedCreateWithoutAffiliateClicksInput = {
   communityGroups?: Prisma.CommunityGroupUncheckedCreateNestedManyWithoutCreatorInput
   communityMemberships?: Prisma.CommunityMemberUncheckedCreateNestedManyWithoutUserInput
   postReactions?: Prisma.PostReactionUncheckedCreateNestedManyWithoutUserInput
+  giftPacksBought?: Prisma.GiftPackUncheckedCreateNestedManyWithoutBuyerInput
+  giftPacksRedeemed?: Prisma.GiftPackUncheckedCreateNestedManyWithoutRedeemedByInput
+  reminders?: Prisma.UserReminderUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutAffiliateClicksInput = {
@@ -4983,6 +5286,7 @@ export type UserUpdateWithoutAffiliateClicksInput = {
   currentStreak?: Prisma.IntFieldUpdateOperationsInput | number
   maxStreak?: Prisma.IntFieldUpdateOperationsInput | number
   lastCheckInDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  trialEndsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
@@ -5018,6 +5322,9 @@ export type UserUpdateWithoutAffiliateClicksInput = {
   communityGroups?: Prisma.CommunityGroupUpdateManyWithoutCreatorNestedInput
   communityMemberships?: Prisma.CommunityMemberUpdateManyWithoutUserNestedInput
   postReactions?: Prisma.PostReactionUpdateManyWithoutUserNestedInput
+  giftPacksBought?: Prisma.GiftPackUpdateManyWithoutBuyerNestedInput
+  giftPacksRedeemed?: Prisma.GiftPackUpdateManyWithoutRedeemedByNestedInput
+  reminders?: Prisma.UserReminderUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutAffiliateClicksInput = {
@@ -5042,6 +5349,7 @@ export type UserUncheckedUpdateWithoutAffiliateClicksInput = {
   currentStreak?: Prisma.IntFieldUpdateOperationsInput | number
   maxStreak?: Prisma.IntFieldUpdateOperationsInput | number
   lastCheckInDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  trialEndsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
@@ -5077,6 +5385,9 @@ export type UserUncheckedUpdateWithoutAffiliateClicksInput = {
   communityGroups?: Prisma.CommunityGroupUncheckedUpdateManyWithoutCreatorNestedInput
   communityMemberships?: Prisma.CommunityMemberUncheckedUpdateManyWithoutUserNestedInput
   postReactions?: Prisma.PostReactionUncheckedUpdateManyWithoutUserNestedInput
+  giftPacksBought?: Prisma.GiftPackUncheckedUpdateManyWithoutBuyerNestedInput
+  giftPacksRedeemed?: Prisma.GiftPackUncheckedUpdateManyWithoutRedeemedByNestedInput
+  reminders?: Prisma.UserReminderUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutContactMessagesInput = {
@@ -5101,6 +5412,7 @@ export type UserCreateWithoutContactMessagesInput = {
   currentStreak?: number
   maxStreak?: number
   lastCheckInDate?: Date | string | null
+  trialEndsAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
@@ -5136,6 +5448,9 @@ export type UserCreateWithoutContactMessagesInput = {
   communityGroups?: Prisma.CommunityGroupCreateNestedManyWithoutCreatorInput
   communityMemberships?: Prisma.CommunityMemberCreateNestedManyWithoutUserInput
   postReactions?: Prisma.PostReactionCreateNestedManyWithoutUserInput
+  giftPacksBought?: Prisma.GiftPackCreateNestedManyWithoutBuyerInput
+  giftPacksRedeemed?: Prisma.GiftPackCreateNestedManyWithoutRedeemedByInput
+  reminders?: Prisma.UserReminderCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutContactMessagesInput = {
@@ -5160,6 +5475,7 @@ export type UserUncheckedCreateWithoutContactMessagesInput = {
   currentStreak?: number
   maxStreak?: number
   lastCheckInDate?: Date | string | null
+  trialEndsAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
@@ -5195,6 +5511,9 @@ export type UserUncheckedCreateWithoutContactMessagesInput = {
   communityGroups?: Prisma.CommunityGroupUncheckedCreateNestedManyWithoutCreatorInput
   communityMemberships?: Prisma.CommunityMemberUncheckedCreateNestedManyWithoutUserInput
   postReactions?: Prisma.PostReactionUncheckedCreateNestedManyWithoutUserInput
+  giftPacksBought?: Prisma.GiftPackUncheckedCreateNestedManyWithoutBuyerInput
+  giftPacksRedeemed?: Prisma.GiftPackUncheckedCreateNestedManyWithoutRedeemedByInput
+  reminders?: Prisma.UserReminderUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutContactMessagesInput = {
@@ -5235,6 +5554,7 @@ export type UserUpdateWithoutContactMessagesInput = {
   currentStreak?: Prisma.IntFieldUpdateOperationsInput | number
   maxStreak?: Prisma.IntFieldUpdateOperationsInput | number
   lastCheckInDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  trialEndsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
@@ -5270,6 +5590,9 @@ export type UserUpdateWithoutContactMessagesInput = {
   communityGroups?: Prisma.CommunityGroupUpdateManyWithoutCreatorNestedInput
   communityMemberships?: Prisma.CommunityMemberUpdateManyWithoutUserNestedInput
   postReactions?: Prisma.PostReactionUpdateManyWithoutUserNestedInput
+  giftPacksBought?: Prisma.GiftPackUpdateManyWithoutBuyerNestedInput
+  giftPacksRedeemed?: Prisma.GiftPackUpdateManyWithoutRedeemedByNestedInput
+  reminders?: Prisma.UserReminderUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutContactMessagesInput = {
@@ -5294,6 +5617,7 @@ export type UserUncheckedUpdateWithoutContactMessagesInput = {
   currentStreak?: Prisma.IntFieldUpdateOperationsInput | number
   maxStreak?: Prisma.IntFieldUpdateOperationsInput | number
   lastCheckInDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  trialEndsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
@@ -5329,6 +5653,9 @@ export type UserUncheckedUpdateWithoutContactMessagesInput = {
   communityGroups?: Prisma.CommunityGroupUncheckedUpdateManyWithoutCreatorNestedInput
   communityMemberships?: Prisma.CommunityMemberUncheckedUpdateManyWithoutUserNestedInput
   postReactions?: Prisma.PostReactionUncheckedUpdateManyWithoutUserNestedInput
+  giftPacksBought?: Prisma.GiftPackUncheckedUpdateManyWithoutBuyerNestedInput
+  giftPacksRedeemed?: Prisma.GiftPackUncheckedUpdateManyWithoutRedeemedByNestedInput
+  reminders?: Prisma.UserReminderUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutEvolutionInput = {
@@ -5353,6 +5680,7 @@ export type UserCreateWithoutEvolutionInput = {
   currentStreak?: number
   maxStreak?: number
   lastCheckInDate?: Date | string | null
+  trialEndsAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
@@ -5388,6 +5716,9 @@ export type UserCreateWithoutEvolutionInput = {
   communityGroups?: Prisma.CommunityGroupCreateNestedManyWithoutCreatorInput
   communityMemberships?: Prisma.CommunityMemberCreateNestedManyWithoutUserInput
   postReactions?: Prisma.PostReactionCreateNestedManyWithoutUserInput
+  giftPacksBought?: Prisma.GiftPackCreateNestedManyWithoutBuyerInput
+  giftPacksRedeemed?: Prisma.GiftPackCreateNestedManyWithoutRedeemedByInput
+  reminders?: Prisma.UserReminderCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutEvolutionInput = {
@@ -5412,6 +5743,7 @@ export type UserUncheckedCreateWithoutEvolutionInput = {
   currentStreak?: number
   maxStreak?: number
   lastCheckInDate?: Date | string | null
+  trialEndsAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
@@ -5447,6 +5779,9 @@ export type UserUncheckedCreateWithoutEvolutionInput = {
   communityGroups?: Prisma.CommunityGroupUncheckedCreateNestedManyWithoutCreatorInput
   communityMemberships?: Prisma.CommunityMemberUncheckedCreateNestedManyWithoutUserInput
   postReactions?: Prisma.PostReactionUncheckedCreateNestedManyWithoutUserInput
+  giftPacksBought?: Prisma.GiftPackUncheckedCreateNestedManyWithoutBuyerInput
+  giftPacksRedeemed?: Prisma.GiftPackUncheckedCreateNestedManyWithoutRedeemedByInput
+  reminders?: Prisma.UserReminderUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutEvolutionInput = {
@@ -5487,6 +5822,7 @@ export type UserUpdateWithoutEvolutionInput = {
   currentStreak?: Prisma.IntFieldUpdateOperationsInput | number
   maxStreak?: Prisma.IntFieldUpdateOperationsInput | number
   lastCheckInDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  trialEndsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
@@ -5522,6 +5858,9 @@ export type UserUpdateWithoutEvolutionInput = {
   communityGroups?: Prisma.CommunityGroupUpdateManyWithoutCreatorNestedInput
   communityMemberships?: Prisma.CommunityMemberUpdateManyWithoutUserNestedInput
   postReactions?: Prisma.PostReactionUpdateManyWithoutUserNestedInput
+  giftPacksBought?: Prisma.GiftPackUpdateManyWithoutBuyerNestedInput
+  giftPacksRedeemed?: Prisma.GiftPackUpdateManyWithoutRedeemedByNestedInput
+  reminders?: Prisma.UserReminderUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutEvolutionInput = {
@@ -5546,6 +5885,7 @@ export type UserUncheckedUpdateWithoutEvolutionInput = {
   currentStreak?: Prisma.IntFieldUpdateOperationsInput | number
   maxStreak?: Prisma.IntFieldUpdateOperationsInput | number
   lastCheckInDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  trialEndsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
@@ -5581,6 +5921,9 @@ export type UserUncheckedUpdateWithoutEvolutionInput = {
   communityGroups?: Prisma.CommunityGroupUncheckedUpdateManyWithoutCreatorNestedInput
   communityMemberships?: Prisma.CommunityMemberUncheckedUpdateManyWithoutUserNestedInput
   postReactions?: Prisma.PostReactionUncheckedUpdateManyWithoutUserNestedInput
+  giftPacksBought?: Prisma.GiftPackUncheckedUpdateManyWithoutBuyerNestedInput
+  giftPacksRedeemed?: Prisma.GiftPackUncheckedUpdateManyWithoutRedeemedByNestedInput
+  reminders?: Prisma.UserReminderUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutSurveyFeedbackInput = {
@@ -5605,6 +5948,7 @@ export type UserCreateWithoutSurveyFeedbackInput = {
   currentStreak?: number
   maxStreak?: number
   lastCheckInDate?: Date | string | null
+  trialEndsAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
@@ -5640,6 +5984,9 @@ export type UserCreateWithoutSurveyFeedbackInput = {
   communityGroups?: Prisma.CommunityGroupCreateNestedManyWithoutCreatorInput
   communityMemberships?: Prisma.CommunityMemberCreateNestedManyWithoutUserInput
   postReactions?: Prisma.PostReactionCreateNestedManyWithoutUserInput
+  giftPacksBought?: Prisma.GiftPackCreateNestedManyWithoutBuyerInput
+  giftPacksRedeemed?: Prisma.GiftPackCreateNestedManyWithoutRedeemedByInput
+  reminders?: Prisma.UserReminderCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutSurveyFeedbackInput = {
@@ -5664,6 +6011,7 @@ export type UserUncheckedCreateWithoutSurveyFeedbackInput = {
   currentStreak?: number
   maxStreak?: number
   lastCheckInDate?: Date | string | null
+  trialEndsAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
@@ -5699,6 +6047,9 @@ export type UserUncheckedCreateWithoutSurveyFeedbackInput = {
   communityGroups?: Prisma.CommunityGroupUncheckedCreateNestedManyWithoutCreatorInput
   communityMemberships?: Prisma.CommunityMemberUncheckedCreateNestedManyWithoutUserInput
   postReactions?: Prisma.PostReactionUncheckedCreateNestedManyWithoutUserInput
+  giftPacksBought?: Prisma.GiftPackUncheckedCreateNestedManyWithoutBuyerInput
+  giftPacksRedeemed?: Prisma.GiftPackUncheckedCreateNestedManyWithoutRedeemedByInput
+  reminders?: Prisma.UserReminderUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutSurveyFeedbackInput = {
@@ -5739,6 +6090,7 @@ export type UserUpdateWithoutSurveyFeedbackInput = {
   currentStreak?: Prisma.IntFieldUpdateOperationsInput | number
   maxStreak?: Prisma.IntFieldUpdateOperationsInput | number
   lastCheckInDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  trialEndsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
@@ -5774,6 +6126,9 @@ export type UserUpdateWithoutSurveyFeedbackInput = {
   communityGroups?: Prisma.CommunityGroupUpdateManyWithoutCreatorNestedInput
   communityMemberships?: Prisma.CommunityMemberUpdateManyWithoutUserNestedInput
   postReactions?: Prisma.PostReactionUpdateManyWithoutUserNestedInput
+  giftPacksBought?: Prisma.GiftPackUpdateManyWithoutBuyerNestedInput
+  giftPacksRedeemed?: Prisma.GiftPackUpdateManyWithoutRedeemedByNestedInput
+  reminders?: Prisma.UserReminderUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutSurveyFeedbackInput = {
@@ -5798,6 +6153,7 @@ export type UserUncheckedUpdateWithoutSurveyFeedbackInput = {
   currentStreak?: Prisma.IntFieldUpdateOperationsInput | number
   maxStreak?: Prisma.IntFieldUpdateOperationsInput | number
   lastCheckInDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  trialEndsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
@@ -5833,6 +6189,9 @@ export type UserUncheckedUpdateWithoutSurveyFeedbackInput = {
   communityGroups?: Prisma.CommunityGroupUncheckedUpdateManyWithoutCreatorNestedInput
   communityMemberships?: Prisma.CommunityMemberUncheckedUpdateManyWithoutUserNestedInput
   postReactions?: Prisma.PostReactionUncheckedUpdateManyWithoutUserNestedInput
+  giftPacksBought?: Prisma.GiftPackUncheckedUpdateManyWithoutBuyerNestedInput
+  giftPacksRedeemed?: Prisma.GiftPackUncheckedUpdateManyWithoutRedeemedByNestedInput
+  reminders?: Prisma.UserReminderUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutCommunityPostsInput = {
@@ -5857,6 +6216,7 @@ export type UserCreateWithoutCommunityPostsInput = {
   currentStreak?: number
   maxStreak?: number
   lastCheckInDate?: Date | string | null
+  trialEndsAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
@@ -5892,6 +6252,9 @@ export type UserCreateWithoutCommunityPostsInput = {
   communityGroups?: Prisma.CommunityGroupCreateNestedManyWithoutCreatorInput
   communityMemberships?: Prisma.CommunityMemberCreateNestedManyWithoutUserInput
   postReactions?: Prisma.PostReactionCreateNestedManyWithoutUserInput
+  giftPacksBought?: Prisma.GiftPackCreateNestedManyWithoutBuyerInput
+  giftPacksRedeemed?: Prisma.GiftPackCreateNestedManyWithoutRedeemedByInput
+  reminders?: Prisma.UserReminderCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutCommunityPostsInput = {
@@ -5916,6 +6279,7 @@ export type UserUncheckedCreateWithoutCommunityPostsInput = {
   currentStreak?: number
   maxStreak?: number
   lastCheckInDate?: Date | string | null
+  trialEndsAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
@@ -5951,6 +6315,9 @@ export type UserUncheckedCreateWithoutCommunityPostsInput = {
   communityGroups?: Prisma.CommunityGroupUncheckedCreateNestedManyWithoutCreatorInput
   communityMemberships?: Prisma.CommunityMemberUncheckedCreateNestedManyWithoutUserInput
   postReactions?: Prisma.PostReactionUncheckedCreateNestedManyWithoutUserInput
+  giftPacksBought?: Prisma.GiftPackUncheckedCreateNestedManyWithoutBuyerInput
+  giftPacksRedeemed?: Prisma.GiftPackUncheckedCreateNestedManyWithoutRedeemedByInput
+  reminders?: Prisma.UserReminderUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutCommunityPostsInput = {
@@ -5991,6 +6358,7 @@ export type UserUpdateWithoutCommunityPostsInput = {
   currentStreak?: Prisma.IntFieldUpdateOperationsInput | number
   maxStreak?: Prisma.IntFieldUpdateOperationsInput | number
   lastCheckInDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  trialEndsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
@@ -6026,6 +6394,9 @@ export type UserUpdateWithoutCommunityPostsInput = {
   communityGroups?: Prisma.CommunityGroupUpdateManyWithoutCreatorNestedInput
   communityMemberships?: Prisma.CommunityMemberUpdateManyWithoutUserNestedInput
   postReactions?: Prisma.PostReactionUpdateManyWithoutUserNestedInput
+  giftPacksBought?: Prisma.GiftPackUpdateManyWithoutBuyerNestedInput
+  giftPacksRedeemed?: Prisma.GiftPackUpdateManyWithoutRedeemedByNestedInput
+  reminders?: Prisma.UserReminderUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutCommunityPostsInput = {
@@ -6050,6 +6421,7 @@ export type UserUncheckedUpdateWithoutCommunityPostsInput = {
   currentStreak?: Prisma.IntFieldUpdateOperationsInput | number
   maxStreak?: Prisma.IntFieldUpdateOperationsInput | number
   lastCheckInDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  trialEndsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
@@ -6085,6 +6457,9 @@ export type UserUncheckedUpdateWithoutCommunityPostsInput = {
   communityGroups?: Prisma.CommunityGroupUncheckedUpdateManyWithoutCreatorNestedInput
   communityMemberships?: Prisma.CommunityMemberUncheckedUpdateManyWithoutUserNestedInput
   postReactions?: Prisma.PostReactionUncheckedUpdateManyWithoutUserNestedInput
+  giftPacksBought?: Prisma.GiftPackUncheckedUpdateManyWithoutBuyerNestedInput
+  giftPacksRedeemed?: Prisma.GiftPackUncheckedUpdateManyWithoutRedeemedByNestedInput
+  reminders?: Prisma.UserReminderUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutCommentsInput = {
@@ -6109,6 +6484,7 @@ export type UserCreateWithoutCommentsInput = {
   currentStreak?: number
   maxStreak?: number
   lastCheckInDate?: Date | string | null
+  trialEndsAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
@@ -6144,6 +6520,9 @@ export type UserCreateWithoutCommentsInput = {
   communityGroups?: Prisma.CommunityGroupCreateNestedManyWithoutCreatorInput
   communityMemberships?: Prisma.CommunityMemberCreateNestedManyWithoutUserInput
   postReactions?: Prisma.PostReactionCreateNestedManyWithoutUserInput
+  giftPacksBought?: Prisma.GiftPackCreateNestedManyWithoutBuyerInput
+  giftPacksRedeemed?: Prisma.GiftPackCreateNestedManyWithoutRedeemedByInput
+  reminders?: Prisma.UserReminderCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutCommentsInput = {
@@ -6168,6 +6547,7 @@ export type UserUncheckedCreateWithoutCommentsInput = {
   currentStreak?: number
   maxStreak?: number
   lastCheckInDate?: Date | string | null
+  trialEndsAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
@@ -6203,6 +6583,9 @@ export type UserUncheckedCreateWithoutCommentsInput = {
   communityGroups?: Prisma.CommunityGroupUncheckedCreateNestedManyWithoutCreatorInput
   communityMemberships?: Prisma.CommunityMemberUncheckedCreateNestedManyWithoutUserInput
   postReactions?: Prisma.PostReactionUncheckedCreateNestedManyWithoutUserInput
+  giftPacksBought?: Prisma.GiftPackUncheckedCreateNestedManyWithoutBuyerInput
+  giftPacksRedeemed?: Prisma.GiftPackUncheckedCreateNestedManyWithoutRedeemedByInput
+  reminders?: Prisma.UserReminderUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutCommentsInput = {
@@ -6243,6 +6626,7 @@ export type UserUpdateWithoutCommentsInput = {
   currentStreak?: Prisma.IntFieldUpdateOperationsInput | number
   maxStreak?: Prisma.IntFieldUpdateOperationsInput | number
   lastCheckInDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  trialEndsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
@@ -6278,6 +6662,9 @@ export type UserUpdateWithoutCommentsInput = {
   communityGroups?: Prisma.CommunityGroupUpdateManyWithoutCreatorNestedInput
   communityMemberships?: Prisma.CommunityMemberUpdateManyWithoutUserNestedInput
   postReactions?: Prisma.PostReactionUpdateManyWithoutUserNestedInput
+  giftPacksBought?: Prisma.GiftPackUpdateManyWithoutBuyerNestedInput
+  giftPacksRedeemed?: Prisma.GiftPackUpdateManyWithoutRedeemedByNestedInput
+  reminders?: Prisma.UserReminderUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutCommentsInput = {
@@ -6302,6 +6689,7 @@ export type UserUncheckedUpdateWithoutCommentsInput = {
   currentStreak?: Prisma.IntFieldUpdateOperationsInput | number
   maxStreak?: Prisma.IntFieldUpdateOperationsInput | number
   lastCheckInDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  trialEndsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
@@ -6337,6 +6725,9 @@ export type UserUncheckedUpdateWithoutCommentsInput = {
   communityGroups?: Prisma.CommunityGroupUncheckedUpdateManyWithoutCreatorNestedInput
   communityMemberships?: Prisma.CommunityMemberUncheckedUpdateManyWithoutUserNestedInput
   postReactions?: Prisma.PostReactionUncheckedUpdateManyWithoutUserNestedInput
+  giftPacksBought?: Prisma.GiftPackUncheckedUpdateManyWithoutBuyerNestedInput
+  giftPacksRedeemed?: Prisma.GiftPackUncheckedUpdateManyWithoutRedeemedByNestedInput
+  reminders?: Prisma.UserReminderUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutCommunityGroupsInput = {
@@ -6361,6 +6752,7 @@ export type UserCreateWithoutCommunityGroupsInput = {
   currentStreak?: number
   maxStreak?: number
   lastCheckInDate?: Date | string | null
+  trialEndsAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
@@ -6396,6 +6788,9 @@ export type UserCreateWithoutCommunityGroupsInput = {
   contactMessages?: Prisma.ContactMessageCreateNestedManyWithoutUserInput
   communityMemberships?: Prisma.CommunityMemberCreateNestedManyWithoutUserInput
   postReactions?: Prisma.PostReactionCreateNestedManyWithoutUserInput
+  giftPacksBought?: Prisma.GiftPackCreateNestedManyWithoutBuyerInput
+  giftPacksRedeemed?: Prisma.GiftPackCreateNestedManyWithoutRedeemedByInput
+  reminders?: Prisma.UserReminderCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutCommunityGroupsInput = {
@@ -6420,6 +6815,7 @@ export type UserUncheckedCreateWithoutCommunityGroupsInput = {
   currentStreak?: number
   maxStreak?: number
   lastCheckInDate?: Date | string | null
+  trialEndsAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
@@ -6455,6 +6851,9 @@ export type UserUncheckedCreateWithoutCommunityGroupsInput = {
   contactMessages?: Prisma.ContactMessageUncheckedCreateNestedManyWithoutUserInput
   communityMemberships?: Prisma.CommunityMemberUncheckedCreateNestedManyWithoutUserInput
   postReactions?: Prisma.PostReactionUncheckedCreateNestedManyWithoutUserInput
+  giftPacksBought?: Prisma.GiftPackUncheckedCreateNestedManyWithoutBuyerInput
+  giftPacksRedeemed?: Prisma.GiftPackUncheckedCreateNestedManyWithoutRedeemedByInput
+  reminders?: Prisma.UserReminderUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutCommunityGroupsInput = {
@@ -6495,6 +6894,7 @@ export type UserUpdateWithoutCommunityGroupsInput = {
   currentStreak?: Prisma.IntFieldUpdateOperationsInput | number
   maxStreak?: Prisma.IntFieldUpdateOperationsInput | number
   lastCheckInDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  trialEndsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
@@ -6530,6 +6930,9 @@ export type UserUpdateWithoutCommunityGroupsInput = {
   contactMessages?: Prisma.ContactMessageUpdateManyWithoutUserNestedInput
   communityMemberships?: Prisma.CommunityMemberUpdateManyWithoutUserNestedInput
   postReactions?: Prisma.PostReactionUpdateManyWithoutUserNestedInput
+  giftPacksBought?: Prisma.GiftPackUpdateManyWithoutBuyerNestedInput
+  giftPacksRedeemed?: Prisma.GiftPackUpdateManyWithoutRedeemedByNestedInput
+  reminders?: Prisma.UserReminderUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutCommunityGroupsInput = {
@@ -6554,6 +6957,7 @@ export type UserUncheckedUpdateWithoutCommunityGroupsInput = {
   currentStreak?: Prisma.IntFieldUpdateOperationsInput | number
   maxStreak?: Prisma.IntFieldUpdateOperationsInput | number
   lastCheckInDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  trialEndsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
@@ -6589,6 +6993,9 @@ export type UserUncheckedUpdateWithoutCommunityGroupsInput = {
   contactMessages?: Prisma.ContactMessageUncheckedUpdateManyWithoutUserNestedInput
   communityMemberships?: Prisma.CommunityMemberUncheckedUpdateManyWithoutUserNestedInput
   postReactions?: Prisma.PostReactionUncheckedUpdateManyWithoutUserNestedInput
+  giftPacksBought?: Prisma.GiftPackUncheckedUpdateManyWithoutBuyerNestedInput
+  giftPacksRedeemed?: Prisma.GiftPackUncheckedUpdateManyWithoutRedeemedByNestedInput
+  reminders?: Prisma.UserReminderUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutCommunityMembershipsInput = {
@@ -6613,6 +7020,7 @@ export type UserCreateWithoutCommunityMembershipsInput = {
   currentStreak?: number
   maxStreak?: number
   lastCheckInDate?: Date | string | null
+  trialEndsAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
@@ -6648,6 +7056,9 @@ export type UserCreateWithoutCommunityMembershipsInput = {
   contactMessages?: Prisma.ContactMessageCreateNestedManyWithoutUserInput
   communityGroups?: Prisma.CommunityGroupCreateNestedManyWithoutCreatorInput
   postReactions?: Prisma.PostReactionCreateNestedManyWithoutUserInput
+  giftPacksBought?: Prisma.GiftPackCreateNestedManyWithoutBuyerInput
+  giftPacksRedeemed?: Prisma.GiftPackCreateNestedManyWithoutRedeemedByInput
+  reminders?: Prisma.UserReminderCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutCommunityMembershipsInput = {
@@ -6672,6 +7083,7 @@ export type UserUncheckedCreateWithoutCommunityMembershipsInput = {
   currentStreak?: number
   maxStreak?: number
   lastCheckInDate?: Date | string | null
+  trialEndsAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
@@ -6707,6 +7119,9 @@ export type UserUncheckedCreateWithoutCommunityMembershipsInput = {
   contactMessages?: Prisma.ContactMessageUncheckedCreateNestedManyWithoutUserInput
   communityGroups?: Prisma.CommunityGroupUncheckedCreateNestedManyWithoutCreatorInput
   postReactions?: Prisma.PostReactionUncheckedCreateNestedManyWithoutUserInput
+  giftPacksBought?: Prisma.GiftPackUncheckedCreateNestedManyWithoutBuyerInput
+  giftPacksRedeemed?: Prisma.GiftPackUncheckedCreateNestedManyWithoutRedeemedByInput
+  reminders?: Prisma.UserReminderUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutCommunityMembershipsInput = {
@@ -6747,6 +7162,7 @@ export type UserUpdateWithoutCommunityMembershipsInput = {
   currentStreak?: Prisma.IntFieldUpdateOperationsInput | number
   maxStreak?: Prisma.IntFieldUpdateOperationsInput | number
   lastCheckInDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  trialEndsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
@@ -6782,6 +7198,9 @@ export type UserUpdateWithoutCommunityMembershipsInput = {
   contactMessages?: Prisma.ContactMessageUpdateManyWithoutUserNestedInput
   communityGroups?: Prisma.CommunityGroupUpdateManyWithoutCreatorNestedInput
   postReactions?: Prisma.PostReactionUpdateManyWithoutUserNestedInput
+  giftPacksBought?: Prisma.GiftPackUpdateManyWithoutBuyerNestedInput
+  giftPacksRedeemed?: Prisma.GiftPackUpdateManyWithoutRedeemedByNestedInput
+  reminders?: Prisma.UserReminderUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutCommunityMembershipsInput = {
@@ -6806,6 +7225,7 @@ export type UserUncheckedUpdateWithoutCommunityMembershipsInput = {
   currentStreak?: Prisma.IntFieldUpdateOperationsInput | number
   maxStreak?: Prisma.IntFieldUpdateOperationsInput | number
   lastCheckInDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  trialEndsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
@@ -6841,6 +7261,9 @@ export type UserUncheckedUpdateWithoutCommunityMembershipsInput = {
   contactMessages?: Prisma.ContactMessageUncheckedUpdateManyWithoutUserNestedInput
   communityGroups?: Prisma.CommunityGroupUncheckedUpdateManyWithoutCreatorNestedInput
   postReactions?: Prisma.PostReactionUncheckedUpdateManyWithoutUserNestedInput
+  giftPacksBought?: Prisma.GiftPackUncheckedUpdateManyWithoutBuyerNestedInput
+  giftPacksRedeemed?: Prisma.GiftPackUncheckedUpdateManyWithoutRedeemedByNestedInput
+  reminders?: Prisma.UserReminderUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutPostReactionsInput = {
@@ -6865,6 +7288,7 @@ export type UserCreateWithoutPostReactionsInput = {
   currentStreak?: number
   maxStreak?: number
   lastCheckInDate?: Date | string | null
+  trialEndsAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
@@ -6900,6 +7324,9 @@ export type UserCreateWithoutPostReactionsInput = {
   contactMessages?: Prisma.ContactMessageCreateNestedManyWithoutUserInput
   communityGroups?: Prisma.CommunityGroupCreateNestedManyWithoutCreatorInput
   communityMemberships?: Prisma.CommunityMemberCreateNestedManyWithoutUserInput
+  giftPacksBought?: Prisma.GiftPackCreateNestedManyWithoutBuyerInput
+  giftPacksRedeemed?: Prisma.GiftPackCreateNestedManyWithoutRedeemedByInput
+  reminders?: Prisma.UserReminderCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutPostReactionsInput = {
@@ -6924,6 +7351,7 @@ export type UserUncheckedCreateWithoutPostReactionsInput = {
   currentStreak?: number
   maxStreak?: number
   lastCheckInDate?: Date | string | null
+  trialEndsAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
@@ -6959,6 +7387,9 @@ export type UserUncheckedCreateWithoutPostReactionsInput = {
   contactMessages?: Prisma.ContactMessageUncheckedCreateNestedManyWithoutUserInput
   communityGroups?: Prisma.CommunityGroupUncheckedCreateNestedManyWithoutCreatorInput
   communityMemberships?: Prisma.CommunityMemberUncheckedCreateNestedManyWithoutUserInput
+  giftPacksBought?: Prisma.GiftPackUncheckedCreateNestedManyWithoutBuyerInput
+  giftPacksRedeemed?: Prisma.GiftPackUncheckedCreateNestedManyWithoutRedeemedByInput
+  reminders?: Prisma.UserReminderUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutPostReactionsInput = {
@@ -6999,6 +7430,7 @@ export type UserUpdateWithoutPostReactionsInput = {
   currentStreak?: Prisma.IntFieldUpdateOperationsInput | number
   maxStreak?: Prisma.IntFieldUpdateOperationsInput | number
   lastCheckInDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  trialEndsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
@@ -7034,6 +7466,9 @@ export type UserUpdateWithoutPostReactionsInput = {
   contactMessages?: Prisma.ContactMessageUpdateManyWithoutUserNestedInput
   communityGroups?: Prisma.CommunityGroupUpdateManyWithoutCreatorNestedInput
   communityMemberships?: Prisma.CommunityMemberUpdateManyWithoutUserNestedInput
+  giftPacksBought?: Prisma.GiftPackUpdateManyWithoutBuyerNestedInput
+  giftPacksRedeemed?: Prisma.GiftPackUpdateManyWithoutRedeemedByNestedInput
+  reminders?: Prisma.UserReminderUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutPostReactionsInput = {
@@ -7058,6 +7493,7 @@ export type UserUncheckedUpdateWithoutPostReactionsInput = {
   currentStreak?: Prisma.IntFieldUpdateOperationsInput | number
   maxStreak?: Prisma.IntFieldUpdateOperationsInput | number
   lastCheckInDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  trialEndsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
@@ -7093,6 +7529,9 @@ export type UserUncheckedUpdateWithoutPostReactionsInput = {
   contactMessages?: Prisma.ContactMessageUncheckedUpdateManyWithoutUserNestedInput
   communityGroups?: Prisma.CommunityGroupUncheckedUpdateManyWithoutCreatorNestedInput
   communityMemberships?: Prisma.CommunityMemberUncheckedUpdateManyWithoutUserNestedInput
+  giftPacksBought?: Prisma.GiftPackUncheckedUpdateManyWithoutBuyerNestedInput
+  giftPacksRedeemed?: Prisma.GiftPackUncheckedUpdateManyWithoutRedeemedByNestedInput
+  reminders?: Prisma.UserReminderUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutSkinDiaryInput = {
@@ -7117,6 +7556,7 @@ export type UserCreateWithoutSkinDiaryInput = {
   currentStreak?: number
   maxStreak?: number
   lastCheckInDate?: Date | string | null
+  trialEndsAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
@@ -7152,6 +7592,9 @@ export type UserCreateWithoutSkinDiaryInput = {
   communityGroups?: Prisma.CommunityGroupCreateNestedManyWithoutCreatorInput
   communityMemberships?: Prisma.CommunityMemberCreateNestedManyWithoutUserInput
   postReactions?: Prisma.PostReactionCreateNestedManyWithoutUserInput
+  giftPacksBought?: Prisma.GiftPackCreateNestedManyWithoutBuyerInput
+  giftPacksRedeemed?: Prisma.GiftPackCreateNestedManyWithoutRedeemedByInput
+  reminders?: Prisma.UserReminderCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutSkinDiaryInput = {
@@ -7176,6 +7619,7 @@ export type UserUncheckedCreateWithoutSkinDiaryInput = {
   currentStreak?: number
   maxStreak?: number
   lastCheckInDate?: Date | string | null
+  trialEndsAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
@@ -7211,6 +7655,9 @@ export type UserUncheckedCreateWithoutSkinDiaryInput = {
   communityGroups?: Prisma.CommunityGroupUncheckedCreateNestedManyWithoutCreatorInput
   communityMemberships?: Prisma.CommunityMemberUncheckedCreateNestedManyWithoutUserInput
   postReactions?: Prisma.PostReactionUncheckedCreateNestedManyWithoutUserInput
+  giftPacksBought?: Prisma.GiftPackUncheckedCreateNestedManyWithoutBuyerInput
+  giftPacksRedeemed?: Prisma.GiftPackUncheckedCreateNestedManyWithoutRedeemedByInput
+  reminders?: Prisma.UserReminderUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutSkinDiaryInput = {
@@ -7251,6 +7698,7 @@ export type UserUpdateWithoutSkinDiaryInput = {
   currentStreak?: Prisma.IntFieldUpdateOperationsInput | number
   maxStreak?: Prisma.IntFieldUpdateOperationsInput | number
   lastCheckInDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  trialEndsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
@@ -7286,6 +7734,9 @@ export type UserUpdateWithoutSkinDiaryInput = {
   communityGroups?: Prisma.CommunityGroupUpdateManyWithoutCreatorNestedInput
   communityMemberships?: Prisma.CommunityMemberUpdateManyWithoutUserNestedInput
   postReactions?: Prisma.PostReactionUpdateManyWithoutUserNestedInput
+  giftPacksBought?: Prisma.GiftPackUpdateManyWithoutBuyerNestedInput
+  giftPacksRedeemed?: Prisma.GiftPackUpdateManyWithoutRedeemedByNestedInput
+  reminders?: Prisma.UserReminderUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutSkinDiaryInput = {
@@ -7310,6 +7761,7 @@ export type UserUncheckedUpdateWithoutSkinDiaryInput = {
   currentStreak?: Prisma.IntFieldUpdateOperationsInput | number
   maxStreak?: Prisma.IntFieldUpdateOperationsInput | number
   lastCheckInDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  trialEndsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
@@ -7345,6 +7797,9 @@ export type UserUncheckedUpdateWithoutSkinDiaryInput = {
   communityGroups?: Prisma.CommunityGroupUncheckedUpdateManyWithoutCreatorNestedInput
   communityMemberships?: Prisma.CommunityMemberUncheckedUpdateManyWithoutUserNestedInput
   postReactions?: Prisma.PostReactionUncheckedUpdateManyWithoutUserNestedInput
+  giftPacksBought?: Prisma.GiftPackUncheckedUpdateManyWithoutBuyerNestedInput
+  giftPacksRedeemed?: Prisma.GiftPackUncheckedUpdateManyWithoutRedeemedByNestedInput
+  reminders?: Prisma.UserReminderUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutUserChallengesInput = {
@@ -7369,6 +7824,7 @@ export type UserCreateWithoutUserChallengesInput = {
   currentStreak?: number
   maxStreak?: number
   lastCheckInDate?: Date | string | null
+  trialEndsAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
@@ -7404,6 +7860,9 @@ export type UserCreateWithoutUserChallengesInput = {
   communityGroups?: Prisma.CommunityGroupCreateNestedManyWithoutCreatorInput
   communityMemberships?: Prisma.CommunityMemberCreateNestedManyWithoutUserInput
   postReactions?: Prisma.PostReactionCreateNestedManyWithoutUserInput
+  giftPacksBought?: Prisma.GiftPackCreateNestedManyWithoutBuyerInput
+  giftPacksRedeemed?: Prisma.GiftPackCreateNestedManyWithoutRedeemedByInput
+  reminders?: Prisma.UserReminderCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutUserChallengesInput = {
@@ -7428,6 +7887,7 @@ export type UserUncheckedCreateWithoutUserChallengesInput = {
   currentStreak?: number
   maxStreak?: number
   lastCheckInDate?: Date | string | null
+  trialEndsAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
@@ -7463,6 +7923,9 @@ export type UserUncheckedCreateWithoutUserChallengesInput = {
   communityGroups?: Prisma.CommunityGroupUncheckedCreateNestedManyWithoutCreatorInput
   communityMemberships?: Prisma.CommunityMemberUncheckedCreateNestedManyWithoutUserInput
   postReactions?: Prisma.PostReactionUncheckedCreateNestedManyWithoutUserInput
+  giftPacksBought?: Prisma.GiftPackUncheckedCreateNestedManyWithoutBuyerInput
+  giftPacksRedeemed?: Prisma.GiftPackUncheckedCreateNestedManyWithoutRedeemedByInput
+  reminders?: Prisma.UserReminderUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutUserChallengesInput = {
@@ -7503,6 +7966,7 @@ export type UserUpdateWithoutUserChallengesInput = {
   currentStreak?: Prisma.IntFieldUpdateOperationsInput | number
   maxStreak?: Prisma.IntFieldUpdateOperationsInput | number
   lastCheckInDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  trialEndsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
@@ -7538,6 +8002,9 @@ export type UserUpdateWithoutUserChallengesInput = {
   communityGroups?: Prisma.CommunityGroupUpdateManyWithoutCreatorNestedInput
   communityMemberships?: Prisma.CommunityMemberUpdateManyWithoutUserNestedInput
   postReactions?: Prisma.PostReactionUpdateManyWithoutUserNestedInput
+  giftPacksBought?: Prisma.GiftPackUpdateManyWithoutBuyerNestedInput
+  giftPacksRedeemed?: Prisma.GiftPackUpdateManyWithoutRedeemedByNestedInput
+  reminders?: Prisma.UserReminderUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutUserChallengesInput = {
@@ -7562,6 +8029,7 @@ export type UserUncheckedUpdateWithoutUserChallengesInput = {
   currentStreak?: Prisma.IntFieldUpdateOperationsInput | number
   maxStreak?: Prisma.IntFieldUpdateOperationsInput | number
   lastCheckInDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  trialEndsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
@@ -7597,6 +8065,9 @@ export type UserUncheckedUpdateWithoutUserChallengesInput = {
   communityGroups?: Prisma.CommunityGroupUncheckedUpdateManyWithoutCreatorNestedInput
   communityMemberships?: Prisma.CommunityMemberUncheckedUpdateManyWithoutUserNestedInput
   postReactions?: Prisma.PostReactionUncheckedUpdateManyWithoutUserNestedInput
+  giftPacksBought?: Prisma.GiftPackUncheckedUpdateManyWithoutBuyerNestedInput
+  giftPacksRedeemed?: Prisma.GiftPackUncheckedUpdateManyWithoutRedeemedByNestedInput
+  reminders?: Prisma.UserReminderUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutProductReviewsInput = {
@@ -7621,6 +8092,7 @@ export type UserCreateWithoutProductReviewsInput = {
   currentStreak?: number
   maxStreak?: number
   lastCheckInDate?: Date | string | null
+  trialEndsAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
@@ -7656,6 +8128,9 @@ export type UserCreateWithoutProductReviewsInput = {
   communityGroups?: Prisma.CommunityGroupCreateNestedManyWithoutCreatorInput
   communityMemberships?: Prisma.CommunityMemberCreateNestedManyWithoutUserInput
   postReactions?: Prisma.PostReactionCreateNestedManyWithoutUserInput
+  giftPacksBought?: Prisma.GiftPackCreateNestedManyWithoutBuyerInput
+  giftPacksRedeemed?: Prisma.GiftPackCreateNestedManyWithoutRedeemedByInput
+  reminders?: Prisma.UserReminderCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutProductReviewsInput = {
@@ -7680,6 +8155,7 @@ export type UserUncheckedCreateWithoutProductReviewsInput = {
   currentStreak?: number
   maxStreak?: number
   lastCheckInDate?: Date | string | null
+  trialEndsAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
@@ -7715,6 +8191,9 @@ export type UserUncheckedCreateWithoutProductReviewsInput = {
   communityGroups?: Prisma.CommunityGroupUncheckedCreateNestedManyWithoutCreatorInput
   communityMemberships?: Prisma.CommunityMemberUncheckedCreateNestedManyWithoutUserInput
   postReactions?: Prisma.PostReactionUncheckedCreateNestedManyWithoutUserInput
+  giftPacksBought?: Prisma.GiftPackUncheckedCreateNestedManyWithoutBuyerInput
+  giftPacksRedeemed?: Prisma.GiftPackUncheckedCreateNestedManyWithoutRedeemedByInput
+  reminders?: Prisma.UserReminderUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutProductReviewsInput = {
@@ -7755,6 +8234,7 @@ export type UserUpdateWithoutProductReviewsInput = {
   currentStreak?: Prisma.IntFieldUpdateOperationsInput | number
   maxStreak?: Prisma.IntFieldUpdateOperationsInput | number
   lastCheckInDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  trialEndsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
@@ -7790,6 +8270,9 @@ export type UserUpdateWithoutProductReviewsInput = {
   communityGroups?: Prisma.CommunityGroupUpdateManyWithoutCreatorNestedInput
   communityMemberships?: Prisma.CommunityMemberUpdateManyWithoutUserNestedInput
   postReactions?: Prisma.PostReactionUpdateManyWithoutUserNestedInput
+  giftPacksBought?: Prisma.GiftPackUpdateManyWithoutBuyerNestedInput
+  giftPacksRedeemed?: Prisma.GiftPackUpdateManyWithoutRedeemedByNestedInput
+  reminders?: Prisma.UserReminderUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutProductReviewsInput = {
@@ -7814,6 +8297,7 @@ export type UserUncheckedUpdateWithoutProductReviewsInput = {
   currentStreak?: Prisma.IntFieldUpdateOperationsInput | number
   maxStreak?: Prisma.IntFieldUpdateOperationsInput | number
   lastCheckInDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  trialEndsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
@@ -7849,6 +8333,9 @@ export type UserUncheckedUpdateWithoutProductReviewsInput = {
   communityGroups?: Prisma.CommunityGroupUncheckedUpdateManyWithoutCreatorNestedInput
   communityMemberships?: Prisma.CommunityMemberUncheckedUpdateManyWithoutUserNestedInput
   postReactions?: Prisma.PostReactionUncheckedUpdateManyWithoutUserNestedInput
+  giftPacksBought?: Prisma.GiftPackUncheckedUpdateManyWithoutBuyerNestedInput
+  giftPacksRedeemed?: Prisma.GiftPackUncheckedUpdateManyWithoutRedeemedByNestedInput
+  reminders?: Prisma.UserReminderUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutGroupsOwnedInput = {
@@ -7873,6 +8360,7 @@ export type UserCreateWithoutGroupsOwnedInput = {
   currentStreak?: number
   maxStreak?: number
   lastCheckInDate?: Date | string | null
+  trialEndsAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
@@ -7908,6 +8396,9 @@ export type UserCreateWithoutGroupsOwnedInput = {
   communityGroups?: Prisma.CommunityGroupCreateNestedManyWithoutCreatorInput
   communityMemberships?: Prisma.CommunityMemberCreateNestedManyWithoutUserInput
   postReactions?: Prisma.PostReactionCreateNestedManyWithoutUserInput
+  giftPacksBought?: Prisma.GiftPackCreateNestedManyWithoutBuyerInput
+  giftPacksRedeemed?: Prisma.GiftPackCreateNestedManyWithoutRedeemedByInput
+  reminders?: Prisma.UserReminderCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutGroupsOwnedInput = {
@@ -7932,6 +8423,7 @@ export type UserUncheckedCreateWithoutGroupsOwnedInput = {
   currentStreak?: number
   maxStreak?: number
   lastCheckInDate?: Date | string | null
+  trialEndsAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
@@ -7967,6 +8459,9 @@ export type UserUncheckedCreateWithoutGroupsOwnedInput = {
   communityGroups?: Prisma.CommunityGroupUncheckedCreateNestedManyWithoutCreatorInput
   communityMemberships?: Prisma.CommunityMemberUncheckedCreateNestedManyWithoutUserInput
   postReactions?: Prisma.PostReactionUncheckedCreateNestedManyWithoutUserInput
+  giftPacksBought?: Prisma.GiftPackUncheckedCreateNestedManyWithoutBuyerInput
+  giftPacksRedeemed?: Prisma.GiftPackUncheckedCreateNestedManyWithoutRedeemedByInput
+  reminders?: Prisma.UserReminderUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutGroupsOwnedInput = {
@@ -8007,6 +8502,7 @@ export type UserUpdateWithoutGroupsOwnedInput = {
   currentStreak?: Prisma.IntFieldUpdateOperationsInput | number
   maxStreak?: Prisma.IntFieldUpdateOperationsInput | number
   lastCheckInDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  trialEndsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
@@ -8042,6 +8538,9 @@ export type UserUpdateWithoutGroupsOwnedInput = {
   communityGroups?: Prisma.CommunityGroupUpdateManyWithoutCreatorNestedInput
   communityMemberships?: Prisma.CommunityMemberUpdateManyWithoutUserNestedInput
   postReactions?: Prisma.PostReactionUpdateManyWithoutUserNestedInput
+  giftPacksBought?: Prisma.GiftPackUpdateManyWithoutBuyerNestedInput
+  giftPacksRedeemed?: Prisma.GiftPackUpdateManyWithoutRedeemedByNestedInput
+  reminders?: Prisma.UserReminderUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutGroupsOwnedInput = {
@@ -8066,6 +8565,7 @@ export type UserUncheckedUpdateWithoutGroupsOwnedInput = {
   currentStreak?: Prisma.IntFieldUpdateOperationsInput | number
   maxStreak?: Prisma.IntFieldUpdateOperationsInput | number
   lastCheckInDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  trialEndsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
@@ -8101,6 +8601,9 @@ export type UserUncheckedUpdateWithoutGroupsOwnedInput = {
   communityGroups?: Prisma.CommunityGroupUncheckedUpdateManyWithoutCreatorNestedInput
   communityMemberships?: Prisma.CommunityMemberUncheckedUpdateManyWithoutUserNestedInput
   postReactions?: Prisma.PostReactionUncheckedUpdateManyWithoutUserNestedInput
+  giftPacksBought?: Prisma.GiftPackUncheckedUpdateManyWithoutBuyerNestedInput
+  giftPacksRedeemed?: Prisma.GiftPackUncheckedUpdateManyWithoutRedeemedByNestedInput
+  reminders?: Prisma.UserReminderUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutReferralsOwnedInput = {
@@ -8125,6 +8628,7 @@ export type UserCreateWithoutReferralsOwnedInput = {
   currentStreak?: number
   maxStreak?: number
   lastCheckInDate?: Date | string | null
+  trialEndsAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
@@ -8160,6 +8664,9 @@ export type UserCreateWithoutReferralsOwnedInput = {
   communityGroups?: Prisma.CommunityGroupCreateNestedManyWithoutCreatorInput
   communityMemberships?: Prisma.CommunityMemberCreateNestedManyWithoutUserInput
   postReactions?: Prisma.PostReactionCreateNestedManyWithoutUserInput
+  giftPacksBought?: Prisma.GiftPackCreateNestedManyWithoutBuyerInput
+  giftPacksRedeemed?: Prisma.GiftPackCreateNestedManyWithoutRedeemedByInput
+  reminders?: Prisma.UserReminderCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutReferralsOwnedInput = {
@@ -8184,6 +8691,7 @@ export type UserUncheckedCreateWithoutReferralsOwnedInput = {
   currentStreak?: number
   maxStreak?: number
   lastCheckInDate?: Date | string | null
+  trialEndsAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
@@ -8219,6 +8727,9 @@ export type UserUncheckedCreateWithoutReferralsOwnedInput = {
   communityGroups?: Prisma.CommunityGroupUncheckedCreateNestedManyWithoutCreatorInput
   communityMemberships?: Prisma.CommunityMemberUncheckedCreateNestedManyWithoutUserInput
   postReactions?: Prisma.PostReactionUncheckedCreateNestedManyWithoutUserInput
+  giftPacksBought?: Prisma.GiftPackUncheckedCreateNestedManyWithoutBuyerInput
+  giftPacksRedeemed?: Prisma.GiftPackUncheckedCreateNestedManyWithoutRedeemedByInput
+  reminders?: Prisma.UserReminderUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutReferralsOwnedInput = {
@@ -8248,6 +8759,7 @@ export type UserCreateWithoutReferralsReferredInput = {
   currentStreak?: number
   maxStreak?: number
   lastCheckInDate?: Date | string | null
+  trialEndsAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
@@ -8283,6 +8795,9 @@ export type UserCreateWithoutReferralsReferredInput = {
   communityGroups?: Prisma.CommunityGroupCreateNestedManyWithoutCreatorInput
   communityMemberships?: Prisma.CommunityMemberCreateNestedManyWithoutUserInput
   postReactions?: Prisma.PostReactionCreateNestedManyWithoutUserInput
+  giftPacksBought?: Prisma.GiftPackCreateNestedManyWithoutBuyerInput
+  giftPacksRedeemed?: Prisma.GiftPackCreateNestedManyWithoutRedeemedByInput
+  reminders?: Prisma.UserReminderCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutReferralsReferredInput = {
@@ -8307,6 +8822,7 @@ export type UserUncheckedCreateWithoutReferralsReferredInput = {
   currentStreak?: number
   maxStreak?: number
   lastCheckInDate?: Date | string | null
+  trialEndsAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
@@ -8342,6 +8858,9 @@ export type UserUncheckedCreateWithoutReferralsReferredInput = {
   communityGroups?: Prisma.CommunityGroupUncheckedCreateNestedManyWithoutCreatorInput
   communityMemberships?: Prisma.CommunityMemberUncheckedCreateNestedManyWithoutUserInput
   postReactions?: Prisma.PostReactionUncheckedCreateNestedManyWithoutUserInput
+  giftPacksBought?: Prisma.GiftPackUncheckedCreateNestedManyWithoutBuyerInput
+  giftPacksRedeemed?: Prisma.GiftPackUncheckedCreateNestedManyWithoutRedeemedByInput
+  reminders?: Prisma.UserReminderUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutReferralsReferredInput = {
@@ -8382,6 +8901,7 @@ export type UserUpdateWithoutReferralsOwnedInput = {
   currentStreak?: Prisma.IntFieldUpdateOperationsInput | number
   maxStreak?: Prisma.IntFieldUpdateOperationsInput | number
   lastCheckInDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  trialEndsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
@@ -8417,6 +8937,9 @@ export type UserUpdateWithoutReferralsOwnedInput = {
   communityGroups?: Prisma.CommunityGroupUpdateManyWithoutCreatorNestedInput
   communityMemberships?: Prisma.CommunityMemberUpdateManyWithoutUserNestedInput
   postReactions?: Prisma.PostReactionUpdateManyWithoutUserNestedInput
+  giftPacksBought?: Prisma.GiftPackUpdateManyWithoutBuyerNestedInput
+  giftPacksRedeemed?: Prisma.GiftPackUpdateManyWithoutRedeemedByNestedInput
+  reminders?: Prisma.UserReminderUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutReferralsOwnedInput = {
@@ -8441,6 +8964,7 @@ export type UserUncheckedUpdateWithoutReferralsOwnedInput = {
   currentStreak?: Prisma.IntFieldUpdateOperationsInput | number
   maxStreak?: Prisma.IntFieldUpdateOperationsInput | number
   lastCheckInDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  trialEndsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
@@ -8476,6 +9000,9 @@ export type UserUncheckedUpdateWithoutReferralsOwnedInput = {
   communityGroups?: Prisma.CommunityGroupUncheckedUpdateManyWithoutCreatorNestedInput
   communityMemberships?: Prisma.CommunityMemberUncheckedUpdateManyWithoutUserNestedInput
   postReactions?: Prisma.PostReactionUncheckedUpdateManyWithoutUserNestedInput
+  giftPacksBought?: Prisma.GiftPackUncheckedUpdateManyWithoutBuyerNestedInput
+  giftPacksRedeemed?: Prisma.GiftPackUncheckedUpdateManyWithoutRedeemedByNestedInput
+  reminders?: Prisma.UserReminderUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserUpsertWithoutReferralsReferredInput = {
@@ -8511,6 +9038,7 @@ export type UserUpdateWithoutReferralsReferredInput = {
   currentStreak?: Prisma.IntFieldUpdateOperationsInput | number
   maxStreak?: Prisma.IntFieldUpdateOperationsInput | number
   lastCheckInDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  trialEndsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
@@ -8546,6 +9074,9 @@ export type UserUpdateWithoutReferralsReferredInput = {
   communityGroups?: Prisma.CommunityGroupUpdateManyWithoutCreatorNestedInput
   communityMemberships?: Prisma.CommunityMemberUpdateManyWithoutUserNestedInput
   postReactions?: Prisma.PostReactionUpdateManyWithoutUserNestedInput
+  giftPacksBought?: Prisma.GiftPackUpdateManyWithoutBuyerNestedInput
+  giftPacksRedeemed?: Prisma.GiftPackUpdateManyWithoutRedeemedByNestedInput
+  reminders?: Prisma.UserReminderUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutReferralsReferredInput = {
@@ -8570,6 +9101,7 @@ export type UserUncheckedUpdateWithoutReferralsReferredInput = {
   currentStreak?: Prisma.IntFieldUpdateOperationsInput | number
   maxStreak?: Prisma.IntFieldUpdateOperationsInput | number
   lastCheckInDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  trialEndsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
@@ -8605,6 +9137,9 @@ export type UserUncheckedUpdateWithoutReferralsReferredInput = {
   communityGroups?: Prisma.CommunityGroupUncheckedUpdateManyWithoutCreatorNestedInput
   communityMemberships?: Prisma.CommunityMemberUncheckedUpdateManyWithoutUserNestedInput
   postReactions?: Prisma.PostReactionUncheckedUpdateManyWithoutUserNestedInput
+  giftPacksBought?: Prisma.GiftPackUncheckedUpdateManyWithoutBuyerNestedInput
+  giftPacksRedeemed?: Prisma.GiftPackUncheckedUpdateManyWithoutRedeemedByNestedInput
+  reminders?: Prisma.UserReminderUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutDigitalPurchasesInput = {
@@ -8629,6 +9164,7 @@ export type UserCreateWithoutDigitalPurchasesInput = {
   currentStreak?: number
   maxStreak?: number
   lastCheckInDate?: Date | string | null
+  trialEndsAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
@@ -8664,6 +9200,9 @@ export type UserCreateWithoutDigitalPurchasesInput = {
   communityGroups?: Prisma.CommunityGroupCreateNestedManyWithoutCreatorInput
   communityMemberships?: Prisma.CommunityMemberCreateNestedManyWithoutUserInput
   postReactions?: Prisma.PostReactionCreateNestedManyWithoutUserInput
+  giftPacksBought?: Prisma.GiftPackCreateNestedManyWithoutBuyerInput
+  giftPacksRedeemed?: Prisma.GiftPackCreateNestedManyWithoutRedeemedByInput
+  reminders?: Prisma.UserReminderCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutDigitalPurchasesInput = {
@@ -8688,6 +9227,7 @@ export type UserUncheckedCreateWithoutDigitalPurchasesInput = {
   currentStreak?: number
   maxStreak?: number
   lastCheckInDate?: Date | string | null
+  trialEndsAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
@@ -8723,6 +9263,9 @@ export type UserUncheckedCreateWithoutDigitalPurchasesInput = {
   communityGroups?: Prisma.CommunityGroupUncheckedCreateNestedManyWithoutCreatorInput
   communityMemberships?: Prisma.CommunityMemberUncheckedCreateNestedManyWithoutUserInput
   postReactions?: Prisma.PostReactionUncheckedCreateNestedManyWithoutUserInput
+  giftPacksBought?: Prisma.GiftPackUncheckedCreateNestedManyWithoutBuyerInput
+  giftPacksRedeemed?: Prisma.GiftPackUncheckedCreateNestedManyWithoutRedeemedByInput
+  reminders?: Prisma.UserReminderUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutDigitalPurchasesInput = {
@@ -8763,6 +9306,7 @@ export type UserUpdateWithoutDigitalPurchasesInput = {
   currentStreak?: Prisma.IntFieldUpdateOperationsInput | number
   maxStreak?: Prisma.IntFieldUpdateOperationsInput | number
   lastCheckInDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  trialEndsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
@@ -8798,6 +9342,9 @@ export type UserUpdateWithoutDigitalPurchasesInput = {
   communityGroups?: Prisma.CommunityGroupUpdateManyWithoutCreatorNestedInput
   communityMemberships?: Prisma.CommunityMemberUpdateManyWithoutUserNestedInput
   postReactions?: Prisma.PostReactionUpdateManyWithoutUserNestedInput
+  giftPacksBought?: Prisma.GiftPackUpdateManyWithoutBuyerNestedInput
+  giftPacksRedeemed?: Prisma.GiftPackUpdateManyWithoutRedeemedByNestedInput
+  reminders?: Prisma.UserReminderUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutDigitalPurchasesInput = {
@@ -8822,6 +9369,7 @@ export type UserUncheckedUpdateWithoutDigitalPurchasesInput = {
   currentStreak?: Prisma.IntFieldUpdateOperationsInput | number
   maxStreak?: Prisma.IntFieldUpdateOperationsInput | number
   lastCheckInDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  trialEndsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
@@ -8857,6 +9405,9 @@ export type UserUncheckedUpdateWithoutDigitalPurchasesInput = {
   communityGroups?: Prisma.CommunityGroupUncheckedUpdateManyWithoutCreatorNestedInput
   communityMemberships?: Prisma.CommunityMemberUncheckedUpdateManyWithoutUserNestedInput
   postReactions?: Prisma.PostReactionUncheckedUpdateManyWithoutUserNestedInput
+  giftPacksBought?: Prisma.GiftPackUncheckedUpdateManyWithoutBuyerNestedInput
+  giftPacksRedeemed?: Prisma.GiftPackUncheckedUpdateManyWithoutRedeemedByNestedInput
+  reminders?: Prisma.UserReminderUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutCheckInsInput = {
@@ -8881,6 +9432,7 @@ export type UserCreateWithoutCheckInsInput = {
   currentStreak?: number
   maxStreak?: number
   lastCheckInDate?: Date | string | null
+  trialEndsAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
@@ -8916,6 +9468,9 @@ export type UserCreateWithoutCheckInsInput = {
   communityGroups?: Prisma.CommunityGroupCreateNestedManyWithoutCreatorInput
   communityMemberships?: Prisma.CommunityMemberCreateNestedManyWithoutUserInput
   postReactions?: Prisma.PostReactionCreateNestedManyWithoutUserInput
+  giftPacksBought?: Prisma.GiftPackCreateNestedManyWithoutBuyerInput
+  giftPacksRedeemed?: Prisma.GiftPackCreateNestedManyWithoutRedeemedByInput
+  reminders?: Prisma.UserReminderCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutCheckInsInput = {
@@ -8940,6 +9495,7 @@ export type UserUncheckedCreateWithoutCheckInsInput = {
   currentStreak?: number
   maxStreak?: number
   lastCheckInDate?: Date | string | null
+  trialEndsAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
@@ -8975,6 +9531,9 @@ export type UserUncheckedCreateWithoutCheckInsInput = {
   communityGroups?: Prisma.CommunityGroupUncheckedCreateNestedManyWithoutCreatorInput
   communityMemberships?: Prisma.CommunityMemberUncheckedCreateNestedManyWithoutUserInput
   postReactions?: Prisma.PostReactionUncheckedCreateNestedManyWithoutUserInput
+  giftPacksBought?: Prisma.GiftPackUncheckedCreateNestedManyWithoutBuyerInput
+  giftPacksRedeemed?: Prisma.GiftPackUncheckedCreateNestedManyWithoutRedeemedByInput
+  reminders?: Prisma.UserReminderUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutCheckInsInput = {
@@ -9015,6 +9574,7 @@ export type UserUpdateWithoutCheckInsInput = {
   currentStreak?: Prisma.IntFieldUpdateOperationsInput | number
   maxStreak?: Prisma.IntFieldUpdateOperationsInput | number
   lastCheckInDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  trialEndsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
@@ -9050,6 +9610,9 @@ export type UserUpdateWithoutCheckInsInput = {
   communityGroups?: Prisma.CommunityGroupUpdateManyWithoutCreatorNestedInput
   communityMemberships?: Prisma.CommunityMemberUpdateManyWithoutUserNestedInput
   postReactions?: Prisma.PostReactionUpdateManyWithoutUserNestedInput
+  giftPacksBought?: Prisma.GiftPackUpdateManyWithoutBuyerNestedInput
+  giftPacksRedeemed?: Prisma.GiftPackUpdateManyWithoutRedeemedByNestedInput
+  reminders?: Prisma.UserReminderUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutCheckInsInput = {
@@ -9074,6 +9637,7 @@ export type UserUncheckedUpdateWithoutCheckInsInput = {
   currentStreak?: Prisma.IntFieldUpdateOperationsInput | number
   maxStreak?: Prisma.IntFieldUpdateOperationsInput | number
   lastCheckInDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  trialEndsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
@@ -9109,6 +9673,9 @@ export type UserUncheckedUpdateWithoutCheckInsInput = {
   communityGroups?: Prisma.CommunityGroupUncheckedUpdateManyWithoutCreatorNestedInput
   communityMemberships?: Prisma.CommunityMemberUncheckedUpdateManyWithoutUserNestedInput
   postReactions?: Prisma.PostReactionUncheckedUpdateManyWithoutUserNestedInput
+  giftPacksBought?: Prisma.GiftPackUncheckedUpdateManyWithoutBuyerNestedInput
+  giftPacksRedeemed?: Prisma.GiftPackUncheckedUpdateManyWithoutRedeemedByNestedInput
+  reminders?: Prisma.UserReminderUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutNotificationsInput = {
@@ -9133,6 +9700,7 @@ export type UserCreateWithoutNotificationsInput = {
   currentStreak?: number
   maxStreak?: number
   lastCheckInDate?: Date | string | null
+  trialEndsAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
@@ -9168,6 +9736,9 @@ export type UserCreateWithoutNotificationsInput = {
   communityGroups?: Prisma.CommunityGroupCreateNestedManyWithoutCreatorInput
   communityMemberships?: Prisma.CommunityMemberCreateNestedManyWithoutUserInput
   postReactions?: Prisma.PostReactionCreateNestedManyWithoutUserInput
+  giftPacksBought?: Prisma.GiftPackCreateNestedManyWithoutBuyerInput
+  giftPacksRedeemed?: Prisma.GiftPackCreateNestedManyWithoutRedeemedByInput
+  reminders?: Prisma.UserReminderCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutNotificationsInput = {
@@ -9192,6 +9763,7 @@ export type UserUncheckedCreateWithoutNotificationsInput = {
   currentStreak?: number
   maxStreak?: number
   lastCheckInDate?: Date | string | null
+  trialEndsAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
@@ -9227,6 +9799,9 @@ export type UserUncheckedCreateWithoutNotificationsInput = {
   communityGroups?: Prisma.CommunityGroupUncheckedCreateNestedManyWithoutCreatorInput
   communityMemberships?: Prisma.CommunityMemberUncheckedCreateNestedManyWithoutUserInput
   postReactions?: Prisma.PostReactionUncheckedCreateNestedManyWithoutUserInput
+  giftPacksBought?: Prisma.GiftPackUncheckedCreateNestedManyWithoutBuyerInput
+  giftPacksRedeemed?: Prisma.GiftPackUncheckedCreateNestedManyWithoutRedeemedByInput
+  reminders?: Prisma.UserReminderUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutNotificationsInput = {
@@ -9267,6 +9842,7 @@ export type UserUpdateWithoutNotificationsInput = {
   currentStreak?: Prisma.IntFieldUpdateOperationsInput | number
   maxStreak?: Prisma.IntFieldUpdateOperationsInput | number
   lastCheckInDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  trialEndsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
@@ -9302,6 +9878,9 @@ export type UserUpdateWithoutNotificationsInput = {
   communityGroups?: Prisma.CommunityGroupUpdateManyWithoutCreatorNestedInput
   communityMemberships?: Prisma.CommunityMemberUpdateManyWithoutUserNestedInput
   postReactions?: Prisma.PostReactionUpdateManyWithoutUserNestedInput
+  giftPacksBought?: Prisma.GiftPackUpdateManyWithoutBuyerNestedInput
+  giftPacksRedeemed?: Prisma.GiftPackUpdateManyWithoutRedeemedByNestedInput
+  reminders?: Prisma.UserReminderUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutNotificationsInput = {
@@ -9326,6 +9905,7 @@ export type UserUncheckedUpdateWithoutNotificationsInput = {
   currentStreak?: Prisma.IntFieldUpdateOperationsInput | number
   maxStreak?: Prisma.IntFieldUpdateOperationsInput | number
   lastCheckInDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  trialEndsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
@@ -9361,6 +9941,9 @@ export type UserUncheckedUpdateWithoutNotificationsInput = {
   communityGroups?: Prisma.CommunityGroupUncheckedUpdateManyWithoutCreatorNestedInput
   communityMemberships?: Prisma.CommunityMemberUncheckedUpdateManyWithoutUserNestedInput
   postReactions?: Prisma.PostReactionUncheckedUpdateManyWithoutUserNestedInput
+  giftPacksBought?: Prisma.GiftPackUncheckedUpdateManyWithoutBuyerNestedInput
+  giftPacksRedeemed?: Prisma.GiftPackUncheckedUpdateManyWithoutRedeemedByNestedInput
+  reminders?: Prisma.UserReminderUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutSupportTicketsInput = {
@@ -9385,6 +9968,7 @@ export type UserCreateWithoutSupportTicketsInput = {
   currentStreak?: number
   maxStreak?: number
   lastCheckInDate?: Date | string | null
+  trialEndsAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
@@ -9420,6 +10004,9 @@ export type UserCreateWithoutSupportTicketsInput = {
   communityGroups?: Prisma.CommunityGroupCreateNestedManyWithoutCreatorInput
   communityMemberships?: Prisma.CommunityMemberCreateNestedManyWithoutUserInput
   postReactions?: Prisma.PostReactionCreateNestedManyWithoutUserInput
+  giftPacksBought?: Prisma.GiftPackCreateNestedManyWithoutBuyerInput
+  giftPacksRedeemed?: Prisma.GiftPackCreateNestedManyWithoutRedeemedByInput
+  reminders?: Prisma.UserReminderCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutSupportTicketsInput = {
@@ -9444,6 +10031,7 @@ export type UserUncheckedCreateWithoutSupportTicketsInput = {
   currentStreak?: number
   maxStreak?: number
   lastCheckInDate?: Date | string | null
+  trialEndsAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
@@ -9479,6 +10067,9 @@ export type UserUncheckedCreateWithoutSupportTicketsInput = {
   communityGroups?: Prisma.CommunityGroupUncheckedCreateNestedManyWithoutCreatorInput
   communityMemberships?: Prisma.CommunityMemberUncheckedCreateNestedManyWithoutUserInput
   postReactions?: Prisma.PostReactionUncheckedCreateNestedManyWithoutUserInput
+  giftPacksBought?: Prisma.GiftPackUncheckedCreateNestedManyWithoutBuyerInput
+  giftPacksRedeemed?: Prisma.GiftPackUncheckedCreateNestedManyWithoutRedeemedByInput
+  reminders?: Prisma.UserReminderUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutSupportTicketsInput = {
@@ -9519,6 +10110,7 @@ export type UserUpdateWithoutSupportTicketsInput = {
   currentStreak?: Prisma.IntFieldUpdateOperationsInput | number
   maxStreak?: Prisma.IntFieldUpdateOperationsInput | number
   lastCheckInDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  trialEndsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
@@ -9554,6 +10146,9 @@ export type UserUpdateWithoutSupportTicketsInput = {
   communityGroups?: Prisma.CommunityGroupUpdateManyWithoutCreatorNestedInput
   communityMemberships?: Prisma.CommunityMemberUpdateManyWithoutUserNestedInput
   postReactions?: Prisma.PostReactionUpdateManyWithoutUserNestedInput
+  giftPacksBought?: Prisma.GiftPackUpdateManyWithoutBuyerNestedInput
+  giftPacksRedeemed?: Prisma.GiftPackUpdateManyWithoutRedeemedByNestedInput
+  reminders?: Prisma.UserReminderUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutSupportTicketsInput = {
@@ -9578,6 +10173,7 @@ export type UserUncheckedUpdateWithoutSupportTicketsInput = {
   currentStreak?: Prisma.IntFieldUpdateOperationsInput | number
   maxStreak?: Prisma.IntFieldUpdateOperationsInput | number
   lastCheckInDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  trialEndsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
@@ -9613,6 +10209,9 @@ export type UserUncheckedUpdateWithoutSupportTicketsInput = {
   communityGroups?: Prisma.CommunityGroupUncheckedUpdateManyWithoutCreatorNestedInput
   communityMemberships?: Prisma.CommunityMemberUncheckedUpdateManyWithoutUserNestedInput
   postReactions?: Prisma.PostReactionUncheckedUpdateManyWithoutUserNestedInput
+  giftPacksBought?: Prisma.GiftPackUncheckedUpdateManyWithoutBuyerNestedInput
+  giftPacksRedeemed?: Prisma.GiftPackUncheckedUpdateManyWithoutRedeemedByNestedInput
+  reminders?: Prisma.UserReminderUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutTicketResponsesInput = {
@@ -9637,6 +10236,7 @@ export type UserCreateWithoutTicketResponsesInput = {
   currentStreak?: number
   maxStreak?: number
   lastCheckInDate?: Date | string | null
+  trialEndsAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
@@ -9672,6 +10272,9 @@ export type UserCreateWithoutTicketResponsesInput = {
   communityGroups?: Prisma.CommunityGroupCreateNestedManyWithoutCreatorInput
   communityMemberships?: Prisma.CommunityMemberCreateNestedManyWithoutUserInput
   postReactions?: Prisma.PostReactionCreateNestedManyWithoutUserInput
+  giftPacksBought?: Prisma.GiftPackCreateNestedManyWithoutBuyerInput
+  giftPacksRedeemed?: Prisma.GiftPackCreateNestedManyWithoutRedeemedByInput
+  reminders?: Prisma.UserReminderCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutTicketResponsesInput = {
@@ -9696,6 +10299,7 @@ export type UserUncheckedCreateWithoutTicketResponsesInput = {
   currentStreak?: number
   maxStreak?: number
   lastCheckInDate?: Date | string | null
+  trialEndsAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
@@ -9731,6 +10335,9 @@ export type UserUncheckedCreateWithoutTicketResponsesInput = {
   communityGroups?: Prisma.CommunityGroupUncheckedCreateNestedManyWithoutCreatorInput
   communityMemberships?: Prisma.CommunityMemberUncheckedCreateNestedManyWithoutUserInput
   postReactions?: Prisma.PostReactionUncheckedCreateNestedManyWithoutUserInput
+  giftPacksBought?: Prisma.GiftPackUncheckedCreateNestedManyWithoutBuyerInput
+  giftPacksRedeemed?: Prisma.GiftPackUncheckedCreateNestedManyWithoutRedeemedByInput
+  reminders?: Prisma.UserReminderUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutTicketResponsesInput = {
@@ -9771,6 +10378,7 @@ export type UserUpdateWithoutTicketResponsesInput = {
   currentStreak?: Prisma.IntFieldUpdateOperationsInput | number
   maxStreak?: Prisma.IntFieldUpdateOperationsInput | number
   lastCheckInDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  trialEndsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
@@ -9806,6 +10414,9 @@ export type UserUpdateWithoutTicketResponsesInput = {
   communityGroups?: Prisma.CommunityGroupUpdateManyWithoutCreatorNestedInput
   communityMemberships?: Prisma.CommunityMemberUpdateManyWithoutUserNestedInput
   postReactions?: Prisma.PostReactionUpdateManyWithoutUserNestedInput
+  giftPacksBought?: Prisma.GiftPackUpdateManyWithoutBuyerNestedInput
+  giftPacksRedeemed?: Prisma.GiftPackUpdateManyWithoutRedeemedByNestedInput
+  reminders?: Prisma.UserReminderUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutTicketResponsesInput = {
@@ -9830,6 +10441,7 @@ export type UserUncheckedUpdateWithoutTicketResponsesInput = {
   currentStreak?: Prisma.IntFieldUpdateOperationsInput | number
   maxStreak?: Prisma.IntFieldUpdateOperationsInput | number
   lastCheckInDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  trialEndsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
@@ -9865,6 +10477,9 @@ export type UserUncheckedUpdateWithoutTicketResponsesInput = {
   communityGroups?: Prisma.CommunityGroupUncheckedUpdateManyWithoutCreatorNestedInput
   communityMemberships?: Prisma.CommunityMemberUncheckedUpdateManyWithoutUserNestedInput
   postReactions?: Prisma.PostReactionUncheckedUpdateManyWithoutUserNestedInput
+  giftPacksBought?: Prisma.GiftPackUncheckedUpdateManyWithoutBuyerNestedInput
+  giftPacksRedeemed?: Prisma.GiftPackUncheckedUpdateManyWithoutRedeemedByNestedInput
+  reminders?: Prisma.UserReminderUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutChatMessagesInput = {
@@ -9889,6 +10504,7 @@ export type UserCreateWithoutChatMessagesInput = {
   currentStreak?: number
   maxStreak?: number
   lastCheckInDate?: Date | string | null
+  trialEndsAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
@@ -9924,6 +10540,9 @@ export type UserCreateWithoutChatMessagesInput = {
   communityGroups?: Prisma.CommunityGroupCreateNestedManyWithoutCreatorInput
   communityMemberships?: Prisma.CommunityMemberCreateNestedManyWithoutUserInput
   postReactions?: Prisma.PostReactionCreateNestedManyWithoutUserInput
+  giftPacksBought?: Prisma.GiftPackCreateNestedManyWithoutBuyerInput
+  giftPacksRedeemed?: Prisma.GiftPackCreateNestedManyWithoutRedeemedByInput
+  reminders?: Prisma.UserReminderCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutChatMessagesInput = {
@@ -9948,6 +10567,7 @@ export type UserUncheckedCreateWithoutChatMessagesInput = {
   currentStreak?: number
   maxStreak?: number
   lastCheckInDate?: Date | string | null
+  trialEndsAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
@@ -9983,6 +10603,9 @@ export type UserUncheckedCreateWithoutChatMessagesInput = {
   communityGroups?: Prisma.CommunityGroupUncheckedCreateNestedManyWithoutCreatorInput
   communityMemberships?: Prisma.CommunityMemberUncheckedCreateNestedManyWithoutUserInput
   postReactions?: Prisma.PostReactionUncheckedCreateNestedManyWithoutUserInput
+  giftPacksBought?: Prisma.GiftPackUncheckedCreateNestedManyWithoutBuyerInput
+  giftPacksRedeemed?: Prisma.GiftPackUncheckedCreateNestedManyWithoutRedeemedByInput
+  reminders?: Prisma.UserReminderUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutChatMessagesInput = {
@@ -10023,6 +10646,7 @@ export type UserUpdateWithoutChatMessagesInput = {
   currentStreak?: Prisma.IntFieldUpdateOperationsInput | number
   maxStreak?: Prisma.IntFieldUpdateOperationsInput | number
   lastCheckInDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  trialEndsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
@@ -10058,6 +10682,9 @@ export type UserUpdateWithoutChatMessagesInput = {
   communityGroups?: Prisma.CommunityGroupUpdateManyWithoutCreatorNestedInput
   communityMemberships?: Prisma.CommunityMemberUpdateManyWithoutUserNestedInput
   postReactions?: Prisma.PostReactionUpdateManyWithoutUserNestedInput
+  giftPacksBought?: Prisma.GiftPackUpdateManyWithoutBuyerNestedInput
+  giftPacksRedeemed?: Prisma.GiftPackUpdateManyWithoutRedeemedByNestedInput
+  reminders?: Prisma.UserReminderUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutChatMessagesInput = {
@@ -10082,6 +10709,7 @@ export type UserUncheckedUpdateWithoutChatMessagesInput = {
   currentStreak?: Prisma.IntFieldUpdateOperationsInput | number
   maxStreak?: Prisma.IntFieldUpdateOperationsInput | number
   lastCheckInDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  trialEndsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
@@ -10117,6 +10745,813 @@ export type UserUncheckedUpdateWithoutChatMessagesInput = {
   communityGroups?: Prisma.CommunityGroupUncheckedUpdateManyWithoutCreatorNestedInput
   communityMemberships?: Prisma.CommunityMemberUncheckedUpdateManyWithoutUserNestedInput
   postReactions?: Prisma.PostReactionUncheckedUpdateManyWithoutUserNestedInput
+  giftPacksBought?: Prisma.GiftPackUncheckedUpdateManyWithoutBuyerNestedInput
+  giftPacksRedeemed?: Prisma.GiftPackUncheckedUpdateManyWithoutRedeemedByNestedInput
+  reminders?: Prisma.UserReminderUncheckedUpdateManyWithoutUserNestedInput
+}
+
+export type UserCreateWithoutGiftPacksBoughtInput = {
+  id?: string
+  name?: string | null
+  email: string
+  emailVerified?: Date | string | null
+  image?: string | null
+  password?: string | null
+  username?: string | null
+  role?: string
+  plan?: string
+  qvapayId?: string | null
+  analysisLimit?: number
+  analysisUsed?: number
+  analysisResetAt?: Date | string | null
+  telegramId?: string | null
+  telegramTrialStartedAt?: Date | string | null
+  isTelegramPremiumActive?: boolean
+  latitude?: number | null
+  longitude?: number | null
+  currentStreak?: number
+  maxStreak?: number
+  lastCheckInDate?: Date | string | null
+  trialEndsAt?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
+  sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
+  analyses?: Prisma.SkinAnalysisCreateNestedManyWithoutUserInput
+  analysisJobs?: Prisma.AnalysisJobCreateNestedManyWithoutUserInput
+  payments?: Prisma.PaymentCreateNestedManyWithoutUserInput
+  subscriptions?: Prisma.SubscriptionCreateNestedManyWithoutUserInput
+  purchasePacks?: Prisma.PurchasePackCreateNestedManyWithoutUserInput
+  usageRecords?: Prisma.UsageTrackingCreateNestedManyWithoutUserInput
+  clinic?: Prisma.ClinicCreateNestedOneWithoutOwnerInput
+  surveyFeedback?: Prisma.SurveyFeedbackCreateNestedManyWithoutUserInput
+  communityPosts?: Prisma.CommunityPostCreateNestedManyWithoutUserInput
+  comments?: Prisma.CommentCreateNestedManyWithoutUserInput
+  skinDiary?: Prisma.SkinDiaryCreateNestedManyWithoutUserInput
+  userChallenges?: Prisma.UserChallengeCreateNestedManyWithoutUserInput
+  productReviews?: Prisma.ProductReviewCreateNestedManyWithoutUserInput
+  referralsOwned?: Prisma.ReferralCreateNestedManyWithoutReferrerInput
+  referralsReferred?: Prisma.ReferralCreateNestedManyWithoutReferredInput
+  groupsOwned?: Prisma.GroupAnalyticsCreateNestedManyWithoutReferrerInput
+  digitalPurchases?: Prisma.DigitalProductPurchaseCreateNestedManyWithoutUserInput
+  affiliateClicks?: Prisma.AffiliateClickCreateNestedManyWithoutUserInput
+  evolution?: Prisma.UserEvolutionCreateNestedOneWithoutUserInput
+  checkIns?: Prisma.DailyCheckInCreateNestedManyWithoutUserInput
+  transferPayments?: Prisma.TransferPaymentCreateNestedManyWithoutUserInput
+  validatedTransfers?: Prisma.TransferPaymentCreateNestedManyWithoutValidatorInput
+  activatedTransfers?: Prisma.TransferPaymentCreateNestedManyWithoutActivatorInput
+  auditLogs?: Prisma.AuditLogCreateNestedManyWithoutUserInput
+  notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
+  supportTickets?: Prisma.SupportTicketCreateNestedManyWithoutUserInput
+  ticketResponses?: Prisma.SupportTicketResponseCreateNestedManyWithoutUserInput
+  chatMessages?: Prisma.ChatMessageCreateNestedManyWithoutUserInput
+  contactMessages?: Prisma.ContactMessageCreateNestedManyWithoutUserInput
+  communityGroups?: Prisma.CommunityGroupCreateNestedManyWithoutCreatorInput
+  communityMemberships?: Prisma.CommunityMemberCreateNestedManyWithoutUserInput
+  postReactions?: Prisma.PostReactionCreateNestedManyWithoutUserInput
+  giftPacksRedeemed?: Prisma.GiftPackCreateNestedManyWithoutRedeemedByInput
+  reminders?: Prisma.UserReminderCreateNestedManyWithoutUserInput
+}
+
+export type UserUncheckedCreateWithoutGiftPacksBoughtInput = {
+  id?: string
+  name?: string | null
+  email: string
+  emailVerified?: Date | string | null
+  image?: string | null
+  password?: string | null
+  username?: string | null
+  role?: string
+  plan?: string
+  qvapayId?: string | null
+  analysisLimit?: number
+  analysisUsed?: number
+  analysisResetAt?: Date | string | null
+  telegramId?: string | null
+  telegramTrialStartedAt?: Date | string | null
+  isTelegramPremiumActive?: boolean
+  latitude?: number | null
+  longitude?: number | null
+  currentStreak?: number
+  maxStreak?: number
+  lastCheckInDate?: Date | string | null
+  trialEndsAt?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
+  sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
+  analyses?: Prisma.SkinAnalysisUncheckedCreateNestedManyWithoutUserInput
+  analysisJobs?: Prisma.AnalysisJobUncheckedCreateNestedManyWithoutUserInput
+  payments?: Prisma.PaymentUncheckedCreateNestedManyWithoutUserInput
+  subscriptions?: Prisma.SubscriptionUncheckedCreateNestedManyWithoutUserInput
+  purchasePacks?: Prisma.PurchasePackUncheckedCreateNestedManyWithoutUserInput
+  usageRecords?: Prisma.UsageTrackingUncheckedCreateNestedManyWithoutUserInput
+  clinic?: Prisma.ClinicUncheckedCreateNestedOneWithoutOwnerInput
+  surveyFeedback?: Prisma.SurveyFeedbackUncheckedCreateNestedManyWithoutUserInput
+  communityPosts?: Prisma.CommunityPostUncheckedCreateNestedManyWithoutUserInput
+  comments?: Prisma.CommentUncheckedCreateNestedManyWithoutUserInput
+  skinDiary?: Prisma.SkinDiaryUncheckedCreateNestedManyWithoutUserInput
+  userChallenges?: Prisma.UserChallengeUncheckedCreateNestedManyWithoutUserInput
+  productReviews?: Prisma.ProductReviewUncheckedCreateNestedManyWithoutUserInput
+  referralsOwned?: Prisma.ReferralUncheckedCreateNestedManyWithoutReferrerInput
+  referralsReferred?: Prisma.ReferralUncheckedCreateNestedManyWithoutReferredInput
+  groupsOwned?: Prisma.GroupAnalyticsUncheckedCreateNestedManyWithoutReferrerInput
+  digitalPurchases?: Prisma.DigitalProductPurchaseUncheckedCreateNestedManyWithoutUserInput
+  affiliateClicks?: Prisma.AffiliateClickUncheckedCreateNestedManyWithoutUserInput
+  evolution?: Prisma.UserEvolutionUncheckedCreateNestedOneWithoutUserInput
+  checkIns?: Prisma.DailyCheckInUncheckedCreateNestedManyWithoutUserInput
+  transferPayments?: Prisma.TransferPaymentUncheckedCreateNestedManyWithoutUserInput
+  validatedTransfers?: Prisma.TransferPaymentUncheckedCreateNestedManyWithoutValidatorInput
+  activatedTransfers?: Prisma.TransferPaymentUncheckedCreateNestedManyWithoutActivatorInput
+  auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutUserInput
+  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
+  supportTickets?: Prisma.SupportTicketUncheckedCreateNestedManyWithoutUserInput
+  ticketResponses?: Prisma.SupportTicketResponseUncheckedCreateNestedManyWithoutUserInput
+  chatMessages?: Prisma.ChatMessageUncheckedCreateNestedManyWithoutUserInput
+  contactMessages?: Prisma.ContactMessageUncheckedCreateNestedManyWithoutUserInput
+  communityGroups?: Prisma.CommunityGroupUncheckedCreateNestedManyWithoutCreatorInput
+  communityMemberships?: Prisma.CommunityMemberUncheckedCreateNestedManyWithoutUserInput
+  postReactions?: Prisma.PostReactionUncheckedCreateNestedManyWithoutUserInput
+  giftPacksRedeemed?: Prisma.GiftPackUncheckedCreateNestedManyWithoutRedeemedByInput
+  reminders?: Prisma.UserReminderUncheckedCreateNestedManyWithoutUserInput
+}
+
+export type UserCreateOrConnectWithoutGiftPacksBoughtInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutGiftPacksBoughtInput, Prisma.UserUncheckedCreateWithoutGiftPacksBoughtInput>
+}
+
+export type UserCreateWithoutGiftPacksRedeemedInput = {
+  id?: string
+  name?: string | null
+  email: string
+  emailVerified?: Date | string | null
+  image?: string | null
+  password?: string | null
+  username?: string | null
+  role?: string
+  plan?: string
+  qvapayId?: string | null
+  analysisLimit?: number
+  analysisUsed?: number
+  analysisResetAt?: Date | string | null
+  telegramId?: string | null
+  telegramTrialStartedAt?: Date | string | null
+  isTelegramPremiumActive?: boolean
+  latitude?: number | null
+  longitude?: number | null
+  currentStreak?: number
+  maxStreak?: number
+  lastCheckInDate?: Date | string | null
+  trialEndsAt?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
+  sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
+  analyses?: Prisma.SkinAnalysisCreateNestedManyWithoutUserInput
+  analysisJobs?: Prisma.AnalysisJobCreateNestedManyWithoutUserInput
+  payments?: Prisma.PaymentCreateNestedManyWithoutUserInput
+  subscriptions?: Prisma.SubscriptionCreateNestedManyWithoutUserInput
+  purchasePacks?: Prisma.PurchasePackCreateNestedManyWithoutUserInput
+  usageRecords?: Prisma.UsageTrackingCreateNestedManyWithoutUserInput
+  clinic?: Prisma.ClinicCreateNestedOneWithoutOwnerInput
+  surveyFeedback?: Prisma.SurveyFeedbackCreateNestedManyWithoutUserInput
+  communityPosts?: Prisma.CommunityPostCreateNestedManyWithoutUserInput
+  comments?: Prisma.CommentCreateNestedManyWithoutUserInput
+  skinDiary?: Prisma.SkinDiaryCreateNestedManyWithoutUserInput
+  userChallenges?: Prisma.UserChallengeCreateNestedManyWithoutUserInput
+  productReviews?: Prisma.ProductReviewCreateNestedManyWithoutUserInput
+  referralsOwned?: Prisma.ReferralCreateNestedManyWithoutReferrerInput
+  referralsReferred?: Prisma.ReferralCreateNestedManyWithoutReferredInput
+  groupsOwned?: Prisma.GroupAnalyticsCreateNestedManyWithoutReferrerInput
+  digitalPurchases?: Prisma.DigitalProductPurchaseCreateNestedManyWithoutUserInput
+  affiliateClicks?: Prisma.AffiliateClickCreateNestedManyWithoutUserInput
+  evolution?: Prisma.UserEvolutionCreateNestedOneWithoutUserInput
+  checkIns?: Prisma.DailyCheckInCreateNestedManyWithoutUserInput
+  transferPayments?: Prisma.TransferPaymentCreateNestedManyWithoutUserInput
+  validatedTransfers?: Prisma.TransferPaymentCreateNestedManyWithoutValidatorInput
+  activatedTransfers?: Prisma.TransferPaymentCreateNestedManyWithoutActivatorInput
+  auditLogs?: Prisma.AuditLogCreateNestedManyWithoutUserInput
+  notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
+  supportTickets?: Prisma.SupportTicketCreateNestedManyWithoutUserInput
+  ticketResponses?: Prisma.SupportTicketResponseCreateNestedManyWithoutUserInput
+  chatMessages?: Prisma.ChatMessageCreateNestedManyWithoutUserInput
+  contactMessages?: Prisma.ContactMessageCreateNestedManyWithoutUserInput
+  communityGroups?: Prisma.CommunityGroupCreateNestedManyWithoutCreatorInput
+  communityMemberships?: Prisma.CommunityMemberCreateNestedManyWithoutUserInput
+  postReactions?: Prisma.PostReactionCreateNestedManyWithoutUserInput
+  giftPacksBought?: Prisma.GiftPackCreateNestedManyWithoutBuyerInput
+  reminders?: Prisma.UserReminderCreateNestedManyWithoutUserInput
+}
+
+export type UserUncheckedCreateWithoutGiftPacksRedeemedInput = {
+  id?: string
+  name?: string | null
+  email: string
+  emailVerified?: Date | string | null
+  image?: string | null
+  password?: string | null
+  username?: string | null
+  role?: string
+  plan?: string
+  qvapayId?: string | null
+  analysisLimit?: number
+  analysisUsed?: number
+  analysisResetAt?: Date | string | null
+  telegramId?: string | null
+  telegramTrialStartedAt?: Date | string | null
+  isTelegramPremiumActive?: boolean
+  latitude?: number | null
+  longitude?: number | null
+  currentStreak?: number
+  maxStreak?: number
+  lastCheckInDate?: Date | string | null
+  trialEndsAt?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
+  sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
+  analyses?: Prisma.SkinAnalysisUncheckedCreateNestedManyWithoutUserInput
+  analysisJobs?: Prisma.AnalysisJobUncheckedCreateNestedManyWithoutUserInput
+  payments?: Prisma.PaymentUncheckedCreateNestedManyWithoutUserInput
+  subscriptions?: Prisma.SubscriptionUncheckedCreateNestedManyWithoutUserInput
+  purchasePacks?: Prisma.PurchasePackUncheckedCreateNestedManyWithoutUserInput
+  usageRecords?: Prisma.UsageTrackingUncheckedCreateNestedManyWithoutUserInput
+  clinic?: Prisma.ClinicUncheckedCreateNestedOneWithoutOwnerInput
+  surveyFeedback?: Prisma.SurveyFeedbackUncheckedCreateNestedManyWithoutUserInput
+  communityPosts?: Prisma.CommunityPostUncheckedCreateNestedManyWithoutUserInput
+  comments?: Prisma.CommentUncheckedCreateNestedManyWithoutUserInput
+  skinDiary?: Prisma.SkinDiaryUncheckedCreateNestedManyWithoutUserInput
+  userChallenges?: Prisma.UserChallengeUncheckedCreateNestedManyWithoutUserInput
+  productReviews?: Prisma.ProductReviewUncheckedCreateNestedManyWithoutUserInput
+  referralsOwned?: Prisma.ReferralUncheckedCreateNestedManyWithoutReferrerInput
+  referralsReferred?: Prisma.ReferralUncheckedCreateNestedManyWithoutReferredInput
+  groupsOwned?: Prisma.GroupAnalyticsUncheckedCreateNestedManyWithoutReferrerInput
+  digitalPurchases?: Prisma.DigitalProductPurchaseUncheckedCreateNestedManyWithoutUserInput
+  affiliateClicks?: Prisma.AffiliateClickUncheckedCreateNestedManyWithoutUserInput
+  evolution?: Prisma.UserEvolutionUncheckedCreateNestedOneWithoutUserInput
+  checkIns?: Prisma.DailyCheckInUncheckedCreateNestedManyWithoutUserInput
+  transferPayments?: Prisma.TransferPaymentUncheckedCreateNestedManyWithoutUserInput
+  validatedTransfers?: Prisma.TransferPaymentUncheckedCreateNestedManyWithoutValidatorInput
+  activatedTransfers?: Prisma.TransferPaymentUncheckedCreateNestedManyWithoutActivatorInput
+  auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutUserInput
+  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
+  supportTickets?: Prisma.SupportTicketUncheckedCreateNestedManyWithoutUserInput
+  ticketResponses?: Prisma.SupportTicketResponseUncheckedCreateNestedManyWithoutUserInput
+  chatMessages?: Prisma.ChatMessageUncheckedCreateNestedManyWithoutUserInput
+  contactMessages?: Prisma.ContactMessageUncheckedCreateNestedManyWithoutUserInput
+  communityGroups?: Prisma.CommunityGroupUncheckedCreateNestedManyWithoutCreatorInput
+  communityMemberships?: Prisma.CommunityMemberUncheckedCreateNestedManyWithoutUserInput
+  postReactions?: Prisma.PostReactionUncheckedCreateNestedManyWithoutUserInput
+  giftPacksBought?: Prisma.GiftPackUncheckedCreateNestedManyWithoutBuyerInput
+  reminders?: Prisma.UserReminderUncheckedCreateNestedManyWithoutUserInput
+}
+
+export type UserCreateOrConnectWithoutGiftPacksRedeemedInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutGiftPacksRedeemedInput, Prisma.UserUncheckedCreateWithoutGiftPacksRedeemedInput>
+}
+
+export type UserUpsertWithoutGiftPacksBoughtInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutGiftPacksBoughtInput, Prisma.UserUncheckedUpdateWithoutGiftPacksBoughtInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutGiftPacksBoughtInput, Prisma.UserUncheckedCreateWithoutGiftPacksBoughtInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutGiftPacksBoughtInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutGiftPacksBoughtInput, Prisma.UserUncheckedUpdateWithoutGiftPacksBoughtInput>
+}
+
+export type UserUpdateWithoutGiftPacksBoughtInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  emailVerified?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.StringFieldUpdateOperationsInput | string
+  plan?: Prisma.StringFieldUpdateOperationsInput | string
+  qvapayId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  analysisLimit?: Prisma.IntFieldUpdateOperationsInput | number
+  analysisUsed?: Prisma.IntFieldUpdateOperationsInput | number
+  analysisResetAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  telegramId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  telegramTrialStartedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  isTelegramPremiumActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  latitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  longitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  currentStreak?: Prisma.IntFieldUpdateOperationsInput | number
+  maxStreak?: Prisma.IntFieldUpdateOperationsInput | number
+  lastCheckInDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  trialEndsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
+  sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
+  analyses?: Prisma.SkinAnalysisUpdateManyWithoutUserNestedInput
+  analysisJobs?: Prisma.AnalysisJobUpdateManyWithoutUserNestedInput
+  payments?: Prisma.PaymentUpdateManyWithoutUserNestedInput
+  subscriptions?: Prisma.SubscriptionUpdateManyWithoutUserNestedInput
+  purchasePacks?: Prisma.PurchasePackUpdateManyWithoutUserNestedInput
+  usageRecords?: Prisma.UsageTrackingUpdateManyWithoutUserNestedInput
+  clinic?: Prisma.ClinicUpdateOneWithoutOwnerNestedInput
+  surveyFeedback?: Prisma.SurveyFeedbackUpdateManyWithoutUserNestedInput
+  communityPosts?: Prisma.CommunityPostUpdateManyWithoutUserNestedInput
+  comments?: Prisma.CommentUpdateManyWithoutUserNestedInput
+  skinDiary?: Prisma.SkinDiaryUpdateManyWithoutUserNestedInput
+  userChallenges?: Prisma.UserChallengeUpdateManyWithoutUserNestedInput
+  productReviews?: Prisma.ProductReviewUpdateManyWithoutUserNestedInput
+  referralsOwned?: Prisma.ReferralUpdateManyWithoutReferrerNestedInput
+  referralsReferred?: Prisma.ReferralUpdateManyWithoutReferredNestedInput
+  groupsOwned?: Prisma.GroupAnalyticsUpdateManyWithoutReferrerNestedInput
+  digitalPurchases?: Prisma.DigitalProductPurchaseUpdateManyWithoutUserNestedInput
+  affiliateClicks?: Prisma.AffiliateClickUpdateManyWithoutUserNestedInput
+  evolution?: Prisma.UserEvolutionUpdateOneWithoutUserNestedInput
+  checkIns?: Prisma.DailyCheckInUpdateManyWithoutUserNestedInput
+  transferPayments?: Prisma.TransferPaymentUpdateManyWithoutUserNestedInput
+  validatedTransfers?: Prisma.TransferPaymentUpdateManyWithoutValidatorNestedInput
+  activatedTransfers?: Prisma.TransferPaymentUpdateManyWithoutActivatorNestedInput
+  auditLogs?: Prisma.AuditLogUpdateManyWithoutUserNestedInput
+  notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
+  supportTickets?: Prisma.SupportTicketUpdateManyWithoutUserNestedInput
+  ticketResponses?: Prisma.SupportTicketResponseUpdateManyWithoutUserNestedInput
+  chatMessages?: Prisma.ChatMessageUpdateManyWithoutUserNestedInput
+  contactMessages?: Prisma.ContactMessageUpdateManyWithoutUserNestedInput
+  communityGroups?: Prisma.CommunityGroupUpdateManyWithoutCreatorNestedInput
+  communityMemberships?: Prisma.CommunityMemberUpdateManyWithoutUserNestedInput
+  postReactions?: Prisma.PostReactionUpdateManyWithoutUserNestedInput
+  giftPacksRedeemed?: Prisma.GiftPackUpdateManyWithoutRedeemedByNestedInput
+  reminders?: Prisma.UserReminderUpdateManyWithoutUserNestedInput
+}
+
+export type UserUncheckedUpdateWithoutGiftPacksBoughtInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  emailVerified?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.StringFieldUpdateOperationsInput | string
+  plan?: Prisma.StringFieldUpdateOperationsInput | string
+  qvapayId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  analysisLimit?: Prisma.IntFieldUpdateOperationsInput | number
+  analysisUsed?: Prisma.IntFieldUpdateOperationsInput | number
+  analysisResetAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  telegramId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  telegramTrialStartedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  isTelegramPremiumActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  latitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  longitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  currentStreak?: Prisma.IntFieldUpdateOperationsInput | number
+  maxStreak?: Prisma.IntFieldUpdateOperationsInput | number
+  lastCheckInDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  trialEndsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
+  sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
+  analyses?: Prisma.SkinAnalysisUncheckedUpdateManyWithoutUserNestedInput
+  analysisJobs?: Prisma.AnalysisJobUncheckedUpdateManyWithoutUserNestedInput
+  payments?: Prisma.PaymentUncheckedUpdateManyWithoutUserNestedInput
+  subscriptions?: Prisma.SubscriptionUncheckedUpdateManyWithoutUserNestedInput
+  purchasePacks?: Prisma.PurchasePackUncheckedUpdateManyWithoutUserNestedInput
+  usageRecords?: Prisma.UsageTrackingUncheckedUpdateManyWithoutUserNestedInput
+  clinic?: Prisma.ClinicUncheckedUpdateOneWithoutOwnerNestedInput
+  surveyFeedback?: Prisma.SurveyFeedbackUncheckedUpdateManyWithoutUserNestedInput
+  communityPosts?: Prisma.CommunityPostUncheckedUpdateManyWithoutUserNestedInput
+  comments?: Prisma.CommentUncheckedUpdateManyWithoutUserNestedInput
+  skinDiary?: Prisma.SkinDiaryUncheckedUpdateManyWithoutUserNestedInput
+  userChallenges?: Prisma.UserChallengeUncheckedUpdateManyWithoutUserNestedInput
+  productReviews?: Prisma.ProductReviewUncheckedUpdateManyWithoutUserNestedInput
+  referralsOwned?: Prisma.ReferralUncheckedUpdateManyWithoutReferrerNestedInput
+  referralsReferred?: Prisma.ReferralUncheckedUpdateManyWithoutReferredNestedInput
+  groupsOwned?: Prisma.GroupAnalyticsUncheckedUpdateManyWithoutReferrerNestedInput
+  digitalPurchases?: Prisma.DigitalProductPurchaseUncheckedUpdateManyWithoutUserNestedInput
+  affiliateClicks?: Prisma.AffiliateClickUncheckedUpdateManyWithoutUserNestedInput
+  evolution?: Prisma.UserEvolutionUncheckedUpdateOneWithoutUserNestedInput
+  checkIns?: Prisma.DailyCheckInUncheckedUpdateManyWithoutUserNestedInput
+  transferPayments?: Prisma.TransferPaymentUncheckedUpdateManyWithoutUserNestedInput
+  validatedTransfers?: Prisma.TransferPaymentUncheckedUpdateManyWithoutValidatorNestedInput
+  activatedTransfers?: Prisma.TransferPaymentUncheckedUpdateManyWithoutActivatorNestedInput
+  auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutUserNestedInput
+  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
+  supportTickets?: Prisma.SupportTicketUncheckedUpdateManyWithoutUserNestedInput
+  ticketResponses?: Prisma.SupportTicketResponseUncheckedUpdateManyWithoutUserNestedInput
+  chatMessages?: Prisma.ChatMessageUncheckedUpdateManyWithoutUserNestedInput
+  contactMessages?: Prisma.ContactMessageUncheckedUpdateManyWithoutUserNestedInput
+  communityGroups?: Prisma.CommunityGroupUncheckedUpdateManyWithoutCreatorNestedInput
+  communityMemberships?: Prisma.CommunityMemberUncheckedUpdateManyWithoutUserNestedInput
+  postReactions?: Prisma.PostReactionUncheckedUpdateManyWithoutUserNestedInput
+  giftPacksRedeemed?: Prisma.GiftPackUncheckedUpdateManyWithoutRedeemedByNestedInput
+  reminders?: Prisma.UserReminderUncheckedUpdateManyWithoutUserNestedInput
+}
+
+export type UserUpsertWithoutGiftPacksRedeemedInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutGiftPacksRedeemedInput, Prisma.UserUncheckedUpdateWithoutGiftPacksRedeemedInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutGiftPacksRedeemedInput, Prisma.UserUncheckedCreateWithoutGiftPacksRedeemedInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutGiftPacksRedeemedInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutGiftPacksRedeemedInput, Prisma.UserUncheckedUpdateWithoutGiftPacksRedeemedInput>
+}
+
+export type UserUpdateWithoutGiftPacksRedeemedInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  emailVerified?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.StringFieldUpdateOperationsInput | string
+  plan?: Prisma.StringFieldUpdateOperationsInput | string
+  qvapayId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  analysisLimit?: Prisma.IntFieldUpdateOperationsInput | number
+  analysisUsed?: Prisma.IntFieldUpdateOperationsInput | number
+  analysisResetAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  telegramId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  telegramTrialStartedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  isTelegramPremiumActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  latitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  longitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  currentStreak?: Prisma.IntFieldUpdateOperationsInput | number
+  maxStreak?: Prisma.IntFieldUpdateOperationsInput | number
+  lastCheckInDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  trialEndsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
+  sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
+  analyses?: Prisma.SkinAnalysisUpdateManyWithoutUserNestedInput
+  analysisJobs?: Prisma.AnalysisJobUpdateManyWithoutUserNestedInput
+  payments?: Prisma.PaymentUpdateManyWithoutUserNestedInput
+  subscriptions?: Prisma.SubscriptionUpdateManyWithoutUserNestedInput
+  purchasePacks?: Prisma.PurchasePackUpdateManyWithoutUserNestedInput
+  usageRecords?: Prisma.UsageTrackingUpdateManyWithoutUserNestedInput
+  clinic?: Prisma.ClinicUpdateOneWithoutOwnerNestedInput
+  surveyFeedback?: Prisma.SurveyFeedbackUpdateManyWithoutUserNestedInput
+  communityPosts?: Prisma.CommunityPostUpdateManyWithoutUserNestedInput
+  comments?: Prisma.CommentUpdateManyWithoutUserNestedInput
+  skinDiary?: Prisma.SkinDiaryUpdateManyWithoutUserNestedInput
+  userChallenges?: Prisma.UserChallengeUpdateManyWithoutUserNestedInput
+  productReviews?: Prisma.ProductReviewUpdateManyWithoutUserNestedInput
+  referralsOwned?: Prisma.ReferralUpdateManyWithoutReferrerNestedInput
+  referralsReferred?: Prisma.ReferralUpdateManyWithoutReferredNestedInput
+  groupsOwned?: Prisma.GroupAnalyticsUpdateManyWithoutReferrerNestedInput
+  digitalPurchases?: Prisma.DigitalProductPurchaseUpdateManyWithoutUserNestedInput
+  affiliateClicks?: Prisma.AffiliateClickUpdateManyWithoutUserNestedInput
+  evolution?: Prisma.UserEvolutionUpdateOneWithoutUserNestedInput
+  checkIns?: Prisma.DailyCheckInUpdateManyWithoutUserNestedInput
+  transferPayments?: Prisma.TransferPaymentUpdateManyWithoutUserNestedInput
+  validatedTransfers?: Prisma.TransferPaymentUpdateManyWithoutValidatorNestedInput
+  activatedTransfers?: Prisma.TransferPaymentUpdateManyWithoutActivatorNestedInput
+  auditLogs?: Prisma.AuditLogUpdateManyWithoutUserNestedInput
+  notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
+  supportTickets?: Prisma.SupportTicketUpdateManyWithoutUserNestedInput
+  ticketResponses?: Prisma.SupportTicketResponseUpdateManyWithoutUserNestedInput
+  chatMessages?: Prisma.ChatMessageUpdateManyWithoutUserNestedInput
+  contactMessages?: Prisma.ContactMessageUpdateManyWithoutUserNestedInput
+  communityGroups?: Prisma.CommunityGroupUpdateManyWithoutCreatorNestedInput
+  communityMemberships?: Prisma.CommunityMemberUpdateManyWithoutUserNestedInput
+  postReactions?: Prisma.PostReactionUpdateManyWithoutUserNestedInput
+  giftPacksBought?: Prisma.GiftPackUpdateManyWithoutBuyerNestedInput
+  reminders?: Prisma.UserReminderUpdateManyWithoutUserNestedInput
+}
+
+export type UserUncheckedUpdateWithoutGiftPacksRedeemedInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  emailVerified?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.StringFieldUpdateOperationsInput | string
+  plan?: Prisma.StringFieldUpdateOperationsInput | string
+  qvapayId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  analysisLimit?: Prisma.IntFieldUpdateOperationsInput | number
+  analysisUsed?: Prisma.IntFieldUpdateOperationsInput | number
+  analysisResetAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  telegramId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  telegramTrialStartedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  isTelegramPremiumActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  latitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  longitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  currentStreak?: Prisma.IntFieldUpdateOperationsInput | number
+  maxStreak?: Prisma.IntFieldUpdateOperationsInput | number
+  lastCheckInDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  trialEndsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
+  sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
+  analyses?: Prisma.SkinAnalysisUncheckedUpdateManyWithoutUserNestedInput
+  analysisJobs?: Prisma.AnalysisJobUncheckedUpdateManyWithoutUserNestedInput
+  payments?: Prisma.PaymentUncheckedUpdateManyWithoutUserNestedInput
+  subscriptions?: Prisma.SubscriptionUncheckedUpdateManyWithoutUserNestedInput
+  purchasePacks?: Prisma.PurchasePackUncheckedUpdateManyWithoutUserNestedInput
+  usageRecords?: Prisma.UsageTrackingUncheckedUpdateManyWithoutUserNestedInput
+  clinic?: Prisma.ClinicUncheckedUpdateOneWithoutOwnerNestedInput
+  surveyFeedback?: Prisma.SurveyFeedbackUncheckedUpdateManyWithoutUserNestedInput
+  communityPosts?: Prisma.CommunityPostUncheckedUpdateManyWithoutUserNestedInput
+  comments?: Prisma.CommentUncheckedUpdateManyWithoutUserNestedInput
+  skinDiary?: Prisma.SkinDiaryUncheckedUpdateManyWithoutUserNestedInput
+  userChallenges?: Prisma.UserChallengeUncheckedUpdateManyWithoutUserNestedInput
+  productReviews?: Prisma.ProductReviewUncheckedUpdateManyWithoutUserNestedInput
+  referralsOwned?: Prisma.ReferralUncheckedUpdateManyWithoutReferrerNestedInput
+  referralsReferred?: Prisma.ReferralUncheckedUpdateManyWithoutReferredNestedInput
+  groupsOwned?: Prisma.GroupAnalyticsUncheckedUpdateManyWithoutReferrerNestedInput
+  digitalPurchases?: Prisma.DigitalProductPurchaseUncheckedUpdateManyWithoutUserNestedInput
+  affiliateClicks?: Prisma.AffiliateClickUncheckedUpdateManyWithoutUserNestedInput
+  evolution?: Prisma.UserEvolutionUncheckedUpdateOneWithoutUserNestedInput
+  checkIns?: Prisma.DailyCheckInUncheckedUpdateManyWithoutUserNestedInput
+  transferPayments?: Prisma.TransferPaymentUncheckedUpdateManyWithoutUserNestedInput
+  validatedTransfers?: Prisma.TransferPaymentUncheckedUpdateManyWithoutValidatorNestedInput
+  activatedTransfers?: Prisma.TransferPaymentUncheckedUpdateManyWithoutActivatorNestedInput
+  auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutUserNestedInput
+  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
+  supportTickets?: Prisma.SupportTicketUncheckedUpdateManyWithoutUserNestedInput
+  ticketResponses?: Prisma.SupportTicketResponseUncheckedUpdateManyWithoutUserNestedInput
+  chatMessages?: Prisma.ChatMessageUncheckedUpdateManyWithoutUserNestedInput
+  contactMessages?: Prisma.ContactMessageUncheckedUpdateManyWithoutUserNestedInput
+  communityGroups?: Prisma.CommunityGroupUncheckedUpdateManyWithoutCreatorNestedInput
+  communityMemberships?: Prisma.CommunityMemberUncheckedUpdateManyWithoutUserNestedInput
+  postReactions?: Prisma.PostReactionUncheckedUpdateManyWithoutUserNestedInput
+  giftPacksBought?: Prisma.GiftPackUncheckedUpdateManyWithoutBuyerNestedInput
+  reminders?: Prisma.UserReminderUncheckedUpdateManyWithoutUserNestedInput
+}
+
+export type UserCreateWithoutRemindersInput = {
+  id?: string
+  name?: string | null
+  email: string
+  emailVerified?: Date | string | null
+  image?: string | null
+  password?: string | null
+  username?: string | null
+  role?: string
+  plan?: string
+  qvapayId?: string | null
+  analysisLimit?: number
+  analysisUsed?: number
+  analysisResetAt?: Date | string | null
+  telegramId?: string | null
+  telegramTrialStartedAt?: Date | string | null
+  isTelegramPremiumActive?: boolean
+  latitude?: number | null
+  longitude?: number | null
+  currentStreak?: number
+  maxStreak?: number
+  lastCheckInDate?: Date | string | null
+  trialEndsAt?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
+  sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
+  analyses?: Prisma.SkinAnalysisCreateNestedManyWithoutUserInput
+  analysisJobs?: Prisma.AnalysisJobCreateNestedManyWithoutUserInput
+  payments?: Prisma.PaymentCreateNestedManyWithoutUserInput
+  subscriptions?: Prisma.SubscriptionCreateNestedManyWithoutUserInput
+  purchasePacks?: Prisma.PurchasePackCreateNestedManyWithoutUserInput
+  usageRecords?: Prisma.UsageTrackingCreateNestedManyWithoutUserInput
+  clinic?: Prisma.ClinicCreateNestedOneWithoutOwnerInput
+  surveyFeedback?: Prisma.SurveyFeedbackCreateNestedManyWithoutUserInput
+  communityPosts?: Prisma.CommunityPostCreateNestedManyWithoutUserInput
+  comments?: Prisma.CommentCreateNestedManyWithoutUserInput
+  skinDiary?: Prisma.SkinDiaryCreateNestedManyWithoutUserInput
+  userChallenges?: Prisma.UserChallengeCreateNestedManyWithoutUserInput
+  productReviews?: Prisma.ProductReviewCreateNestedManyWithoutUserInput
+  referralsOwned?: Prisma.ReferralCreateNestedManyWithoutReferrerInput
+  referralsReferred?: Prisma.ReferralCreateNestedManyWithoutReferredInput
+  groupsOwned?: Prisma.GroupAnalyticsCreateNestedManyWithoutReferrerInput
+  digitalPurchases?: Prisma.DigitalProductPurchaseCreateNestedManyWithoutUserInput
+  affiliateClicks?: Prisma.AffiliateClickCreateNestedManyWithoutUserInput
+  evolution?: Prisma.UserEvolutionCreateNestedOneWithoutUserInput
+  checkIns?: Prisma.DailyCheckInCreateNestedManyWithoutUserInput
+  transferPayments?: Prisma.TransferPaymentCreateNestedManyWithoutUserInput
+  validatedTransfers?: Prisma.TransferPaymentCreateNestedManyWithoutValidatorInput
+  activatedTransfers?: Prisma.TransferPaymentCreateNestedManyWithoutActivatorInput
+  auditLogs?: Prisma.AuditLogCreateNestedManyWithoutUserInput
+  notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
+  supportTickets?: Prisma.SupportTicketCreateNestedManyWithoutUserInput
+  ticketResponses?: Prisma.SupportTicketResponseCreateNestedManyWithoutUserInput
+  chatMessages?: Prisma.ChatMessageCreateNestedManyWithoutUserInput
+  contactMessages?: Prisma.ContactMessageCreateNestedManyWithoutUserInput
+  communityGroups?: Prisma.CommunityGroupCreateNestedManyWithoutCreatorInput
+  communityMemberships?: Prisma.CommunityMemberCreateNestedManyWithoutUserInput
+  postReactions?: Prisma.PostReactionCreateNestedManyWithoutUserInput
+  giftPacksBought?: Prisma.GiftPackCreateNestedManyWithoutBuyerInput
+  giftPacksRedeemed?: Prisma.GiftPackCreateNestedManyWithoutRedeemedByInput
+}
+
+export type UserUncheckedCreateWithoutRemindersInput = {
+  id?: string
+  name?: string | null
+  email: string
+  emailVerified?: Date | string | null
+  image?: string | null
+  password?: string | null
+  username?: string | null
+  role?: string
+  plan?: string
+  qvapayId?: string | null
+  analysisLimit?: number
+  analysisUsed?: number
+  analysisResetAt?: Date | string | null
+  telegramId?: string | null
+  telegramTrialStartedAt?: Date | string | null
+  isTelegramPremiumActive?: boolean
+  latitude?: number | null
+  longitude?: number | null
+  currentStreak?: number
+  maxStreak?: number
+  lastCheckInDate?: Date | string | null
+  trialEndsAt?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
+  sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
+  analyses?: Prisma.SkinAnalysisUncheckedCreateNestedManyWithoutUserInput
+  analysisJobs?: Prisma.AnalysisJobUncheckedCreateNestedManyWithoutUserInput
+  payments?: Prisma.PaymentUncheckedCreateNestedManyWithoutUserInput
+  subscriptions?: Prisma.SubscriptionUncheckedCreateNestedManyWithoutUserInput
+  purchasePacks?: Prisma.PurchasePackUncheckedCreateNestedManyWithoutUserInput
+  usageRecords?: Prisma.UsageTrackingUncheckedCreateNestedManyWithoutUserInput
+  clinic?: Prisma.ClinicUncheckedCreateNestedOneWithoutOwnerInput
+  surveyFeedback?: Prisma.SurveyFeedbackUncheckedCreateNestedManyWithoutUserInput
+  communityPosts?: Prisma.CommunityPostUncheckedCreateNestedManyWithoutUserInput
+  comments?: Prisma.CommentUncheckedCreateNestedManyWithoutUserInput
+  skinDiary?: Prisma.SkinDiaryUncheckedCreateNestedManyWithoutUserInput
+  userChallenges?: Prisma.UserChallengeUncheckedCreateNestedManyWithoutUserInput
+  productReviews?: Prisma.ProductReviewUncheckedCreateNestedManyWithoutUserInput
+  referralsOwned?: Prisma.ReferralUncheckedCreateNestedManyWithoutReferrerInput
+  referralsReferred?: Prisma.ReferralUncheckedCreateNestedManyWithoutReferredInput
+  groupsOwned?: Prisma.GroupAnalyticsUncheckedCreateNestedManyWithoutReferrerInput
+  digitalPurchases?: Prisma.DigitalProductPurchaseUncheckedCreateNestedManyWithoutUserInput
+  affiliateClicks?: Prisma.AffiliateClickUncheckedCreateNestedManyWithoutUserInput
+  evolution?: Prisma.UserEvolutionUncheckedCreateNestedOneWithoutUserInput
+  checkIns?: Prisma.DailyCheckInUncheckedCreateNestedManyWithoutUserInput
+  transferPayments?: Prisma.TransferPaymentUncheckedCreateNestedManyWithoutUserInput
+  validatedTransfers?: Prisma.TransferPaymentUncheckedCreateNestedManyWithoutValidatorInput
+  activatedTransfers?: Prisma.TransferPaymentUncheckedCreateNestedManyWithoutActivatorInput
+  auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutUserInput
+  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
+  supportTickets?: Prisma.SupportTicketUncheckedCreateNestedManyWithoutUserInput
+  ticketResponses?: Prisma.SupportTicketResponseUncheckedCreateNestedManyWithoutUserInput
+  chatMessages?: Prisma.ChatMessageUncheckedCreateNestedManyWithoutUserInput
+  contactMessages?: Prisma.ContactMessageUncheckedCreateNestedManyWithoutUserInput
+  communityGroups?: Prisma.CommunityGroupUncheckedCreateNestedManyWithoutCreatorInput
+  communityMemberships?: Prisma.CommunityMemberUncheckedCreateNestedManyWithoutUserInput
+  postReactions?: Prisma.PostReactionUncheckedCreateNestedManyWithoutUserInput
+  giftPacksBought?: Prisma.GiftPackUncheckedCreateNestedManyWithoutBuyerInput
+  giftPacksRedeemed?: Prisma.GiftPackUncheckedCreateNestedManyWithoutRedeemedByInput
+}
+
+export type UserCreateOrConnectWithoutRemindersInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutRemindersInput, Prisma.UserUncheckedCreateWithoutRemindersInput>
+}
+
+export type UserUpsertWithoutRemindersInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutRemindersInput, Prisma.UserUncheckedUpdateWithoutRemindersInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutRemindersInput, Prisma.UserUncheckedCreateWithoutRemindersInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutRemindersInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutRemindersInput, Prisma.UserUncheckedUpdateWithoutRemindersInput>
+}
+
+export type UserUpdateWithoutRemindersInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  emailVerified?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.StringFieldUpdateOperationsInput | string
+  plan?: Prisma.StringFieldUpdateOperationsInput | string
+  qvapayId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  analysisLimit?: Prisma.IntFieldUpdateOperationsInput | number
+  analysisUsed?: Prisma.IntFieldUpdateOperationsInput | number
+  analysisResetAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  telegramId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  telegramTrialStartedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  isTelegramPremiumActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  latitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  longitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  currentStreak?: Prisma.IntFieldUpdateOperationsInput | number
+  maxStreak?: Prisma.IntFieldUpdateOperationsInput | number
+  lastCheckInDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  trialEndsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
+  sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
+  analyses?: Prisma.SkinAnalysisUpdateManyWithoutUserNestedInput
+  analysisJobs?: Prisma.AnalysisJobUpdateManyWithoutUserNestedInput
+  payments?: Prisma.PaymentUpdateManyWithoutUserNestedInput
+  subscriptions?: Prisma.SubscriptionUpdateManyWithoutUserNestedInput
+  purchasePacks?: Prisma.PurchasePackUpdateManyWithoutUserNestedInput
+  usageRecords?: Prisma.UsageTrackingUpdateManyWithoutUserNestedInput
+  clinic?: Prisma.ClinicUpdateOneWithoutOwnerNestedInput
+  surveyFeedback?: Prisma.SurveyFeedbackUpdateManyWithoutUserNestedInput
+  communityPosts?: Prisma.CommunityPostUpdateManyWithoutUserNestedInput
+  comments?: Prisma.CommentUpdateManyWithoutUserNestedInput
+  skinDiary?: Prisma.SkinDiaryUpdateManyWithoutUserNestedInput
+  userChallenges?: Prisma.UserChallengeUpdateManyWithoutUserNestedInput
+  productReviews?: Prisma.ProductReviewUpdateManyWithoutUserNestedInput
+  referralsOwned?: Prisma.ReferralUpdateManyWithoutReferrerNestedInput
+  referralsReferred?: Prisma.ReferralUpdateManyWithoutReferredNestedInput
+  groupsOwned?: Prisma.GroupAnalyticsUpdateManyWithoutReferrerNestedInput
+  digitalPurchases?: Prisma.DigitalProductPurchaseUpdateManyWithoutUserNestedInput
+  affiliateClicks?: Prisma.AffiliateClickUpdateManyWithoutUserNestedInput
+  evolution?: Prisma.UserEvolutionUpdateOneWithoutUserNestedInput
+  checkIns?: Prisma.DailyCheckInUpdateManyWithoutUserNestedInput
+  transferPayments?: Prisma.TransferPaymentUpdateManyWithoutUserNestedInput
+  validatedTransfers?: Prisma.TransferPaymentUpdateManyWithoutValidatorNestedInput
+  activatedTransfers?: Prisma.TransferPaymentUpdateManyWithoutActivatorNestedInput
+  auditLogs?: Prisma.AuditLogUpdateManyWithoutUserNestedInput
+  notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
+  supportTickets?: Prisma.SupportTicketUpdateManyWithoutUserNestedInput
+  ticketResponses?: Prisma.SupportTicketResponseUpdateManyWithoutUserNestedInput
+  chatMessages?: Prisma.ChatMessageUpdateManyWithoutUserNestedInput
+  contactMessages?: Prisma.ContactMessageUpdateManyWithoutUserNestedInput
+  communityGroups?: Prisma.CommunityGroupUpdateManyWithoutCreatorNestedInput
+  communityMemberships?: Prisma.CommunityMemberUpdateManyWithoutUserNestedInput
+  postReactions?: Prisma.PostReactionUpdateManyWithoutUserNestedInput
+  giftPacksBought?: Prisma.GiftPackUpdateManyWithoutBuyerNestedInput
+  giftPacksRedeemed?: Prisma.GiftPackUpdateManyWithoutRedeemedByNestedInput
+}
+
+export type UserUncheckedUpdateWithoutRemindersInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  emailVerified?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.StringFieldUpdateOperationsInput | string
+  plan?: Prisma.StringFieldUpdateOperationsInput | string
+  qvapayId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  analysisLimit?: Prisma.IntFieldUpdateOperationsInput | number
+  analysisUsed?: Prisma.IntFieldUpdateOperationsInput | number
+  analysisResetAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  telegramId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  telegramTrialStartedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  isTelegramPremiumActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  latitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  longitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  currentStreak?: Prisma.IntFieldUpdateOperationsInput | number
+  maxStreak?: Prisma.IntFieldUpdateOperationsInput | number
+  lastCheckInDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  trialEndsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
+  sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
+  analyses?: Prisma.SkinAnalysisUncheckedUpdateManyWithoutUserNestedInput
+  analysisJobs?: Prisma.AnalysisJobUncheckedUpdateManyWithoutUserNestedInput
+  payments?: Prisma.PaymentUncheckedUpdateManyWithoutUserNestedInput
+  subscriptions?: Prisma.SubscriptionUncheckedUpdateManyWithoutUserNestedInput
+  purchasePacks?: Prisma.PurchasePackUncheckedUpdateManyWithoutUserNestedInput
+  usageRecords?: Prisma.UsageTrackingUncheckedUpdateManyWithoutUserNestedInput
+  clinic?: Prisma.ClinicUncheckedUpdateOneWithoutOwnerNestedInput
+  surveyFeedback?: Prisma.SurveyFeedbackUncheckedUpdateManyWithoutUserNestedInput
+  communityPosts?: Prisma.CommunityPostUncheckedUpdateManyWithoutUserNestedInput
+  comments?: Prisma.CommentUncheckedUpdateManyWithoutUserNestedInput
+  skinDiary?: Prisma.SkinDiaryUncheckedUpdateManyWithoutUserNestedInput
+  userChallenges?: Prisma.UserChallengeUncheckedUpdateManyWithoutUserNestedInput
+  productReviews?: Prisma.ProductReviewUncheckedUpdateManyWithoutUserNestedInput
+  referralsOwned?: Prisma.ReferralUncheckedUpdateManyWithoutReferrerNestedInput
+  referralsReferred?: Prisma.ReferralUncheckedUpdateManyWithoutReferredNestedInput
+  groupsOwned?: Prisma.GroupAnalyticsUncheckedUpdateManyWithoutReferrerNestedInput
+  digitalPurchases?: Prisma.DigitalProductPurchaseUncheckedUpdateManyWithoutUserNestedInput
+  affiliateClicks?: Prisma.AffiliateClickUncheckedUpdateManyWithoutUserNestedInput
+  evolution?: Prisma.UserEvolutionUncheckedUpdateOneWithoutUserNestedInput
+  checkIns?: Prisma.DailyCheckInUncheckedUpdateManyWithoutUserNestedInput
+  transferPayments?: Prisma.TransferPaymentUncheckedUpdateManyWithoutUserNestedInput
+  validatedTransfers?: Prisma.TransferPaymentUncheckedUpdateManyWithoutValidatorNestedInput
+  activatedTransfers?: Prisma.TransferPaymentUncheckedUpdateManyWithoutActivatorNestedInput
+  auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutUserNestedInput
+  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
+  supportTickets?: Prisma.SupportTicketUncheckedUpdateManyWithoutUserNestedInput
+  ticketResponses?: Prisma.SupportTicketResponseUncheckedUpdateManyWithoutUserNestedInput
+  chatMessages?: Prisma.ChatMessageUncheckedUpdateManyWithoutUserNestedInput
+  contactMessages?: Prisma.ContactMessageUncheckedUpdateManyWithoutUserNestedInput
+  communityGroups?: Prisma.CommunityGroupUncheckedUpdateManyWithoutCreatorNestedInput
+  communityMemberships?: Prisma.CommunityMemberUncheckedUpdateManyWithoutUserNestedInput
+  postReactions?: Prisma.PostReactionUncheckedUpdateManyWithoutUserNestedInput
+  giftPacksBought?: Prisma.GiftPackUncheckedUpdateManyWithoutBuyerNestedInput
+  giftPacksRedeemed?: Prisma.GiftPackUncheckedUpdateManyWithoutRedeemedByNestedInput
 }
 
 
@@ -10157,6 +11592,9 @@ export type UserCountOutputType = {
   communityGroups: number
   communityMemberships: number
   postReactions: number
+  giftPacksBought: number
+  giftPacksRedeemed: number
+  reminders: number
 }
 
 export type UserCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -10192,6 +11630,9 @@ export type UserCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.I
   communityGroups?: boolean | UserCountOutputTypeCountCommunityGroupsArgs
   communityMemberships?: boolean | UserCountOutputTypeCountCommunityMembershipsArgs
   postReactions?: boolean | UserCountOutputTypeCountPostReactionsArgs
+  giftPacksBought?: boolean | UserCountOutputTypeCountGiftPacksBoughtArgs
+  giftPacksRedeemed?: boolean | UserCountOutputTypeCountGiftPacksRedeemedArgs
+  reminders?: boolean | UserCountOutputTypeCountRemindersArgs
 }
 
 /**
@@ -10428,6 +11869,27 @@ export type UserCountOutputTypeCountPostReactionsArgs<ExtArgs extends runtime.Ty
   where?: Prisma.PostReactionWhereInput
 }
 
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountGiftPacksBoughtArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.GiftPackWhereInput
+}
+
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountGiftPacksRedeemedArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.GiftPackWhereInput
+}
+
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountRemindersArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.UserReminderWhereInput
+}
+
 
 export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -10451,6 +11913,7 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   currentStreak?: boolean
   maxStreak?: boolean
   lastCheckInDate?: boolean
+  trialEndsAt?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   accounts?: boolean | Prisma.User$accountsArgs<ExtArgs>
@@ -10487,6 +11950,9 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   communityGroups?: boolean | Prisma.User$communityGroupsArgs<ExtArgs>
   communityMemberships?: boolean | Prisma.User$communityMembershipsArgs<ExtArgs>
   postReactions?: boolean | Prisma.User$postReactionsArgs<ExtArgs>
+  giftPacksBought?: boolean | Prisma.User$giftPacksBoughtArgs<ExtArgs>
+  giftPacksRedeemed?: boolean | Prisma.User$giftPacksRedeemedArgs<ExtArgs>
+  reminders?: boolean | Prisma.User$remindersArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["user"]>
 
@@ -10512,6 +11978,7 @@ export type UserSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   currentStreak?: boolean
   maxStreak?: boolean
   lastCheckInDate?: boolean
+  trialEndsAt?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }, ExtArgs["result"]["user"]>
@@ -10538,6 +12005,7 @@ export type UserSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   currentStreak?: boolean
   maxStreak?: boolean
   lastCheckInDate?: boolean
+  trialEndsAt?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }, ExtArgs["result"]["user"]>
@@ -10564,11 +12032,12 @@ export type UserSelectScalar = {
   currentStreak?: boolean
   maxStreak?: boolean
   lastCheckInDate?: boolean
+  trialEndsAt?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }
 
-export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "email" | "emailVerified" | "image" | "password" | "username" | "role" | "plan" | "qvapayId" | "analysisLimit" | "analysisUsed" | "analysisResetAt" | "telegramId" | "telegramTrialStartedAt" | "isTelegramPremiumActive" | "latitude" | "longitude" | "currentStreak" | "maxStreak" | "lastCheckInDate" | "createdAt" | "updatedAt", ExtArgs["result"]["user"]>
+export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "email" | "emailVerified" | "image" | "password" | "username" | "role" | "plan" | "qvapayId" | "analysisLimit" | "analysisUsed" | "analysisResetAt" | "telegramId" | "telegramTrialStartedAt" | "isTelegramPremiumActive" | "latitude" | "longitude" | "currentStreak" | "maxStreak" | "lastCheckInDate" | "trialEndsAt" | "createdAt" | "updatedAt", ExtArgs["result"]["user"]>
 export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   accounts?: boolean | Prisma.User$accountsArgs<ExtArgs>
   sessions?: boolean | Prisma.User$sessionsArgs<ExtArgs>
@@ -10604,6 +12073,9 @@ export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   communityGroups?: boolean | Prisma.User$communityGroupsArgs<ExtArgs>
   communityMemberships?: boolean | Prisma.User$communityMembershipsArgs<ExtArgs>
   postReactions?: boolean | Prisma.User$postReactionsArgs<ExtArgs>
+  giftPacksBought?: boolean | Prisma.User$giftPacksBoughtArgs<ExtArgs>
+  giftPacksRedeemed?: boolean | Prisma.User$giftPacksRedeemedArgs<ExtArgs>
+  reminders?: boolean | Prisma.User$remindersArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type UserIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
@@ -10646,6 +12118,9 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     communityGroups: Prisma.$CommunityGroupPayload<ExtArgs>[]
     communityMemberships: Prisma.$CommunityMemberPayload<ExtArgs>[]
     postReactions: Prisma.$PostReactionPayload<ExtArgs>[]
+    giftPacksBought: Prisma.$GiftPackPayload<ExtArgs>[]
+    giftPacksRedeemed: Prisma.$GiftPackPayload<ExtArgs>[]
+    reminders: Prisma.$UserReminderPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -10669,6 +12144,7 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     currentStreak: number
     maxStreak: number
     lastCheckInDate: Date | null
+    trialEndsAt: Date | null
     createdAt: Date
     updatedAt: Date
   }, ExtArgs["result"]["user"]>
@@ -11099,6 +12575,9 @@ export interface Prisma__UserClient<T, Null = never, ExtArgs extends runtime.Typ
   communityGroups<T extends Prisma.User$communityGroupsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$communityGroupsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$CommunityGroupPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   communityMemberships<T extends Prisma.User$communityMembershipsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$communityMembershipsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$CommunityMemberPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   postReactions<T extends Prisma.User$postReactionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$postReactionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$PostReactionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  giftPacksBought<T extends Prisma.User$giftPacksBoughtArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$giftPacksBoughtArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$GiftPackPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  giftPacksRedeemed<T extends Prisma.User$giftPacksRedeemedArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$giftPacksRedeemedArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$GiftPackPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  reminders<T extends Prisma.User$remindersArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$remindersArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$UserReminderPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -11149,6 +12628,7 @@ export interface UserFieldRefs {
   readonly currentStreak: Prisma.FieldRef<"User", 'Int'>
   readonly maxStreak: Prisma.FieldRef<"User", 'Int'>
   readonly lastCheckInDate: Prisma.FieldRef<"User", 'DateTime'>
+  readonly trialEndsAt: Prisma.FieldRef<"User", 'DateTime'>
   readonly createdAt: Prisma.FieldRef<"User", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"User", 'DateTime'>
 }
@@ -12347,6 +13827,78 @@ export type User$postReactionsArgs<ExtArgs extends runtime.Types.Extensions.Inte
   take?: number
   skip?: number
   distinct?: Prisma.PostReactionScalarFieldEnum | Prisma.PostReactionScalarFieldEnum[]
+}
+
+/**
+ * User.giftPacksBought
+ */
+export type User$giftPacksBoughtArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the GiftPack
+   */
+  select?: Prisma.GiftPackSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the GiftPack
+   */
+  omit?: Prisma.GiftPackOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.GiftPackInclude<ExtArgs> | null
+  where?: Prisma.GiftPackWhereInput
+  orderBy?: Prisma.GiftPackOrderByWithRelationInput | Prisma.GiftPackOrderByWithRelationInput[]
+  cursor?: Prisma.GiftPackWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.GiftPackScalarFieldEnum | Prisma.GiftPackScalarFieldEnum[]
+}
+
+/**
+ * User.giftPacksRedeemed
+ */
+export type User$giftPacksRedeemedArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the GiftPack
+   */
+  select?: Prisma.GiftPackSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the GiftPack
+   */
+  omit?: Prisma.GiftPackOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.GiftPackInclude<ExtArgs> | null
+  where?: Prisma.GiftPackWhereInput
+  orderBy?: Prisma.GiftPackOrderByWithRelationInput | Prisma.GiftPackOrderByWithRelationInput[]
+  cursor?: Prisma.GiftPackWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.GiftPackScalarFieldEnum | Prisma.GiftPackScalarFieldEnum[]
+}
+
+/**
+ * User.reminders
+ */
+export type User$remindersArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the UserReminder
+   */
+  select?: Prisma.UserReminderSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the UserReminder
+   */
+  omit?: Prisma.UserReminderOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.UserReminderInclude<ExtArgs> | null
+  where?: Prisma.UserReminderWhereInput
+  orderBy?: Prisma.UserReminderOrderByWithRelationInput | Prisma.UserReminderOrderByWithRelationInput[]
+  cursor?: Prisma.UserReminderWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.UserReminderScalarFieldEnum | Prisma.UserReminderScalarFieldEnum[]
 }
 
 /**

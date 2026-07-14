@@ -436,7 +436,10 @@ export const ModelName = {
   TelegramReminder: 'TelegramReminder',
   SupportTicket: 'SupportTicket',
   SupportTicketResponse: 'SupportTicketResponse',
-  ChatMessage: 'ChatMessage'
+  ChatMessage: 'ChatMessage',
+  LeadMagnet: 'LeadMagnet',
+  GiftPack: 'GiftPack',
+  UserReminder: 'UserReminder'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -452,7 +455,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "user" | "analysisJob" | "account" | "session" | "verificationToken" | "skinAnalysis" | "blogPost" | "product" | "payment" | "transferPayment" | "auditLog" | "subscription" | "purchasePack" | "usageTracking" | "feedback" | "clinic" | "affiliateClick" | "contactMessage" | "botLog" | "botKnowledge" | "botFeedback" | "cache" | "webhookEvent" | "userEvolution" | "rateLimit" | "appConfig" | "surveyFeedback" | "communityPost" | "comment" | "communityGroup" | "communityMember" | "postReaction" | "conversationState" | "skinDiary" | "challenge" | "userChallenge" | "productReview" | "groupAnalytics" | "referral" | "digitalProduct" | "digitalProductPurchase" | "dailyCheckIn" | "ingredientKB" | "client" | "telegramAuth" | "telegramLog" | "notification" | "telegramAlert" | "discountCode" | "telegramReminder" | "supportTicket" | "supportTicketResponse" | "chatMessage"
+    modelProps: "user" | "analysisJob" | "account" | "session" | "verificationToken" | "skinAnalysis" | "blogPost" | "product" | "payment" | "transferPayment" | "auditLog" | "subscription" | "purchasePack" | "usageTracking" | "feedback" | "clinic" | "affiliateClick" | "contactMessage" | "botLog" | "botKnowledge" | "botFeedback" | "cache" | "webhookEvent" | "userEvolution" | "rateLimit" | "appConfig" | "surveyFeedback" | "communityPost" | "comment" | "communityGroup" | "communityMember" | "postReaction" | "conversationState" | "skinDiary" | "challenge" | "userChallenge" | "productReview" | "groupAnalytics" | "referral" | "digitalProduct" | "digitalProductPurchase" | "dailyCheckIn" | "ingredientKB" | "client" | "telegramAuth" | "telegramLog" | "notification" | "telegramAlert" | "discountCode" | "telegramReminder" | "supportTicket" | "supportTicketResponse" | "chatMessage" | "leadMagnet" | "giftPack" | "userReminder"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -4378,6 +4381,228 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    LeadMagnet: {
+      payload: Prisma.$LeadMagnetPayload<ExtArgs>
+      fields: Prisma.LeadMagnetFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.LeadMagnetFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$LeadMagnetPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.LeadMagnetFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$LeadMagnetPayload>
+        }
+        findFirst: {
+          args: Prisma.LeadMagnetFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$LeadMagnetPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.LeadMagnetFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$LeadMagnetPayload>
+        }
+        findMany: {
+          args: Prisma.LeadMagnetFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$LeadMagnetPayload>[]
+        }
+        create: {
+          args: Prisma.LeadMagnetCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$LeadMagnetPayload>
+        }
+        createMany: {
+          args: Prisma.LeadMagnetCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.LeadMagnetCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$LeadMagnetPayload>[]
+        }
+        delete: {
+          args: Prisma.LeadMagnetDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$LeadMagnetPayload>
+        }
+        update: {
+          args: Prisma.LeadMagnetUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$LeadMagnetPayload>
+        }
+        deleteMany: {
+          args: Prisma.LeadMagnetDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.LeadMagnetUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.LeadMagnetUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$LeadMagnetPayload>[]
+        }
+        upsert: {
+          args: Prisma.LeadMagnetUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$LeadMagnetPayload>
+        }
+        aggregate: {
+          args: Prisma.LeadMagnetAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateLeadMagnet>
+        }
+        groupBy: {
+          args: Prisma.LeadMagnetGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.LeadMagnetGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.LeadMagnetCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.LeadMagnetCountAggregateOutputType> | number
+        }
+      }
+    }
+    GiftPack: {
+      payload: Prisma.$GiftPackPayload<ExtArgs>
+      fields: Prisma.GiftPackFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.GiftPackFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$GiftPackPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.GiftPackFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$GiftPackPayload>
+        }
+        findFirst: {
+          args: Prisma.GiftPackFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$GiftPackPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.GiftPackFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$GiftPackPayload>
+        }
+        findMany: {
+          args: Prisma.GiftPackFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$GiftPackPayload>[]
+        }
+        create: {
+          args: Prisma.GiftPackCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$GiftPackPayload>
+        }
+        createMany: {
+          args: Prisma.GiftPackCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.GiftPackCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$GiftPackPayload>[]
+        }
+        delete: {
+          args: Prisma.GiftPackDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$GiftPackPayload>
+        }
+        update: {
+          args: Prisma.GiftPackUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$GiftPackPayload>
+        }
+        deleteMany: {
+          args: Prisma.GiftPackDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.GiftPackUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.GiftPackUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$GiftPackPayload>[]
+        }
+        upsert: {
+          args: Prisma.GiftPackUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$GiftPackPayload>
+        }
+        aggregate: {
+          args: Prisma.GiftPackAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateGiftPack>
+        }
+        groupBy: {
+          args: Prisma.GiftPackGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.GiftPackGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.GiftPackCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.GiftPackCountAggregateOutputType> | number
+        }
+      }
+    }
+    UserReminder: {
+      payload: Prisma.$UserReminderPayload<ExtArgs>
+      fields: Prisma.UserReminderFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.UserReminderFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserReminderPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.UserReminderFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserReminderPayload>
+        }
+        findFirst: {
+          args: Prisma.UserReminderFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserReminderPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.UserReminderFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserReminderPayload>
+        }
+        findMany: {
+          args: Prisma.UserReminderFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserReminderPayload>[]
+        }
+        create: {
+          args: Prisma.UserReminderCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserReminderPayload>
+        }
+        createMany: {
+          args: Prisma.UserReminderCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.UserReminderCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserReminderPayload>[]
+        }
+        delete: {
+          args: Prisma.UserReminderDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserReminderPayload>
+        }
+        update: {
+          args: Prisma.UserReminderUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserReminderPayload>
+        }
+        deleteMany: {
+          args: Prisma.UserReminderDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.UserReminderUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.UserReminderUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserReminderPayload>[]
+        }
+        upsert: {
+          args: Prisma.UserReminderUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserReminderPayload>
+        }
+        aggregate: {
+          args: Prisma.UserReminderAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateUserReminder>
+        }
+        groupBy: {
+          args: Prisma.UserReminderGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.UserReminderGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.UserReminderCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.UserReminderCountAggregateOutputType> | number
+        }
+      }
+    }
   }
 } & {
   other: {
@@ -4439,6 +4664,7 @@ export const UserScalarFieldEnum = {
   currentStreak: 'currentStreak',
   maxStreak: 'maxStreak',
   lastCheckInDate: 'lastCheckInDate',
+  trialEndsAt: 'trialEndsAt',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
@@ -5168,6 +5394,44 @@ export const ChatMessageScalarFieldEnum = {
 export type ChatMessageScalarFieldEnum = (typeof ChatMessageScalarFieldEnum)[keyof typeof ChatMessageScalarFieldEnum]
 
 
+export const LeadMagnetScalarFieldEnum = {
+  id: 'id',
+  email: 'email',
+  createdAt: 'createdAt'
+} as const
+
+export type LeadMagnetScalarFieldEnum = (typeof LeadMagnetScalarFieldEnum)[keyof typeof LeadMagnetScalarFieldEnum]
+
+
+export const GiftPackScalarFieldEnum = {
+  id: 'id',
+  buyerId: 'buyerId',
+  recipientEmail: 'recipientEmail',
+  packType: 'packType',
+  analyses: 'analyses',
+  giftCode: 'giftCode',
+  status: 'status',
+  redeemedById: 'redeemedById',
+  redeemedAt: 'redeemedAt',
+  createdAt: 'createdAt'
+} as const
+
+export type GiftPackScalarFieldEnum = (typeof GiftPackScalarFieldEnum)[keyof typeof GiftPackScalarFieldEnum]
+
+
+export const UserReminderScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  frequency: 'frequency',
+  enabled: 'enabled',
+  lastSentAt: 'lastSentAt',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type UserReminderScalarFieldEnum = (typeof UserReminderScalarFieldEnum)[keyof typeof UserReminderScalarFieldEnum]
+
+
 export const SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -5454,6 +5718,9 @@ export type GlobalOmitConfig = {
   supportTicket?: Prisma.SupportTicketOmit
   supportTicketResponse?: Prisma.SupportTicketResponseOmit
   chatMessage?: Prisma.ChatMessageOmit
+  leadMagnet?: Prisma.LeadMagnetOmit
+  giftPack?: Prisma.GiftPackOmit
+  userReminder?: Prisma.UserReminderOmit
 }
 
 /* Types for Logging */

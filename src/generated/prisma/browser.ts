@@ -282,3 +282,18 @@ export type SupportTicketResponse = Prisma.SupportTicketResponseModel
  * 
  */
 export type ChatMessage = Prisma.ChatMessageModel
+/**
+ * Model LeadMagnet
+ * 
+ */
+export type LeadMagnet = Prisma.LeadMagnetModel
+/**
+ * Model GiftPack
+ * 
+ */
+export type GiftPack = Prisma.GiftPackModel
+/**
+ * Model UserReminder
+ * 
+ */
+export type UserReminder = Prisma.UserReminderModel

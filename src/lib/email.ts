@@ -122,3 +122,47 @@ export function buildPaymentSuccessEmail(plan: string, amount: number): { subjec
     ),
   }
 }
+
+export function buildLeadMagnetEmail(): { subject: string; html: string } {
+  return {
+    subject: "Tu Guía de Skincare GRATIS — The Serene Lens",
+    html: buildEmailHtml(
+      "¡Aquí está tu guía gratuita!",
+      `Gracias por registrarte.\n\nHemos preparado una guía exclusiva con:\n\n• Rutina básica para piel cubana (clima tropical)\n• Ingredientes clave que debes buscar\n• Errores comunes que dañan tu piel\n• Consejos para protegerte del sol caribeño\n\nDescárgala y comienza a cuidar tu piel hoy mismo.\n\nAdemás, puedes usar nuestros análisis con IA para conocer exactamente lo que tu piel necesita.`,
+      `${APP_URL}/analysis`,
+    ),
+  }
+}
+
+export function buildGiftEmail({
+  buyerName, recipientEmail, giftCode, analyses, packType,
+}: {
+  buyerName: string
+  recipientEmail: string
+  giftCode: string
+  analyses: number
+  packType: string
+}): { subject: string; html: string } {
+  const packNames: Record<string, string> = {
+    BASIC: "Básico", POPULAR: "Popular", ADVANCED: "Avanzado",
+  }
+  return {
+    subject: `¡${buyerName} te ha regalado un análisis de piel! — The Serene Lens`,
+    html: buildEmailHtml(
+      "¡Has recibido un regalo!",
+      `${buyerName} te ha regalado un pack ${packNames[packType] || packType} con ${analyses} análisis de piel.\n\nPara canjearlo, regístrate o inicia sesión y usa el siguiente código:\n\n📌 ${giftCode}\n\nCanjéalo desde tu perfil o en la sección de suscripciones.`,
+      `${APP_URL}/dashboard/subscription`,
+    ),
+  }
+}
+
+export function buildReminderEmail(name: string): { subject: string; html: string } {
+  return {
+    subject: "Recordatorio — Cuida tu piel hoy — The Serene Lens",
+    html: buildEmailHtml(
+      `¡Hola${name ? `, ${name}` : ""}!`,
+      `Este es tu recordatorio para analizar tu piel.\n\nEl cuidado constante es clave para mantener una piel saludable. Tómate 5 minutos para hacer un análisis y ver cómo ha evolucionado tu piel desde la última vez.`,
+      `${APP_URL}/analysis`,
+    ),
+  }
+}

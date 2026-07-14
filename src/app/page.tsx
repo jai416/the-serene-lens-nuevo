@@ -326,6 +326,61 @@ export default function HomePage() {
         </div>
       </section>
 
+      {/* ─── Lead Magnet ─── */}
+      <section className="py-20 px-4 sm:px-8" style={{ backgroundColor: "#E2ECE0" }}>
+        <div className="max-w-2xl mx-auto text-center">
+          <Badge variant="mint" className="mb-4 rounded-full px-4 py-1.5 border-0">
+            <Sparkles className="w-3.5 h-3.5 mr-1.5" />
+            Gratis
+          </Badge>
+          <h2 className="font-serif text-3xl sm:text-4xl font-semibold mb-3" style={{ color: "#1A1A1A" }}>
+            Guía de Skincare para Piel Cubana
+          </h2>
+          <p className="text-sm mb-6 max-w-md mx-auto" style={{ color: "#666666" }}>
+            Descarga gratis nuestra guía con rutinas adaptadas al clima tropical, ingredientes clave y errores comunes que dañan tu piel.
+          </p>
+          <form
+            onSubmit={async (e) => {
+              e.preventDefault()
+              const form = e.currentTarget
+              const email = (form.elements.namedItem("email") as HTMLInputElement).value
+              const btn = form.querySelector("button") as HTMLButtonElement
+              btn.disabled = true
+              btn.textContent = "Enviando..."
+              try {
+                const res = await fetch("/api/lead-magnet", {
+                  method: "POST",
+                  headers: { "Content-Type": "application/json" },
+                  body: JSON.stringify({ email }),
+                })
+                if (res.ok) {
+                  btn.textContent = "¡Enviado! Revisa tu correo"
+                  form.querySelector("input")!.remove()
+                } else {
+                  const d = await res.json()
+                  btn.textContent = d.error || "Error"
+                }
+              } catch {
+                btn.textContent = "Error de conexión"
+              }
+            }}
+            className="flex flex-col sm:flex-row gap-3 max-w-md mx-auto"
+          >
+            <input
+              type="email"
+              name="email"
+              required
+              placeholder="tu@email.com"
+              className="flex-1 px-4 py-3 rounded-xl text-sm border border-[#E8E8E8] bg-white text-[#1A1A1A] placeholder-[#666666] focus:outline-none focus:ring-1 focus:ring-[#88B078]"
+            />
+            <button type="submit" className="px-6 py-3 rounded-xl font-semibold text-sm bg-[#1A1A1A] text-white hover:opacity-90 transition-all whitespace-nowrap">
+              Recibir guía gratis
+            </button>
+          </form>
+          <p className="text-xs mt-3" style={{ color: "#666666" }}>Sin spam. Solo contenido útil para tu piel.</p>
+        </div>
+      </section>
+
       <FAQSection />
 
       {/* ─── Disclaimer ─── */}

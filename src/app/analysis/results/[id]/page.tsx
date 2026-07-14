@@ -573,6 +573,23 @@ export default function AnalysisResultsPage() {
               <div className="flex flex-wrap gap-2">
                 <button
                   onClick={() => {
+                    if (navigator.share) {
+                      navigator.share({
+                        title: "The Serene Lens - Analisis de Piel",
+                        text: `Descubrí que mi tipo de piel es ${result.skinType || "único"}. Haz tu análisis gratis con IA en The Serene Lens.`,
+                        url: "https://the-serene-lens-nuevo.onrender.com",
+                      }).catch(() => {})
+                    } else {
+                      navigator.clipboard.writeText("https://the-serene-lens-nuevo.onrender.com")
+                      toast.success("Enlace copiado al portapapeles")
+                    }
+                  }}
+                  className="inline-flex items-center gap-2 px-4 py-2 bg-[#1A1A1A] text-white rounded-full text-xs font-medium hover:opacity-90 transition-opacity"
+                >
+                  <Share2 className="w-3.5 h-3.5" />
+                  Compartir
+                </button>
+                  onClick={() => {
                     const text = `Descubrí que mi tipo de piel es ${result.skinType || "únic"}. Haz tu análisis gratis con IA en The Serene Lens.`
                     const url = `https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent("https://the-serene-lens-nuevo.onrender.com")}`
                     window.open(url, "_blank", "noopener,noreferrer")

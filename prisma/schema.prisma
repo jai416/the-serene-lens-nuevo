@@ -67,6 +67,9 @@ model User {
   communityGroups    CommunityGroup[]   @relation("GroupCreator")
   communityMemberships CommunityMember[]
   postReactions      PostReaction[]
+  giftPacksBought    GiftPack[]       @relation("GiftBuyer")
+  giftPacksRedeemed  GiftPack[]       @relation("GiftRedeemer")
+  reminders          UserReminder[]
 
   @@index([plan])
   @@index([role])
@@ -891,4 +894,44 @@ model ChatMessage {
   @@index([sessionId])
   @@index([createdAt])
   @@index([read])
+}
+
+model LeadMagnet {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  createdAt DateTime @default(now())
+}
+
+model GiftPack {
+  id            String   @id @default(cuid())
+  buyerId       String
+  recipientEmail String
+  packType      String
+  analyses      Int
+  giftCode      String   @unique
+  status        String   @default("pending")
+  redeemedById  String?
+  redeemedAt    DateTime?
+  createdAt     DateTime @default(now())
+
+  buyer       User  @relation("GiftBuyer", fields: [buyerId], references: [id])
+  redeemedBy  User? @relation("GiftRedeemer", fields: [redeemedById], references: [id])
+
+  @@index([giftCode])
+  @@index([buyerId])
+  @@index([status])
+}
+
+model UserReminder {
+  id        String   @id @default(cuid())
+  userId    String
+  frequency String   @default("weekly")
+  enabled   Boolean  @default(true)
+  lastSentAt DateTime?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId])
 }

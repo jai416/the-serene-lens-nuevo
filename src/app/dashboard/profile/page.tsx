@@ -2,7 +2,7 @@
 
 import { useSession, signOut } from "next-auth/react"
 import { redirect, usePathname } from "next/navigation"
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
@@ -11,7 +11,7 @@ import { LocaleSwitcher } from "@/components/locale-switcher"
 import { useLocale } from "@/lib/locale/locale-context"
 import { t } from "@/lib/locale/translations"
 import {
-  Crown, Trash2, LogOut, Save, AlertCircle, User, Mail, Calendar, Activity,
+  Crown, Trash2, LogOut, Save, AlertCircle, User, Mail, Calendar, Activity, Bell, Loader2,
 } from "lucide-react"
 import { toast } from "sonner"
 
@@ -34,6 +34,9 @@ export default function ProfilePage() {
   const [saving, setSaving] = useState(false)
   const [saveError, setSaveError] = useState("")
   const [showDelete, setShowDelete] = useState(false)
+  const [reminderFreq, setReminderFreq] = useState("weekly")
+  const [reminderOn, setReminderOn] = useState(false)
+  const [reminderLoading, setReminderLoading] = useState(true)
 
   if (status === "loading") return <div className="p-8 text-center text-[#666666]">{t("common.loading", locale)}</div>
   if (!session) redirect("/login?callbackUrl=" + encodeURIComponent(pathname))
@@ -65,6 +68,34 @@ export default function ProfilePage() {
       signOut({ callbackUrl: "/" })
     } catch {
       toast.error(t("profile.deleteError", locale))
+    }
+  }
+
+  useEffect(() => {
+    fetch("/api/user/reminders")
+      .then((r) => r.json())
+      .then((d) => {
+        const data = d?.data || d
+        if (data) {
+          setReminderFreq(data.frequency || "weekly")
+          setReminderOn(data.enabled ?? false)
+        }
+      })
+      .catch(() => {})
+      .finally(() => setReminderLoading(false))
+  }, [])
+
+  const handleSaveReminder = async () => {
+    try {
+      const res = await fetch("/api/user/reminders", {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ frequency: reminderFreq, enabled: reminderOn }),
+      })
+      if (res.ok) toast.success("Recordatorio guardado")
+      else toast.error("Error al guardar recordatorio")
+    } catch {
+      toast.error("Error al guardar recordatorio")
     }
   }
 
@@ -184,6 +215,47 @@ export default function ProfilePage() {
               <Save className="w-4 h-4 mr-1.5" />
               {saving ? t("profile.saving", locale) : t("profile.save", locale)}
             </Button>
+          </CardContent>
+        </Card>
+
+        {/* Reminders */}
+        <Card className="p-5 border border-[#E8E8E8]/60">
+          <CardContent className="p-0">
+            <h3 className="font-semibold text-sm text-[#1A1A1A] flex items-center gap-2 mb-3">
+              <Bell className="w-4 h-4 text-[#88B078]" />
+              Recordatorios de cuidado
+            </h3>
+            <p className="text-xs text-[#666666] mb-4">Recibe correos recordatorios para analizar tu piel regularmente.</p>
+            {reminderLoading ? (
+              <Loader2 className="w-4 h-4 animate-spin text-[#666666]" />
+            ) : (
+              <div className="space-y-3">
+                <label className="flex items-center justify-between">
+                  <span className="text-sm text-[#1A1A1A]">Recordatorios activados</span>
+                  <button
+                    onClick={() => setReminderOn(!reminderOn)}
+                    className={`w-10 h-5 rounded-full transition-colors relative ${reminderOn ? "bg-[#88B078]" : "bg-[#E2ECE0]"}`}
+                  >
+                    <span className={`absolute top-0.5 w-4 h-4 bg-white rounded-full shadow transition-transform ${reminderOn ? "translate-x-5" : "translate-x-0.5"}`} />
+                  </button>
+                </label>
+                {reminderOn && (
+                  <select
+                    value={reminderFreq}
+                    onChange={(e) => setReminderFreq(e.target.value)}
+                    className="w-full rounded-xl border border-[#E8E8E8] bg-white px-3 py-2 text-sm text-[#1A1A1A] focus:outline-none focus:ring-1 focus:ring-[#88B078]"
+                  >
+                    <option value="weekly">Cada semana</option>
+                    <option value="biweekly">Cada 2 semanas</option>
+                    <option value="monthly">Cada mes</option>
+                  </select>
+                )}
+                <Button onClick={handleSaveReminder} variant="primary" size="sm">
+                  <Save className="w-4 h-4 mr-1.5" />
+                  Guardar recordatorio
+                </Button>
+              </div>
+            )}
           </CardContent>
         </Card>
 

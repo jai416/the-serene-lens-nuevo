@@ -10,7 +10,7 @@ import { getPlan, getPack } from "@/lib/pricing"
 import { validateCsrf } from "@/lib/csrf-middleware"
 import { logger } from "@/lib/logger"
 
-const PLAN_IDS = ["FREE", "PREMIUM", "PRO", "PRO_PLUS", "ESTHETICIAN"] as const
+const PLAN_IDS = ["FREE", "PREMIUM", "PRO", "PRO_PLUS", "ESTHETICIAN", "PREMIUM_ANNUAL", "PRO_ANNUAL"] as const
 const PACK_IDS = ["BASIC", "POPULAR", "ADVANCED"] as const
 
 const createTransferSchema = z.object({

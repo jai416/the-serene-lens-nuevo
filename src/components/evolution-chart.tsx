@@ -3,6 +3,9 @@
 import { useMemo } from "react"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { TrendingUp } from "lucide-react"
+import {
+  LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Legend,
+} from "recharts"
 
 interface EvolutionPoint {
   date: string
@@ -29,40 +32,59 @@ const CATEGORY_LABELS: Record<string, string> = {
   apparentOil: "Grasa",
 }
 
-const TREND_COLORS: Record<string, string> = {
-  improving: "#88B078",
-  stable: "#E8E8E8",
-  worsening: "#FECACA",
-  insufficient_data: "#E2ECE0",
+const LINE_COLORS = ["#88B078", "#D4A574", "#7BA3C4", "#C47BA0", "#A0C47B", "#C4A07B"]
+
+const SEVERITY_MAP: Record<string, number> = {
+  leve: 1,
+  moderado: 2,
+  visible: 3,
+  none: 0,
 }
 
-const TREND_LABELS: Record<string, string> = {
-  improving: "Mejorando",
-  stable: "Estable",
-  worsening: "Empeorando",
-  insufficient_data: "Sin datos suficientes",
+function toNumeric(v: string | undefined): number | null {
+  if (!v) return null
+  const lower = v.toLowerCase().trim()
+  return SEVERITY_MAP[lower] ?? null
 }
 
-function MiniBar({ value, max }: { value: number; max: number }) {
-  const pct = max > 0 ? (value / max) * 100 : 0
+function TrendBadge({ trend }: { trend: string }) {
+  const colors: Record<string, string> = {
+    improving: "bg-[#88B078]/20 text-[#88B078]",
+    stable: "bg-[#E2ECE0] text-[#666666]",
+    worsening: "bg-[#FECACA] text-[#DC2626]",
+    insufficient_data: "bg-[#E2ECE0] text-[#9BAA93]",
+  }
+  const labels: Record<string, string> = {
+    improving: "Mejorando",
+    stable: "Estable",
+    worsening: "Empeorando",
+    insufficient_data: "Sin datos",
+  }
   return (
-    <div className="w-full h-2 rounded-full bg-[#E2ECE0] overflow-hidden">
-      <div
-        className="h-full rounded-full bg-[#88B078] transition-all duration-500"
-        style={{ width: `${pct}%` }}
-      />
-    </div>
+    <span className={`text-[10px] font-medium px-1.5 py-0.5 rounded-full ${colors[trend] || colors.insufficient_data}`}>
+      {labels[trend] || labels.insufficient_data}
+    </span>
   )
 }
 
 export function EvolutionChart({ data }: { data: EvolutionResult }) {
+  const chartData = useMemo(() => {
+    return (data.points || []).map((p) => {
+      const row: Record<string, any> = { date: p.date }
+      for (const key of Object.keys(CATEGORY_LABELS)) {
+        row[key] = toNumeric((p as any)[key])
+      }
+      return row
+    })
+  }, [data])
+
   if (!data || data.totalAnalyses < 2) {
     return (
       <Card className="p-6">
         <CardHeader className="p-0 mb-4">
           <CardTitle className="flex items-center gap-2 text-lg text-[#1A1A1A]">
             <TrendingUp className="w-5 h-5" />
-            Evolución de tu Piel
+            Evolucion de tu Piel
           </CardTitle>
         </CardHeader>
         <CardContent className="p-0">
@@ -81,36 +103,60 @@ export function EvolutionChart({ data }: { data: EvolutionResult }) {
       <CardHeader className="p-0 mb-4">
         <CardTitle className="flex items-center gap-2 text-lg text-[#1A1A1A]">
           <TrendingUp className="w-5 h-5" />
-          Evolución de tu Piel
+          Evolucion de tu Piel
         </CardTitle>
       </CardHeader>
       <CardContent className="p-0">
         <p className="text-xs text-[#666666] mb-4">
-          Basado en {data.totalAnalyses} análisis · {data.points?.[0]?.date} → {data.points?.[data.points.length - 1]?.date}
+          Basado en {data.totalAnalyses} analisis · {data.points?.[0]?.date} → {data.points?.[data.points.length - 1]?.date}
         </p>
-        <div className="space-y-3">
+
+        {/* Line Chart */}
+        <div className="h-72 mb-6">
+          <ResponsiveContainer width="100%" height="100%">
+            <LineChart data={chartData} margin={{ top: 5, right: 10, left: -10, bottom: 5 }}>
+              <CartesianGrid strokeDasharray="3 3" stroke="#E8E8E8" />
+              <XAxis dataKey="date" tick={{ fontSize: 10, fill: "#666" }} />
+              <YAxis domain={[0, 3]} ticks={[0, 1, 2, 3]} tickFormatter={(v) => ["None", "Leve", "Moderado", "Visible"][v]} tick={{ fontSize: 10, fill: "#666" }} />
+              <Tooltip
+                contentStyle={{ background: "#fff", border: "1px solid #E8E8E8", borderRadius: 8, fontSize: 12 }}
+                formatter={(value: number, name: string) => [["None", "Leve", "Moderado", "Visible"][value] || value, CATEGORY_LABELS[name] || name]}
+              />
+              <Legend
+                wrapperStyle={{ fontSize: 10 }}
+                formatter={(value: string) => CATEGORY_LABELS[value] || value}
+              />
+              {Object.keys(CATEGORY_LABELS).map((key, i) => (
+                <Line
+                  key={key}
+                  type="monotone"
+                  dataKey={key}
+                  stroke={LINE_COLORS[i % LINE_COLORS.length]}
+                  strokeWidth={2}
+                  dot={{ r: 3 }}
+                  connectNulls
+                />
+              ))}
+            </LineChart>
+          </ResponsiveContainer>
+        </div>
+
+        {/* Trends Summary */}
+        <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
           {Object.entries(CATEGORY_LABELS).map(([key, label]) => {
             const trend = data.trends?.[key] || "insufficient_data"
-            const values = (data.points || []).map((p) => (p as any)[key]).filter(Boolean)
-            const maxSeverity = 4
-
+            const firstVal = toNumeric((data.points?.[0] as any)?.[key])
+            const lastVal = toNumeric((data.points?.[data.points.length - 1] as any)?.[key])
+            const diff = firstVal !== null && lastVal !== null ? lastVal - firstVal : null
             return (
-              <div key={key} className="flex items-center gap-3 p-2 rounded-xl hover:bg-[#F8F9FA] transition-colors">
-                <div className="w-24 shrink-0">
-                  <p className="text-xs text-[#666666]">{label}</p>
-                </div>
-                <div className="flex-1">
-                  {values.length > 0 && (
-                    <MiniBar value={values.length} max={maxSeverity + 1} />
-                  )}
-                </div>
-                <div className="flex items-center gap-1.5 shrink-0">
-                  <span
-                    className="w-2 h-2 rounded-full"
-                    style={{ backgroundColor: TREND_COLORS[trend] || "#E2ECE0" }}
-                  />
-                  <span className="text-[10px] text-[#666666]">{TREND_LABELS[trend] || "—"}</span>
-                </div>
+              <div key={key} className="p-2 rounded-xl bg-[#F8F9FA]">
+                <p className="text-[10px] text-[#666666]">{label}</p>
+                <TrendBadge trend={trend} />
+                {diff !== null && diff !== 0 && (
+                  <p className={`text-[10px] mt-0.5 ${diff < 0 ? "text-[#88B078]" : "text-[#DC2626]"}`}>
+                    {diff < 0 ? `Mejoro ${Math.abs(diff)} nivel` : `Empeoro ${diff} nivel`}
+                  </p>
+                )}
               </div>
             )
           })}

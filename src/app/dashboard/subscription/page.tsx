@@ -75,7 +75,11 @@ export default function SubscriptionPage() {
   const handleTransfer = async (planId: string) => {
     setLoadingPayment(`transfer-${planId}`)
     try {
-      const amount = planId === "PREMIUM" ? 4.99 : planId === "PRO" ? 9.99 : planId === "PRO_PLUS" ? 14.99 : 0
+      const amounts: Record<string, number> = {
+        PREMIUM: 4.99, PRO: 9.99, PRO_PLUS: 14.99,
+        PREMIUM_ANNUAL: 49.99, PRO_ANNUAL: 99.99,
+      }
+      const amount = amounts[planId] || 0
       const res = await fetch("/api/payments/create-transfer", {
         method: "POST",
         headers: { "Content-Type": "application/json", "x-csrf-token": getCsrfToken() },
@@ -178,37 +182,52 @@ export default function SubscriptionPage() {
               </div>
             )}
             {!isPaid && (
-              <div className="mt-4 space-y-2">
-                <p className="text-sm font-medium text-[#1A1A1A]">Actualizar a Premium — $4.99/mes</p>
-                <div className="flex flex-col gap-2">
-                  <Button
-                    onClick={() => handleSubscribe("PREMIUM")}
-                    disabled={!!loadingPayment}
-                    variant="primary"
-                    className="w-full py-3"
-                  >
-                    {loadingPayment === "qvapay-PREMIUM" ? (
-                      <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-                    ) : (
-                      <WalletCards className="w-4 h-4 mr-2" />
-                    )}
-                    {loadingPayment === "qvapay-PREMIUM" ? "Procesando..." : "Pagar con QvaPay"}
-                  </Button>
-                  <Button
-                    onClick={() => handleTransfer("PREMIUM")}
-                    disabled={!!loadingPayment}
-                    variant="outline"
-                    className="w-full py-3"
-                  >
-                    {loadingPayment === "transfer-PREMIUM" ? (
-                      <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-                    ) : (
-                      <CreditCard className="w-4 h-4 mr-2" />
-                    )}
-                    {loadingPayment === "transfer-PREMIUM" ? "Procesando..." : "Pagar con Transfermovil"}
-                  </Button>
+              <div className="mt-4 space-y-3">
+                <p className="text-sm font-medium text-[#1A1A1A]">Actualizar a Premium</p>
+
+                {/* Monthly */}
+                <div className="p-3 rounded-xl border border-[#E8E8E8]">
+                  <div className="flex items-center justify-between mb-2">
+                    <span className="text-sm font-medium text-[#1A1A1A]">Premium Mensual</span>
+                    <span className="text-sm text-[#1A1A1A] font-semibold">$4.99/mes</span>
+                  </div>
+                  <div className="flex gap-2">
+                    <Button onClick={() => handleSubscribe("PREMIUM")} disabled={!!loadingPayment} variant="primary" className="flex-1 py-2 text-xs">
+                      {loadingPayment === "qvapay-PREMIUM" ? <Loader2 className="w-3 h-3 mr-1 animate-spin" /> : <WalletCards className="w-3 h-3 mr-1" />}
+                      QvaPay
+                    </Button>
+                    <Button onClick={() => handleTransfer("PREMIUM")} disabled={!!loadingPayment} variant="outline" className="flex-1 py-2 text-xs">
+                      {loadingPayment === "transfer-PREMIUM" ? <Loader2 className="w-3 h-3 mr-1 animate-spin" /> : <CreditCard className="w-3 h-3 mr-1" />}
+                      Transfermovil
+                    </Button>
+                  </div>
                 </div>
-                <Link href="/pricing" className="block text-center text-xs text-[#666666] hover:text-[#1A1A1A] mt-2">
+
+                {/* Annual */}
+                <div className="p-3 rounded-xl border border-[#88B078] bg-[#E2ECE0]/30">
+                  <div className="flex items-center justify-between mb-2">
+                    <div>
+                      <span className="text-sm font-medium text-[#1A1A1A]">Premium Anual</span>
+                      <span className="ml-2 text-[10px] font-semibold px-1.5 py-0.5 rounded-full bg-[#88B078] text-white">AHORRA 16%</span>
+                    </div>
+                    <div className="text-right">
+                      <span className="text-sm text-[#1A1A1A] font-semibold">$49.99/año</span>
+                      <p className="text-[10px] text-[#666666]">$4.17/mes</p>
+                    </div>
+                  </div>
+                  <div className="flex gap-2">
+                    <Button onClick={() => handleSubscribe("PREMIUM_ANNUAL")} disabled={!!loadingPayment} variant="primary" className="flex-1 py-2 text-xs">
+                      {loadingPayment === "qvapay-PREMIUM_ANNUAL" ? <Loader2 className="w-3 h-3 mr-1 animate-spin" /> : <WalletCards className="w-3 h-3 mr-1" />}
+                      QvaPay
+                    </Button>
+                    <Button onClick={() => handleTransfer("PREMIUM_ANNUAL")} disabled={!!loadingPayment} variant="outline" className="flex-1 py-2 text-xs">
+                      {loadingPayment === "transfer-PREMIUM_ANNUAL" ? <Loader2 className="w-3 h-3 mr-1 animate-spin" /> : <CreditCard className="w-3 h-3 mr-1" />}
+                      Transfermovil
+                    </Button>
+                  </div>
+                </div>
+
+                <Link href="/pricing" className="block text-center text-xs text-[#666666] hover:text-[#1A1A1A]">
                   Ver todos los planes
                 </Link>
               </div>

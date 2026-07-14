@@ -15,6 +15,8 @@ export interface PlanDef {
   analysesPerMonth: number
   features: string[]
   popular: boolean
+  annual?: boolean
+  monthlyPrice?: number
 }
 
 export interface PackDef {
@@ -59,6 +61,25 @@ export const PLANS: PlanDef[] = [
     popular: true,
   },
   {
+    id: "PREMIUM_ANNUAL",
+    name: "Premium Anual",
+    priceUSD: 49.99,
+    priceCUP: toCUP(49.99),
+    period: "por año",
+    analysesPerMonth: -1,
+    features: [
+      "Análisis ilimitados",
+      "Historial completo",
+      "Comparación de evolución",
+      "Seguimiento avanzado",
+      "Escaneos adicionales",
+      "Ahorras $9.89 vs. mensual",
+    ],
+    popular: false,
+    annual: true,
+    monthlyPrice: 4.17,
+  },
+  {
     id: "PRO",
     name: "Pro",
     priceUSD: 9.99,
@@ -73,6 +94,25 @@ export const PLANS: PlanDef[] = [
       "Soporte prioritario",
     ],
     popular: false,
+  },
+  {
+    id: "PRO_ANNUAL",
+    name: "Pro Anual",
+    priceUSD: 99.99,
+    priceCUP: toCUP(99.99),
+    period: "por año",
+    analysesPerMonth: -1,
+    features: [
+      "Todo Premium",
+      "Procesamiento prioritario",
+      "Acceso temprano a nuevas funciones",
+      "Herramientas avanzadas",
+      "Soporte prioritario",
+      "Ahorras $19.89 vs. mensual",
+    ],
+    popular: false,
+    annual: true,
+    monthlyPrice: 8.33,
   },
   {
     id: "PRO_PLUS",
