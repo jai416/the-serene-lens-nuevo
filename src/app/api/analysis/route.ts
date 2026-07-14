@@ -1,14 +1,14 @@
 import { getServerSession } from "next-auth"
 import { authOptions } from "@/lib/auth"
 import { db } from "@/lib/db"
-import { ok, serverError } from "@/lib/api-response"
+import { ok, unauthorized, serverError } from "@/lib/api-response"
 
 export async function GET() {
   try {
     const session = await getServerSession(authOptions)
 
     if (!session?.user) {
-      return ok({ analyses: [] })
+      return unauthorized()
     }
 
     const analyses = await db.skinAnalysis.findMany({

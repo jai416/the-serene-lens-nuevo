@@ -1,6 +1,8 @@
 "use client"
 
 import { useState, useEffect } from "react"
+import { redirect, usePathname } from "next/navigation"
+import { useSession } from "next-auth/react"
 import { Card, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
@@ -19,6 +21,8 @@ interface SupportMessage {
 }
 
 export default function SupportPage() {
+  const pathname = usePathname()
+  const { data: session, status } = useSession()
   const [messages, setMessages] = useState<SupportMessage[]>([])
   const [loading, setLoading] = useState(true)
   const [subject, setSubject] = useState("")
@@ -26,6 +30,9 @@ export default function SupportPage() {
   const [submitting, setSubmitting] = useState(false)
   const [success, setSuccess] = useState(false)
   const [error, setError] = useState("")
+
+  if (status === "loading") return <div className="min-h-screen flex items-center justify-center"><CardSkeleton /></div>
+  if (!session) redirect("/login?callbackUrl=" + encodeURIComponent(pathname))
 
   const fetchMessages = async () => {
     try {

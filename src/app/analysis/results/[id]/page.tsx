@@ -121,7 +121,7 @@ export default function AnalysisResultsPage() {
           recommendations: safeParseArray(analysisData.recommendations),
           confidence: obs.confidence || "media",
           confidenceReason: obs.confidenceReason || "",
-          routine: typeof obs.routine === "object" && obs.routine ? obs.routine : { morning: [], evening: [] },
+          routine: typeof obs.routine === "object" && obs.routine && !Array.isArray(obs.routine) ? obs.routine : { morning: [], evening: [] },
         }
         setResult(parsed)
       } catch {

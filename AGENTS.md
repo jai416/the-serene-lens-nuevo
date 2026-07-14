@@ -107,6 +107,18 @@ The WebcamCapture component is conditionally rendered (`{webcamSlot && <WebcamCa
 
 The middleware sets `csrf-token` cookie via `response.cookies.set()` with `httpOnly: false` explicitly. If this were `httpOnly: true` (default in some Next.js versions), `document.cookie` could not read it and `getCsrfToken()` in `csrf-client.ts` would return empty string, causing all CSPF validations to fail with 403. Always keep `httpOnly: false` for CSRF cookies.
 
+### 10. CSP headers duplicated — middleware CSP logic is dead code
+
+Both `next.config.mjs` (via `async headers()`) and `middleware.ts` set Content-Security-Policy headers. Since Next.js processes `next.config.mjs` headers first, the middleware check `if (!existingCsp)` always finds an existing header and skips. The CSP block in middleware.ts (lines 64-67) is effectively dead code. When changing CSP, edit `next.config.mjs` only.
+
+### 11. Analysis API returns 401 for unauthenticated users
+
+`GET /api/analysis` previously returned `200 { analyses: [] }` for unauthenticated users. Now correctly returns 401. The `src/app/api/analysis/route.ts` line 11 was changed from `return ok({ analyses: [] })` to `return unauthorized()`.
+
+### 12. Dashboard placeholder pages must have auth guards
+
+`/dashboard/referrals`, `/dashboard/social`, and `/dashboard/support` are all client components that must guard with `useSession()` + `redirect()`. The support page already does API calls to `/api/support/messages` which the backend protects, but the frontend must prevent rendering without auth. Always add `useSession()` + early redirect to any new dashboard page.
+
 ### 10. Modelos de IA y Prompt
 
 - **Visión (análisis de piel, product scanner):** `llama-3.2-11b-vision-preview` en Groq (gratis)
@@ -220,6 +232,7 @@ All env vars in `.env.example`. Key vars:
 - `POST /api/payments/redeem-gift` — redeem gift code (requires matching email)
 - `GET/PUT /api/user/reminders` — user reminder preferences
 - `GET /api/cron/send-reminders` — send due email reminders (CRON_SECRET protected)
+- `POST /api/contact` — public contact form (rate-limited 5/hr/IP, no auth required)
 - `POST /api/aging-predict` — aging prediction (PRO+)
 - `POST /api/skin-diary` — diary CRUD
 - `GET/POST /api/challenges` — challenges (display-only, no UI complete button)

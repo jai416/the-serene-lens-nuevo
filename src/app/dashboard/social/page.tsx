@@ -1,4 +1,14 @@
+"use client"
+
+import { redirect, usePathname } from "next/navigation"
+import { useSession } from "next-auth/react"
+
 export default function SocialPage() {
+  const pathname = usePathname()
+  const { data: session, status } = useSession()
+  if (status === "loading") return null
+  if (!session) redirect("/login?callbackUrl=" + encodeURIComponent(pathname))
+
   return (
     <div className="flex flex-col items-center justify-center min-h-[60vh] px-6 text-center">
       <div className="w-20 h-20 rounded-2xl bg-[#E2ECE0] flex items-center justify-center mb-6">
