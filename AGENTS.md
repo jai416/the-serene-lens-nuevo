@@ -13,6 +13,12 @@
 - Telegram Bot: webhook, permission matrix (FREE trial 72h, PREMIUM+ unlimited, ESTHETICIAN total), TransferSMS detection
 - DB-persistent queue: AnalysisJob polling every 3s, 2.5s throttle between jobs
 - **7-day PREMIUM trial on registration**: new users get PREMIUM plan + `trialEndsAt = now + 7d`. Cron endpoint `POST /api/cron/cleanup-trials` degrades expired trials to FREE + resets analysis limits. Trial banner shown on pricing + subscription pages.
+- **Annual plans**: `PREMIUM_ANNUAL` ($49.99/yr, save 16%) and `PRO_ANNUAL` ($99.99/yr) with 365-day subscription period. Webhook and verify route handle annual period correctly.
+- **Lead Magnet**: `POST /api/lead-magnet` collects email, sends free skincare guide. Landing section with email form. Rate-limited (3/hr/IP).
+- **Gift Packs**: `POST /api/payments/gift` buys a pack for another email, sends gift code via email. `POST /api/payments/redeem-gift` redeems code. Model: `GiftPack`. UI in pricing page.
+- **User Reminders**: Profile page allows setting weekly/biweekly/monthly email reminders. `GET/PUT /api/user/reminders`. `GET /api/cron/send-reminders` sends due reminders.
+- **Evolution Chart**: Upgraded to Recharts `LineChart` with 6 skin categories, trends grid, severity diff. Only shown to non-FREE users.
+- **Share results**: Web Share API + clipboard fallback on analysis results page.
 - **No Redis, no BullMQ, no Stripe**
 
 ## Commands
@@ -77,6 +83,15 @@ The `session` callback injects: `role`, `plan`, `id`, `name`, `email`, `username
 ### 6. `tsc --noEmit` timeout on low-memory machines
 
 On machines with limited RAM (e.g. Render free tier, small VPS), `npx tsc --noEmit` may crash with a Bus Error or timeout. This is a memory issue, not a code error. The pre-commit hook runs `tsc --noEmit` — if it fails due to memory, use `git commit --no-verify` to bypass.
+
+### 7. Annual plan period handling must be consistent
+
+Three places set subscription periodEnd:
+- `POST /api/payments/webhook` — correctly checks `plan.endsWith("_ANNUAL")` for 365 vs 30 days
+- `POST /api/payments/verify` — same logic (copy from webhook)
+- `billing.service.ts` — uses `getPlan(user.plan)` to check `analysesPerMonth === -1` instead of hardcoded plan list
+
+When adding new plans, update ALL three files plus `getPlanLabel()` in `src/lib/utils.ts`.
 
 ### 7. Profile page: session-only data, no DB on mount
 
@@ -200,6 +215,11 @@ All env vars in `.env.example`. Key vars:
 
 ### Other
 - `GET /api/cron/uv-alerts` — UV alerts via Telegram (CRON_SECRET protected)
+- `POST /api/lead-magnet` — collects email, sends free guide (rate-limited, CSRF protected)
+- `POST /api/payments/gift` — buy gift pack for another email (sends gift code)
+- `POST /api/payments/redeem-gift` — redeem gift code (requires matching email)
+- `GET/PUT /api/user/reminders` — user reminder preferences
+- `GET /api/cron/send-reminders` — send due email reminders (CRON_SECRET protected)
 - `POST /api/aging-predict` — aging prediction (PRO+)
 - `POST /api/skin-diary` — diary CRUD
 - `GET/POST /api/challenges` — challenges (display-only, no UI complete button)
@@ -214,6 +234,9 @@ All env vars in `.env.example`. Key vars:
 - `GroupAnalytics`: referral group progress
 - `AppConfig`: feature flags (single-row table, 60s cache)
 - `RateLimit`: DB-backed rate limiting
+- `LeadMagnet`: email captures for free guide download
+- `GiftPack`: gift pack purchases with gift code, redemption tracking
+- `UserReminder`: reminder frequency/enabled per user
 
 ## Telegram Bot Commands
 
