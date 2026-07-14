@@ -64,12 +64,12 @@ function TrendIndicator({ current, previous }: { current: string; previous: stri
   if (currScore === 0 || prevScore === 0) return null
 
   if (currScore < prevScore) {
-    return <TrendingUp className="w-4 h-4 text-[#88B078]" title="Mejoró" />
+    return <span title="Mejoró"><TrendingUp className="w-4 h-4 text-[#88B078]" /></span>
   }
   if (currScore > prevScore) {
-    return <TrendingDown className="w-4 h-4 text-[#E8A0A0]" title="Empeoró" />
+    return <span title="Empeoró"><TrendingDown className="w-4 h-4 text-[#E8A0A0]" /></span>
   }
-  return <Minus className="w-4 h-4 text-[#666666]" title="Estable" />
+  return <span title="Estable"><Minus className="w-4 h-4 text-[#666666]" /></span>
 }
 
 interface Props {
