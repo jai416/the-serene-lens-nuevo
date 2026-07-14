@@ -130,7 +130,7 @@ export function PreviousAnalysesComparison({ currentId, userId, currentResult }:
         </div>
         <div className="space-y-2">
           {categories.map((key) => {
-            const currentVal = (currentResult as Record<string, string>)[key] || ""
+            const currentVal = (currentResult as unknown as Record<string, string>)[key] || ""
             const prevVal = parseCategoryValue(prevObs, key)
             if (!currentVal && !prevVal) return null
             return (
