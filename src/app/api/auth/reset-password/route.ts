@@ -2,6 +2,8 @@ import { NextRequest } from "next/server"
 import crypto from "crypto"
 import { db } from "@/lib/db"
 import { ok, error, serverError } from "@/lib/api-response"
+import { checkRateLimit } from "@/lib/rate-limit"
+import { validateCsrf } from "@/lib/csrf-middleware"
 
 async function hashPassword(password: string): Promise<string> {
   return new Promise((resolve, reject) => {
@@ -15,6 +17,14 @@ async function hashPassword(password: string): Promise<string> {
 
 export async function POST(req: NextRequest) {
   try {
+    if (!validateCsrf(req)) return error("CSRF token inválido", 403)
+
+    const ip = req.headers.get("x-forwarded-for") || req.headers.get("x-real-ip") || "unknown"
+    const rl = await checkRateLimit(`reset-password:${ip}`, 10, 60 * 60 * 1000)
+    if (!rl.allowed) {
+      return error("Demasiadas solicitudes. Intenta más tarde.", 429)
+    }
+
     const { email, token, password } = await req.json()
 
     if (!email || !token || !password) {

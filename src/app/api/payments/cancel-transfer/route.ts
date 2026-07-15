@@ -4,6 +4,7 @@ import { authOptions } from "@/lib/auth"
 import { db } from "@/lib/db"
 import { ok, error, unauthorized, forbidden, serverError } from "@/lib/api-response"
 import { validateCsrf } from "@/lib/csrf-middleware"
+import { checkRateLimit } from "@/lib/rate-limit"
 
 export async function POST(req: NextRequest) {
   try {
@@ -12,6 +13,10 @@ export async function POST(req: NextRequest) {
     const session = await getServerSession(authOptions)
     if (!session?.user?.id) return unauthorized()
     if (session.user.role !== "ADMIN") return forbidden()
+
+    const ip = req.headers.get("x-forwarded-for") || req.headers.get("x-real-ip") || "unknown"
+    const rl = await checkRateLimit(`cancel-transfer:${session.user.id}:${ip}`, 30, 60000)
+    if (!rl.allowed) return error("Demasiadas solicitudes. Intenta de nuevo en un minuto.", 429)
 
     const { referenceCode } = await req.json()
     if (!referenceCode) return error("Falta código de referencia")
