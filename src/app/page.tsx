@@ -62,6 +62,36 @@ export default function HomePage() {
 
   return (
     <div className="min-h-screen">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@graph": [
+              {
+                "@type": "WebSite",
+                name: "The Serene Lens",
+                url: "https://the-serene-lens-nuevo.onrender.com",
+                potentialAction: {
+                  "@type": "SearchAction",
+                  target: {
+                    "@type": "EntryPoint",
+                    urlTemplate: "https://the-serene-lens-nuevo.onrender.com/blog?q={search_term_string}",
+                  },
+                  "query-input": "required name=search_term_string",
+                },
+              },
+              {
+                "@type": "Organization",
+                name: "The Serene Lens",
+                url: "https://the-serene-lens-nuevo.onrender.com",
+                logo: "https://the-serene-lens-nuevo.onrender.com/logo.webp",
+                description: "Observación cosmética de tu piel con inteligencia artificial.",
+              },
+            ],
+          }),
+        }}
+      />
       {/* ─── Hero ─── */}
       <section className="relative min-h-[90vh] flex items-center py-20 px-4 sm:px-8 overflow-hidden bg-gradient-to-b from-[#F8F9FA] via-[#F8F9FA] to-white">
         <div className="max-w-7xl mx-auto w-full">
