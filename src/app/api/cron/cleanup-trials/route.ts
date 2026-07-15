@@ -39,8 +39,12 @@ export async function POST(req: Request) {
       }
     }
 
-    logger.info("Trial cleanup completed", { degraded: count })
-    return NextResponse.json({ degraded: count })
+    const { count: prunedRateLimits } = await db.rateLimit.deleteMany({
+      where: { createdAt: { lt: new Date(Date.now() - 24 * 60 * 60 * 1000) } },
+    })
+
+    logger.info("Trial cleanup completed", { degraded: count, prunedRateLimits })
+    return NextResponse.json({ degraded: count, prunedRateLimits })
   } catch (e) {
     logger.error("Trial cleanup failed", { error: e instanceof Error ? e.message : String(e) })
     return NextResponse.json({ error: "Error" }, { status: 500 })

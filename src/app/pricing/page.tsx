@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect, useRef } from "react"
 import { useSession } from "next-auth/react"
 import { useRouter } from "next/navigation"
 import { Button } from "@/components/ui/button"
@@ -31,9 +31,29 @@ export default function PricingPage() {
   const router = useRouter()
   const [tab, setTab] = useState<Tab>("subscriptions")
   const [loading, setLoading] = useState<string | null>(null)
+  const [loadingElapsed, setLoadingElapsed] = useState(0)
   const [error, setError] = useState("")
   const [selectedTransfer, setSelectedTransfer] = useState<TransferData | null>(null)
   const [giftModal, setGiftModal] = useState<{ packId: string; email: string; sending: boolean } | null>(null)
+  const loadingStartRef = useRef(0)
+
+  useEffect(() => {
+    if (!loading) {
+      setLoadingElapsed(0)
+      return
+    }
+    loadingStartRef.current = Date.now()
+    const interval = setInterval(() => {
+      setLoadingElapsed(Date.now() - loadingStartRef.current)
+    }, 1000)
+    return () => clearInterval(interval)
+  }, [loading])
+
+  function getPaymentLoadingText(): string {
+    if (loadingElapsed < 8000) return "Conectando con la pasarela de pago..."
+    if (loadingElapsed < 20000) return "Conectando de forma segura con la pasarela... (esto puede tomar hasta 20 segundos)"
+    return "Aún conectando... por favor no recargues ni cierres esta página"
+  }
 
   const handleSubscribe = async (planId: string) => {
     if (!session) {
@@ -388,7 +408,7 @@ export default function PricingPage() {
                       ) : (
                         <WalletCards className="w-4 h-4 mr-2" />
                       )}
-                      {loading === `${plan.id}-qvapay` ? "Procesando..." : "Pagar con QvaPay"}
+                      {loading === `${plan.id}-qvapay` ? getPaymentLoadingText() : "Pagar con QvaPay"}
                     </Button>
                     <Button
                       onClick={() => handleTransfer(plan.id, plan.priceUSD)}
@@ -402,7 +422,7 @@ export default function PricingPage() {
                       ) : (
                         <CreditCard className="w-4 h-4 mr-2" />
                       )}
-                      {loading === `${plan.id}-transfer` ? "Procesando..." : "Pagar con Transfermovil"}
+                      {loading === `${plan.id}-transfer` ? getPaymentLoadingText() : "Pagar con Transfermovil"}
                     </Button>
                   </div>
                 ) : (
@@ -488,7 +508,7 @@ export default function PricingPage() {
                     ) : (
                       <WalletCards className="w-4 h-4 mr-2" />
                     )}
-                    {loading === `${pack.id}-qvapay` ? "Procesando..." : "Pagar con QvaPay"}
+                    {loading === `${pack.id}-qvapay` ? getPaymentLoadingText() : "Pagar con QvaPay"}
                   </Button>
                   <Button
                     onClick={() => handleTransfer(pack.id, pack.priceUSD)}
@@ -502,7 +522,7 @@ export default function PricingPage() {
                     ) : (
                       <CreditCard className="w-4 h-4 mr-2" />
                     )}
-                    {loading === `${pack.id}-transfer` ? "Procesando..." : "Pagar con Transfermovil"}
+                    {loading === `${pack.id}-transfer` ? getPaymentLoadingText() : "Pagar con Transfermovil"}
                     </Button>
                     <Button
                       onClick={() => handleGiftPack(pack.id)}

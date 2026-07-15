@@ -61,44 +61,71 @@ export async function POST(req: NextRequest) {
 
     logger.info("Creating QvaPay payment", { plan: parsed.data.plan, amount, userId: session.user.id, isPack })
 
+    const existingIntent = await db.payment.findFirst({
+      where: {
+        userId: session.user.id,
+        plan: parsed.data.plan,
+        status: { in: ["pending_creation", "pending"] },
+      },
+    })
+    if (existingIntent) {
+      logger.info("Returning existing pending payment", { paymentId: existingIntent.id, qvapayId: existingIntent.qvapayId })
+      return ok({ url: null, id: existingIntent.qvapayId, provider: "qvapay", existing: true, paymentId: existingIntent.id })
+    }
+
+    const payment = await db.payment.create({
+      data: {
+        userId: session.user.id,
+        provider: "qvapay",
+        plan: parsed.data.plan,
+        status: "pending_creation",
+        amount,
+        amountUsd: amount,
+        amountCup: amount * cupRate,
+      },
+    })
+
     let qvapayPayment: any
-    if (isPack) {
-      qvapayPayment = await createQvaPayPackPayment({
-        amount,
-        description: `${packDef!.name} - The Serene Lens`,
-        plan: parsed.data.plan,
-        userId: session.user.id,
-        packType: parsed.data.plan,
+    try {
+      if (isPack) {
+        qvapayPayment = await createQvaPayPackPayment({
+          amount,
+          description: `${packDef!.name} - The Serene Lens`,
+          plan: parsed.data.plan,
+          userId: session.user.id,
+          packType: parsed.data.plan,
+        })
+      } else {
+        qvapayPayment = await createQvaPayPayment({
+          amount,
+          description: `Plan ${planDef!.name} - The Serene Lens`,
+          plan: parsed.data.plan,
+          userId: session.user.id,
+        })
+      }
+    } catch (e) {
+      await db.payment.update({
+        where: { id: payment.id },
+        data: { status: "failed" },
       })
-    } else {
-      qvapayPayment = await createQvaPayPayment({
-        amount,
-        description: `Plan ${planDef!.name} - The Serene Lens`,
-        plan: parsed.data.plan,
-        userId: session.user.id,
-      })
+      throw e
     }
 
     logger.info("QvaPay invoice created", {
       invoice_id: qvapayPayment?.invoice_id,
       transaction_uuid: qvapayPayment?.transaction_uuid,
       hasUrl: !!qvapayPayment?.url,
-      url: qvapayPayment?.url,
       keys: qvapayPayment ? Object.keys(qvapayPayment) : [],
     })
 
     const transactionUuid = qvapayPayment?.invoice_id || qvapayPayment?.transaction_uuid
     if (transactionUuid) {
-      await db.payment.create({
+      await db.payment.update({
+        where: { id: payment.id },
         data: {
-          userId: session.user.id,
-          provider: "qvapay",
           qvapayId: String(transactionUuid),
-          plan: parsed.data.plan,
-          amount,
-          amountUsd: amount,
-          amountCup: amount * cupRate,
           remoteId: qvapayPayment.remote_id,
+          status: "pending",
         },
       })
     }
