@@ -50,13 +50,49 @@ export async function POST(req: NextRequest) {
 
     logger.info("Creating QvaPay pack payment", { packType, amount, userId: session.user.id })
 
-    const qvapayPayment = await createQvaPayPackPayment({
-      amount,
-      description: `Pack ${packDef.name} - The Serene Lens`,
-      plan: "",
-      userId: session.user.id,
-      packType,
+    const existingIntent = await db.payment.findFirst({
+      where: {
+        userId: session.user.id,
+        plan: packType,
+        status: { in: ["pending_creation", "pending"] },
+      },
     })
+    if (existingIntent) {
+      logger.info("Found existing pending pack payment", { paymentId: existingIntent.id, status: existingIntent.status })
+      if (existingIntent.status === "pending_creation") {
+        return error("Ya hay un pago en proceso para este pack. Espera unos segundos y vuelve a intentar.", 409)
+      }
+      return ok({ url: null, id: existingIntent.qvapayId, provider: "qvapay", existing: true, paymentId: existingIntent.id })
+    }
+
+    const payment = await db.payment.create({
+      data: {
+        userId: session.user.id,
+        provider: "qvapay",
+        plan: packType,
+        status: "pending_creation",
+        amount,
+        amountUsd: amount,
+        amountCup: amount * cupRate,
+      },
+    })
+
+    let qvapayPayment: any
+    try {
+      qvapayPayment = await createQvaPayPackPayment({
+        amount,
+        description: `Pack ${packDef.name} - The Serene Lens`,
+        plan: "",
+        userId: session.user.id,
+        packType,
+      })
+    } catch (e) {
+      await db.payment.update({
+        where: { id: payment.id },
+        data: { status: "failed" },
+      })
+      throw e
+    }
 
     logger.info("QvaPay pack invoice created", {
       invoice_id: qvapayPayment?.invoice_id,
@@ -67,25 +103,25 @@ export async function POST(req: NextRequest) {
     const transactionUuid = qvapayPayment?.invoice_id || qvapayPayment?.transaction_uuid
     if (transactionUuid) {
       try {
-        await db.payment.create({
+        await db.payment.update({
+          where: { id: payment.id },
           data: {
-            userId: session.user.id,
-            provider: "qvapay",
             qvapayId: String(transactionUuid),
-            plan: packType,
-            amount,
-            amountUsd: amount,
-            amountCup: amount * cupRate,
             remoteId: qvapayPayment.remote_id,
+            status: "pending",
           },
         })
       } catch (e) {
-        logger.error("DB payment save error", { error: e instanceof Error ? e.message : "Unknown" })
+        logger.error("DB payment update error", { error: e instanceof Error ? e.message : "Unknown" })
       }
     }
 
     if (!qvapayPayment?.url) {
       logger.error("QvaPay returned no URL", { qvapayPayment })
+      await db.payment.update({
+        where: { id: payment.id },
+        data: { status: "failed" },
+      })
       return error("Error al generar enlace de pago")
     }
 

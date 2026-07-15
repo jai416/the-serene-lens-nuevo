@@ -69,7 +69,10 @@ export async function POST(req: NextRequest) {
       },
     })
     if (existingIntent) {
-      logger.info("Returning existing pending payment", { paymentId: existingIntent.id, qvapayId: existingIntent.qvapayId })
+      logger.info("Found existing pending payment", { paymentId: existingIntent.id, status: existingIntent.status, qvapayId: existingIntent.qvapayId })
+      if (existingIntent.status === "pending_creation") {
+        return error("Ya hay un pago en proceso para este plan. Espera unos segundos y vuelve a intentar.", 409)
+      }
       return ok({ url: null, id: existingIntent.qvapayId, provider: "qvapay", existing: true, paymentId: existingIntent.id })
     }
 
