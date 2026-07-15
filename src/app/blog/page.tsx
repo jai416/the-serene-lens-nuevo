@@ -6,8 +6,11 @@ import type { BlogPost } from "./blog-client"
 export const dynamic = "force-dynamic"
 
 export const metadata: Metadata = {
-  title: "Blog de Skincare | The Serene Lens",
+  title: "Blog de Skincare",
   description: "Artículos sobre cuidado de la piel, ingredientes activos, rutinas y tendencias en skincare.",
+  openGraph: {
+    title: "Blog de Skincare | The Serene Lens",
+  },
 }
 
 export default async function BlogPage() {

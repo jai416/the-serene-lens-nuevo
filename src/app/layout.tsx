@@ -18,8 +18,10 @@ import { ClientInit } from "@/components/client-init"
 import { FeatureFlagProvider } from "@/components/feature-flag-provider"
 import { LocaleProvider } from "@/lib/locale/locale-context"
 
+const APP_URL = process.env.NEXT_PUBLIC_APP_URL || "https://the-serene-lens-nuevo.onrender.com"
+
 export const metadata: Metadata = {
-  metadataBase: new URL(process.env.NEXT_PUBLIC_APP_URL || "https://the-serene-lens-nuevo.onrender.com"),
+  metadataBase: new URL(APP_URL),
   title: {
     template: "%s | The Serene Lens",
     default: "The Serene Lens | Observación Cosmética de tu Piel",
@@ -30,17 +32,30 @@ export const metadata: Metadata = {
   },
   description:
     "Descubre las características visibles de tu piel con observaciones cosméticas personalizadas y recomendaciones educativas.",
+  alternates: {
+    canonical: APP_URL,
+  },
   openGraph: {
     title: "The Serene Lens | Observación Cosmética de tu Piel",
     description: "Descubre tu piel y construye una rutina personalizada.",
+    url: APP_URL,
     siteName: "The Serene Lens",
     locale: "es_ES",
     type: "website",
+    images: [
+      {
+        url: "/images/banner-social.jpg",
+        width: 1344,
+        height: 768,
+        alt: "The Serene Lens — Observación Cosmética de tu Piel",
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",
     title: "The Serene Lens | Observación Cosmética",
     description: "Descubre las características visibles de tu piel con observaciones personalizadas.",
+    images: ["/images/banner-social.jpg"],
   },
   robots: {
     index: true,
