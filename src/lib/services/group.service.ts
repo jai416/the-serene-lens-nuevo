@@ -104,28 +104,36 @@ export async function checkAndCompleteReferral(userId: string) {
     select: { id: true, groupId: true, referrerId: true },
   })
 
-  for (const ref of pendingReferrals) {
-    await db.referral.update({
-      where: { id: ref.id },
-      data: { status: "completed", completedAt: new Date(), firstAnalysisAt: new Date() },
+  if (pendingReferrals.length === 0) return
+
+  const ids = pendingReferrals.map(r => r.id)
+
+  await db.referral.updateMany({
+    where: { id: { in: ids } },
+    data: { status: "completed", completedAt: new Date(), firstAnalysisAt: new Date() },
+  })
+
+  const withGroup = pendingReferrals.filter(r => r.groupId)
+  const uniqueGroupIds = [...new Set(withGroup.map(r => r.groupId!))]
+
+  if (uniqueGroupIds.length === 0) return
+
+  const groups = await db.groupAnalytics.findMany({
+    where: { groupId: { in: uniqueGroupIds } },
+  })
+
+  for (const group of groups) {
+    const newCount = (group.completedCount || 0) + withGroup.filter(r => r.groupId === group.groupId).length
+    await db.groupAnalytics.update({
+      where: { id: group.id },
+      data: {
+        completedCount: newCount,
+        totalRevenue: newCount * GROUP_DISCOUNT_PRICE,
+      },
     })
 
-    if (ref.groupId) {
-      const group = await db.groupAnalytics.findUnique({ where: { groupId: ref.groupId } })
-      if (!group) continue
-
-      const newCount = (group.completedCount || 0) + 1
-      await db.groupAnalytics.update({
-        where: { id: group.id },
-        data: {
-          completedCount: newCount,
-          totalRevenue: newCount * GROUP_DISCOUNT_PRICE,
-        },
-      })
-
-      if (newCount >= GROUP_REQUIRED && group.status === "pending") {
-        await completeGroup(group.id, group.groupId, ref.referrerId, newCount)
-      }
+    if (newCount >= GROUP_REQUIRED && group.status === "pending") {
+      await completeGroup(group.id, group.groupId, group.referrerId, newCount)
     }
   }
 }
@@ -216,26 +224,29 @@ export async function getUserReferralGroups(userId: string) {
     orderBy: { createdAt: "desc" },
   })
 
-  const result = await Promise.all(
-    groups.map(async (g) => {
-      const referralCount = await db.referral.count({
-        where: { groupId: g.groupId },
-      })
-      return {
-        groupId: g.groupId,
-        invitedCount: g.invitedCount,
-        completedCount: g.completedCount,
-        totalRevenue: g.totalRevenue,
-        status: g.status,
-        createdAt: g.createdAt,
-        completedAt: g.completedAt,
-        expiresAt: g.expiresAt,
-        referralCount,
-        isExpired: new Date() > g.expiresAt,
-        slotsRemaining: Math.max(0, GROUP_REQUIRED - referralCount),
-      }
-    })
-  )
+  if (groups.length === 0) return []
 
-  return result
+  const counts = await db.referral.groupBy({
+    by: ["groupId"],
+    where: { groupId: { in: groups.map(g => g.groupId) } },
+    _count: { id: true },
+  })
+  const countMap = new Map(counts.map(c => [c.groupId, c._count.id]))
+
+  return groups.map((g) => {
+    const referralCount = countMap.get(g.groupId) || 0
+    return {
+      groupId: g.groupId,
+      invitedCount: g.invitedCount,
+      completedCount: g.completedCount,
+      totalRevenue: g.totalRevenue,
+      status: g.status,
+      createdAt: g.createdAt,
+      completedAt: g.completedAt,
+      expiresAt: g.expiresAt,
+      referralCount,
+      isExpired: new Date() > g.expiresAt,
+      slotsRemaining: Math.max(0, GROUP_REQUIRED - referralCount),
+    }
+  })
 }

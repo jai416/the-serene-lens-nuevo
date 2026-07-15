@@ -1,12 +1,10 @@
 "use client"
 
 import { useEffect } from "react"
-import { initSentry } from "@/lib/sentry"
 import { initAnalytics, identifyUser } from "@/lib/analytics"
 
 export function ClientInit() {
   useEffect(() => {
-    initSentry()
     initAnalytics()
   }, [])
 

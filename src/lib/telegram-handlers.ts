@@ -451,7 +451,7 @@ export async function handleValidar(chatId: string, userId: string, args: string
     let ok = 0, fail = 0
     for (const p of pendings) {
       try {
-        await Promise.all([
+        await db.$transaction([
           db.transferPayment.update({ where: { id: p.id }, data: { status: "validated", validatedById: userId, validatedAt: new Date() } }),
           db.auditLog.create({ data: { userId, action: "validate_transfer", targetId: p.id, targetType: "transfer", details: `Batch validated ${p.referenceCode}` } }),
         ])
@@ -475,7 +475,7 @@ export async function handleValidar(chatId: string, userId: string, args: string
       const p = pendings[idx - 1]
       if (!p) { fail++; continue }
       try {
-        await Promise.all([
+        await db.$transaction([
           db.transferPayment.update({ where: { id: p.id }, data: { status: "validated", validatedById: userId, validatedAt: new Date() } }),
           db.auditLog.create({ data: { userId, action: "validate_transfer", targetId: p.id, targetType: "transfer", details: `Batch validated ${p.referenceCode}` } }),
         ])
@@ -649,8 +649,8 @@ export async function handleActivar(chatId: string, userId: string, args: string
       const t = validated[idx - 1]
       if (!t) { fail++; continue }
       try {
-        await db.transferPayment.update({ where: { id: t.id }, data: { status: "activated", activatedById: userId, activatedAt: new Date() } })
-        await Promise.all([
+        await db.$transaction([
+          db.transferPayment.update({ where: { id: t.id }, data: { status: "activated", activatedById: userId, activatedAt: new Date() } }),
           db.subscription.create({ data: { userId: t.userId, plan: t.plan, provider: "transfer", status: "active", currentPeriodStart: new Date(), currentPeriodEnd: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000) } }),
           db.payment.create({ data: { userId: t.userId, provider: "transfer", plan: t.plan, amount: t.amount, status: "completed", confirmedAt: new Date(), remoteId: t.referenceCode } }),
           db.auditLog.create({ data: { userId, action: "activate_transfer", targetId: t.id, targetType: "transfer", details: `Batch activated ${t.referenceCode}` } }),

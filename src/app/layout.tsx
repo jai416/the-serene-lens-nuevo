@@ -77,8 +77,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <link rel="dns-prefetch" href="https://api.resend.com" />
         <link rel="preconnect" href="https://app.posthog.com" crossOrigin="anonymous" />
         <link rel="dns-prefetch" href="https://app.posthog.com" />
-        <link rel="preconnect" href="https://o4511315853246464.ingest.us.sentry.io" crossOrigin="anonymous" />
-        <link rel="dns-prefetch" href="https://o4511315853246464.ingest.us.sentry.io" />
+
         <link rel="dns-prefetch" href="https://www.qvapay.com" />
         {process.env.NODE_ENV === "production" && (
           <script
