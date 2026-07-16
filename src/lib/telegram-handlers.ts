@@ -15,7 +15,7 @@ const USER_KEYBOARD: { text: string }[][] = [
   [{ text: "🆘 Ayuda" }, { text: "💡 Tip" }, { text: "📬 Contacto" }],
   [{ text: "🌿 Recomendar" }, { text: "⭐ Valorar" }, { text: "⏰ Recordatorio" }],
   [{ text: "🎭 Meme" }, { text: "🧪 Test Piel" }, { text: "📋 Mi Rutina" }],
-  [{ text: "📅 Diario" }],
+  [{ text: "📅 Diario" }, { text: "🆕 Web" }, { text: "❓ Ayuda" }],
 ]
 
 type MenuContext = { chatId: string; userId: string; messageId?: number; callbackId?: string }

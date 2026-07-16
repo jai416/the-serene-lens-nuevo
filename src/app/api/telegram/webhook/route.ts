@@ -19,6 +19,7 @@ import {
 import { sendTelegramMessage, sendTelegramMenu } from "@/lib/telegram"
 import { getUserRole } from "@/lib/telegram"
 import { generateBotResponse } from "@/lib/bot-rag"
+import { checkRateLimit } from "@/lib/rate-limit"
 
 // ─── Rate limit (spam control) ─────────────────────────────────
 const userCooldowns = new Map<string, { lastCmdAt: number; lastPhotoAt: number }>()
@@ -261,9 +262,15 @@ export async function POST(req: NextRequest) {
       case "/whois":
         await handleWhois(chatId, userId, rest)
         break
-      case "/consultar":
+      case "/consultar": {
+        const rl = await checkRateLimit(`bot-consultar:${chatId}`, 10, 60000)
+        if (!rl.allowed) {
+          await sendTelegramMessage(chatId, "⏳ Has usado muchas consultas. Espera un minuto antes de preguntar de nuevo.")
+          return NextResponse.json({ ok: true })
+        }
         await handleConsultar(chatId, userId, rest)
         break
+      }
 
       default: {
         // Check if user is in test_piel flow
@@ -318,6 +325,11 @@ export async function POST(req: NextRequest) {
         } else {
           const role = await getUserRole(chatId)
           if (role) {
+            const rl = await checkRateLimit(`bot-rag:${chatId}`, 20, 60000)
+            if (!rl.allowed) {
+              await sendTelegramMessage(chatId, "⏳ Has hecho muchas preguntas. Espera un momento antes de seguir.")
+              return NextResponse.json({ ok: true })
+            }
             const response = await generateBotResponse(msg.text || "", chatId, username)
             let text = response.text
             if (role === "ADMIN" || role === "VALIDATOR") {

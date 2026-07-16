@@ -155,6 +155,15 @@ export async function POST(req: NextRequest) {
           },
         })
       }
+
+      await tx.webhookEvent.create({
+        data: {
+          provider: "qvapay",
+          eventType: transactionUuid,
+          payload: body,
+          processedAt: new Date(),
+        },
+      })
     })
 
     return ok({ received: true, type: "plan" })

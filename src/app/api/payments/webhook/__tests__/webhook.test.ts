@@ -22,6 +22,7 @@ const {
     purchasePack: { create: mockCreate },
     user: { update: mockUpdate },
     subscription: { create: mockCreate },
+    webhookEvent: { create: vi.fn() },
   })),
 }))
 
