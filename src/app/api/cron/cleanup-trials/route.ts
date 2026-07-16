@@ -39,12 +39,38 @@ export async function POST(req: Request) {
       }
     }
 
+    const { count: expiredSubs } = await db.subscription.updateMany({
+      where: {
+        status: "active",
+        currentPeriodEnd: { lt: new Date() },
+      },
+      data: { status: "expired" },
+    })
+
+    if (expiredSubs > 0) {
+      const expired = await db.subscription.findMany({
+        where: { status: "expired", updatedAt: { gte: new Date(Date.now() - 60000) } },
+        select: { userId: true, plan: true },
+      })
+      for (const sub of expired) {
+        const hasActive = await db.subscription.findFirst({
+          where: { userId: sub.userId, status: "active", id: { not: sub.id } },
+        })
+        if (!hasActive) {
+          await db.user.update({
+            where: { id: sub.userId },
+            data: { plan: "FREE", analysisLimit: 1 },
+          })
+        }
+      }
+    }
+
     const { count: prunedRateLimits } = await db.rateLimit.deleteMany({
       where: { createdAt: { lt: new Date(Date.now() - 24 * 60 * 60 * 1000) } },
     })
 
-    logger.info("Trial cleanup completed", { degraded: count, prunedRateLimits })
-    return NextResponse.json({ degraded: count, prunedRateLimits })
+    logger.info("Trial cleanup completed", { degraded: count, expiredSubs, prunedRateLimits })
+    return NextResponse.json({ degraded: count, expiredSubs, prunedRateLimits })
   } catch (e) {
     logger.error("Trial cleanup failed", { error: e instanceof Error ? e.message : String(e) })
     return NextResponse.json({ error: "Error" }, { status: 500 })

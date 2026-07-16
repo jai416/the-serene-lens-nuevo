@@ -75,24 +75,32 @@ function TrendIndicator({ current, previous }: { current: string; previous: stri
 interface Props {
   currentId: string
   userId: string
-  currentResult: AIResult
+  currentResult?: AIResult
 }
 
 export function PreviousAnalysesComparison({ currentId, userId, currentResult }: Props) {
   const [previous, setPrevious] = useState<PreviousAnalysis | null>(null)
+  const [current, setCurrent] = useState<AIResult | null>(currentResult || null)
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    const fetchPrevious = async () => {
+    const fetchData = async () => {
       try {
         const res = await fetch(`/api/analysis?userId=${userId}&limit=5`)
         const data = await res.json()
         const analyses = data?.data?.analyses || data?.analyses || []
-        const prevAnalyses = analyses
-          .filter((a: PreviousAnalysis) => a.id !== currentId)
-          .sort((a: PreviousAnalysis, b: PreviousAnalysis) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
-        if (prevAnalyses.length > 0) {
-          setPrevious(prevAnalyses[0])
+        const sorted = [...analyses].sort(
+          (a: PreviousAnalysis, b: PreviousAnalysis) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+        )
+        const idx = sorted.findIndex((a: PreviousAnalysis) => a.id === currentId)
+        if (idx >= 0 && sorted[idx + 1]) {
+          setPrevious(sorted[idx + 1])
+          if (!currentResult && sorted[idx]?.observations) {
+            try { setCurrent(JSON.parse(sorted[idx].observations)) } catch {}
+          }
+        } else if (!currentResult && sorted.length >= 2) {
+          setPrevious(sorted[1])
+          try { setCurrent(JSON.parse(sorted[0].observations)) } catch {}
         }
       } catch {
         // silently fail
@@ -100,15 +108,17 @@ export function PreviousAnalysesComparison({ currentId, userId, currentResult }:
         setLoading(false)
       }
     }
-    fetchPrevious()
-  }, [currentId, userId])
+    fetchData()
+  }, [currentId, userId, currentResult])
 
   if (loading) return null
+  if (!current) return null
   if (!previous) return null
 
   const prevObs = previous.observations || "{}"
+  const currentObs = current
   const daysDiff = Math.round(
-    (new Date(currentResult.skinType === "" ? new Date() : new Date()).getTime() - new Date(previous.createdAt).getTime())
+    (new Date().getTime() - new Date(previous.createdAt).getTime())
     / (1000 * 60 * 60 * 24)
   )
 
@@ -130,7 +140,7 @@ export function PreviousAnalysesComparison({ currentId, userId, currentResult }:
         </div>
         <div className="space-y-2">
           {categories.map((key) => {
-            const currentVal = (currentResult as unknown as Record<string, string>)[key] || ""
+            const currentVal = (currentObs as unknown as Record<string, string>)[key] || ""
             const prevVal = parseCategoryValue(prevObs, key)
             if (!currentVal && !prevVal) return null
             return (

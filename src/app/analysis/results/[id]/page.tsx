@@ -29,7 +29,6 @@ import { useSession } from "next-auth/react"
 import Link from "next/link"
 import { toast } from "sonner"
 import { SatisfactionSurvey } from "@/components/satisfaction-survey"
-import { PreviousAnalysesComparison } from "@/components/previous-analyses-comparison"
 
 interface AIResult {
   skinType: string
@@ -497,11 +496,6 @@ export default function AnalysisResultsPage() {
               </div>
             </CardContent>
           </Card>
-
-          {/* ─── 9. Evolución / Antes-Después ─── */}
-          {session && analysis.userId && (
-            <PreviousAnalysesComparison currentId={analysis.id} userId={analysis.userId} currentResult={result} />
-          )}
 
           {/* ─── Feedback ─── */}
           {session && (

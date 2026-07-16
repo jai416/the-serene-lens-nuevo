@@ -9,6 +9,7 @@ import { Badge } from "@/components/ui/badge"
 import { History, Scan, ArrowRight } from "lucide-react"
 import { formatDate } from "@/lib/utils"
 import { EvolutionChart } from "@/components/evolution-chart"
+import { PreviousAnalysesComparison } from "@/components/previous-analyses-comparison"
 import { ListSkeleton } from "@/components/ui/skeleton"
 import { toast } from "sonner"
 
@@ -89,7 +90,19 @@ export default function HistoryPage() {
           </h1>
         </div>
 
-        {showEvolution && <div className="mb-8"><EvolutionChart data={evolution} /></div>}
+        {showEvolution && (
+          <div className="mb-8">
+            <EvolutionChart data={evolution} />
+            {session?.user?.id && analyses.length >= 2 && (
+              <div className="mt-6">
+                <PreviousAnalysesComparison
+                  currentId={analyses[0].id}
+                  userId={session.user.id}
+                />
+              </div>
+            )}
+          </div>
+        )}
 
         {analyses.length === 0 ? (
           <Card className="p-8 text-center">

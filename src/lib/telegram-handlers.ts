@@ -621,9 +621,12 @@ export async function handleActivar(chatId: string, userId: string, args: string
         return
       }
       try {
-        await db.transferPayment.update({ where: { id: transfer.id }, data: { status: "activated", activatedById: userId, activatedAt: new Date() } })
-        await Promise.all([
-          db.subscription.create({ data: { userId: transfer.userId, plan: transfer.plan, provider: "transfer", status: "active", currentPeriodStart: new Date(), currentPeriodEnd: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000) } }),
+        const periodEnd = new Date()
+        periodEnd.setDate(periodEnd.getDate() + (transfer.plan.endsWith("_ANNUAL") ? 365 : 30))
+        await db.$transaction([
+          db.transferPayment.update({ where: { id: transfer.id }, data: { status: "activated", activatedById: userId, activatedAt: new Date() } }),
+          db.user.update({ where: { id: transfer.userId }, data: { plan: transfer.plan } }),
+          db.subscription.create({ data: { userId: transfer.userId, plan: transfer.plan, provider: "transfer", status: "active", currentPeriodStart: new Date(), currentPeriodEnd: periodEnd } }),
           db.payment.create({ data: { userId: transfer.userId, provider: "transfer", plan: transfer.plan, amount: transfer.amount, status: "completed", confirmedAt: new Date(), remoteId: transfer.referenceCode } }),
           db.auditLog.create({ data: { userId, action: "activate_transfer", targetId: transfer.id, targetType: "transfer", details: `Activated ${ref2}` } }),
         ])
@@ -649,9 +652,12 @@ export async function handleActivar(chatId: string, userId: string, args: string
       const t = validated[idx - 1]
       if (!t) { fail++; continue }
       try {
+        const periodEnd = new Date()
+        periodEnd.setDate(periodEnd.getDate() + (t.plan.endsWith("_ANNUAL") ? 365 : 30))
         await db.$transaction([
           db.transferPayment.update({ where: { id: t.id }, data: { status: "activated", activatedById: userId, activatedAt: new Date() } }),
-          db.subscription.create({ data: { userId: t.userId, plan: t.plan, provider: "transfer", status: "active", currentPeriodStart: new Date(), currentPeriodEnd: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000) } }),
+          db.user.update({ where: { id: t.userId }, data: { plan: t.plan } }),
+          db.subscription.create({ data: { userId: t.userId, plan: t.plan, provider: "transfer", status: "active", currentPeriodStart: new Date(), currentPeriodEnd: periodEnd } }),
           db.payment.create({ data: { userId: t.userId, provider: "transfer", plan: t.plan, amount: t.amount, status: "completed", confirmedAt: new Date(), remoteId: t.referenceCode } }),
           db.auditLog.create({ data: { userId, action: "activate_transfer", targetId: t.id, targetType: "transfer", details: `Batch activated ${t.referenceCode}` } }),
         ])
@@ -682,9 +688,12 @@ export async function handleActivarConfirm(chatId: string, userId: string, ref: 
   if (!transfer) { await sendTelegramMessage(chatId, `❌ No encontrado: ${ref}`); return }
   if (transfer.status !== "validated") { await sendTelegramMessage(chatId, `⚠️ Estado: ${transfer.status}`); return }
   try {
-    await db.transferPayment.update({ where: { id: transfer.id }, data: { status: "activated", activatedById: userId, activatedAt: new Date() } })
-    await Promise.all([
-      db.subscription.create({ data: { userId: transfer.userId, plan: transfer.plan, provider: "transfer", status: "active", currentPeriodStart: new Date(), currentPeriodEnd: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000) } }),
+    const periodEnd = new Date()
+    periodEnd.setDate(periodEnd.getDate() + (transfer.plan.endsWith("_ANNUAL") ? 365 : 30))
+    await db.$transaction([
+      db.transferPayment.update({ where: { id: transfer.id }, data: { status: "activated", activatedById: userId, activatedAt: new Date() } }),
+      db.user.update({ where: { id: transfer.userId }, data: { plan: transfer.plan } }),
+      db.subscription.create({ data: { userId: transfer.userId, plan: transfer.plan, provider: "transfer", status: "active", currentPeriodStart: new Date(), currentPeriodEnd: periodEnd } }),
       db.payment.create({ data: { userId: transfer.userId, provider: "transfer", plan: transfer.plan, amount: transfer.amount, status: "completed", confirmedAt: new Date(), remoteId: transfer.referenceCode } }),
       db.auditLog.create({ data: { userId, action: "activate_transfer", targetId: transfer.id, targetType: "transfer", details: `Activated ${ref} via callback` } }),
     ])

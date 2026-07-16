@@ -66,53 +66,55 @@ export async function POST(req: NextRequest) {
       return ok({ completed: false, status: remoteStatus || "unknown" })
     }
 
-    await db.payment.update({
-      where: { id: payment.id },
-      data: {
-        status: "completed",
-        confirmedAt: new Date(),
-      },
-    })
-
     const isPack = ["BASIC", "POPULAR", "ADVANCED"].includes(payment.plan)
     const amountUsd = payment.amount
     const cupRate = 500
 
-    if (isPack) {
-      const analyses = PACK_ANALYSES[payment.plan] || 0
-      await db.purchasePack.create({
+    await db.$transaction(async (tx) => {
+      await tx.payment.update({
+        where: { id: payment.id },
         data: {
-          userId: payment.userId,
-          packType: payment.plan,
-          provider: "qvapay",
-          amountUsd,
-          amountCup: amountUsd * cupRate,
-          analyses,
           status: "completed",
+          confirmedAt: new Date(),
         },
       })
-    } else if (payment.plan) {
-      await db.user.update({
-        where: { id: payment.userId },
-        data: { plan: payment.plan },
-      })
 
-      const isAnnual = payment.plan.endsWith("_ANNUAL")
-      const periodEnd = new Date()
-      periodEnd.setDate(periodEnd.getDate() + (isAnnual ? 365 : 30))
+      if (isPack) {
+        const analyses = PACK_ANALYSES[payment.plan] || 0
+        await tx.purchasePack.create({
+          data: {
+            userId: payment.userId,
+            packType: payment.plan,
+            provider: "qvapay",
+            amountUsd,
+            amountCup: amountUsd * cupRate,
+            analyses,
+            status: "completed",
+          },
+        })
+      } else if (payment.plan) {
+        const isAnnual = payment.plan.endsWith("_ANNUAL")
+        const periodEnd = new Date()
+        periodEnd.setDate(periodEnd.getDate() + (isAnnual ? 365 : 30))
 
-      await db.subscription.create({
-        data: {
-          userId: payment.userId,
-          provider: "qvapay",
-          qvapayInvoiceId: qvapayId,
-          plan: payment.plan,
-          status: "active",
-          currentPeriodStart: new Date(),
-          currentPeriodEnd: periodEnd,
-        },
-      })
-    }
+        await tx.user.update({
+          where: { id: payment.userId },
+          data: { plan: payment.plan },
+        })
+
+        await tx.subscription.create({
+          data: {
+            userId: payment.userId,
+            provider: "qvapay",
+            qvapayInvoiceId: qvapayId,
+            plan: payment.plan,
+            status: "active",
+            currentPeriodStart: new Date(),
+            currentPeriodEnd: periodEnd,
+          },
+        })
+      }
+    })
 
     return ok({ completed: true })
   } catch (e) {

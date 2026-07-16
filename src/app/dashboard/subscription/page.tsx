@@ -51,6 +51,7 @@ export default function SubscriptionPage() {
   const [payments, setPayments] = useState<Payment[]>([])
   const [usage, setUsage] = useState<Usage | null>(null)
   const [packs, setPacks] = useState<Pack[]>([])
+  const [subscription, setSubscription] = useState<{ currentPeriodEnd: string; provider: string } | null>(null)
   const [loadingPayment, setLoadingPayment] = useState<string | null>(null)
 
   const handleSubscribe = async (planId: string) => {
@@ -112,6 +113,11 @@ export default function SubscriptionPage() {
         .then((res) => res.ok ? res.json() : { usage: null })
         .then((data) => setUsage(data?.data?.usage || data.usage))
         .catch(() => {})
+
+      fetch("/api/user/subscription", { signal: controller.signal })
+        .then((res) => res.ok ? res.json() : { subscription: null })
+        .then((data) => setSubscription(data?.data?.subscription || data.subscription))
+        .catch(() => {})
     }
     return () => controller.abort()
   }, [session])
@@ -164,6 +170,12 @@ export default function SubscriptionPage() {
               <div>
                 <p className="text-sm text-[#666666]">Plan actual</p>
                 <h2 className="font-serif text-2xl font-semibold text-[#1A1A1A]">{getPlanLabel(plan)}</h2>
+                {subscription?.currentPeriodEnd && (
+                  <p className="text-xs text-[#666666] mt-1">
+                    Vence el {new Date(subscription.currentPeriodEnd).toLocaleDateString("es-ES", { day: "numeric", month: "long", year: "numeric" })}
+                    {subscription.provider === "transfer" ? " · Transfermovil" : " · QvaPay"}
+                  </p>
+                )}
               </div>
               <Badge className={isPaid ? "bg-[#88B078] text-[#1A1A1A]" : "bg-[#E2ECE0] text-[#666666]"}>
                 {isPaid ? "Activo" : "Gratuito"}

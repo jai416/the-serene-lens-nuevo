@@ -28,10 +28,18 @@ export async function POST(req: NextRequest) {
     if (!transfer) return error("Transferencia no encontrada")
     if (transfer.status !== "validated") return error("La transferencia debe estar validada primero")
 
+    const isAnnual = transfer.plan.endsWith("_ANNUAL")
+    const periodEnd = new Date()
+    periodEnd.setDate(periodEnd.getDate() + (isAnnual ? 365 : 30))
+
     await db.$transaction([
       db.transferPayment.update({
         where: { id: transfer.id },
         data: { status: "activated", activatedById: session.user.id, activatedAt: new Date() },
+      }),
+      db.user.update({
+        where: { id: transfer.userId },
+        data: { plan: transfer.plan },
       }),
       db.subscription.create({
         data: {
@@ -40,7 +48,7 @@ export async function POST(req: NextRequest) {
           provider: "transfer",
           status: "active",
           currentPeriodStart: new Date(),
-          currentPeriodEnd: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000),
+          currentPeriodEnd: periodEnd,
         },
       }),
       db.payment.create({
