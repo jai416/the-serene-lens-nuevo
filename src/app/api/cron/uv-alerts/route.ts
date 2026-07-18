@@ -23,6 +23,16 @@ export async function GET(req: NextRequest) {
     const botToken = process.env.TELEGRAM_BOT_TOKEN
     if (!botToken) return error("TELEGRAM_BOT_TOKEN no configurado")
 
+    const uvTemplate = (uv: number) => {
+      const msgs = [
+        `☀️ ¡Alto UV hoy! El índice UV en tu zona alcanzó ${uv}, considerado extremo. Protégete con protector solar de amplio espectro y reaplica cada 2 horas. Recuerda que la protección solar es el paso más importante de tu rutina. — The Serene Lens`,
+        `🌤 Cuida tu piel hoy. El índice UV en tu área es de ${uv} (extremo). Usa sombrero, gafas de sol y protector solar FPS 50+. Tu piel te lo agradecerá. — The Serene Lens`,
+        `⚠️ Radiación UV muy alta: ${uv}. Evita la exposición solar entre 10am y 4pm. Si sales al exterior, aplica protector solar 30 minutos antes y reaplica cada 2 horas. — The Serene Lens`,
+        `☀️ ¡Atención! Hoy el índice UV alcanza ${uv} en tu zona. El sol caribeño es hermoso pero exigente. No olvides tu protector solar, incluso en días nublados. — The Serene Lens`,
+      ]
+      return msgs[new Date().getDate() % msgs.length]
+    }
+
     let notified = 0
 
     for (const user of users) {
@@ -42,7 +52,7 @@ export async function GET(req: NextRequest) {
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
             chat_id: user.telegramId,
-            text: `☀️ Asere, el índice UV en tu zona hoy es de ${uvMax}. El sol está extremo, no olvides tu protector solar de mañana y reponerlo cada 2 horas.`,
+            text: uvTemplate(uvMax),
             parse_mode: "HTML",
           }),
           signal: AbortSignal.timeout(5000),

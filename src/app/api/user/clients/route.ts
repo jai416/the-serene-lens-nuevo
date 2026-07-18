@@ -53,6 +53,9 @@ export async function POST(req: NextRequest) {
       return error("Nombre requerido (mínimo 2 caracteres)")
     }
 
+    const clinic = await db.clinic.findUnique({ where: { ownerId: session.user.id } })
+    if (!clinic) return error("Clínica no encontrada. Configura tu perfil primero.")
+
     const clientCount = await db.client.count({
       where: { estheticianId: session.user.id },
     })
@@ -64,6 +67,7 @@ export async function POST(req: NextRequest) {
     const client = await db.client.create({
       data: {
         estheticianId: session.user.id,
+        clinicId: clinic.id,
         name: name.trim(),
         email: email?.trim() || null,
         phone: phone?.trim() || null,

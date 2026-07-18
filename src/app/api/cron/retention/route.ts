@@ -24,17 +24,10 @@ export async function POST(req: Request) {
     for (const u of inactive) {
       if (!u.email) continue
       try {
-        const { sendEmail, buildWelcomeEmail } = await import("@/lib/email")
-        const { subject, html } = buildWelcomeEmail(u.name || "Usuario")
-        await sendEmail({
-          to: u.email,
-          subject: "¿Extrañas tu rutina? Vuelve a The Serene Lens",
-          html: html.replace(
-            "disfrutar de todas las funciones",
-            "recibir un recordatorio de cuidado de la piel"
-          ),
-        })
-        sent++
+        const { sendEmail, buildRetentionEmail } = await import("@/lib/email")
+        const { subject, html } = buildRetentionEmail(u.name || "Usuario")
+        const ok = await sendEmail({ to: u.email, subject, html })
+        if (ok) sent++
       } catch {
         continue
       }

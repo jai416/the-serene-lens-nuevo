@@ -20,9 +20,12 @@ export async function POST(req: Request) {
       if (!notif.user.email) continue
       try {
         const { sendEmail } = await import("@/lib/email")
+        const cleanTitle = notif.title.replace(/[🎉✅❌⚠️🆕📢🔔⭐]/g, "").trim()
+        const subjectPrefixes = ["The Serene Lens", "Notificación", "Novedades"]
+        const subIdx = new Date().getDate() % subjectPrefixes.length
         const ok = await sendEmail({
           to: notif.user.email,
-          subject: `The Serene Lens — ${notif.title.replace(/[🎉✅❌⚠️🆕📢🔔⭐]/g, "").trim()}`,
+          subject: `${subjectPrefixes[subIdx]} — ${cleanTitle}`,
           html: `<div style="font-family:sans-serif;max-width:600px;margin:0 auto;padding:20px"><h2 style="color:#1A1A1A">${notif.title}</h2><p style="color:#666;line-height:1.6">${notif.message}</p>${notif.link ? `<a href="${notif.link}" style="display:inline-block;padding:12px 24px;background:#88B078;color:#1A1A1A;text-decoration:none;border-radius:12px;font-weight:600;margin-top:16px">Ver en la web</a>` : ""}</div>`,
         })
         if (ok) {

@@ -4,6 +4,12 @@ const FROM_EMAIL = GMAIL_USER || "noreply@theserenelens.com"
 const APP_URL = process.env.NEXT_PUBLIC_APP_URL || "https://the-serene-lens-nuevo.onrender.com"
 const APP_NAME = "The Serene Lens"
 
+function pickVariant<T>(variants: T[]): T {
+  const day = new Date().getDate()
+  const idx = day % variants.length
+  return variants[idx]
+}
+
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 let nodemailer: any = null
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -98,11 +104,24 @@ export function buildWelcomeEmail(name: string): { subject: string; html: string
 }
 
 export function buildTrialEndedEmail(name: string): { subject: string; html: string } {
+  const greeting = name ? name : "querido usuario"
+  const subjects = [
+    "Tu periodo PREMIUM ha finalizado — The Serene Lens",
+    "Seguimos aquí para ti — The Serene Lens",
+    "¿Listo para más? Tu prueba terminó — The Serene Lens",
+    "Gracias por probar The Serene Lens",
+  ]
+  const messages = [
+    `Hola ${greeting},\n\nTu periodo de prueba PREMIUM de 7 días en ${APP_NAME} ha finalizado. No te preocupes, tu cuenta continúa activa en el plan Essential con 1 análisis gratuito por mes.\n\nSi deseas seguir disfrutando de análisis ilimitados y funciones avanzadas, puedes suscribirte a un plan PREMIUM o PRO desde tu panel.`,
+    `Estimado/a ${greeting},\n\nQueremos agradecerte por haber probado ${APP_NAME} durante estos 7 días. Esperamos que la experiencia haya sido valiosa para ti.\n\nTu cuenta ha sido reactivada en el plan Essential, que incluye 1 análisis facial gratuito cada mes. Si extrañas las funciones premium, en cualquier momento puedes volver a suscribirte.`,
+    `Hola ${greeting},\n\nTu prueba gratuita de ${APP_NAME} ha terminado, pero esto no es un adiós. Tu cuenta sigue activa con 1 análisis de piel por mes incluido.\n\nLos usuarios PREMIUM disfrutan de análisis ilimitados, rutinas personalizadas, historial completo y más. Revisa nuestros planes y elige el que mejor se adapte a ti.`,
+  ]
+  const idx = new Date().getDate() % subjects.length
   return {
-    subject: "Tu prueba PREMIUM ha terminado",
+    subject: subjects[idx],
     html: buildEmailHtml(
-      `Tu prueba gratuita terminó${name ? `, ${name}` : ""}`,
-      `Tu periodo de prueba PREMIUM de 7 días ha finalizado.\n\nNo te preocupes, tu cuenta sigue activa en el plan Essential con 1 análisis gratis por mes.\n\nSi quieres seguir disfrutando de todas las funciones premium, puedes suscribirte desde tu panel.`,
+      `Gracias por tu interés${name ? `, ${name}` : ""}`,
+      messages[idx],
       `${APP_URL}/pricing`,
     ),
   }
@@ -137,6 +156,33 @@ export function buildLeadMagnetEmail(): { subject: string; html: string } {
   }
 }
 
+export function buildRetentionEmail(name: string): { subject: string; html: string } {
+  const greeting = name ? name : "querido usuario"
+  const subjects = [
+    "¿Extrañas tu rutina de skincare? — The Serene Lens",
+    "Hace tiempo que no te vemos — The Serene Lens",
+    "Tu piel te espera en The Serene Lens",
+    "Un recordatorio cálido de The Serene Lens",
+    "Pequeños hábitos, grandes cambios — The Serene Lens",
+  ]
+  const messages = [
+    `Hola ${greeting},\n\nNotamos que hace unos días que no realizas un análisis en ${APP_NAME}. Sabemos que la vida a veces se interpone, pero tu piel siempre agradece la atención.\n\n¿Por qué no retomas hoy tu rutina? Un análisis rápido es todo lo que necesitas para empezar de nuevo.`,
+    `Hola ${greeting},\n\nEn ${APP_NAME} extrañamos verte. El cuidado de la piel es un viaje, no un destino, y cada análisis es un paso adelante.\n\nTu historial y tus métricas anteriores siguen guardados. Vuelve y descubre cómo ha cambiado tu piel desde tu última visita.`,
+    `Estimado/a ${greeting},\n\nEsperamos que estés bien. Te escribimos de parte de ${APP_NAME} para recordarte que tu piel merece atención continua, incluso en los días ocupados.\n\nUn hábito de 5 minutos puede marcar la diferencia a largo plazo. Te esperamos con nuevas recomendaciones personalizadas.`,
+    `Hola ${greeting},\n\nSabemos que la constancia no siempre es fácil, pero estamos aquí para ayudarte. En ${APP_NAME} transformamos el cuidado facial en un hábito sencillo y gratificante.\n\nTu próxima análisis está a un clic de distancia. ¡Te esperamos!`,
+    `Hola ${greeting},\n\nLos buenos hábitos no tienen que ser complicados. En ${APP_NAME} creemos que conocerse a uno mismo es el primer paso para cuidarse.\n\nVuelve hoy, tómate 5 minutos para analizar tu piel y descubre lo que ha cambiado. Tu yo del futuro te lo agradecerá.`,
+  ]
+  const idx = new Date().getDate() % subjects.length
+  return {
+    subject: subjects[idx],
+    html: buildEmailHtml(
+      `Hola${name ? `, ${name}` : ""}`,
+      messages[idx],
+      `${APP_URL}/analysis`,
+    ),
+  }
+}
+
 export function buildGiftEmail({
   buyerName, recipientEmail, giftCode, analyses, packType,
 }: {
@@ -160,11 +206,27 @@ export function buildGiftEmail({
 }
 
 export function buildReminderEmail(name: string): { subject: string; html: string } {
+  const greeting = name ? name : "querido usuario"
+  const subjects = [
+    "Tu piel te está esperando — The Serene Lens",
+    "Hoy es un buen día para cuidarte — The Serene Lens",
+    "¿Cómo está tu piel hoy? — The Serene Lens",
+    "Tu recordatorio de skincare — The Serene Lens",
+    "No olvides mimar tu piel — The Serene Lens",
+  ]
+  const messages = [
+    `Hola ${greeting},\n\nEn ${APP_NAME} creemos que la constancia es la clave para una piel saludable. ¿Por qué no te tomas 5 minutos hoy para analizar tu piel y ver cómo ha evolucionado?`,
+    `Hola ${greeting},\n\nTu piel cambia cada día según el clima, la alimentación y el estrés. Mantente al tanto de esas variaciones con un análisis rápido en ${APP_NAME}. Solo te llevará unos minutos.`,
+    `Estimado/a ${greeting},\n\nEste es tu recordatorio amistoso de ${APP_NAME}. La piel es el órgano más grande del cuerpo y merece atención regular. Haz tu análisis de hoy y descubre qué necesita tu piel en este momento.`,
+    `Hola ${greeting},\n\nEl cuidado de la piel no se trata de perfección, sino de constancia. En ${APP_NAME} te ayudamos a mantener ese hábito con análisis rápidos y recomendaciones personalizadas. ¡Te esperamos!`,
+    `Hola ${greeting},\n\n¿Sabías que tu piel se regenera completamente cada 28 días? Cada análisis en ${APP_NAME} captura ese momento único. Tómate un minuto para registrar cómo está tu piel hoy.`,
+  ]
+  const idx = new Date().getDate() % subjects.length
   return {
-    subject: "Recordatorio — Cuida tu piel hoy — The Serene Lens",
+    subject: subjects[idx],
     html: buildEmailHtml(
-      `¡Hola${name ? `, ${name}` : ""}!`,
-      `Este es tu recordatorio para analizar tu piel.\n\nEl cuidado constante es clave para mantener una piel saludable. Tómate 5 minutos para hacer un análisis y ver cómo ha evolucionado tu piel desde la última vez.`,
+      `Hola${name ? `, ${name}` : ""}`,
+      messages[idx],
       `${APP_URL}/analysis`,
     ),
   }
