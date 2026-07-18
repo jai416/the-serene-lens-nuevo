@@ -28,7 +28,7 @@ export async function POST(req: Request) {
         if (ok) {
           await db.notification.update({
             where: { id: notif.id },
-            data: { emailSent: true },
+            data: { emailSent: true, sentAt: new Date() },
           })
           sent++
         }
