@@ -26,7 +26,7 @@ export async function redisGet<T = unknown>(key: string): Promise<T | undefined>
   try {
     const r = await getRedis()
     if (!r) return undefined
-    return (await r.get<T>(key)) ?? undefined
+    return (await r.get(key)) as T ?? undefined
   } catch (e) {
     captureError(e, { context: "redis.redisGet", key })
     return undefined
