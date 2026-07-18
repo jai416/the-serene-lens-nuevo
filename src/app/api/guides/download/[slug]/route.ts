@@ -25,7 +25,7 @@ export async function GET(req: NextRequest, { params }: { params: Promise<{ slug
     })
     if (!purchase) return error("No has comprado esta guía", 403)
 
-    const filePath = path.join(process.cwd(), guide.fileUrl)
+    const filePath = path.join(/* turbopackIgnore: true */ process.cwd(), guide.fileUrl)
     try {
       await fs.access(filePath)
     } catch {
