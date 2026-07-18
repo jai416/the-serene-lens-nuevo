@@ -139,7 +139,7 @@ export const PLANS: PlanDef[] = [
     analysesPerMonth: -1,
     features: [
       "Todo Pro+",
-      "Hasta 50 clientes por mes",
+      "Hasta 200 clientes",
       "Panel de gestión de clientes",
       "Informes PDF con tu marca",
       "Comparativas entre clientes",
@@ -204,8 +204,10 @@ export function getPack(id: string): PackDef | undefined {
   return PACKS.find((p) => p.id === id)
 }
 
-export function getPlanLabel(id: string): string {
-  return getPlan(id)?.name || id
+export const PACK_ANALYSES: Record<string, number> = {
+  BASIC: 3,
+  POPULAR: 5,
+  ADVANCED: 15,
 }
 
 export { FALLBACK_CUP_RATE as CUP_RATE }

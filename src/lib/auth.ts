@@ -6,6 +6,7 @@ import GitHubProvider from "next-auth/providers/github"
 import { db } from "@/lib/db"
 import { getEnv } from "@/lib/env"
 import { checkRateLimit } from "@/lib/rate-limit"
+import { setSentryUser } from "@/lib/sentry"
 
 function getAuthEnv() {
   try {
@@ -42,7 +43,7 @@ async function verifyPassword(password: string, hash: string): Promise<boolean> 
   })
 }
 
-export async function registerUser(email: string, password: string, name?: string, username?: string) {
+export async function registerUser(email: string, password: string, name?: string, username?: string, estheticianCode?: string) {
   const existing = await db.user.findUnique({ where: { email } })
   if (existing) return { error: "Ya existe una cuenta con este email" }
 
@@ -52,6 +53,13 @@ export async function registerUser(email: string, password: string, name?: strin
     if (usernameClean.length < 3) return { error: "El nombre de usuario debe tener al menos 3 caracteres" }
     const existingUsername = await db.user.findFirst({ where: { username: usernameClean } })
     if (existingUsername) return { error: "Este nombre de usuario ya está en uso" }
+  }
+
+  let referredByClinicId: string | undefined
+  if (estheticianCode) {
+    const clinic = await db.clinic.findUnique({ where: { referralCode: estheticianCode.toUpperCase() } })
+    if (!clinic) return { error: "Código de esteticista inválido. Verifica e intenta de nuevo." }
+    referredByClinicId = clinic.id
   }
 
   const authEnv = getAuthEnv()
@@ -67,6 +75,7 @@ export async function registerUser(email: string, password: string, name?: strin
       plan: isAdmin ? "PRO_PLUS" : "PREMIUM",
       analysisLimit: 0,
       trialEndsAt: isAdmin ? undefined : new Date(Date.now() + 7 * 86400000),
+      referredByEstheticianId: referredByClinicId,
     },
   })
 
@@ -114,8 +123,12 @@ export const authOptions: NextAuthOptions = {
           ? req.headers["x-forwarded-for"].split(",")[0].trim()
           : "unknown"
 
-        const { allowed } = await checkRateLimit(`login:${ip}`, 10, 60000)
-        if (!allowed) return null
+        const { allowed: ipAllowed } = await checkRateLimit(`login:ip:${ip}`, 10, 60000)
+        if (!ipAllowed) return null
+
+        const emailKey = `login:email:${credentials.email}`
+        const { allowed: emailAllowed } = await checkRateLimit(emailKey, 5, 15 * 60 * 1000)
+        if (!emailAllowed) return null
 
         const user = await db.user.findUnique({
           where: { email: credentials.email },
@@ -125,6 +138,8 @@ export const authOptions: NextAuthOptions = {
 
         const valid = await verifyPassword(credentials.password, user.password)
         if (!valid) return null
+
+        clearRateLimit(emailKey).catch(() => {})
 
         return {
           id: user.id,
@@ -264,6 +279,7 @@ export const authOptions: NextAuthOptions = {
         session.user.latitude = (token.latitude as number) ?? null
         session.user.longitude = (token.longitude as number) ?? null
         session.user.trialEndsAt = (token.trialEndsAt as string) ?? null
+        setSentryUser({ id: token.sub!, email: session.user.email!, role: token.role as string })
       }
       return session
     },

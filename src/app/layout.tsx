@@ -15,6 +15,8 @@ import { Sidebar } from "@/components/layout/sidebar"
 import { TopHeader } from "@/components/layout/top-header"
 import { MobileNav } from "@/components/layout/mobile-nav"
 import { ClientInit } from "@/components/client-init"
+import { FeedbackButton } from "@/components/feedback-button"
+import { ClarityAnalytics } from "@/components/clarity-analytics"
 import { FeatureFlagProvider } from "@/components/feature-flag-provider"
 import { LocaleProvider } from "@/lib/locale/locale-context"
 
@@ -30,6 +32,7 @@ export const metadata: Metadata = {
     icon: [{ url: "/logo.webp", type: "image/webp" }, { url: "/favicon.ico", sizes: "32x32" }],
     apple: "/icons/icon-152.png",
   },
+  manifest: "/manifest.json",
   description:
     "Descubre las características visibles de tu piel con observaciones cosméticas personalizadas y recomendaciones educativas.",
   alternates: {
@@ -67,6 +70,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="es" suppressHydrationWarning className={inter.variable}>
       <head>
+        <link rel="manifest" href="/manifest.json" />
         <meta name="google-site-verification" content="FyNhwOqJ_JWdfoU_RZPYAqSNuHeuCXUgjmwDqT1cGXw" />
         <link rel="manifest" href="/manifest.json" />
         <link rel="preconnect" href="https://api.groq.com" crossOrigin="anonymous" />
@@ -117,6 +121,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                   }}
                 />
                 <ClientInit />
+                <ClarityAnalytics />
+                <FeedbackButton />
               </FeatureFlagProvider>
               </LocaleProvider>
             </AuthProvider>

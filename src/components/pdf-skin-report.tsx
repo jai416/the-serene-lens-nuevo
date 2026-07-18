@@ -50,6 +50,8 @@ interface AnalysisData {
 
 interface ReportProps {
   userName: string
+  clinicName?: string
+  clinicLogo?: string
   analyses: AnalysisData[]
   evolution?: {
     trend: string
@@ -68,15 +70,25 @@ interface ReportProps {
   } | null
 }
 
-function SkinReport({ userName, analyses, evolution, monthlyComparison, dynamicRoutine }: ReportProps) {
+function SkinReport({ userName, clinicName, clinicLogo, analyses, evolution, monthlyComparison, dynamicRoutine }: ReportProps) {
   const latestAnalysis = analyses[0]
   const formatDate = (d: string) => new Date(d).toLocaleDateString("es-ES", { year: "numeric", month: "long", day: "numeric" })
 
   return (
     <Document>
       <Page size="A4" style={styles.page}>
-        <Text style={styles.title}>Informe de Evolución Cutánea</Text>
-        <Text style={styles.subtitle}>{userName} — {formatDate(new Date().toISOString())}</Text>
+        <View style={{ flexDirection: "row", alignItems: "center", marginBottom: 20, gap: 12 }}>
+          {clinicLogo && (
+            <View style={{ width: 48, height: 48, borderRadius: 8, overflow: "hidden" }}>
+              <Text style={{ fontSize: 8 }}>{clinicLogo ? "[Logo]" : ""}</Text>
+            </View>
+          )}
+          <View style={{ flex: 1 }}>
+            <Text style={styles.title}>{clinicName || "The Serene Lens"}</Text>
+            <Text style={styles.subtitle}>Informe de Evolución Cutánea — {userName}</Text>
+            <Text style={{ fontSize: 10, color: "#666666" }}>{formatDate(new Date().toISOString())}</Text>
+          </View>
+        </View>
 
         {latestAnalysis && (
           <View style={styles.section}>
@@ -210,7 +222,7 @@ function SkinReport({ userName, analyses, evolution, monthlyComparison, dynamicR
   )
 }
 
-export function SkinReportDownload({ userName, analyses, evolution, monthlyComparison, dynamicRoutine }: ReportProps) {
+export function SkinReportDownload({ userName, clinicName, clinicLogo, analyses, evolution, monthlyComparison, dynamicRoutine }: ReportProps) {
   const fileName = `the-serene-lens-informe-${new Date().toISOString().split("T")[0]}.pdf`
 
   return (
@@ -218,6 +230,8 @@ export function SkinReportDownload({ userName, analyses, evolution, monthlyCompa
       document={
         <SkinReport
           userName={userName}
+          clinicName={clinicName}
+          clinicLogo={clinicLogo}
           analyses={analyses}
           evolution={evolution}
           monthlyComparison={monthlyComparison}

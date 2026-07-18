@@ -9,10 +9,7 @@ import { validateCsrf } from "@/lib/csrf-middleware"
 import { sendEmail, buildGiftEmail } from "@/lib/email"
 import { z } from "zod"
 import { logger } from "@/lib/logger"
-
-const PACK_ANALYSES: Record<string, number> = {
-  BASIC: 3, POPULAR: 5, ADVANCED: 15,
-}
+import { PACK_ANALYSES } from "@/lib/pricing"
 
 const giftSchema = z.object({
   packType: z.enum(["BASIC", "POPULAR", "ADVANCED"]),

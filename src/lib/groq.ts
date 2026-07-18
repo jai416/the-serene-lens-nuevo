@@ -3,11 +3,22 @@ import { logger } from "@/lib/logger"
 const GROQ_API_BASE = "https://api.groq.com/openai/v1"
 const MODEL = "llama-3.2-11b-vision-preview"
 
-function buildSystemPrompt(context: { age?: string; concerns?: string; gender?: string; climate?: string; routine?: string }): string {
+function buildSystemPrompt(context: {
+  age?: string
+  concerns?: string
+  gender?: string
+  climate?: string
+  routine?: string
+  previousSkinType?: string | null
+  previousObservations?: string[] | null
+}): string {
   const ageContext = context.age ? `El/la usuario/a tiene ${context.age} años.` : ""
   const concernsContext = context.concerns ? `Sus principales preocupaciones son: ${context.concerns}.` : ""
   const routineContext = context.routine ? `Rutina actual: ${context.routine}.` : ""
   const climateContext = context.climate ? `Clima: ${context.climate}.` : "Clima: Tropical húmedo (predeterminado)."
+  const previousContext = context.previousSkinType
+    ? `Análisis anterior: Piel ${context.previousSkinType}. ${context.previousObservations?.length ? `Observaciones previas: ${context.previousObservations.slice(0, 2).join(", ")}.` : ""} Compara y destaca cambios.`
+    : ""
 
   return `Eres un experto en análisis cosmético y cuidado de la piel. Tu función es evaluar imágenes faciales del usuario (frontal, perfil izquierdo, perfil derecho) combinadas con su información personal para generar un análisis completo y útil.
 
@@ -16,6 +27,7 @@ ${ageContext}
 ${concernsContext}
 ${routineContext}
 ${climateContext}
+${previousContext}
 
 REGLAS ABSOLUTAS:
 1. NO eres un dermatólogo ni un médico. Nunca uses lenguaje clínico, diagnósticos de enfermedades (melasma, dermatitis, rosácea severa, etc.) ni términos que puedan alarmar.
@@ -25,6 +37,7 @@ REGLAS ABSOLUTAS:
 5. Si el usuario indicó preocupaciones específicas, priorízalas en el análisis.
 6. Sugiere activos cosméticos explicando brevemente su función (ej: "Niacinamida: regula el sebo y unifica el tono"). Usa ingredientes como: Niacinamida, Ácido Salicílico, Ácido Hialurónico, Centella Asiática, Vitamina C, Retinol (uso nocturno), Escualano, Ceramidas, Zinc, Té Verde.
 7. El lenguaje de la respuesta debe coincidir con el mismo idioma de las preguntas (español por defecto).
+8. Si hay un análisis anterior, COMPARA y destaca los cambios: "En tu último análisis vimos X, ahora notamos Y." Esto da continuidad y seguimiento.
 
 DEBES DEVOLVER ESTRICTAMENTE UN JSON con esta estructura exacta:
 
@@ -164,7 +177,15 @@ async function groqFetch(
 
 export async function analyzeSkinWithGroq(
   files: File[],
-  context: { age?: string; concerns?: string; gender?: string; climate?: string; routine?: string } = {}
+  context: {
+    age?: string
+    concerns?: string
+    gender?: string
+    climate?: string
+    routine?: string
+    previousSkinType?: string | null
+    previousObservations?: string[] | null
+  } = {}
 ) {
   const buffers = await Promise.all(files.map((f) => compressImage(f)))
   const systemPrompt = buildSystemPrompt(context)

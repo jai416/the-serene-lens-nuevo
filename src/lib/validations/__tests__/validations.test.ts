@@ -166,12 +166,12 @@ describe("clinicSchema", () => {
     expect(result.success).toBe(false)
   })
 
-  it("rejects invalid logo URL", () => {
+  it("accepts logo as any string (base64 data URLs included)", () => {
     const result = clinicSchema.safeParse({
       name: "Clínica",
-      logo: "not-a-url",
+      logo: "data:image/png;base64,iVBOR",
     })
-    expect(result.success).toBe(false)
+    expect(result.success).toBe(true)
   })
 })
 

@@ -4666,7 +4666,8 @@ export const UserScalarFieldEnum = {
   lastCheckInDate: 'lastCheckInDate',
   trialEndsAt: 'trialEndsAt',
   createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
+  updatedAt: 'updatedAt',
+  referredByEstheticianId: 'referredByEstheticianId'
 } as const
 
 export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum]
@@ -4730,6 +4731,7 @@ export type VerificationTokenScalarFieldEnum = (typeof VerificationTokenScalarFi
 export const SkinAnalysisScalarFieldEnum = {
   id: 'id',
   userId: 'userId',
+  clientId: 'clientId',
   imageUrl: 'imageUrl',
   skinType: 'skinType',
   concerns: 'concerns',
@@ -4826,6 +4828,8 @@ export const AuditLogScalarFieldEnum = {
   targetId: 'targetId',
   targetType: 'targetType',
   details: 'details',
+  ip: 'ip',
+  userAgent: 'userAgent',
   createdAt: 'createdAt'
 } as const
 
@@ -4889,9 +4893,11 @@ export const ClinicScalarFieldEnum = {
   id: 'id',
   name: 'name',
   slug: 'slug',
+  referralCode: 'referralCode',
   logo: 'logo',
   address: 'address',
   phone: 'phone',
+  licenseNumber: 'licenseNumber',
   ownerId: 'ownerId',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
@@ -5270,6 +5276,7 @@ export type IngredientKBScalarFieldEnum = (typeof IngredientKBScalarFieldEnum)[k
 export const ClientScalarFieldEnum = {
   id: 'id',
   estheticianId: 'estheticianId',
+  clinicId: 'clinicId',
   name: 'name',
   email: 'email',
   phone: 'phone',

@@ -7,11 +7,7 @@ import { getQvaPayPaymentStatus } from "@/lib/payments"
 import { validateCsrf } from "@/lib/csrf-middleware"
 import { logger } from "@/lib/logger"
 
-const PACK_ANALYSES: Record<string, number> = {
-  BASIC: 3,
-  POPULAR: 5,
-  ADVANCED: 15,
-}
+import { PACK_ANALYSES } from "@/lib/pricing"
 
 export async function POST(req: NextRequest) {
   try {
@@ -68,7 +64,7 @@ export async function POST(req: NextRequest) {
 
     const isPack = ["BASIC", "POPULAR", "ADVANCED"].includes(payment.plan)
     const amountUsd = payment.amount
-    const cupRate = 500
+    const cupRate = Number(process.env.NEXT_PUBLIC_CUP_FALLBACK) || 500
 
     await db.$transaction(async (tx) => {
       await tx.payment.update({

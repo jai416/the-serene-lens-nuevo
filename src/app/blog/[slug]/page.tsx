@@ -124,7 +124,7 @@ export default async function BlogPostPage({
           {post.title}
         </h1>
 
-        <div className="flex items-center gap-4 text-sm text-muted-foreground mb-8">
+        <div className="flex items-center gap-4 text-sm text-[#666666] mb-8">
           {post.publishedAt && (
             <span className="flex items-center gap-1">
               <Calendar className="w-4 h-4" />

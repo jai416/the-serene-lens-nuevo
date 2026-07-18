@@ -361,7 +361,7 @@ export type AnalysisJobCreateInput = {
   status?: string
   priority?: number
   attempts?: number
-  photos: string
+  photos?: string
   body?: string | null
   result?: string | null
   error?: string | null
@@ -377,7 +377,7 @@ export type AnalysisJobUncheckedCreateInput = {
   status?: string
   priority?: number
   attempts?: number
-  photos: string
+  photos?: string
   body?: string | null
   result?: string | null
   error?: string | null
@@ -422,7 +422,7 @@ export type AnalysisJobCreateManyInput = {
   status?: string
   priority?: number
   attempts?: number
-  photos: string
+  photos?: string
   body?: string | null
   result?: string | null
   error?: string | null
@@ -574,7 +574,7 @@ export type AnalysisJobCreateWithoutUserInput = {
   status?: string
   priority?: number
   attempts?: number
-  photos: string
+  photos?: string
   body?: string | null
   result?: string | null
   error?: string | null
@@ -588,7 +588,7 @@ export type AnalysisJobUncheckedCreateWithoutUserInput = {
   status?: string
   priority?: number
   attempts?: number
-  photos: string
+  photos?: string
   body?: string | null
   result?: string | null
   error?: string | null
@@ -646,7 +646,7 @@ export type AnalysisJobCreateManyUserInput = {
   status?: string
   priority?: number
   attempts?: number
-  photos: string
+  photos?: string
   body?: string | null
   result?: string | null
   error?: string | null

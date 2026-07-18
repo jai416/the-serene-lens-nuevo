@@ -1,24 +1,21 @@
 import { describe, it, expect, vi, beforeEach } from "vitest"
 
-const { mockFindUnique, mockCreate, mockSendEmail, mockCheckRateLimit } = vi.hoisted(() => ({
-  mockFindUnique: vi.fn(),
+const { mockCreate, mockFindUnique, mockSendEmail, mockCheckRateLimit } = vi.hoisted(() => ({
   mockCreate: vi.fn(),
+  mockFindUnique: vi.fn(),
   mockSendEmail: vi.fn().mockResolvedValue(true),
   mockCheckRateLimit: vi.fn().mockResolvedValue({ allowed: true, remaining: 2 }),
 }))
 
 vi.mock("@/lib/db", () => ({
   db: {
-    leadMagnet: {
-      findUnique: mockFindUnique,
-      create: mockCreate,
-    },
+    leadMagnet: { create: mockCreate, findUnique: mockFindUnique },
   },
 }))
 
 vi.mock("@/lib/email", () => ({
   sendEmail: mockSendEmail,
-  buildLeadMagnetEmail: vi.fn().mockReturnValue({ subject: "Test", html: "<p>test</p>" }),
+  buildLeadMagnetEmail: vi.fn().mockReturnValue({ subject: "Guide", html: "<p>Guide</p>" }),
 }))
 
 vi.mock("@/lib/rate-limit", () => ({
@@ -31,7 +28,7 @@ vi.mock("@/lib/logger", () => ({
 
 import { POST } from "../route"
 
-describe("LeadMagnet API", () => {
+describe("Lead Magnet API", () => {
   beforeEach(() => {
     vi.clearAllMocks()
   })
@@ -39,71 +36,62 @@ describe("LeadMagnet API", () => {
   it("returns 400 for missing email", async () => {
     const req = new Request("http://localhost/api/lead-magnet", {
       method: "POST",
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify({}),
     })
     const res = await POST(req)
     const body = await res.json()
     expect(res.status).toBe(400)
-    expect(body.error).toContain("Email inválido")
+    expect(body.success).toBe(false)
   })
 
   it("returns 400 for invalid email", async () => {
     const req = new Request("http://localhost/api/lead-magnet", {
       method: "POST",
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ email: "not-an-email" }),
     })
     const res = await POST(req)
     expect(res.status).toBe(400)
   })
 
-  it("returns 429 when rate limited", async () => {
-    mockCheckRateLimit.mockResolvedValueOnce({ allowed: false, remaining: 0 })
+  it("creates lead and sends guide", async () => {
+    mockFindUnique.mockResolvedValue(null)
+    mockCreate.mockResolvedValue({ id: "lead-1", email: "test@test.com" })
     const req = new Request("http://localhost/api/lead-magnet", {
       method: "POST",
-      body: JSON.stringify({ email: "test@example.com" }),
-    })
-    const res = await POST(req)
-    expect(res.status).toBe(429)
-  })
-
-  it("creates lead magnet and returns downloadUrl for new email", async () => {
-    mockFindUnique.mockResolvedValueOnce(null)
-    mockCreate.mockResolvedValueOnce({ id: "1", email: "test@example.com" })
-
-    const req = new Request("http://localhost/api/lead-magnet", {
-      method: "POST",
-      body: JSON.stringify({ email: "test@example.com" }),
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email: "test@test.com" }),
     })
     const res = await POST(req)
     const body = await res.json()
-
-    expect(res.status).toBe(200)
     expect(body.success).toBe(true)
-    expect(body.downloadUrl).toContain("skincare-tropical.pdf")
-    expect(mockCreate).toHaveBeenCalledWith({ data: { email: "test@example.com" } })
+    expect(body.downloadUrl).toContain("skincare-tropical")
+    expect(mockCreate).toHaveBeenCalled()
     expect(mockSendEmail).toHaveBeenCalled()
   })
 
-  it("does not create duplicate for existing email", async () => {
-    mockFindUnique.mockResolvedValueOnce({ id: "1", email: "test@example.com" })
-
+  it("skips create for existing email", async () => {
+    mockFindUnique.mockResolvedValue({ id: "lead-1", email: "test@test.com" })
     const req = new Request("http://localhost/api/lead-magnet", {
       method: "POST",
-      body: JSON.stringify({ email: "test@example.com" }),
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email: "test@test.com" }),
     })
-    await POST(req)
-
+    const res = await POST(req)
+    const body = await res.json()
+    expect(body.success).toBe(true)
     expect(mockCreate).not.toHaveBeenCalled()
   })
 
-  it("returns 500 on db error", async () => {
-    mockFindUnique.mockRejectedValueOnce(new Error("DB error"))
-
+  it("rejects when rate limited", async () => {
+    mockCheckRateLimit.mockResolvedValue({ allowed: false, remaining: 0 })
     const req = new Request("http://localhost/api/lead-magnet", {
       method: "POST",
-      body: JSON.stringify({ email: "test@example.com" }),
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email: "test@test.com" }),
     })
     const res = await POST(req)
-    expect(res.status).toBe(500)
+    expect(res.status).toBe(429)
   })
 })

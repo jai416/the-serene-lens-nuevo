@@ -505,6 +505,7 @@ export default function AdminPage() {
             { href: "/admin/feature-flags", label: "Features", icon: Settings },
             { href: "/admin/knowledge", label: "Conocimiento", icon: BookOpen },
             { href: "/admin/telegram", label: "Telegram", icon: MessageCircle },
+            { href: "/admin/logs", label: "Logs", icon: Activity },
           ].map((item) => (
             <Link key={item.href} href={item.href}>
               <div className="flex items-center gap-2 p-3 rounded-lg hover:bg-[#F0F0F0] transition-colors group">

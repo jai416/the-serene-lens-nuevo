@@ -41,7 +41,8 @@ model User {
   subscriptions Subscription[]
   purchasePacks PurchasePack[]
   usageRecords  UsageTracking[]
-  clinic        Clinic?
+  clinic        Clinic?  @relation("UserClinic")
+  clients       Client[]
   surveyFeedback SurveyFeedback[]
   communityPosts CommunityPost[]
   comments       Comment[]
@@ -69,7 +70,9 @@ model User {
   postReactions      PostReaction[]
   giftPacksBought    GiftPack[]       @relation("GiftBuyer")
   giftPacksRedeemed  GiftPack[]       @relation("GiftRedeemer")
-  reminders          UserReminder[]
+  reminders              UserReminder[]
+  referredByEstheticianId String?
+  referredBy             Clinic?     @relation("UserReferredBy", fields: [referredByEstheticianId], references: [id], onDelete: SetNull)
 
   @@index([plan])
   @@index([role])
@@ -137,6 +140,7 @@ model VerificationToken {
 model SkinAnalysis {
   id              String   @id @default(cuid())
   userId          String?
+  clientId        String?
   imageUrl        String?
   skinType        String?
   concerns        String?
@@ -147,8 +151,10 @@ model SkinAnalysis {
 
   feedback        Feedback?
   user User? @relation(fields: [userId], references: [id], onDelete: Cascade)
+  client Client? @relation(fields: [clientId], references: [id], onDelete: SetNull)
 
   @@index([userId])
+  @@index([clientId])
   @@index([createdAt])
   @@index([userId, createdAt])
   @@index([skinType])
@@ -249,17 +255,20 @@ model TransferPayment {
 }
 
 model AuditLog {
-  id          String   @id @default(cuid())
-  userId      String
-  action      String   // validate_transfer, activate_transfer, cancel_transfer
-  targetId    String   // ID of the affected payment/transfer
-  targetType  String   // "transfer", "payment"
-  details     String?
-  createdAt   DateTime @default(now())
+  id        String   @id @default(cuid())
+  userId    String
+  action    String   // validate_transfer, activate_transfer, cancel_transfer, admin_login, user_impersonate
+  targetId  String?  // ID of the affected payment/transfer/user
+  targetType String? // "transfer", "payment", "user"
+  details   String?
+  ip        String?
+  userAgent String?
+  createdAt DateTime @default(now())
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@index([userId])
+  @@index([action])
   @@index([targetId])
   @@index([createdAt])
 }
@@ -329,17 +338,23 @@ model Feedback {
 }
 
 model Clinic {
-  id        String   @id @default(cuid())
-  name      String
-  slug      String   @unique
-  logo      String?
-  address   String?
-  phone     String?
-  ownerId   String   @unique
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id            String   @id @default(cuid())
+  name          String
+  slug          String   @unique
+  referralCode  String   @unique
+  logo          String?
+  address       String?
+  phone         String?
+  licenseNumber String?
+  ownerId       String   @unique
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
 
-  owner User @relation(fields: [ownerId], references: [id], onDelete: Cascade)
+  owner         User     @relation("UserClinic", fields: [ownerId], references: [id], onDelete: Cascade)
+  clients       Client[]
+  referredUsers User[]  @relation("UserReferredBy")
+
+  @@index([referralCode])
 }
 
 model AffiliateClick {
@@ -766,16 +781,22 @@ model IngredientKB {
 }
 
 model Client {
-  id              String   @id @default(cuid())
-  estheticianId   String
-  name            String
-  email           String?
-  phone           String?
-  notes           String?
-  createdAt       DateTime @default(now())
-  updatedAt       DateTime @updatedAt
+  id            String   @id @default(cuid())
+  estheticianId String
+  clinicId      String
+  name          String
+  email         String?
+  phone         String?
+  notes         String?
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  esthetician User   @relation(fields: [estheticianId], references: [id], onDelete: Cascade)
+  clinic      Clinic @relation(fields: [clinicId], references: [id], onDelete: Cascade)
+  analyses    SkinAnalysis[]
 
   @@index([estheticianId])
+  @@index([clinicId])
 }
 
 model TelegramAuth {

@@ -58,7 +58,17 @@ export async function POST(req: NextRequest) {
       return ok({ result: parsed, cached: true })
     }
 
-    const result = await scanProductIngredients(base64)
+    const user = await db.user.findUnique({
+      where: { id: session.user.id },
+      select: { id: true },
+    })
+    const lastAnalysis = user ? await db.skinAnalysis.findFirst({
+      where: { userId: user.id },
+      orderBy: { createdAt: "desc" },
+      select: { skinType: true },
+    }) : null
+
+    const result = await scanProductIngredients(base64, lastAnalysis?.skinType)
 
     // Save to cache
     await db.cache.upsert({

@@ -6,12 +6,7 @@ import { getQvaPayPaymentStatus } from "@/lib/payments"
 import { getCUPRate } from "@/lib/cup-rate"
 import { checkRateLimit } from "@/lib/rate-limit"
 import { logger } from "@/lib/logger"
-
-const PACK_ANALYSES: Record<string, number> = {
-  BASIC: 3,
-  POPULAR: 5,
-  ADVANCED: 15,
-}
+import { PACK_ANALYSES } from "@/lib/pricing"
 
 export async function POST(req: NextRequest) {
   try {

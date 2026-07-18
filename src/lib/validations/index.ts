@@ -32,13 +32,15 @@ export const registerSchema = z.object({
   password: z.string().min(6).max(128),
   name: z.string().min(1).max(100),
   username: z.string().min(3).max(30).regex(/^[a-zA-Z0-9_]+$/, "Solo letras, números y guión bajo").optional(),
+  estheticianCode: z.string().max(20).optional(),
 }).strict()
 
 export const clinicSchema = z.object({
   name: z.string().min(1).max(200),
   address: z.string().max(500).optional(),
   phone: z.string().max(50).optional(),
-  logo: z.string().url().optional(),
+  logo: z.string().optional(),
+  licenseNumber: z.string().max(100).optional(),
 }).strict()
 
 export const diaryEntrySchema = z.object({

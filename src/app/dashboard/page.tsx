@@ -7,12 +7,13 @@ import Link from "next/link"
 import { Card, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
-import { Scan, History, Droplets, Beaker, ArrowRight, Sparkles, Sun, Clock, ChevronRight, TrendingUp, Shield, Bell } from "lucide-react"
+import { Scan, History, Droplets, Beaker, ArrowRight, Sparkles, Sun, Clock, ChevronRight, TrendingUp, Shield, Bell, Crown, MessageSquare } from "lucide-react"
 import { formatDate } from "@/lib/utils"
 import { CardSkeleton } from "@/components/ui/skeleton"
 import { toast } from "sonner"
 import { useLocale } from "@/lib/locale/locale-context"
 import { t } from "@/lib/locale/translations"
+import { WhatsNewBanner } from "@/components/whats-new-banner"
 
 interface Analysis {
   id: string
@@ -75,9 +76,43 @@ export default function DashboardPage() {
   const hasAnalyses = analyses.length > 0
   const progressScore = hasAnalyses ? Math.min(100, 70 + analyses.length * 2) : 0
 
+  const user = session.user as any
+  const isFree = user?.plan === "FREE" || user?.plan === "ESSENTIAL"
+
   return (
     <div className="px-4 py-6 md:py-8">
       <div className="max-w-6xl mx-auto space-y-6">
+
+        {/* What's New Banner */}
+        <WhatsNewBanner locale={locale} />
+
+        {/* Premium Upgrade Banner for Free Users */}
+        {isFree && (
+          <Card className="p-5 border-0 bg-gradient-to-r from-[#FFF9E6] to-[#FEF6D7] shadow-sm">
+            <CardContent className="p-0 flex flex-col sm:flex-row items-start sm:items-center gap-4">
+              <div className="w-10 h-10 rounded-xl bg-[#FCEAA6] flex items-center justify-center shrink-0">
+                <Crown className="w-5 h-5 text-[#D4A843]" />
+              </div>
+              <div className="flex-1 min-w-0">
+                <p className="text-sm font-semibold text-[#1A1A1A]">
+                  {locale === "en" ? "Unlock Unlimited Analyses" : "Desbloquea Análisis Ilimitados"}
+                </p>
+                <p className="text-xs text-[#666666]">
+                  {locale === "en"
+                    ? "Upgrade to Premium and get unlimited skin analyses, full history, and personalized routines."
+                    : "Actualiza a Premium y obtén análisis ilimitados, historial completo y rutinas personalizadas."}
+                </p>
+              </div>
+              <Link href="/pricing">
+                <Button variant="primary" size="sm" className="shrink-0 gap-1.5 whitespace-nowrap">
+                  <Crown className="w-3.5 h-3.5" />
+                  {locale === "en" ? "Upgrade Now" : "Mejorar ahora"}
+                  <ArrowRight className="w-3 h-3" />
+                </Button>
+              </Link>
+            </CardContent>
+          </Card>
+        )}
 
         {/* Hero Module */}
         <Card className="p-6 md:p-8 border-0 shadow-[0_2px_16px_rgba(0,0,0,0.04)] relative overflow-hidden">
@@ -91,24 +126,40 @@ export default function DashboardPage() {
                   {t("dashboard.greeting", locale).replace("{name}", session.user.name || t("common.user", locale))} 👋
                 </p>
                 <h1 className="text-3xl md:text-4xl font-bold text-[#1A1A1A] mb-3 leading-tight">
-                  {t("dashboard.heroTitle", locale)}
+                  {hasAnalyses
+                    ? locale === "en" ? "Your Skin Journey" : "Tu Viaje de Piel"
+                    : t("dashboard.heroTitle", locale)}
                 </h1>
                 <p className="text-[#666666] text-sm leading-relaxed mb-6 max-w-lg">
-                  {t("dashboard.heroDesc", locale)}
+                  {hasAnalyses
+                    ? locale === "en"
+                      ? `You've completed ${analyses.length} analysis${analyses.length > 1 ? "es" : ""}. Keep tracking your progress!`
+                      : `Completaste ${analyses.length} análisis${analyses.length > 1 ? "" : ""}. ¡Sigue tu evolución!`
+                    : t("dashboard.heroDesc", locale)}
                 </p>
                 <div className="flex flex-wrap gap-3">
                   <Link href="/analysis">
                     <Button className="gap-2">
                       <Scan className="w-4 h-4" />
-                      {t("dashboard.startAnalysis", locale)}
+                      {hasAnalyses ? t("dashboard.startAnalysis", locale) : (locale === "en" ? "Start Your First Analysis" : "Comienza tu primer análisis")}
                     </Button>
                   </Link>
-                  <Link href="/dashboard/diary">
-                    <Button variant="secondary" className="gap-2">
-                      <Droplets className="w-4 h-4" />
-                      {t("dashboard.seeHow", locale)}
-                    </Button>
-                  </Link>
+                  {!hasAnalyses && (
+                    <Link href="/products?category=principiantes">
+                      <Button variant="secondary" className="gap-2">
+                        <Sparkles className="w-4 h-4" />
+                        {locale === "en" ? "Beginner's Guide" : "Guía para principiantes"}
+                      </Button>
+                    </Link>
+                  )}
+                  {hasAnalyses && (
+                    <Link href="/dashboard/diary">
+                      <Button variant="secondary" className="gap-2">
+                        <Droplets className="w-4 h-4" />
+                        {t("dashboard.seeHow", locale)}
+                      </Button>
+                    </Link>
+                  )}
                 </div>
               </div>
             </div>

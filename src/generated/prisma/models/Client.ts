@@ -27,6 +27,7 @@ export type AggregateClient = {
 export type ClientMinAggregateOutputType = {
   id: string | null
   estheticianId: string | null
+  clinicId: string | null
   name: string | null
   email: string | null
   phone: string | null
@@ -38,6 +39,7 @@ export type ClientMinAggregateOutputType = {
 export type ClientMaxAggregateOutputType = {
   id: string | null
   estheticianId: string | null
+  clinicId: string | null
   name: string | null
   email: string | null
   phone: string | null
@@ -49,6 +51,7 @@ export type ClientMaxAggregateOutputType = {
 export type ClientCountAggregateOutputType = {
   id: number
   estheticianId: number
+  clinicId: number
   name: number
   email: number
   phone: number
@@ -62,6 +65,7 @@ export type ClientCountAggregateOutputType = {
 export type ClientMinAggregateInputType = {
   id?: true
   estheticianId?: true
+  clinicId?: true
   name?: true
   email?: true
   phone?: true
@@ -73,6 +77,7 @@ export type ClientMinAggregateInputType = {
 export type ClientMaxAggregateInputType = {
   id?: true
   estheticianId?: true
+  clinicId?: true
   name?: true
   email?: true
   phone?: true
@@ -84,6 +89,7 @@ export type ClientMaxAggregateInputType = {
 export type ClientCountAggregateInputType = {
   id?: true
   estheticianId?: true
+  clinicId?: true
   name?: true
   email?: true
   phone?: true
@@ -168,6 +174,7 @@ export type ClientGroupByArgs<ExtArgs extends runtime.Types.Extensions.InternalA
 export type ClientGroupByOutputType = {
   id: string
   estheticianId: string
+  clinicId: string
   name: string
   email: string | null
   phone: string | null
@@ -200,23 +207,31 @@ export type ClientWhereInput = {
   NOT?: Prisma.ClientWhereInput | Prisma.ClientWhereInput[]
   id?: Prisma.StringFilter<"Client"> | string
   estheticianId?: Prisma.StringFilter<"Client"> | string
+  clinicId?: Prisma.StringFilter<"Client"> | string
   name?: Prisma.StringFilter<"Client"> | string
   email?: Prisma.StringNullableFilter<"Client"> | string | null
   phone?: Prisma.StringNullableFilter<"Client"> | string | null
   notes?: Prisma.StringNullableFilter<"Client"> | string | null
   createdAt?: Prisma.DateTimeFilter<"Client"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Client"> | Date | string
+  esthetician?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
+  clinic?: Prisma.XOR<Prisma.ClinicScalarRelationFilter, Prisma.ClinicWhereInput>
+  analyses?: Prisma.SkinAnalysisListRelationFilter
 }
 
 export type ClientOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   estheticianId?: Prisma.SortOrder
+  clinicId?: Prisma.SortOrder
   name?: Prisma.SortOrder
   email?: Prisma.SortOrderInput | Prisma.SortOrder
   phone?: Prisma.SortOrderInput | Prisma.SortOrder
   notes?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  esthetician?: Prisma.UserOrderByWithRelationInput
+  clinic?: Prisma.ClinicOrderByWithRelationInput
+  analyses?: Prisma.SkinAnalysisOrderByRelationAggregateInput
 }
 
 export type ClientWhereUniqueInput = Prisma.AtLeast<{
@@ -225,17 +240,22 @@ export type ClientWhereUniqueInput = Prisma.AtLeast<{
   OR?: Prisma.ClientWhereInput[]
   NOT?: Prisma.ClientWhereInput | Prisma.ClientWhereInput[]
   estheticianId?: Prisma.StringFilter<"Client"> | string
+  clinicId?: Prisma.StringFilter<"Client"> | string
   name?: Prisma.StringFilter<"Client"> | string
   email?: Prisma.StringNullableFilter<"Client"> | string | null
   phone?: Prisma.StringNullableFilter<"Client"> | string | null
   notes?: Prisma.StringNullableFilter<"Client"> | string | null
   createdAt?: Prisma.DateTimeFilter<"Client"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Client"> | Date | string
+  esthetician?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
+  clinic?: Prisma.XOR<Prisma.ClinicScalarRelationFilter, Prisma.ClinicWhereInput>
+  analyses?: Prisma.SkinAnalysisListRelationFilter
 }, "id">
 
 export type ClientOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   estheticianId?: Prisma.SortOrder
+  clinicId?: Prisma.SortOrder
   name?: Prisma.SortOrder
   email?: Prisma.SortOrderInput | Prisma.SortOrder
   phone?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -253,6 +273,7 @@ export type ClientScalarWhereWithAggregatesInput = {
   NOT?: Prisma.ClientScalarWhereWithAggregatesInput | Prisma.ClientScalarWhereWithAggregatesInput[]
   id?: Prisma.StringWithAggregatesFilter<"Client"> | string
   estheticianId?: Prisma.StringWithAggregatesFilter<"Client"> | string
+  clinicId?: Prisma.StringWithAggregatesFilter<"Client"> | string
   name?: Prisma.StringWithAggregatesFilter<"Client"> | string
   email?: Prisma.StringNullableWithAggregatesFilter<"Client"> | string | null
   phone?: Prisma.StringNullableWithAggregatesFilter<"Client"> | string | null
@@ -263,51 +284,60 @@ export type ClientScalarWhereWithAggregatesInput = {
 
 export type ClientCreateInput = {
   id?: string
-  estheticianId: string
   name: string
   email?: string | null
   phone?: string | null
   notes?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  esthetician: Prisma.UserCreateNestedOneWithoutClientsInput
+  clinic: Prisma.ClinicCreateNestedOneWithoutClientsInput
+  analyses?: Prisma.SkinAnalysisCreateNestedManyWithoutClientInput
 }
 
 export type ClientUncheckedCreateInput = {
   id?: string
   estheticianId: string
+  clinicId: string
   name: string
   email?: string | null
   phone?: string | null
   notes?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  analyses?: Prisma.SkinAnalysisUncheckedCreateNestedManyWithoutClientInput
 }
 
 export type ClientUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  estheticianId?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  esthetician?: Prisma.UserUpdateOneRequiredWithoutClientsNestedInput
+  clinic?: Prisma.ClinicUpdateOneRequiredWithoutClientsNestedInput
+  analyses?: Prisma.SkinAnalysisUpdateManyWithoutClientNestedInput
 }
 
 export type ClientUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   estheticianId?: Prisma.StringFieldUpdateOperationsInput | string
+  clinicId?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  analyses?: Prisma.SkinAnalysisUncheckedUpdateManyWithoutClientNestedInput
 }
 
 export type ClientCreateManyInput = {
   id?: string
   estheticianId: string
+  clinicId: string
   name: string
   email?: string | null
   phone?: string | null
@@ -318,7 +348,6 @@ export type ClientCreateManyInput = {
 
 export type ClientUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  estheticianId?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -330,6 +359,7 @@ export type ClientUpdateManyMutationInput = {
 export type ClientUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   estheticianId?: Prisma.StringFieldUpdateOperationsInput | string
+  clinicId?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -338,9 +368,25 @@ export type ClientUncheckedUpdateManyInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
+export type ClientListRelationFilter = {
+  every?: Prisma.ClientWhereInput
+  some?: Prisma.ClientWhereInput
+  none?: Prisma.ClientWhereInput
+}
+
+export type ClientOrderByRelationAggregateInput = {
+  _count?: Prisma.SortOrder
+}
+
+export type ClientNullableScalarRelationFilter = {
+  is?: Prisma.ClientWhereInput | null
+  isNot?: Prisma.ClientWhereInput | null
+}
+
 export type ClientCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   estheticianId?: Prisma.SortOrder
+  clinicId?: Prisma.SortOrder
   name?: Prisma.SortOrder
   email?: Prisma.SortOrder
   phone?: Prisma.SortOrder
@@ -352,6 +398,7 @@ export type ClientCountOrderByAggregateInput = {
 export type ClientMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
   estheticianId?: Prisma.SortOrder
+  clinicId?: Prisma.SortOrder
   name?: Prisma.SortOrder
   email?: Prisma.SortOrder
   phone?: Prisma.SortOrder
@@ -363,6 +410,7 @@ export type ClientMaxOrderByAggregateInput = {
 export type ClientMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
   estheticianId?: Prisma.SortOrder
+  clinicId?: Prisma.SortOrder
   name?: Prisma.SortOrder
   email?: Prisma.SortOrder
   phone?: Prisma.SortOrder
@@ -371,44 +419,456 @@ export type ClientMinOrderByAggregateInput = {
   updatedAt?: Prisma.SortOrder
 }
 
+export type ClientCreateNestedManyWithoutEstheticianInput = {
+  create?: Prisma.XOR<Prisma.ClientCreateWithoutEstheticianInput, Prisma.ClientUncheckedCreateWithoutEstheticianInput> | Prisma.ClientCreateWithoutEstheticianInput[] | Prisma.ClientUncheckedCreateWithoutEstheticianInput[]
+  connectOrCreate?: Prisma.ClientCreateOrConnectWithoutEstheticianInput | Prisma.ClientCreateOrConnectWithoutEstheticianInput[]
+  createMany?: Prisma.ClientCreateManyEstheticianInputEnvelope
+  connect?: Prisma.ClientWhereUniqueInput | Prisma.ClientWhereUniqueInput[]
+}
+
+export type ClientUncheckedCreateNestedManyWithoutEstheticianInput = {
+  create?: Prisma.XOR<Prisma.ClientCreateWithoutEstheticianInput, Prisma.ClientUncheckedCreateWithoutEstheticianInput> | Prisma.ClientCreateWithoutEstheticianInput[] | Prisma.ClientUncheckedCreateWithoutEstheticianInput[]
+  connectOrCreate?: Prisma.ClientCreateOrConnectWithoutEstheticianInput | Prisma.ClientCreateOrConnectWithoutEstheticianInput[]
+  createMany?: Prisma.ClientCreateManyEstheticianInputEnvelope
+  connect?: Prisma.ClientWhereUniqueInput | Prisma.ClientWhereUniqueInput[]
+}
+
+export type ClientUpdateManyWithoutEstheticianNestedInput = {
+  create?: Prisma.XOR<Prisma.ClientCreateWithoutEstheticianInput, Prisma.ClientUncheckedCreateWithoutEstheticianInput> | Prisma.ClientCreateWithoutEstheticianInput[] | Prisma.ClientUncheckedCreateWithoutEstheticianInput[]
+  connectOrCreate?: Prisma.ClientCreateOrConnectWithoutEstheticianInput | Prisma.ClientCreateOrConnectWithoutEstheticianInput[]
+  upsert?: Prisma.ClientUpsertWithWhereUniqueWithoutEstheticianInput | Prisma.ClientUpsertWithWhereUniqueWithoutEstheticianInput[]
+  createMany?: Prisma.ClientCreateManyEstheticianInputEnvelope
+  set?: Prisma.ClientWhereUniqueInput | Prisma.ClientWhereUniqueInput[]
+  disconnect?: Prisma.ClientWhereUniqueInput | Prisma.ClientWhereUniqueInput[]
+  delete?: Prisma.ClientWhereUniqueInput | Prisma.ClientWhereUniqueInput[]
+  connect?: Prisma.ClientWhereUniqueInput | Prisma.ClientWhereUniqueInput[]
+  update?: Prisma.ClientUpdateWithWhereUniqueWithoutEstheticianInput | Prisma.ClientUpdateWithWhereUniqueWithoutEstheticianInput[]
+  updateMany?: Prisma.ClientUpdateManyWithWhereWithoutEstheticianInput | Prisma.ClientUpdateManyWithWhereWithoutEstheticianInput[]
+  deleteMany?: Prisma.ClientScalarWhereInput | Prisma.ClientScalarWhereInput[]
+}
+
+export type ClientUncheckedUpdateManyWithoutEstheticianNestedInput = {
+  create?: Prisma.XOR<Prisma.ClientCreateWithoutEstheticianInput, Prisma.ClientUncheckedCreateWithoutEstheticianInput> | Prisma.ClientCreateWithoutEstheticianInput[] | Prisma.ClientUncheckedCreateWithoutEstheticianInput[]
+  connectOrCreate?: Prisma.ClientCreateOrConnectWithoutEstheticianInput | Prisma.ClientCreateOrConnectWithoutEstheticianInput[]
+  upsert?: Prisma.ClientUpsertWithWhereUniqueWithoutEstheticianInput | Prisma.ClientUpsertWithWhereUniqueWithoutEstheticianInput[]
+  createMany?: Prisma.ClientCreateManyEstheticianInputEnvelope
+  set?: Prisma.ClientWhereUniqueInput | Prisma.ClientWhereUniqueInput[]
+  disconnect?: Prisma.ClientWhereUniqueInput | Prisma.ClientWhereUniqueInput[]
+  delete?: Prisma.ClientWhereUniqueInput | Prisma.ClientWhereUniqueInput[]
+  connect?: Prisma.ClientWhereUniqueInput | Prisma.ClientWhereUniqueInput[]
+  update?: Prisma.ClientUpdateWithWhereUniqueWithoutEstheticianInput | Prisma.ClientUpdateWithWhereUniqueWithoutEstheticianInput[]
+  updateMany?: Prisma.ClientUpdateManyWithWhereWithoutEstheticianInput | Prisma.ClientUpdateManyWithWhereWithoutEstheticianInput[]
+  deleteMany?: Prisma.ClientScalarWhereInput | Prisma.ClientScalarWhereInput[]
+}
+
+export type ClientCreateNestedOneWithoutAnalysesInput = {
+  create?: Prisma.XOR<Prisma.ClientCreateWithoutAnalysesInput, Prisma.ClientUncheckedCreateWithoutAnalysesInput>
+  connectOrCreate?: Prisma.ClientCreateOrConnectWithoutAnalysesInput
+  connect?: Prisma.ClientWhereUniqueInput
+}
+
+export type ClientUpdateOneWithoutAnalysesNestedInput = {
+  create?: Prisma.XOR<Prisma.ClientCreateWithoutAnalysesInput, Prisma.ClientUncheckedCreateWithoutAnalysesInput>
+  connectOrCreate?: Prisma.ClientCreateOrConnectWithoutAnalysesInput
+  upsert?: Prisma.ClientUpsertWithoutAnalysesInput
+  disconnect?: Prisma.ClientWhereInput | boolean
+  delete?: Prisma.ClientWhereInput | boolean
+  connect?: Prisma.ClientWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.ClientUpdateToOneWithWhereWithoutAnalysesInput, Prisma.ClientUpdateWithoutAnalysesInput>, Prisma.ClientUncheckedUpdateWithoutAnalysesInput>
+}
+
+export type ClientCreateNestedManyWithoutClinicInput = {
+  create?: Prisma.XOR<Prisma.ClientCreateWithoutClinicInput, Prisma.ClientUncheckedCreateWithoutClinicInput> | Prisma.ClientCreateWithoutClinicInput[] | Prisma.ClientUncheckedCreateWithoutClinicInput[]
+  connectOrCreate?: Prisma.ClientCreateOrConnectWithoutClinicInput | Prisma.ClientCreateOrConnectWithoutClinicInput[]
+  createMany?: Prisma.ClientCreateManyClinicInputEnvelope
+  connect?: Prisma.ClientWhereUniqueInput | Prisma.ClientWhereUniqueInput[]
+}
+
+export type ClientUncheckedCreateNestedManyWithoutClinicInput = {
+  create?: Prisma.XOR<Prisma.ClientCreateWithoutClinicInput, Prisma.ClientUncheckedCreateWithoutClinicInput> | Prisma.ClientCreateWithoutClinicInput[] | Prisma.ClientUncheckedCreateWithoutClinicInput[]
+  connectOrCreate?: Prisma.ClientCreateOrConnectWithoutClinicInput | Prisma.ClientCreateOrConnectWithoutClinicInput[]
+  createMany?: Prisma.ClientCreateManyClinicInputEnvelope
+  connect?: Prisma.ClientWhereUniqueInput | Prisma.ClientWhereUniqueInput[]
+}
+
+export type ClientUpdateManyWithoutClinicNestedInput = {
+  create?: Prisma.XOR<Prisma.ClientCreateWithoutClinicInput, Prisma.ClientUncheckedCreateWithoutClinicInput> | Prisma.ClientCreateWithoutClinicInput[] | Prisma.ClientUncheckedCreateWithoutClinicInput[]
+  connectOrCreate?: Prisma.ClientCreateOrConnectWithoutClinicInput | Prisma.ClientCreateOrConnectWithoutClinicInput[]
+  upsert?: Prisma.ClientUpsertWithWhereUniqueWithoutClinicInput | Prisma.ClientUpsertWithWhereUniqueWithoutClinicInput[]
+  createMany?: Prisma.ClientCreateManyClinicInputEnvelope
+  set?: Prisma.ClientWhereUniqueInput | Prisma.ClientWhereUniqueInput[]
+  disconnect?: Prisma.ClientWhereUniqueInput | Prisma.ClientWhereUniqueInput[]
+  delete?: Prisma.ClientWhereUniqueInput | Prisma.ClientWhereUniqueInput[]
+  connect?: Prisma.ClientWhereUniqueInput | Prisma.ClientWhereUniqueInput[]
+  update?: Prisma.ClientUpdateWithWhereUniqueWithoutClinicInput | Prisma.ClientUpdateWithWhereUniqueWithoutClinicInput[]
+  updateMany?: Prisma.ClientUpdateManyWithWhereWithoutClinicInput | Prisma.ClientUpdateManyWithWhereWithoutClinicInput[]
+  deleteMany?: Prisma.ClientScalarWhereInput | Prisma.ClientScalarWhereInput[]
+}
+
+export type ClientUncheckedUpdateManyWithoutClinicNestedInput = {
+  create?: Prisma.XOR<Prisma.ClientCreateWithoutClinicInput, Prisma.ClientUncheckedCreateWithoutClinicInput> | Prisma.ClientCreateWithoutClinicInput[] | Prisma.ClientUncheckedCreateWithoutClinicInput[]
+  connectOrCreate?: Prisma.ClientCreateOrConnectWithoutClinicInput | Prisma.ClientCreateOrConnectWithoutClinicInput[]
+  upsert?: Prisma.ClientUpsertWithWhereUniqueWithoutClinicInput | Prisma.ClientUpsertWithWhereUniqueWithoutClinicInput[]
+  createMany?: Prisma.ClientCreateManyClinicInputEnvelope
+  set?: Prisma.ClientWhereUniqueInput | Prisma.ClientWhereUniqueInput[]
+  disconnect?: Prisma.ClientWhereUniqueInput | Prisma.ClientWhereUniqueInput[]
+  delete?: Prisma.ClientWhereUniqueInput | Prisma.ClientWhereUniqueInput[]
+  connect?: Prisma.ClientWhereUniqueInput | Prisma.ClientWhereUniqueInput[]
+  update?: Prisma.ClientUpdateWithWhereUniqueWithoutClinicInput | Prisma.ClientUpdateWithWhereUniqueWithoutClinicInput[]
+  updateMany?: Prisma.ClientUpdateManyWithWhereWithoutClinicInput | Prisma.ClientUpdateManyWithWhereWithoutClinicInput[]
+  deleteMany?: Prisma.ClientScalarWhereInput | Prisma.ClientScalarWhereInput[]
+}
+
+export type ClientCreateWithoutEstheticianInput = {
+  id?: string
+  name: string
+  email?: string | null
+  phone?: string | null
+  notes?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  clinic: Prisma.ClinicCreateNestedOneWithoutClientsInput
+  analyses?: Prisma.SkinAnalysisCreateNestedManyWithoutClientInput
+}
+
+export type ClientUncheckedCreateWithoutEstheticianInput = {
+  id?: string
+  clinicId: string
+  name: string
+  email?: string | null
+  phone?: string | null
+  notes?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  analyses?: Prisma.SkinAnalysisUncheckedCreateNestedManyWithoutClientInput
+}
+
+export type ClientCreateOrConnectWithoutEstheticianInput = {
+  where: Prisma.ClientWhereUniqueInput
+  create: Prisma.XOR<Prisma.ClientCreateWithoutEstheticianInput, Prisma.ClientUncheckedCreateWithoutEstheticianInput>
+}
+
+export type ClientCreateManyEstheticianInputEnvelope = {
+  data: Prisma.ClientCreateManyEstheticianInput | Prisma.ClientCreateManyEstheticianInput[]
+  skipDuplicates?: boolean
+}
+
+export type ClientUpsertWithWhereUniqueWithoutEstheticianInput = {
+  where: Prisma.ClientWhereUniqueInput
+  update: Prisma.XOR<Prisma.ClientUpdateWithoutEstheticianInput, Prisma.ClientUncheckedUpdateWithoutEstheticianInput>
+  create: Prisma.XOR<Prisma.ClientCreateWithoutEstheticianInput, Prisma.ClientUncheckedCreateWithoutEstheticianInput>
+}
+
+export type ClientUpdateWithWhereUniqueWithoutEstheticianInput = {
+  where: Prisma.ClientWhereUniqueInput
+  data: Prisma.XOR<Prisma.ClientUpdateWithoutEstheticianInput, Prisma.ClientUncheckedUpdateWithoutEstheticianInput>
+}
+
+export type ClientUpdateManyWithWhereWithoutEstheticianInput = {
+  where: Prisma.ClientScalarWhereInput
+  data: Prisma.XOR<Prisma.ClientUpdateManyMutationInput, Prisma.ClientUncheckedUpdateManyWithoutEstheticianInput>
+}
+
+export type ClientScalarWhereInput = {
+  AND?: Prisma.ClientScalarWhereInput | Prisma.ClientScalarWhereInput[]
+  OR?: Prisma.ClientScalarWhereInput[]
+  NOT?: Prisma.ClientScalarWhereInput | Prisma.ClientScalarWhereInput[]
+  id?: Prisma.StringFilter<"Client"> | string
+  estheticianId?: Prisma.StringFilter<"Client"> | string
+  clinicId?: Prisma.StringFilter<"Client"> | string
+  name?: Prisma.StringFilter<"Client"> | string
+  email?: Prisma.StringNullableFilter<"Client"> | string | null
+  phone?: Prisma.StringNullableFilter<"Client"> | string | null
+  notes?: Prisma.StringNullableFilter<"Client"> | string | null
+  createdAt?: Prisma.DateTimeFilter<"Client"> | Date | string
+  updatedAt?: Prisma.DateTimeFilter<"Client"> | Date | string
+}
+
+export type ClientCreateWithoutAnalysesInput = {
+  id?: string
+  name: string
+  email?: string | null
+  phone?: string | null
+  notes?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  esthetician: Prisma.UserCreateNestedOneWithoutClientsInput
+  clinic: Prisma.ClinicCreateNestedOneWithoutClientsInput
+}
+
+export type ClientUncheckedCreateWithoutAnalysesInput = {
+  id?: string
+  estheticianId: string
+  clinicId: string
+  name: string
+  email?: string | null
+  phone?: string | null
+  notes?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+}
+
+export type ClientCreateOrConnectWithoutAnalysesInput = {
+  where: Prisma.ClientWhereUniqueInput
+  create: Prisma.XOR<Prisma.ClientCreateWithoutAnalysesInput, Prisma.ClientUncheckedCreateWithoutAnalysesInput>
+}
+
+export type ClientUpsertWithoutAnalysesInput = {
+  update: Prisma.XOR<Prisma.ClientUpdateWithoutAnalysesInput, Prisma.ClientUncheckedUpdateWithoutAnalysesInput>
+  create: Prisma.XOR<Prisma.ClientCreateWithoutAnalysesInput, Prisma.ClientUncheckedCreateWithoutAnalysesInput>
+  where?: Prisma.ClientWhereInput
+}
+
+export type ClientUpdateToOneWithWhereWithoutAnalysesInput = {
+  where?: Prisma.ClientWhereInput
+  data: Prisma.XOR<Prisma.ClientUpdateWithoutAnalysesInput, Prisma.ClientUncheckedUpdateWithoutAnalysesInput>
+}
+
+export type ClientUpdateWithoutAnalysesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  esthetician?: Prisma.UserUpdateOneRequiredWithoutClientsNestedInput
+  clinic?: Prisma.ClinicUpdateOneRequiredWithoutClientsNestedInput
+}
+
+export type ClientUncheckedUpdateWithoutAnalysesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  estheticianId?: Prisma.StringFieldUpdateOperationsInput | string
+  clinicId?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
+export type ClientCreateWithoutClinicInput = {
+  id?: string
+  name: string
+  email?: string | null
+  phone?: string | null
+  notes?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  esthetician: Prisma.UserCreateNestedOneWithoutClientsInput
+  analyses?: Prisma.SkinAnalysisCreateNestedManyWithoutClientInput
+}
+
+export type ClientUncheckedCreateWithoutClinicInput = {
+  id?: string
+  estheticianId: string
+  name: string
+  email?: string | null
+  phone?: string | null
+  notes?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  analyses?: Prisma.SkinAnalysisUncheckedCreateNestedManyWithoutClientInput
+}
+
+export type ClientCreateOrConnectWithoutClinicInput = {
+  where: Prisma.ClientWhereUniqueInput
+  create: Prisma.XOR<Prisma.ClientCreateWithoutClinicInput, Prisma.ClientUncheckedCreateWithoutClinicInput>
+}
+
+export type ClientCreateManyClinicInputEnvelope = {
+  data: Prisma.ClientCreateManyClinicInput | Prisma.ClientCreateManyClinicInput[]
+  skipDuplicates?: boolean
+}
+
+export type ClientUpsertWithWhereUniqueWithoutClinicInput = {
+  where: Prisma.ClientWhereUniqueInput
+  update: Prisma.XOR<Prisma.ClientUpdateWithoutClinicInput, Prisma.ClientUncheckedUpdateWithoutClinicInput>
+  create: Prisma.XOR<Prisma.ClientCreateWithoutClinicInput, Prisma.ClientUncheckedCreateWithoutClinicInput>
+}
+
+export type ClientUpdateWithWhereUniqueWithoutClinicInput = {
+  where: Prisma.ClientWhereUniqueInput
+  data: Prisma.XOR<Prisma.ClientUpdateWithoutClinicInput, Prisma.ClientUncheckedUpdateWithoutClinicInput>
+}
+
+export type ClientUpdateManyWithWhereWithoutClinicInput = {
+  where: Prisma.ClientScalarWhereInput
+  data: Prisma.XOR<Prisma.ClientUpdateManyMutationInput, Prisma.ClientUncheckedUpdateManyWithoutClinicInput>
+}
+
+export type ClientCreateManyEstheticianInput = {
+  id?: string
+  clinicId: string
+  name: string
+  email?: string | null
+  phone?: string | null
+  notes?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+}
+
+export type ClientUpdateWithoutEstheticianInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  clinic?: Prisma.ClinicUpdateOneRequiredWithoutClientsNestedInput
+  analyses?: Prisma.SkinAnalysisUpdateManyWithoutClientNestedInput
+}
+
+export type ClientUncheckedUpdateWithoutEstheticianInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  clinicId?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  analyses?: Prisma.SkinAnalysisUncheckedUpdateManyWithoutClientNestedInput
+}
+
+export type ClientUncheckedUpdateManyWithoutEstheticianInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  clinicId?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
+export type ClientCreateManyClinicInput = {
+  id?: string
+  estheticianId: string
+  name: string
+  email?: string | null
+  phone?: string | null
+  notes?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+}
+
+export type ClientUpdateWithoutClinicInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  esthetician?: Prisma.UserUpdateOneRequiredWithoutClientsNestedInput
+  analyses?: Prisma.SkinAnalysisUpdateManyWithoutClientNestedInput
+}
+
+export type ClientUncheckedUpdateWithoutClinicInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  estheticianId?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  analyses?: Prisma.SkinAnalysisUncheckedUpdateManyWithoutClientNestedInput
+}
+
+export type ClientUncheckedUpdateManyWithoutClinicInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  estheticianId?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
+
+/**
+ * Count Type ClientCountOutputType
+ */
+
+export type ClientCountOutputType = {
+  analyses: number
+}
+
+export type ClientCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  analyses?: boolean | ClientCountOutputTypeCountAnalysesArgs
+}
+
+/**
+ * ClientCountOutputType without action
+ */
+export type ClientCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the ClientCountOutputType
+   */
+  select?: Prisma.ClientCountOutputTypeSelect<ExtArgs> | null
+}
+
+/**
+ * ClientCountOutputType without action
+ */
+export type ClientCountOutputTypeCountAnalysesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.SkinAnalysisWhereInput
+}
 
 
 export type ClientSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   estheticianId?: boolean
+  clinicId?: boolean
   name?: boolean
   email?: boolean
   phone?: boolean
   notes?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  esthetician?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+  clinic?: boolean | Prisma.ClinicDefaultArgs<ExtArgs>
+  analyses?: boolean | Prisma.Client$analysesArgs<ExtArgs>
+  _count?: boolean | Prisma.ClientCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["client"]>
 
 export type ClientSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   estheticianId?: boolean
+  clinicId?: boolean
   name?: boolean
   email?: boolean
   phone?: boolean
   notes?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  esthetician?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+  clinic?: boolean | Prisma.ClinicDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["client"]>
 
 export type ClientSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   estheticianId?: boolean
+  clinicId?: boolean
   name?: boolean
   email?: boolean
   phone?: boolean
   notes?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  esthetician?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+  clinic?: boolean | Prisma.ClinicDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["client"]>
 
 export type ClientSelectScalar = {
   id?: boolean
   estheticianId?: boolean
+  clinicId?: boolean
   name?: boolean
   email?: boolean
   phone?: boolean
@@ -417,14 +877,33 @@ export type ClientSelectScalar = {
   updatedAt?: boolean
 }
 
-export type ClientOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "estheticianId" | "name" | "email" | "phone" | "notes" | "createdAt" | "updatedAt", ExtArgs["result"]["client"]>
+export type ClientOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "estheticianId" | "clinicId" | "name" | "email" | "phone" | "notes" | "createdAt" | "updatedAt", ExtArgs["result"]["client"]>
+export type ClientInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  esthetician?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+  clinic?: boolean | Prisma.ClinicDefaultArgs<ExtArgs>
+  analyses?: boolean | Prisma.Client$analysesArgs<ExtArgs>
+  _count?: boolean | Prisma.ClientCountOutputTypeDefaultArgs<ExtArgs>
+}
+export type ClientIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  esthetician?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+  clinic?: boolean | Prisma.ClinicDefaultArgs<ExtArgs>
+}
+export type ClientIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  esthetician?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+  clinic?: boolean | Prisma.ClinicDefaultArgs<ExtArgs>
+}
 
 export type $ClientPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "Client"
-  objects: {}
+  objects: {
+    esthetician: Prisma.$UserPayload<ExtArgs>
+    clinic: Prisma.$ClinicPayload<ExtArgs>
+    analyses: Prisma.$SkinAnalysisPayload<ExtArgs>[]
+  }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
     estheticianId: string
+    clinicId: string
     name: string
     email: string | null
     phone: string | null
@@ -825,6 +1304,9 @@ readonly fields: ClientFieldRefs;
  */
 export interface Prisma__ClientClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
+  esthetician<T extends Prisma.UserDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UserDefaultArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  clinic<T extends Prisma.ClinicDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.ClinicDefaultArgs<ExtArgs>>): Prisma.Prisma__ClinicClient<runtime.Types.Result.GetResult<Prisma.$ClinicPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  analyses<T extends Prisma.Client$analysesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Client$analysesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$SkinAnalysisPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -856,6 +1338,7 @@ export interface Prisma__ClientClient<T, Null = never, ExtArgs extends runtime.T
 export interface ClientFieldRefs {
   readonly id: Prisma.FieldRef<"Client", 'String'>
   readonly estheticianId: Prisma.FieldRef<"Client", 'String'>
+  readonly clinicId: Prisma.FieldRef<"Client", 'String'>
   readonly name: Prisma.FieldRef<"Client", 'String'>
   readonly email: Prisma.FieldRef<"Client", 'String'>
   readonly phone: Prisma.FieldRef<"Client", 'String'>
@@ -879,6 +1362,10 @@ export type ClientFindUniqueArgs<ExtArgs extends runtime.Types.Extensions.Intern
    */
   omit?: Prisma.ClientOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ClientInclude<ExtArgs> | null
+  /**
    * Filter, which Client to fetch.
    */
   where: Prisma.ClientWhereUniqueInput
@@ -897,6 +1384,10 @@ export type ClientFindUniqueOrThrowArgs<ExtArgs extends runtime.Types.Extensions
    */
   omit?: Prisma.ClientOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ClientInclude<ExtArgs> | null
+  /**
    * Filter, which Client to fetch.
    */
   where: Prisma.ClientWhereUniqueInput
@@ -914,6 +1405,10 @@ export type ClientFindFirstArgs<ExtArgs extends runtime.Types.Extensions.Interna
    * Omit specific fields from the Client
    */
   omit?: Prisma.ClientOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ClientInclude<ExtArgs> | null
   /**
    * Filter, which Client to fetch.
    */
@@ -963,6 +1458,10 @@ export type ClientFindFirstOrThrowArgs<ExtArgs extends runtime.Types.Extensions.
    */
   omit?: Prisma.ClientOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ClientInclude<ExtArgs> | null
+  /**
    * Filter, which Client to fetch.
    */
   where?: Prisma.ClientWhereInput
@@ -1010,6 +1509,10 @@ export type ClientFindManyArgs<ExtArgs extends runtime.Types.Extensions.Internal
    * Omit specific fields from the Client
    */
   omit?: Prisma.ClientOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ClientInclude<ExtArgs> | null
   /**
    * Filter, which Clients to fetch.
    */
@@ -1059,6 +1562,10 @@ export type ClientCreateArgs<ExtArgs extends runtime.Types.Extensions.InternalAr
    */
   omit?: Prisma.ClientOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ClientInclude<ExtArgs> | null
+  /**
    * The data needed to create a Client.
    */
   data: Prisma.XOR<Prisma.ClientCreateInput, Prisma.ClientUncheckedCreateInput>
@@ -1092,6 +1599,10 @@ export type ClientCreateManyAndReturnArgs<ExtArgs extends runtime.Types.Extensio
    */
   data: Prisma.ClientCreateManyInput | Prisma.ClientCreateManyInput[]
   skipDuplicates?: boolean
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ClientIncludeCreateManyAndReturn<ExtArgs> | null
 }
 
 /**
@@ -1106,6 +1617,10 @@ export type ClientUpdateArgs<ExtArgs extends runtime.Types.Extensions.InternalAr
    * Omit specific fields from the Client
    */
   omit?: Prisma.ClientOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ClientInclude<ExtArgs> | null
   /**
    * The data needed to update a Client.
    */
@@ -1158,6 +1673,10 @@ export type ClientUpdateManyAndReturnArgs<ExtArgs extends runtime.Types.Extensio
    * Limit how many Clients to update.
    */
   limit?: number
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ClientIncludeUpdateManyAndReturn<ExtArgs> | null
 }
 
 /**
@@ -1172,6 +1691,10 @@ export type ClientUpsertArgs<ExtArgs extends runtime.Types.Extensions.InternalAr
    * Omit specific fields from the Client
    */
   omit?: Prisma.ClientOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ClientInclude<ExtArgs> | null
   /**
    * The filter to search for the Client to update in case it exists.
    */
@@ -1199,6 +1722,10 @@ export type ClientDeleteArgs<ExtArgs extends runtime.Types.Extensions.InternalAr
    */
   omit?: Prisma.ClientOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ClientInclude<ExtArgs> | null
+  /**
    * Filter which Client to delete.
    */
   where: Prisma.ClientWhereUniqueInput
@@ -1219,6 +1746,30 @@ export type ClientDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.Intern
 }
 
 /**
+ * Client.analyses
+ */
+export type Client$analysesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the SkinAnalysis
+   */
+  select?: Prisma.SkinAnalysisSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the SkinAnalysis
+   */
+  omit?: Prisma.SkinAnalysisOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.SkinAnalysisInclude<ExtArgs> | null
+  where?: Prisma.SkinAnalysisWhereInput
+  orderBy?: Prisma.SkinAnalysisOrderByWithRelationInput | Prisma.SkinAnalysisOrderByWithRelationInput[]
+  cursor?: Prisma.SkinAnalysisWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.SkinAnalysisScalarFieldEnum | Prisma.SkinAnalysisScalarFieldEnum[]
+}
+
+/**
  * Client without action
  */
 export type ClientDefaultArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1230,4 +1781,8 @@ export type ClientDefaultArgs<ExtArgs extends runtime.Types.Extensions.InternalA
    * Omit specific fields from the Client
    */
   omit?: Prisma.ClientOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ClientInclude<ExtArgs> | null
 }

@@ -27,6 +27,7 @@ export type AggregateSkinAnalysis = {
 export type SkinAnalysisMinAggregateOutputType = {
   id: string | null
   userId: string | null
+  clientId: string | null
   imageUrl: string | null
   skinType: string | null
   concerns: string | null
@@ -39,6 +40,7 @@ export type SkinAnalysisMinAggregateOutputType = {
 export type SkinAnalysisMaxAggregateOutputType = {
   id: string | null
   userId: string | null
+  clientId: string | null
   imageUrl: string | null
   skinType: string | null
   concerns: string | null
@@ -51,6 +53,7 @@ export type SkinAnalysisMaxAggregateOutputType = {
 export type SkinAnalysisCountAggregateOutputType = {
   id: number
   userId: number
+  clientId: number
   imageUrl: number
   skinType: number
   concerns: number
@@ -65,6 +68,7 @@ export type SkinAnalysisCountAggregateOutputType = {
 export type SkinAnalysisMinAggregateInputType = {
   id?: true
   userId?: true
+  clientId?: true
   imageUrl?: true
   skinType?: true
   concerns?: true
@@ -77,6 +81,7 @@ export type SkinAnalysisMinAggregateInputType = {
 export type SkinAnalysisMaxAggregateInputType = {
   id?: true
   userId?: true
+  clientId?: true
   imageUrl?: true
   skinType?: true
   concerns?: true
@@ -89,6 +94,7 @@ export type SkinAnalysisMaxAggregateInputType = {
 export type SkinAnalysisCountAggregateInputType = {
   id?: true
   userId?: true
+  clientId?: true
   imageUrl?: true
   skinType?: true
   concerns?: true
@@ -174,6 +180,7 @@ export type SkinAnalysisGroupByArgs<ExtArgs extends runtime.Types.Extensions.Int
 export type SkinAnalysisGroupByOutputType = {
   id: string
   userId: string | null
+  clientId: string | null
   imageUrl: string | null
   skinType: string | null
   concerns: string | null
@@ -207,6 +214,7 @@ export type SkinAnalysisWhereInput = {
   NOT?: Prisma.SkinAnalysisWhereInput | Prisma.SkinAnalysisWhereInput[]
   id?: Prisma.StringFilter<"SkinAnalysis"> | string
   userId?: Prisma.StringNullableFilter<"SkinAnalysis"> | string | null
+  clientId?: Prisma.StringNullableFilter<"SkinAnalysis"> | string | null
   imageUrl?: Prisma.StringNullableFilter<"SkinAnalysis"> | string | null
   skinType?: Prisma.StringNullableFilter<"SkinAnalysis"> | string | null
   concerns?: Prisma.StringNullableFilter<"SkinAnalysis"> | string | null
@@ -216,11 +224,13 @@ export type SkinAnalysisWhereInput = {
   createdAt?: Prisma.DateTimeFilter<"SkinAnalysis"> | Date | string
   feedback?: Prisma.XOR<Prisma.FeedbackNullableScalarRelationFilter, Prisma.FeedbackWhereInput> | null
   user?: Prisma.XOR<Prisma.UserNullableScalarRelationFilter, Prisma.UserWhereInput> | null
+  client?: Prisma.XOR<Prisma.ClientNullableScalarRelationFilter, Prisma.ClientWhereInput> | null
 }
 
 export type SkinAnalysisOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   userId?: Prisma.SortOrderInput | Prisma.SortOrder
+  clientId?: Prisma.SortOrderInput | Prisma.SortOrder
   imageUrl?: Prisma.SortOrderInput | Prisma.SortOrder
   skinType?: Prisma.SortOrderInput | Prisma.SortOrder
   concerns?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -230,6 +240,7 @@ export type SkinAnalysisOrderByWithRelationInput = {
   createdAt?: Prisma.SortOrder
   feedback?: Prisma.FeedbackOrderByWithRelationInput
   user?: Prisma.UserOrderByWithRelationInput
+  client?: Prisma.ClientOrderByWithRelationInput
 }
 
 export type SkinAnalysisWhereUniqueInput = Prisma.AtLeast<{
@@ -238,6 +249,7 @@ export type SkinAnalysisWhereUniqueInput = Prisma.AtLeast<{
   OR?: Prisma.SkinAnalysisWhereInput[]
   NOT?: Prisma.SkinAnalysisWhereInput | Prisma.SkinAnalysisWhereInput[]
   userId?: Prisma.StringNullableFilter<"SkinAnalysis"> | string | null
+  clientId?: Prisma.StringNullableFilter<"SkinAnalysis"> | string | null
   imageUrl?: Prisma.StringNullableFilter<"SkinAnalysis"> | string | null
   skinType?: Prisma.StringNullableFilter<"SkinAnalysis"> | string | null
   concerns?: Prisma.StringNullableFilter<"SkinAnalysis"> | string | null
@@ -247,11 +259,13 @@ export type SkinAnalysisWhereUniqueInput = Prisma.AtLeast<{
   createdAt?: Prisma.DateTimeFilter<"SkinAnalysis"> | Date | string
   feedback?: Prisma.XOR<Prisma.FeedbackNullableScalarRelationFilter, Prisma.FeedbackWhereInput> | null
   user?: Prisma.XOR<Prisma.UserNullableScalarRelationFilter, Prisma.UserWhereInput> | null
+  client?: Prisma.XOR<Prisma.ClientNullableScalarRelationFilter, Prisma.ClientWhereInput> | null
 }, "id">
 
 export type SkinAnalysisOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   userId?: Prisma.SortOrderInput | Prisma.SortOrder
+  clientId?: Prisma.SortOrderInput | Prisma.SortOrder
   imageUrl?: Prisma.SortOrderInput | Prisma.SortOrder
   skinType?: Prisma.SortOrderInput | Prisma.SortOrder
   concerns?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -270,6 +284,7 @@ export type SkinAnalysisScalarWhereWithAggregatesInput = {
   NOT?: Prisma.SkinAnalysisScalarWhereWithAggregatesInput | Prisma.SkinAnalysisScalarWhereWithAggregatesInput[]
   id?: Prisma.StringWithAggregatesFilter<"SkinAnalysis"> | string
   userId?: Prisma.StringNullableWithAggregatesFilter<"SkinAnalysis"> | string | null
+  clientId?: Prisma.StringNullableWithAggregatesFilter<"SkinAnalysis"> | string | null
   imageUrl?: Prisma.StringNullableWithAggregatesFilter<"SkinAnalysis"> | string | null
   skinType?: Prisma.StringNullableWithAggregatesFilter<"SkinAnalysis"> | string | null
   concerns?: Prisma.StringNullableWithAggregatesFilter<"SkinAnalysis"> | string | null
@@ -290,11 +305,13 @@ export type SkinAnalysisCreateInput = {
   createdAt?: Date | string
   feedback?: Prisma.FeedbackCreateNestedOneWithoutAnalysisInput
   user?: Prisma.UserCreateNestedOneWithoutAnalysesInput
+  client?: Prisma.ClientCreateNestedOneWithoutAnalysesInput
 }
 
 export type SkinAnalysisUncheckedCreateInput = {
   id?: string
   userId?: string | null
+  clientId?: string | null
   imageUrl?: string | null
   skinType?: string | null
   concerns?: string | null
@@ -316,11 +333,13 @@ export type SkinAnalysisUpdateInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   feedback?: Prisma.FeedbackUpdateOneWithoutAnalysisNestedInput
   user?: Prisma.UserUpdateOneWithoutAnalysesNestedInput
+  client?: Prisma.ClientUpdateOneWithoutAnalysesNestedInput
 }
 
 export type SkinAnalysisUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   userId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  clientId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   skinType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   concerns?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -334,6 +353,7 @@ export type SkinAnalysisUncheckedUpdateInput = {
 export type SkinAnalysisCreateManyInput = {
   id?: string
   userId?: string | null
+  clientId?: string | null
   imageUrl?: string | null
   skinType?: string | null
   concerns?: string | null
@@ -357,6 +377,7 @@ export type SkinAnalysisUpdateManyMutationInput = {
 export type SkinAnalysisUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   userId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  clientId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   skinType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   concerns?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -379,6 +400,7 @@ export type SkinAnalysisOrderByRelationAggregateInput = {
 export type SkinAnalysisCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   userId?: Prisma.SortOrder
+  clientId?: Prisma.SortOrder
   imageUrl?: Prisma.SortOrder
   skinType?: Prisma.SortOrder
   concerns?: Prisma.SortOrder
@@ -391,6 +413,7 @@ export type SkinAnalysisCountOrderByAggregateInput = {
 export type SkinAnalysisMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
   userId?: Prisma.SortOrder
+  clientId?: Prisma.SortOrder
   imageUrl?: Prisma.SortOrder
   skinType?: Prisma.SortOrder
   concerns?: Prisma.SortOrder
@@ -403,6 +426,7 @@ export type SkinAnalysisMaxOrderByAggregateInput = {
 export type SkinAnalysisMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
   userId?: Prisma.SortOrder
+  clientId?: Prisma.SortOrder
   imageUrl?: Prisma.SortOrder
   skinType?: Prisma.SortOrder
   concerns?: Prisma.SortOrder
@@ -473,6 +497,48 @@ export type SkinAnalysisUpdateOneRequiredWithoutFeedbackNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.SkinAnalysisUpdateToOneWithWhereWithoutFeedbackInput, Prisma.SkinAnalysisUpdateWithoutFeedbackInput>, Prisma.SkinAnalysisUncheckedUpdateWithoutFeedbackInput>
 }
 
+export type SkinAnalysisCreateNestedManyWithoutClientInput = {
+  create?: Prisma.XOR<Prisma.SkinAnalysisCreateWithoutClientInput, Prisma.SkinAnalysisUncheckedCreateWithoutClientInput> | Prisma.SkinAnalysisCreateWithoutClientInput[] | Prisma.SkinAnalysisUncheckedCreateWithoutClientInput[]
+  connectOrCreate?: Prisma.SkinAnalysisCreateOrConnectWithoutClientInput | Prisma.SkinAnalysisCreateOrConnectWithoutClientInput[]
+  createMany?: Prisma.SkinAnalysisCreateManyClientInputEnvelope
+  connect?: Prisma.SkinAnalysisWhereUniqueInput | Prisma.SkinAnalysisWhereUniqueInput[]
+}
+
+export type SkinAnalysisUncheckedCreateNestedManyWithoutClientInput = {
+  create?: Prisma.XOR<Prisma.SkinAnalysisCreateWithoutClientInput, Prisma.SkinAnalysisUncheckedCreateWithoutClientInput> | Prisma.SkinAnalysisCreateWithoutClientInput[] | Prisma.SkinAnalysisUncheckedCreateWithoutClientInput[]
+  connectOrCreate?: Prisma.SkinAnalysisCreateOrConnectWithoutClientInput | Prisma.SkinAnalysisCreateOrConnectWithoutClientInput[]
+  createMany?: Prisma.SkinAnalysisCreateManyClientInputEnvelope
+  connect?: Prisma.SkinAnalysisWhereUniqueInput | Prisma.SkinAnalysisWhereUniqueInput[]
+}
+
+export type SkinAnalysisUpdateManyWithoutClientNestedInput = {
+  create?: Prisma.XOR<Prisma.SkinAnalysisCreateWithoutClientInput, Prisma.SkinAnalysisUncheckedCreateWithoutClientInput> | Prisma.SkinAnalysisCreateWithoutClientInput[] | Prisma.SkinAnalysisUncheckedCreateWithoutClientInput[]
+  connectOrCreate?: Prisma.SkinAnalysisCreateOrConnectWithoutClientInput | Prisma.SkinAnalysisCreateOrConnectWithoutClientInput[]
+  upsert?: Prisma.SkinAnalysisUpsertWithWhereUniqueWithoutClientInput | Prisma.SkinAnalysisUpsertWithWhereUniqueWithoutClientInput[]
+  createMany?: Prisma.SkinAnalysisCreateManyClientInputEnvelope
+  set?: Prisma.SkinAnalysisWhereUniqueInput | Prisma.SkinAnalysisWhereUniqueInput[]
+  disconnect?: Prisma.SkinAnalysisWhereUniqueInput | Prisma.SkinAnalysisWhereUniqueInput[]
+  delete?: Prisma.SkinAnalysisWhereUniqueInput | Prisma.SkinAnalysisWhereUniqueInput[]
+  connect?: Prisma.SkinAnalysisWhereUniqueInput | Prisma.SkinAnalysisWhereUniqueInput[]
+  update?: Prisma.SkinAnalysisUpdateWithWhereUniqueWithoutClientInput | Prisma.SkinAnalysisUpdateWithWhereUniqueWithoutClientInput[]
+  updateMany?: Prisma.SkinAnalysisUpdateManyWithWhereWithoutClientInput | Prisma.SkinAnalysisUpdateManyWithWhereWithoutClientInput[]
+  deleteMany?: Prisma.SkinAnalysisScalarWhereInput | Prisma.SkinAnalysisScalarWhereInput[]
+}
+
+export type SkinAnalysisUncheckedUpdateManyWithoutClientNestedInput = {
+  create?: Prisma.XOR<Prisma.SkinAnalysisCreateWithoutClientInput, Prisma.SkinAnalysisUncheckedCreateWithoutClientInput> | Prisma.SkinAnalysisCreateWithoutClientInput[] | Prisma.SkinAnalysisUncheckedCreateWithoutClientInput[]
+  connectOrCreate?: Prisma.SkinAnalysisCreateOrConnectWithoutClientInput | Prisma.SkinAnalysisCreateOrConnectWithoutClientInput[]
+  upsert?: Prisma.SkinAnalysisUpsertWithWhereUniqueWithoutClientInput | Prisma.SkinAnalysisUpsertWithWhereUniqueWithoutClientInput[]
+  createMany?: Prisma.SkinAnalysisCreateManyClientInputEnvelope
+  set?: Prisma.SkinAnalysisWhereUniqueInput | Prisma.SkinAnalysisWhereUniqueInput[]
+  disconnect?: Prisma.SkinAnalysisWhereUniqueInput | Prisma.SkinAnalysisWhereUniqueInput[]
+  delete?: Prisma.SkinAnalysisWhereUniqueInput | Prisma.SkinAnalysisWhereUniqueInput[]
+  connect?: Prisma.SkinAnalysisWhereUniqueInput | Prisma.SkinAnalysisWhereUniqueInput[]
+  update?: Prisma.SkinAnalysisUpdateWithWhereUniqueWithoutClientInput | Prisma.SkinAnalysisUpdateWithWhereUniqueWithoutClientInput[]
+  updateMany?: Prisma.SkinAnalysisUpdateManyWithWhereWithoutClientInput | Prisma.SkinAnalysisUpdateManyWithWhereWithoutClientInput[]
+  deleteMany?: Prisma.SkinAnalysisScalarWhereInput | Prisma.SkinAnalysisScalarWhereInput[]
+}
+
 export type SkinAnalysisCreateWithoutUserInput = {
   id?: string
   imageUrl?: string | null
@@ -483,10 +549,12 @@ export type SkinAnalysisCreateWithoutUserInput = {
   routine?: string | null
   createdAt?: Date | string
   feedback?: Prisma.FeedbackCreateNestedOneWithoutAnalysisInput
+  client?: Prisma.ClientCreateNestedOneWithoutAnalysesInput
 }
 
 export type SkinAnalysisUncheckedCreateWithoutUserInput = {
   id?: string
+  clientId?: string | null
   imageUrl?: string | null
   skinType?: string | null
   concerns?: string | null
@@ -529,6 +597,7 @@ export type SkinAnalysisScalarWhereInput = {
   NOT?: Prisma.SkinAnalysisScalarWhereInput | Prisma.SkinAnalysisScalarWhereInput[]
   id?: Prisma.StringFilter<"SkinAnalysis"> | string
   userId?: Prisma.StringNullableFilter<"SkinAnalysis"> | string | null
+  clientId?: Prisma.StringNullableFilter<"SkinAnalysis"> | string | null
   imageUrl?: Prisma.StringNullableFilter<"SkinAnalysis"> | string | null
   skinType?: Prisma.StringNullableFilter<"SkinAnalysis"> | string | null
   concerns?: Prisma.StringNullableFilter<"SkinAnalysis"> | string | null
@@ -548,11 +617,13 @@ export type SkinAnalysisCreateWithoutFeedbackInput = {
   routine?: string | null
   createdAt?: Date | string
   user?: Prisma.UserCreateNestedOneWithoutAnalysesInput
+  client?: Prisma.ClientCreateNestedOneWithoutAnalysesInput
 }
 
 export type SkinAnalysisUncheckedCreateWithoutFeedbackInput = {
   id?: string
   userId?: string | null
+  clientId?: string | null
   imageUrl?: string | null
   skinType?: string | null
   concerns?: string | null
@@ -588,11 +659,13 @@ export type SkinAnalysisUpdateWithoutFeedbackInput = {
   routine?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   user?: Prisma.UserUpdateOneWithoutAnalysesNestedInput
+  client?: Prisma.ClientUpdateOneWithoutAnalysesNestedInput
 }
 
 export type SkinAnalysisUncheckedUpdateWithoutFeedbackInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   userId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  clientId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   skinType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   concerns?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -602,8 +675,61 @@ export type SkinAnalysisUncheckedUpdateWithoutFeedbackInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
+export type SkinAnalysisCreateWithoutClientInput = {
+  id?: string
+  imageUrl?: string | null
+  skinType?: string | null
+  concerns?: string | null
+  observations?: string
+  recommendations?: string
+  routine?: string | null
+  createdAt?: Date | string
+  feedback?: Prisma.FeedbackCreateNestedOneWithoutAnalysisInput
+  user?: Prisma.UserCreateNestedOneWithoutAnalysesInput
+}
+
+export type SkinAnalysisUncheckedCreateWithoutClientInput = {
+  id?: string
+  userId?: string | null
+  imageUrl?: string | null
+  skinType?: string | null
+  concerns?: string | null
+  observations?: string
+  recommendations?: string
+  routine?: string | null
+  createdAt?: Date | string
+  feedback?: Prisma.FeedbackUncheckedCreateNestedOneWithoutAnalysisInput
+}
+
+export type SkinAnalysisCreateOrConnectWithoutClientInput = {
+  where: Prisma.SkinAnalysisWhereUniqueInput
+  create: Prisma.XOR<Prisma.SkinAnalysisCreateWithoutClientInput, Prisma.SkinAnalysisUncheckedCreateWithoutClientInput>
+}
+
+export type SkinAnalysisCreateManyClientInputEnvelope = {
+  data: Prisma.SkinAnalysisCreateManyClientInput | Prisma.SkinAnalysisCreateManyClientInput[]
+  skipDuplicates?: boolean
+}
+
+export type SkinAnalysisUpsertWithWhereUniqueWithoutClientInput = {
+  where: Prisma.SkinAnalysisWhereUniqueInput
+  update: Prisma.XOR<Prisma.SkinAnalysisUpdateWithoutClientInput, Prisma.SkinAnalysisUncheckedUpdateWithoutClientInput>
+  create: Prisma.XOR<Prisma.SkinAnalysisCreateWithoutClientInput, Prisma.SkinAnalysisUncheckedCreateWithoutClientInput>
+}
+
+export type SkinAnalysisUpdateWithWhereUniqueWithoutClientInput = {
+  where: Prisma.SkinAnalysisWhereUniqueInput
+  data: Prisma.XOR<Prisma.SkinAnalysisUpdateWithoutClientInput, Prisma.SkinAnalysisUncheckedUpdateWithoutClientInput>
+}
+
+export type SkinAnalysisUpdateManyWithWhereWithoutClientInput = {
+  where: Prisma.SkinAnalysisScalarWhereInput
+  data: Prisma.XOR<Prisma.SkinAnalysisUpdateManyMutationInput, Prisma.SkinAnalysisUncheckedUpdateManyWithoutClientInput>
+}
+
 export type SkinAnalysisCreateManyUserInput = {
   id?: string
+  clientId?: string | null
   imageUrl?: string | null
   skinType?: string | null
   concerns?: string | null
@@ -623,10 +749,12 @@ export type SkinAnalysisUpdateWithoutUserInput = {
   routine?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   feedback?: Prisma.FeedbackUpdateOneWithoutAnalysisNestedInput
+  client?: Prisma.ClientUpdateOneWithoutAnalysesNestedInput
 }
 
 export type SkinAnalysisUncheckedUpdateWithoutUserInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  clientId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   skinType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   concerns?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -639,6 +767,57 @@ export type SkinAnalysisUncheckedUpdateWithoutUserInput = {
 
 export type SkinAnalysisUncheckedUpdateManyWithoutUserInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  clientId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  skinType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  concerns?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  observations?: Prisma.StringFieldUpdateOperationsInput | string
+  recommendations?: Prisma.StringFieldUpdateOperationsInput | string
+  routine?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
+export type SkinAnalysisCreateManyClientInput = {
+  id?: string
+  userId?: string | null
+  imageUrl?: string | null
+  skinType?: string | null
+  concerns?: string | null
+  observations?: string
+  recommendations?: string
+  routine?: string | null
+  createdAt?: Date | string
+}
+
+export type SkinAnalysisUpdateWithoutClientInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  skinType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  concerns?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  observations?: Prisma.StringFieldUpdateOperationsInput | string
+  recommendations?: Prisma.StringFieldUpdateOperationsInput | string
+  routine?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  feedback?: Prisma.FeedbackUpdateOneWithoutAnalysisNestedInput
+  user?: Prisma.UserUpdateOneWithoutAnalysesNestedInput
+}
+
+export type SkinAnalysisUncheckedUpdateWithoutClientInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  userId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  skinType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  concerns?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  observations?: Prisma.StringFieldUpdateOperationsInput | string
+  recommendations?: Prisma.StringFieldUpdateOperationsInput | string
+  routine?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  feedback?: Prisma.FeedbackUncheckedUpdateOneWithoutAnalysisNestedInput
+}
+
+export type SkinAnalysisUncheckedUpdateManyWithoutClientInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  userId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   skinType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   concerns?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -653,6 +832,7 @@ export type SkinAnalysisUncheckedUpdateManyWithoutUserInput = {
 export type SkinAnalysisSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   userId?: boolean
+  clientId?: boolean
   imageUrl?: boolean
   skinType?: boolean
   concerns?: boolean
@@ -662,11 +842,13 @@ export type SkinAnalysisSelect<ExtArgs extends runtime.Types.Extensions.Internal
   createdAt?: boolean
   feedback?: boolean | Prisma.SkinAnalysis$feedbackArgs<ExtArgs>
   user?: boolean | Prisma.SkinAnalysis$userArgs<ExtArgs>
+  client?: boolean | Prisma.SkinAnalysis$clientArgs<ExtArgs>
 }, ExtArgs["result"]["skinAnalysis"]>
 
 export type SkinAnalysisSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   userId?: boolean
+  clientId?: boolean
   imageUrl?: boolean
   skinType?: boolean
   concerns?: boolean
@@ -675,11 +857,13 @@ export type SkinAnalysisSelectCreateManyAndReturn<ExtArgs extends runtime.Types.
   routine?: boolean
   createdAt?: boolean
   user?: boolean | Prisma.SkinAnalysis$userArgs<ExtArgs>
+  client?: boolean | Prisma.SkinAnalysis$clientArgs<ExtArgs>
 }, ExtArgs["result"]["skinAnalysis"]>
 
 export type SkinAnalysisSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   userId?: boolean
+  clientId?: boolean
   imageUrl?: boolean
   skinType?: boolean
   concerns?: boolean
@@ -688,11 +872,13 @@ export type SkinAnalysisSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.
   routine?: boolean
   createdAt?: boolean
   user?: boolean | Prisma.SkinAnalysis$userArgs<ExtArgs>
+  client?: boolean | Prisma.SkinAnalysis$clientArgs<ExtArgs>
 }, ExtArgs["result"]["skinAnalysis"]>
 
 export type SkinAnalysisSelectScalar = {
   id?: boolean
   userId?: boolean
+  clientId?: boolean
   imageUrl?: boolean
   skinType?: boolean
   concerns?: boolean
@@ -702,16 +888,19 @@ export type SkinAnalysisSelectScalar = {
   createdAt?: boolean
 }
 
-export type SkinAnalysisOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "imageUrl" | "skinType" | "concerns" | "observations" | "recommendations" | "routine" | "createdAt", ExtArgs["result"]["skinAnalysis"]>
+export type SkinAnalysisOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "clientId" | "imageUrl" | "skinType" | "concerns" | "observations" | "recommendations" | "routine" | "createdAt", ExtArgs["result"]["skinAnalysis"]>
 export type SkinAnalysisInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   feedback?: boolean | Prisma.SkinAnalysis$feedbackArgs<ExtArgs>
   user?: boolean | Prisma.SkinAnalysis$userArgs<ExtArgs>
+  client?: boolean | Prisma.SkinAnalysis$clientArgs<ExtArgs>
 }
 export type SkinAnalysisIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   user?: boolean | Prisma.SkinAnalysis$userArgs<ExtArgs>
+  client?: boolean | Prisma.SkinAnalysis$clientArgs<ExtArgs>
 }
 export type SkinAnalysisIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   user?: boolean | Prisma.SkinAnalysis$userArgs<ExtArgs>
+  client?: boolean | Prisma.SkinAnalysis$clientArgs<ExtArgs>
 }
 
 export type $SkinAnalysisPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -719,10 +908,12 @@ export type $SkinAnalysisPayload<ExtArgs extends runtime.Types.Extensions.Intern
   objects: {
     feedback: Prisma.$FeedbackPayload<ExtArgs> | null
     user: Prisma.$UserPayload<ExtArgs> | null
+    client: Prisma.$ClientPayload<ExtArgs> | null
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
     userId: string | null
+    clientId: string | null
     imageUrl: string | null
     skinType: string | null
     concerns: string | null
@@ -1126,6 +1317,7 @@ export interface Prisma__SkinAnalysisClient<T, Null = never, ExtArgs extends run
   readonly [Symbol.toStringTag]: "PrismaPromise"
   feedback<T extends Prisma.SkinAnalysis$feedbackArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.SkinAnalysis$feedbackArgs<ExtArgs>>): Prisma.Prisma__FeedbackClient<runtime.Types.Result.GetResult<Prisma.$FeedbackPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   user<T extends Prisma.SkinAnalysis$userArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.SkinAnalysis$userArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  client<T extends Prisma.SkinAnalysis$clientArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.SkinAnalysis$clientArgs<ExtArgs>>): Prisma.Prisma__ClientClient<runtime.Types.Result.GetResult<Prisma.$ClientPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1157,6 +1349,7 @@ export interface Prisma__SkinAnalysisClient<T, Null = never, ExtArgs extends run
 export interface SkinAnalysisFieldRefs {
   readonly id: Prisma.FieldRef<"SkinAnalysis", 'String'>
   readonly userId: Prisma.FieldRef<"SkinAnalysis", 'String'>
+  readonly clientId: Prisma.FieldRef<"SkinAnalysis", 'String'>
   readonly imageUrl: Prisma.FieldRef<"SkinAnalysis", 'String'>
   readonly skinType: Prisma.FieldRef<"SkinAnalysis", 'String'>
   readonly concerns: Prisma.FieldRef<"SkinAnalysis", 'String'>
@@ -1600,6 +1793,25 @@ export type SkinAnalysis$userArgs<ExtArgs extends runtime.Types.Extensions.Inter
    */
   include?: Prisma.UserInclude<ExtArgs> | null
   where?: Prisma.UserWhereInput
+}
+
+/**
+ * SkinAnalysis.client
+ */
+export type SkinAnalysis$clientArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Client
+   */
+  select?: Prisma.ClientSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Client
+   */
+  omit?: Prisma.ClientOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ClientInclude<ExtArgs> | null
+  where?: Prisma.ClientWhereInput
 }
 
 /**

@@ -35,7 +35,7 @@ function LoginForm() {
   const [showPassword, setShowPassword] = useState(false)
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState(errorParam ? errorMessages[errorParam] || errorMessages.default : "")
-  const [form, setForm] = useState({ email: "", password: "", name: "" })
+  const [form, setForm] = useState({ email: "", password: "", name: "", estheticianCode: "" })
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -46,6 +46,7 @@ function LoginForm() {
       if (isRegister) {
         const payload: Record<string, string> = { email: form.email, password: form.password }
         if (form.name) payload.name = form.name
+        if (form.estheticianCode) payload.estheticianCode = form.estheticianCode.trim()
 
         const res = await fetch("/api/register", {
           method: "POST",
@@ -126,7 +127,7 @@ function LoginForm() {
                     Nombre
                   </label>
                   <div className="relative">
-                    <UserPlus className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#9BAA93]" />
+                    <UserPlus aria-hidden="true" className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#9BAA93]" />
                     <input
                       id="name"
                       name="name"
@@ -136,6 +137,7 @@ function LoginForm() {
                       onChange={(e) => setForm({ ...form, name: e.target.value })}
                       className="w-full bg-white border border-[#E8E8E8] rounded-xl px-10 py-2.5 text-sm focus:outline-none focus:border-[#88B078] focus:ring-1 focus:ring-[#88B078] transition-colors placeholder:text-[#9BAA93] text-[#1A1A1A]"
                       placeholder="Tu nombre"
+                      aria-label="Nombre"
                     />
                   </div>
                 </div>
@@ -145,21 +147,21 @@ function LoginForm() {
                 <label htmlFor="email" className="block text-sm font-medium mb-1.5 text-[#1A1A1A]">
                   Email
                 </label>
-                <div className="relative">
-                  <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#9BAA93]" />
-                  <input
-                    id="email"
-                    name="email"
-                    type="email"
-                    autoComplete={isRegister ? "email" : "username"}
-                    value={form.email}
-                    onChange={(e) => setForm({ ...form, email: e.target.value })}
-                    className="w-full bg-white border border-[#E8E8E8] rounded-xl px-10 py-2.5 text-sm focus:outline-none focus:border-[#88B078] focus:ring-1 focus:ring-[#88B078] transition-colors placeholder:text-[#9BAA93] text-[#1A1A1A]"
-                    placeholder="tu@email.com"
-                    aria-label="Email"
-                    aria-describedby={error ? "login-error" : undefined}
-                    required
-                  />
+                  <div className="relative">
+                    <Mail aria-hidden="true" className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#9BAA93]" />
+                    <input
+                      id="email"
+                      name="email"
+                      type="email"
+                      autoComplete={isRegister ? "email" : "username"}
+                      value={form.email}
+                      onChange={(e) => setForm({ ...form, email: e.target.value })}
+                      className="w-full bg-white border border-[#E8E8E8] rounded-xl px-10 py-2.5 text-sm focus:outline-none focus:border-[#88B078] focus:ring-1 focus:ring-[#88B078] transition-colors placeholder:text-[#9BAA93] text-[#1A1A1A]"
+                      placeholder="tu@email.com"
+                      aria-label="Email"
+                      aria-describedby={error ? "login-error" : undefined}
+                      required
+                    />
                 </div>
               </div>
 
@@ -167,21 +169,21 @@ function LoginForm() {
                 <label htmlFor="password" className="block text-sm font-medium mb-1.5 text-[#1A1A1A]">
                   Contraseña
                 </label>
-                <div className="relative">
-                  <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#9BAA93]" />
-                  <input
-                    id="password"
-                    name="password"
-                    type={showPassword ? "text" : "password"}
-                    autoComplete={isRegister ? "new-password" : "current-password"}
-                    value={form.password}
-                    onChange={(e) => setForm({ ...form, password: e.target.value })}
-                    className="w-full bg-white border border-[#E8E8E8] rounded-xl px-10 py-2.5 text-sm focus:outline-none focus:border-[#88B078] focus:ring-1 focus:ring-[#88B078] transition-colors placeholder:text-[#9BAA93] text-[#1A1A1A]"
-                    placeholder="••••••••"
-                    aria-label="Contraseña"
-                    aria-describedby={error ? "login-error" : undefined}
-                    required
-                  />
+                  <div className="relative">
+                    <Lock aria-hidden="true" className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#9BAA93]" />
+                    <input
+                      id="password"
+                      name="password"
+                      type={showPassword ? "text" : "password"}
+                      autoComplete={isRegister ? "new-password" : "current-password"}
+                      value={form.password}
+                      onChange={(e) => setForm({ ...form, password: e.target.value })}
+                      className="w-full bg-white border border-[#E8E8E8] rounded-xl px-10 py-2.5 text-sm focus:outline-none focus:border-[#88B078] focus:ring-1 focus:ring-[#88B078] transition-colors placeholder:text-[#9BAA93] text-[#1A1A1A]"
+                      placeholder="••••••••"
+                      aria-label="Contraseña"
+                      aria-describedby={error ? "login-error" : undefined}
+                      required
+                    />
                   <button
                     type="button"
                     onClick={() => setShowPassword(!showPassword)}
@@ -192,6 +194,30 @@ function LoginForm() {
                   </button>
                 </div>
               </div>
+
+              {isRegister && (
+                <div>
+                  <label htmlFor="estheticianCode" className="block text-sm font-medium mb-1.5 text-[#1A1A1A]">
+                    Código de Esteticista <span className="text-[#999999]">(opcional)</span>
+                  </label>
+                  <div className="relative">
+                    <UserPlus aria-hidden="true" className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#9BAA93]" />
+                    <input
+                      id="estheticianCode"
+                      name="estheticianCode"
+                      type="text"
+                      value={form.estheticianCode}
+                      onChange={(e) => setForm({ ...form, estheticianCode: e.target.value })}
+                      className="w-full bg-white border border-[#E8E8E8] rounded-xl px-10 py-2.5 text-sm focus:outline-none focus:border-[#88B078] focus:ring-1 focus:ring-[#88B078] transition-colors placeholder:text-[#9BAA93] text-[#1A1A1A]"
+                      placeholder="EST-ABC123"
+                      aria-label="Código de Esteticista"
+                    />
+                  </div>
+                  <p className="text-xs text-[#999999] mt-1">
+                    Si un esteticista te dio un código, ingrésalo para vincular tu cuenta
+                  </p>
+                </div>
+              )}
 
               <Button type="submit" variant="primary" className="w-full py-5 h-auto text-base" disabled={loading}>
                 {loading ? (

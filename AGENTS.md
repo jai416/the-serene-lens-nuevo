@@ -1,5 +1,31 @@
 # AGENTS.md — The Serene Lens
 
+## Servicios Externos Integrados
+
+### Sentry (Monitoreo de errores) — ✅ Completo
+- `sentry.server.config.ts`, `sentry.client.config.ts`, `sentry.edge.config.ts` — todos inicializados
+- `instrumentation.ts` carga la config correcta según runtime
+- `api-response.ts:serverError()` captura automáticamente en Sentry
+- `src/lib/sentry.ts` — helpers: `captureError`, `captureMessage`, `setSentryUser`
+- Auth (`src/lib/auth.ts`) — `setSentryUser()` en session callback
+- `ErrorBoundary` component con captura de errores React
+- `tracesSampleRate: 0.1` en producción (10%)
+- Fallback silencioso si no hay DSN
+
+### Cloudinary (Imágenes CDN) — ✅ Completo
+- `src/lib/cloudinary.ts` — lazy import (no rompe tests sin package)
+- Funciones: `uploadImage`, `deleteImage`, `isConfigured`
+- Integrado en `PUT /api/user/clinic` — logos base64 se suben a Cloudinary automáticamente
+- Fallback a base64 si Cloudinary no está configurado
+- Carpeta: `the-serene-lens/logos`
+
+### Redis/Upstash (Caché persistente) — ✅ Completo
+- `src/lib/redis.ts` — lazy import (no rompe tests sin package)
+- Funciones: `redisGet`, `redisSet`, `redisDel`, `redisFlushAll`, `isRedisConfigured`
+- `src/lib/cache.ts` rewrite: Redis como primario, memoria como fallback
+- API idéntica (`getCache`/`setCache`/`delCache`/`clearCache`) pero async
+- Fallback silencioso a memoria si Redis no está configurado
+
 ## Project Status
 **Next.js 16 + Prisma 7 + Groq AI + QvaPay/Transfermóvil + Telegram Bot.**
 - Landing: benefit-driven hero ("Descubre lo que tu piel necesita") + trust signals (30s, privacidad, sin tarjeta)
@@ -21,6 +47,7 @@
 - **Share results**: Web Share API + clipboard fallback on analysis results page.
 - **Before/After comparison**: New `PreviousAnalysesComparison` component on analysis results page. Shows trend indicators (improved/worsened/stable) for 6 skin categories vs the previous analysis.
 - **Dynamic sitemap**: Now includes blog posts, products, and guides from DB (not just static pages).
+- **Esthetician Referral Code System**: Each clinic auto-generates a unique `EST-XXXXXX` code. Clients enter it at registration to link their account to the esthetician. Dashboard shows referred count, marketing kit with share/flyer/email/discount tools.
 - **No Redis, no BullMQ, no Stripe**
 
 ## Tests
@@ -150,7 +177,32 @@ Lucide icons in React do not accept a `title` prop directly. Wrap them in `<span
 
 `src/app/sitemap.ts` now queries the database for blog posts, products, and guides. It uses `try/catch` to fall back to static pages if the DB is unreachable.
 
-### 10. Modelos de IA y Prompt
+### 16. Esthetician Referral Code — Generated on Clinic creation, not customizable
+
+`Clinic.referralCode` is auto-generated as `EST-XXXXXX` (6 random uppercase chars) on clinic creation in `PUT /api/user/clinic`. It is NOT customizable by the user — avoids collisions.
+
+`User.referredByEstheticianId` links the user to the clinic when they register with a code. The registration flow in `src/lib/auth.ts`:
+1. `registerUser` takes optional `estheticianCode`
+2. Looks up `Clinic.findUnique({ where: { referralCode } })`
+3. If found, sets `User.referredByEstheticianId = clinic.ownerId`
+4. If code invalid, returns `error("Código de esteticista inválido")`
+
+The login page has a "Código de Esteticista (opcional)" input in registration mode.
+
+### 17. Marketing Kit Self-Service
+
+Estheticians access `/dashboard/esthetician/marketing` to:
+- View/share their referral code (copy, Web Share API, mailto link)
+- Generate a 20% discount code tied to their clinic (stored in `DiscountCode`)
+- See a preview flyer with their code and clinic name
+- Use an email template with dynamic code insertion
+- Track referred clients count
+
+### 18. API responses use `d?.data?.X || d.X` pattern
+
+API routes return `ok({...})` which wraps in `{ data: {...} }`. The esthetician marketing API (`/api/esthetician/marketing`) follows this convention. Frontend reads with `const body = d?.data || d`.
+
+### Modelos de IA y Prompt
 
 - **Visión (análisis de piel, product scanner):** `llama-3.2-11b-vision-preview` en Groq (gratis)
 - **Texto (chat, RAG, SEO, blog):** `qwen3-32b` en Groq (gratis) — mejora soporte multilingual vs. anterior `llama-3.1-8b-instant`
@@ -238,8 +290,16 @@ All env vars in `.env.example`. Key vars:
 - `GET/POST /api/admin/messages` — contact messages
 - `POST /api/admin/blog/generate` — AI blog draft (Groq)
 
+### Esthetician
+- `GET/PUT /api/user/clinic` — ESTHETICIAN clinic profile (auto-generates referralCode on create)
+- `GET /api/esthetician/clients` — list/paginate clinic's own patients (limit 200)
+- `POST /api/esthetician/clients` — add patient to clinic
+- `PATCH/DELETE /api/esthetician/clients/[id]` — update/delete patient
+- `GET /api/esthetician/marketing` — clinic referral info + discount code status
+- `POST /api/esthetician/marketing` — generate discount code (20%, 50 uses, 1yr)
+- `GET /api/esthetician/referred` — list referred users via referral code
+
 ### User
-- `GET/PUT /api/user/clinic` — ESTHETICIAN clinic profile
 - `GET /api/user/usage` — usage info
 - `GET /api/user/monthly-comparison` — PRO+ monthly comparison
 - `GET /api/user/dynamic-routine` — PRO+ dynamic routine
@@ -269,7 +329,9 @@ All env vars in `.env.example`. Key vars:
 - `GET/POST /api/challenges` — challenges (display-only, no UI complete button)
 
 ## Prisma Models
-- `User`: username (unique), telegramTrialStartedAt, isTelegramPremiumActive, latitude, longitude
+- `User`: username (unique), telegramTrialStartedAt, isTelegramPremiumActive, latitude, longitude, referredByEstheticianId (nullable FK → Clinic.ownerId)
+- `Clinic`: referralCode (unique, auto-generated `EST-XXXXXX`), licenseNumber, logo. Relación `clients → Client[]`, `referredUsers → User[]`
+- `Client`: modelo propio del esteticista (name, email, phone, notes). Vinculado a `Clinic` y opcionalmente a `SkinAnalysis.clientId`
 - `AnalysisJob`: persistent queue (userId, status, photos, body, result, priority)
 - `Comment`: approved (default true) — spam filter
 - `Referral`: firstAnalysisAt — completes on first analysis, not registration
@@ -281,6 +343,7 @@ All env vars in `.env.example`. Key vars:
 - `LeadMagnet`: email captures for free guide download
 - `GiftPack`: gift pack purchases with gift code, redemption tracking
 - `UserReminder`: reminder frequency/enabled per user
+- `AuditLog`: userId, action, targetId, targetType, details, ip, userAgent, createdAt
 
 ## Telegram Bot Commands
 
@@ -302,7 +365,9 @@ All env vars in `.env.example`. Key vars:
 - `/blog` — articles with category filter
 - `/dashboard/` — user dashboard, welcome banner (`?welcome=1`)
 - `/dashboard/history`, `/dashboard/subscription`, `/dashboard/profile`, `/dashboard/diary`, `/dashboard/challenges`, `/dashboard/referrals`, `/dashboard/guides`, `/dashboard/report`
-- `/dashboard/esthetician` — Panel esteticista con pacientes, stats, herramientas profesionales
+- `/dashboard/esthetician` — Panel esteticista: pacientes propios (Client model), stats, código de referido, herramientas
+- `/dashboard/esthetician/marketing` — Kit de Marketing: compartir código, generar descuento, flyer, plantilla email
+- `/dashboard/clinic-settings` — Editar perfil profesional (logo, nombre, licencia, dirección, teléfono)
 - `/pricing` — subscriptions + packs, USD/CUP, QvaPay payments
 - `/admin/` — admin panel: stats, users, payments, blog, products, guides, feature flags, analytics, health check, emails, notifications
 - `/terms`, `/privacy` — legal pages
@@ -314,15 +379,34 @@ Client-side validation via `src/lib/photo-quality.ts` (OffscreenCanvas). Fallbac
 
 ## Security
 
-- Rate limiting: DB-backed (`lib/rate-limit.ts`) — `/api/contact` 5/hr, `/api/register` 10/day/IP, `/api/payments/webhook` 30/min, `/api/auth/forgot-password` 5/hr, `/api/admin/emails/send` 5/hr
+- Rate limiting: DB-backed (`lib/rate-limit.ts`) — see full table below
+- **Brute force protection**: 5 intentos fallidos por email en 15 min, 10 por IP/min
+- **Transfermóvil concurrencia**: `updateMany` con verificación `status = "validated"` dentro de `$transaction`
+- **AuditLog mejorado**: registra IP y User-Agent en cada acción admin
+- **Admin logs**: `/admin/logs` con tabla paginada, filtros por acción y búsqueda
+- **Página de seguridad**: `/security` con política completa (CSP, rate limits, incidentes)
 - Input sanitization: HTML tags stripped via regex before DB
 - CRON_SECRET: timing-safe comparison (`crypto.timingSafeEqual`)
 - CSRF: token validation in `lib/csrf-middleware.ts`
 - Email XSS: `sanitizeHtml()` on all email templates interpolating user data
 - Community XSS: `stripHtml` + Zod validation on posts/comments
 - Correlation IDs: middleware injects `x-correlation-id`
-- Sentry replays: session 0.1, error 1.0, text masking
 - Health check: `/api/health` (DB latency, queue stats, memory, uptime)
+
+### Rate Limiting por Ruta
+
+| Ruta | Límite | Ventana |
+|------|--------|---------|
+| `/api/register` | 10 | día/IP |
+| `/api/contact` | 5 | hora/IP |
+| `/api/auth/forgot-password` | 5 | hora |
+| `/api/auth/reset-password` | 10 | hora |
+| `/api/payments/webhook` | 30 | minuto |
+| `/api/admin/*` | 30 | minuto |
+| `/api/lead-magnet` | 3 | hora/IP |
+| Login (email) | 5 | 15 min |
+| Login (IP) | 10 | minuto |
+| Bot /consultar | 10 | minuto/chatId |
 
 ## Relevant Source Files
 
@@ -342,9 +426,20 @@ Client-side validation via `src/lib/photo-quality.ts` (OffscreenCanvas). Fallbac
 - `src/lib/locale/translations.ts` — Translation dictionaries (50+ keys per locale)
 - `src/lib/locale/locale-context.tsx` — React context + provider for locale state
 - `src/lib/locale/index.ts` — Barrel export
-- `src/middleware.ts` — excludes `/api/auth`, `/api/register`, `/api/telegram/webhook`, `/api/cron`, `/api/chat`, `/api/contact` from CSRF check
+- `src/middleware.ts` — excludes `/api/auth`, `/api/register`, `/api/telegram/webhook`, `/api/cron`, `/api/chat`, `/api/contact`, `/api/lead-magnet` from CSRF check
 - `src/app/api/payments/webhook/route.ts` — QvaPay webhook (uses $transaction)
-- `src/app/api/payments/activate-transfer/route.ts` — uses $transaction (atomic)
+- `src/app/api/payments/activate-transfer/route.ts` — $transaction con updateMany + verificación status
+- `src/app/api/admin/logs/route.ts` — API de registros de auditoría con paginación y filtros
+- `src/app/admin/logs/page.tsx` — Página de logs en vivo del panel admin
+- `src/app/security/page.tsx` — Política de seguridad completa (11 secciones)
 - `src/app/dashboard/profile/page.tsx` — session-only profile (no DB fetch on mount), clean info table, locale switcher
-- `src/app/dashboard/esthetician/page.tsx` — Panel esteticista: pacientes, stats, tabla, herramientas
+- `src/app/dashboard/esthetician/page.tsx` — Panel esteticista: pacientes propios, stats, código de referido, herramientas
+- `src/app/dashboard/esthetician/marketing/page.tsx` — Kit de Marketing: compartir código, flyer, email template, descuento
+- `src/app/api/esthetician/marketing/route.ts` — GET marketing data + POST generate discount code
+- `src/app/api/esthetician/referred/route.ts` — GET referred users list
+- `src/app/api/esthetician/clients/route.ts` — GET/POST clientes propios del esteticista (con paginación/búsqueda/límite 200)
+- `src/app/api/esthetician/clients/[id]/route.ts` — PATCH/DELETE cliente individual
+- `src/app/api/user/clinic/route.ts` — PUT actualizado con `licenseNumber` y auto-generación de `referralCode`
+- `src/app/dashboard/clinic-settings/page.tsx` — Editar perfil clínica con logo upload (base64)
+- `src/app/login/page.tsx` — Registro con campo "Código de Esteticista (opcional)"
 - `prisma/schema.prisma` — all models

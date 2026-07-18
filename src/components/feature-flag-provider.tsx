@@ -34,12 +34,13 @@ export function FeatureFlagProvider({ children }: { children: ReactNode }) {
 
   const refresh = useCallback(async () => {
     try {
-      const res = await fetch("/api/admin/feature-flags")
+      const res = await fetch("/api/feature-flags")
       if (res.ok) {
         const data = await res.json()
+        const flagsData = data?.data || data
         const flattened: FeatureFlags = {}
-        if (data.data && Array.isArray(data.data)) {
-          for (const flag of data.data) {
+        if (Array.isArray(flagsData)) {
+          for (const flag of flagsData) {
             try {
               flattened[flag.key] = typeof flag.value === "string" ? JSON.parse(flag.value) : flag.value
             } catch {

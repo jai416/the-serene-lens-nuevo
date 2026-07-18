@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server"
 import { ErrorCode, ErrorCodes, ErrorMessages } from "@/lib/error-codes"
+import { captureError } from "@/lib/sentry"
 
 export function apiResponse<T>(data: T, status = 200) {
   return NextResponse.json({ success: true, data }, { status })
@@ -37,6 +38,7 @@ export function notFound(message?: string) {
 export function serverError(e?: unknown) {
   const errMsg = process.env.NODE_ENV === "development" && e instanceof Error ? e.message : undefined
   console.error("[API Error]", e)
+  captureError(e, { context: "serverError" })
   return apiError(ErrorCodes.INTERNAL_ERROR, errMsg)
 }
 

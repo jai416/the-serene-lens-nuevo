@@ -32,16 +32,22 @@ export async function POST(req: NextRequest) {
     const periodEnd = new Date()
     periodEnd.setDate(periodEnd.getDate() + (isAnnual ? 365 : 30))
 
-    await db.$transaction([
-      db.transferPayment.update({
-        where: { id: transfer.id },
+    await db.$transaction(async (tx) => {
+      const result = await tx.transferPayment.updateMany({
+        where: { id: transfer.id, status: "validated" },
         data: { status: "activated", activatedById: session.user.id, activatedAt: new Date() },
-      }),
-      db.user.update({
+      })
+
+      if (result.count === 0) {
+        throw new Error("La transferencia ya fue activada por otro administrador")
+      }
+
+      await tx.user.update({
         where: { id: transfer.userId },
         data: { plan: transfer.plan },
-      }),
-      db.subscription.create({
+      })
+
+      await tx.subscription.create({
         data: {
           userId: transfer.userId,
           plan: transfer.plan,
@@ -50,8 +56,9 @@ export async function POST(req: NextRequest) {
           currentPeriodStart: new Date(),
           currentPeriodEnd: periodEnd,
         },
-      }),
-      db.payment.create({
+      })
+
+      await tx.payment.create({
         data: {
           userId: transfer.userId,
           provider: "transfer",
@@ -61,17 +68,20 @@ export async function POST(req: NextRequest) {
           confirmedAt: new Date(),
           remoteId: transfer.referenceCode,
         },
-      }),
-      db.auditLog.create({
+      })
+
+      await tx.auditLog.create({
         data: {
           userId: session.user.id,
           action: "activate_transfer",
           targetId: transfer.id,
           targetType: "transfer",
           details: `Activated transfer ${referenceCode} for ${transfer.plan}`,
+          ip,
+          userAgent: req.headers.get("user-agent") || "",
         },
-      }),
-    ])
+      })
+    })
 
     return ok({ message: "Acceso activado correctamente" })
   } catch (e) {

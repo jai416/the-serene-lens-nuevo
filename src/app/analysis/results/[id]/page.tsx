@@ -43,6 +43,8 @@ interface AIResult {
   recommendations: string[]
   confidence: string
   confidenceReason?: string
+  resumenGeneral?: string
+  summary?: string
   routine: {
     morning: string[]
     evening: string[]
@@ -121,6 +123,8 @@ export default function AnalysisResultsPage() {
           recommendations: safeParseArray(analysisData.recommendations),
           confidence: obs.confidence || "media",
           confidenceReason: obs.confidenceReason || "",
+          resumenGeneral: obs.resumenGeneral || "",
+          summary: obs.summary || "",
           routine: typeof obs.routine === "object" && obs.routine && !Array.isArray(obs.routine) ? obs.routine : { morning: [], evening: [] },
         }
         setResult(parsed)
@@ -241,6 +245,27 @@ export default function AnalysisResultsPage() {
         </div>
 
         <div className="space-y-5">
+          {/* ─── 0. Executive Summary ─── */}
+          {(result.resumenGeneral || result.summary) && (
+            <Card className="p-5 border-0 bg-gradient-to-br from-[#E2ECE0] to-[#F0F7EE]">
+              <CardContent className="p-0">
+                <div className="flex items-start gap-3">
+                  <div className="w-8 h-8 rounded-lg bg-white/60 flex items-center justify-center shrink-0 mt-0.5">
+                    <Sparkles className="w-4 h-4 text-[#88B078]" />
+                  </div>
+                  <div>
+                    <p className="text-sm font-semibold text-[#1A1A1A] mb-1">
+                      {result.summary || result.resumenGeneral}
+                    </p>
+                    <p className="text-xs text-[#666666]">
+                      Piel: <strong>{result.skinType || "No determinada"}</strong> · {result.recommendations.length} recomendaciones
+                    </p>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          )}
+
           {/* ─── 1. Resumen General ─── */}
           <Card className="p-6 border-t-4 border-t-[#88B078]">
             <CardHeader className="p-0 mb-4">
@@ -618,6 +643,51 @@ export default function AnalysisResultsPage() {
           {session && (
             <SatisfactionSurvey />
           )}
+
+          {/* ─── ¿Qué sigue? — Next Steps ─── */}
+          <Card className="p-5 border border-[#E8E8E8]/60 bg-gradient-to-br from-[#F8F9FA] to-white">
+            <CardContent className="p-0">
+              <h3 className="font-semibold text-sm text-[#1A1A1A] mb-4 flex items-center gap-2">
+                <Sparkles className="w-4 h-4 text-[#88B078]" />
+                ¡Análisis completado! Ahora puedes:
+              </h3>
+              <div className="grid sm:grid-cols-3 gap-3">
+                <Link href="/dashboard/diary">
+                  <div className="flex items-center gap-3 p-3 rounded-xl bg-white border border-[#E8E8E8] hover:border-[#88B078] transition-colors cursor-pointer">
+                    <div className="w-8 h-8 rounded-lg bg-[#E2ECE0] flex items-center justify-center shrink-0">
+                      <Droplets className="w-4 h-4 text-[#88B078]" />
+                    </div>
+                    <div>
+                      <p className="text-xs font-medium text-[#1A1A1A]">Ver tu rutina</p>
+                      <p className="text-[10px] text-[#666666]">Personalizada para ti</p>
+                    </div>
+                  </div>
+                </Link>
+                <Link href={`/analysis/results/${id}?share=1`}>
+                  <div className="flex items-center gap-3 p-3 rounded-xl bg-white border border-[#E8E8E8] hover:border-[#88B078] transition-colors cursor-pointer">
+                    <div className="w-8 h-8 rounded-lg bg-[#E2ECE0] flex items-center justify-center shrink-0">
+                      <Share2 className="w-4 h-4 text-[#88B078]" />
+                    </div>
+                    <div>
+                      <p className="text-xs font-medium text-[#1A1A1A]">Compartir resultado</p>
+                      <p className="text-[10px] text-[#666666]">Con amigos o tu esteticista</p>
+                    </div>
+                  </div>
+                </Link>
+                <Link href="/dashboard/history">
+                  <div className="flex items-center gap-3 p-3 rounded-xl bg-white border border-[#E8E8E8] hover:border-[#88B078] transition-colors cursor-pointer">
+                    <div className="w-8 h-8 rounded-lg bg-[#E2ECE0] flex items-center justify-center shrink-0">
+                      <History className="w-4 h-4 text-[#88B078]" />
+                    </div>
+                    <div>
+                      <p className="text-xs font-medium text-[#1A1A1A]">Ir al historial</p>
+                      <p className="text-[10px] text-[#666666]">Sigue tu evolución</p>
+                    </div>
+                  </div>
+                </Link>
+              </div>
+            </CardContent>
+          </Card>
 
           {/* ─── Actions ─── */}
           <div className="flex gap-3 pt-2">

@@ -35,7 +35,7 @@ export default function ChallengesPage() {
             </p>
             <div className="flex items-center justify-center gap-2 text-sm text-[#666666]">
               <Sparkles className="w-4 h-4 text-[#88B078]" />
-              <span>Próximamente</span>
+              <span>Pronto disponibles</span>
               <Sparkles className="w-4 h-4 text-[#88B078]" />
             </div>
           </CardContent>

@@ -25,32 +25,66 @@ import {
   Trophy,
   FileText,
   HelpCircle,
+  BookOpenCheck,
 } from "lucide-react"
 import { useState } from "react"
 import { useLocale } from "@/lib/locale/locale-context"
 import { t } from "@/lib/locale/translations"
 import type { TranslationKey } from "@/lib/locale/translations"
 
-const guestLinks: Array<{ href: string; labelKey: TranslationKey; icon: any }> = [
-  { href: "/", labelKey: "nav.home", icon: Home },
-  { href: "/products", labelKey: "nav.products", icon: Package },
-  { href: "/ingredients-analyzer", labelKey: "nav.ingredients", icon: Beaker },
+interface NavItem {
+  href: string
+  labelKey: TranslationKey
+  icon: any
+}
+
+interface NavSection {
+  title?: string
+  items: NavItem[]
+}
+
+const guestLinks: NavSection[] = [
+  {
+    items: [
+      { href: "/", labelKey: "nav.home", icon: Home },
+      { href: "/products", labelKey: "nav.products", icon: Package },
+      { href: "/ingredients-analyzer", labelKey: "nav.ingredients", icon: Beaker },
+    ],
+  },
 ]
 
-const authLinks: Array<{ href: string; labelKey: TranslationKey; icon: any }> = [
-  { href: "/", labelKey: "nav.home", icon: Home },
-  { href: "/analysis", labelKey: "nav.analysis", icon: Scan },
-  { href: "/dashboard/history", labelKey: "nav.history", icon: History },
-  { href: "/dashboard/diary", labelKey: "nav.diary", icon: BookOpen },
-  { href: "/dashboard/challenges", labelKey: "nav.challenges", icon: Trophy },
-  { href: "/products", labelKey: "nav.products", icon: Package },
-  { href: "/guides", labelKey: "nav.guides", icon: BookOpen },
-  { href: "/ingredients-analyzer", labelKey: "nav.ingredients", icon: Beaker },
-  { href: "/dashboard/subscription", labelKey: "sidebar.plan", icon: TrendingUp },
-  { href: "/dashboard/report", labelKey: "sidebar.report", icon: FileText },
-  { href: "/dashboard/guides", labelKey: "sidebar.myGuides", icon: Bookmark },
-  { href: "/dashboard/support", labelKey: "nav.support", icon: HelpCircle },
-  { href: "/dashboard/profile", labelKey: "nav.profile", icon: User },
+const authSections: NavSection[] = [
+  {
+    items: [
+      { href: "/", labelKey: "nav.home", icon: Home },
+      { href: "/analysis", labelKey: "nav.analysis", icon: Scan },
+      { href: "/dashboard/history", labelKey: "nav.history", icon: History },
+    ],
+  },
+  {
+    title: "Recursos",
+    items: [
+      { href: "/dashboard/diary", labelKey: "nav.diary", icon: BookOpenCheck },
+      { href: "/dashboard/challenges", labelKey: "nav.challenges", icon: Trophy },
+      { href: "/guides", labelKey: "nav.guides", icon: BookOpen },
+    ],
+  },
+  {
+    title: "Tienda",
+    items: [
+      { href: "/products", labelKey: "nav.products", icon: Package },
+      { href: "/ingredients-analyzer", labelKey: "nav.ingredients", icon: Beaker },
+    ],
+  },
+  {
+    title: "Cuenta",
+    items: [
+      { href: "/dashboard/subscription", labelKey: "sidebar.plan", icon: TrendingUp },
+      { href: "/dashboard/report", labelKey: "sidebar.report", icon: FileText },
+      { href: "/dashboard/guides", labelKey: "sidebar.myGuides", icon: Bookmark },
+      { href: "/dashboard/support", labelKey: "nav.support", icon: HelpCircle },
+    ],
+  },
 ]
 
 export function Sidebar() {
@@ -58,7 +92,7 @@ export function Sidebar() {
   const { data: session } = useSession()
   const { locale } = useLocale()
   const [mobileOpen, setMobileOpen] = useState(false)
-  const links = session ? authLinks : guestLinks
+  const sections = session ? authSections : guestLinks
 
   const isActive = (href: string) => {
     if (href === "/") return pathname === "/"
@@ -79,91 +113,114 @@ export function Sidebar() {
         </Link>
       </div>
 
-      <nav className="flex-1 px-3 space-y-0.5 overflow-y-auto scrollbar-hide">
-        {links.map((link) => {
-          const active = isActive(link.href)
-          return (
+      <nav className="flex-1 px-3 space-y-4 overflow-y-auto scrollbar-hide">
+        {sections.map((section, sIdx) => (
+          <div key={sIdx}>
+            {section.title && (
+              <p className="px-4 text-[10px] font-semibold uppercase tracking-widest text-[#999999] mb-1">
+                {section.title}
+              </p>
+            )}
+            <div className="space-y-0.5">
+              {section.items.map((link) => {
+                const active = isActive(link.href)
+                return (
+                  <Link
+                    key={`${link.href}-${link.labelKey}`}
+                    href={link.href}
+                    onClick={() => setMobileOpen(false)}
+                    className={cn(
+                      "flex items-center gap-3 px-4 py-2.5 text-sm font-medium rounded-xl transition-all duration-200",
+                      active
+                        ? "bg-[#E2ECE0] text-[#1A1A1A]"
+                        : "text-[#666666] hover:bg-[#F8F9FA] hover:text-[#1A1A1A]"
+                    )}
+                  >
+                    <link.icon className={cn("w-4.5 h-4.5 shrink-0", active ? "text-[#88B078]" : "text-[#999999]")} />
+                    {t(link.labelKey, locale)}
+                  </Link>
+                )
+              })}
+            </div>
+          </div>
+        ))}
+
+        {session?.user?.role === "ADMIN" && (
+          <div>
+            <p className="px-4 text-[10px] font-semibold uppercase tracking-widest text-[#999999] mb-1">
+              Admin
+            </p>
             <Link
-              key={`${link.href}-${link.labelKey}`}
-              href={link.href}
+              href="/admin"
               onClick={() => setMobileOpen(false)}
               className={cn(
                 "flex items-center gap-3 px-4 py-2.5 text-sm font-medium rounded-xl transition-all duration-200",
-                active
+                isActive("/admin")
                   ? "bg-[#E2ECE0] text-[#1A1A1A]"
                   : "text-[#666666] hover:bg-[#F8F9FA] hover:text-[#1A1A1A]"
               )}
             >
-              <link.icon className={cn("w-4.5 h-4.5 shrink-0", active ? "text-[#88B078]" : "text-[#999999]")} />
-              {t(link.labelKey, locale)}
+              <Settings className="w-4.5 h-4.5 shrink-0" />
+              {t("nav.admin", locale)}
             </Link>
-          )
-        })}
-
-        {session?.user?.role === "ADMIN" && (
-          <Link
-            href="/admin"
-            onClick={() => setMobileOpen(false)}
-            className={cn(
-              "flex items-center gap-3 px-4 py-2.5 text-sm font-medium rounded-xl transition-all duration-200",
-              isActive("/admin")
-                ? "bg-[#E2ECE0] text-[#1A1A1A]"
-                : "text-[#666666] hover:bg-[#F8F9FA] hover:text-[#1A1A1A]"
-            )}
-          >
-            <Settings className="w-4.5 h-4.5 shrink-0" />
-            {t("nav.admin", locale)}
-          </Link>
+          </div>
         )}
 
         {(session?.user as any)?.plan === "ESTHETICIAN" && (
-          <Link
-            href="/dashboard/esthetician"
-            onClick={() => setMobileOpen(false)}
-            className={cn(
-              "flex items-center gap-3 px-4 py-2.5 text-sm font-medium rounded-xl transition-all duration-200",
-              isActive("/dashboard/esthetician")
-                ? "bg-[#E2ECE0] text-[#1A1A1A]"
-                : "text-[#666666] hover:bg-[#F8F9FA] hover:text-[#1A1A1A]"
-            )}
-          >
-            <User className="w-4.5 h-4.5 shrink-0" />
-            {t("nav.esthetician", locale)}
-          </Link>
-        )}
-
-        <div className="pt-4 px-1">
-          <div className="p-5 rounded-2xl bg-[#FFF9E6] border border-[#FCEAA6]/50">
-            <Crown className="w-5 h-5 text-[#D4A843] mb-2" />
-            <p className="text-sm font-semibold text-[#1A1A1A] mb-1">
-              {t("sidebar.premiumVersion", locale)}
-            </p>
-            <p className="text-xs text-[#666666] leading-relaxed mb-3">
-              {t("sidebar.premiumDesc", locale)}
+          <div>
+            <p className="px-4 text-[10px] font-semibold uppercase tracking-widest text-[#999999] mb-1">
+              Profesional
             </p>
             <Link
-              href="/pricing"
+              href="/dashboard/esthetician"
               onClick={() => setMobileOpen(false)}
-              className="inline-flex items-center gap-1.5 text-xs font-semibold text-[#1A1A1A] bg-[#FCEAA6] rounded-full px-4 py-2 hover:bg-[#F5E090] transition-colors"
+              className={cn(
+                "flex items-center gap-3 px-4 py-2.5 text-sm font-medium rounded-xl transition-all duration-200",
+                isActive("/dashboard/esthetician")
+                  ? "bg-[#E2ECE0] text-[#1A1A1A]"
+                  : "text-[#666666] hover:bg-[#F8F9FA] hover:text-[#1A1A1A]"
+              )}
             >
-              {t("sidebar.upgradeNow", locale)}
-              <ArrowRight className="w-3 h-3" />
+              <User className="w-4.5 h-4.5 shrink-0" />
+              {t("nav.esthetician", locale)}
             </Link>
           </div>
-        </div>
+        )}
+
+        {session && (
+          <div className="pt-2 px-1">
+            <div className="p-5 rounded-2xl bg-[#FFF9E6] border border-[#FCEAA6]/50">
+              <Crown className="w-5 h-5 text-[#D4A843] mb-2" />
+              <p className="text-sm font-semibold text-[#1A1A1A] mb-1">
+                {t("sidebar.premiumVersion", locale)}
+              </p>
+              <p className="text-xs text-[#666666] leading-relaxed mb-3">
+                {t("sidebar.premiumDesc", locale)}
+              </p>
+              <Link
+                href="/pricing"
+                onClick={() => setMobileOpen(false)}
+                className="inline-flex items-center gap-1.5 text-xs font-semibold text-[#1A1A1A] bg-[#FCEAA6] rounded-full px-4 py-2 hover:bg-[#F5E090] transition-colors"
+              >
+                {t("sidebar.upgradeNow", locale)}
+                <ArrowRight className="w-3 h-3" />
+              </Link>
+            </div>
+          </div>
+        )}
       </nav>
 
       <div className="p-3 border-t border-[#E8E8E8]">
         {session ? (
           <div className="space-y-1">
-              <Link
-                href="/dashboard/profile"
-                onClick={() => setMobileOpen(false)}
-                className="flex items-center gap-3 px-4 py-2.5 text-sm rounded-xl text-[#666666] hover:bg-[#E2ECE0] hover:text-[#1A1A1A] transition-all duration-200"
-              >
-                <User className="w-4.5 h-4.5 shrink-0 text-[#88B078]" />
-                <span className="truncate">{session.user.name || session.user.email}</span>
-              </Link>
+            <Link
+              href="/dashboard/profile"
+              onClick={() => setMobileOpen(false)}
+              className="flex items-center gap-3 px-4 py-2.5 text-sm rounded-xl text-[#666666] hover:bg-[#E2ECE0] hover:text-[#1A1A1A] transition-all duration-200"
+            >
+              <User className="w-4.5 h-4.5 shrink-0 text-[#88B078]" />
+              <span className="truncate">{session.user.name || session.user.email}</span>
+            </Link>
             <button
               onClick={() => signOut()}
               className="flex items-center gap-3 px-4 py-2.5 text-sm rounded-xl text-[#666666] hover:bg-[#E2ECE0] hover:text-[#1A1A1A] transition-all duration-200 w-full text-left"

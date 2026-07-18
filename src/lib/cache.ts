@@ -1,3 +1,5 @@
+import { redisGet, redisSet, redisDel, redisFlushAll, isRedisConfigured } from "./redis"
+
 export interface CacheAdapter {
   get<T = unknown>(key: string): T | undefined
   set<T>(key: string, value: T, ttlSeconds?: number): void
@@ -30,26 +32,43 @@ function createMemoryCache(): CacheAdapter {
   }
 }
 
-let cache: CacheAdapter | null = null
+let memoryCache: CacheAdapter | null = null
 
 function getCacheAdapter(): CacheAdapter {
-  if (cache) return cache
-  cache = createMemoryCache()
-  return cache
+  if (memoryCache) return memoryCache
+  memoryCache = createMemoryCache()
+  return memoryCache
 }
 
-export function getCache<T = unknown>(key: string): T | undefined {
+function useRedis(): boolean {
+  return isRedisConfigured()
+}
+
+export async function getCache<T = unknown>(key: string): Promise<T | undefined> {
+  if (useRedis()) {
+    const val = await redisGet<T>(key)
+    if (val !== undefined) return val
+  }
   return getCacheAdapter().get<T>(key)
 }
 
-export function setCache<T>(key: string, value: T, ttlSeconds = 600): void {
+export async function setCache<T>(key: string, value: T, ttlSeconds = 600): Promise<void> {
+  if (useRedis()) {
+    await redisSet(key, value, ttlSeconds)
+  }
   getCacheAdapter().set(key, value, ttlSeconds)
 }
 
-export function delCache(key: string): void {
+export async function delCache(key: string): Promise<void> {
+  if (useRedis()) {
+    await redisDel(key)
+  }
   getCacheAdapter().del(key)
 }
 
-export function clearCache(): void {
+export async function clearCache(): Promise<void> {
+  if (useRedis()) {
+    await redisFlushAll()
+  }
   getCacheAdapter().flushAll()
 }

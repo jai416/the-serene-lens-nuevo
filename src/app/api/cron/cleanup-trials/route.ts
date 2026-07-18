@@ -50,7 +50,7 @@ export async function POST(req: Request) {
     if (expiredSubs > 0) {
       const expired = await db.subscription.findMany({
         where: { status: "expired", updatedAt: { gte: new Date(Date.now() - 60000) } },
-        select: { userId: true, plan: true },
+        select: { id: true, userId: true, plan: true },
       })
       for (const sub of expired) {
         const hasActive = await db.subscription.findFirst({

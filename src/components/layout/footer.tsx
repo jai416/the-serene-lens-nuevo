@@ -36,6 +36,7 @@ export function Footer() {
               <Link href="/blog" className="block text-sm text-[#666666] hover:text-[#1A1A1A] transition-colors">Blog</Link>
               <Link href="/privacy" className="block text-sm text-[#666666] hover:text-[#1A1A1A] transition-colors">Privacidad</Link>
               <Link href="/terms" className="block text-sm text-[#666666] hover:text-[#1A1A1A] transition-colors">Términos</Link>
+              <Link href="/security" className="block text-sm text-[#666666] hover:text-[#1A1A1A] transition-colors">Seguridad</Link>
               {whatsappNumber && (
                 <a
                   href={`https://wa.me/${whatsappNumber}`}

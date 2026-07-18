@@ -28,9 +28,11 @@ export type ClinicMinAggregateOutputType = {
   id: string | null
   name: string | null
   slug: string | null
+  referralCode: string | null
   logo: string | null
   address: string | null
   phone: string | null
+  licenseNumber: string | null
   ownerId: string | null
   createdAt: Date | null
   updatedAt: Date | null
@@ -40,9 +42,11 @@ export type ClinicMaxAggregateOutputType = {
   id: string | null
   name: string | null
   slug: string | null
+  referralCode: string | null
   logo: string | null
   address: string | null
   phone: string | null
+  licenseNumber: string | null
   ownerId: string | null
   createdAt: Date | null
   updatedAt: Date | null
@@ -52,9 +56,11 @@ export type ClinicCountAggregateOutputType = {
   id: number
   name: number
   slug: number
+  referralCode: number
   logo: number
   address: number
   phone: number
+  licenseNumber: number
   ownerId: number
   createdAt: number
   updatedAt: number
@@ -66,9 +72,11 @@ export type ClinicMinAggregateInputType = {
   id?: true
   name?: true
   slug?: true
+  referralCode?: true
   logo?: true
   address?: true
   phone?: true
+  licenseNumber?: true
   ownerId?: true
   createdAt?: true
   updatedAt?: true
@@ -78,9 +86,11 @@ export type ClinicMaxAggregateInputType = {
   id?: true
   name?: true
   slug?: true
+  referralCode?: true
   logo?: true
   address?: true
   phone?: true
+  licenseNumber?: true
   ownerId?: true
   createdAt?: true
   updatedAt?: true
@@ -90,9 +100,11 @@ export type ClinicCountAggregateInputType = {
   id?: true
   name?: true
   slug?: true
+  referralCode?: true
   logo?: true
   address?: true
   phone?: true
+  licenseNumber?: true
   ownerId?: true
   createdAt?: true
   updatedAt?: true
@@ -175,9 +187,11 @@ export type ClinicGroupByOutputType = {
   id: string
   name: string
   slug: string
+  referralCode: string
   logo: string | null
   address: string | null
   phone: string | null
+  licenseNumber: string | null
   ownerId: string
   createdAt: Date
   updatedAt: Date
@@ -208,31 +222,40 @@ export type ClinicWhereInput = {
   id?: Prisma.StringFilter<"Clinic"> | string
   name?: Prisma.StringFilter<"Clinic"> | string
   slug?: Prisma.StringFilter<"Clinic"> | string
+  referralCode?: Prisma.StringFilter<"Clinic"> | string
   logo?: Prisma.StringNullableFilter<"Clinic"> | string | null
   address?: Prisma.StringNullableFilter<"Clinic"> | string | null
   phone?: Prisma.StringNullableFilter<"Clinic"> | string | null
+  licenseNumber?: Prisma.StringNullableFilter<"Clinic"> | string | null
   ownerId?: Prisma.StringFilter<"Clinic"> | string
   createdAt?: Prisma.DateTimeFilter<"Clinic"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Clinic"> | Date | string
   owner?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
+  clients?: Prisma.ClientListRelationFilter
+  referredUsers?: Prisma.UserListRelationFilter
 }
 
 export type ClinicOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   name?: Prisma.SortOrder
   slug?: Prisma.SortOrder
+  referralCode?: Prisma.SortOrder
   logo?: Prisma.SortOrderInput | Prisma.SortOrder
   address?: Prisma.SortOrderInput | Prisma.SortOrder
   phone?: Prisma.SortOrderInput | Prisma.SortOrder
+  licenseNumber?: Prisma.SortOrderInput | Prisma.SortOrder
   ownerId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   owner?: Prisma.UserOrderByWithRelationInput
+  clients?: Prisma.ClientOrderByRelationAggregateInput
+  referredUsers?: Prisma.UserOrderByRelationAggregateInput
 }
 
 export type ClinicWhereUniqueInput = Prisma.AtLeast<{
   id?: string
   slug?: string
+  referralCode?: string
   ownerId?: string
   AND?: Prisma.ClinicWhereInput | Prisma.ClinicWhereInput[]
   OR?: Prisma.ClinicWhereInput[]
@@ -241,18 +264,23 @@ export type ClinicWhereUniqueInput = Prisma.AtLeast<{
   logo?: Prisma.StringNullableFilter<"Clinic"> | string | null
   address?: Prisma.StringNullableFilter<"Clinic"> | string | null
   phone?: Prisma.StringNullableFilter<"Clinic"> | string | null
+  licenseNumber?: Prisma.StringNullableFilter<"Clinic"> | string | null
   createdAt?: Prisma.DateTimeFilter<"Clinic"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Clinic"> | Date | string
   owner?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
-}, "id" | "slug" | "ownerId">
+  clients?: Prisma.ClientListRelationFilter
+  referredUsers?: Prisma.UserListRelationFilter
+}, "id" | "slug" | "referralCode" | "ownerId">
 
 export type ClinicOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   name?: Prisma.SortOrder
   slug?: Prisma.SortOrder
+  referralCode?: Prisma.SortOrder
   logo?: Prisma.SortOrderInput | Prisma.SortOrder
   address?: Prisma.SortOrderInput | Prisma.SortOrder
   phone?: Prisma.SortOrderInput | Prisma.SortOrder
+  licenseNumber?: Prisma.SortOrderInput | Prisma.SortOrder
   ownerId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -268,9 +296,11 @@ export type ClinicScalarWhereWithAggregatesInput = {
   id?: Prisma.StringWithAggregatesFilter<"Clinic"> | string
   name?: Prisma.StringWithAggregatesFilter<"Clinic"> | string
   slug?: Prisma.StringWithAggregatesFilter<"Clinic"> | string
+  referralCode?: Prisma.StringWithAggregatesFilter<"Clinic"> | string
   logo?: Prisma.StringNullableWithAggregatesFilter<"Clinic"> | string | null
   address?: Prisma.StringNullableWithAggregatesFilter<"Clinic"> | string | null
   phone?: Prisma.StringNullableWithAggregatesFilter<"Clinic"> | string | null
+  licenseNumber?: Prisma.StringNullableWithAggregatesFilter<"Clinic"> | string | null
   ownerId?: Prisma.StringWithAggregatesFilter<"Clinic"> | string
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Clinic"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"Clinic"> | Date | string
@@ -280,57 +310,75 @@ export type ClinicCreateInput = {
   id?: string
   name: string
   slug: string
+  referralCode: string
   logo?: string | null
   address?: string | null
   phone?: string | null
+  licenseNumber?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   owner: Prisma.UserCreateNestedOneWithoutClinicInput
+  clients?: Prisma.ClientCreateNestedManyWithoutClinicInput
+  referredUsers?: Prisma.UserCreateNestedManyWithoutReferredByInput
 }
 
 export type ClinicUncheckedCreateInput = {
   id?: string
   name: string
   slug: string
+  referralCode: string
   logo?: string | null
   address?: string | null
   phone?: string | null
+  licenseNumber?: string | null
   ownerId: string
   createdAt?: Date | string
   updatedAt?: Date | string
+  clients?: Prisma.ClientUncheckedCreateNestedManyWithoutClinicInput
+  referredUsers?: Prisma.UserUncheckedCreateNestedManyWithoutReferredByInput
 }
 
 export type ClinicUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.StringFieldUpdateOperationsInput | string
+  referralCode?: Prisma.StringFieldUpdateOperationsInput | string
   logo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  licenseNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   owner?: Prisma.UserUpdateOneRequiredWithoutClinicNestedInput
+  clients?: Prisma.ClientUpdateManyWithoutClinicNestedInput
+  referredUsers?: Prisma.UserUpdateManyWithoutReferredByNestedInput
 }
 
 export type ClinicUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.StringFieldUpdateOperationsInput | string
+  referralCode?: Prisma.StringFieldUpdateOperationsInput | string
   logo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  licenseNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   ownerId?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  clients?: Prisma.ClientUncheckedUpdateManyWithoutClinicNestedInput
+  referredUsers?: Prisma.UserUncheckedUpdateManyWithoutReferredByNestedInput
 }
 
 export type ClinicCreateManyInput = {
   id?: string
   name: string
   slug: string
+  referralCode: string
   logo?: string | null
   address?: string | null
   phone?: string | null
+  licenseNumber?: string | null
   ownerId: string
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -340,9 +388,11 @@ export type ClinicUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.StringFieldUpdateOperationsInput | string
+  referralCode?: Prisma.StringFieldUpdateOperationsInput | string
   logo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  licenseNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -351,9 +401,11 @@ export type ClinicUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.StringFieldUpdateOperationsInput | string
+  referralCode?: Prisma.StringFieldUpdateOperationsInput | string
   logo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  licenseNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   ownerId?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -368,9 +420,11 @@ export type ClinicCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   name?: Prisma.SortOrder
   slug?: Prisma.SortOrder
+  referralCode?: Prisma.SortOrder
   logo?: Prisma.SortOrder
   address?: Prisma.SortOrder
   phone?: Prisma.SortOrder
+  licenseNumber?: Prisma.SortOrder
   ownerId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -380,9 +434,11 @@ export type ClinicMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
   name?: Prisma.SortOrder
   slug?: Prisma.SortOrder
+  referralCode?: Prisma.SortOrder
   logo?: Prisma.SortOrder
   address?: Prisma.SortOrder
   phone?: Prisma.SortOrder
+  licenseNumber?: Prisma.SortOrder
   ownerId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -392,17 +448,30 @@ export type ClinicMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
   name?: Prisma.SortOrder
   slug?: Prisma.SortOrder
+  referralCode?: Prisma.SortOrder
   logo?: Prisma.SortOrder
   address?: Prisma.SortOrder
   phone?: Prisma.SortOrder
+  licenseNumber?: Prisma.SortOrder
   ownerId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
 
+export type ClinicScalarRelationFilter = {
+  is?: Prisma.ClinicWhereInput
+  isNot?: Prisma.ClinicWhereInput
+}
+
 export type ClinicCreateNestedOneWithoutOwnerInput = {
   create?: Prisma.XOR<Prisma.ClinicCreateWithoutOwnerInput, Prisma.ClinicUncheckedCreateWithoutOwnerInput>
   connectOrCreate?: Prisma.ClinicCreateOrConnectWithoutOwnerInput
+  connect?: Prisma.ClinicWhereUniqueInput
+}
+
+export type ClinicCreateNestedOneWithoutReferredUsersInput = {
+  create?: Prisma.XOR<Prisma.ClinicCreateWithoutReferredUsersInput, Prisma.ClinicUncheckedCreateWithoutReferredUsersInput>
+  connectOrCreate?: Prisma.ClinicCreateOrConnectWithoutReferredUsersInput
   connect?: Prisma.ClinicWhereUniqueInput
 }
 
@@ -422,6 +491,16 @@ export type ClinicUpdateOneWithoutOwnerNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.ClinicUpdateToOneWithWhereWithoutOwnerInput, Prisma.ClinicUpdateWithoutOwnerInput>, Prisma.ClinicUncheckedUpdateWithoutOwnerInput>
 }
 
+export type ClinicUpdateOneWithoutReferredUsersNestedInput = {
+  create?: Prisma.XOR<Prisma.ClinicCreateWithoutReferredUsersInput, Prisma.ClinicUncheckedCreateWithoutReferredUsersInput>
+  connectOrCreate?: Prisma.ClinicCreateOrConnectWithoutReferredUsersInput
+  upsert?: Prisma.ClinicUpsertWithoutReferredUsersInput
+  disconnect?: Prisma.ClinicWhereInput | boolean
+  delete?: Prisma.ClinicWhereInput | boolean
+  connect?: Prisma.ClinicWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.ClinicUpdateToOneWithWhereWithoutReferredUsersInput, Prisma.ClinicUpdateWithoutReferredUsersInput>, Prisma.ClinicUncheckedUpdateWithoutReferredUsersInput>
+}
+
 export type ClinicUncheckedUpdateOneWithoutOwnerNestedInput = {
   create?: Prisma.XOR<Prisma.ClinicCreateWithoutOwnerInput, Prisma.ClinicUncheckedCreateWithoutOwnerInput>
   connectOrCreate?: Prisma.ClinicCreateOrConnectWithoutOwnerInput
@@ -432,31 +511,88 @@ export type ClinicUncheckedUpdateOneWithoutOwnerNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.ClinicUpdateToOneWithWhereWithoutOwnerInput, Prisma.ClinicUpdateWithoutOwnerInput>, Prisma.ClinicUncheckedUpdateWithoutOwnerInput>
 }
 
+export type ClinicCreateNestedOneWithoutClientsInput = {
+  create?: Prisma.XOR<Prisma.ClinicCreateWithoutClientsInput, Prisma.ClinicUncheckedCreateWithoutClientsInput>
+  connectOrCreate?: Prisma.ClinicCreateOrConnectWithoutClientsInput
+  connect?: Prisma.ClinicWhereUniqueInput
+}
+
+export type ClinicUpdateOneRequiredWithoutClientsNestedInput = {
+  create?: Prisma.XOR<Prisma.ClinicCreateWithoutClientsInput, Prisma.ClinicUncheckedCreateWithoutClientsInput>
+  connectOrCreate?: Prisma.ClinicCreateOrConnectWithoutClientsInput
+  upsert?: Prisma.ClinicUpsertWithoutClientsInput
+  connect?: Prisma.ClinicWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.ClinicUpdateToOneWithWhereWithoutClientsInput, Prisma.ClinicUpdateWithoutClientsInput>, Prisma.ClinicUncheckedUpdateWithoutClientsInput>
+}
+
 export type ClinicCreateWithoutOwnerInput = {
   id?: string
   name: string
   slug: string
+  referralCode: string
   logo?: string | null
   address?: string | null
   phone?: string | null
+  licenseNumber?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  clients?: Prisma.ClientCreateNestedManyWithoutClinicInput
+  referredUsers?: Prisma.UserCreateNestedManyWithoutReferredByInput
 }
 
 export type ClinicUncheckedCreateWithoutOwnerInput = {
   id?: string
   name: string
   slug: string
+  referralCode: string
   logo?: string | null
   address?: string | null
   phone?: string | null
+  licenseNumber?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  clients?: Prisma.ClientUncheckedCreateNestedManyWithoutClinicInput
+  referredUsers?: Prisma.UserUncheckedCreateNestedManyWithoutReferredByInput
 }
 
 export type ClinicCreateOrConnectWithoutOwnerInput = {
   where: Prisma.ClinicWhereUniqueInput
   create: Prisma.XOR<Prisma.ClinicCreateWithoutOwnerInput, Prisma.ClinicUncheckedCreateWithoutOwnerInput>
+}
+
+export type ClinicCreateWithoutReferredUsersInput = {
+  id?: string
+  name: string
+  slug: string
+  referralCode: string
+  logo?: string | null
+  address?: string | null
+  phone?: string | null
+  licenseNumber?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  owner: Prisma.UserCreateNestedOneWithoutClinicInput
+  clients?: Prisma.ClientCreateNestedManyWithoutClinicInput
+}
+
+export type ClinicUncheckedCreateWithoutReferredUsersInput = {
+  id?: string
+  name: string
+  slug: string
+  referralCode: string
+  logo?: string | null
+  address?: string | null
+  phone?: string | null
+  licenseNumber?: string | null
+  ownerId: string
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  clients?: Prisma.ClientUncheckedCreateNestedManyWithoutClinicInput
+}
+
+export type ClinicCreateOrConnectWithoutReferredUsersInput = {
+  where: Prisma.ClinicWhereUniqueInput
+  create: Prisma.XOR<Prisma.ClinicCreateWithoutReferredUsersInput, Prisma.ClinicUncheckedCreateWithoutReferredUsersInput>
 }
 
 export type ClinicUpsertWithoutOwnerInput = {
@@ -474,46 +610,216 @@ export type ClinicUpdateWithoutOwnerInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.StringFieldUpdateOperationsInput | string
+  referralCode?: Prisma.StringFieldUpdateOperationsInput | string
   logo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  licenseNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  clients?: Prisma.ClientUpdateManyWithoutClinicNestedInput
+  referredUsers?: Prisma.UserUpdateManyWithoutReferredByNestedInput
 }
 
 export type ClinicUncheckedUpdateWithoutOwnerInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.StringFieldUpdateOperationsInput | string
+  referralCode?: Prisma.StringFieldUpdateOperationsInput | string
   logo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  licenseNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  clients?: Prisma.ClientUncheckedUpdateManyWithoutClinicNestedInput
+  referredUsers?: Prisma.UserUncheckedUpdateManyWithoutReferredByNestedInput
 }
 
+export type ClinicUpsertWithoutReferredUsersInput = {
+  update: Prisma.XOR<Prisma.ClinicUpdateWithoutReferredUsersInput, Prisma.ClinicUncheckedUpdateWithoutReferredUsersInput>
+  create: Prisma.XOR<Prisma.ClinicCreateWithoutReferredUsersInput, Prisma.ClinicUncheckedCreateWithoutReferredUsersInput>
+  where?: Prisma.ClinicWhereInput
+}
+
+export type ClinicUpdateToOneWithWhereWithoutReferredUsersInput = {
+  where?: Prisma.ClinicWhereInput
+  data: Prisma.XOR<Prisma.ClinicUpdateWithoutReferredUsersInput, Prisma.ClinicUncheckedUpdateWithoutReferredUsersInput>
+}
+
+export type ClinicUpdateWithoutReferredUsersInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
+  referralCode?: Prisma.StringFieldUpdateOperationsInput | string
+  logo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  licenseNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  owner?: Prisma.UserUpdateOneRequiredWithoutClinicNestedInput
+  clients?: Prisma.ClientUpdateManyWithoutClinicNestedInput
+}
+
+export type ClinicUncheckedUpdateWithoutReferredUsersInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
+  referralCode?: Prisma.StringFieldUpdateOperationsInput | string
+  logo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  licenseNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  ownerId?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  clients?: Prisma.ClientUncheckedUpdateManyWithoutClinicNestedInput
+}
+
+export type ClinicCreateWithoutClientsInput = {
+  id?: string
+  name: string
+  slug: string
+  referralCode: string
+  logo?: string | null
+  address?: string | null
+  phone?: string | null
+  licenseNumber?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  owner: Prisma.UserCreateNestedOneWithoutClinicInput
+  referredUsers?: Prisma.UserCreateNestedManyWithoutReferredByInput
+}
+
+export type ClinicUncheckedCreateWithoutClientsInput = {
+  id?: string
+  name: string
+  slug: string
+  referralCode: string
+  logo?: string | null
+  address?: string | null
+  phone?: string | null
+  licenseNumber?: string | null
+  ownerId: string
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  referredUsers?: Prisma.UserUncheckedCreateNestedManyWithoutReferredByInput
+}
+
+export type ClinicCreateOrConnectWithoutClientsInput = {
+  where: Prisma.ClinicWhereUniqueInput
+  create: Prisma.XOR<Prisma.ClinicCreateWithoutClientsInput, Prisma.ClinicUncheckedCreateWithoutClientsInput>
+}
+
+export type ClinicUpsertWithoutClientsInput = {
+  update: Prisma.XOR<Prisma.ClinicUpdateWithoutClientsInput, Prisma.ClinicUncheckedUpdateWithoutClientsInput>
+  create: Prisma.XOR<Prisma.ClinicCreateWithoutClientsInput, Prisma.ClinicUncheckedCreateWithoutClientsInput>
+  where?: Prisma.ClinicWhereInput
+}
+
+export type ClinicUpdateToOneWithWhereWithoutClientsInput = {
+  where?: Prisma.ClinicWhereInput
+  data: Prisma.XOR<Prisma.ClinicUpdateWithoutClientsInput, Prisma.ClinicUncheckedUpdateWithoutClientsInput>
+}
+
+export type ClinicUpdateWithoutClientsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
+  referralCode?: Prisma.StringFieldUpdateOperationsInput | string
+  logo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  licenseNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  owner?: Prisma.UserUpdateOneRequiredWithoutClinicNestedInput
+  referredUsers?: Prisma.UserUpdateManyWithoutReferredByNestedInput
+}
+
+export type ClinicUncheckedUpdateWithoutClientsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
+  referralCode?: Prisma.StringFieldUpdateOperationsInput | string
+  logo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  licenseNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  ownerId?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  referredUsers?: Prisma.UserUncheckedUpdateManyWithoutReferredByNestedInput
+}
+
+
+/**
+ * Count Type ClinicCountOutputType
+ */
+
+export type ClinicCountOutputType = {
+  clients: number
+  referredUsers: number
+}
+
+export type ClinicCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  clients?: boolean | ClinicCountOutputTypeCountClientsArgs
+  referredUsers?: boolean | ClinicCountOutputTypeCountReferredUsersArgs
+}
+
+/**
+ * ClinicCountOutputType without action
+ */
+export type ClinicCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the ClinicCountOutputType
+   */
+  select?: Prisma.ClinicCountOutputTypeSelect<ExtArgs> | null
+}
+
+/**
+ * ClinicCountOutputType without action
+ */
+export type ClinicCountOutputTypeCountClientsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.ClientWhereInput
+}
+
+/**
+ * ClinicCountOutputType without action
+ */
+export type ClinicCountOutputTypeCountReferredUsersArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.UserWhereInput
+}
 
 
 export type ClinicSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   name?: boolean
   slug?: boolean
+  referralCode?: boolean
   logo?: boolean
   address?: boolean
   phone?: boolean
+  licenseNumber?: boolean
   ownerId?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   owner?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+  clients?: boolean | Prisma.Clinic$clientsArgs<ExtArgs>
+  referredUsers?: boolean | Prisma.Clinic$referredUsersArgs<ExtArgs>
+  _count?: boolean | Prisma.ClinicCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["clinic"]>
 
 export type ClinicSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   name?: boolean
   slug?: boolean
+  referralCode?: boolean
   logo?: boolean
   address?: boolean
   phone?: boolean
+  licenseNumber?: boolean
   ownerId?: boolean
   createdAt?: boolean
   updatedAt?: boolean
@@ -524,9 +830,11 @@ export type ClinicSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extens
   id?: boolean
   name?: boolean
   slug?: boolean
+  referralCode?: boolean
   logo?: boolean
   address?: boolean
   phone?: boolean
+  licenseNumber?: boolean
   ownerId?: boolean
   createdAt?: boolean
   updatedAt?: boolean
@@ -537,17 +845,22 @@ export type ClinicSelectScalar = {
   id?: boolean
   name?: boolean
   slug?: boolean
+  referralCode?: boolean
   logo?: boolean
   address?: boolean
   phone?: boolean
+  licenseNumber?: boolean
   ownerId?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }
 
-export type ClinicOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "slug" | "logo" | "address" | "phone" | "ownerId" | "createdAt" | "updatedAt", ExtArgs["result"]["clinic"]>
+export type ClinicOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "slug" | "referralCode" | "logo" | "address" | "phone" | "licenseNumber" | "ownerId" | "createdAt" | "updatedAt", ExtArgs["result"]["clinic"]>
 export type ClinicInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   owner?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+  clients?: boolean | Prisma.Clinic$clientsArgs<ExtArgs>
+  referredUsers?: boolean | Prisma.Clinic$referredUsersArgs<ExtArgs>
+  _count?: boolean | Prisma.ClinicCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type ClinicIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   owner?: boolean | Prisma.UserDefaultArgs<ExtArgs>
@@ -560,14 +873,18 @@ export type $ClinicPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs
   name: "Clinic"
   objects: {
     owner: Prisma.$UserPayload<ExtArgs>
+    clients: Prisma.$ClientPayload<ExtArgs>[]
+    referredUsers: Prisma.$UserPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
     name: string
     slug: string
+    referralCode: string
     logo: string | null
     address: string | null
     phone: string | null
+    licenseNumber: string | null
     ownerId: string
     createdAt: Date
     updatedAt: Date
@@ -966,6 +1283,8 @@ readonly fields: ClinicFieldRefs;
 export interface Prisma__ClinicClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
   owner<T extends Prisma.UserDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UserDefaultArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  clients<T extends Prisma.Clinic$clientsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Clinic$clientsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ClientPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  referredUsers<T extends Prisma.Clinic$referredUsersArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Clinic$referredUsersArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -998,9 +1317,11 @@ export interface ClinicFieldRefs {
   readonly id: Prisma.FieldRef<"Clinic", 'String'>
   readonly name: Prisma.FieldRef<"Clinic", 'String'>
   readonly slug: Prisma.FieldRef<"Clinic", 'String'>
+  readonly referralCode: Prisma.FieldRef<"Clinic", 'String'>
   readonly logo: Prisma.FieldRef<"Clinic", 'String'>
   readonly address: Prisma.FieldRef<"Clinic", 'String'>
   readonly phone: Prisma.FieldRef<"Clinic", 'String'>
+  readonly licenseNumber: Prisma.FieldRef<"Clinic", 'String'>
   readonly ownerId: Prisma.FieldRef<"Clinic", 'String'>
   readonly createdAt: Prisma.FieldRef<"Clinic", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"Clinic", 'DateTime'>
@@ -1402,6 +1723,54 @@ export type ClinicDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.Intern
    * Limit how many Clinics to delete.
    */
   limit?: number
+}
+
+/**
+ * Clinic.clients
+ */
+export type Clinic$clientsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Client
+   */
+  select?: Prisma.ClientSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Client
+   */
+  omit?: Prisma.ClientOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ClientInclude<ExtArgs> | null
+  where?: Prisma.ClientWhereInput
+  orderBy?: Prisma.ClientOrderByWithRelationInput | Prisma.ClientOrderByWithRelationInput[]
+  cursor?: Prisma.ClientWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.ClientScalarFieldEnum | Prisma.ClientScalarFieldEnum[]
+}
+
+/**
+ * Clinic.referredUsers
+ */
+export type Clinic$referredUsersArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the User
+   */
+  select?: Prisma.UserSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the User
+   */
+  omit?: Prisma.UserOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.UserInclude<ExtArgs> | null
+  where?: Prisma.UserWhereInput
+  orderBy?: Prisma.UserOrderByWithRelationInput | Prisma.UserOrderByWithRelationInput[]
+  cursor?: Prisma.UserWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.UserScalarFieldEnum | Prisma.UserScalarFieldEnum[]
 }
 
 /**

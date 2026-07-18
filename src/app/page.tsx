@@ -71,12 +71,12 @@ export default function HomePage() {
               {
                 "@type": "WebSite",
                 name: "The Serene Lens",
-                url: "https://the-serene-lens-nuevo.onrender.com",
+                url: process.env.NEXT_PUBLIC_APP_URL || "https://the-serene-lens-nuevo.onrender.com",
                 potentialAction: {
                   "@type": "SearchAction",
                   target: {
                     "@type": "EntryPoint",
-                    urlTemplate: "https://the-serene-lens-nuevo.onrender.com/blog?q={search_term_string}",
+                    urlTemplate: `${process.env.NEXT_PUBLIC_APP_URL || "https://the-serene-lens-nuevo.onrender.com"}/blog?q={search_term_string}`,
                   },
                   "query-input": "required name=search_term_string",
                 },
@@ -84,8 +84,8 @@ export default function HomePage() {
               {
                 "@type": "Organization",
                 name: "The Serene Lens",
-                url: "https://the-serene-lens-nuevo.onrender.com",
-                logo: "https://the-serene-lens-nuevo.onrender.com/logo.webp",
+                url: process.env.NEXT_PUBLIC_APP_URL || "https://the-serene-lens-nuevo.onrender.com",
+                logo: `${process.env.NEXT_PUBLIC_APP_URL || "https://the-serene-lens-nuevo.onrender.com"}/logo.webp`,
                 description: "Observación cosmética de tu piel con inteligencia artificial.",
               },
             ],
@@ -279,30 +279,38 @@ export default function HomePage() {
             <p className="text-[#666666]">Sin letra pequeña. Sin sorpresas.</p>
           </div>
 
-          <div className="grid sm:grid-cols-3 gap-5">
+          <div className="grid md:grid-cols-3 gap-5">
             {[
               {
+                id: "FREE",
                 name: "Essential",
                 price: "$0",
+                period: "",
                 badge: "Para empezar",
-                features: ["1 observación cosmética", "Rutina personalizada", "Blog y guías"],
+                popular: false,
+                features: ["1 análisis de piel con IA", "Rutina personalizada", "Blog y guías educativas"],
               },
               {
+                id: "PREMIUM",
                 name: "Premium",
                 price: "$4.99",
+                period: "/mes",
                 badge: "Popular",
                 popular: true,
-                features: ["Análisis ilimitados", "Historial completo", "Rutinas mañana + noche", "Escáner de productos"],
+                features: ["Análisis ilimitados", "Historial completo", "Comparación de evolución", "Seguimiento avanzado"],
               },
               {
+                id: "PRO",
                 name: "Pro",
                 price: "$9.99",
+                period: "/mes",
                 badge: "Recomendado",
-                features: ["Todo lo de Premium", "Prioridad en análisis", "Soporte prioritario", "Acceso anticipado"],
+                popular: false,
+                features: ["Todo Premium", "Procesamiento prioritario", "Acceso temprano a funciones", "Soporte prioritario"],
               },
             ].map((p, i) => (
               <Card
-                key={p.name}
+                key={p.id}
                 className={`p-8 flex flex-col transition-all duration-300 animate-fade-in-up ${
                    p.popular ? "sm:scale-[1.04] z-10 ring-2 ring-[#1A1A1A]" : ""
                 }`}
@@ -328,7 +336,7 @@ export default function HomePage() {
                     <p className="text-lg font-semibold mb-1 text-[#1A1A1A]">{p.name}</p>
                     <div className="flex items-baseline justify-center gap-1">
                       <span className={`font-bold text-[#1A1A1A] ${p.popular ? "text-3xl" : "text-2xl"}`}>{p.price}</span>
-                      {p.price !== "$0" && <span className="text-sm text-[#666666]">/mes</span>}
+                      {p.period && <span className="text-sm text-[#666666]">{p.period}</span>}
                     </div>
                   </div>
 
@@ -346,12 +354,15 @@ export default function HomePage() {
                       variant={p.popular ? "primary" : "secondary"}
                       className="w-full py-5 h-auto"
                     >
-                      {p.popular ? "Empezar con Premium" : p.name === "Essential" ? "Comenzar Gratis" : "Elegir Pro"}
+                      {p.popular ? "Empezar con Premium" : p.id === "FREE" ? "Comenzar Gratis" : "Elegir Pro"}
                     </Button>
                   </Link>
                 </CardContent>
               </Card>
             ))}
+            <p className="col-span-full text-center text-xs text-[#666666] mt-4">
+              Planes anuales (Premium $49.99/año, Pro $99.99/año) y Esteticista ($29.99/mes) disponibles.
+            </p>
           </div>
         </div>
       </section>

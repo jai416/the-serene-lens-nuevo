@@ -113,6 +113,27 @@ export type TranslationKey =
   | "esthetician.emailCol"
   | "esthetician.analysesCol"
   | "esthetician.lastCol"
+  | "esthetician.referralCode"
+  | "esthetician.referredUsers"
+  | "esthetician.marketingKit"
+  | "esthetician.marketingDesc"
+  | "esthetician.shareCode"
+  | "esthetician.shareDesc"
+  | "esthetician.discountCode"
+  | "esthetician.discountDesc"
+  | "esthetician.generateDiscount"
+  | "esthetician.discountGenerated"
+  | "esthetician.yourCodeIs"
+  | "esthetician.copyCode"
+  | "esthetician.copied"
+  | "esthetician.flyerTitle"
+  | "esthetician.emailTemplate"
+  | "esthetician.emailSubject"
+  | "esthetician.emailBody"
+  | "esthetician.estheticianCodeLabel"
+  | "esthetician.codePlaceholder"
+  | "esthetician.codeHelp"
+  | "esthetician.codeInvalid"
   | "dashboard.greeting"
   | "dashboard.heroTitle"
   | "dashboard.heroDesc"
@@ -262,6 +283,27 @@ const translations: Record<Locale, Record<TranslationKey, string>> = {
     "esthetician.emailCol": "Email",
     "esthetician.analysesCol": "Analyses",
     "esthetician.lastCol": "Last",
+    "esthetician.referralCode": "Your Referral Code",
+    "esthetician.referredUsers": "Referred Clients",
+    "esthetician.marketingKit": "Marketing Kit",
+    "esthetician.marketingDesc": "Download resources to grow your practice",
+    "esthetician.shareCode": "Share Your Code",
+    "esthetician.shareDesc": "Give this code to your clients so they get a discount when registering",
+    "esthetician.discountCode": "Discount Code",
+    "esthetician.discountDesc": "Unique discount for referrals via your code",
+    "esthetician.generateDiscount": "Generate Discount Code",
+    "esthetician.discountGenerated": "Discount code generated!",
+    "esthetician.yourCodeIs": "Your code is",
+    "esthetician.copyCode": "Copy Code",
+    "esthetician.copied": "Copied!",
+    "esthetician.flyerTitle": "Digital Flyer",
+    "esthetician.emailTemplate": "Email Template",
+    "esthetician.emailSubject": "I invite you to discover your skin with AI",
+    "esthetician.emailBody": "Hi! I'm using The Serene Lens with my clients. Use my code {code} when registering and get a special discount. It's an AI-powered skin analysis tool that helps us track your progress professionally.",
+    "esthetician.estheticianCodeLabel": "Esthetician Code (optional)",
+    "esthetician.codePlaceholder": "e.g. EST-ABC123",
+    "esthetician.codeHelp": "If an esthetician gave you a code, enter it here to link your account",
+    "esthetician.codeInvalid": "Invalid esthetician code",
     "dashboard.greeting": "Hi, {name}!",
     "dashboard.heroTitle": "Know your skin better",
     "dashboard.heroDesc": "Discover the visible characteristics of your skin with AI-powered cosmetic analysis. Observe, learn, and improve your personal care routine.",
@@ -410,6 +452,27 @@ const translations: Record<Locale, Record<TranslationKey, string>> = {
     "esthetician.emailCol": "Email",
     "esthetician.analysesCol": "Análisis",
     "esthetician.lastCol": "Último",
+    "esthetician.referralCode": "Tu Código de Referido",
+    "esthetician.referredUsers": "Clientes Referidos",
+    "esthetician.marketingKit": "Kit de Marketing",
+    "esthetician.marketingDesc": "Recursos para hacer crecer tu práctica",
+    "esthetician.shareCode": "Comparte tu Código",
+    "esthetician.shareDesc": "Entrega este código a tus clientes para que obtengan un descuento al registrarse",
+    "esthetician.discountCode": "Código de Descuento",
+    "esthetician.discountDesc": "Descuento único para referidos a través de tu código",
+    "esthetician.generateDiscount": "Generar Código de Descuento",
+    "esthetician.discountGenerated": "¡Código de descuento generado!",
+    "esthetician.yourCodeIs": "Tu código es",
+    "esthetician.copyCode": "Copiar Código",
+    "esthetician.copied": "¡Copiado!",
+    "esthetician.flyerTitle": "Flyer Digital",
+    "esthetician.emailTemplate": "Plantilla de Email",
+    "esthetician.emailSubject": "Te invito a descubrir tu piel con IA",
+    "esthetician.emailBody": "¡Hola! Estoy usando The Serene Lens con mis clientes. Usa mi código {code} al registrarte y obtén un descuento especial. Es una herramienta de análisis de piel con IA que nos ayuda a dar seguimiento profesional a tu progreso.",
+    "esthetician.estheticianCodeLabel": "Código de Esteticista (opcional)",
+    "esthetician.codePlaceholder": "ej. EST-ABC123",
+    "esthetician.codeHelp": "Si un esteticista te dio un código, ingrésalo aquí para vincular tu cuenta",
+    "esthetician.codeInvalid": "Código de esteticista inválido",
     "dashboard.greeting": "¡Hola, {name}!",
     "dashboard.heroTitle": "Conoce mejor tu piel",
     "dashboard.heroDesc": "Descubre las características visibles de tu piel con análisis cosmético por IA. Observa, aprende y mejora tu rutina de cuidado personal.",

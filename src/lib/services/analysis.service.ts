@@ -3,6 +3,7 @@ import { checkAndDeductUsage } from "@/lib/usage"
 import { getCachedAnalysis, setCachedAnalysis } from "@/lib/analysis-cache"
 import { AnalysisRepository } from "@/lib/repositories"
 import { logger, getCorrelationId } from "@/lib/logger"
+import { getWeather, buildClimateContext } from "@/lib/weather"
 
 export class AnalysisError extends Error {
   constructor(
@@ -24,6 +25,37 @@ export const AnalysisService = {
 
     const oversized = files.find((f) => f.size > 10 * 1024 * 1024)
     if (oversized) throw new AnalysisError("Una imagen supera los 10MB", "VALIDATION")
+
+    // Fetch previous analysis for contextual AI + weather for real climate data
+    let previousSkinType: string | null = null
+    let previousObservations: string[] = []
+    let climateContext = buildClimateContext(null, null, body.climate)
+    try {
+      const { db } = await import("@/lib/db")
+      const user = await db.user.findUnique({
+        where: { id: userId },
+        select: { latitude: true, longitude: true },
+      })
+      const previousAnalysis = await db.skinAnalysis.findFirst({
+        where: { userId },
+        orderBy: { createdAt: "desc" },
+        select: { skinType: true, observations: true },
+      })
+      previousSkinType = previousAnalysis?.skinType || null
+      previousObservations = previousAnalysis?.observations
+        ? (() => { try { return JSON.parse(previousAnalysis.observations) } catch { return [] } })()
+        : []
+      if (user?.latitude != null && user?.longitude != null) {
+        const weather = await getWeather(user.latitude, user.longitude)
+        if (weather) {
+          climateContext = `Clima actual: ${weather.temp}°C, ${weather.description}. Humedad: ${weather.humidity}%.`
+        } else {
+          climateContext = buildClimateContext(user.latitude, user.longitude, body.climate)
+        }
+      }
+    } catch {
+      // Context enrichment is optional — skip if DB or weather API fails
+    }
 
     // Cache check
     const cacheKeyFiles = files.slice(0, 2)
@@ -59,22 +91,27 @@ export const AnalysisService = {
         age: body.age,
         concerns: body.concerns,
         gender: body.gender,
-        climate: body.climate,
+        climate: climateContext,
         routine: body.routine,
+        previousSkinType: previousSkinType,
+        previousObservations,
       })
       await setCachedAnalysis([cacheKeyBase64], body.concerns, body.age, result).catch(() => {})
     } catch (e) {
       const msg = e instanceof Error ? e.message : String(e)
       if (msg.includes("429")) {
-        throw new AnalysisError("Demasiadas solicitudes. Espera un momento e intenta de nuevo.", "AI_ERROR", e)
+        throw new AnalysisError("El servidor de IA está saturado. Espera 30 segundos y vuelve a intentar.", "AI_ERROR", e)
       }
       if (msg.includes("empty response") || msg.includes("invalid JSON")) {
-        throw new AnalysisError("La IA no pudo generar un análisis válido. Intenta con fotos más claras.", "AI_ERROR", e)
+        throw new AnalysisError("La foto no tiene suficiente definición. Asegúrate de tener buena luz y enfocar bien tu rostro.", "AI_ERROR", e)
       }
       if (msg.includes("timeout") || msg.includes("AbortError")) {
-        throw new AnalysisError("La solicitud tardó demasiado. Intenta con menos fotos o más tarde.", "AI_ERROR", e)
+        throw new AnalysisError("La conexión tardó demasiado. Revisa tu internet o intenta con menos fotos.", "AI_ERROR", e)
       }
-      throw new AnalysisError("Error al analizar la imagen. Intenta de nuevo.", "AI_ERROR", e)
+      if (msg.includes("blurry") || msg.includes("dark") || msg.includes("iluminación")) {
+        throw new AnalysisError("La foto está oscura o borrosa. Busca buena luz natural y sostén el teléfono firme.", "VALIDATION", e)
+      }
+      throw new AnalysisError("Error al procesar el análisis. Verifica tu conexión e intenta de nuevo.", "AI_ERROR", e)
     }
 
     const skinType = (result as { tipoDePiel?: string; skinType?: string })?.tipoDePiel || (result as { skinType?: string })?.skinType || null

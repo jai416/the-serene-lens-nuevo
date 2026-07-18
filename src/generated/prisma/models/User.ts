@@ -69,6 +69,7 @@ export type UserMinAggregateOutputType = {
   trialEndsAt: Date | null
   createdAt: Date | null
   updatedAt: Date | null
+  referredByEstheticianId: string | null
 }
 
 export type UserMaxAggregateOutputType = {
@@ -96,6 +97,7 @@ export type UserMaxAggregateOutputType = {
   trialEndsAt: Date | null
   createdAt: Date | null
   updatedAt: Date | null
+  referredByEstheticianId: string | null
 }
 
 export type UserCountAggregateOutputType = {
@@ -123,6 +125,7 @@ export type UserCountAggregateOutputType = {
   trialEndsAt: number
   createdAt: number
   updatedAt: number
+  referredByEstheticianId: number
   _all: number
 }
 
@@ -170,6 +173,7 @@ export type UserMinAggregateInputType = {
   trialEndsAt?: true
   createdAt?: true
   updatedAt?: true
+  referredByEstheticianId?: true
 }
 
 export type UserMaxAggregateInputType = {
@@ -197,6 +201,7 @@ export type UserMaxAggregateInputType = {
   trialEndsAt?: true
   createdAt?: true
   updatedAt?: true
+  referredByEstheticianId?: true
 }
 
 export type UserCountAggregateInputType = {
@@ -224,6 +229,7 @@ export type UserCountAggregateInputType = {
   trialEndsAt?: true
   createdAt?: true
   updatedAt?: true
+  referredByEstheticianId?: true
   _all?: true
 }
 
@@ -338,6 +344,7 @@ export type UserGroupByOutputType = {
   trialEndsAt: Date | null
   createdAt: Date
   updatedAt: Date
+  referredByEstheticianId: string | null
   _count: UserCountAggregateOutputType | null
   _avg: UserAvgAggregateOutputType | null
   _sum: UserSumAggregateOutputType | null
@@ -388,6 +395,7 @@ export type UserWhereInput = {
   trialEndsAt?: Prisma.DateTimeNullableFilter<"User"> | Date | string | null
   createdAt?: Prisma.DateTimeFilter<"User"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"User"> | Date | string
+  referredByEstheticianId?: Prisma.StringNullableFilter<"User"> | string | null
   accounts?: Prisma.AccountListRelationFilter
   sessions?: Prisma.SessionListRelationFilter
   analyses?: Prisma.SkinAnalysisListRelationFilter
@@ -397,6 +405,7 @@ export type UserWhereInput = {
   purchasePacks?: Prisma.PurchasePackListRelationFilter
   usageRecords?: Prisma.UsageTrackingListRelationFilter
   clinic?: Prisma.XOR<Prisma.ClinicNullableScalarRelationFilter, Prisma.ClinicWhereInput> | null
+  clients?: Prisma.ClientListRelationFilter
   surveyFeedback?: Prisma.SurveyFeedbackListRelationFilter
   communityPosts?: Prisma.CommunityPostListRelationFilter
   comments?: Prisma.CommentListRelationFilter
@@ -425,6 +434,7 @@ export type UserWhereInput = {
   giftPacksBought?: Prisma.GiftPackListRelationFilter
   giftPacksRedeemed?: Prisma.GiftPackListRelationFilter
   reminders?: Prisma.UserReminderListRelationFilter
+  referredBy?: Prisma.XOR<Prisma.ClinicNullableScalarRelationFilter, Prisma.ClinicWhereInput> | null
 }
 
 export type UserOrderByWithRelationInput = {
@@ -452,6 +462,7 @@ export type UserOrderByWithRelationInput = {
   trialEndsAt?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  referredByEstheticianId?: Prisma.SortOrderInput | Prisma.SortOrder
   accounts?: Prisma.AccountOrderByRelationAggregateInput
   sessions?: Prisma.SessionOrderByRelationAggregateInput
   analyses?: Prisma.SkinAnalysisOrderByRelationAggregateInput
@@ -461,6 +472,7 @@ export type UserOrderByWithRelationInput = {
   purchasePacks?: Prisma.PurchasePackOrderByRelationAggregateInput
   usageRecords?: Prisma.UsageTrackingOrderByRelationAggregateInput
   clinic?: Prisma.ClinicOrderByWithRelationInput
+  clients?: Prisma.ClientOrderByRelationAggregateInput
   surveyFeedback?: Prisma.SurveyFeedbackOrderByRelationAggregateInput
   communityPosts?: Prisma.CommunityPostOrderByRelationAggregateInput
   comments?: Prisma.CommentOrderByRelationAggregateInput
@@ -489,6 +501,7 @@ export type UserOrderByWithRelationInput = {
   giftPacksBought?: Prisma.GiftPackOrderByRelationAggregateInput
   giftPacksRedeemed?: Prisma.GiftPackOrderByRelationAggregateInput
   reminders?: Prisma.UserReminderOrderByRelationAggregateInput
+  referredBy?: Prisma.ClinicOrderByWithRelationInput
 }
 
 export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -519,6 +532,7 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   trialEndsAt?: Prisma.DateTimeNullableFilter<"User"> | Date | string | null
   createdAt?: Prisma.DateTimeFilter<"User"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"User"> | Date | string
+  referredByEstheticianId?: Prisma.StringNullableFilter<"User"> | string | null
   accounts?: Prisma.AccountListRelationFilter
   sessions?: Prisma.SessionListRelationFilter
   analyses?: Prisma.SkinAnalysisListRelationFilter
@@ -528,6 +542,7 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   purchasePacks?: Prisma.PurchasePackListRelationFilter
   usageRecords?: Prisma.UsageTrackingListRelationFilter
   clinic?: Prisma.XOR<Prisma.ClinicNullableScalarRelationFilter, Prisma.ClinicWhereInput> | null
+  clients?: Prisma.ClientListRelationFilter
   surveyFeedback?: Prisma.SurveyFeedbackListRelationFilter
   communityPosts?: Prisma.CommunityPostListRelationFilter
   comments?: Prisma.CommentListRelationFilter
@@ -556,6 +571,7 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   giftPacksBought?: Prisma.GiftPackListRelationFilter
   giftPacksRedeemed?: Prisma.GiftPackListRelationFilter
   reminders?: Prisma.UserReminderListRelationFilter
+  referredBy?: Prisma.XOR<Prisma.ClinicNullableScalarRelationFilter, Prisma.ClinicWhereInput> | null
 }, "id" | "email" | "username">
 
 export type UserOrderByWithAggregationInput = {
@@ -583,6 +599,7 @@ export type UserOrderByWithAggregationInput = {
   trialEndsAt?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  referredByEstheticianId?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.UserCountOrderByAggregateInput
   _avg?: Prisma.UserAvgOrderByAggregateInput
   _max?: Prisma.UserMaxOrderByAggregateInput
@@ -618,6 +635,7 @@ export type UserScalarWhereWithAggregatesInput = {
   trialEndsAt?: Prisma.DateTimeNullableWithAggregatesFilter<"User"> | Date | string | null
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"User"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"User"> | Date | string
+  referredByEstheticianId?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
 }
 
 export type UserCreateInput = {
@@ -654,6 +672,7 @@ export type UserCreateInput = {
   purchasePacks?: Prisma.PurchasePackCreateNestedManyWithoutUserInput
   usageRecords?: Prisma.UsageTrackingCreateNestedManyWithoutUserInput
   clinic?: Prisma.ClinicCreateNestedOneWithoutOwnerInput
+  clients?: Prisma.ClientCreateNestedManyWithoutEstheticianInput
   surveyFeedback?: Prisma.SurveyFeedbackCreateNestedManyWithoutUserInput
   communityPosts?: Prisma.CommunityPostCreateNestedManyWithoutUserInput
   comments?: Prisma.CommentCreateNestedManyWithoutUserInput
@@ -682,6 +701,7 @@ export type UserCreateInput = {
   giftPacksBought?: Prisma.GiftPackCreateNestedManyWithoutBuyerInput
   giftPacksRedeemed?: Prisma.GiftPackCreateNestedManyWithoutRedeemedByInput
   reminders?: Prisma.UserReminderCreateNestedManyWithoutUserInput
+  referredBy?: Prisma.ClinicCreateNestedOneWithoutReferredUsersInput
 }
 
 export type UserUncheckedCreateInput = {
@@ -709,6 +729,7 @@ export type UserUncheckedCreateInput = {
   trialEndsAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  referredByEstheticianId?: string | null
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   analyses?: Prisma.SkinAnalysisUncheckedCreateNestedManyWithoutUserInput
@@ -718,6 +739,7 @@ export type UserUncheckedCreateInput = {
   purchasePacks?: Prisma.PurchasePackUncheckedCreateNestedManyWithoutUserInput
   usageRecords?: Prisma.UsageTrackingUncheckedCreateNestedManyWithoutUserInput
   clinic?: Prisma.ClinicUncheckedCreateNestedOneWithoutOwnerInput
+  clients?: Prisma.ClientUncheckedCreateNestedManyWithoutEstheticianInput
   surveyFeedback?: Prisma.SurveyFeedbackUncheckedCreateNestedManyWithoutUserInput
   communityPosts?: Prisma.CommunityPostUncheckedCreateNestedManyWithoutUserInput
   comments?: Prisma.CommentUncheckedCreateNestedManyWithoutUserInput
@@ -782,6 +804,7 @@ export type UserUpdateInput = {
   purchasePacks?: Prisma.PurchasePackUpdateManyWithoutUserNestedInput
   usageRecords?: Prisma.UsageTrackingUpdateManyWithoutUserNestedInput
   clinic?: Prisma.ClinicUpdateOneWithoutOwnerNestedInput
+  clients?: Prisma.ClientUpdateManyWithoutEstheticianNestedInput
   surveyFeedback?: Prisma.SurveyFeedbackUpdateManyWithoutUserNestedInput
   communityPosts?: Prisma.CommunityPostUpdateManyWithoutUserNestedInput
   comments?: Prisma.CommentUpdateManyWithoutUserNestedInput
@@ -810,6 +833,7 @@ export type UserUpdateInput = {
   giftPacksBought?: Prisma.GiftPackUpdateManyWithoutBuyerNestedInput
   giftPacksRedeemed?: Prisma.GiftPackUpdateManyWithoutRedeemedByNestedInput
   reminders?: Prisma.UserReminderUpdateManyWithoutUserNestedInput
+  referredBy?: Prisma.ClinicUpdateOneWithoutReferredUsersNestedInput
 }
 
 export type UserUncheckedUpdateInput = {
@@ -837,6 +861,7 @@ export type UserUncheckedUpdateInput = {
   trialEndsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  referredByEstheticianId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   analyses?: Prisma.SkinAnalysisUncheckedUpdateManyWithoutUserNestedInput
@@ -846,6 +871,7 @@ export type UserUncheckedUpdateInput = {
   purchasePacks?: Prisma.PurchasePackUncheckedUpdateManyWithoutUserNestedInput
   usageRecords?: Prisma.UsageTrackingUncheckedUpdateManyWithoutUserNestedInput
   clinic?: Prisma.ClinicUncheckedUpdateOneWithoutOwnerNestedInput
+  clients?: Prisma.ClientUncheckedUpdateManyWithoutEstheticianNestedInput
   surveyFeedback?: Prisma.SurveyFeedbackUncheckedUpdateManyWithoutUserNestedInput
   communityPosts?: Prisma.CommunityPostUncheckedUpdateManyWithoutUserNestedInput
   comments?: Prisma.CommentUncheckedUpdateManyWithoutUserNestedInput
@@ -901,6 +927,7 @@ export type UserCreateManyInput = {
   trialEndsAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  referredByEstheticianId?: string | null
 }
 
 export type UserUpdateManyMutationInput = {
@@ -955,6 +982,7 @@ export type UserUncheckedUpdateManyInput = {
   trialEndsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  referredByEstheticianId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type UserCountOrderByAggregateInput = {
@@ -982,6 +1010,7 @@ export type UserCountOrderByAggregateInput = {
   trialEndsAt?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  referredByEstheticianId?: Prisma.SortOrder
 }
 
 export type UserAvgOrderByAggregateInput = {
@@ -1018,6 +1047,7 @@ export type UserMaxOrderByAggregateInput = {
   trialEndsAt?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  referredByEstheticianId?: Prisma.SortOrder
 }
 
 export type UserMinOrderByAggregateInput = {
@@ -1045,6 +1075,7 @@ export type UserMinOrderByAggregateInput = {
   trialEndsAt?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  referredByEstheticianId?: Prisma.SortOrder
 }
 
 export type UserSumOrderByAggregateInput = {
@@ -1064,6 +1095,16 @@ export type UserScalarRelationFilter = {
 export type UserNullableScalarRelationFilter = {
   is?: Prisma.UserWhereInput | null
   isNot?: Prisma.UserWhereInput | null
+}
+
+export type UserListRelationFilter = {
+  every?: Prisma.UserWhereInput
+  some?: Prisma.UserWhereInput
+  none?: Prisma.UserWhereInput
+}
+
+export type UserOrderByRelationAggregateInput = {
+  _count?: Prisma.SortOrder
 }
 
 export type StringFieldUpdateOperationsInput = {
@@ -1282,12 +1323,54 @@ export type UserCreateNestedOneWithoutClinicInput = {
   connect?: Prisma.UserWhereUniqueInput
 }
 
+export type UserCreateNestedManyWithoutReferredByInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutReferredByInput, Prisma.UserUncheckedCreateWithoutReferredByInput> | Prisma.UserCreateWithoutReferredByInput[] | Prisma.UserUncheckedCreateWithoutReferredByInput[]
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutReferredByInput | Prisma.UserCreateOrConnectWithoutReferredByInput[]
+  createMany?: Prisma.UserCreateManyReferredByInputEnvelope
+  connect?: Prisma.UserWhereUniqueInput | Prisma.UserWhereUniqueInput[]
+}
+
+export type UserUncheckedCreateNestedManyWithoutReferredByInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutReferredByInput, Prisma.UserUncheckedCreateWithoutReferredByInput> | Prisma.UserCreateWithoutReferredByInput[] | Prisma.UserUncheckedCreateWithoutReferredByInput[]
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutReferredByInput | Prisma.UserCreateOrConnectWithoutReferredByInput[]
+  createMany?: Prisma.UserCreateManyReferredByInputEnvelope
+  connect?: Prisma.UserWhereUniqueInput | Prisma.UserWhereUniqueInput[]
+}
+
 export type UserUpdateOneRequiredWithoutClinicNestedInput = {
   create?: Prisma.XOR<Prisma.UserCreateWithoutClinicInput, Prisma.UserUncheckedCreateWithoutClinicInput>
   connectOrCreate?: Prisma.UserCreateOrConnectWithoutClinicInput
   upsert?: Prisma.UserUpsertWithoutClinicInput
   connect?: Prisma.UserWhereUniqueInput
   update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutClinicInput, Prisma.UserUpdateWithoutClinicInput>, Prisma.UserUncheckedUpdateWithoutClinicInput>
+}
+
+export type UserUpdateManyWithoutReferredByNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutReferredByInput, Prisma.UserUncheckedCreateWithoutReferredByInput> | Prisma.UserCreateWithoutReferredByInput[] | Prisma.UserUncheckedCreateWithoutReferredByInput[]
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutReferredByInput | Prisma.UserCreateOrConnectWithoutReferredByInput[]
+  upsert?: Prisma.UserUpsertWithWhereUniqueWithoutReferredByInput | Prisma.UserUpsertWithWhereUniqueWithoutReferredByInput[]
+  createMany?: Prisma.UserCreateManyReferredByInputEnvelope
+  set?: Prisma.UserWhereUniqueInput | Prisma.UserWhereUniqueInput[]
+  disconnect?: Prisma.UserWhereUniqueInput | Prisma.UserWhereUniqueInput[]
+  delete?: Prisma.UserWhereUniqueInput | Prisma.UserWhereUniqueInput[]
+  connect?: Prisma.UserWhereUniqueInput | Prisma.UserWhereUniqueInput[]
+  update?: Prisma.UserUpdateWithWhereUniqueWithoutReferredByInput | Prisma.UserUpdateWithWhereUniqueWithoutReferredByInput[]
+  updateMany?: Prisma.UserUpdateManyWithWhereWithoutReferredByInput | Prisma.UserUpdateManyWithWhereWithoutReferredByInput[]
+  deleteMany?: Prisma.UserScalarWhereInput | Prisma.UserScalarWhereInput[]
+}
+
+export type UserUncheckedUpdateManyWithoutReferredByNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutReferredByInput, Prisma.UserUncheckedCreateWithoutReferredByInput> | Prisma.UserCreateWithoutReferredByInput[] | Prisma.UserUncheckedCreateWithoutReferredByInput[]
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutReferredByInput | Prisma.UserCreateOrConnectWithoutReferredByInput[]
+  upsert?: Prisma.UserUpsertWithWhereUniqueWithoutReferredByInput | Prisma.UserUpsertWithWhereUniqueWithoutReferredByInput[]
+  createMany?: Prisma.UserCreateManyReferredByInputEnvelope
+  set?: Prisma.UserWhereUniqueInput | Prisma.UserWhereUniqueInput[]
+  disconnect?: Prisma.UserWhereUniqueInput | Prisma.UserWhereUniqueInput[]
+  delete?: Prisma.UserWhereUniqueInput | Prisma.UserWhereUniqueInput[]
+  connect?: Prisma.UserWhereUniqueInput | Prisma.UserWhereUniqueInput[]
+  update?: Prisma.UserUpdateWithWhereUniqueWithoutReferredByInput | Prisma.UserUpdateWithWhereUniqueWithoutReferredByInput[]
+  updateMany?: Prisma.UserUpdateManyWithWhereWithoutReferredByInput | Prisma.UserUpdateManyWithWhereWithoutReferredByInput[]
+  deleteMany?: Prisma.UserScalarWhereInput | Prisma.UserScalarWhereInput[]
 }
 
 export type UserCreateNestedOneWithoutAffiliateClicksInput = {
@@ -1534,6 +1617,20 @@ export type UserUpdateOneRequiredWithoutCheckInsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutCheckInsInput, Prisma.UserUpdateWithoutCheckInsInput>, Prisma.UserUncheckedUpdateWithoutCheckInsInput>
 }
 
+export type UserCreateNestedOneWithoutClientsInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutClientsInput, Prisma.UserUncheckedCreateWithoutClientsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutClientsInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneRequiredWithoutClientsNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutClientsInput, Prisma.UserUncheckedCreateWithoutClientsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutClientsInput
+  upsert?: Prisma.UserUpsertWithoutClientsInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutClientsInput, Prisma.UserUpdateWithoutClientsInput>, Prisma.UserUncheckedUpdateWithoutClientsInput>
+}
+
 export type UserCreateNestedOneWithoutNotificationsInput = {
   create?: Prisma.XOR<Prisma.UserCreateWithoutNotificationsInput, Prisma.UserUncheckedCreateWithoutNotificationsInput>
   connectOrCreate?: Prisma.UserCreateOrConnectWithoutNotificationsInput
@@ -1671,6 +1768,7 @@ export type UserCreateWithoutAnalysisJobsInput = {
   purchasePacks?: Prisma.PurchasePackCreateNestedManyWithoutUserInput
   usageRecords?: Prisma.UsageTrackingCreateNestedManyWithoutUserInput
   clinic?: Prisma.ClinicCreateNestedOneWithoutOwnerInput
+  clients?: Prisma.ClientCreateNestedManyWithoutEstheticianInput
   surveyFeedback?: Prisma.SurveyFeedbackCreateNestedManyWithoutUserInput
   communityPosts?: Prisma.CommunityPostCreateNestedManyWithoutUserInput
   comments?: Prisma.CommentCreateNestedManyWithoutUserInput
@@ -1699,6 +1797,7 @@ export type UserCreateWithoutAnalysisJobsInput = {
   giftPacksBought?: Prisma.GiftPackCreateNestedManyWithoutBuyerInput
   giftPacksRedeemed?: Prisma.GiftPackCreateNestedManyWithoutRedeemedByInput
   reminders?: Prisma.UserReminderCreateNestedManyWithoutUserInput
+  referredBy?: Prisma.ClinicCreateNestedOneWithoutReferredUsersInput
 }
 
 export type UserUncheckedCreateWithoutAnalysisJobsInput = {
@@ -1726,6 +1825,7 @@ export type UserUncheckedCreateWithoutAnalysisJobsInput = {
   trialEndsAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  referredByEstheticianId?: string | null
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   analyses?: Prisma.SkinAnalysisUncheckedCreateNestedManyWithoutUserInput
@@ -1734,6 +1834,7 @@ export type UserUncheckedCreateWithoutAnalysisJobsInput = {
   purchasePacks?: Prisma.PurchasePackUncheckedCreateNestedManyWithoutUserInput
   usageRecords?: Prisma.UsageTrackingUncheckedCreateNestedManyWithoutUserInput
   clinic?: Prisma.ClinicUncheckedCreateNestedOneWithoutOwnerInput
+  clients?: Prisma.ClientUncheckedCreateNestedManyWithoutEstheticianInput
   surveyFeedback?: Prisma.SurveyFeedbackUncheckedCreateNestedManyWithoutUserInput
   communityPosts?: Prisma.CommunityPostUncheckedCreateNestedManyWithoutUserInput
   comments?: Prisma.CommentUncheckedCreateNestedManyWithoutUserInput
@@ -1813,6 +1914,7 @@ export type UserUpdateWithoutAnalysisJobsInput = {
   purchasePacks?: Prisma.PurchasePackUpdateManyWithoutUserNestedInput
   usageRecords?: Prisma.UsageTrackingUpdateManyWithoutUserNestedInput
   clinic?: Prisma.ClinicUpdateOneWithoutOwnerNestedInput
+  clients?: Prisma.ClientUpdateManyWithoutEstheticianNestedInput
   surveyFeedback?: Prisma.SurveyFeedbackUpdateManyWithoutUserNestedInput
   communityPosts?: Prisma.CommunityPostUpdateManyWithoutUserNestedInput
   comments?: Prisma.CommentUpdateManyWithoutUserNestedInput
@@ -1841,6 +1943,7 @@ export type UserUpdateWithoutAnalysisJobsInput = {
   giftPacksBought?: Prisma.GiftPackUpdateManyWithoutBuyerNestedInput
   giftPacksRedeemed?: Prisma.GiftPackUpdateManyWithoutRedeemedByNestedInput
   reminders?: Prisma.UserReminderUpdateManyWithoutUserNestedInput
+  referredBy?: Prisma.ClinicUpdateOneWithoutReferredUsersNestedInput
 }
 
 export type UserUncheckedUpdateWithoutAnalysisJobsInput = {
@@ -1868,6 +1971,7 @@ export type UserUncheckedUpdateWithoutAnalysisJobsInput = {
   trialEndsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  referredByEstheticianId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   analyses?: Prisma.SkinAnalysisUncheckedUpdateManyWithoutUserNestedInput
@@ -1876,6 +1980,7 @@ export type UserUncheckedUpdateWithoutAnalysisJobsInput = {
   purchasePacks?: Prisma.PurchasePackUncheckedUpdateManyWithoutUserNestedInput
   usageRecords?: Prisma.UsageTrackingUncheckedUpdateManyWithoutUserNestedInput
   clinic?: Prisma.ClinicUncheckedUpdateOneWithoutOwnerNestedInput
+  clients?: Prisma.ClientUncheckedUpdateManyWithoutEstheticianNestedInput
   surveyFeedback?: Prisma.SurveyFeedbackUncheckedUpdateManyWithoutUserNestedInput
   communityPosts?: Prisma.CommunityPostUncheckedUpdateManyWithoutUserNestedInput
   comments?: Prisma.CommentUncheckedUpdateManyWithoutUserNestedInput
@@ -1939,6 +2044,7 @@ export type UserCreateWithoutAccountsInput = {
   purchasePacks?: Prisma.PurchasePackCreateNestedManyWithoutUserInput
   usageRecords?: Prisma.UsageTrackingCreateNestedManyWithoutUserInput
   clinic?: Prisma.ClinicCreateNestedOneWithoutOwnerInput
+  clients?: Prisma.ClientCreateNestedManyWithoutEstheticianInput
   surveyFeedback?: Prisma.SurveyFeedbackCreateNestedManyWithoutUserInput
   communityPosts?: Prisma.CommunityPostCreateNestedManyWithoutUserInput
   comments?: Prisma.CommentCreateNestedManyWithoutUserInput
@@ -1967,6 +2073,7 @@ export type UserCreateWithoutAccountsInput = {
   giftPacksBought?: Prisma.GiftPackCreateNestedManyWithoutBuyerInput
   giftPacksRedeemed?: Prisma.GiftPackCreateNestedManyWithoutRedeemedByInput
   reminders?: Prisma.UserReminderCreateNestedManyWithoutUserInput
+  referredBy?: Prisma.ClinicCreateNestedOneWithoutReferredUsersInput
 }
 
 export type UserUncheckedCreateWithoutAccountsInput = {
@@ -1994,6 +2101,7 @@ export type UserUncheckedCreateWithoutAccountsInput = {
   trialEndsAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  referredByEstheticianId?: string | null
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   analyses?: Prisma.SkinAnalysisUncheckedCreateNestedManyWithoutUserInput
   analysisJobs?: Prisma.AnalysisJobUncheckedCreateNestedManyWithoutUserInput
@@ -2002,6 +2110,7 @@ export type UserUncheckedCreateWithoutAccountsInput = {
   purchasePacks?: Prisma.PurchasePackUncheckedCreateNestedManyWithoutUserInput
   usageRecords?: Prisma.UsageTrackingUncheckedCreateNestedManyWithoutUserInput
   clinic?: Prisma.ClinicUncheckedCreateNestedOneWithoutOwnerInput
+  clients?: Prisma.ClientUncheckedCreateNestedManyWithoutEstheticianInput
   surveyFeedback?: Prisma.SurveyFeedbackUncheckedCreateNestedManyWithoutUserInput
   communityPosts?: Prisma.CommunityPostUncheckedCreateNestedManyWithoutUserInput
   comments?: Prisma.CommentUncheckedCreateNestedManyWithoutUserInput
@@ -2081,6 +2190,7 @@ export type UserUpdateWithoutAccountsInput = {
   purchasePacks?: Prisma.PurchasePackUpdateManyWithoutUserNestedInput
   usageRecords?: Prisma.UsageTrackingUpdateManyWithoutUserNestedInput
   clinic?: Prisma.ClinicUpdateOneWithoutOwnerNestedInput
+  clients?: Prisma.ClientUpdateManyWithoutEstheticianNestedInput
   surveyFeedback?: Prisma.SurveyFeedbackUpdateManyWithoutUserNestedInput
   communityPosts?: Prisma.CommunityPostUpdateManyWithoutUserNestedInput
   comments?: Prisma.CommentUpdateManyWithoutUserNestedInput
@@ -2109,6 +2219,7 @@ export type UserUpdateWithoutAccountsInput = {
   giftPacksBought?: Prisma.GiftPackUpdateManyWithoutBuyerNestedInput
   giftPacksRedeemed?: Prisma.GiftPackUpdateManyWithoutRedeemedByNestedInput
   reminders?: Prisma.UserReminderUpdateManyWithoutUserNestedInput
+  referredBy?: Prisma.ClinicUpdateOneWithoutReferredUsersNestedInput
 }
 
 export type UserUncheckedUpdateWithoutAccountsInput = {
@@ -2136,6 +2247,7 @@ export type UserUncheckedUpdateWithoutAccountsInput = {
   trialEndsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  referredByEstheticianId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   analyses?: Prisma.SkinAnalysisUncheckedUpdateManyWithoutUserNestedInput
   analysisJobs?: Prisma.AnalysisJobUncheckedUpdateManyWithoutUserNestedInput
@@ -2144,6 +2256,7 @@ export type UserUncheckedUpdateWithoutAccountsInput = {
   purchasePacks?: Prisma.PurchasePackUncheckedUpdateManyWithoutUserNestedInput
   usageRecords?: Prisma.UsageTrackingUncheckedUpdateManyWithoutUserNestedInput
   clinic?: Prisma.ClinicUncheckedUpdateOneWithoutOwnerNestedInput
+  clients?: Prisma.ClientUncheckedUpdateManyWithoutEstheticianNestedInput
   surveyFeedback?: Prisma.SurveyFeedbackUncheckedUpdateManyWithoutUserNestedInput
   communityPosts?: Prisma.CommunityPostUncheckedUpdateManyWithoutUserNestedInput
   comments?: Prisma.CommentUncheckedUpdateManyWithoutUserNestedInput
@@ -2207,6 +2320,7 @@ export type UserCreateWithoutSessionsInput = {
   purchasePacks?: Prisma.PurchasePackCreateNestedManyWithoutUserInput
   usageRecords?: Prisma.UsageTrackingCreateNestedManyWithoutUserInput
   clinic?: Prisma.ClinicCreateNestedOneWithoutOwnerInput
+  clients?: Prisma.ClientCreateNestedManyWithoutEstheticianInput
   surveyFeedback?: Prisma.SurveyFeedbackCreateNestedManyWithoutUserInput
   communityPosts?: Prisma.CommunityPostCreateNestedManyWithoutUserInput
   comments?: Prisma.CommentCreateNestedManyWithoutUserInput
@@ -2235,6 +2349,7 @@ export type UserCreateWithoutSessionsInput = {
   giftPacksBought?: Prisma.GiftPackCreateNestedManyWithoutBuyerInput
   giftPacksRedeemed?: Prisma.GiftPackCreateNestedManyWithoutRedeemedByInput
   reminders?: Prisma.UserReminderCreateNestedManyWithoutUserInput
+  referredBy?: Prisma.ClinicCreateNestedOneWithoutReferredUsersInput
 }
 
 export type UserUncheckedCreateWithoutSessionsInput = {
@@ -2262,6 +2377,7 @@ export type UserUncheckedCreateWithoutSessionsInput = {
   trialEndsAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  referredByEstheticianId?: string | null
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
   analyses?: Prisma.SkinAnalysisUncheckedCreateNestedManyWithoutUserInput
   analysisJobs?: Prisma.AnalysisJobUncheckedCreateNestedManyWithoutUserInput
@@ -2270,6 +2386,7 @@ export type UserUncheckedCreateWithoutSessionsInput = {
   purchasePacks?: Prisma.PurchasePackUncheckedCreateNestedManyWithoutUserInput
   usageRecords?: Prisma.UsageTrackingUncheckedCreateNestedManyWithoutUserInput
   clinic?: Prisma.ClinicUncheckedCreateNestedOneWithoutOwnerInput
+  clients?: Prisma.ClientUncheckedCreateNestedManyWithoutEstheticianInput
   surveyFeedback?: Prisma.SurveyFeedbackUncheckedCreateNestedManyWithoutUserInput
   communityPosts?: Prisma.CommunityPostUncheckedCreateNestedManyWithoutUserInput
   comments?: Prisma.CommentUncheckedCreateNestedManyWithoutUserInput
@@ -2349,6 +2466,7 @@ export type UserUpdateWithoutSessionsInput = {
   purchasePacks?: Prisma.PurchasePackUpdateManyWithoutUserNestedInput
   usageRecords?: Prisma.UsageTrackingUpdateManyWithoutUserNestedInput
   clinic?: Prisma.ClinicUpdateOneWithoutOwnerNestedInput
+  clients?: Prisma.ClientUpdateManyWithoutEstheticianNestedInput
   surveyFeedback?: Prisma.SurveyFeedbackUpdateManyWithoutUserNestedInput
   communityPosts?: Prisma.CommunityPostUpdateManyWithoutUserNestedInput
   comments?: Prisma.CommentUpdateManyWithoutUserNestedInput
@@ -2377,6 +2495,7 @@ export type UserUpdateWithoutSessionsInput = {
   giftPacksBought?: Prisma.GiftPackUpdateManyWithoutBuyerNestedInput
   giftPacksRedeemed?: Prisma.GiftPackUpdateManyWithoutRedeemedByNestedInput
   reminders?: Prisma.UserReminderUpdateManyWithoutUserNestedInput
+  referredBy?: Prisma.ClinicUpdateOneWithoutReferredUsersNestedInput
 }
 
 export type UserUncheckedUpdateWithoutSessionsInput = {
@@ -2404,6 +2523,7 @@ export type UserUncheckedUpdateWithoutSessionsInput = {
   trialEndsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  referredByEstheticianId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
   analyses?: Prisma.SkinAnalysisUncheckedUpdateManyWithoutUserNestedInput
   analysisJobs?: Prisma.AnalysisJobUncheckedUpdateManyWithoutUserNestedInput
@@ -2412,6 +2532,7 @@ export type UserUncheckedUpdateWithoutSessionsInput = {
   purchasePacks?: Prisma.PurchasePackUncheckedUpdateManyWithoutUserNestedInput
   usageRecords?: Prisma.UsageTrackingUncheckedUpdateManyWithoutUserNestedInput
   clinic?: Prisma.ClinicUncheckedUpdateOneWithoutOwnerNestedInput
+  clients?: Prisma.ClientUncheckedUpdateManyWithoutEstheticianNestedInput
   surveyFeedback?: Prisma.SurveyFeedbackUncheckedUpdateManyWithoutUserNestedInput
   communityPosts?: Prisma.CommunityPostUncheckedUpdateManyWithoutUserNestedInput
   comments?: Prisma.CommentUncheckedUpdateManyWithoutUserNestedInput
@@ -2475,6 +2596,7 @@ export type UserCreateWithoutAnalysesInput = {
   purchasePacks?: Prisma.PurchasePackCreateNestedManyWithoutUserInput
   usageRecords?: Prisma.UsageTrackingCreateNestedManyWithoutUserInput
   clinic?: Prisma.ClinicCreateNestedOneWithoutOwnerInput
+  clients?: Prisma.ClientCreateNestedManyWithoutEstheticianInput
   surveyFeedback?: Prisma.SurveyFeedbackCreateNestedManyWithoutUserInput
   communityPosts?: Prisma.CommunityPostCreateNestedManyWithoutUserInput
   comments?: Prisma.CommentCreateNestedManyWithoutUserInput
@@ -2503,6 +2625,7 @@ export type UserCreateWithoutAnalysesInput = {
   giftPacksBought?: Prisma.GiftPackCreateNestedManyWithoutBuyerInput
   giftPacksRedeemed?: Prisma.GiftPackCreateNestedManyWithoutRedeemedByInput
   reminders?: Prisma.UserReminderCreateNestedManyWithoutUserInput
+  referredBy?: Prisma.ClinicCreateNestedOneWithoutReferredUsersInput
 }
 
 export type UserUncheckedCreateWithoutAnalysesInput = {
@@ -2530,6 +2653,7 @@ export type UserUncheckedCreateWithoutAnalysesInput = {
   trialEndsAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  referredByEstheticianId?: string | null
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   analysisJobs?: Prisma.AnalysisJobUncheckedCreateNestedManyWithoutUserInput
@@ -2538,6 +2662,7 @@ export type UserUncheckedCreateWithoutAnalysesInput = {
   purchasePacks?: Prisma.PurchasePackUncheckedCreateNestedManyWithoutUserInput
   usageRecords?: Prisma.UsageTrackingUncheckedCreateNestedManyWithoutUserInput
   clinic?: Prisma.ClinicUncheckedCreateNestedOneWithoutOwnerInput
+  clients?: Prisma.ClientUncheckedCreateNestedManyWithoutEstheticianInput
   surveyFeedback?: Prisma.SurveyFeedbackUncheckedCreateNestedManyWithoutUserInput
   communityPosts?: Prisma.CommunityPostUncheckedCreateNestedManyWithoutUserInput
   comments?: Prisma.CommentUncheckedCreateNestedManyWithoutUserInput
@@ -2617,6 +2742,7 @@ export type UserUpdateWithoutAnalysesInput = {
   purchasePacks?: Prisma.PurchasePackUpdateManyWithoutUserNestedInput
   usageRecords?: Prisma.UsageTrackingUpdateManyWithoutUserNestedInput
   clinic?: Prisma.ClinicUpdateOneWithoutOwnerNestedInput
+  clients?: Prisma.ClientUpdateManyWithoutEstheticianNestedInput
   surveyFeedback?: Prisma.SurveyFeedbackUpdateManyWithoutUserNestedInput
   communityPosts?: Prisma.CommunityPostUpdateManyWithoutUserNestedInput
   comments?: Prisma.CommentUpdateManyWithoutUserNestedInput
@@ -2645,6 +2771,7 @@ export type UserUpdateWithoutAnalysesInput = {
   giftPacksBought?: Prisma.GiftPackUpdateManyWithoutBuyerNestedInput
   giftPacksRedeemed?: Prisma.GiftPackUpdateManyWithoutRedeemedByNestedInput
   reminders?: Prisma.UserReminderUpdateManyWithoutUserNestedInput
+  referredBy?: Prisma.ClinicUpdateOneWithoutReferredUsersNestedInput
 }
 
 export type UserUncheckedUpdateWithoutAnalysesInput = {
@@ -2672,6 +2799,7 @@ export type UserUncheckedUpdateWithoutAnalysesInput = {
   trialEndsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  referredByEstheticianId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   analysisJobs?: Prisma.AnalysisJobUncheckedUpdateManyWithoutUserNestedInput
@@ -2680,6 +2808,7 @@ export type UserUncheckedUpdateWithoutAnalysesInput = {
   purchasePacks?: Prisma.PurchasePackUncheckedUpdateManyWithoutUserNestedInput
   usageRecords?: Prisma.UsageTrackingUncheckedUpdateManyWithoutUserNestedInput
   clinic?: Prisma.ClinicUncheckedUpdateOneWithoutOwnerNestedInput
+  clients?: Prisma.ClientUncheckedUpdateManyWithoutEstheticianNestedInput
   surveyFeedback?: Prisma.SurveyFeedbackUncheckedUpdateManyWithoutUserNestedInput
   communityPosts?: Prisma.CommunityPostUncheckedUpdateManyWithoutUserNestedInput
   comments?: Prisma.CommentUncheckedUpdateManyWithoutUserNestedInput
@@ -2743,6 +2872,7 @@ export type UserCreateWithoutPaymentsInput = {
   purchasePacks?: Prisma.PurchasePackCreateNestedManyWithoutUserInput
   usageRecords?: Prisma.UsageTrackingCreateNestedManyWithoutUserInput
   clinic?: Prisma.ClinicCreateNestedOneWithoutOwnerInput
+  clients?: Prisma.ClientCreateNestedManyWithoutEstheticianInput
   surveyFeedback?: Prisma.SurveyFeedbackCreateNestedManyWithoutUserInput
   communityPosts?: Prisma.CommunityPostCreateNestedManyWithoutUserInput
   comments?: Prisma.CommentCreateNestedManyWithoutUserInput
@@ -2771,6 +2901,7 @@ export type UserCreateWithoutPaymentsInput = {
   giftPacksBought?: Prisma.GiftPackCreateNestedManyWithoutBuyerInput
   giftPacksRedeemed?: Prisma.GiftPackCreateNestedManyWithoutRedeemedByInput
   reminders?: Prisma.UserReminderCreateNestedManyWithoutUserInput
+  referredBy?: Prisma.ClinicCreateNestedOneWithoutReferredUsersInput
 }
 
 export type UserUncheckedCreateWithoutPaymentsInput = {
@@ -2798,6 +2929,7 @@ export type UserUncheckedCreateWithoutPaymentsInput = {
   trialEndsAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  referredByEstheticianId?: string | null
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   analyses?: Prisma.SkinAnalysisUncheckedCreateNestedManyWithoutUserInput
@@ -2806,6 +2938,7 @@ export type UserUncheckedCreateWithoutPaymentsInput = {
   purchasePacks?: Prisma.PurchasePackUncheckedCreateNestedManyWithoutUserInput
   usageRecords?: Prisma.UsageTrackingUncheckedCreateNestedManyWithoutUserInput
   clinic?: Prisma.ClinicUncheckedCreateNestedOneWithoutOwnerInput
+  clients?: Prisma.ClientUncheckedCreateNestedManyWithoutEstheticianInput
   surveyFeedback?: Prisma.SurveyFeedbackUncheckedCreateNestedManyWithoutUserInput
   communityPosts?: Prisma.CommunityPostUncheckedCreateNestedManyWithoutUserInput
   comments?: Prisma.CommentUncheckedCreateNestedManyWithoutUserInput
@@ -2885,6 +3018,7 @@ export type UserUpdateWithoutPaymentsInput = {
   purchasePacks?: Prisma.PurchasePackUpdateManyWithoutUserNestedInput
   usageRecords?: Prisma.UsageTrackingUpdateManyWithoutUserNestedInput
   clinic?: Prisma.ClinicUpdateOneWithoutOwnerNestedInput
+  clients?: Prisma.ClientUpdateManyWithoutEstheticianNestedInput
   surveyFeedback?: Prisma.SurveyFeedbackUpdateManyWithoutUserNestedInput
   communityPosts?: Prisma.CommunityPostUpdateManyWithoutUserNestedInput
   comments?: Prisma.CommentUpdateManyWithoutUserNestedInput
@@ -2913,6 +3047,7 @@ export type UserUpdateWithoutPaymentsInput = {
   giftPacksBought?: Prisma.GiftPackUpdateManyWithoutBuyerNestedInput
   giftPacksRedeemed?: Prisma.GiftPackUpdateManyWithoutRedeemedByNestedInput
   reminders?: Prisma.UserReminderUpdateManyWithoutUserNestedInput
+  referredBy?: Prisma.ClinicUpdateOneWithoutReferredUsersNestedInput
 }
 
 export type UserUncheckedUpdateWithoutPaymentsInput = {
@@ -2940,6 +3075,7 @@ export type UserUncheckedUpdateWithoutPaymentsInput = {
   trialEndsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  referredByEstheticianId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   analyses?: Prisma.SkinAnalysisUncheckedUpdateManyWithoutUserNestedInput
@@ -2948,6 +3084,7 @@ export type UserUncheckedUpdateWithoutPaymentsInput = {
   purchasePacks?: Prisma.PurchasePackUncheckedUpdateManyWithoutUserNestedInput
   usageRecords?: Prisma.UsageTrackingUncheckedUpdateManyWithoutUserNestedInput
   clinic?: Prisma.ClinicUncheckedUpdateOneWithoutOwnerNestedInput
+  clients?: Prisma.ClientUncheckedUpdateManyWithoutEstheticianNestedInput
   surveyFeedback?: Prisma.SurveyFeedbackUncheckedUpdateManyWithoutUserNestedInput
   communityPosts?: Prisma.CommunityPostUncheckedUpdateManyWithoutUserNestedInput
   comments?: Prisma.CommentUncheckedUpdateManyWithoutUserNestedInput
@@ -3012,6 +3149,7 @@ export type UserCreateWithoutTransferPaymentsInput = {
   purchasePacks?: Prisma.PurchasePackCreateNestedManyWithoutUserInput
   usageRecords?: Prisma.UsageTrackingCreateNestedManyWithoutUserInput
   clinic?: Prisma.ClinicCreateNestedOneWithoutOwnerInput
+  clients?: Prisma.ClientCreateNestedManyWithoutEstheticianInput
   surveyFeedback?: Prisma.SurveyFeedbackCreateNestedManyWithoutUserInput
   communityPosts?: Prisma.CommunityPostCreateNestedManyWithoutUserInput
   comments?: Prisma.CommentCreateNestedManyWithoutUserInput
@@ -3039,6 +3177,7 @@ export type UserCreateWithoutTransferPaymentsInput = {
   giftPacksBought?: Prisma.GiftPackCreateNestedManyWithoutBuyerInput
   giftPacksRedeemed?: Prisma.GiftPackCreateNestedManyWithoutRedeemedByInput
   reminders?: Prisma.UserReminderCreateNestedManyWithoutUserInput
+  referredBy?: Prisma.ClinicCreateNestedOneWithoutReferredUsersInput
 }
 
 export type UserUncheckedCreateWithoutTransferPaymentsInput = {
@@ -3066,6 +3205,7 @@ export type UserUncheckedCreateWithoutTransferPaymentsInput = {
   trialEndsAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  referredByEstheticianId?: string | null
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   analyses?: Prisma.SkinAnalysisUncheckedCreateNestedManyWithoutUserInput
@@ -3075,6 +3215,7 @@ export type UserUncheckedCreateWithoutTransferPaymentsInput = {
   purchasePacks?: Prisma.PurchasePackUncheckedCreateNestedManyWithoutUserInput
   usageRecords?: Prisma.UsageTrackingUncheckedCreateNestedManyWithoutUserInput
   clinic?: Prisma.ClinicUncheckedCreateNestedOneWithoutOwnerInput
+  clients?: Prisma.ClientUncheckedCreateNestedManyWithoutEstheticianInput
   surveyFeedback?: Prisma.SurveyFeedbackUncheckedCreateNestedManyWithoutUserInput
   communityPosts?: Prisma.CommunityPostUncheckedCreateNestedManyWithoutUserInput
   comments?: Prisma.CommentUncheckedCreateNestedManyWithoutUserInput
@@ -3143,6 +3284,7 @@ export type UserCreateWithoutValidatedTransfersInput = {
   purchasePacks?: Prisma.PurchasePackCreateNestedManyWithoutUserInput
   usageRecords?: Prisma.UsageTrackingCreateNestedManyWithoutUserInput
   clinic?: Prisma.ClinicCreateNestedOneWithoutOwnerInput
+  clients?: Prisma.ClientCreateNestedManyWithoutEstheticianInput
   surveyFeedback?: Prisma.SurveyFeedbackCreateNestedManyWithoutUserInput
   communityPosts?: Prisma.CommunityPostCreateNestedManyWithoutUserInput
   comments?: Prisma.CommentCreateNestedManyWithoutUserInput
@@ -3170,6 +3312,7 @@ export type UserCreateWithoutValidatedTransfersInput = {
   giftPacksBought?: Prisma.GiftPackCreateNestedManyWithoutBuyerInput
   giftPacksRedeemed?: Prisma.GiftPackCreateNestedManyWithoutRedeemedByInput
   reminders?: Prisma.UserReminderCreateNestedManyWithoutUserInput
+  referredBy?: Prisma.ClinicCreateNestedOneWithoutReferredUsersInput
 }
 
 export type UserUncheckedCreateWithoutValidatedTransfersInput = {
@@ -3197,6 +3340,7 @@ export type UserUncheckedCreateWithoutValidatedTransfersInput = {
   trialEndsAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  referredByEstheticianId?: string | null
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   analyses?: Prisma.SkinAnalysisUncheckedCreateNestedManyWithoutUserInput
@@ -3206,6 +3350,7 @@ export type UserUncheckedCreateWithoutValidatedTransfersInput = {
   purchasePacks?: Prisma.PurchasePackUncheckedCreateNestedManyWithoutUserInput
   usageRecords?: Prisma.UsageTrackingUncheckedCreateNestedManyWithoutUserInput
   clinic?: Prisma.ClinicUncheckedCreateNestedOneWithoutOwnerInput
+  clients?: Prisma.ClientUncheckedCreateNestedManyWithoutEstheticianInput
   surveyFeedback?: Prisma.SurveyFeedbackUncheckedCreateNestedManyWithoutUserInput
   communityPosts?: Prisma.CommunityPostUncheckedCreateNestedManyWithoutUserInput
   comments?: Prisma.CommentUncheckedCreateNestedManyWithoutUserInput
@@ -3274,6 +3419,7 @@ export type UserCreateWithoutActivatedTransfersInput = {
   purchasePacks?: Prisma.PurchasePackCreateNestedManyWithoutUserInput
   usageRecords?: Prisma.UsageTrackingCreateNestedManyWithoutUserInput
   clinic?: Prisma.ClinicCreateNestedOneWithoutOwnerInput
+  clients?: Prisma.ClientCreateNestedManyWithoutEstheticianInput
   surveyFeedback?: Prisma.SurveyFeedbackCreateNestedManyWithoutUserInput
   communityPosts?: Prisma.CommunityPostCreateNestedManyWithoutUserInput
   comments?: Prisma.CommentCreateNestedManyWithoutUserInput
@@ -3301,6 +3447,7 @@ export type UserCreateWithoutActivatedTransfersInput = {
   giftPacksBought?: Prisma.GiftPackCreateNestedManyWithoutBuyerInput
   giftPacksRedeemed?: Prisma.GiftPackCreateNestedManyWithoutRedeemedByInput
   reminders?: Prisma.UserReminderCreateNestedManyWithoutUserInput
+  referredBy?: Prisma.ClinicCreateNestedOneWithoutReferredUsersInput
 }
 
 export type UserUncheckedCreateWithoutActivatedTransfersInput = {
@@ -3328,6 +3475,7 @@ export type UserUncheckedCreateWithoutActivatedTransfersInput = {
   trialEndsAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  referredByEstheticianId?: string | null
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   analyses?: Prisma.SkinAnalysisUncheckedCreateNestedManyWithoutUserInput
@@ -3337,6 +3485,7 @@ export type UserUncheckedCreateWithoutActivatedTransfersInput = {
   purchasePacks?: Prisma.PurchasePackUncheckedCreateNestedManyWithoutUserInput
   usageRecords?: Prisma.UsageTrackingUncheckedCreateNestedManyWithoutUserInput
   clinic?: Prisma.ClinicUncheckedCreateNestedOneWithoutOwnerInput
+  clients?: Prisma.ClientUncheckedCreateNestedManyWithoutEstheticianInput
   surveyFeedback?: Prisma.SurveyFeedbackUncheckedCreateNestedManyWithoutUserInput
   communityPosts?: Prisma.CommunityPostUncheckedCreateNestedManyWithoutUserInput
   comments?: Prisma.CommentUncheckedCreateNestedManyWithoutUserInput
@@ -3416,6 +3565,7 @@ export type UserUpdateWithoutTransferPaymentsInput = {
   purchasePacks?: Prisma.PurchasePackUpdateManyWithoutUserNestedInput
   usageRecords?: Prisma.UsageTrackingUpdateManyWithoutUserNestedInput
   clinic?: Prisma.ClinicUpdateOneWithoutOwnerNestedInput
+  clients?: Prisma.ClientUpdateManyWithoutEstheticianNestedInput
   surveyFeedback?: Prisma.SurveyFeedbackUpdateManyWithoutUserNestedInput
   communityPosts?: Prisma.CommunityPostUpdateManyWithoutUserNestedInput
   comments?: Prisma.CommentUpdateManyWithoutUserNestedInput
@@ -3443,6 +3593,7 @@ export type UserUpdateWithoutTransferPaymentsInput = {
   giftPacksBought?: Prisma.GiftPackUpdateManyWithoutBuyerNestedInput
   giftPacksRedeemed?: Prisma.GiftPackUpdateManyWithoutRedeemedByNestedInput
   reminders?: Prisma.UserReminderUpdateManyWithoutUserNestedInput
+  referredBy?: Prisma.ClinicUpdateOneWithoutReferredUsersNestedInput
 }
 
 export type UserUncheckedUpdateWithoutTransferPaymentsInput = {
@@ -3470,6 +3621,7 @@ export type UserUncheckedUpdateWithoutTransferPaymentsInput = {
   trialEndsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  referredByEstheticianId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   analyses?: Prisma.SkinAnalysisUncheckedUpdateManyWithoutUserNestedInput
@@ -3479,6 +3631,7 @@ export type UserUncheckedUpdateWithoutTransferPaymentsInput = {
   purchasePacks?: Prisma.PurchasePackUncheckedUpdateManyWithoutUserNestedInput
   usageRecords?: Prisma.UsageTrackingUncheckedUpdateManyWithoutUserNestedInput
   clinic?: Prisma.ClinicUncheckedUpdateOneWithoutOwnerNestedInput
+  clients?: Prisma.ClientUncheckedUpdateManyWithoutEstheticianNestedInput
   surveyFeedback?: Prisma.SurveyFeedbackUncheckedUpdateManyWithoutUserNestedInput
   communityPosts?: Prisma.CommunityPostUncheckedUpdateManyWithoutUserNestedInput
   comments?: Prisma.CommentUncheckedUpdateManyWithoutUserNestedInput
@@ -3553,6 +3706,7 @@ export type UserUpdateWithoutValidatedTransfersInput = {
   purchasePacks?: Prisma.PurchasePackUpdateManyWithoutUserNestedInput
   usageRecords?: Prisma.UsageTrackingUpdateManyWithoutUserNestedInput
   clinic?: Prisma.ClinicUpdateOneWithoutOwnerNestedInput
+  clients?: Prisma.ClientUpdateManyWithoutEstheticianNestedInput
   surveyFeedback?: Prisma.SurveyFeedbackUpdateManyWithoutUserNestedInput
   communityPosts?: Prisma.CommunityPostUpdateManyWithoutUserNestedInput
   comments?: Prisma.CommentUpdateManyWithoutUserNestedInput
@@ -3580,6 +3734,7 @@ export type UserUpdateWithoutValidatedTransfersInput = {
   giftPacksBought?: Prisma.GiftPackUpdateManyWithoutBuyerNestedInput
   giftPacksRedeemed?: Prisma.GiftPackUpdateManyWithoutRedeemedByNestedInput
   reminders?: Prisma.UserReminderUpdateManyWithoutUserNestedInput
+  referredBy?: Prisma.ClinicUpdateOneWithoutReferredUsersNestedInput
 }
 
 export type UserUncheckedUpdateWithoutValidatedTransfersInput = {
@@ -3607,6 +3762,7 @@ export type UserUncheckedUpdateWithoutValidatedTransfersInput = {
   trialEndsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  referredByEstheticianId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   analyses?: Prisma.SkinAnalysisUncheckedUpdateManyWithoutUserNestedInput
@@ -3616,6 +3772,7 @@ export type UserUncheckedUpdateWithoutValidatedTransfersInput = {
   purchasePacks?: Prisma.PurchasePackUncheckedUpdateManyWithoutUserNestedInput
   usageRecords?: Prisma.UsageTrackingUncheckedUpdateManyWithoutUserNestedInput
   clinic?: Prisma.ClinicUncheckedUpdateOneWithoutOwnerNestedInput
+  clients?: Prisma.ClientUncheckedUpdateManyWithoutEstheticianNestedInput
   surveyFeedback?: Prisma.SurveyFeedbackUncheckedUpdateManyWithoutUserNestedInput
   communityPosts?: Prisma.CommunityPostUncheckedUpdateManyWithoutUserNestedInput
   comments?: Prisma.CommentUncheckedUpdateManyWithoutUserNestedInput
@@ -3690,6 +3847,7 @@ export type UserUpdateWithoutActivatedTransfersInput = {
   purchasePacks?: Prisma.PurchasePackUpdateManyWithoutUserNestedInput
   usageRecords?: Prisma.UsageTrackingUpdateManyWithoutUserNestedInput
   clinic?: Prisma.ClinicUpdateOneWithoutOwnerNestedInput
+  clients?: Prisma.ClientUpdateManyWithoutEstheticianNestedInput
   surveyFeedback?: Prisma.SurveyFeedbackUpdateManyWithoutUserNestedInput
   communityPosts?: Prisma.CommunityPostUpdateManyWithoutUserNestedInput
   comments?: Prisma.CommentUpdateManyWithoutUserNestedInput
@@ -3717,6 +3875,7 @@ export type UserUpdateWithoutActivatedTransfersInput = {
   giftPacksBought?: Prisma.GiftPackUpdateManyWithoutBuyerNestedInput
   giftPacksRedeemed?: Prisma.GiftPackUpdateManyWithoutRedeemedByNestedInput
   reminders?: Prisma.UserReminderUpdateManyWithoutUserNestedInput
+  referredBy?: Prisma.ClinicUpdateOneWithoutReferredUsersNestedInput
 }
 
 export type UserUncheckedUpdateWithoutActivatedTransfersInput = {
@@ -3744,6 +3903,7 @@ export type UserUncheckedUpdateWithoutActivatedTransfersInput = {
   trialEndsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  referredByEstheticianId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   analyses?: Prisma.SkinAnalysisUncheckedUpdateManyWithoutUserNestedInput
@@ -3753,6 +3913,7 @@ export type UserUncheckedUpdateWithoutActivatedTransfersInput = {
   purchasePacks?: Prisma.PurchasePackUncheckedUpdateManyWithoutUserNestedInput
   usageRecords?: Prisma.UsageTrackingUncheckedUpdateManyWithoutUserNestedInput
   clinic?: Prisma.ClinicUncheckedUpdateOneWithoutOwnerNestedInput
+  clients?: Prisma.ClientUncheckedUpdateManyWithoutEstheticianNestedInput
   surveyFeedback?: Prisma.SurveyFeedbackUncheckedUpdateManyWithoutUserNestedInput
   communityPosts?: Prisma.CommunityPostUncheckedUpdateManyWithoutUserNestedInput
   comments?: Prisma.CommentUncheckedUpdateManyWithoutUserNestedInput
@@ -3816,6 +3977,7 @@ export type UserCreateWithoutAuditLogsInput = {
   purchasePacks?: Prisma.PurchasePackCreateNestedManyWithoutUserInput
   usageRecords?: Prisma.UsageTrackingCreateNestedManyWithoutUserInput
   clinic?: Prisma.ClinicCreateNestedOneWithoutOwnerInput
+  clients?: Prisma.ClientCreateNestedManyWithoutEstheticianInput
   surveyFeedback?: Prisma.SurveyFeedbackCreateNestedManyWithoutUserInput
   communityPosts?: Prisma.CommunityPostCreateNestedManyWithoutUserInput
   comments?: Prisma.CommentCreateNestedManyWithoutUserInput
@@ -3843,6 +4005,7 @@ export type UserCreateWithoutAuditLogsInput = {
   giftPacksBought?: Prisma.GiftPackCreateNestedManyWithoutBuyerInput
   giftPacksRedeemed?: Prisma.GiftPackCreateNestedManyWithoutRedeemedByInput
   reminders?: Prisma.UserReminderCreateNestedManyWithoutUserInput
+  referredBy?: Prisma.ClinicCreateNestedOneWithoutReferredUsersInput
 }
 
 export type UserUncheckedCreateWithoutAuditLogsInput = {
@@ -3870,6 +4033,7 @@ export type UserUncheckedCreateWithoutAuditLogsInput = {
   trialEndsAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  referredByEstheticianId?: string | null
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   analyses?: Prisma.SkinAnalysisUncheckedCreateNestedManyWithoutUserInput
@@ -3879,6 +4043,7 @@ export type UserUncheckedCreateWithoutAuditLogsInput = {
   purchasePacks?: Prisma.PurchasePackUncheckedCreateNestedManyWithoutUserInput
   usageRecords?: Prisma.UsageTrackingUncheckedCreateNestedManyWithoutUserInput
   clinic?: Prisma.ClinicUncheckedCreateNestedOneWithoutOwnerInput
+  clients?: Prisma.ClientUncheckedCreateNestedManyWithoutEstheticianInput
   surveyFeedback?: Prisma.SurveyFeedbackUncheckedCreateNestedManyWithoutUserInput
   communityPosts?: Prisma.CommunityPostUncheckedCreateNestedManyWithoutUserInput
   comments?: Prisma.CommentUncheckedCreateNestedManyWithoutUserInput
@@ -3958,6 +4123,7 @@ export type UserUpdateWithoutAuditLogsInput = {
   purchasePacks?: Prisma.PurchasePackUpdateManyWithoutUserNestedInput
   usageRecords?: Prisma.UsageTrackingUpdateManyWithoutUserNestedInput
   clinic?: Prisma.ClinicUpdateOneWithoutOwnerNestedInput
+  clients?: Prisma.ClientUpdateManyWithoutEstheticianNestedInput
   surveyFeedback?: Prisma.SurveyFeedbackUpdateManyWithoutUserNestedInput
   communityPosts?: Prisma.CommunityPostUpdateManyWithoutUserNestedInput
   comments?: Prisma.CommentUpdateManyWithoutUserNestedInput
@@ -3985,6 +4151,7 @@ export type UserUpdateWithoutAuditLogsInput = {
   giftPacksBought?: Prisma.GiftPackUpdateManyWithoutBuyerNestedInput
   giftPacksRedeemed?: Prisma.GiftPackUpdateManyWithoutRedeemedByNestedInput
   reminders?: Prisma.UserReminderUpdateManyWithoutUserNestedInput
+  referredBy?: Prisma.ClinicUpdateOneWithoutReferredUsersNestedInput
 }
 
 export type UserUncheckedUpdateWithoutAuditLogsInput = {
@@ -4012,6 +4179,7 @@ export type UserUncheckedUpdateWithoutAuditLogsInput = {
   trialEndsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  referredByEstheticianId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   analyses?: Prisma.SkinAnalysisUncheckedUpdateManyWithoutUserNestedInput
@@ -4021,6 +4189,7 @@ export type UserUncheckedUpdateWithoutAuditLogsInput = {
   purchasePacks?: Prisma.PurchasePackUncheckedUpdateManyWithoutUserNestedInput
   usageRecords?: Prisma.UsageTrackingUncheckedUpdateManyWithoutUserNestedInput
   clinic?: Prisma.ClinicUncheckedUpdateOneWithoutOwnerNestedInput
+  clients?: Prisma.ClientUncheckedUpdateManyWithoutEstheticianNestedInput
   surveyFeedback?: Prisma.SurveyFeedbackUncheckedUpdateManyWithoutUserNestedInput
   communityPosts?: Prisma.CommunityPostUncheckedUpdateManyWithoutUserNestedInput
   comments?: Prisma.CommentUncheckedUpdateManyWithoutUserNestedInput
@@ -4083,6 +4252,7 @@ export type UserCreateWithoutSubscriptionsInput = {
   purchasePacks?: Prisma.PurchasePackCreateNestedManyWithoutUserInput
   usageRecords?: Prisma.UsageTrackingCreateNestedManyWithoutUserInput
   clinic?: Prisma.ClinicCreateNestedOneWithoutOwnerInput
+  clients?: Prisma.ClientCreateNestedManyWithoutEstheticianInput
   surveyFeedback?: Prisma.SurveyFeedbackCreateNestedManyWithoutUserInput
   communityPosts?: Prisma.CommunityPostCreateNestedManyWithoutUserInput
   comments?: Prisma.CommentCreateNestedManyWithoutUserInput
@@ -4111,6 +4281,7 @@ export type UserCreateWithoutSubscriptionsInput = {
   giftPacksBought?: Prisma.GiftPackCreateNestedManyWithoutBuyerInput
   giftPacksRedeemed?: Prisma.GiftPackCreateNestedManyWithoutRedeemedByInput
   reminders?: Prisma.UserReminderCreateNestedManyWithoutUserInput
+  referredBy?: Prisma.ClinicCreateNestedOneWithoutReferredUsersInput
 }
 
 export type UserUncheckedCreateWithoutSubscriptionsInput = {
@@ -4138,6 +4309,7 @@ export type UserUncheckedCreateWithoutSubscriptionsInput = {
   trialEndsAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  referredByEstheticianId?: string | null
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   analyses?: Prisma.SkinAnalysisUncheckedCreateNestedManyWithoutUserInput
@@ -4146,6 +4318,7 @@ export type UserUncheckedCreateWithoutSubscriptionsInput = {
   purchasePacks?: Prisma.PurchasePackUncheckedCreateNestedManyWithoutUserInput
   usageRecords?: Prisma.UsageTrackingUncheckedCreateNestedManyWithoutUserInput
   clinic?: Prisma.ClinicUncheckedCreateNestedOneWithoutOwnerInput
+  clients?: Prisma.ClientUncheckedCreateNestedManyWithoutEstheticianInput
   surveyFeedback?: Prisma.SurveyFeedbackUncheckedCreateNestedManyWithoutUserInput
   communityPosts?: Prisma.CommunityPostUncheckedCreateNestedManyWithoutUserInput
   comments?: Prisma.CommentUncheckedCreateNestedManyWithoutUserInput
@@ -4225,6 +4398,7 @@ export type UserUpdateWithoutSubscriptionsInput = {
   purchasePacks?: Prisma.PurchasePackUpdateManyWithoutUserNestedInput
   usageRecords?: Prisma.UsageTrackingUpdateManyWithoutUserNestedInput
   clinic?: Prisma.ClinicUpdateOneWithoutOwnerNestedInput
+  clients?: Prisma.ClientUpdateManyWithoutEstheticianNestedInput
   surveyFeedback?: Prisma.SurveyFeedbackUpdateManyWithoutUserNestedInput
   communityPosts?: Prisma.CommunityPostUpdateManyWithoutUserNestedInput
   comments?: Prisma.CommentUpdateManyWithoutUserNestedInput
@@ -4253,6 +4427,7 @@ export type UserUpdateWithoutSubscriptionsInput = {
   giftPacksBought?: Prisma.GiftPackUpdateManyWithoutBuyerNestedInput
   giftPacksRedeemed?: Prisma.GiftPackUpdateManyWithoutRedeemedByNestedInput
   reminders?: Prisma.UserReminderUpdateManyWithoutUserNestedInput
+  referredBy?: Prisma.ClinicUpdateOneWithoutReferredUsersNestedInput
 }
 
 export type UserUncheckedUpdateWithoutSubscriptionsInput = {
@@ -4280,6 +4455,7 @@ export type UserUncheckedUpdateWithoutSubscriptionsInput = {
   trialEndsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  referredByEstheticianId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   analyses?: Prisma.SkinAnalysisUncheckedUpdateManyWithoutUserNestedInput
@@ -4288,6 +4464,7 @@ export type UserUncheckedUpdateWithoutSubscriptionsInput = {
   purchasePacks?: Prisma.PurchasePackUncheckedUpdateManyWithoutUserNestedInput
   usageRecords?: Prisma.UsageTrackingUncheckedUpdateManyWithoutUserNestedInput
   clinic?: Prisma.ClinicUncheckedUpdateOneWithoutOwnerNestedInput
+  clients?: Prisma.ClientUncheckedUpdateManyWithoutEstheticianNestedInput
   surveyFeedback?: Prisma.SurveyFeedbackUncheckedUpdateManyWithoutUserNestedInput
   communityPosts?: Prisma.CommunityPostUncheckedUpdateManyWithoutUserNestedInput
   comments?: Prisma.CommentUncheckedUpdateManyWithoutUserNestedInput
@@ -4351,6 +4528,7 @@ export type UserCreateWithoutPurchasePacksInput = {
   subscriptions?: Prisma.SubscriptionCreateNestedManyWithoutUserInput
   usageRecords?: Prisma.UsageTrackingCreateNestedManyWithoutUserInput
   clinic?: Prisma.ClinicCreateNestedOneWithoutOwnerInput
+  clients?: Prisma.ClientCreateNestedManyWithoutEstheticianInput
   surveyFeedback?: Prisma.SurveyFeedbackCreateNestedManyWithoutUserInput
   communityPosts?: Prisma.CommunityPostCreateNestedManyWithoutUserInput
   comments?: Prisma.CommentCreateNestedManyWithoutUserInput
@@ -4379,6 +4557,7 @@ export type UserCreateWithoutPurchasePacksInput = {
   giftPacksBought?: Prisma.GiftPackCreateNestedManyWithoutBuyerInput
   giftPacksRedeemed?: Prisma.GiftPackCreateNestedManyWithoutRedeemedByInput
   reminders?: Prisma.UserReminderCreateNestedManyWithoutUserInput
+  referredBy?: Prisma.ClinicCreateNestedOneWithoutReferredUsersInput
 }
 
 export type UserUncheckedCreateWithoutPurchasePacksInput = {
@@ -4406,6 +4585,7 @@ export type UserUncheckedCreateWithoutPurchasePacksInput = {
   trialEndsAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  referredByEstheticianId?: string | null
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   analyses?: Prisma.SkinAnalysisUncheckedCreateNestedManyWithoutUserInput
@@ -4414,6 +4594,7 @@ export type UserUncheckedCreateWithoutPurchasePacksInput = {
   subscriptions?: Prisma.SubscriptionUncheckedCreateNestedManyWithoutUserInput
   usageRecords?: Prisma.UsageTrackingUncheckedCreateNestedManyWithoutUserInput
   clinic?: Prisma.ClinicUncheckedCreateNestedOneWithoutOwnerInput
+  clients?: Prisma.ClientUncheckedCreateNestedManyWithoutEstheticianInput
   surveyFeedback?: Prisma.SurveyFeedbackUncheckedCreateNestedManyWithoutUserInput
   communityPosts?: Prisma.CommunityPostUncheckedCreateNestedManyWithoutUserInput
   comments?: Prisma.CommentUncheckedCreateNestedManyWithoutUserInput
@@ -4493,6 +4674,7 @@ export type UserUpdateWithoutPurchasePacksInput = {
   subscriptions?: Prisma.SubscriptionUpdateManyWithoutUserNestedInput
   usageRecords?: Prisma.UsageTrackingUpdateManyWithoutUserNestedInput
   clinic?: Prisma.ClinicUpdateOneWithoutOwnerNestedInput
+  clients?: Prisma.ClientUpdateManyWithoutEstheticianNestedInput
   surveyFeedback?: Prisma.SurveyFeedbackUpdateManyWithoutUserNestedInput
   communityPosts?: Prisma.CommunityPostUpdateManyWithoutUserNestedInput
   comments?: Prisma.CommentUpdateManyWithoutUserNestedInput
@@ -4521,6 +4703,7 @@ export type UserUpdateWithoutPurchasePacksInput = {
   giftPacksBought?: Prisma.GiftPackUpdateManyWithoutBuyerNestedInput
   giftPacksRedeemed?: Prisma.GiftPackUpdateManyWithoutRedeemedByNestedInput
   reminders?: Prisma.UserReminderUpdateManyWithoutUserNestedInput
+  referredBy?: Prisma.ClinicUpdateOneWithoutReferredUsersNestedInput
 }
 
 export type UserUncheckedUpdateWithoutPurchasePacksInput = {
@@ -4548,6 +4731,7 @@ export type UserUncheckedUpdateWithoutPurchasePacksInput = {
   trialEndsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  referredByEstheticianId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   analyses?: Prisma.SkinAnalysisUncheckedUpdateManyWithoutUserNestedInput
@@ -4556,6 +4740,7 @@ export type UserUncheckedUpdateWithoutPurchasePacksInput = {
   subscriptions?: Prisma.SubscriptionUncheckedUpdateManyWithoutUserNestedInput
   usageRecords?: Prisma.UsageTrackingUncheckedUpdateManyWithoutUserNestedInput
   clinic?: Prisma.ClinicUncheckedUpdateOneWithoutOwnerNestedInput
+  clients?: Prisma.ClientUncheckedUpdateManyWithoutEstheticianNestedInput
   surveyFeedback?: Prisma.SurveyFeedbackUncheckedUpdateManyWithoutUserNestedInput
   communityPosts?: Prisma.CommunityPostUncheckedUpdateManyWithoutUserNestedInput
   comments?: Prisma.CommentUncheckedUpdateManyWithoutUserNestedInput
@@ -4619,6 +4804,7 @@ export type UserCreateWithoutUsageRecordsInput = {
   subscriptions?: Prisma.SubscriptionCreateNestedManyWithoutUserInput
   purchasePacks?: Prisma.PurchasePackCreateNestedManyWithoutUserInput
   clinic?: Prisma.ClinicCreateNestedOneWithoutOwnerInput
+  clients?: Prisma.ClientCreateNestedManyWithoutEstheticianInput
   surveyFeedback?: Prisma.SurveyFeedbackCreateNestedManyWithoutUserInput
   communityPosts?: Prisma.CommunityPostCreateNestedManyWithoutUserInput
   comments?: Prisma.CommentCreateNestedManyWithoutUserInput
@@ -4647,6 +4833,7 @@ export type UserCreateWithoutUsageRecordsInput = {
   giftPacksBought?: Prisma.GiftPackCreateNestedManyWithoutBuyerInput
   giftPacksRedeemed?: Prisma.GiftPackCreateNestedManyWithoutRedeemedByInput
   reminders?: Prisma.UserReminderCreateNestedManyWithoutUserInput
+  referredBy?: Prisma.ClinicCreateNestedOneWithoutReferredUsersInput
 }
 
 export type UserUncheckedCreateWithoutUsageRecordsInput = {
@@ -4674,6 +4861,7 @@ export type UserUncheckedCreateWithoutUsageRecordsInput = {
   trialEndsAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  referredByEstheticianId?: string | null
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   analyses?: Prisma.SkinAnalysisUncheckedCreateNestedManyWithoutUserInput
@@ -4682,6 +4870,7 @@ export type UserUncheckedCreateWithoutUsageRecordsInput = {
   subscriptions?: Prisma.SubscriptionUncheckedCreateNestedManyWithoutUserInput
   purchasePacks?: Prisma.PurchasePackUncheckedCreateNestedManyWithoutUserInput
   clinic?: Prisma.ClinicUncheckedCreateNestedOneWithoutOwnerInput
+  clients?: Prisma.ClientUncheckedCreateNestedManyWithoutEstheticianInput
   surveyFeedback?: Prisma.SurveyFeedbackUncheckedCreateNestedManyWithoutUserInput
   communityPosts?: Prisma.CommunityPostUncheckedCreateNestedManyWithoutUserInput
   comments?: Prisma.CommentUncheckedCreateNestedManyWithoutUserInput
@@ -4761,6 +4950,7 @@ export type UserUpdateWithoutUsageRecordsInput = {
   subscriptions?: Prisma.SubscriptionUpdateManyWithoutUserNestedInput
   purchasePacks?: Prisma.PurchasePackUpdateManyWithoutUserNestedInput
   clinic?: Prisma.ClinicUpdateOneWithoutOwnerNestedInput
+  clients?: Prisma.ClientUpdateManyWithoutEstheticianNestedInput
   surveyFeedback?: Prisma.SurveyFeedbackUpdateManyWithoutUserNestedInput
   communityPosts?: Prisma.CommunityPostUpdateManyWithoutUserNestedInput
   comments?: Prisma.CommentUpdateManyWithoutUserNestedInput
@@ -4789,6 +4979,7 @@ export type UserUpdateWithoutUsageRecordsInput = {
   giftPacksBought?: Prisma.GiftPackUpdateManyWithoutBuyerNestedInput
   giftPacksRedeemed?: Prisma.GiftPackUpdateManyWithoutRedeemedByNestedInput
   reminders?: Prisma.UserReminderUpdateManyWithoutUserNestedInput
+  referredBy?: Prisma.ClinicUpdateOneWithoutReferredUsersNestedInput
 }
 
 export type UserUncheckedUpdateWithoutUsageRecordsInput = {
@@ -4816,6 +5007,7 @@ export type UserUncheckedUpdateWithoutUsageRecordsInput = {
   trialEndsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  referredByEstheticianId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   analyses?: Prisma.SkinAnalysisUncheckedUpdateManyWithoutUserNestedInput
@@ -4824,6 +5016,7 @@ export type UserUncheckedUpdateWithoutUsageRecordsInput = {
   subscriptions?: Prisma.SubscriptionUncheckedUpdateManyWithoutUserNestedInput
   purchasePacks?: Prisma.PurchasePackUncheckedUpdateManyWithoutUserNestedInput
   clinic?: Prisma.ClinicUncheckedUpdateOneWithoutOwnerNestedInput
+  clients?: Prisma.ClientUncheckedUpdateManyWithoutEstheticianNestedInput
   surveyFeedback?: Prisma.SurveyFeedbackUncheckedUpdateManyWithoutUserNestedInput
   communityPosts?: Prisma.CommunityPostUncheckedUpdateManyWithoutUserNestedInput
   comments?: Prisma.CommentUncheckedUpdateManyWithoutUserNestedInput
@@ -4887,6 +5080,7 @@ export type UserCreateWithoutClinicInput = {
   subscriptions?: Prisma.SubscriptionCreateNestedManyWithoutUserInput
   purchasePacks?: Prisma.PurchasePackCreateNestedManyWithoutUserInput
   usageRecords?: Prisma.UsageTrackingCreateNestedManyWithoutUserInput
+  clients?: Prisma.ClientCreateNestedManyWithoutEstheticianInput
   surveyFeedback?: Prisma.SurveyFeedbackCreateNestedManyWithoutUserInput
   communityPosts?: Prisma.CommunityPostCreateNestedManyWithoutUserInput
   comments?: Prisma.CommentCreateNestedManyWithoutUserInput
@@ -4915,6 +5109,7 @@ export type UserCreateWithoutClinicInput = {
   giftPacksBought?: Prisma.GiftPackCreateNestedManyWithoutBuyerInput
   giftPacksRedeemed?: Prisma.GiftPackCreateNestedManyWithoutRedeemedByInput
   reminders?: Prisma.UserReminderCreateNestedManyWithoutUserInput
+  referredBy?: Prisma.ClinicCreateNestedOneWithoutReferredUsersInput
 }
 
 export type UserUncheckedCreateWithoutClinicInput = {
@@ -4942,6 +5137,7 @@ export type UserUncheckedCreateWithoutClinicInput = {
   trialEndsAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  referredByEstheticianId?: string | null
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   analyses?: Prisma.SkinAnalysisUncheckedCreateNestedManyWithoutUserInput
@@ -4950,6 +5146,7 @@ export type UserUncheckedCreateWithoutClinicInput = {
   subscriptions?: Prisma.SubscriptionUncheckedCreateNestedManyWithoutUserInput
   purchasePacks?: Prisma.PurchasePackUncheckedCreateNestedManyWithoutUserInput
   usageRecords?: Prisma.UsageTrackingUncheckedCreateNestedManyWithoutUserInput
+  clients?: Prisma.ClientUncheckedCreateNestedManyWithoutEstheticianInput
   surveyFeedback?: Prisma.SurveyFeedbackUncheckedCreateNestedManyWithoutUserInput
   communityPosts?: Prisma.CommunityPostUncheckedCreateNestedManyWithoutUserInput
   comments?: Prisma.CommentUncheckedCreateNestedManyWithoutUserInput
@@ -4983,6 +5180,146 @@ export type UserUncheckedCreateWithoutClinicInput = {
 export type UserCreateOrConnectWithoutClinicInput = {
   where: Prisma.UserWhereUniqueInput
   create: Prisma.XOR<Prisma.UserCreateWithoutClinicInput, Prisma.UserUncheckedCreateWithoutClinicInput>
+}
+
+export type UserCreateWithoutReferredByInput = {
+  id?: string
+  name?: string | null
+  email: string
+  emailVerified?: Date | string | null
+  image?: string | null
+  password?: string | null
+  username?: string | null
+  role?: string
+  plan?: string
+  qvapayId?: string | null
+  analysisLimit?: number
+  analysisUsed?: number
+  analysisResetAt?: Date | string | null
+  telegramId?: string | null
+  telegramTrialStartedAt?: Date | string | null
+  isTelegramPremiumActive?: boolean
+  latitude?: number | null
+  longitude?: number | null
+  currentStreak?: number
+  maxStreak?: number
+  lastCheckInDate?: Date | string | null
+  trialEndsAt?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
+  sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
+  analyses?: Prisma.SkinAnalysisCreateNestedManyWithoutUserInput
+  analysisJobs?: Prisma.AnalysisJobCreateNestedManyWithoutUserInput
+  payments?: Prisma.PaymentCreateNestedManyWithoutUserInput
+  subscriptions?: Prisma.SubscriptionCreateNestedManyWithoutUserInput
+  purchasePacks?: Prisma.PurchasePackCreateNestedManyWithoutUserInput
+  usageRecords?: Prisma.UsageTrackingCreateNestedManyWithoutUserInput
+  clinic?: Prisma.ClinicCreateNestedOneWithoutOwnerInput
+  clients?: Prisma.ClientCreateNestedManyWithoutEstheticianInput
+  surveyFeedback?: Prisma.SurveyFeedbackCreateNestedManyWithoutUserInput
+  communityPosts?: Prisma.CommunityPostCreateNestedManyWithoutUserInput
+  comments?: Prisma.CommentCreateNestedManyWithoutUserInput
+  skinDiary?: Prisma.SkinDiaryCreateNestedManyWithoutUserInput
+  userChallenges?: Prisma.UserChallengeCreateNestedManyWithoutUserInput
+  productReviews?: Prisma.ProductReviewCreateNestedManyWithoutUserInput
+  referralsOwned?: Prisma.ReferralCreateNestedManyWithoutReferrerInput
+  referralsReferred?: Prisma.ReferralCreateNestedManyWithoutReferredInput
+  groupsOwned?: Prisma.GroupAnalyticsCreateNestedManyWithoutReferrerInput
+  digitalPurchases?: Prisma.DigitalProductPurchaseCreateNestedManyWithoutUserInput
+  affiliateClicks?: Prisma.AffiliateClickCreateNestedManyWithoutUserInput
+  evolution?: Prisma.UserEvolutionCreateNestedOneWithoutUserInput
+  checkIns?: Prisma.DailyCheckInCreateNestedManyWithoutUserInput
+  transferPayments?: Prisma.TransferPaymentCreateNestedManyWithoutUserInput
+  validatedTransfers?: Prisma.TransferPaymentCreateNestedManyWithoutValidatorInput
+  activatedTransfers?: Prisma.TransferPaymentCreateNestedManyWithoutActivatorInput
+  auditLogs?: Prisma.AuditLogCreateNestedManyWithoutUserInput
+  notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
+  supportTickets?: Prisma.SupportTicketCreateNestedManyWithoutUserInput
+  ticketResponses?: Prisma.SupportTicketResponseCreateNestedManyWithoutUserInput
+  chatMessages?: Prisma.ChatMessageCreateNestedManyWithoutUserInput
+  contactMessages?: Prisma.ContactMessageCreateNestedManyWithoutUserInput
+  communityGroups?: Prisma.CommunityGroupCreateNestedManyWithoutCreatorInput
+  communityMemberships?: Prisma.CommunityMemberCreateNestedManyWithoutUserInput
+  postReactions?: Prisma.PostReactionCreateNestedManyWithoutUserInput
+  giftPacksBought?: Prisma.GiftPackCreateNestedManyWithoutBuyerInput
+  giftPacksRedeemed?: Prisma.GiftPackCreateNestedManyWithoutRedeemedByInput
+  reminders?: Prisma.UserReminderCreateNestedManyWithoutUserInput
+}
+
+export type UserUncheckedCreateWithoutReferredByInput = {
+  id?: string
+  name?: string | null
+  email: string
+  emailVerified?: Date | string | null
+  image?: string | null
+  password?: string | null
+  username?: string | null
+  role?: string
+  plan?: string
+  qvapayId?: string | null
+  analysisLimit?: number
+  analysisUsed?: number
+  analysisResetAt?: Date | string | null
+  telegramId?: string | null
+  telegramTrialStartedAt?: Date | string | null
+  isTelegramPremiumActive?: boolean
+  latitude?: number | null
+  longitude?: number | null
+  currentStreak?: number
+  maxStreak?: number
+  lastCheckInDate?: Date | string | null
+  trialEndsAt?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
+  sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
+  analyses?: Prisma.SkinAnalysisUncheckedCreateNestedManyWithoutUserInput
+  analysisJobs?: Prisma.AnalysisJobUncheckedCreateNestedManyWithoutUserInput
+  payments?: Prisma.PaymentUncheckedCreateNestedManyWithoutUserInput
+  subscriptions?: Prisma.SubscriptionUncheckedCreateNestedManyWithoutUserInput
+  purchasePacks?: Prisma.PurchasePackUncheckedCreateNestedManyWithoutUserInput
+  usageRecords?: Prisma.UsageTrackingUncheckedCreateNestedManyWithoutUserInput
+  clinic?: Prisma.ClinicUncheckedCreateNestedOneWithoutOwnerInput
+  clients?: Prisma.ClientUncheckedCreateNestedManyWithoutEstheticianInput
+  surveyFeedback?: Prisma.SurveyFeedbackUncheckedCreateNestedManyWithoutUserInput
+  communityPosts?: Prisma.CommunityPostUncheckedCreateNestedManyWithoutUserInput
+  comments?: Prisma.CommentUncheckedCreateNestedManyWithoutUserInput
+  skinDiary?: Prisma.SkinDiaryUncheckedCreateNestedManyWithoutUserInput
+  userChallenges?: Prisma.UserChallengeUncheckedCreateNestedManyWithoutUserInput
+  productReviews?: Prisma.ProductReviewUncheckedCreateNestedManyWithoutUserInput
+  referralsOwned?: Prisma.ReferralUncheckedCreateNestedManyWithoutReferrerInput
+  referralsReferred?: Prisma.ReferralUncheckedCreateNestedManyWithoutReferredInput
+  groupsOwned?: Prisma.GroupAnalyticsUncheckedCreateNestedManyWithoutReferrerInput
+  digitalPurchases?: Prisma.DigitalProductPurchaseUncheckedCreateNestedManyWithoutUserInput
+  affiliateClicks?: Prisma.AffiliateClickUncheckedCreateNestedManyWithoutUserInput
+  evolution?: Prisma.UserEvolutionUncheckedCreateNestedOneWithoutUserInput
+  checkIns?: Prisma.DailyCheckInUncheckedCreateNestedManyWithoutUserInput
+  transferPayments?: Prisma.TransferPaymentUncheckedCreateNestedManyWithoutUserInput
+  validatedTransfers?: Prisma.TransferPaymentUncheckedCreateNestedManyWithoutValidatorInput
+  activatedTransfers?: Prisma.TransferPaymentUncheckedCreateNestedManyWithoutActivatorInput
+  auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutUserInput
+  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
+  supportTickets?: Prisma.SupportTicketUncheckedCreateNestedManyWithoutUserInput
+  ticketResponses?: Prisma.SupportTicketResponseUncheckedCreateNestedManyWithoutUserInput
+  chatMessages?: Prisma.ChatMessageUncheckedCreateNestedManyWithoutUserInput
+  contactMessages?: Prisma.ContactMessageUncheckedCreateNestedManyWithoutUserInput
+  communityGroups?: Prisma.CommunityGroupUncheckedCreateNestedManyWithoutCreatorInput
+  communityMemberships?: Prisma.CommunityMemberUncheckedCreateNestedManyWithoutUserInput
+  postReactions?: Prisma.PostReactionUncheckedCreateNestedManyWithoutUserInput
+  giftPacksBought?: Prisma.GiftPackUncheckedCreateNestedManyWithoutBuyerInput
+  giftPacksRedeemed?: Prisma.GiftPackUncheckedCreateNestedManyWithoutRedeemedByInput
+  reminders?: Prisma.UserReminderUncheckedCreateNestedManyWithoutUserInput
+}
+
+export type UserCreateOrConnectWithoutReferredByInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutReferredByInput, Prisma.UserUncheckedCreateWithoutReferredByInput>
+}
+
+export type UserCreateManyReferredByInputEnvelope = {
+  data: Prisma.UserCreateManyReferredByInput | Prisma.UserCreateManyReferredByInput[]
+  skipDuplicates?: boolean
 }
 
 export type UserUpsertWithoutClinicInput = {
@@ -5029,6 +5366,7 @@ export type UserUpdateWithoutClinicInput = {
   subscriptions?: Prisma.SubscriptionUpdateManyWithoutUserNestedInput
   purchasePacks?: Prisma.PurchasePackUpdateManyWithoutUserNestedInput
   usageRecords?: Prisma.UsageTrackingUpdateManyWithoutUserNestedInput
+  clients?: Prisma.ClientUpdateManyWithoutEstheticianNestedInput
   surveyFeedback?: Prisma.SurveyFeedbackUpdateManyWithoutUserNestedInput
   communityPosts?: Prisma.CommunityPostUpdateManyWithoutUserNestedInput
   comments?: Prisma.CommentUpdateManyWithoutUserNestedInput
@@ -5057,6 +5395,7 @@ export type UserUpdateWithoutClinicInput = {
   giftPacksBought?: Prisma.GiftPackUpdateManyWithoutBuyerNestedInput
   giftPacksRedeemed?: Prisma.GiftPackUpdateManyWithoutRedeemedByNestedInput
   reminders?: Prisma.UserReminderUpdateManyWithoutUserNestedInput
+  referredBy?: Prisma.ClinicUpdateOneWithoutReferredUsersNestedInput
 }
 
 export type UserUncheckedUpdateWithoutClinicInput = {
@@ -5084,6 +5423,7 @@ export type UserUncheckedUpdateWithoutClinicInput = {
   trialEndsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  referredByEstheticianId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   analyses?: Prisma.SkinAnalysisUncheckedUpdateManyWithoutUserNestedInput
@@ -5092,6 +5432,7 @@ export type UserUncheckedUpdateWithoutClinicInput = {
   subscriptions?: Prisma.SubscriptionUncheckedUpdateManyWithoutUserNestedInput
   purchasePacks?: Prisma.PurchasePackUncheckedUpdateManyWithoutUserNestedInput
   usageRecords?: Prisma.UsageTrackingUncheckedUpdateManyWithoutUserNestedInput
+  clients?: Prisma.ClientUncheckedUpdateManyWithoutEstheticianNestedInput
   surveyFeedback?: Prisma.SurveyFeedbackUncheckedUpdateManyWithoutUserNestedInput
   communityPosts?: Prisma.CommunityPostUncheckedUpdateManyWithoutUserNestedInput
   comments?: Prisma.CommentUncheckedUpdateManyWithoutUserNestedInput
@@ -5120,6 +5461,53 @@ export type UserUncheckedUpdateWithoutClinicInput = {
   giftPacksBought?: Prisma.GiftPackUncheckedUpdateManyWithoutBuyerNestedInput
   giftPacksRedeemed?: Prisma.GiftPackUncheckedUpdateManyWithoutRedeemedByNestedInput
   reminders?: Prisma.UserReminderUncheckedUpdateManyWithoutUserNestedInput
+}
+
+export type UserUpsertWithWhereUniqueWithoutReferredByInput = {
+  where: Prisma.UserWhereUniqueInput
+  update: Prisma.XOR<Prisma.UserUpdateWithoutReferredByInput, Prisma.UserUncheckedUpdateWithoutReferredByInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutReferredByInput, Prisma.UserUncheckedCreateWithoutReferredByInput>
+}
+
+export type UserUpdateWithWhereUniqueWithoutReferredByInput = {
+  where: Prisma.UserWhereUniqueInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutReferredByInput, Prisma.UserUncheckedUpdateWithoutReferredByInput>
+}
+
+export type UserUpdateManyWithWhereWithoutReferredByInput = {
+  where: Prisma.UserScalarWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateManyMutationInput, Prisma.UserUncheckedUpdateManyWithoutReferredByInput>
+}
+
+export type UserScalarWhereInput = {
+  AND?: Prisma.UserScalarWhereInput | Prisma.UserScalarWhereInput[]
+  OR?: Prisma.UserScalarWhereInput[]
+  NOT?: Prisma.UserScalarWhereInput | Prisma.UserScalarWhereInput[]
+  id?: Prisma.StringFilter<"User"> | string
+  name?: Prisma.StringNullableFilter<"User"> | string | null
+  email?: Prisma.StringFilter<"User"> | string
+  emailVerified?: Prisma.DateTimeNullableFilter<"User"> | Date | string | null
+  image?: Prisma.StringNullableFilter<"User"> | string | null
+  password?: Prisma.StringNullableFilter<"User"> | string | null
+  username?: Prisma.StringNullableFilter<"User"> | string | null
+  role?: Prisma.StringFilter<"User"> | string
+  plan?: Prisma.StringFilter<"User"> | string
+  qvapayId?: Prisma.StringNullableFilter<"User"> | string | null
+  analysisLimit?: Prisma.IntFilter<"User"> | number
+  analysisUsed?: Prisma.IntFilter<"User"> | number
+  analysisResetAt?: Prisma.DateTimeNullableFilter<"User"> | Date | string | null
+  telegramId?: Prisma.StringNullableFilter<"User"> | string | null
+  telegramTrialStartedAt?: Prisma.DateTimeNullableFilter<"User"> | Date | string | null
+  isTelegramPremiumActive?: Prisma.BoolFilter<"User"> | boolean
+  latitude?: Prisma.FloatNullableFilter<"User"> | number | null
+  longitude?: Prisma.FloatNullableFilter<"User"> | number | null
+  currentStreak?: Prisma.IntFilter<"User"> | number
+  maxStreak?: Prisma.IntFilter<"User"> | number
+  lastCheckInDate?: Prisma.DateTimeNullableFilter<"User"> | Date | string | null
+  trialEndsAt?: Prisma.DateTimeNullableFilter<"User"> | Date | string | null
+  createdAt?: Prisma.DateTimeFilter<"User"> | Date | string
+  updatedAt?: Prisma.DateTimeFilter<"User"> | Date | string
+  referredByEstheticianId?: Prisma.StringNullableFilter<"User"> | string | null
 }
 
 export type UserCreateWithoutAffiliateClicksInput = {
@@ -5156,6 +5544,7 @@ export type UserCreateWithoutAffiliateClicksInput = {
   purchasePacks?: Prisma.PurchasePackCreateNestedManyWithoutUserInput
   usageRecords?: Prisma.UsageTrackingCreateNestedManyWithoutUserInput
   clinic?: Prisma.ClinicCreateNestedOneWithoutOwnerInput
+  clients?: Prisma.ClientCreateNestedManyWithoutEstheticianInput
   surveyFeedback?: Prisma.SurveyFeedbackCreateNestedManyWithoutUserInput
   communityPosts?: Prisma.CommunityPostCreateNestedManyWithoutUserInput
   comments?: Prisma.CommentCreateNestedManyWithoutUserInput
@@ -5183,6 +5572,7 @@ export type UserCreateWithoutAffiliateClicksInput = {
   giftPacksBought?: Prisma.GiftPackCreateNestedManyWithoutBuyerInput
   giftPacksRedeemed?: Prisma.GiftPackCreateNestedManyWithoutRedeemedByInput
   reminders?: Prisma.UserReminderCreateNestedManyWithoutUserInput
+  referredBy?: Prisma.ClinicCreateNestedOneWithoutReferredUsersInput
 }
 
 export type UserUncheckedCreateWithoutAffiliateClicksInput = {
@@ -5210,6 +5600,7 @@ export type UserUncheckedCreateWithoutAffiliateClicksInput = {
   trialEndsAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  referredByEstheticianId?: string | null
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   analyses?: Prisma.SkinAnalysisUncheckedCreateNestedManyWithoutUserInput
@@ -5219,6 +5610,7 @@ export type UserUncheckedCreateWithoutAffiliateClicksInput = {
   purchasePacks?: Prisma.PurchasePackUncheckedCreateNestedManyWithoutUserInput
   usageRecords?: Prisma.UsageTrackingUncheckedCreateNestedManyWithoutUserInput
   clinic?: Prisma.ClinicUncheckedCreateNestedOneWithoutOwnerInput
+  clients?: Prisma.ClientUncheckedCreateNestedManyWithoutEstheticianInput
   surveyFeedback?: Prisma.SurveyFeedbackUncheckedCreateNestedManyWithoutUserInput
   communityPosts?: Prisma.CommunityPostUncheckedCreateNestedManyWithoutUserInput
   comments?: Prisma.CommentUncheckedCreateNestedManyWithoutUserInput
@@ -5298,6 +5690,7 @@ export type UserUpdateWithoutAffiliateClicksInput = {
   purchasePacks?: Prisma.PurchasePackUpdateManyWithoutUserNestedInput
   usageRecords?: Prisma.UsageTrackingUpdateManyWithoutUserNestedInput
   clinic?: Prisma.ClinicUpdateOneWithoutOwnerNestedInput
+  clients?: Prisma.ClientUpdateManyWithoutEstheticianNestedInput
   surveyFeedback?: Prisma.SurveyFeedbackUpdateManyWithoutUserNestedInput
   communityPosts?: Prisma.CommunityPostUpdateManyWithoutUserNestedInput
   comments?: Prisma.CommentUpdateManyWithoutUserNestedInput
@@ -5325,6 +5718,7 @@ export type UserUpdateWithoutAffiliateClicksInput = {
   giftPacksBought?: Prisma.GiftPackUpdateManyWithoutBuyerNestedInput
   giftPacksRedeemed?: Prisma.GiftPackUpdateManyWithoutRedeemedByNestedInput
   reminders?: Prisma.UserReminderUpdateManyWithoutUserNestedInput
+  referredBy?: Prisma.ClinicUpdateOneWithoutReferredUsersNestedInput
 }
 
 export type UserUncheckedUpdateWithoutAffiliateClicksInput = {
@@ -5352,6 +5746,7 @@ export type UserUncheckedUpdateWithoutAffiliateClicksInput = {
   trialEndsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  referredByEstheticianId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   analyses?: Prisma.SkinAnalysisUncheckedUpdateManyWithoutUserNestedInput
@@ -5361,6 +5756,7 @@ export type UserUncheckedUpdateWithoutAffiliateClicksInput = {
   purchasePacks?: Prisma.PurchasePackUncheckedUpdateManyWithoutUserNestedInput
   usageRecords?: Prisma.UsageTrackingUncheckedUpdateManyWithoutUserNestedInput
   clinic?: Prisma.ClinicUncheckedUpdateOneWithoutOwnerNestedInput
+  clients?: Prisma.ClientUncheckedUpdateManyWithoutEstheticianNestedInput
   surveyFeedback?: Prisma.SurveyFeedbackUncheckedUpdateManyWithoutUserNestedInput
   communityPosts?: Prisma.CommunityPostUncheckedUpdateManyWithoutUserNestedInput
   comments?: Prisma.CommentUncheckedUpdateManyWithoutUserNestedInput
@@ -5424,6 +5820,7 @@ export type UserCreateWithoutContactMessagesInput = {
   purchasePacks?: Prisma.PurchasePackCreateNestedManyWithoutUserInput
   usageRecords?: Prisma.UsageTrackingCreateNestedManyWithoutUserInput
   clinic?: Prisma.ClinicCreateNestedOneWithoutOwnerInput
+  clients?: Prisma.ClientCreateNestedManyWithoutEstheticianInput
   surveyFeedback?: Prisma.SurveyFeedbackCreateNestedManyWithoutUserInput
   communityPosts?: Prisma.CommunityPostCreateNestedManyWithoutUserInput
   comments?: Prisma.CommentCreateNestedManyWithoutUserInput
@@ -5451,6 +5848,7 @@ export type UserCreateWithoutContactMessagesInput = {
   giftPacksBought?: Prisma.GiftPackCreateNestedManyWithoutBuyerInput
   giftPacksRedeemed?: Prisma.GiftPackCreateNestedManyWithoutRedeemedByInput
   reminders?: Prisma.UserReminderCreateNestedManyWithoutUserInput
+  referredBy?: Prisma.ClinicCreateNestedOneWithoutReferredUsersInput
 }
 
 export type UserUncheckedCreateWithoutContactMessagesInput = {
@@ -5478,6 +5876,7 @@ export type UserUncheckedCreateWithoutContactMessagesInput = {
   trialEndsAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  referredByEstheticianId?: string | null
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   analyses?: Prisma.SkinAnalysisUncheckedCreateNestedManyWithoutUserInput
@@ -5487,6 +5886,7 @@ export type UserUncheckedCreateWithoutContactMessagesInput = {
   purchasePacks?: Prisma.PurchasePackUncheckedCreateNestedManyWithoutUserInput
   usageRecords?: Prisma.UsageTrackingUncheckedCreateNestedManyWithoutUserInput
   clinic?: Prisma.ClinicUncheckedCreateNestedOneWithoutOwnerInput
+  clients?: Prisma.ClientUncheckedCreateNestedManyWithoutEstheticianInput
   surveyFeedback?: Prisma.SurveyFeedbackUncheckedCreateNestedManyWithoutUserInput
   communityPosts?: Prisma.CommunityPostUncheckedCreateNestedManyWithoutUserInput
   comments?: Prisma.CommentUncheckedCreateNestedManyWithoutUserInput
@@ -5566,6 +5966,7 @@ export type UserUpdateWithoutContactMessagesInput = {
   purchasePacks?: Prisma.PurchasePackUpdateManyWithoutUserNestedInput
   usageRecords?: Prisma.UsageTrackingUpdateManyWithoutUserNestedInput
   clinic?: Prisma.ClinicUpdateOneWithoutOwnerNestedInput
+  clients?: Prisma.ClientUpdateManyWithoutEstheticianNestedInput
   surveyFeedback?: Prisma.SurveyFeedbackUpdateManyWithoutUserNestedInput
   communityPosts?: Prisma.CommunityPostUpdateManyWithoutUserNestedInput
   comments?: Prisma.CommentUpdateManyWithoutUserNestedInput
@@ -5593,6 +5994,7 @@ export type UserUpdateWithoutContactMessagesInput = {
   giftPacksBought?: Prisma.GiftPackUpdateManyWithoutBuyerNestedInput
   giftPacksRedeemed?: Prisma.GiftPackUpdateManyWithoutRedeemedByNestedInput
   reminders?: Prisma.UserReminderUpdateManyWithoutUserNestedInput
+  referredBy?: Prisma.ClinicUpdateOneWithoutReferredUsersNestedInput
 }
 
 export type UserUncheckedUpdateWithoutContactMessagesInput = {
@@ -5620,6 +6022,7 @@ export type UserUncheckedUpdateWithoutContactMessagesInput = {
   trialEndsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  referredByEstheticianId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   analyses?: Prisma.SkinAnalysisUncheckedUpdateManyWithoutUserNestedInput
@@ -5629,6 +6032,7 @@ export type UserUncheckedUpdateWithoutContactMessagesInput = {
   purchasePacks?: Prisma.PurchasePackUncheckedUpdateManyWithoutUserNestedInput
   usageRecords?: Prisma.UsageTrackingUncheckedUpdateManyWithoutUserNestedInput
   clinic?: Prisma.ClinicUncheckedUpdateOneWithoutOwnerNestedInput
+  clients?: Prisma.ClientUncheckedUpdateManyWithoutEstheticianNestedInput
   surveyFeedback?: Prisma.SurveyFeedbackUncheckedUpdateManyWithoutUserNestedInput
   communityPosts?: Prisma.CommunityPostUncheckedUpdateManyWithoutUserNestedInput
   comments?: Prisma.CommentUncheckedUpdateManyWithoutUserNestedInput
@@ -5692,6 +6096,7 @@ export type UserCreateWithoutEvolutionInput = {
   purchasePacks?: Prisma.PurchasePackCreateNestedManyWithoutUserInput
   usageRecords?: Prisma.UsageTrackingCreateNestedManyWithoutUserInput
   clinic?: Prisma.ClinicCreateNestedOneWithoutOwnerInput
+  clients?: Prisma.ClientCreateNestedManyWithoutEstheticianInput
   surveyFeedback?: Prisma.SurveyFeedbackCreateNestedManyWithoutUserInput
   communityPosts?: Prisma.CommunityPostCreateNestedManyWithoutUserInput
   comments?: Prisma.CommentCreateNestedManyWithoutUserInput
@@ -5719,6 +6124,7 @@ export type UserCreateWithoutEvolutionInput = {
   giftPacksBought?: Prisma.GiftPackCreateNestedManyWithoutBuyerInput
   giftPacksRedeemed?: Prisma.GiftPackCreateNestedManyWithoutRedeemedByInput
   reminders?: Prisma.UserReminderCreateNestedManyWithoutUserInput
+  referredBy?: Prisma.ClinicCreateNestedOneWithoutReferredUsersInput
 }
 
 export type UserUncheckedCreateWithoutEvolutionInput = {
@@ -5746,6 +6152,7 @@ export type UserUncheckedCreateWithoutEvolutionInput = {
   trialEndsAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  referredByEstheticianId?: string | null
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   analyses?: Prisma.SkinAnalysisUncheckedCreateNestedManyWithoutUserInput
@@ -5755,6 +6162,7 @@ export type UserUncheckedCreateWithoutEvolutionInput = {
   purchasePacks?: Prisma.PurchasePackUncheckedCreateNestedManyWithoutUserInput
   usageRecords?: Prisma.UsageTrackingUncheckedCreateNestedManyWithoutUserInput
   clinic?: Prisma.ClinicUncheckedCreateNestedOneWithoutOwnerInput
+  clients?: Prisma.ClientUncheckedCreateNestedManyWithoutEstheticianInput
   surveyFeedback?: Prisma.SurveyFeedbackUncheckedCreateNestedManyWithoutUserInput
   communityPosts?: Prisma.CommunityPostUncheckedCreateNestedManyWithoutUserInput
   comments?: Prisma.CommentUncheckedCreateNestedManyWithoutUserInput
@@ -5834,6 +6242,7 @@ export type UserUpdateWithoutEvolutionInput = {
   purchasePacks?: Prisma.PurchasePackUpdateManyWithoutUserNestedInput
   usageRecords?: Prisma.UsageTrackingUpdateManyWithoutUserNestedInput
   clinic?: Prisma.ClinicUpdateOneWithoutOwnerNestedInput
+  clients?: Prisma.ClientUpdateManyWithoutEstheticianNestedInput
   surveyFeedback?: Prisma.SurveyFeedbackUpdateManyWithoutUserNestedInput
   communityPosts?: Prisma.CommunityPostUpdateManyWithoutUserNestedInput
   comments?: Prisma.CommentUpdateManyWithoutUserNestedInput
@@ -5861,6 +6270,7 @@ export type UserUpdateWithoutEvolutionInput = {
   giftPacksBought?: Prisma.GiftPackUpdateManyWithoutBuyerNestedInput
   giftPacksRedeemed?: Prisma.GiftPackUpdateManyWithoutRedeemedByNestedInput
   reminders?: Prisma.UserReminderUpdateManyWithoutUserNestedInput
+  referredBy?: Prisma.ClinicUpdateOneWithoutReferredUsersNestedInput
 }
 
 export type UserUncheckedUpdateWithoutEvolutionInput = {
@@ -5888,6 +6298,7 @@ export type UserUncheckedUpdateWithoutEvolutionInput = {
   trialEndsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  referredByEstheticianId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   analyses?: Prisma.SkinAnalysisUncheckedUpdateManyWithoutUserNestedInput
@@ -5897,6 +6308,7 @@ export type UserUncheckedUpdateWithoutEvolutionInput = {
   purchasePacks?: Prisma.PurchasePackUncheckedUpdateManyWithoutUserNestedInput
   usageRecords?: Prisma.UsageTrackingUncheckedUpdateManyWithoutUserNestedInput
   clinic?: Prisma.ClinicUncheckedUpdateOneWithoutOwnerNestedInput
+  clients?: Prisma.ClientUncheckedUpdateManyWithoutEstheticianNestedInput
   surveyFeedback?: Prisma.SurveyFeedbackUncheckedUpdateManyWithoutUserNestedInput
   communityPosts?: Prisma.CommunityPostUncheckedUpdateManyWithoutUserNestedInput
   comments?: Prisma.CommentUncheckedUpdateManyWithoutUserNestedInput
@@ -5960,6 +6372,7 @@ export type UserCreateWithoutSurveyFeedbackInput = {
   purchasePacks?: Prisma.PurchasePackCreateNestedManyWithoutUserInput
   usageRecords?: Prisma.UsageTrackingCreateNestedManyWithoutUserInput
   clinic?: Prisma.ClinicCreateNestedOneWithoutOwnerInput
+  clients?: Prisma.ClientCreateNestedManyWithoutEstheticianInput
   communityPosts?: Prisma.CommunityPostCreateNestedManyWithoutUserInput
   comments?: Prisma.CommentCreateNestedManyWithoutUserInput
   skinDiary?: Prisma.SkinDiaryCreateNestedManyWithoutUserInput
@@ -5987,6 +6400,7 @@ export type UserCreateWithoutSurveyFeedbackInput = {
   giftPacksBought?: Prisma.GiftPackCreateNestedManyWithoutBuyerInput
   giftPacksRedeemed?: Prisma.GiftPackCreateNestedManyWithoutRedeemedByInput
   reminders?: Prisma.UserReminderCreateNestedManyWithoutUserInput
+  referredBy?: Prisma.ClinicCreateNestedOneWithoutReferredUsersInput
 }
 
 export type UserUncheckedCreateWithoutSurveyFeedbackInput = {
@@ -6014,6 +6428,7 @@ export type UserUncheckedCreateWithoutSurveyFeedbackInput = {
   trialEndsAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  referredByEstheticianId?: string | null
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   analyses?: Prisma.SkinAnalysisUncheckedCreateNestedManyWithoutUserInput
@@ -6023,6 +6438,7 @@ export type UserUncheckedCreateWithoutSurveyFeedbackInput = {
   purchasePacks?: Prisma.PurchasePackUncheckedCreateNestedManyWithoutUserInput
   usageRecords?: Prisma.UsageTrackingUncheckedCreateNestedManyWithoutUserInput
   clinic?: Prisma.ClinicUncheckedCreateNestedOneWithoutOwnerInput
+  clients?: Prisma.ClientUncheckedCreateNestedManyWithoutEstheticianInput
   communityPosts?: Prisma.CommunityPostUncheckedCreateNestedManyWithoutUserInput
   comments?: Prisma.CommentUncheckedCreateNestedManyWithoutUserInput
   skinDiary?: Prisma.SkinDiaryUncheckedCreateNestedManyWithoutUserInput
@@ -6102,6 +6518,7 @@ export type UserUpdateWithoutSurveyFeedbackInput = {
   purchasePacks?: Prisma.PurchasePackUpdateManyWithoutUserNestedInput
   usageRecords?: Prisma.UsageTrackingUpdateManyWithoutUserNestedInput
   clinic?: Prisma.ClinicUpdateOneWithoutOwnerNestedInput
+  clients?: Prisma.ClientUpdateManyWithoutEstheticianNestedInput
   communityPosts?: Prisma.CommunityPostUpdateManyWithoutUserNestedInput
   comments?: Prisma.CommentUpdateManyWithoutUserNestedInput
   skinDiary?: Prisma.SkinDiaryUpdateManyWithoutUserNestedInput
@@ -6129,6 +6546,7 @@ export type UserUpdateWithoutSurveyFeedbackInput = {
   giftPacksBought?: Prisma.GiftPackUpdateManyWithoutBuyerNestedInput
   giftPacksRedeemed?: Prisma.GiftPackUpdateManyWithoutRedeemedByNestedInput
   reminders?: Prisma.UserReminderUpdateManyWithoutUserNestedInput
+  referredBy?: Prisma.ClinicUpdateOneWithoutReferredUsersNestedInput
 }
 
 export type UserUncheckedUpdateWithoutSurveyFeedbackInput = {
@@ -6156,6 +6574,7 @@ export type UserUncheckedUpdateWithoutSurveyFeedbackInput = {
   trialEndsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  referredByEstheticianId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   analyses?: Prisma.SkinAnalysisUncheckedUpdateManyWithoutUserNestedInput
@@ -6165,6 +6584,7 @@ export type UserUncheckedUpdateWithoutSurveyFeedbackInput = {
   purchasePacks?: Prisma.PurchasePackUncheckedUpdateManyWithoutUserNestedInput
   usageRecords?: Prisma.UsageTrackingUncheckedUpdateManyWithoutUserNestedInput
   clinic?: Prisma.ClinicUncheckedUpdateOneWithoutOwnerNestedInput
+  clients?: Prisma.ClientUncheckedUpdateManyWithoutEstheticianNestedInput
   communityPosts?: Prisma.CommunityPostUncheckedUpdateManyWithoutUserNestedInput
   comments?: Prisma.CommentUncheckedUpdateManyWithoutUserNestedInput
   skinDiary?: Prisma.SkinDiaryUncheckedUpdateManyWithoutUserNestedInput
@@ -6228,6 +6648,7 @@ export type UserCreateWithoutCommunityPostsInput = {
   purchasePacks?: Prisma.PurchasePackCreateNestedManyWithoutUserInput
   usageRecords?: Prisma.UsageTrackingCreateNestedManyWithoutUserInput
   clinic?: Prisma.ClinicCreateNestedOneWithoutOwnerInput
+  clients?: Prisma.ClientCreateNestedManyWithoutEstheticianInput
   surveyFeedback?: Prisma.SurveyFeedbackCreateNestedManyWithoutUserInput
   comments?: Prisma.CommentCreateNestedManyWithoutUserInput
   skinDiary?: Prisma.SkinDiaryCreateNestedManyWithoutUserInput
@@ -6255,6 +6676,7 @@ export type UserCreateWithoutCommunityPostsInput = {
   giftPacksBought?: Prisma.GiftPackCreateNestedManyWithoutBuyerInput
   giftPacksRedeemed?: Prisma.GiftPackCreateNestedManyWithoutRedeemedByInput
   reminders?: Prisma.UserReminderCreateNestedManyWithoutUserInput
+  referredBy?: Prisma.ClinicCreateNestedOneWithoutReferredUsersInput
 }
 
 export type UserUncheckedCreateWithoutCommunityPostsInput = {
@@ -6282,6 +6704,7 @@ export type UserUncheckedCreateWithoutCommunityPostsInput = {
   trialEndsAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  referredByEstheticianId?: string | null
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   analyses?: Prisma.SkinAnalysisUncheckedCreateNestedManyWithoutUserInput
@@ -6291,6 +6714,7 @@ export type UserUncheckedCreateWithoutCommunityPostsInput = {
   purchasePacks?: Prisma.PurchasePackUncheckedCreateNestedManyWithoutUserInput
   usageRecords?: Prisma.UsageTrackingUncheckedCreateNestedManyWithoutUserInput
   clinic?: Prisma.ClinicUncheckedCreateNestedOneWithoutOwnerInput
+  clients?: Prisma.ClientUncheckedCreateNestedManyWithoutEstheticianInput
   surveyFeedback?: Prisma.SurveyFeedbackUncheckedCreateNestedManyWithoutUserInput
   comments?: Prisma.CommentUncheckedCreateNestedManyWithoutUserInput
   skinDiary?: Prisma.SkinDiaryUncheckedCreateNestedManyWithoutUserInput
@@ -6370,6 +6794,7 @@ export type UserUpdateWithoutCommunityPostsInput = {
   purchasePacks?: Prisma.PurchasePackUpdateManyWithoutUserNestedInput
   usageRecords?: Prisma.UsageTrackingUpdateManyWithoutUserNestedInput
   clinic?: Prisma.ClinicUpdateOneWithoutOwnerNestedInput
+  clients?: Prisma.ClientUpdateManyWithoutEstheticianNestedInput
   surveyFeedback?: Prisma.SurveyFeedbackUpdateManyWithoutUserNestedInput
   comments?: Prisma.CommentUpdateManyWithoutUserNestedInput
   skinDiary?: Prisma.SkinDiaryUpdateManyWithoutUserNestedInput
@@ -6397,6 +6822,7 @@ export type UserUpdateWithoutCommunityPostsInput = {
   giftPacksBought?: Prisma.GiftPackUpdateManyWithoutBuyerNestedInput
   giftPacksRedeemed?: Prisma.GiftPackUpdateManyWithoutRedeemedByNestedInput
   reminders?: Prisma.UserReminderUpdateManyWithoutUserNestedInput
+  referredBy?: Prisma.ClinicUpdateOneWithoutReferredUsersNestedInput
 }
 
 export type UserUncheckedUpdateWithoutCommunityPostsInput = {
@@ -6424,6 +6850,7 @@ export type UserUncheckedUpdateWithoutCommunityPostsInput = {
   trialEndsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  referredByEstheticianId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   analyses?: Prisma.SkinAnalysisUncheckedUpdateManyWithoutUserNestedInput
@@ -6433,6 +6860,7 @@ export type UserUncheckedUpdateWithoutCommunityPostsInput = {
   purchasePacks?: Prisma.PurchasePackUncheckedUpdateManyWithoutUserNestedInput
   usageRecords?: Prisma.UsageTrackingUncheckedUpdateManyWithoutUserNestedInput
   clinic?: Prisma.ClinicUncheckedUpdateOneWithoutOwnerNestedInput
+  clients?: Prisma.ClientUncheckedUpdateManyWithoutEstheticianNestedInput
   surveyFeedback?: Prisma.SurveyFeedbackUncheckedUpdateManyWithoutUserNestedInput
   comments?: Prisma.CommentUncheckedUpdateManyWithoutUserNestedInput
   skinDiary?: Prisma.SkinDiaryUncheckedUpdateManyWithoutUserNestedInput
@@ -6496,6 +6924,7 @@ export type UserCreateWithoutCommentsInput = {
   purchasePacks?: Prisma.PurchasePackCreateNestedManyWithoutUserInput
   usageRecords?: Prisma.UsageTrackingCreateNestedManyWithoutUserInput
   clinic?: Prisma.ClinicCreateNestedOneWithoutOwnerInput
+  clients?: Prisma.ClientCreateNestedManyWithoutEstheticianInput
   surveyFeedback?: Prisma.SurveyFeedbackCreateNestedManyWithoutUserInput
   communityPosts?: Prisma.CommunityPostCreateNestedManyWithoutUserInput
   skinDiary?: Prisma.SkinDiaryCreateNestedManyWithoutUserInput
@@ -6523,6 +6952,7 @@ export type UserCreateWithoutCommentsInput = {
   giftPacksBought?: Prisma.GiftPackCreateNestedManyWithoutBuyerInput
   giftPacksRedeemed?: Prisma.GiftPackCreateNestedManyWithoutRedeemedByInput
   reminders?: Prisma.UserReminderCreateNestedManyWithoutUserInput
+  referredBy?: Prisma.ClinicCreateNestedOneWithoutReferredUsersInput
 }
 
 export type UserUncheckedCreateWithoutCommentsInput = {
@@ -6550,6 +6980,7 @@ export type UserUncheckedCreateWithoutCommentsInput = {
   trialEndsAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  referredByEstheticianId?: string | null
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   analyses?: Prisma.SkinAnalysisUncheckedCreateNestedManyWithoutUserInput
@@ -6559,6 +6990,7 @@ export type UserUncheckedCreateWithoutCommentsInput = {
   purchasePacks?: Prisma.PurchasePackUncheckedCreateNestedManyWithoutUserInput
   usageRecords?: Prisma.UsageTrackingUncheckedCreateNestedManyWithoutUserInput
   clinic?: Prisma.ClinicUncheckedCreateNestedOneWithoutOwnerInput
+  clients?: Prisma.ClientUncheckedCreateNestedManyWithoutEstheticianInput
   surveyFeedback?: Prisma.SurveyFeedbackUncheckedCreateNestedManyWithoutUserInput
   communityPosts?: Prisma.CommunityPostUncheckedCreateNestedManyWithoutUserInput
   skinDiary?: Prisma.SkinDiaryUncheckedCreateNestedManyWithoutUserInput
@@ -6638,6 +7070,7 @@ export type UserUpdateWithoutCommentsInput = {
   purchasePacks?: Prisma.PurchasePackUpdateManyWithoutUserNestedInput
   usageRecords?: Prisma.UsageTrackingUpdateManyWithoutUserNestedInput
   clinic?: Prisma.ClinicUpdateOneWithoutOwnerNestedInput
+  clients?: Prisma.ClientUpdateManyWithoutEstheticianNestedInput
   surveyFeedback?: Prisma.SurveyFeedbackUpdateManyWithoutUserNestedInput
   communityPosts?: Prisma.CommunityPostUpdateManyWithoutUserNestedInput
   skinDiary?: Prisma.SkinDiaryUpdateManyWithoutUserNestedInput
@@ -6665,6 +7098,7 @@ export type UserUpdateWithoutCommentsInput = {
   giftPacksBought?: Prisma.GiftPackUpdateManyWithoutBuyerNestedInput
   giftPacksRedeemed?: Prisma.GiftPackUpdateManyWithoutRedeemedByNestedInput
   reminders?: Prisma.UserReminderUpdateManyWithoutUserNestedInput
+  referredBy?: Prisma.ClinicUpdateOneWithoutReferredUsersNestedInput
 }
 
 export type UserUncheckedUpdateWithoutCommentsInput = {
@@ -6692,6 +7126,7 @@ export type UserUncheckedUpdateWithoutCommentsInput = {
   trialEndsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  referredByEstheticianId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   analyses?: Prisma.SkinAnalysisUncheckedUpdateManyWithoutUserNestedInput
@@ -6701,6 +7136,7 @@ export type UserUncheckedUpdateWithoutCommentsInput = {
   purchasePacks?: Prisma.PurchasePackUncheckedUpdateManyWithoutUserNestedInput
   usageRecords?: Prisma.UsageTrackingUncheckedUpdateManyWithoutUserNestedInput
   clinic?: Prisma.ClinicUncheckedUpdateOneWithoutOwnerNestedInput
+  clients?: Prisma.ClientUncheckedUpdateManyWithoutEstheticianNestedInput
   surveyFeedback?: Prisma.SurveyFeedbackUncheckedUpdateManyWithoutUserNestedInput
   communityPosts?: Prisma.CommunityPostUncheckedUpdateManyWithoutUserNestedInput
   skinDiary?: Prisma.SkinDiaryUncheckedUpdateManyWithoutUserNestedInput
@@ -6764,6 +7200,7 @@ export type UserCreateWithoutCommunityGroupsInput = {
   purchasePacks?: Prisma.PurchasePackCreateNestedManyWithoutUserInput
   usageRecords?: Prisma.UsageTrackingCreateNestedManyWithoutUserInput
   clinic?: Prisma.ClinicCreateNestedOneWithoutOwnerInput
+  clients?: Prisma.ClientCreateNestedManyWithoutEstheticianInput
   surveyFeedback?: Prisma.SurveyFeedbackCreateNestedManyWithoutUserInput
   communityPosts?: Prisma.CommunityPostCreateNestedManyWithoutUserInput
   comments?: Prisma.CommentCreateNestedManyWithoutUserInput
@@ -6791,6 +7228,7 @@ export type UserCreateWithoutCommunityGroupsInput = {
   giftPacksBought?: Prisma.GiftPackCreateNestedManyWithoutBuyerInput
   giftPacksRedeemed?: Prisma.GiftPackCreateNestedManyWithoutRedeemedByInput
   reminders?: Prisma.UserReminderCreateNestedManyWithoutUserInput
+  referredBy?: Prisma.ClinicCreateNestedOneWithoutReferredUsersInput
 }
 
 export type UserUncheckedCreateWithoutCommunityGroupsInput = {
@@ -6818,6 +7256,7 @@ export type UserUncheckedCreateWithoutCommunityGroupsInput = {
   trialEndsAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  referredByEstheticianId?: string | null
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   analyses?: Prisma.SkinAnalysisUncheckedCreateNestedManyWithoutUserInput
@@ -6827,6 +7266,7 @@ export type UserUncheckedCreateWithoutCommunityGroupsInput = {
   purchasePacks?: Prisma.PurchasePackUncheckedCreateNestedManyWithoutUserInput
   usageRecords?: Prisma.UsageTrackingUncheckedCreateNestedManyWithoutUserInput
   clinic?: Prisma.ClinicUncheckedCreateNestedOneWithoutOwnerInput
+  clients?: Prisma.ClientUncheckedCreateNestedManyWithoutEstheticianInput
   surveyFeedback?: Prisma.SurveyFeedbackUncheckedCreateNestedManyWithoutUserInput
   communityPosts?: Prisma.CommunityPostUncheckedCreateNestedManyWithoutUserInput
   comments?: Prisma.CommentUncheckedCreateNestedManyWithoutUserInput
@@ -6906,6 +7346,7 @@ export type UserUpdateWithoutCommunityGroupsInput = {
   purchasePacks?: Prisma.PurchasePackUpdateManyWithoutUserNestedInput
   usageRecords?: Prisma.UsageTrackingUpdateManyWithoutUserNestedInput
   clinic?: Prisma.ClinicUpdateOneWithoutOwnerNestedInput
+  clients?: Prisma.ClientUpdateManyWithoutEstheticianNestedInput
   surveyFeedback?: Prisma.SurveyFeedbackUpdateManyWithoutUserNestedInput
   communityPosts?: Prisma.CommunityPostUpdateManyWithoutUserNestedInput
   comments?: Prisma.CommentUpdateManyWithoutUserNestedInput
@@ -6933,6 +7374,7 @@ export type UserUpdateWithoutCommunityGroupsInput = {
   giftPacksBought?: Prisma.GiftPackUpdateManyWithoutBuyerNestedInput
   giftPacksRedeemed?: Prisma.GiftPackUpdateManyWithoutRedeemedByNestedInput
   reminders?: Prisma.UserReminderUpdateManyWithoutUserNestedInput
+  referredBy?: Prisma.ClinicUpdateOneWithoutReferredUsersNestedInput
 }
 
 export type UserUncheckedUpdateWithoutCommunityGroupsInput = {
@@ -6960,6 +7402,7 @@ export type UserUncheckedUpdateWithoutCommunityGroupsInput = {
   trialEndsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  referredByEstheticianId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   analyses?: Prisma.SkinAnalysisUncheckedUpdateManyWithoutUserNestedInput
@@ -6969,6 +7412,7 @@ export type UserUncheckedUpdateWithoutCommunityGroupsInput = {
   purchasePacks?: Prisma.PurchasePackUncheckedUpdateManyWithoutUserNestedInput
   usageRecords?: Prisma.UsageTrackingUncheckedUpdateManyWithoutUserNestedInput
   clinic?: Prisma.ClinicUncheckedUpdateOneWithoutOwnerNestedInput
+  clients?: Prisma.ClientUncheckedUpdateManyWithoutEstheticianNestedInput
   surveyFeedback?: Prisma.SurveyFeedbackUncheckedUpdateManyWithoutUserNestedInput
   communityPosts?: Prisma.CommunityPostUncheckedUpdateManyWithoutUserNestedInput
   comments?: Prisma.CommentUncheckedUpdateManyWithoutUserNestedInput
@@ -7032,6 +7476,7 @@ export type UserCreateWithoutCommunityMembershipsInput = {
   purchasePacks?: Prisma.PurchasePackCreateNestedManyWithoutUserInput
   usageRecords?: Prisma.UsageTrackingCreateNestedManyWithoutUserInput
   clinic?: Prisma.ClinicCreateNestedOneWithoutOwnerInput
+  clients?: Prisma.ClientCreateNestedManyWithoutEstheticianInput
   surveyFeedback?: Prisma.SurveyFeedbackCreateNestedManyWithoutUserInput
   communityPosts?: Prisma.CommunityPostCreateNestedManyWithoutUserInput
   comments?: Prisma.CommentCreateNestedManyWithoutUserInput
@@ -7059,6 +7504,7 @@ export type UserCreateWithoutCommunityMembershipsInput = {
   giftPacksBought?: Prisma.GiftPackCreateNestedManyWithoutBuyerInput
   giftPacksRedeemed?: Prisma.GiftPackCreateNestedManyWithoutRedeemedByInput
   reminders?: Prisma.UserReminderCreateNestedManyWithoutUserInput
+  referredBy?: Prisma.ClinicCreateNestedOneWithoutReferredUsersInput
 }
 
 export type UserUncheckedCreateWithoutCommunityMembershipsInput = {
@@ -7086,6 +7532,7 @@ export type UserUncheckedCreateWithoutCommunityMembershipsInput = {
   trialEndsAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  referredByEstheticianId?: string | null
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   analyses?: Prisma.SkinAnalysisUncheckedCreateNestedManyWithoutUserInput
@@ -7095,6 +7542,7 @@ export type UserUncheckedCreateWithoutCommunityMembershipsInput = {
   purchasePacks?: Prisma.PurchasePackUncheckedCreateNestedManyWithoutUserInput
   usageRecords?: Prisma.UsageTrackingUncheckedCreateNestedManyWithoutUserInput
   clinic?: Prisma.ClinicUncheckedCreateNestedOneWithoutOwnerInput
+  clients?: Prisma.ClientUncheckedCreateNestedManyWithoutEstheticianInput
   surveyFeedback?: Prisma.SurveyFeedbackUncheckedCreateNestedManyWithoutUserInput
   communityPosts?: Prisma.CommunityPostUncheckedCreateNestedManyWithoutUserInput
   comments?: Prisma.CommentUncheckedCreateNestedManyWithoutUserInput
@@ -7174,6 +7622,7 @@ export type UserUpdateWithoutCommunityMembershipsInput = {
   purchasePacks?: Prisma.PurchasePackUpdateManyWithoutUserNestedInput
   usageRecords?: Prisma.UsageTrackingUpdateManyWithoutUserNestedInput
   clinic?: Prisma.ClinicUpdateOneWithoutOwnerNestedInput
+  clients?: Prisma.ClientUpdateManyWithoutEstheticianNestedInput
   surveyFeedback?: Prisma.SurveyFeedbackUpdateManyWithoutUserNestedInput
   communityPosts?: Prisma.CommunityPostUpdateManyWithoutUserNestedInput
   comments?: Prisma.CommentUpdateManyWithoutUserNestedInput
@@ -7201,6 +7650,7 @@ export type UserUpdateWithoutCommunityMembershipsInput = {
   giftPacksBought?: Prisma.GiftPackUpdateManyWithoutBuyerNestedInput
   giftPacksRedeemed?: Prisma.GiftPackUpdateManyWithoutRedeemedByNestedInput
   reminders?: Prisma.UserReminderUpdateManyWithoutUserNestedInput
+  referredBy?: Prisma.ClinicUpdateOneWithoutReferredUsersNestedInput
 }
 
 export type UserUncheckedUpdateWithoutCommunityMembershipsInput = {
@@ -7228,6 +7678,7 @@ export type UserUncheckedUpdateWithoutCommunityMembershipsInput = {
   trialEndsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  referredByEstheticianId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   analyses?: Prisma.SkinAnalysisUncheckedUpdateManyWithoutUserNestedInput
@@ -7237,6 +7688,7 @@ export type UserUncheckedUpdateWithoutCommunityMembershipsInput = {
   purchasePacks?: Prisma.PurchasePackUncheckedUpdateManyWithoutUserNestedInput
   usageRecords?: Prisma.UsageTrackingUncheckedUpdateManyWithoutUserNestedInput
   clinic?: Prisma.ClinicUncheckedUpdateOneWithoutOwnerNestedInput
+  clients?: Prisma.ClientUncheckedUpdateManyWithoutEstheticianNestedInput
   surveyFeedback?: Prisma.SurveyFeedbackUncheckedUpdateManyWithoutUserNestedInput
   communityPosts?: Prisma.CommunityPostUncheckedUpdateManyWithoutUserNestedInput
   comments?: Prisma.CommentUncheckedUpdateManyWithoutUserNestedInput
@@ -7300,6 +7752,7 @@ export type UserCreateWithoutPostReactionsInput = {
   purchasePacks?: Prisma.PurchasePackCreateNestedManyWithoutUserInput
   usageRecords?: Prisma.UsageTrackingCreateNestedManyWithoutUserInput
   clinic?: Prisma.ClinicCreateNestedOneWithoutOwnerInput
+  clients?: Prisma.ClientCreateNestedManyWithoutEstheticianInput
   surveyFeedback?: Prisma.SurveyFeedbackCreateNestedManyWithoutUserInput
   communityPosts?: Prisma.CommunityPostCreateNestedManyWithoutUserInput
   comments?: Prisma.CommentCreateNestedManyWithoutUserInput
@@ -7327,6 +7780,7 @@ export type UserCreateWithoutPostReactionsInput = {
   giftPacksBought?: Prisma.GiftPackCreateNestedManyWithoutBuyerInput
   giftPacksRedeemed?: Prisma.GiftPackCreateNestedManyWithoutRedeemedByInput
   reminders?: Prisma.UserReminderCreateNestedManyWithoutUserInput
+  referredBy?: Prisma.ClinicCreateNestedOneWithoutReferredUsersInput
 }
 
 export type UserUncheckedCreateWithoutPostReactionsInput = {
@@ -7354,6 +7808,7 @@ export type UserUncheckedCreateWithoutPostReactionsInput = {
   trialEndsAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  referredByEstheticianId?: string | null
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   analyses?: Prisma.SkinAnalysisUncheckedCreateNestedManyWithoutUserInput
@@ -7363,6 +7818,7 @@ export type UserUncheckedCreateWithoutPostReactionsInput = {
   purchasePacks?: Prisma.PurchasePackUncheckedCreateNestedManyWithoutUserInput
   usageRecords?: Prisma.UsageTrackingUncheckedCreateNestedManyWithoutUserInput
   clinic?: Prisma.ClinicUncheckedCreateNestedOneWithoutOwnerInput
+  clients?: Prisma.ClientUncheckedCreateNestedManyWithoutEstheticianInput
   surveyFeedback?: Prisma.SurveyFeedbackUncheckedCreateNestedManyWithoutUserInput
   communityPosts?: Prisma.CommunityPostUncheckedCreateNestedManyWithoutUserInput
   comments?: Prisma.CommentUncheckedCreateNestedManyWithoutUserInput
@@ -7442,6 +7898,7 @@ export type UserUpdateWithoutPostReactionsInput = {
   purchasePacks?: Prisma.PurchasePackUpdateManyWithoutUserNestedInput
   usageRecords?: Prisma.UsageTrackingUpdateManyWithoutUserNestedInput
   clinic?: Prisma.ClinicUpdateOneWithoutOwnerNestedInput
+  clients?: Prisma.ClientUpdateManyWithoutEstheticianNestedInput
   surveyFeedback?: Prisma.SurveyFeedbackUpdateManyWithoutUserNestedInput
   communityPosts?: Prisma.CommunityPostUpdateManyWithoutUserNestedInput
   comments?: Prisma.CommentUpdateManyWithoutUserNestedInput
@@ -7469,6 +7926,7 @@ export type UserUpdateWithoutPostReactionsInput = {
   giftPacksBought?: Prisma.GiftPackUpdateManyWithoutBuyerNestedInput
   giftPacksRedeemed?: Prisma.GiftPackUpdateManyWithoutRedeemedByNestedInput
   reminders?: Prisma.UserReminderUpdateManyWithoutUserNestedInput
+  referredBy?: Prisma.ClinicUpdateOneWithoutReferredUsersNestedInput
 }
 
 export type UserUncheckedUpdateWithoutPostReactionsInput = {
@@ -7496,6 +7954,7 @@ export type UserUncheckedUpdateWithoutPostReactionsInput = {
   trialEndsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  referredByEstheticianId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   analyses?: Prisma.SkinAnalysisUncheckedUpdateManyWithoutUserNestedInput
@@ -7505,6 +7964,7 @@ export type UserUncheckedUpdateWithoutPostReactionsInput = {
   purchasePacks?: Prisma.PurchasePackUncheckedUpdateManyWithoutUserNestedInput
   usageRecords?: Prisma.UsageTrackingUncheckedUpdateManyWithoutUserNestedInput
   clinic?: Prisma.ClinicUncheckedUpdateOneWithoutOwnerNestedInput
+  clients?: Prisma.ClientUncheckedUpdateManyWithoutEstheticianNestedInput
   surveyFeedback?: Prisma.SurveyFeedbackUncheckedUpdateManyWithoutUserNestedInput
   communityPosts?: Prisma.CommunityPostUncheckedUpdateManyWithoutUserNestedInput
   comments?: Prisma.CommentUncheckedUpdateManyWithoutUserNestedInput
@@ -7568,6 +8028,7 @@ export type UserCreateWithoutSkinDiaryInput = {
   purchasePacks?: Prisma.PurchasePackCreateNestedManyWithoutUserInput
   usageRecords?: Prisma.UsageTrackingCreateNestedManyWithoutUserInput
   clinic?: Prisma.ClinicCreateNestedOneWithoutOwnerInput
+  clients?: Prisma.ClientCreateNestedManyWithoutEstheticianInput
   surveyFeedback?: Prisma.SurveyFeedbackCreateNestedManyWithoutUserInput
   communityPosts?: Prisma.CommunityPostCreateNestedManyWithoutUserInput
   comments?: Prisma.CommentCreateNestedManyWithoutUserInput
@@ -7595,6 +8056,7 @@ export type UserCreateWithoutSkinDiaryInput = {
   giftPacksBought?: Prisma.GiftPackCreateNestedManyWithoutBuyerInput
   giftPacksRedeemed?: Prisma.GiftPackCreateNestedManyWithoutRedeemedByInput
   reminders?: Prisma.UserReminderCreateNestedManyWithoutUserInput
+  referredBy?: Prisma.ClinicCreateNestedOneWithoutReferredUsersInput
 }
 
 export type UserUncheckedCreateWithoutSkinDiaryInput = {
@@ -7622,6 +8084,7 @@ export type UserUncheckedCreateWithoutSkinDiaryInput = {
   trialEndsAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  referredByEstheticianId?: string | null
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   analyses?: Prisma.SkinAnalysisUncheckedCreateNestedManyWithoutUserInput
@@ -7631,6 +8094,7 @@ export type UserUncheckedCreateWithoutSkinDiaryInput = {
   purchasePacks?: Prisma.PurchasePackUncheckedCreateNestedManyWithoutUserInput
   usageRecords?: Prisma.UsageTrackingUncheckedCreateNestedManyWithoutUserInput
   clinic?: Prisma.ClinicUncheckedCreateNestedOneWithoutOwnerInput
+  clients?: Prisma.ClientUncheckedCreateNestedManyWithoutEstheticianInput
   surveyFeedback?: Prisma.SurveyFeedbackUncheckedCreateNestedManyWithoutUserInput
   communityPosts?: Prisma.CommunityPostUncheckedCreateNestedManyWithoutUserInput
   comments?: Prisma.CommentUncheckedCreateNestedManyWithoutUserInput
@@ -7710,6 +8174,7 @@ export type UserUpdateWithoutSkinDiaryInput = {
   purchasePacks?: Prisma.PurchasePackUpdateManyWithoutUserNestedInput
   usageRecords?: Prisma.UsageTrackingUpdateManyWithoutUserNestedInput
   clinic?: Prisma.ClinicUpdateOneWithoutOwnerNestedInput
+  clients?: Prisma.ClientUpdateManyWithoutEstheticianNestedInput
   surveyFeedback?: Prisma.SurveyFeedbackUpdateManyWithoutUserNestedInput
   communityPosts?: Prisma.CommunityPostUpdateManyWithoutUserNestedInput
   comments?: Prisma.CommentUpdateManyWithoutUserNestedInput
@@ -7737,6 +8202,7 @@ export type UserUpdateWithoutSkinDiaryInput = {
   giftPacksBought?: Prisma.GiftPackUpdateManyWithoutBuyerNestedInput
   giftPacksRedeemed?: Prisma.GiftPackUpdateManyWithoutRedeemedByNestedInput
   reminders?: Prisma.UserReminderUpdateManyWithoutUserNestedInput
+  referredBy?: Prisma.ClinicUpdateOneWithoutReferredUsersNestedInput
 }
 
 export type UserUncheckedUpdateWithoutSkinDiaryInput = {
@@ -7764,6 +8230,7 @@ export type UserUncheckedUpdateWithoutSkinDiaryInput = {
   trialEndsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  referredByEstheticianId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   analyses?: Prisma.SkinAnalysisUncheckedUpdateManyWithoutUserNestedInput
@@ -7773,6 +8240,7 @@ export type UserUncheckedUpdateWithoutSkinDiaryInput = {
   purchasePacks?: Prisma.PurchasePackUncheckedUpdateManyWithoutUserNestedInput
   usageRecords?: Prisma.UsageTrackingUncheckedUpdateManyWithoutUserNestedInput
   clinic?: Prisma.ClinicUncheckedUpdateOneWithoutOwnerNestedInput
+  clients?: Prisma.ClientUncheckedUpdateManyWithoutEstheticianNestedInput
   surveyFeedback?: Prisma.SurveyFeedbackUncheckedUpdateManyWithoutUserNestedInput
   communityPosts?: Prisma.CommunityPostUncheckedUpdateManyWithoutUserNestedInput
   comments?: Prisma.CommentUncheckedUpdateManyWithoutUserNestedInput
@@ -7836,6 +8304,7 @@ export type UserCreateWithoutUserChallengesInput = {
   purchasePacks?: Prisma.PurchasePackCreateNestedManyWithoutUserInput
   usageRecords?: Prisma.UsageTrackingCreateNestedManyWithoutUserInput
   clinic?: Prisma.ClinicCreateNestedOneWithoutOwnerInput
+  clients?: Prisma.ClientCreateNestedManyWithoutEstheticianInput
   surveyFeedback?: Prisma.SurveyFeedbackCreateNestedManyWithoutUserInput
   communityPosts?: Prisma.CommunityPostCreateNestedManyWithoutUserInput
   comments?: Prisma.CommentCreateNestedManyWithoutUserInput
@@ -7863,6 +8332,7 @@ export type UserCreateWithoutUserChallengesInput = {
   giftPacksBought?: Prisma.GiftPackCreateNestedManyWithoutBuyerInput
   giftPacksRedeemed?: Prisma.GiftPackCreateNestedManyWithoutRedeemedByInput
   reminders?: Prisma.UserReminderCreateNestedManyWithoutUserInput
+  referredBy?: Prisma.ClinicCreateNestedOneWithoutReferredUsersInput
 }
 
 export type UserUncheckedCreateWithoutUserChallengesInput = {
@@ -7890,6 +8360,7 @@ export type UserUncheckedCreateWithoutUserChallengesInput = {
   trialEndsAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  referredByEstheticianId?: string | null
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   analyses?: Prisma.SkinAnalysisUncheckedCreateNestedManyWithoutUserInput
@@ -7899,6 +8370,7 @@ export type UserUncheckedCreateWithoutUserChallengesInput = {
   purchasePacks?: Prisma.PurchasePackUncheckedCreateNestedManyWithoutUserInput
   usageRecords?: Prisma.UsageTrackingUncheckedCreateNestedManyWithoutUserInput
   clinic?: Prisma.ClinicUncheckedCreateNestedOneWithoutOwnerInput
+  clients?: Prisma.ClientUncheckedCreateNestedManyWithoutEstheticianInput
   surveyFeedback?: Prisma.SurveyFeedbackUncheckedCreateNestedManyWithoutUserInput
   communityPosts?: Prisma.CommunityPostUncheckedCreateNestedManyWithoutUserInput
   comments?: Prisma.CommentUncheckedCreateNestedManyWithoutUserInput
@@ -7978,6 +8450,7 @@ export type UserUpdateWithoutUserChallengesInput = {
   purchasePacks?: Prisma.PurchasePackUpdateManyWithoutUserNestedInput
   usageRecords?: Prisma.UsageTrackingUpdateManyWithoutUserNestedInput
   clinic?: Prisma.ClinicUpdateOneWithoutOwnerNestedInput
+  clients?: Prisma.ClientUpdateManyWithoutEstheticianNestedInput
   surveyFeedback?: Prisma.SurveyFeedbackUpdateManyWithoutUserNestedInput
   communityPosts?: Prisma.CommunityPostUpdateManyWithoutUserNestedInput
   comments?: Prisma.CommentUpdateManyWithoutUserNestedInput
@@ -8005,6 +8478,7 @@ export type UserUpdateWithoutUserChallengesInput = {
   giftPacksBought?: Prisma.GiftPackUpdateManyWithoutBuyerNestedInput
   giftPacksRedeemed?: Prisma.GiftPackUpdateManyWithoutRedeemedByNestedInput
   reminders?: Prisma.UserReminderUpdateManyWithoutUserNestedInput
+  referredBy?: Prisma.ClinicUpdateOneWithoutReferredUsersNestedInput
 }
 
 export type UserUncheckedUpdateWithoutUserChallengesInput = {
@@ -8032,6 +8506,7 @@ export type UserUncheckedUpdateWithoutUserChallengesInput = {
   trialEndsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  referredByEstheticianId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   analyses?: Prisma.SkinAnalysisUncheckedUpdateManyWithoutUserNestedInput
@@ -8041,6 +8516,7 @@ export type UserUncheckedUpdateWithoutUserChallengesInput = {
   purchasePacks?: Prisma.PurchasePackUncheckedUpdateManyWithoutUserNestedInput
   usageRecords?: Prisma.UsageTrackingUncheckedUpdateManyWithoutUserNestedInput
   clinic?: Prisma.ClinicUncheckedUpdateOneWithoutOwnerNestedInput
+  clients?: Prisma.ClientUncheckedUpdateManyWithoutEstheticianNestedInput
   surveyFeedback?: Prisma.SurveyFeedbackUncheckedUpdateManyWithoutUserNestedInput
   communityPosts?: Prisma.CommunityPostUncheckedUpdateManyWithoutUserNestedInput
   comments?: Prisma.CommentUncheckedUpdateManyWithoutUserNestedInput
@@ -8104,6 +8580,7 @@ export type UserCreateWithoutProductReviewsInput = {
   purchasePacks?: Prisma.PurchasePackCreateNestedManyWithoutUserInput
   usageRecords?: Prisma.UsageTrackingCreateNestedManyWithoutUserInput
   clinic?: Prisma.ClinicCreateNestedOneWithoutOwnerInput
+  clients?: Prisma.ClientCreateNestedManyWithoutEstheticianInput
   surveyFeedback?: Prisma.SurveyFeedbackCreateNestedManyWithoutUserInput
   communityPosts?: Prisma.CommunityPostCreateNestedManyWithoutUserInput
   comments?: Prisma.CommentCreateNestedManyWithoutUserInput
@@ -8131,6 +8608,7 @@ export type UserCreateWithoutProductReviewsInput = {
   giftPacksBought?: Prisma.GiftPackCreateNestedManyWithoutBuyerInput
   giftPacksRedeemed?: Prisma.GiftPackCreateNestedManyWithoutRedeemedByInput
   reminders?: Prisma.UserReminderCreateNestedManyWithoutUserInput
+  referredBy?: Prisma.ClinicCreateNestedOneWithoutReferredUsersInput
 }
 
 export type UserUncheckedCreateWithoutProductReviewsInput = {
@@ -8158,6 +8636,7 @@ export type UserUncheckedCreateWithoutProductReviewsInput = {
   trialEndsAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  referredByEstheticianId?: string | null
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   analyses?: Prisma.SkinAnalysisUncheckedCreateNestedManyWithoutUserInput
@@ -8167,6 +8646,7 @@ export type UserUncheckedCreateWithoutProductReviewsInput = {
   purchasePacks?: Prisma.PurchasePackUncheckedCreateNestedManyWithoutUserInput
   usageRecords?: Prisma.UsageTrackingUncheckedCreateNestedManyWithoutUserInput
   clinic?: Prisma.ClinicUncheckedCreateNestedOneWithoutOwnerInput
+  clients?: Prisma.ClientUncheckedCreateNestedManyWithoutEstheticianInput
   surveyFeedback?: Prisma.SurveyFeedbackUncheckedCreateNestedManyWithoutUserInput
   communityPosts?: Prisma.CommunityPostUncheckedCreateNestedManyWithoutUserInput
   comments?: Prisma.CommentUncheckedCreateNestedManyWithoutUserInput
@@ -8246,6 +8726,7 @@ export type UserUpdateWithoutProductReviewsInput = {
   purchasePacks?: Prisma.PurchasePackUpdateManyWithoutUserNestedInput
   usageRecords?: Prisma.UsageTrackingUpdateManyWithoutUserNestedInput
   clinic?: Prisma.ClinicUpdateOneWithoutOwnerNestedInput
+  clients?: Prisma.ClientUpdateManyWithoutEstheticianNestedInput
   surveyFeedback?: Prisma.SurveyFeedbackUpdateManyWithoutUserNestedInput
   communityPosts?: Prisma.CommunityPostUpdateManyWithoutUserNestedInput
   comments?: Prisma.CommentUpdateManyWithoutUserNestedInput
@@ -8273,6 +8754,7 @@ export type UserUpdateWithoutProductReviewsInput = {
   giftPacksBought?: Prisma.GiftPackUpdateManyWithoutBuyerNestedInput
   giftPacksRedeemed?: Prisma.GiftPackUpdateManyWithoutRedeemedByNestedInput
   reminders?: Prisma.UserReminderUpdateManyWithoutUserNestedInput
+  referredBy?: Prisma.ClinicUpdateOneWithoutReferredUsersNestedInput
 }
 
 export type UserUncheckedUpdateWithoutProductReviewsInput = {
@@ -8300,6 +8782,7 @@ export type UserUncheckedUpdateWithoutProductReviewsInput = {
   trialEndsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  referredByEstheticianId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   analyses?: Prisma.SkinAnalysisUncheckedUpdateManyWithoutUserNestedInput
@@ -8309,6 +8792,7 @@ export type UserUncheckedUpdateWithoutProductReviewsInput = {
   purchasePacks?: Prisma.PurchasePackUncheckedUpdateManyWithoutUserNestedInput
   usageRecords?: Prisma.UsageTrackingUncheckedUpdateManyWithoutUserNestedInput
   clinic?: Prisma.ClinicUncheckedUpdateOneWithoutOwnerNestedInput
+  clients?: Prisma.ClientUncheckedUpdateManyWithoutEstheticianNestedInput
   surveyFeedback?: Prisma.SurveyFeedbackUncheckedUpdateManyWithoutUserNestedInput
   communityPosts?: Prisma.CommunityPostUncheckedUpdateManyWithoutUserNestedInput
   comments?: Prisma.CommentUncheckedUpdateManyWithoutUserNestedInput
@@ -8372,6 +8856,7 @@ export type UserCreateWithoutGroupsOwnedInput = {
   purchasePacks?: Prisma.PurchasePackCreateNestedManyWithoutUserInput
   usageRecords?: Prisma.UsageTrackingCreateNestedManyWithoutUserInput
   clinic?: Prisma.ClinicCreateNestedOneWithoutOwnerInput
+  clients?: Prisma.ClientCreateNestedManyWithoutEstheticianInput
   surveyFeedback?: Prisma.SurveyFeedbackCreateNestedManyWithoutUserInput
   communityPosts?: Prisma.CommunityPostCreateNestedManyWithoutUserInput
   comments?: Prisma.CommentCreateNestedManyWithoutUserInput
@@ -8399,6 +8884,7 @@ export type UserCreateWithoutGroupsOwnedInput = {
   giftPacksBought?: Prisma.GiftPackCreateNestedManyWithoutBuyerInput
   giftPacksRedeemed?: Prisma.GiftPackCreateNestedManyWithoutRedeemedByInput
   reminders?: Prisma.UserReminderCreateNestedManyWithoutUserInput
+  referredBy?: Prisma.ClinicCreateNestedOneWithoutReferredUsersInput
 }
 
 export type UserUncheckedCreateWithoutGroupsOwnedInput = {
@@ -8426,6 +8912,7 @@ export type UserUncheckedCreateWithoutGroupsOwnedInput = {
   trialEndsAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  referredByEstheticianId?: string | null
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   analyses?: Prisma.SkinAnalysisUncheckedCreateNestedManyWithoutUserInput
@@ -8435,6 +8922,7 @@ export type UserUncheckedCreateWithoutGroupsOwnedInput = {
   purchasePacks?: Prisma.PurchasePackUncheckedCreateNestedManyWithoutUserInput
   usageRecords?: Prisma.UsageTrackingUncheckedCreateNestedManyWithoutUserInput
   clinic?: Prisma.ClinicUncheckedCreateNestedOneWithoutOwnerInput
+  clients?: Prisma.ClientUncheckedCreateNestedManyWithoutEstheticianInput
   surveyFeedback?: Prisma.SurveyFeedbackUncheckedCreateNestedManyWithoutUserInput
   communityPosts?: Prisma.CommunityPostUncheckedCreateNestedManyWithoutUserInput
   comments?: Prisma.CommentUncheckedCreateNestedManyWithoutUserInput
@@ -8514,6 +9002,7 @@ export type UserUpdateWithoutGroupsOwnedInput = {
   purchasePacks?: Prisma.PurchasePackUpdateManyWithoutUserNestedInput
   usageRecords?: Prisma.UsageTrackingUpdateManyWithoutUserNestedInput
   clinic?: Prisma.ClinicUpdateOneWithoutOwnerNestedInput
+  clients?: Prisma.ClientUpdateManyWithoutEstheticianNestedInput
   surveyFeedback?: Prisma.SurveyFeedbackUpdateManyWithoutUserNestedInput
   communityPosts?: Prisma.CommunityPostUpdateManyWithoutUserNestedInput
   comments?: Prisma.CommentUpdateManyWithoutUserNestedInput
@@ -8541,6 +9030,7 @@ export type UserUpdateWithoutGroupsOwnedInput = {
   giftPacksBought?: Prisma.GiftPackUpdateManyWithoutBuyerNestedInput
   giftPacksRedeemed?: Prisma.GiftPackUpdateManyWithoutRedeemedByNestedInput
   reminders?: Prisma.UserReminderUpdateManyWithoutUserNestedInput
+  referredBy?: Prisma.ClinicUpdateOneWithoutReferredUsersNestedInput
 }
 
 export type UserUncheckedUpdateWithoutGroupsOwnedInput = {
@@ -8568,6 +9058,7 @@ export type UserUncheckedUpdateWithoutGroupsOwnedInput = {
   trialEndsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  referredByEstheticianId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   analyses?: Prisma.SkinAnalysisUncheckedUpdateManyWithoutUserNestedInput
@@ -8577,6 +9068,7 @@ export type UserUncheckedUpdateWithoutGroupsOwnedInput = {
   purchasePacks?: Prisma.PurchasePackUncheckedUpdateManyWithoutUserNestedInput
   usageRecords?: Prisma.UsageTrackingUncheckedUpdateManyWithoutUserNestedInput
   clinic?: Prisma.ClinicUncheckedUpdateOneWithoutOwnerNestedInput
+  clients?: Prisma.ClientUncheckedUpdateManyWithoutEstheticianNestedInput
   surveyFeedback?: Prisma.SurveyFeedbackUncheckedUpdateManyWithoutUserNestedInput
   communityPosts?: Prisma.CommunityPostUncheckedUpdateManyWithoutUserNestedInput
   comments?: Prisma.CommentUncheckedUpdateManyWithoutUserNestedInput
@@ -8640,6 +9132,7 @@ export type UserCreateWithoutReferralsOwnedInput = {
   purchasePacks?: Prisma.PurchasePackCreateNestedManyWithoutUserInput
   usageRecords?: Prisma.UsageTrackingCreateNestedManyWithoutUserInput
   clinic?: Prisma.ClinicCreateNestedOneWithoutOwnerInput
+  clients?: Prisma.ClientCreateNestedManyWithoutEstheticianInput
   surveyFeedback?: Prisma.SurveyFeedbackCreateNestedManyWithoutUserInput
   communityPosts?: Prisma.CommunityPostCreateNestedManyWithoutUserInput
   comments?: Prisma.CommentCreateNestedManyWithoutUserInput
@@ -8667,6 +9160,7 @@ export type UserCreateWithoutReferralsOwnedInput = {
   giftPacksBought?: Prisma.GiftPackCreateNestedManyWithoutBuyerInput
   giftPacksRedeemed?: Prisma.GiftPackCreateNestedManyWithoutRedeemedByInput
   reminders?: Prisma.UserReminderCreateNestedManyWithoutUserInput
+  referredBy?: Prisma.ClinicCreateNestedOneWithoutReferredUsersInput
 }
 
 export type UserUncheckedCreateWithoutReferralsOwnedInput = {
@@ -8694,6 +9188,7 @@ export type UserUncheckedCreateWithoutReferralsOwnedInput = {
   trialEndsAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  referredByEstheticianId?: string | null
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   analyses?: Prisma.SkinAnalysisUncheckedCreateNestedManyWithoutUserInput
@@ -8703,6 +9198,7 @@ export type UserUncheckedCreateWithoutReferralsOwnedInput = {
   purchasePacks?: Prisma.PurchasePackUncheckedCreateNestedManyWithoutUserInput
   usageRecords?: Prisma.UsageTrackingUncheckedCreateNestedManyWithoutUserInput
   clinic?: Prisma.ClinicUncheckedCreateNestedOneWithoutOwnerInput
+  clients?: Prisma.ClientUncheckedCreateNestedManyWithoutEstheticianInput
   surveyFeedback?: Prisma.SurveyFeedbackUncheckedCreateNestedManyWithoutUserInput
   communityPosts?: Prisma.CommunityPostUncheckedCreateNestedManyWithoutUserInput
   comments?: Prisma.CommentUncheckedCreateNestedManyWithoutUserInput
@@ -8771,6 +9267,7 @@ export type UserCreateWithoutReferralsReferredInput = {
   purchasePacks?: Prisma.PurchasePackCreateNestedManyWithoutUserInput
   usageRecords?: Prisma.UsageTrackingCreateNestedManyWithoutUserInput
   clinic?: Prisma.ClinicCreateNestedOneWithoutOwnerInput
+  clients?: Prisma.ClientCreateNestedManyWithoutEstheticianInput
   surveyFeedback?: Prisma.SurveyFeedbackCreateNestedManyWithoutUserInput
   communityPosts?: Prisma.CommunityPostCreateNestedManyWithoutUserInput
   comments?: Prisma.CommentCreateNestedManyWithoutUserInput
@@ -8798,6 +9295,7 @@ export type UserCreateWithoutReferralsReferredInput = {
   giftPacksBought?: Prisma.GiftPackCreateNestedManyWithoutBuyerInput
   giftPacksRedeemed?: Prisma.GiftPackCreateNestedManyWithoutRedeemedByInput
   reminders?: Prisma.UserReminderCreateNestedManyWithoutUserInput
+  referredBy?: Prisma.ClinicCreateNestedOneWithoutReferredUsersInput
 }
 
 export type UserUncheckedCreateWithoutReferralsReferredInput = {
@@ -8825,6 +9323,7 @@ export type UserUncheckedCreateWithoutReferralsReferredInput = {
   trialEndsAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  referredByEstheticianId?: string | null
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   analyses?: Prisma.SkinAnalysisUncheckedCreateNestedManyWithoutUserInput
@@ -8834,6 +9333,7 @@ export type UserUncheckedCreateWithoutReferralsReferredInput = {
   purchasePacks?: Prisma.PurchasePackUncheckedCreateNestedManyWithoutUserInput
   usageRecords?: Prisma.UsageTrackingUncheckedCreateNestedManyWithoutUserInput
   clinic?: Prisma.ClinicUncheckedCreateNestedOneWithoutOwnerInput
+  clients?: Prisma.ClientUncheckedCreateNestedManyWithoutEstheticianInput
   surveyFeedback?: Prisma.SurveyFeedbackUncheckedCreateNestedManyWithoutUserInput
   communityPosts?: Prisma.CommunityPostUncheckedCreateNestedManyWithoutUserInput
   comments?: Prisma.CommentUncheckedCreateNestedManyWithoutUserInput
@@ -8913,6 +9413,7 @@ export type UserUpdateWithoutReferralsOwnedInput = {
   purchasePacks?: Prisma.PurchasePackUpdateManyWithoutUserNestedInput
   usageRecords?: Prisma.UsageTrackingUpdateManyWithoutUserNestedInput
   clinic?: Prisma.ClinicUpdateOneWithoutOwnerNestedInput
+  clients?: Prisma.ClientUpdateManyWithoutEstheticianNestedInput
   surveyFeedback?: Prisma.SurveyFeedbackUpdateManyWithoutUserNestedInput
   communityPosts?: Prisma.CommunityPostUpdateManyWithoutUserNestedInput
   comments?: Prisma.CommentUpdateManyWithoutUserNestedInput
@@ -8940,6 +9441,7 @@ export type UserUpdateWithoutReferralsOwnedInput = {
   giftPacksBought?: Prisma.GiftPackUpdateManyWithoutBuyerNestedInput
   giftPacksRedeemed?: Prisma.GiftPackUpdateManyWithoutRedeemedByNestedInput
   reminders?: Prisma.UserReminderUpdateManyWithoutUserNestedInput
+  referredBy?: Prisma.ClinicUpdateOneWithoutReferredUsersNestedInput
 }
 
 export type UserUncheckedUpdateWithoutReferralsOwnedInput = {
@@ -8967,6 +9469,7 @@ export type UserUncheckedUpdateWithoutReferralsOwnedInput = {
   trialEndsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  referredByEstheticianId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   analyses?: Prisma.SkinAnalysisUncheckedUpdateManyWithoutUserNestedInput
@@ -8976,6 +9479,7 @@ export type UserUncheckedUpdateWithoutReferralsOwnedInput = {
   purchasePacks?: Prisma.PurchasePackUncheckedUpdateManyWithoutUserNestedInput
   usageRecords?: Prisma.UsageTrackingUncheckedUpdateManyWithoutUserNestedInput
   clinic?: Prisma.ClinicUncheckedUpdateOneWithoutOwnerNestedInput
+  clients?: Prisma.ClientUncheckedUpdateManyWithoutEstheticianNestedInput
   surveyFeedback?: Prisma.SurveyFeedbackUncheckedUpdateManyWithoutUserNestedInput
   communityPosts?: Prisma.CommunityPostUncheckedUpdateManyWithoutUserNestedInput
   comments?: Prisma.CommentUncheckedUpdateManyWithoutUserNestedInput
@@ -9050,6 +9554,7 @@ export type UserUpdateWithoutReferralsReferredInput = {
   purchasePacks?: Prisma.PurchasePackUpdateManyWithoutUserNestedInput
   usageRecords?: Prisma.UsageTrackingUpdateManyWithoutUserNestedInput
   clinic?: Prisma.ClinicUpdateOneWithoutOwnerNestedInput
+  clients?: Prisma.ClientUpdateManyWithoutEstheticianNestedInput
   surveyFeedback?: Prisma.SurveyFeedbackUpdateManyWithoutUserNestedInput
   communityPosts?: Prisma.CommunityPostUpdateManyWithoutUserNestedInput
   comments?: Prisma.CommentUpdateManyWithoutUserNestedInput
@@ -9077,6 +9582,7 @@ export type UserUpdateWithoutReferralsReferredInput = {
   giftPacksBought?: Prisma.GiftPackUpdateManyWithoutBuyerNestedInput
   giftPacksRedeemed?: Prisma.GiftPackUpdateManyWithoutRedeemedByNestedInput
   reminders?: Prisma.UserReminderUpdateManyWithoutUserNestedInput
+  referredBy?: Prisma.ClinicUpdateOneWithoutReferredUsersNestedInput
 }
 
 export type UserUncheckedUpdateWithoutReferralsReferredInput = {
@@ -9104,6 +9610,7 @@ export type UserUncheckedUpdateWithoutReferralsReferredInput = {
   trialEndsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  referredByEstheticianId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   analyses?: Prisma.SkinAnalysisUncheckedUpdateManyWithoutUserNestedInput
@@ -9113,6 +9620,7 @@ export type UserUncheckedUpdateWithoutReferralsReferredInput = {
   purchasePacks?: Prisma.PurchasePackUncheckedUpdateManyWithoutUserNestedInput
   usageRecords?: Prisma.UsageTrackingUncheckedUpdateManyWithoutUserNestedInput
   clinic?: Prisma.ClinicUncheckedUpdateOneWithoutOwnerNestedInput
+  clients?: Prisma.ClientUncheckedUpdateManyWithoutEstheticianNestedInput
   surveyFeedback?: Prisma.SurveyFeedbackUncheckedUpdateManyWithoutUserNestedInput
   communityPosts?: Prisma.CommunityPostUncheckedUpdateManyWithoutUserNestedInput
   comments?: Prisma.CommentUncheckedUpdateManyWithoutUserNestedInput
@@ -9176,6 +9684,7 @@ export type UserCreateWithoutDigitalPurchasesInput = {
   purchasePacks?: Prisma.PurchasePackCreateNestedManyWithoutUserInput
   usageRecords?: Prisma.UsageTrackingCreateNestedManyWithoutUserInput
   clinic?: Prisma.ClinicCreateNestedOneWithoutOwnerInput
+  clients?: Prisma.ClientCreateNestedManyWithoutEstheticianInput
   surveyFeedback?: Prisma.SurveyFeedbackCreateNestedManyWithoutUserInput
   communityPosts?: Prisma.CommunityPostCreateNestedManyWithoutUserInput
   comments?: Prisma.CommentCreateNestedManyWithoutUserInput
@@ -9203,6 +9712,7 @@ export type UserCreateWithoutDigitalPurchasesInput = {
   giftPacksBought?: Prisma.GiftPackCreateNestedManyWithoutBuyerInput
   giftPacksRedeemed?: Prisma.GiftPackCreateNestedManyWithoutRedeemedByInput
   reminders?: Prisma.UserReminderCreateNestedManyWithoutUserInput
+  referredBy?: Prisma.ClinicCreateNestedOneWithoutReferredUsersInput
 }
 
 export type UserUncheckedCreateWithoutDigitalPurchasesInput = {
@@ -9230,6 +9740,7 @@ export type UserUncheckedCreateWithoutDigitalPurchasesInput = {
   trialEndsAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  referredByEstheticianId?: string | null
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   analyses?: Prisma.SkinAnalysisUncheckedCreateNestedManyWithoutUserInput
@@ -9239,6 +9750,7 @@ export type UserUncheckedCreateWithoutDigitalPurchasesInput = {
   purchasePacks?: Prisma.PurchasePackUncheckedCreateNestedManyWithoutUserInput
   usageRecords?: Prisma.UsageTrackingUncheckedCreateNestedManyWithoutUserInput
   clinic?: Prisma.ClinicUncheckedCreateNestedOneWithoutOwnerInput
+  clients?: Prisma.ClientUncheckedCreateNestedManyWithoutEstheticianInput
   surveyFeedback?: Prisma.SurveyFeedbackUncheckedCreateNestedManyWithoutUserInput
   communityPosts?: Prisma.CommunityPostUncheckedCreateNestedManyWithoutUserInput
   comments?: Prisma.CommentUncheckedCreateNestedManyWithoutUserInput
@@ -9318,6 +9830,7 @@ export type UserUpdateWithoutDigitalPurchasesInput = {
   purchasePacks?: Prisma.PurchasePackUpdateManyWithoutUserNestedInput
   usageRecords?: Prisma.UsageTrackingUpdateManyWithoutUserNestedInput
   clinic?: Prisma.ClinicUpdateOneWithoutOwnerNestedInput
+  clients?: Prisma.ClientUpdateManyWithoutEstheticianNestedInput
   surveyFeedback?: Prisma.SurveyFeedbackUpdateManyWithoutUserNestedInput
   communityPosts?: Prisma.CommunityPostUpdateManyWithoutUserNestedInput
   comments?: Prisma.CommentUpdateManyWithoutUserNestedInput
@@ -9345,6 +9858,7 @@ export type UserUpdateWithoutDigitalPurchasesInput = {
   giftPacksBought?: Prisma.GiftPackUpdateManyWithoutBuyerNestedInput
   giftPacksRedeemed?: Prisma.GiftPackUpdateManyWithoutRedeemedByNestedInput
   reminders?: Prisma.UserReminderUpdateManyWithoutUserNestedInput
+  referredBy?: Prisma.ClinicUpdateOneWithoutReferredUsersNestedInput
 }
 
 export type UserUncheckedUpdateWithoutDigitalPurchasesInput = {
@@ -9372,6 +9886,7 @@ export type UserUncheckedUpdateWithoutDigitalPurchasesInput = {
   trialEndsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  referredByEstheticianId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   analyses?: Prisma.SkinAnalysisUncheckedUpdateManyWithoutUserNestedInput
@@ -9381,6 +9896,7 @@ export type UserUncheckedUpdateWithoutDigitalPurchasesInput = {
   purchasePacks?: Prisma.PurchasePackUncheckedUpdateManyWithoutUserNestedInput
   usageRecords?: Prisma.UsageTrackingUncheckedUpdateManyWithoutUserNestedInput
   clinic?: Prisma.ClinicUncheckedUpdateOneWithoutOwnerNestedInput
+  clients?: Prisma.ClientUncheckedUpdateManyWithoutEstheticianNestedInput
   surveyFeedback?: Prisma.SurveyFeedbackUncheckedUpdateManyWithoutUserNestedInput
   communityPosts?: Prisma.CommunityPostUncheckedUpdateManyWithoutUserNestedInput
   comments?: Prisma.CommentUncheckedUpdateManyWithoutUserNestedInput
@@ -9444,6 +9960,7 @@ export type UserCreateWithoutCheckInsInput = {
   purchasePacks?: Prisma.PurchasePackCreateNestedManyWithoutUserInput
   usageRecords?: Prisma.UsageTrackingCreateNestedManyWithoutUserInput
   clinic?: Prisma.ClinicCreateNestedOneWithoutOwnerInput
+  clients?: Prisma.ClientCreateNestedManyWithoutEstheticianInput
   surveyFeedback?: Prisma.SurveyFeedbackCreateNestedManyWithoutUserInput
   communityPosts?: Prisma.CommunityPostCreateNestedManyWithoutUserInput
   comments?: Prisma.CommentCreateNestedManyWithoutUserInput
@@ -9471,6 +9988,7 @@ export type UserCreateWithoutCheckInsInput = {
   giftPacksBought?: Prisma.GiftPackCreateNestedManyWithoutBuyerInput
   giftPacksRedeemed?: Prisma.GiftPackCreateNestedManyWithoutRedeemedByInput
   reminders?: Prisma.UserReminderCreateNestedManyWithoutUserInput
+  referredBy?: Prisma.ClinicCreateNestedOneWithoutReferredUsersInput
 }
 
 export type UserUncheckedCreateWithoutCheckInsInput = {
@@ -9498,6 +10016,7 @@ export type UserUncheckedCreateWithoutCheckInsInput = {
   trialEndsAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  referredByEstheticianId?: string | null
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   analyses?: Prisma.SkinAnalysisUncheckedCreateNestedManyWithoutUserInput
@@ -9507,6 +10026,7 @@ export type UserUncheckedCreateWithoutCheckInsInput = {
   purchasePacks?: Prisma.PurchasePackUncheckedCreateNestedManyWithoutUserInput
   usageRecords?: Prisma.UsageTrackingUncheckedCreateNestedManyWithoutUserInput
   clinic?: Prisma.ClinicUncheckedCreateNestedOneWithoutOwnerInput
+  clients?: Prisma.ClientUncheckedCreateNestedManyWithoutEstheticianInput
   surveyFeedback?: Prisma.SurveyFeedbackUncheckedCreateNestedManyWithoutUserInput
   communityPosts?: Prisma.CommunityPostUncheckedCreateNestedManyWithoutUserInput
   comments?: Prisma.CommentUncheckedCreateNestedManyWithoutUserInput
@@ -9586,6 +10106,7 @@ export type UserUpdateWithoutCheckInsInput = {
   purchasePacks?: Prisma.PurchasePackUpdateManyWithoutUserNestedInput
   usageRecords?: Prisma.UsageTrackingUpdateManyWithoutUserNestedInput
   clinic?: Prisma.ClinicUpdateOneWithoutOwnerNestedInput
+  clients?: Prisma.ClientUpdateManyWithoutEstheticianNestedInput
   surveyFeedback?: Prisma.SurveyFeedbackUpdateManyWithoutUserNestedInput
   communityPosts?: Prisma.CommunityPostUpdateManyWithoutUserNestedInput
   comments?: Prisma.CommentUpdateManyWithoutUserNestedInput
@@ -9613,6 +10134,7 @@ export type UserUpdateWithoutCheckInsInput = {
   giftPacksBought?: Prisma.GiftPackUpdateManyWithoutBuyerNestedInput
   giftPacksRedeemed?: Prisma.GiftPackUpdateManyWithoutRedeemedByNestedInput
   reminders?: Prisma.UserReminderUpdateManyWithoutUserNestedInput
+  referredBy?: Prisma.ClinicUpdateOneWithoutReferredUsersNestedInput
 }
 
 export type UserUncheckedUpdateWithoutCheckInsInput = {
@@ -9640,6 +10162,283 @@ export type UserUncheckedUpdateWithoutCheckInsInput = {
   trialEndsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  referredByEstheticianId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
+  sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
+  analyses?: Prisma.SkinAnalysisUncheckedUpdateManyWithoutUserNestedInput
+  analysisJobs?: Prisma.AnalysisJobUncheckedUpdateManyWithoutUserNestedInput
+  payments?: Prisma.PaymentUncheckedUpdateManyWithoutUserNestedInput
+  subscriptions?: Prisma.SubscriptionUncheckedUpdateManyWithoutUserNestedInput
+  purchasePacks?: Prisma.PurchasePackUncheckedUpdateManyWithoutUserNestedInput
+  usageRecords?: Prisma.UsageTrackingUncheckedUpdateManyWithoutUserNestedInput
+  clinic?: Prisma.ClinicUncheckedUpdateOneWithoutOwnerNestedInput
+  clients?: Prisma.ClientUncheckedUpdateManyWithoutEstheticianNestedInput
+  surveyFeedback?: Prisma.SurveyFeedbackUncheckedUpdateManyWithoutUserNestedInput
+  communityPosts?: Prisma.CommunityPostUncheckedUpdateManyWithoutUserNestedInput
+  comments?: Prisma.CommentUncheckedUpdateManyWithoutUserNestedInput
+  skinDiary?: Prisma.SkinDiaryUncheckedUpdateManyWithoutUserNestedInput
+  userChallenges?: Prisma.UserChallengeUncheckedUpdateManyWithoutUserNestedInput
+  productReviews?: Prisma.ProductReviewUncheckedUpdateManyWithoutUserNestedInput
+  referralsOwned?: Prisma.ReferralUncheckedUpdateManyWithoutReferrerNestedInput
+  referralsReferred?: Prisma.ReferralUncheckedUpdateManyWithoutReferredNestedInput
+  groupsOwned?: Prisma.GroupAnalyticsUncheckedUpdateManyWithoutReferrerNestedInput
+  digitalPurchases?: Prisma.DigitalProductPurchaseUncheckedUpdateManyWithoutUserNestedInput
+  affiliateClicks?: Prisma.AffiliateClickUncheckedUpdateManyWithoutUserNestedInput
+  evolution?: Prisma.UserEvolutionUncheckedUpdateOneWithoutUserNestedInput
+  transferPayments?: Prisma.TransferPaymentUncheckedUpdateManyWithoutUserNestedInput
+  validatedTransfers?: Prisma.TransferPaymentUncheckedUpdateManyWithoutValidatorNestedInput
+  activatedTransfers?: Prisma.TransferPaymentUncheckedUpdateManyWithoutActivatorNestedInput
+  auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutUserNestedInput
+  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
+  supportTickets?: Prisma.SupportTicketUncheckedUpdateManyWithoutUserNestedInput
+  ticketResponses?: Prisma.SupportTicketResponseUncheckedUpdateManyWithoutUserNestedInput
+  chatMessages?: Prisma.ChatMessageUncheckedUpdateManyWithoutUserNestedInput
+  contactMessages?: Prisma.ContactMessageUncheckedUpdateManyWithoutUserNestedInput
+  communityGroups?: Prisma.CommunityGroupUncheckedUpdateManyWithoutCreatorNestedInput
+  communityMemberships?: Prisma.CommunityMemberUncheckedUpdateManyWithoutUserNestedInput
+  postReactions?: Prisma.PostReactionUncheckedUpdateManyWithoutUserNestedInput
+  giftPacksBought?: Prisma.GiftPackUncheckedUpdateManyWithoutBuyerNestedInput
+  giftPacksRedeemed?: Prisma.GiftPackUncheckedUpdateManyWithoutRedeemedByNestedInput
+  reminders?: Prisma.UserReminderUncheckedUpdateManyWithoutUserNestedInput
+}
+
+export type UserCreateWithoutClientsInput = {
+  id?: string
+  name?: string | null
+  email: string
+  emailVerified?: Date | string | null
+  image?: string | null
+  password?: string | null
+  username?: string | null
+  role?: string
+  plan?: string
+  qvapayId?: string | null
+  analysisLimit?: number
+  analysisUsed?: number
+  analysisResetAt?: Date | string | null
+  telegramId?: string | null
+  telegramTrialStartedAt?: Date | string | null
+  isTelegramPremiumActive?: boolean
+  latitude?: number | null
+  longitude?: number | null
+  currentStreak?: number
+  maxStreak?: number
+  lastCheckInDate?: Date | string | null
+  trialEndsAt?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
+  sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
+  analyses?: Prisma.SkinAnalysisCreateNestedManyWithoutUserInput
+  analysisJobs?: Prisma.AnalysisJobCreateNestedManyWithoutUserInput
+  payments?: Prisma.PaymentCreateNestedManyWithoutUserInput
+  subscriptions?: Prisma.SubscriptionCreateNestedManyWithoutUserInput
+  purchasePacks?: Prisma.PurchasePackCreateNestedManyWithoutUserInput
+  usageRecords?: Prisma.UsageTrackingCreateNestedManyWithoutUserInput
+  clinic?: Prisma.ClinicCreateNestedOneWithoutOwnerInput
+  surveyFeedback?: Prisma.SurveyFeedbackCreateNestedManyWithoutUserInput
+  communityPosts?: Prisma.CommunityPostCreateNestedManyWithoutUserInput
+  comments?: Prisma.CommentCreateNestedManyWithoutUserInput
+  skinDiary?: Prisma.SkinDiaryCreateNestedManyWithoutUserInput
+  userChallenges?: Prisma.UserChallengeCreateNestedManyWithoutUserInput
+  productReviews?: Prisma.ProductReviewCreateNestedManyWithoutUserInput
+  referralsOwned?: Prisma.ReferralCreateNestedManyWithoutReferrerInput
+  referralsReferred?: Prisma.ReferralCreateNestedManyWithoutReferredInput
+  groupsOwned?: Prisma.GroupAnalyticsCreateNestedManyWithoutReferrerInput
+  digitalPurchases?: Prisma.DigitalProductPurchaseCreateNestedManyWithoutUserInput
+  affiliateClicks?: Prisma.AffiliateClickCreateNestedManyWithoutUserInput
+  evolution?: Prisma.UserEvolutionCreateNestedOneWithoutUserInput
+  checkIns?: Prisma.DailyCheckInCreateNestedManyWithoutUserInput
+  transferPayments?: Prisma.TransferPaymentCreateNestedManyWithoutUserInput
+  validatedTransfers?: Prisma.TransferPaymentCreateNestedManyWithoutValidatorInput
+  activatedTransfers?: Prisma.TransferPaymentCreateNestedManyWithoutActivatorInput
+  auditLogs?: Prisma.AuditLogCreateNestedManyWithoutUserInput
+  notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
+  supportTickets?: Prisma.SupportTicketCreateNestedManyWithoutUserInput
+  ticketResponses?: Prisma.SupportTicketResponseCreateNestedManyWithoutUserInput
+  chatMessages?: Prisma.ChatMessageCreateNestedManyWithoutUserInput
+  contactMessages?: Prisma.ContactMessageCreateNestedManyWithoutUserInput
+  communityGroups?: Prisma.CommunityGroupCreateNestedManyWithoutCreatorInput
+  communityMemberships?: Prisma.CommunityMemberCreateNestedManyWithoutUserInput
+  postReactions?: Prisma.PostReactionCreateNestedManyWithoutUserInput
+  giftPacksBought?: Prisma.GiftPackCreateNestedManyWithoutBuyerInput
+  giftPacksRedeemed?: Prisma.GiftPackCreateNestedManyWithoutRedeemedByInput
+  reminders?: Prisma.UserReminderCreateNestedManyWithoutUserInput
+  referredBy?: Prisma.ClinicCreateNestedOneWithoutReferredUsersInput
+}
+
+export type UserUncheckedCreateWithoutClientsInput = {
+  id?: string
+  name?: string | null
+  email: string
+  emailVerified?: Date | string | null
+  image?: string | null
+  password?: string | null
+  username?: string | null
+  role?: string
+  plan?: string
+  qvapayId?: string | null
+  analysisLimit?: number
+  analysisUsed?: number
+  analysisResetAt?: Date | string | null
+  telegramId?: string | null
+  telegramTrialStartedAt?: Date | string | null
+  isTelegramPremiumActive?: boolean
+  latitude?: number | null
+  longitude?: number | null
+  currentStreak?: number
+  maxStreak?: number
+  lastCheckInDate?: Date | string | null
+  trialEndsAt?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  referredByEstheticianId?: string | null
+  accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
+  sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
+  analyses?: Prisma.SkinAnalysisUncheckedCreateNestedManyWithoutUserInput
+  analysisJobs?: Prisma.AnalysisJobUncheckedCreateNestedManyWithoutUserInput
+  payments?: Prisma.PaymentUncheckedCreateNestedManyWithoutUserInput
+  subscriptions?: Prisma.SubscriptionUncheckedCreateNestedManyWithoutUserInput
+  purchasePacks?: Prisma.PurchasePackUncheckedCreateNestedManyWithoutUserInput
+  usageRecords?: Prisma.UsageTrackingUncheckedCreateNestedManyWithoutUserInput
+  clinic?: Prisma.ClinicUncheckedCreateNestedOneWithoutOwnerInput
+  surveyFeedback?: Prisma.SurveyFeedbackUncheckedCreateNestedManyWithoutUserInput
+  communityPosts?: Prisma.CommunityPostUncheckedCreateNestedManyWithoutUserInput
+  comments?: Prisma.CommentUncheckedCreateNestedManyWithoutUserInput
+  skinDiary?: Prisma.SkinDiaryUncheckedCreateNestedManyWithoutUserInput
+  userChallenges?: Prisma.UserChallengeUncheckedCreateNestedManyWithoutUserInput
+  productReviews?: Prisma.ProductReviewUncheckedCreateNestedManyWithoutUserInput
+  referralsOwned?: Prisma.ReferralUncheckedCreateNestedManyWithoutReferrerInput
+  referralsReferred?: Prisma.ReferralUncheckedCreateNestedManyWithoutReferredInput
+  groupsOwned?: Prisma.GroupAnalyticsUncheckedCreateNestedManyWithoutReferrerInput
+  digitalPurchases?: Prisma.DigitalProductPurchaseUncheckedCreateNestedManyWithoutUserInput
+  affiliateClicks?: Prisma.AffiliateClickUncheckedCreateNestedManyWithoutUserInput
+  evolution?: Prisma.UserEvolutionUncheckedCreateNestedOneWithoutUserInput
+  checkIns?: Prisma.DailyCheckInUncheckedCreateNestedManyWithoutUserInput
+  transferPayments?: Prisma.TransferPaymentUncheckedCreateNestedManyWithoutUserInput
+  validatedTransfers?: Prisma.TransferPaymentUncheckedCreateNestedManyWithoutValidatorInput
+  activatedTransfers?: Prisma.TransferPaymentUncheckedCreateNestedManyWithoutActivatorInput
+  auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutUserInput
+  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
+  supportTickets?: Prisma.SupportTicketUncheckedCreateNestedManyWithoutUserInput
+  ticketResponses?: Prisma.SupportTicketResponseUncheckedCreateNestedManyWithoutUserInput
+  chatMessages?: Prisma.ChatMessageUncheckedCreateNestedManyWithoutUserInput
+  contactMessages?: Prisma.ContactMessageUncheckedCreateNestedManyWithoutUserInput
+  communityGroups?: Prisma.CommunityGroupUncheckedCreateNestedManyWithoutCreatorInput
+  communityMemberships?: Prisma.CommunityMemberUncheckedCreateNestedManyWithoutUserInput
+  postReactions?: Prisma.PostReactionUncheckedCreateNestedManyWithoutUserInput
+  giftPacksBought?: Prisma.GiftPackUncheckedCreateNestedManyWithoutBuyerInput
+  giftPacksRedeemed?: Prisma.GiftPackUncheckedCreateNestedManyWithoutRedeemedByInput
+  reminders?: Prisma.UserReminderUncheckedCreateNestedManyWithoutUserInput
+}
+
+export type UserCreateOrConnectWithoutClientsInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutClientsInput, Prisma.UserUncheckedCreateWithoutClientsInput>
+}
+
+export type UserUpsertWithoutClientsInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutClientsInput, Prisma.UserUncheckedUpdateWithoutClientsInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutClientsInput, Prisma.UserUncheckedCreateWithoutClientsInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutClientsInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutClientsInput, Prisma.UserUncheckedUpdateWithoutClientsInput>
+}
+
+export type UserUpdateWithoutClientsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  emailVerified?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.StringFieldUpdateOperationsInput | string
+  plan?: Prisma.StringFieldUpdateOperationsInput | string
+  qvapayId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  analysisLimit?: Prisma.IntFieldUpdateOperationsInput | number
+  analysisUsed?: Prisma.IntFieldUpdateOperationsInput | number
+  analysisResetAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  telegramId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  telegramTrialStartedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  isTelegramPremiumActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  latitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  longitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  currentStreak?: Prisma.IntFieldUpdateOperationsInput | number
+  maxStreak?: Prisma.IntFieldUpdateOperationsInput | number
+  lastCheckInDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  trialEndsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
+  sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
+  analyses?: Prisma.SkinAnalysisUpdateManyWithoutUserNestedInput
+  analysisJobs?: Prisma.AnalysisJobUpdateManyWithoutUserNestedInput
+  payments?: Prisma.PaymentUpdateManyWithoutUserNestedInput
+  subscriptions?: Prisma.SubscriptionUpdateManyWithoutUserNestedInput
+  purchasePacks?: Prisma.PurchasePackUpdateManyWithoutUserNestedInput
+  usageRecords?: Prisma.UsageTrackingUpdateManyWithoutUserNestedInput
+  clinic?: Prisma.ClinicUpdateOneWithoutOwnerNestedInput
+  surveyFeedback?: Prisma.SurveyFeedbackUpdateManyWithoutUserNestedInput
+  communityPosts?: Prisma.CommunityPostUpdateManyWithoutUserNestedInput
+  comments?: Prisma.CommentUpdateManyWithoutUserNestedInput
+  skinDiary?: Prisma.SkinDiaryUpdateManyWithoutUserNestedInput
+  userChallenges?: Prisma.UserChallengeUpdateManyWithoutUserNestedInput
+  productReviews?: Prisma.ProductReviewUpdateManyWithoutUserNestedInput
+  referralsOwned?: Prisma.ReferralUpdateManyWithoutReferrerNestedInput
+  referralsReferred?: Prisma.ReferralUpdateManyWithoutReferredNestedInput
+  groupsOwned?: Prisma.GroupAnalyticsUpdateManyWithoutReferrerNestedInput
+  digitalPurchases?: Prisma.DigitalProductPurchaseUpdateManyWithoutUserNestedInput
+  affiliateClicks?: Prisma.AffiliateClickUpdateManyWithoutUserNestedInput
+  evolution?: Prisma.UserEvolutionUpdateOneWithoutUserNestedInput
+  checkIns?: Prisma.DailyCheckInUpdateManyWithoutUserNestedInput
+  transferPayments?: Prisma.TransferPaymentUpdateManyWithoutUserNestedInput
+  validatedTransfers?: Prisma.TransferPaymentUpdateManyWithoutValidatorNestedInput
+  activatedTransfers?: Prisma.TransferPaymentUpdateManyWithoutActivatorNestedInput
+  auditLogs?: Prisma.AuditLogUpdateManyWithoutUserNestedInput
+  notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
+  supportTickets?: Prisma.SupportTicketUpdateManyWithoutUserNestedInput
+  ticketResponses?: Prisma.SupportTicketResponseUpdateManyWithoutUserNestedInput
+  chatMessages?: Prisma.ChatMessageUpdateManyWithoutUserNestedInput
+  contactMessages?: Prisma.ContactMessageUpdateManyWithoutUserNestedInput
+  communityGroups?: Prisma.CommunityGroupUpdateManyWithoutCreatorNestedInput
+  communityMemberships?: Prisma.CommunityMemberUpdateManyWithoutUserNestedInput
+  postReactions?: Prisma.PostReactionUpdateManyWithoutUserNestedInput
+  giftPacksBought?: Prisma.GiftPackUpdateManyWithoutBuyerNestedInput
+  giftPacksRedeemed?: Prisma.GiftPackUpdateManyWithoutRedeemedByNestedInput
+  reminders?: Prisma.UserReminderUpdateManyWithoutUserNestedInput
+  referredBy?: Prisma.ClinicUpdateOneWithoutReferredUsersNestedInput
+}
+
+export type UserUncheckedUpdateWithoutClientsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  emailVerified?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.StringFieldUpdateOperationsInput | string
+  plan?: Prisma.StringFieldUpdateOperationsInput | string
+  qvapayId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  analysisLimit?: Prisma.IntFieldUpdateOperationsInput | number
+  analysisUsed?: Prisma.IntFieldUpdateOperationsInput | number
+  analysisResetAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  telegramId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  telegramTrialStartedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  isTelegramPremiumActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  latitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  longitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  currentStreak?: Prisma.IntFieldUpdateOperationsInput | number
+  maxStreak?: Prisma.IntFieldUpdateOperationsInput | number
+  lastCheckInDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  trialEndsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  referredByEstheticianId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   analyses?: Prisma.SkinAnalysisUncheckedUpdateManyWithoutUserNestedInput
@@ -9661,6 +10460,7 @@ export type UserUncheckedUpdateWithoutCheckInsInput = {
   digitalPurchases?: Prisma.DigitalProductPurchaseUncheckedUpdateManyWithoutUserNestedInput
   affiliateClicks?: Prisma.AffiliateClickUncheckedUpdateManyWithoutUserNestedInput
   evolution?: Prisma.UserEvolutionUncheckedUpdateOneWithoutUserNestedInput
+  checkIns?: Prisma.DailyCheckInUncheckedUpdateManyWithoutUserNestedInput
   transferPayments?: Prisma.TransferPaymentUncheckedUpdateManyWithoutUserNestedInput
   validatedTransfers?: Prisma.TransferPaymentUncheckedUpdateManyWithoutValidatorNestedInput
   activatedTransfers?: Prisma.TransferPaymentUncheckedUpdateManyWithoutActivatorNestedInput
@@ -9712,6 +10512,7 @@ export type UserCreateWithoutNotificationsInput = {
   purchasePacks?: Prisma.PurchasePackCreateNestedManyWithoutUserInput
   usageRecords?: Prisma.UsageTrackingCreateNestedManyWithoutUserInput
   clinic?: Prisma.ClinicCreateNestedOneWithoutOwnerInput
+  clients?: Prisma.ClientCreateNestedManyWithoutEstheticianInput
   surveyFeedback?: Prisma.SurveyFeedbackCreateNestedManyWithoutUserInput
   communityPosts?: Prisma.CommunityPostCreateNestedManyWithoutUserInput
   comments?: Prisma.CommentCreateNestedManyWithoutUserInput
@@ -9739,6 +10540,7 @@ export type UserCreateWithoutNotificationsInput = {
   giftPacksBought?: Prisma.GiftPackCreateNestedManyWithoutBuyerInput
   giftPacksRedeemed?: Prisma.GiftPackCreateNestedManyWithoutRedeemedByInput
   reminders?: Prisma.UserReminderCreateNestedManyWithoutUserInput
+  referredBy?: Prisma.ClinicCreateNestedOneWithoutReferredUsersInput
 }
 
 export type UserUncheckedCreateWithoutNotificationsInput = {
@@ -9766,6 +10568,7 @@ export type UserUncheckedCreateWithoutNotificationsInput = {
   trialEndsAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  referredByEstheticianId?: string | null
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   analyses?: Prisma.SkinAnalysisUncheckedCreateNestedManyWithoutUserInput
@@ -9775,6 +10578,7 @@ export type UserUncheckedCreateWithoutNotificationsInput = {
   purchasePacks?: Prisma.PurchasePackUncheckedCreateNestedManyWithoutUserInput
   usageRecords?: Prisma.UsageTrackingUncheckedCreateNestedManyWithoutUserInput
   clinic?: Prisma.ClinicUncheckedCreateNestedOneWithoutOwnerInput
+  clients?: Prisma.ClientUncheckedCreateNestedManyWithoutEstheticianInput
   surveyFeedback?: Prisma.SurveyFeedbackUncheckedCreateNestedManyWithoutUserInput
   communityPosts?: Prisma.CommunityPostUncheckedCreateNestedManyWithoutUserInput
   comments?: Prisma.CommentUncheckedCreateNestedManyWithoutUserInput
@@ -9854,6 +10658,7 @@ export type UserUpdateWithoutNotificationsInput = {
   purchasePacks?: Prisma.PurchasePackUpdateManyWithoutUserNestedInput
   usageRecords?: Prisma.UsageTrackingUpdateManyWithoutUserNestedInput
   clinic?: Prisma.ClinicUpdateOneWithoutOwnerNestedInput
+  clients?: Prisma.ClientUpdateManyWithoutEstheticianNestedInput
   surveyFeedback?: Prisma.SurveyFeedbackUpdateManyWithoutUserNestedInput
   communityPosts?: Prisma.CommunityPostUpdateManyWithoutUserNestedInput
   comments?: Prisma.CommentUpdateManyWithoutUserNestedInput
@@ -9881,6 +10686,7 @@ export type UserUpdateWithoutNotificationsInput = {
   giftPacksBought?: Prisma.GiftPackUpdateManyWithoutBuyerNestedInput
   giftPacksRedeemed?: Prisma.GiftPackUpdateManyWithoutRedeemedByNestedInput
   reminders?: Prisma.UserReminderUpdateManyWithoutUserNestedInput
+  referredBy?: Prisma.ClinicUpdateOneWithoutReferredUsersNestedInput
 }
 
 export type UserUncheckedUpdateWithoutNotificationsInput = {
@@ -9908,6 +10714,7 @@ export type UserUncheckedUpdateWithoutNotificationsInput = {
   trialEndsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  referredByEstheticianId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   analyses?: Prisma.SkinAnalysisUncheckedUpdateManyWithoutUserNestedInput
@@ -9917,6 +10724,7 @@ export type UserUncheckedUpdateWithoutNotificationsInput = {
   purchasePacks?: Prisma.PurchasePackUncheckedUpdateManyWithoutUserNestedInput
   usageRecords?: Prisma.UsageTrackingUncheckedUpdateManyWithoutUserNestedInput
   clinic?: Prisma.ClinicUncheckedUpdateOneWithoutOwnerNestedInput
+  clients?: Prisma.ClientUncheckedUpdateManyWithoutEstheticianNestedInput
   surveyFeedback?: Prisma.SurveyFeedbackUncheckedUpdateManyWithoutUserNestedInput
   communityPosts?: Prisma.CommunityPostUncheckedUpdateManyWithoutUserNestedInput
   comments?: Prisma.CommentUncheckedUpdateManyWithoutUserNestedInput
@@ -9980,6 +10788,7 @@ export type UserCreateWithoutSupportTicketsInput = {
   purchasePacks?: Prisma.PurchasePackCreateNestedManyWithoutUserInput
   usageRecords?: Prisma.UsageTrackingCreateNestedManyWithoutUserInput
   clinic?: Prisma.ClinicCreateNestedOneWithoutOwnerInput
+  clients?: Prisma.ClientCreateNestedManyWithoutEstheticianInput
   surveyFeedback?: Prisma.SurveyFeedbackCreateNestedManyWithoutUserInput
   communityPosts?: Prisma.CommunityPostCreateNestedManyWithoutUserInput
   comments?: Prisma.CommentCreateNestedManyWithoutUserInput
@@ -10007,6 +10816,7 @@ export type UserCreateWithoutSupportTicketsInput = {
   giftPacksBought?: Prisma.GiftPackCreateNestedManyWithoutBuyerInput
   giftPacksRedeemed?: Prisma.GiftPackCreateNestedManyWithoutRedeemedByInput
   reminders?: Prisma.UserReminderCreateNestedManyWithoutUserInput
+  referredBy?: Prisma.ClinicCreateNestedOneWithoutReferredUsersInput
 }
 
 export type UserUncheckedCreateWithoutSupportTicketsInput = {
@@ -10034,6 +10844,7 @@ export type UserUncheckedCreateWithoutSupportTicketsInput = {
   trialEndsAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  referredByEstheticianId?: string | null
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   analyses?: Prisma.SkinAnalysisUncheckedCreateNestedManyWithoutUserInput
@@ -10043,6 +10854,7 @@ export type UserUncheckedCreateWithoutSupportTicketsInput = {
   purchasePacks?: Prisma.PurchasePackUncheckedCreateNestedManyWithoutUserInput
   usageRecords?: Prisma.UsageTrackingUncheckedCreateNestedManyWithoutUserInput
   clinic?: Prisma.ClinicUncheckedCreateNestedOneWithoutOwnerInput
+  clients?: Prisma.ClientUncheckedCreateNestedManyWithoutEstheticianInput
   surveyFeedback?: Prisma.SurveyFeedbackUncheckedCreateNestedManyWithoutUserInput
   communityPosts?: Prisma.CommunityPostUncheckedCreateNestedManyWithoutUserInput
   comments?: Prisma.CommentUncheckedCreateNestedManyWithoutUserInput
@@ -10122,6 +10934,7 @@ export type UserUpdateWithoutSupportTicketsInput = {
   purchasePacks?: Prisma.PurchasePackUpdateManyWithoutUserNestedInput
   usageRecords?: Prisma.UsageTrackingUpdateManyWithoutUserNestedInput
   clinic?: Prisma.ClinicUpdateOneWithoutOwnerNestedInput
+  clients?: Prisma.ClientUpdateManyWithoutEstheticianNestedInput
   surveyFeedback?: Prisma.SurveyFeedbackUpdateManyWithoutUserNestedInput
   communityPosts?: Prisma.CommunityPostUpdateManyWithoutUserNestedInput
   comments?: Prisma.CommentUpdateManyWithoutUserNestedInput
@@ -10149,6 +10962,7 @@ export type UserUpdateWithoutSupportTicketsInput = {
   giftPacksBought?: Prisma.GiftPackUpdateManyWithoutBuyerNestedInput
   giftPacksRedeemed?: Prisma.GiftPackUpdateManyWithoutRedeemedByNestedInput
   reminders?: Prisma.UserReminderUpdateManyWithoutUserNestedInput
+  referredBy?: Prisma.ClinicUpdateOneWithoutReferredUsersNestedInput
 }
 
 export type UserUncheckedUpdateWithoutSupportTicketsInput = {
@@ -10176,6 +10990,7 @@ export type UserUncheckedUpdateWithoutSupportTicketsInput = {
   trialEndsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  referredByEstheticianId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   analyses?: Prisma.SkinAnalysisUncheckedUpdateManyWithoutUserNestedInput
@@ -10185,6 +11000,7 @@ export type UserUncheckedUpdateWithoutSupportTicketsInput = {
   purchasePacks?: Prisma.PurchasePackUncheckedUpdateManyWithoutUserNestedInput
   usageRecords?: Prisma.UsageTrackingUncheckedUpdateManyWithoutUserNestedInput
   clinic?: Prisma.ClinicUncheckedUpdateOneWithoutOwnerNestedInput
+  clients?: Prisma.ClientUncheckedUpdateManyWithoutEstheticianNestedInput
   surveyFeedback?: Prisma.SurveyFeedbackUncheckedUpdateManyWithoutUserNestedInput
   communityPosts?: Prisma.CommunityPostUncheckedUpdateManyWithoutUserNestedInput
   comments?: Prisma.CommentUncheckedUpdateManyWithoutUserNestedInput
@@ -10248,6 +11064,7 @@ export type UserCreateWithoutTicketResponsesInput = {
   purchasePacks?: Prisma.PurchasePackCreateNestedManyWithoutUserInput
   usageRecords?: Prisma.UsageTrackingCreateNestedManyWithoutUserInput
   clinic?: Prisma.ClinicCreateNestedOneWithoutOwnerInput
+  clients?: Prisma.ClientCreateNestedManyWithoutEstheticianInput
   surveyFeedback?: Prisma.SurveyFeedbackCreateNestedManyWithoutUserInput
   communityPosts?: Prisma.CommunityPostCreateNestedManyWithoutUserInput
   comments?: Prisma.CommentCreateNestedManyWithoutUserInput
@@ -10275,6 +11092,7 @@ export type UserCreateWithoutTicketResponsesInput = {
   giftPacksBought?: Prisma.GiftPackCreateNestedManyWithoutBuyerInput
   giftPacksRedeemed?: Prisma.GiftPackCreateNestedManyWithoutRedeemedByInput
   reminders?: Prisma.UserReminderCreateNestedManyWithoutUserInput
+  referredBy?: Prisma.ClinicCreateNestedOneWithoutReferredUsersInput
 }
 
 export type UserUncheckedCreateWithoutTicketResponsesInput = {
@@ -10302,6 +11120,7 @@ export type UserUncheckedCreateWithoutTicketResponsesInput = {
   trialEndsAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  referredByEstheticianId?: string | null
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   analyses?: Prisma.SkinAnalysisUncheckedCreateNestedManyWithoutUserInput
@@ -10311,6 +11130,7 @@ export type UserUncheckedCreateWithoutTicketResponsesInput = {
   purchasePacks?: Prisma.PurchasePackUncheckedCreateNestedManyWithoutUserInput
   usageRecords?: Prisma.UsageTrackingUncheckedCreateNestedManyWithoutUserInput
   clinic?: Prisma.ClinicUncheckedCreateNestedOneWithoutOwnerInput
+  clients?: Prisma.ClientUncheckedCreateNestedManyWithoutEstheticianInput
   surveyFeedback?: Prisma.SurveyFeedbackUncheckedCreateNestedManyWithoutUserInput
   communityPosts?: Prisma.CommunityPostUncheckedCreateNestedManyWithoutUserInput
   comments?: Prisma.CommentUncheckedCreateNestedManyWithoutUserInput
@@ -10390,6 +11210,7 @@ export type UserUpdateWithoutTicketResponsesInput = {
   purchasePacks?: Prisma.PurchasePackUpdateManyWithoutUserNestedInput
   usageRecords?: Prisma.UsageTrackingUpdateManyWithoutUserNestedInput
   clinic?: Prisma.ClinicUpdateOneWithoutOwnerNestedInput
+  clients?: Prisma.ClientUpdateManyWithoutEstheticianNestedInput
   surveyFeedback?: Prisma.SurveyFeedbackUpdateManyWithoutUserNestedInput
   communityPosts?: Prisma.CommunityPostUpdateManyWithoutUserNestedInput
   comments?: Prisma.CommentUpdateManyWithoutUserNestedInput
@@ -10417,6 +11238,7 @@ export type UserUpdateWithoutTicketResponsesInput = {
   giftPacksBought?: Prisma.GiftPackUpdateManyWithoutBuyerNestedInput
   giftPacksRedeemed?: Prisma.GiftPackUpdateManyWithoutRedeemedByNestedInput
   reminders?: Prisma.UserReminderUpdateManyWithoutUserNestedInput
+  referredBy?: Prisma.ClinicUpdateOneWithoutReferredUsersNestedInput
 }
 
 export type UserUncheckedUpdateWithoutTicketResponsesInput = {
@@ -10444,6 +11266,7 @@ export type UserUncheckedUpdateWithoutTicketResponsesInput = {
   trialEndsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  referredByEstheticianId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   analyses?: Prisma.SkinAnalysisUncheckedUpdateManyWithoutUserNestedInput
@@ -10453,6 +11276,7 @@ export type UserUncheckedUpdateWithoutTicketResponsesInput = {
   purchasePacks?: Prisma.PurchasePackUncheckedUpdateManyWithoutUserNestedInput
   usageRecords?: Prisma.UsageTrackingUncheckedUpdateManyWithoutUserNestedInput
   clinic?: Prisma.ClinicUncheckedUpdateOneWithoutOwnerNestedInput
+  clients?: Prisma.ClientUncheckedUpdateManyWithoutEstheticianNestedInput
   surveyFeedback?: Prisma.SurveyFeedbackUncheckedUpdateManyWithoutUserNestedInput
   communityPosts?: Prisma.CommunityPostUncheckedUpdateManyWithoutUserNestedInput
   comments?: Prisma.CommentUncheckedUpdateManyWithoutUserNestedInput
@@ -10516,6 +11340,7 @@ export type UserCreateWithoutChatMessagesInput = {
   purchasePacks?: Prisma.PurchasePackCreateNestedManyWithoutUserInput
   usageRecords?: Prisma.UsageTrackingCreateNestedManyWithoutUserInput
   clinic?: Prisma.ClinicCreateNestedOneWithoutOwnerInput
+  clients?: Prisma.ClientCreateNestedManyWithoutEstheticianInput
   surveyFeedback?: Prisma.SurveyFeedbackCreateNestedManyWithoutUserInput
   communityPosts?: Prisma.CommunityPostCreateNestedManyWithoutUserInput
   comments?: Prisma.CommentCreateNestedManyWithoutUserInput
@@ -10543,6 +11368,7 @@ export type UserCreateWithoutChatMessagesInput = {
   giftPacksBought?: Prisma.GiftPackCreateNestedManyWithoutBuyerInput
   giftPacksRedeemed?: Prisma.GiftPackCreateNestedManyWithoutRedeemedByInput
   reminders?: Prisma.UserReminderCreateNestedManyWithoutUserInput
+  referredBy?: Prisma.ClinicCreateNestedOneWithoutReferredUsersInput
 }
 
 export type UserUncheckedCreateWithoutChatMessagesInput = {
@@ -10570,6 +11396,7 @@ export type UserUncheckedCreateWithoutChatMessagesInput = {
   trialEndsAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  referredByEstheticianId?: string | null
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   analyses?: Prisma.SkinAnalysisUncheckedCreateNestedManyWithoutUserInput
@@ -10579,6 +11406,7 @@ export type UserUncheckedCreateWithoutChatMessagesInput = {
   purchasePacks?: Prisma.PurchasePackUncheckedCreateNestedManyWithoutUserInput
   usageRecords?: Prisma.UsageTrackingUncheckedCreateNestedManyWithoutUserInput
   clinic?: Prisma.ClinicUncheckedCreateNestedOneWithoutOwnerInput
+  clients?: Prisma.ClientUncheckedCreateNestedManyWithoutEstheticianInput
   surveyFeedback?: Prisma.SurveyFeedbackUncheckedCreateNestedManyWithoutUserInput
   communityPosts?: Prisma.CommunityPostUncheckedCreateNestedManyWithoutUserInput
   comments?: Prisma.CommentUncheckedCreateNestedManyWithoutUserInput
@@ -10658,6 +11486,7 @@ export type UserUpdateWithoutChatMessagesInput = {
   purchasePacks?: Prisma.PurchasePackUpdateManyWithoutUserNestedInput
   usageRecords?: Prisma.UsageTrackingUpdateManyWithoutUserNestedInput
   clinic?: Prisma.ClinicUpdateOneWithoutOwnerNestedInput
+  clients?: Prisma.ClientUpdateManyWithoutEstheticianNestedInput
   surveyFeedback?: Prisma.SurveyFeedbackUpdateManyWithoutUserNestedInput
   communityPosts?: Prisma.CommunityPostUpdateManyWithoutUserNestedInput
   comments?: Prisma.CommentUpdateManyWithoutUserNestedInput
@@ -10685,6 +11514,7 @@ export type UserUpdateWithoutChatMessagesInput = {
   giftPacksBought?: Prisma.GiftPackUpdateManyWithoutBuyerNestedInput
   giftPacksRedeemed?: Prisma.GiftPackUpdateManyWithoutRedeemedByNestedInput
   reminders?: Prisma.UserReminderUpdateManyWithoutUserNestedInput
+  referredBy?: Prisma.ClinicUpdateOneWithoutReferredUsersNestedInput
 }
 
 export type UserUncheckedUpdateWithoutChatMessagesInput = {
@@ -10712,6 +11542,7 @@ export type UserUncheckedUpdateWithoutChatMessagesInput = {
   trialEndsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  referredByEstheticianId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   analyses?: Prisma.SkinAnalysisUncheckedUpdateManyWithoutUserNestedInput
@@ -10721,6 +11552,7 @@ export type UserUncheckedUpdateWithoutChatMessagesInput = {
   purchasePacks?: Prisma.PurchasePackUncheckedUpdateManyWithoutUserNestedInput
   usageRecords?: Prisma.UsageTrackingUncheckedUpdateManyWithoutUserNestedInput
   clinic?: Prisma.ClinicUncheckedUpdateOneWithoutOwnerNestedInput
+  clients?: Prisma.ClientUncheckedUpdateManyWithoutEstheticianNestedInput
   surveyFeedback?: Prisma.SurveyFeedbackUncheckedUpdateManyWithoutUserNestedInput
   communityPosts?: Prisma.CommunityPostUncheckedUpdateManyWithoutUserNestedInput
   comments?: Prisma.CommentUncheckedUpdateManyWithoutUserNestedInput
@@ -10784,6 +11616,7 @@ export type UserCreateWithoutGiftPacksBoughtInput = {
   purchasePacks?: Prisma.PurchasePackCreateNestedManyWithoutUserInput
   usageRecords?: Prisma.UsageTrackingCreateNestedManyWithoutUserInput
   clinic?: Prisma.ClinicCreateNestedOneWithoutOwnerInput
+  clients?: Prisma.ClientCreateNestedManyWithoutEstheticianInput
   surveyFeedback?: Prisma.SurveyFeedbackCreateNestedManyWithoutUserInput
   communityPosts?: Prisma.CommunityPostCreateNestedManyWithoutUserInput
   comments?: Prisma.CommentCreateNestedManyWithoutUserInput
@@ -10811,6 +11644,7 @@ export type UserCreateWithoutGiftPacksBoughtInput = {
   postReactions?: Prisma.PostReactionCreateNestedManyWithoutUserInput
   giftPacksRedeemed?: Prisma.GiftPackCreateNestedManyWithoutRedeemedByInput
   reminders?: Prisma.UserReminderCreateNestedManyWithoutUserInput
+  referredBy?: Prisma.ClinicCreateNestedOneWithoutReferredUsersInput
 }
 
 export type UserUncheckedCreateWithoutGiftPacksBoughtInput = {
@@ -10838,6 +11672,7 @@ export type UserUncheckedCreateWithoutGiftPacksBoughtInput = {
   trialEndsAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  referredByEstheticianId?: string | null
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   analyses?: Prisma.SkinAnalysisUncheckedCreateNestedManyWithoutUserInput
@@ -10847,6 +11682,7 @@ export type UserUncheckedCreateWithoutGiftPacksBoughtInput = {
   purchasePacks?: Prisma.PurchasePackUncheckedCreateNestedManyWithoutUserInput
   usageRecords?: Prisma.UsageTrackingUncheckedCreateNestedManyWithoutUserInput
   clinic?: Prisma.ClinicUncheckedCreateNestedOneWithoutOwnerInput
+  clients?: Prisma.ClientUncheckedCreateNestedManyWithoutEstheticianInput
   surveyFeedback?: Prisma.SurveyFeedbackUncheckedCreateNestedManyWithoutUserInput
   communityPosts?: Prisma.CommunityPostUncheckedCreateNestedManyWithoutUserInput
   comments?: Prisma.CommentUncheckedCreateNestedManyWithoutUserInput
@@ -10915,6 +11751,7 @@ export type UserCreateWithoutGiftPacksRedeemedInput = {
   purchasePacks?: Prisma.PurchasePackCreateNestedManyWithoutUserInput
   usageRecords?: Prisma.UsageTrackingCreateNestedManyWithoutUserInput
   clinic?: Prisma.ClinicCreateNestedOneWithoutOwnerInput
+  clients?: Prisma.ClientCreateNestedManyWithoutEstheticianInput
   surveyFeedback?: Prisma.SurveyFeedbackCreateNestedManyWithoutUserInput
   communityPosts?: Prisma.CommunityPostCreateNestedManyWithoutUserInput
   comments?: Prisma.CommentCreateNestedManyWithoutUserInput
@@ -10942,6 +11779,7 @@ export type UserCreateWithoutGiftPacksRedeemedInput = {
   postReactions?: Prisma.PostReactionCreateNestedManyWithoutUserInput
   giftPacksBought?: Prisma.GiftPackCreateNestedManyWithoutBuyerInput
   reminders?: Prisma.UserReminderCreateNestedManyWithoutUserInput
+  referredBy?: Prisma.ClinicCreateNestedOneWithoutReferredUsersInput
 }
 
 export type UserUncheckedCreateWithoutGiftPacksRedeemedInput = {
@@ -10969,6 +11807,7 @@ export type UserUncheckedCreateWithoutGiftPacksRedeemedInput = {
   trialEndsAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  referredByEstheticianId?: string | null
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   analyses?: Prisma.SkinAnalysisUncheckedCreateNestedManyWithoutUserInput
@@ -10978,6 +11817,7 @@ export type UserUncheckedCreateWithoutGiftPacksRedeemedInput = {
   purchasePacks?: Prisma.PurchasePackUncheckedCreateNestedManyWithoutUserInput
   usageRecords?: Prisma.UsageTrackingUncheckedCreateNestedManyWithoutUserInput
   clinic?: Prisma.ClinicUncheckedCreateNestedOneWithoutOwnerInput
+  clients?: Prisma.ClientUncheckedCreateNestedManyWithoutEstheticianInput
   surveyFeedback?: Prisma.SurveyFeedbackUncheckedCreateNestedManyWithoutUserInput
   communityPosts?: Prisma.CommunityPostUncheckedCreateNestedManyWithoutUserInput
   comments?: Prisma.CommentUncheckedCreateNestedManyWithoutUserInput
@@ -11057,6 +11897,7 @@ export type UserUpdateWithoutGiftPacksBoughtInput = {
   purchasePacks?: Prisma.PurchasePackUpdateManyWithoutUserNestedInput
   usageRecords?: Prisma.UsageTrackingUpdateManyWithoutUserNestedInput
   clinic?: Prisma.ClinicUpdateOneWithoutOwnerNestedInput
+  clients?: Prisma.ClientUpdateManyWithoutEstheticianNestedInput
   surveyFeedback?: Prisma.SurveyFeedbackUpdateManyWithoutUserNestedInput
   communityPosts?: Prisma.CommunityPostUpdateManyWithoutUserNestedInput
   comments?: Prisma.CommentUpdateManyWithoutUserNestedInput
@@ -11084,6 +11925,7 @@ export type UserUpdateWithoutGiftPacksBoughtInput = {
   postReactions?: Prisma.PostReactionUpdateManyWithoutUserNestedInput
   giftPacksRedeemed?: Prisma.GiftPackUpdateManyWithoutRedeemedByNestedInput
   reminders?: Prisma.UserReminderUpdateManyWithoutUserNestedInput
+  referredBy?: Prisma.ClinicUpdateOneWithoutReferredUsersNestedInput
 }
 
 export type UserUncheckedUpdateWithoutGiftPacksBoughtInput = {
@@ -11111,6 +11953,7 @@ export type UserUncheckedUpdateWithoutGiftPacksBoughtInput = {
   trialEndsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  referredByEstheticianId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   analyses?: Prisma.SkinAnalysisUncheckedUpdateManyWithoutUserNestedInput
@@ -11120,6 +11963,7 @@ export type UserUncheckedUpdateWithoutGiftPacksBoughtInput = {
   purchasePacks?: Prisma.PurchasePackUncheckedUpdateManyWithoutUserNestedInput
   usageRecords?: Prisma.UsageTrackingUncheckedUpdateManyWithoutUserNestedInput
   clinic?: Prisma.ClinicUncheckedUpdateOneWithoutOwnerNestedInput
+  clients?: Prisma.ClientUncheckedUpdateManyWithoutEstheticianNestedInput
   surveyFeedback?: Prisma.SurveyFeedbackUncheckedUpdateManyWithoutUserNestedInput
   communityPosts?: Prisma.CommunityPostUncheckedUpdateManyWithoutUserNestedInput
   comments?: Prisma.CommentUncheckedUpdateManyWithoutUserNestedInput
@@ -11194,6 +12038,7 @@ export type UserUpdateWithoutGiftPacksRedeemedInput = {
   purchasePacks?: Prisma.PurchasePackUpdateManyWithoutUserNestedInput
   usageRecords?: Prisma.UsageTrackingUpdateManyWithoutUserNestedInput
   clinic?: Prisma.ClinicUpdateOneWithoutOwnerNestedInput
+  clients?: Prisma.ClientUpdateManyWithoutEstheticianNestedInput
   surveyFeedback?: Prisma.SurveyFeedbackUpdateManyWithoutUserNestedInput
   communityPosts?: Prisma.CommunityPostUpdateManyWithoutUserNestedInput
   comments?: Prisma.CommentUpdateManyWithoutUserNestedInput
@@ -11221,6 +12066,7 @@ export type UserUpdateWithoutGiftPacksRedeemedInput = {
   postReactions?: Prisma.PostReactionUpdateManyWithoutUserNestedInput
   giftPacksBought?: Prisma.GiftPackUpdateManyWithoutBuyerNestedInput
   reminders?: Prisma.UserReminderUpdateManyWithoutUserNestedInput
+  referredBy?: Prisma.ClinicUpdateOneWithoutReferredUsersNestedInput
 }
 
 export type UserUncheckedUpdateWithoutGiftPacksRedeemedInput = {
@@ -11248,6 +12094,7 @@ export type UserUncheckedUpdateWithoutGiftPacksRedeemedInput = {
   trialEndsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  referredByEstheticianId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   analyses?: Prisma.SkinAnalysisUncheckedUpdateManyWithoutUserNestedInput
@@ -11257,6 +12104,7 @@ export type UserUncheckedUpdateWithoutGiftPacksRedeemedInput = {
   purchasePacks?: Prisma.PurchasePackUncheckedUpdateManyWithoutUserNestedInput
   usageRecords?: Prisma.UsageTrackingUncheckedUpdateManyWithoutUserNestedInput
   clinic?: Prisma.ClinicUncheckedUpdateOneWithoutOwnerNestedInput
+  clients?: Prisma.ClientUncheckedUpdateManyWithoutEstheticianNestedInput
   surveyFeedback?: Prisma.SurveyFeedbackUncheckedUpdateManyWithoutUserNestedInput
   communityPosts?: Prisma.CommunityPostUncheckedUpdateManyWithoutUserNestedInput
   comments?: Prisma.CommentUncheckedUpdateManyWithoutUserNestedInput
@@ -11320,6 +12168,7 @@ export type UserCreateWithoutRemindersInput = {
   purchasePacks?: Prisma.PurchasePackCreateNestedManyWithoutUserInput
   usageRecords?: Prisma.UsageTrackingCreateNestedManyWithoutUserInput
   clinic?: Prisma.ClinicCreateNestedOneWithoutOwnerInput
+  clients?: Prisma.ClientCreateNestedManyWithoutEstheticianInput
   surveyFeedback?: Prisma.SurveyFeedbackCreateNestedManyWithoutUserInput
   communityPosts?: Prisma.CommunityPostCreateNestedManyWithoutUserInput
   comments?: Prisma.CommentCreateNestedManyWithoutUserInput
@@ -11347,6 +12196,7 @@ export type UserCreateWithoutRemindersInput = {
   postReactions?: Prisma.PostReactionCreateNestedManyWithoutUserInput
   giftPacksBought?: Prisma.GiftPackCreateNestedManyWithoutBuyerInput
   giftPacksRedeemed?: Prisma.GiftPackCreateNestedManyWithoutRedeemedByInput
+  referredBy?: Prisma.ClinicCreateNestedOneWithoutReferredUsersInput
 }
 
 export type UserUncheckedCreateWithoutRemindersInput = {
@@ -11374,6 +12224,7 @@ export type UserUncheckedCreateWithoutRemindersInput = {
   trialEndsAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  referredByEstheticianId?: string | null
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   analyses?: Prisma.SkinAnalysisUncheckedCreateNestedManyWithoutUserInput
@@ -11383,6 +12234,7 @@ export type UserUncheckedCreateWithoutRemindersInput = {
   purchasePacks?: Prisma.PurchasePackUncheckedCreateNestedManyWithoutUserInput
   usageRecords?: Prisma.UsageTrackingUncheckedCreateNestedManyWithoutUserInput
   clinic?: Prisma.ClinicUncheckedCreateNestedOneWithoutOwnerInput
+  clients?: Prisma.ClientUncheckedCreateNestedManyWithoutEstheticianInput
   surveyFeedback?: Prisma.SurveyFeedbackUncheckedCreateNestedManyWithoutUserInput
   communityPosts?: Prisma.CommunityPostUncheckedCreateNestedManyWithoutUserInput
   comments?: Prisma.CommentUncheckedCreateNestedManyWithoutUserInput
@@ -11462,6 +12314,7 @@ export type UserUpdateWithoutRemindersInput = {
   purchasePacks?: Prisma.PurchasePackUpdateManyWithoutUserNestedInput
   usageRecords?: Prisma.UsageTrackingUpdateManyWithoutUserNestedInput
   clinic?: Prisma.ClinicUpdateOneWithoutOwnerNestedInput
+  clients?: Prisma.ClientUpdateManyWithoutEstheticianNestedInput
   surveyFeedback?: Prisma.SurveyFeedbackUpdateManyWithoutUserNestedInput
   communityPosts?: Prisma.CommunityPostUpdateManyWithoutUserNestedInput
   comments?: Prisma.CommentUpdateManyWithoutUserNestedInput
@@ -11489,9 +12342,167 @@ export type UserUpdateWithoutRemindersInput = {
   postReactions?: Prisma.PostReactionUpdateManyWithoutUserNestedInput
   giftPacksBought?: Prisma.GiftPackUpdateManyWithoutBuyerNestedInput
   giftPacksRedeemed?: Prisma.GiftPackUpdateManyWithoutRedeemedByNestedInput
+  referredBy?: Prisma.ClinicUpdateOneWithoutReferredUsersNestedInput
 }
 
 export type UserUncheckedUpdateWithoutRemindersInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  emailVerified?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.StringFieldUpdateOperationsInput | string
+  plan?: Prisma.StringFieldUpdateOperationsInput | string
+  qvapayId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  analysisLimit?: Prisma.IntFieldUpdateOperationsInput | number
+  analysisUsed?: Prisma.IntFieldUpdateOperationsInput | number
+  analysisResetAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  telegramId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  telegramTrialStartedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  isTelegramPremiumActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  latitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  longitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  currentStreak?: Prisma.IntFieldUpdateOperationsInput | number
+  maxStreak?: Prisma.IntFieldUpdateOperationsInput | number
+  lastCheckInDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  trialEndsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  referredByEstheticianId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
+  sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
+  analyses?: Prisma.SkinAnalysisUncheckedUpdateManyWithoutUserNestedInput
+  analysisJobs?: Prisma.AnalysisJobUncheckedUpdateManyWithoutUserNestedInput
+  payments?: Prisma.PaymentUncheckedUpdateManyWithoutUserNestedInput
+  subscriptions?: Prisma.SubscriptionUncheckedUpdateManyWithoutUserNestedInput
+  purchasePacks?: Prisma.PurchasePackUncheckedUpdateManyWithoutUserNestedInput
+  usageRecords?: Prisma.UsageTrackingUncheckedUpdateManyWithoutUserNestedInput
+  clinic?: Prisma.ClinicUncheckedUpdateOneWithoutOwnerNestedInput
+  clients?: Prisma.ClientUncheckedUpdateManyWithoutEstheticianNestedInput
+  surveyFeedback?: Prisma.SurveyFeedbackUncheckedUpdateManyWithoutUserNestedInput
+  communityPosts?: Prisma.CommunityPostUncheckedUpdateManyWithoutUserNestedInput
+  comments?: Prisma.CommentUncheckedUpdateManyWithoutUserNestedInput
+  skinDiary?: Prisma.SkinDiaryUncheckedUpdateManyWithoutUserNestedInput
+  userChallenges?: Prisma.UserChallengeUncheckedUpdateManyWithoutUserNestedInput
+  productReviews?: Prisma.ProductReviewUncheckedUpdateManyWithoutUserNestedInput
+  referralsOwned?: Prisma.ReferralUncheckedUpdateManyWithoutReferrerNestedInput
+  referralsReferred?: Prisma.ReferralUncheckedUpdateManyWithoutReferredNestedInput
+  groupsOwned?: Prisma.GroupAnalyticsUncheckedUpdateManyWithoutReferrerNestedInput
+  digitalPurchases?: Prisma.DigitalProductPurchaseUncheckedUpdateManyWithoutUserNestedInput
+  affiliateClicks?: Prisma.AffiliateClickUncheckedUpdateManyWithoutUserNestedInput
+  evolution?: Prisma.UserEvolutionUncheckedUpdateOneWithoutUserNestedInput
+  checkIns?: Prisma.DailyCheckInUncheckedUpdateManyWithoutUserNestedInput
+  transferPayments?: Prisma.TransferPaymentUncheckedUpdateManyWithoutUserNestedInput
+  validatedTransfers?: Prisma.TransferPaymentUncheckedUpdateManyWithoutValidatorNestedInput
+  activatedTransfers?: Prisma.TransferPaymentUncheckedUpdateManyWithoutActivatorNestedInput
+  auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutUserNestedInput
+  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
+  supportTickets?: Prisma.SupportTicketUncheckedUpdateManyWithoutUserNestedInput
+  ticketResponses?: Prisma.SupportTicketResponseUncheckedUpdateManyWithoutUserNestedInput
+  chatMessages?: Prisma.ChatMessageUncheckedUpdateManyWithoutUserNestedInput
+  contactMessages?: Prisma.ContactMessageUncheckedUpdateManyWithoutUserNestedInput
+  communityGroups?: Prisma.CommunityGroupUncheckedUpdateManyWithoutCreatorNestedInput
+  communityMemberships?: Prisma.CommunityMemberUncheckedUpdateManyWithoutUserNestedInput
+  postReactions?: Prisma.PostReactionUncheckedUpdateManyWithoutUserNestedInput
+  giftPacksBought?: Prisma.GiftPackUncheckedUpdateManyWithoutBuyerNestedInput
+  giftPacksRedeemed?: Prisma.GiftPackUncheckedUpdateManyWithoutRedeemedByNestedInput
+}
+
+export type UserCreateManyReferredByInput = {
+  id?: string
+  name?: string | null
+  email: string
+  emailVerified?: Date | string | null
+  image?: string | null
+  password?: string | null
+  username?: string | null
+  role?: string
+  plan?: string
+  qvapayId?: string | null
+  analysisLimit?: number
+  analysisUsed?: number
+  analysisResetAt?: Date | string | null
+  telegramId?: string | null
+  telegramTrialStartedAt?: Date | string | null
+  isTelegramPremiumActive?: boolean
+  latitude?: number | null
+  longitude?: number | null
+  currentStreak?: number
+  maxStreak?: number
+  lastCheckInDate?: Date | string | null
+  trialEndsAt?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+}
+
+export type UserUpdateWithoutReferredByInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  emailVerified?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.StringFieldUpdateOperationsInput | string
+  plan?: Prisma.StringFieldUpdateOperationsInput | string
+  qvapayId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  analysisLimit?: Prisma.IntFieldUpdateOperationsInput | number
+  analysisUsed?: Prisma.IntFieldUpdateOperationsInput | number
+  analysisResetAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  telegramId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  telegramTrialStartedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  isTelegramPremiumActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  latitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  longitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  currentStreak?: Prisma.IntFieldUpdateOperationsInput | number
+  maxStreak?: Prisma.IntFieldUpdateOperationsInput | number
+  lastCheckInDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  trialEndsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
+  sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
+  analyses?: Prisma.SkinAnalysisUpdateManyWithoutUserNestedInput
+  analysisJobs?: Prisma.AnalysisJobUpdateManyWithoutUserNestedInput
+  payments?: Prisma.PaymentUpdateManyWithoutUserNestedInput
+  subscriptions?: Prisma.SubscriptionUpdateManyWithoutUserNestedInput
+  purchasePacks?: Prisma.PurchasePackUpdateManyWithoutUserNestedInput
+  usageRecords?: Prisma.UsageTrackingUpdateManyWithoutUserNestedInput
+  clinic?: Prisma.ClinicUpdateOneWithoutOwnerNestedInput
+  clients?: Prisma.ClientUpdateManyWithoutEstheticianNestedInput
+  surveyFeedback?: Prisma.SurveyFeedbackUpdateManyWithoutUserNestedInput
+  communityPosts?: Prisma.CommunityPostUpdateManyWithoutUserNestedInput
+  comments?: Prisma.CommentUpdateManyWithoutUserNestedInput
+  skinDiary?: Prisma.SkinDiaryUpdateManyWithoutUserNestedInput
+  userChallenges?: Prisma.UserChallengeUpdateManyWithoutUserNestedInput
+  productReviews?: Prisma.ProductReviewUpdateManyWithoutUserNestedInput
+  referralsOwned?: Prisma.ReferralUpdateManyWithoutReferrerNestedInput
+  referralsReferred?: Prisma.ReferralUpdateManyWithoutReferredNestedInput
+  groupsOwned?: Prisma.GroupAnalyticsUpdateManyWithoutReferrerNestedInput
+  digitalPurchases?: Prisma.DigitalProductPurchaseUpdateManyWithoutUserNestedInput
+  affiliateClicks?: Prisma.AffiliateClickUpdateManyWithoutUserNestedInput
+  evolution?: Prisma.UserEvolutionUpdateOneWithoutUserNestedInput
+  checkIns?: Prisma.DailyCheckInUpdateManyWithoutUserNestedInput
+  transferPayments?: Prisma.TransferPaymentUpdateManyWithoutUserNestedInput
+  validatedTransfers?: Prisma.TransferPaymentUpdateManyWithoutValidatorNestedInput
+  activatedTransfers?: Prisma.TransferPaymentUpdateManyWithoutActivatorNestedInput
+  auditLogs?: Prisma.AuditLogUpdateManyWithoutUserNestedInput
+  notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
+  supportTickets?: Prisma.SupportTicketUpdateManyWithoutUserNestedInput
+  ticketResponses?: Prisma.SupportTicketResponseUpdateManyWithoutUserNestedInput
+  chatMessages?: Prisma.ChatMessageUpdateManyWithoutUserNestedInput
+  contactMessages?: Prisma.ContactMessageUpdateManyWithoutUserNestedInput
+  communityGroups?: Prisma.CommunityGroupUpdateManyWithoutCreatorNestedInput
+  communityMemberships?: Prisma.CommunityMemberUpdateManyWithoutUserNestedInput
+  postReactions?: Prisma.PostReactionUpdateManyWithoutUserNestedInput
+  giftPacksBought?: Prisma.GiftPackUpdateManyWithoutBuyerNestedInput
+  giftPacksRedeemed?: Prisma.GiftPackUpdateManyWithoutRedeemedByNestedInput
+  reminders?: Prisma.UserReminderUpdateManyWithoutUserNestedInput
+}
+
+export type UserUncheckedUpdateWithoutReferredByInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.StringFieldUpdateOperationsInput | string
@@ -11525,6 +12536,7 @@ export type UserUncheckedUpdateWithoutRemindersInput = {
   purchasePacks?: Prisma.PurchasePackUncheckedUpdateManyWithoutUserNestedInput
   usageRecords?: Prisma.UsageTrackingUncheckedUpdateManyWithoutUserNestedInput
   clinic?: Prisma.ClinicUncheckedUpdateOneWithoutOwnerNestedInput
+  clients?: Prisma.ClientUncheckedUpdateManyWithoutEstheticianNestedInput
   surveyFeedback?: Prisma.SurveyFeedbackUncheckedUpdateManyWithoutUserNestedInput
   communityPosts?: Prisma.CommunityPostUncheckedUpdateManyWithoutUserNestedInput
   comments?: Prisma.CommentUncheckedUpdateManyWithoutUserNestedInput
@@ -11552,6 +12564,34 @@ export type UserUncheckedUpdateWithoutRemindersInput = {
   postReactions?: Prisma.PostReactionUncheckedUpdateManyWithoutUserNestedInput
   giftPacksBought?: Prisma.GiftPackUncheckedUpdateManyWithoutBuyerNestedInput
   giftPacksRedeemed?: Prisma.GiftPackUncheckedUpdateManyWithoutRedeemedByNestedInput
+  reminders?: Prisma.UserReminderUncheckedUpdateManyWithoutUserNestedInput
+}
+
+export type UserUncheckedUpdateManyWithoutReferredByInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  emailVerified?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.StringFieldUpdateOperationsInput | string
+  plan?: Prisma.StringFieldUpdateOperationsInput | string
+  qvapayId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  analysisLimit?: Prisma.IntFieldUpdateOperationsInput | number
+  analysisUsed?: Prisma.IntFieldUpdateOperationsInput | number
+  analysisResetAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  telegramId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  telegramTrialStartedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  isTelegramPremiumActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  latitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  longitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  currentStreak?: Prisma.IntFieldUpdateOperationsInput | number
+  maxStreak?: Prisma.IntFieldUpdateOperationsInput | number
+  lastCheckInDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  trialEndsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 
@@ -11568,6 +12608,7 @@ export type UserCountOutputType = {
   subscriptions: number
   purchasePacks: number
   usageRecords: number
+  clients: number
   surveyFeedback: number
   communityPosts: number
   comments: number
@@ -11606,6 +12647,7 @@ export type UserCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.I
   subscriptions?: boolean | UserCountOutputTypeCountSubscriptionsArgs
   purchasePacks?: boolean | UserCountOutputTypeCountPurchasePacksArgs
   usageRecords?: boolean | UserCountOutputTypeCountUsageRecordsArgs
+  clients?: boolean | UserCountOutputTypeCountClientsArgs
   surveyFeedback?: boolean | UserCountOutputTypeCountSurveyFeedbackArgs
   communityPosts?: boolean | UserCountOutputTypeCountCommunityPostsArgs
   comments?: boolean | UserCountOutputTypeCountCommentsArgs
@@ -11699,6 +12741,13 @@ export type UserCountOutputTypeCountPurchasePacksArgs<ExtArgs extends runtime.Ty
  */
 export type UserCountOutputTypeCountUsageRecordsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   where?: Prisma.UsageTrackingWhereInput
+}
+
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountClientsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.ClientWhereInput
 }
 
 /**
@@ -11916,6 +12965,7 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   trialEndsAt?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  referredByEstheticianId?: boolean
   accounts?: boolean | Prisma.User$accountsArgs<ExtArgs>
   sessions?: boolean | Prisma.User$sessionsArgs<ExtArgs>
   analyses?: boolean | Prisma.User$analysesArgs<ExtArgs>
@@ -11925,6 +12975,7 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   purchasePacks?: boolean | Prisma.User$purchasePacksArgs<ExtArgs>
   usageRecords?: boolean | Prisma.User$usageRecordsArgs<ExtArgs>
   clinic?: boolean | Prisma.User$clinicArgs<ExtArgs>
+  clients?: boolean | Prisma.User$clientsArgs<ExtArgs>
   surveyFeedback?: boolean | Prisma.User$surveyFeedbackArgs<ExtArgs>
   communityPosts?: boolean | Prisma.User$communityPostsArgs<ExtArgs>
   comments?: boolean | Prisma.User$commentsArgs<ExtArgs>
@@ -11953,6 +13004,7 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   giftPacksBought?: boolean | Prisma.User$giftPacksBoughtArgs<ExtArgs>
   giftPacksRedeemed?: boolean | Prisma.User$giftPacksRedeemedArgs<ExtArgs>
   reminders?: boolean | Prisma.User$remindersArgs<ExtArgs>
+  referredBy?: boolean | Prisma.User$referredByArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["user"]>
 
@@ -11981,6 +13033,8 @@ export type UserSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   trialEndsAt?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  referredByEstheticianId?: boolean
+  referredBy?: boolean | Prisma.User$referredByArgs<ExtArgs>
 }, ExtArgs["result"]["user"]>
 
 export type UserSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -12008,6 +13062,8 @@ export type UserSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   trialEndsAt?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  referredByEstheticianId?: boolean
+  referredBy?: boolean | Prisma.User$referredByArgs<ExtArgs>
 }, ExtArgs["result"]["user"]>
 
 export type UserSelectScalar = {
@@ -12035,9 +13091,10 @@ export type UserSelectScalar = {
   trialEndsAt?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  referredByEstheticianId?: boolean
 }
 
-export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "email" | "emailVerified" | "image" | "password" | "username" | "role" | "plan" | "qvapayId" | "analysisLimit" | "analysisUsed" | "analysisResetAt" | "telegramId" | "telegramTrialStartedAt" | "isTelegramPremiumActive" | "latitude" | "longitude" | "currentStreak" | "maxStreak" | "lastCheckInDate" | "trialEndsAt" | "createdAt" | "updatedAt", ExtArgs["result"]["user"]>
+export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "email" | "emailVerified" | "image" | "password" | "username" | "role" | "plan" | "qvapayId" | "analysisLimit" | "analysisUsed" | "analysisResetAt" | "telegramId" | "telegramTrialStartedAt" | "isTelegramPremiumActive" | "latitude" | "longitude" | "currentStreak" | "maxStreak" | "lastCheckInDate" | "trialEndsAt" | "createdAt" | "updatedAt" | "referredByEstheticianId", ExtArgs["result"]["user"]>
 export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   accounts?: boolean | Prisma.User$accountsArgs<ExtArgs>
   sessions?: boolean | Prisma.User$sessionsArgs<ExtArgs>
@@ -12048,6 +13105,7 @@ export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   purchasePacks?: boolean | Prisma.User$purchasePacksArgs<ExtArgs>
   usageRecords?: boolean | Prisma.User$usageRecordsArgs<ExtArgs>
   clinic?: boolean | Prisma.User$clinicArgs<ExtArgs>
+  clients?: boolean | Prisma.User$clientsArgs<ExtArgs>
   surveyFeedback?: boolean | Prisma.User$surveyFeedbackArgs<ExtArgs>
   communityPosts?: boolean | Prisma.User$communityPostsArgs<ExtArgs>
   comments?: boolean | Prisma.User$commentsArgs<ExtArgs>
@@ -12076,10 +13134,15 @@ export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   giftPacksBought?: boolean | Prisma.User$giftPacksBoughtArgs<ExtArgs>
   giftPacksRedeemed?: boolean | Prisma.User$giftPacksRedeemedArgs<ExtArgs>
   reminders?: boolean | Prisma.User$remindersArgs<ExtArgs>
+  referredBy?: boolean | Prisma.User$referredByArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }
-export type UserIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
-export type UserIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
+export type UserIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  referredBy?: boolean | Prisma.User$referredByArgs<ExtArgs>
+}
+export type UserIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  referredBy?: boolean | Prisma.User$referredByArgs<ExtArgs>
+}
 
 export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "User"
@@ -12093,6 +13156,7 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     purchasePacks: Prisma.$PurchasePackPayload<ExtArgs>[]
     usageRecords: Prisma.$UsageTrackingPayload<ExtArgs>[]
     clinic: Prisma.$ClinicPayload<ExtArgs> | null
+    clients: Prisma.$ClientPayload<ExtArgs>[]
     surveyFeedback: Prisma.$SurveyFeedbackPayload<ExtArgs>[]
     communityPosts: Prisma.$CommunityPostPayload<ExtArgs>[]
     comments: Prisma.$CommentPayload<ExtArgs>[]
@@ -12121,6 +13185,7 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     giftPacksBought: Prisma.$GiftPackPayload<ExtArgs>[]
     giftPacksRedeemed: Prisma.$GiftPackPayload<ExtArgs>[]
     reminders: Prisma.$UserReminderPayload<ExtArgs>[]
+    referredBy: Prisma.$ClinicPayload<ExtArgs> | null
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -12147,6 +13212,7 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     trialEndsAt: Date | null
     createdAt: Date
     updatedAt: Date
+    referredByEstheticianId: string | null
   }, ExtArgs["result"]["user"]>
   composites: {}
 }
@@ -12550,6 +13616,7 @@ export interface Prisma__UserClient<T, Null = never, ExtArgs extends runtime.Typ
   purchasePacks<T extends Prisma.User$purchasePacksArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$purchasePacksArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$PurchasePackPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   usageRecords<T extends Prisma.User$usageRecordsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$usageRecordsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$UsageTrackingPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   clinic<T extends Prisma.User$clinicArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$clinicArgs<ExtArgs>>): Prisma.Prisma__ClinicClient<runtime.Types.Result.GetResult<Prisma.$ClinicPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  clients<T extends Prisma.User$clientsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$clientsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ClientPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   surveyFeedback<T extends Prisma.User$surveyFeedbackArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$surveyFeedbackArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$SurveyFeedbackPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   communityPosts<T extends Prisma.User$communityPostsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$communityPostsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$CommunityPostPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   comments<T extends Prisma.User$commentsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$commentsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$CommentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
@@ -12578,6 +13645,7 @@ export interface Prisma__UserClient<T, Null = never, ExtArgs extends runtime.Typ
   giftPacksBought<T extends Prisma.User$giftPacksBoughtArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$giftPacksBoughtArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$GiftPackPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   giftPacksRedeemed<T extends Prisma.User$giftPacksRedeemedArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$giftPacksRedeemedArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$GiftPackPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   reminders<T extends Prisma.User$remindersArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$remindersArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$UserReminderPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  referredBy<T extends Prisma.User$referredByArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$referredByArgs<ExtArgs>>): Prisma.Prisma__ClinicClient<runtime.Types.Result.GetResult<Prisma.$ClinicPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -12631,6 +13699,7 @@ export interface UserFieldRefs {
   readonly trialEndsAt: Prisma.FieldRef<"User", 'DateTime'>
   readonly createdAt: Prisma.FieldRef<"User", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"User", 'DateTime'>
+  readonly referredByEstheticianId: Prisma.FieldRef<"User", 'String'>
 }
     
 
@@ -12885,6 +13954,10 @@ export type UserCreateManyAndReturnArgs<ExtArgs extends runtime.Types.Extensions
    */
   data: Prisma.UserCreateManyInput | Prisma.UserCreateManyInput[]
   skipDuplicates?: boolean
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.UserIncludeCreateManyAndReturn<ExtArgs> | null
 }
 
 /**
@@ -12955,6 +14028,10 @@ export type UserUpdateManyAndReturnArgs<ExtArgs extends runtime.Types.Extensions
    * Limit how many Users to update.
    */
   limit?: number
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.UserIncludeUpdateManyAndReturn<ExtArgs> | null
 }
 
 /**
@@ -13232,6 +14309,30 @@ export type User$clinicArgs<ExtArgs extends runtime.Types.Extensions.InternalArg
    */
   include?: Prisma.ClinicInclude<ExtArgs> | null
   where?: Prisma.ClinicWhereInput
+}
+
+/**
+ * User.clients
+ */
+export type User$clientsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Client
+   */
+  select?: Prisma.ClientSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Client
+   */
+  omit?: Prisma.ClientOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ClientInclude<ExtArgs> | null
+  where?: Prisma.ClientWhereInput
+  orderBy?: Prisma.ClientOrderByWithRelationInput | Prisma.ClientOrderByWithRelationInput[]
+  cursor?: Prisma.ClientWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.ClientScalarFieldEnum | Prisma.ClientScalarFieldEnum[]
 }
 
 /**
@@ -13899,6 +15000,25 @@ export type User$remindersArgs<ExtArgs extends runtime.Types.Extensions.Internal
   take?: number
   skip?: number
   distinct?: Prisma.UserReminderScalarFieldEnum | Prisma.UserReminderScalarFieldEnum[]
+}
+
+/**
+ * User.referredBy
+ */
+export type User$referredByArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Clinic
+   */
+  select?: Prisma.ClinicSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Clinic
+   */
+  omit?: Prisma.ClinicOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ClinicInclude<ExtArgs> | null
+  where?: Prisma.ClinicWhereInput
 }
 
 /**

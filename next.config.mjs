@@ -13,13 +13,14 @@ const nextConfig = {
       { protocol: "https", hostname: "cdn-icons-png.flaticon.com" },
       { protocol: "https", hostname: "images.pexels.com" },
       { protocol: "https", hostname: "images.unsplash.com" },
+      { protocol: "https", hostname: "res.cloudinary.com" },
     ],
     formats: ["image/avif", "image/webp"],
     deviceSizes: [640, 750, 828, 1080, 1200, 1920, 2048, 3840],
     imageSizes: [16, 32, 48, 64, 96, 128, 256, 384],
     minimumCacheTTL: 60 * 60 * 24 * 7,
   },
-  serverExternalPackages: ["pg", "@prisma/adapter-pg", "bcrypt"],
+  serverExternalPackages: ["pg", "@prisma/adapter-pg"],
   async headers() {
     return [
       {
@@ -35,11 +36,11 @@ const nextConfig = {
             key: "Content-Security-Policy",
             value: [
               "default-src 'self'",
-              "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://us-assets.i.posthog.com",
+              "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://us-assets.i.posthog.com https://www.clarity.ms",
               "style-src 'self' 'unsafe-inline'",
-              "img-src 'self' data: blob: https://avatars.githubusercontent.com https://lh3.googleusercontent.com https://cdn-icons-png.flaticon.com https://*.supabase.co https://images.pexels.com https://images.unsplash.com",
+              "img-src 'self' data: blob: https://avatars.githubusercontent.com https://lh3.googleusercontent.com https://cdn-icons-png.flaticon.com https://*.supabase.co https://images.pexels.com https://images.unsplash.com https://res.cloudinary.com",
               "font-src 'self' data:",
-              "connect-src 'self' https://api.qvapay.com https://www.qvapay.com https://*.supabase.co https://app.posthog.com https://us.i.posthog.com https://us-assets.i.posthog.com https://api.telegram.org",
+              "connect-src 'self' https://api.qvapay.com https://www.qvapay.com https://*.supabase.co https://app.posthog.com https://us.i.posthog.com https://us-assets.i.posthog.com https://api.telegram.org https://www.clarity.ms https://c.clarity.ms",
               "frame-src 'self'",
               "object-src 'none'",
               "base-uri 'self'",
@@ -51,6 +52,6 @@ const nextConfig = {
       },
     ]
   },
-};
+}
 
-export default nextConfig;
+export default nextConfig

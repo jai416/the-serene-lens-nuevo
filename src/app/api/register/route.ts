@@ -23,9 +23,9 @@ export async function POST(req: NextRequest) {
       return error(parsed.error.issues.map((i) => i.message).join(", "), 400)
     }
 
-    const { name, email, password, username } = parsed.data
+    const { name, email, password, username, estheticianCode } = parsed.data
 
-    const result = await registerUser(email, password, name, username)
+    const result = await registerUser(email, password, name, username, estheticianCode)
     if (result.error) {
       return error(result.error, 400)
     }

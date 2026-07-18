@@ -114,8 +114,10 @@ describe("AnalysisService.processAnalysis", () => {
       age: undefined,
       concerns: "acné",
       gender: undefined,
-      climate: undefined,
+      climate: "Clima: Tropical húmedo (predeterminado).",
       routine: undefined,
+      previousSkinType: null,
+      previousObservations: [],
     })
   })
 })

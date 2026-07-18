@@ -4,9 +4,15 @@ import { createHash } from "crypto"
 const GROQ_API_BASE = "https://api.groq.com/openai/v1"
 const MODEL = "llama-3.2-11b-vision-preview"
 
-const SYSTEM_PROMPT = `Eres un experto en análisis de productos cosméticos y skincare.
+export async function scanProductIngredients(imageBase64: string, skinType?: string | null) {
+  const skinContext = skinType
+    ? `El usuario tiene piel ${skinType}. Prioriza ingredientes beneficiosos para este tipo de piel y advierte sobre los que pueden ser problemáticos.`
+    : ""
+
+  const SYSTEM_PROMPT = `Eres un experto en análisis de productos cosméticos y skincare.
 Responde exclusivamente en español.
 Examina la imagen de la etiqueta del producto, extrae los ingredientes y analízalos.
+${skinContext}
 Responde SOLO con JSON en este formato exacto y nada más:
 
 {
@@ -19,8 +25,6 @@ Responde SOLO con JSON en este formato exacto y nada más:
   },
   "summary": "resumen breve del análisis del producto"
 }`
-
-export async function scanProductIngredients(imageBase64: string) {
   const key = process.env.GROQ_API_KEY
   if (!key) throw new Error("Servicio de análisis no disponible. Intenta más tarde.")
 

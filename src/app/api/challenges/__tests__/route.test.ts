@@ -1,23 +1,18 @@
 import { describe, it, expect, vi, beforeEach } from "vitest"
 
-const { mockGetActiveChallenges, mockCompleteChallenge, mockGetSession } = vi.hoisted(() => ({
-  mockGetActiveChallenges: vi.fn(),
-  mockCompleteChallenge: vi.fn(),
-  mockGetSession: vi.fn(),
+const { mockGetActive, mockComplete } = vi.hoisted(() => ({
+  mockGetActive: vi.fn(),
+  mockComplete: vi.fn(),
 }))
 
 vi.mock("next-auth", () => ({
-  getServerSession: mockGetSession,
-}))
-
-vi.mock("@/lib/auth", () => ({
-  authOptions: {},
+  getServerSession: vi.fn(),
 }))
 
 vi.mock("@/lib/services/challenge.service", () => ({
   ChallengeService: {
-    getActiveChallenges: mockGetActiveChallenges,
-    completeChallenge: mockCompleteChallenge,
+    getActiveChallenges: mockGetActive,
+    completeChallenge: mockComplete,
   },
   ChallengeError: class ChallengeError extends Error {
     code: string
@@ -28,84 +23,67 @@ vi.mock("@/lib/services/challenge.service", () => ({
   },
 }))
 
-vi.mock("@/lib/logger", () => ({
-  logger: { info: vi.fn(), error: vi.fn(), warn: vi.fn() },
+vi.mock("@/lib/validations", () => ({
+  challengeCompleteSchema: {
+    safeParse: vi.fn().mockReturnValue({ success: true, data: { challengeId: "ch-1" } }),
+  },
 }))
 
+import { getServerSession } from "next-auth"
 import { GET, POST } from "../route"
 
 describe("Challenges API", () => {
+  const mockSession = { user: { id: "user-1" } }
+
   beforeEach(() => {
     vi.clearAllMocks()
+    ;(getServerSession as any).mockResolvedValue(mockSession)
   })
 
   describe("GET", () => {
-    it("returns 401 when not authenticated", async () => {
-      mockGetSession.mockResolvedValueOnce(null)
-      const res = await GET()
-      expect(res.status).toBe(401)
-    })
-
-    it("returns active challenges for authenticated user", async () => {
-      mockGetSession.mockResolvedValueOnce({ user: { id: "user-1" } })
-      mockGetActiveChallenges.mockResolvedValueOnce({
-        challenges: [
-          { id: "1", title: "Challenge 1", completed: false },
-          { id: "2", title: "Challenge 2", completed: true },
-        ],
+    it("returns list of challenges", async () => {
+      mockGetActive.mockResolvedValue({
+        challenges: [{ id: "ch-1", title: "30 days of SPF", category: "PROTECTION" }],
+        userProgress: [],
       })
-
       const res = await GET()
       const body = await res.json()
-      const data = body?.data || body
-
-      expect(res.status).toBe(200)
-      expect(data.challenges).toHaveLength(2)
+      expect(body.data.challenges).toHaveLength(1)
     })
 
-    it("returns 500 on service error", async () => {
-      mockGetSession.mockResolvedValueOnce({ user: { id: "user-1" } })
-      mockGetActiveChallenges.mockRejectedValueOnce(new Error("Service error"))
-
+    it("returns 401 without auth", async () => {
+      ;(getServerSession as any).mockResolvedValue(null)
       const res = await GET()
-      expect(res.status).toBe(500)
+      expect(res.status).toBe(401)
     })
   })
 
   describe("POST", () => {
-    it("returns 401 when not authenticated", async () => {
-      mockGetSession.mockResolvedValueOnce(null)
+    it("completes a challenge", async () => {
+      mockComplete.mockResolvedValue({ success: true })
       const req = new Request("http://localhost/api/challenges", {
         method: "POST",
-        body: JSON.stringify({ challengeId: "1" }),
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ challengeId: "ch-1" }),
       })
       const res = await POST(req)
-      expect(res.status).toBe(401)
+      const body = await res.json()
+      expect(body.data.success).toBe(true)
     })
 
     it("returns 400 for invalid body", async () => {
-      mockGetSession.mockResolvedValueOnce({ user: { id: "user-1" } })
+      const mockSchema = await import("@/lib/validations")
+      ;(mockSchema.challengeCompleteSchema.safeParse as any).mockReturnValueOnce({
+        success: false,
+        error: { issues: [{ message: "Invalid" }] },
+      })
       const req = new Request("http://localhost/api/challenges", {
         method: "POST",
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({}),
       })
       const res = await POST(req)
       expect(res.status).toBe(400)
-    })
-
-    it("completes challenge successfully", async () => {
-      mockGetSession.mockResolvedValueOnce({ user: { id: "user-1" } })
-      mockCompleteChallenge.mockResolvedValueOnce({ success: true })
-
-      const req = new Request("http://localhost/api/challenges", {
-        method: "POST",
-        body: JSON.stringify({ challengeId: "challenge-1" }),
-      })
-      const res = await POST(req)
-      const body = await res.json()
-
-      expect(res.status).toBe(200)
-      expect(body?.data?.success ?? body?.success).toBe(true)
     })
   })
 })

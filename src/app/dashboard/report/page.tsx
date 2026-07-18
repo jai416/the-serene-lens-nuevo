@@ -46,6 +46,8 @@ export default function ReportPage() {
   const [analyses, setAnalyses] = useState<AnalysisData[]>([])
   const [comparison, setComparison] = useState<MonthlyComparison | null>(null)
   const [routine, setRoutine] = useState<DynamicRoutine | null>(null)
+  const [clinicName, setClinicName] = useState<string | undefined>()
+  const [clinicLogo, setClinicLogo] = useState<string | undefined>()
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
@@ -54,8 +56,9 @@ export default function ReportPage() {
         fetch("/api/analysis").then((r) => r.json()),
         fetch("/api/user/monthly-comparison").then((r) => r.json()),
         fetch("/api/user/dynamic-routine").then((r) => r.json()),
+        fetch("/api/user/clinic").then((r) => r.json()).catch(() => ({ data: {} })),
       ])
-        .then(([analysisData, compData, routineData]) => {
+        .then(([analysisData, compData, routineData, clinicData]) => {
           const a = analysisData?.data?.analyses || analysisData?.analyses || []
           setAnalyses(a.map((x: Record<string, unknown>) => ({
             id: x.id as string,
@@ -68,6 +71,9 @@ export default function ReportPage() {
           })))
           setComparison(compData?.data || compData)
           setRoutine(routineData?.data || routineData)
+          const clinic = clinicData?.data?.clinic || clinicData?.clinic
+          if (clinic?.name) setClinicName(clinic.name)
+          if (clinic?.logo) setClinicLogo(clinic.logo)
         })
         .catch(() => {})
         .finally(() => setLoading(false))
@@ -119,6 +125,8 @@ export default function ReportPage() {
                 </div>
                 <SkinReportDownload
                   userName={session.user.name || "Usuario"}
+                  clinicName={clinicName}
+                  clinicLogo={clinicLogo}
                   analyses={analyses}
                   evolution={null}
                   monthlyComparison={comparison?.hasData ? {
