@@ -5,7 +5,7 @@ import GoogleProvider from "next-auth/providers/google"
 import GitHubProvider from "next-auth/providers/github"
 import { db } from "@/lib/db"
 import { getEnv } from "@/lib/env"
-import { checkRateLimit } from "@/lib/rate-limit"
+import { checkRateLimit, clearRateLimit } from "@/lib/rate-limit"
 import { setSentryUser } from "@/lib/sentry"
 
 function getAuthEnv() {
