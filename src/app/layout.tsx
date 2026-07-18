@@ -17,6 +17,7 @@ import { MobileNav } from "@/components/layout/mobile-nav"
 import { ClientInit } from "@/components/client-init"
 import { FeedbackButton } from "@/components/feedback-button"
 import { ClarityAnalytics } from "@/components/clarity-analytics"
+import { GoogleAnalytics } from "@/components/google-analytics"
 import { FeatureFlagProvider } from "@/components/feature-flag-provider"
 import { LocaleProvider } from "@/lib/locale/locale-context"
 
@@ -121,6 +122,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                   }}
                 />
                 <ClientInit />
+                <GoogleAnalytics />
                 <ClarityAnalytics />
                 <FeedbackButton />
               </FeatureFlagProvider>

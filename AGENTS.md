@@ -2,7 +2,13 @@
 
 ## Servicios Externos Integrados
 
-### Sentry (Monitoreo de errores) — ✅ Completo
+### Microsoft Clarity (Analytics de comportamiento) — ✅ Completo
+- `src/components/clarity-analytics.tsx` — script injection vía `next/script`
+- ID del proyecto: `NEXT_PUBLIC_CLARITY_PROJECT_ID` en `.env`
+- CSP actualizado para permitir `clarity.ms`
+- Integrado en root layout, carga afterInteractive
+
+### Sentry (Monitoreo de errores) — ✅ Completo (100%)
 - `sentry.server.config.ts`, `sentry.client.config.ts`, `sentry.edge.config.ts` — todos inicializados
 - `instrumentation.ts` carga la config correcta según runtime
 - `api-response.ts:serverError()` captura automáticamente en Sentry
@@ -11,20 +17,30 @@
 - `ErrorBoundary` component con captura de errores React
 - `tracesSampleRate: 0.1` en producción (10%)
 - Fallback silencioso si no hay DSN
+- CSP actualizado para Sentry endpoints
+- `next.config.mjs` — remotePatterns incluye `res.cloudinary.com`
 
-### Cloudinary (Imágenes CDN) — ✅ Completo
+### Cloudinary (Imágenes CDN) — ✅ Completo (100%)
 - `src/lib/cloudinary.ts` — lazy import (no rompe tests sin package)
 - Funciones: `uploadImage`, `deleteImage`, `isConfigured`
 - Integrado en `PUT /api/user/clinic` — logos base64 se suben a Cloudinary automáticamente
 - Fallback a base64 si Cloudinary no está configurado
 - Carpeta: `the-serene-lens/logos`
+- `next.config.mjs` — `remotePatterns` incluye `res.cloudinary.com`
+- CSP permite conexiones a Cloudinary
 
-### Redis/Upstash (Caché persistente) — ✅ Completo
+### Redis/Upstash (Caché persistente + Rate Limiting) — ✅ Completo (100%)
 - `src/lib/redis.ts` — lazy import (no rompe tests sin package)
 - Funciones: `redisGet`, `redisSet`, `redisDel`, `redisFlushAll`, `isRedisConfigured`
 - `src/lib/cache.ts` rewrite: Redis como primario, memoria como fallback
-- API idéntica (`getCache`/`setCache`/`delCache`/`clearCache`) pero async
-- Fallback silencioso a memoria si Redis no está configurado
+- `src/lib/rate-limit.ts` rewrite: Redis como primario (sorted sets con TTL), DB como fallback
+- Rate limits con Redis: auto-expiran vía TTL, sin necesidad de cleanup
+- Fallback silencioso a DB/memoria si Redis no está configurado
+
+### OpenWeatherMap (Clima real) — ✅ Completo
+- `src/lib/weather.ts` — obtiene temperatura, condición, humedad, estación
+- `analysis.service.ts` pasa clima real al prompt de IA
+- Fallback: estación tropical según latitud y mes
 
 ## Project Status
 **Next.js 16 + Prisma 7 + Groq AI + QvaPay/Transfermóvil + Telegram Bot.**
