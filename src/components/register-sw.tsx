@@ -1,5 +1,3 @@
-import { setupWorker } from "@/lib/setup-sw"
-
 export default function RegisterSW() {
   if (typeof window !== "undefined" && "serviceWorker" in navigator) {
     window.addEventListener("load", () => {
