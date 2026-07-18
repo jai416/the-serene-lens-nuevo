@@ -508,6 +508,7 @@ model SurveyFeedback {
   userId    String
   rating    Int
   comment   String?
+  source    String?
   createdAt DateTime @default(now())
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
