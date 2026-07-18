@@ -15,7 +15,6 @@ export async function POST(req: Request) {
       where: {
         plan: "FREE",
         updatedAt: { lt: thirtyDaysAgo },
-        email: { not: null },
       },
       select: { id: true, email: true, name: true, updatedAt: true },
       take: 50,
