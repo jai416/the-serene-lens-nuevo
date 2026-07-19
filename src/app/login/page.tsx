@@ -58,6 +58,16 @@ function LoginForm() {
           setError(data.error?.message || data.error || "Error al registrarse")
           return
         }
+        const signInResult = await signIn("credentials", {
+          email: form.email,
+          password: form.password,
+          redirect: false,
+        })
+        if (signInResult?.error) {
+          toast.success("Cuenta creada. Inicia sesión con tus credenciales.")
+          setIsRegister(false)
+          return
+        }
         toast.success("Cuenta creada correctamente")
         router.push("/dashboard?welcome=1")
         return

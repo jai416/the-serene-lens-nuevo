@@ -90,6 +90,7 @@ export type TranslationKey =
   | "common.subject"
   | "common.message"
   | "common.noData"
+  | "common.date"
   | "common.optional"
   | "common.cancel"
   | "common.monday"
@@ -393,6 +394,7 @@ const translations: Record<Locale, Record<TranslationKey, string>> = {
     "common.subject": "Subject",
     "common.message": "Message",
     "common.noData": "No data",
+    "common.date": "Date",
     "common.optional": "Optional",
     "common.cancel": "Cancel",
     "common.monday": "Monday",
@@ -695,6 +697,7 @@ const translations: Record<Locale, Record<TranslationKey, string>> = {
     "common.subject": "Asunto",
     "common.message": "Mensaje",
     "common.noData": "Sin datos",
+    "common.date": "Fecha",
     "common.optional": "Opcional",
     "common.cancel": "Cancelar",
     "common.monday": "Lunes",
