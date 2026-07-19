@@ -67,22 +67,18 @@ export default function CommunityPage() {
     if (!session) { setLoading(false); return }
     const fetchData = async () => {
       try {
-        const [groupsRes, userRes] = await Promise.all([
-          fetch("/api/community/groups"),
-          fetch("/api/user/profile"),
-        ])
-        const groupsData = await groupsRes.json()
-        const allGroups = groupsData?.data?.groups || groupsData?.groups || []
+        const res = await fetch("/api/community/groups")
+        const data = await res.json()
+        const allGroups = data?.data?.groups || data?.groups || []
         setGroups(allGroups)
 
-        const userData = await userRes.json()
-        const skinType = userData?.data?.skinType || ""
-        setUserSkinType(skinType)
+        const recommended = allGroups.find((g: CommunityGroup) => g.isRecommended)
+        if (recommended) setUserSkinType(recommended.slug)
 
         // Auto-select recommended group
         if (!selectedGroup) {
-          const recommended = allGroups.find((g: CommunityGroup) => g.isRecommended) || allGroups[0]
-          if (recommended) setSelectedGroup(recommended.id)
+          const first = allGroups.find((g: CommunityGroup) => g.isRecommended) || allGroups[0]
+          if (first) setSelectedGroup(first.id)
         }
       } catch {}
     }

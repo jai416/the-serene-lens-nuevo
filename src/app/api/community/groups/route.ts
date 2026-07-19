@@ -8,8 +8,9 @@ export async function GET() {
     const session = await getServerSession(authOptions)
     if (!session?.user) return unauthorized()
 
-    const user = await db.user.findUnique({
-      where: { id: session.user.id },
+    const lastAnalysis = await db.skinAnalysis.findFirst({
+      where: { userId: session.user.id },
+      orderBy: { createdAt: "desc" },
       select: { skinType: true },
     })
 
@@ -21,7 +22,7 @@ export async function GET() {
     })
 
     // Mark which group matches user's skin type
-    const userSkinType = user?.skinType?.toLowerCase() || ""
+    const userSkinType = lastAnalysis?.skinType?.toLowerCase() || ""
     const enriched = groups.map((g) => ({
       ...g,
       isRecommended: g.slug === userSkinType || (userSkinType && g.name.toLowerCase().includes(userSkinType)),
