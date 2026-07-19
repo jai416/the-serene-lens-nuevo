@@ -128,12 +128,12 @@ export default function CommunityPage() {
     setSubmitting(false)
   }
 
-  const joinGroup = async (slug: string) => {
-    const res = await fetch(`/api/community/groups/${slug}`, { method: "POST" })
+  const joinGroup = async (groupId: string) => {
+    const res = await fetch(`/api/community/groups/${groupId}`, { method: "POST" })
     if (res.ok) {
       setGroups((prev) =>
         prev.map((g) =>
-          g.slug === slug ? { ...g, _count: { ...g._count, members: g._count.members + 1 } } : g
+          g.id === groupId ? { ...g, _count: { ...g._count, members: g._count.members + 1 } } : g
         )
       )
     }
@@ -228,7 +228,7 @@ export default function CommunityPage() {
                       className="w-full mt-4"
                       onClick={() => {
                         const group = groups.find((g) => g.id === selectedGroup)
-                        if (group) joinGroup(group.slug)
+                        if (group) joinGroup(group.id)
                       }}
                     >
                       Unirse al grupo
