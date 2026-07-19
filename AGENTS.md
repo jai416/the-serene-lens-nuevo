@@ -64,6 +64,11 @@
 - PRO_PLUS_ANUAL: $199.99/año
 - Pack 10: $4.99; Pack 25: $9.99
 
+### Fixes posteriores
+- `User` no tiene campo `skinType` — se obtiene del último `SkinAnalysis` en lugar del perfil del usuario
+- `SKIN_TYPE_GROUPS` (array estático) no tiene `_count` — se usa el objeto de DB para acceder a members/posts
+- `GEMINI_API_KEY` se configura en `.env` local y en variables de entorno de Render
+
 ### Decisiones de AI
 - **Gemini 2.0 Flash** para asistente Telegram (`/asistente`)
 - **Groq** (`llama-3.2-11b-vision-preview`) para análisis de piel con imágenes
