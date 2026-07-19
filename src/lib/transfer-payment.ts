@@ -10,7 +10,7 @@ export async function generateReferenceCode(): Promise<string> {
 
 export function getTransferConfig() {
   return {
-    account: process.env.TRANSFER_ACCOUNT || "9238000000000000",
-    holder: process.env.TRANSFER_HOLDER || "Nombre del Titular",
+    account: process.env.TRANSFER_ACCOUNT || "",
+    holder: process.env.TRANSFER_HOLDER || "",
   }
 }

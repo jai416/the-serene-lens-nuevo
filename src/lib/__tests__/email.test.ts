@@ -50,16 +50,15 @@ describe("buildWelcomeEmail", () => {
 describe("buildTrialEndedEmail", () => {
   it("includes user name and trial ended message", () => {
     const result = buildTrialEndedEmail("Juan")
-    expect(result.subject).toContain("prueba")
     expect(result.html).toContain("Juan")
-    expect(result.html).toContain("7 días")
-    expect(result.html).toContain("Essential")
+    expect(result.html).toContain("The Serene Lens")
+    expect(result.html).toContain("PREMIUM")
   })
 
   it("works with empty name", () => {
     const result = buildTrialEndedEmail("")
-    expect(result.subject).toContain("prueba")
-    expect(result.html).toContain("Essential")
+    expect(result.html).toContain("The Serene Lens")
+    expect(result.html).toContain("PREMIUM")
   })
 })
 

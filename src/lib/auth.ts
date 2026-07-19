@@ -181,20 +181,18 @@ export const authOptions: NextAuthOptions = {
       })
 
       if (!existingUser) {
-        // New OAuth user — assign 7-day trial
-        if (user.email && !user.email.endsWith("@theserene.app")) {
-          try {
-            await db.user.update({
-              where: { email: user.email! },
-              data: {
-                plan: "PREMIUM",
-                analysisLimit: 0,
-                trialEndsAt: new Date(Date.now() + 7 * 86400000),
-              },
-            })
-          } catch {}
-        }
         return true
+      }
+
+      if (!existingUser.trialEndsAt && !existingUser.email.endsWith("@theserene.app")) {
+        await db.user.update({
+          where: { id: existingUser.id },
+          data: {
+            plan: "PREMIUM",
+            analysisLimit: 0,
+            trialEndsAt: new Date(Date.now() + 7 * 86400000),
+          },
+        }).catch(() => {})
       }
 
       // Auto-generate username for Google/GitHub users if not set

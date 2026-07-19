@@ -95,7 +95,7 @@ export const INGREDIENT_KB: ConcernIngredients[] = [
         evidence: "Moderada. Al 1-4% reduce manchas pero puede causar sensibilización.",
         concentration: "1-4%",
         pairsWith: "Vitamina C, Niacinamida",
-        caution: "Puede causar dermatitis de contacto en一些 personas.",
+        caution: "Puede causar dermatitis de contacto en algunas personas.",
       },
     ],
   },

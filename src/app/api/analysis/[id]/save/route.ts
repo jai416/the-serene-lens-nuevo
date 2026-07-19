@@ -18,8 +18,9 @@ export async function POST(req: NextRequest, { params }: { params: Promise<{ id:
 
     if (!existing) return notFound("Análisis no encontrado")
 
-    if (existing.userId && existing.userId !== session.user.id) {
-      return unauthorized()
+    if (existing.userId) {
+      if (existing.userId !== session.user.id) return unauthorized()
+      return ok({ saved: true })
     }
 
     await db.skinAnalysis.update({

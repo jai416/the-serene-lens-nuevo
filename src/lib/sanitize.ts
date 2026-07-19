@@ -1,7 +1,12 @@
 export function sanitizeHtml(text: string): string {
   if (typeof text !== "string") return ""
   return text
+    .replace(/javascript\s*:/gi, "blocked:")
+    .replace(/data\s*:/gi, "blocked:")
+    .replace(/vbscript\s*:/gi, "blocked:")
     .replace(/\s*on\w+\s*=\s*["'][^"']*["']/gi, "")
+    .replace(/\s*on\w+\s*=\s*[^\s>]+/gi, "")
+    .replace(/`/g, "")
     .replace(/&/g, "&amp;")
     .replace(/</g, "&lt;")
     .replace(/>/g, "&gt;")

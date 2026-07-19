@@ -142,17 +142,19 @@ export const AnalysisService = {
       const { db } = await import("@/lib/db")
 
       const scoreFields = [
-        (result as Record<string, unknown>)?.texture,
-        (result as Record<string, unknown>)?.pores,
-        (result as Record<string, unknown>)?.shine,
-        (result as Record<string, unknown>)?.uniformity,
-        (result as Record<string, unknown>)?.apparentSensitivity,
-        (result as Record<string, unknown>)?.apparentOil,
+        String((result as Record<string, unknown>)?.texture || ""),
+        String((result as Record<string, unknown>)?.pores || ""),
+        String((result as Record<string, unknown>)?.shine || ""),
+        String((result as Record<string, unknown>)?.uniformity || ""),
+        String((result as Record<string, unknown>)?.apparentSensitivity || ""),
+        String((result as Record<string, unknown>)?.apparentOil || ""),
       ].filter(Boolean)
 
-      const positiveValues = ["uniform", "barely visible", "low", "baja", "uniforme", "poco visibles", "poco visible"]
-      const positiveCount = scoreFields.filter((f) => positiveValues.includes(String(f).toLowerCase())).length
-      const score = Math.round((positiveCount / scoreFields.length) * 100)
+      const positiveValues = ["uniform", "barely visible", "low", "baja", "uniforme", "poco visibles", "poco visible", "leve", "bajo", "minimo", "mínimo"]
+      const normalCount = scoreFields.filter((f) => positiveValues.includes(f.toLowerCase())).length
+      const severityValues = ["moderado", "moderate", "visible", "noticeable", "alto", "high", "severo", "severe"]
+      const badCount = scoreFields.filter((f) => severityValues.includes(f.toLowerCase())).length
+      const score = Math.round(((normalCount - badCount + scoreFields.length) / (scoreFields.length * 2)) * 100)
 
       const topObservations = observations.slice(0, 3).join(", ")
       const notes = `Análisis automático: tipo ${skinType || "desconocido"}, ${topObservations || "sin observaciones destacadas"}`
