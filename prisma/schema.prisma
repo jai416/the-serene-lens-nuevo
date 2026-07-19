@@ -73,6 +73,9 @@ model User {
   reminders              UserReminder[]
   referredByEstheticianId String?
   referredBy             Clinic?     @relation("UserReferredBy", fields: [referredByEstheticianId], references: [id], onDelete: SetNull)
+  savedProducts          UserSavedProduct[]
+  userBadges             UserBadge[]
+  weatherLogs            WeatherLog[]
 
   @@index([plan])
   @@index([role])
@@ -197,7 +200,8 @@ model Product {
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 
-  reviews ProductReview[]
+  reviews      ProductReview[]
+  savedByUsers UserSavedProduct[]
 
   @@index([isActive])
   @@index([category])
@@ -966,4 +970,64 @@ model UserReminder {
 
   @@unique([userId])
   @@index([enabled])
+}
+
+model UserSavedProduct {
+  id        String   @id @default(cuid())
+  userId    String
+  productId String
+  createdAt DateTime @default(now())
+
+  user    User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  product Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, productId])
+  @@index([userId])
+  @@index([productId])
+}
+
+model Badge {
+  id          String   @id @default(cuid())
+  slug        String   @unique
+  name        String
+  description String
+  icon        String   @default("🏆")
+  criteria    String   // JSON: { type: "streak" | "analyses" | "hydration" | "diary_days" | "routine_streak", threshold: number }
+  active      Boolean  @default(true)
+  createdAt   DateTime @default(now())
+
+  userBadges UserBadge[]
+
+  @@index([active])
+  @@index([slug])
+}
+
+model UserBadge {
+  id        String   @id @default(cuid())
+  userId    String
+  badgeId   String
+  earnedAt  DateTime @default(now())
+  notified  Boolean  @default(false)
+
+  user  User  @relation(fields: [userId], references: [id], onDelete: Cascade)
+  badge Badge @relation(fields: [badgeId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, badgeId])
+  @@index([userId])
+  @@index([badgeId])
+}
+
+model WeatherLog {
+  id         String   @id @default(cuid())
+  userId     String
+  date       DateTime @default(now())
+  humidity   Float?
+  temp       Float?
+  condition  String?
+  createdAt  DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, date])
+  @@index([userId, date])
 }

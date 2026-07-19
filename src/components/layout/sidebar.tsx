@@ -22,10 +22,12 @@ import {
   ArrowRight,
   BookOpen,
   Bookmark,
+  BookmarkCheck,
   Trophy,
   FileText,
   HelpCircle,
   BookOpenCheck,
+  Users,
 } from "lucide-react"
 import { useState } from "react"
 import { useLocale } from "@/lib/locale/locale-context"
@@ -72,6 +74,7 @@ export function Sidebar() {
       items: [
         { href: "/dashboard/diary", labelKey: "nav.diary", icon: BookOpenCheck },
         { href: "/dashboard/challenges", labelKey: "nav.challenges", icon: Trophy },
+        { href: "/community", labelKey: "nav.community", icon: Users },
         { href: "/guides", labelKey: "nav.guides", icon: BookOpen },
       ],
     },
@@ -80,6 +83,7 @@ export function Sidebar() {
       items: [
         { href: "/products", labelKey: "nav.products", icon: Package },
         { href: "/ingredients-analyzer", labelKey: "nav.ingredients", icon: Beaker },
+        { href: "/dashboard/products", labelKey: "nav.myProducts", icon: BookmarkCheck },
       ],
     },
     {

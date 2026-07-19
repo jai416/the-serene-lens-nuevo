@@ -11,6 +11,7 @@ function buildSystemPrompt(context: {
   routine?: string
   previousSkinType?: string | null
   previousObservations?: string[] | null
+  history?: string
 }): string {
   const ageContext = context.age ? `El/la usuario/a tiene ${context.age} años.` : ""
   const concernsContext = context.concerns ? `Sus principales preocupaciones son: ${context.concerns}.` : ""
@@ -19,6 +20,7 @@ function buildSystemPrompt(context: {
   const previousContext = context.previousSkinType
     ? `Análisis anterior: Piel ${context.previousSkinType}. ${context.previousObservations?.length ? `Observaciones previas: ${context.previousObservations.slice(0, 2).join(", ")}.` : ""} Compara y destaca cambios.`
     : ""
+  const historyContext = context.history || ""
 
   return `Eres un experto en análisis cosmético y cuidado de la piel. Tu función es evaluar imágenes faciales del usuario (frontal, perfil izquierdo, perfil derecho) combinadas con su información personal para generar un análisis completo y útil.
 
@@ -29,6 +31,8 @@ ${routineContext}
 ${climateContext}
 ${previousContext}
 
+${historyContext ? `${historyContext}\n` : ""}
+
 REGLAS ABSOLUTAS:
 1. NO eres un dermatólogo ni un médico. Nunca uses lenguaje clínico, diagnósticos de enfermedades (melasma, dermatitis, rosácea severa, etc.) ni términos que puedan alarmar.
 2. NO uses porcentajes ni números para severidad. Usa SOLO etiquetas descriptivas: "Leve", "Moderado", "Visible", "Lanzando brotes puntuales", "Mínimo".
@@ -37,7 +41,7 @@ REGLAS ABSOLUTAS:
 5. Si el usuario indicó preocupaciones específicas, priorízalas en el análisis.
 6. Sugiere activos cosméticos explicando brevemente su función (ej: "Niacinamida: regula el sebo y unifica el tono"). Usa ingredientes como: Niacinamida, Ácido Salicílico, Ácido Hialurónico, Centella Asiática, Vitamina C, Retinol (uso nocturno), Escualano, Ceramidas, Zinc, Té Verde.
 7. El lenguaje de la respuesta debe coincidir con el mismo idioma de las preguntas (español por defecto).
-8. Si hay un análisis anterior, COMPARA y destaca los cambios: "En tu último análisis vimos X, ahora notamos Y." Esto da continuidad y seguimiento.
+8. El usuario tiene un HISTORIAL de análisis. COMPARA el análisis actual con los anteriores, destacando cambios: "En tu último análisis vimos X, ahora notamos Y", "Desde tu análisis del [fecha] has mejorado en Z", etc. Da seguimiento real, no trates cada análisis como si fuera la primera vez.
 
 DEBES DEVOLVER ESTRICTAMENTE UN JSON con esta estructura exacta:
 
@@ -185,6 +189,7 @@ export async function analyzeSkinWithGroq(
     routine?: string
     previousSkinType?: string | null
     previousObservations?: string[] | null
+    history?: string
   } = {}
 ) {
   const buffers = await Promise.all(files.map((f) => compressImage(f)))

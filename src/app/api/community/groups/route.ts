@@ -1,70 +1,65 @@
-import { NextRequest } from "next/server"
 import { getServerSession } from "next-auth"
 import { authOptions } from "@/lib/auth"
 import { db } from "@/lib/db"
-import { ok, error, serverError } from "@/lib/api-response"
-
-function slugify(text: string): string {
-  return text
-    .toLowerCase()
-    .replace(/[^\w\s-]/g, "")
-    .replace(/[\s_]+/g, "-")
-    .replace(/^-+|-+$/g, "")
-    .slice(0, 80) || "grupo"
-}
+import { ok, unauthorized, error, serverError } from "@/lib/api-response"
 
 export async function GET() {
   try {
-    const groups = await db.communityGroup.findMany({
-      orderBy: { createdAt: "desc" },
-      include: {
-        _count: { select: { members: true, posts: true } },
-        creator: { select: { name: true } },
-      },
+    const session = await getServerSession(authOptions)
+    if (!session?.user) return unauthorized()
+
+    const user = await db.user.findUnique({
+      where: { id: session.user.id },
+      select: { skinType: true },
     })
 
-    return ok({ groups })
-  } catch (e) {
-    return serverError(e)
+    const groups = await db.communityGroup.findMany({
+      include: {
+        _count: { select: { members: true, posts: true } },
+      },
+      orderBy: { createdAt: "desc" },
+    })
+
+    // Mark which group matches user's skin type
+    const userSkinType = user?.skinType?.toLowerCase() || ""
+    const enriched = groups.map((g) => ({
+      ...g,
+      isRecommended: g.slug === userSkinType || (userSkinType && g.name.toLowerCase().includes(userSkinType)),
+    }))
+
+    return ok({ groups: enriched })
+  } catch {
+    return serverError()
   }
 }
 
-export async function POST(req: NextRequest) {
+export async function POST(req: Request) {
   try {
     const session = await getServerSession(authOptions)
-    if (!session?.user?.id) return error("No autorizado", 401)
+    if (!session?.user) return unauthorized()
 
-    const body = await req.json()
-    const { name, description, image } = body
-
-    if (!name || typeof name !== "string" || name.trim().length < 2) {
-      return error("El nombre debe tener al menos 2 caracteres", 400)
+    const { name, slug, description, image } = await req.json()
+    if (!name || !slug || !description) {
+      return error("name, slug y description son requeridos")
     }
-
-    const slug = slugify(name)
-    const existing = await db.communityGroup.findUnique({ where: { slug } })
-    const finalSlug = existing ? `${slug}-${Date.now().toString(36)}` : slug
 
     const group = await db.communityGroup.create({
       data: {
-        name: name.trim(),
-        slug: finalSlug,
-        description: description?.trim() || "",
-        image: image || null,
+        name,
+        slug,
+        description,
+        image,
         createdById: session.user.id,
       },
     })
 
+    // Auto-join the creator
     await db.communityMember.create({
-      data: {
-        groupId: group.id,
-        userId: session.user.id,
-        role: "OWNER",
-      },
-    })
+      data: { groupId: group.id, userId: session.user.id },
+    }).catch(() => {})
 
-    return ok(group, 201)
-  } catch (e) {
-    return serverError(e)
+    return ok({ group }, 201)
+  } catch {
+    return serverError()
   }
 }

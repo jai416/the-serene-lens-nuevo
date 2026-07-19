@@ -1,6 +1,6 @@
 import { getServerSession } from "next-auth"
 import { authOptions } from "@/lib/auth"
-import { UserService } from "@/lib/services/user.service"
+import { BadgeService } from "@/lib/services/badge.service"
 import { ok, unauthorized, serverError } from "@/lib/api-response"
 
 export async function GET() {
@@ -9,9 +9,8 @@ export async function GET() {
     if (!session?.user) {
       return unauthorized()
     }
-
-    const evolution = await UserService.getEvolution(session.user.id)
-    return ok(evolution)
+    const badges = await BadgeService.getUserBadges(session.user.id)
+    return ok({ badges })
   } catch {
     return serverError()
   }

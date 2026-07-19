@@ -10,6 +10,7 @@ import { History, Scan, ArrowRight } from "lucide-react"
 import { formatDate } from "@/lib/utils"
 import { EvolutionChart } from "@/components/evolution-chart"
 import { PreviousAnalysesComparison } from "@/components/previous-analyses-comparison"
+import { BadgeDisplay } from "@/components/badge-display"
 import { ListSkeleton } from "@/components/ui/skeleton"
 import { toast } from "sonner"
 import { useLocale } from "@/lib/locale/locale-context"
@@ -78,7 +79,7 @@ export default function HistoryPage() {
 
   if (!session) redirect("/login?callbackUrl=" + encodeURIComponent(pathname))
 
-  const showEvolution = (session.user as any).plan !== "FREE" && evolution && !evolutionLoading
+  const showEvolution = evolution && !evolutionLoading
 
   return (
     <div className="min-h-screen px-4 py-8">
@@ -96,6 +97,9 @@ export default function HistoryPage() {
         {showEvolution && (
           <div className="mb-8">
             <EvolutionChart data={evolution} />
+            <div className="mt-6">
+              <BadgeDisplay />
+            </div>
             {session?.user?.id && analyses.length >= 2 && (
               <div className="mt-6">
                 <PreviousAnalysesComparison

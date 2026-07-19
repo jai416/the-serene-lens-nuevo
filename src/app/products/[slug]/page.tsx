@@ -8,6 +8,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Package, ArrowLeft } from "lucide-react"
 import Image from "next/image"
+import { SaveProductButton } from "@/components/save-product-button"
 import type { Metadata } from "next"
 
 export async function generateMetadata({
@@ -146,6 +147,10 @@ export default async function ProductDetailPage({
                 </CardContent>
               </Card>
             )}
+
+            <div className="mt-4">
+              <SaveProductButton productId={product.id} className="w-full" />
+            </div>
           </div>
         </div>
       </div>

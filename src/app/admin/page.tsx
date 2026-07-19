@@ -85,7 +85,7 @@ export default function AdminPage() {
   const [healthCheck, setHealthCheck] = useState<any>(null)
   const [queueStats, setQueueStats] = useState<{ pending: number; processing: number; completed: number; failed: number } | null>(null)
   const [refreshing, setRefreshing] = useState(false)
-  const prevUserId = useRef<string | undefined>()
+  const prevUserId = useRef<string | undefined>(undefined)
   const fetchStats = useCallback(() => {
     setRefreshing(true)
     fetch("/api/admin/stats")

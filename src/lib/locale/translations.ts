@@ -12,6 +12,9 @@ export type TranslationKey =
   | "nav.challenges"
   | "nav.products"
   | "nav.ingredients"
+  | "nav.myProducts"
+  | "nav.badges"
+  | "nav.community"
   | "nav.guides"
   | "nav.blog"
   | "nav.pricing"
@@ -316,6 +319,9 @@ const translations: Record<Locale, Record<TranslationKey, string>> = {
     "nav.challenges": "Challenges",
     "nav.products": "Products",
     "nav.ingredients": "Ingredients",
+    "nav.myProducts": "My Products",
+    "nav.badges": "Badges",
+    "nav.community": "Community",
     "nav.guides": "Guides",
     "nav.blog": "Blog",
     "nav.pricing": "Pricing",
@@ -619,6 +625,9 @@ const translations: Record<Locale, Record<TranslationKey, string>> = {
     "nav.challenges": "Desafíos",
     "nav.products": "Productos",
     "nav.ingredients": "Ingredientes",
+    "nav.myProducts": "Mis Productos",
+    "nav.badges": "Insignias",
+    "nav.community": "Comunidad",
     "nav.guides": "Guías",
     "nav.blog": "Blog",
     "nav.pricing": "Precios",

@@ -9,22 +9,18 @@ export async function GET(req: Request) {
     if (!session?.user) return unauthorized()
 
     const url = new URL(req.url)
-    const groupId = url.searchParams.get("groupId")
+    const postId = url.searchParams.get("postId")
+    if (!postId) return error("postId es requerido")
 
-    const where: any = {}
-    if (groupId) where.groupId = groupId
-
-    const posts = await db.communityPost.findMany({
-      where,
+    const comments = await db.comment.findMany({
+      where: { postId, approved: true },
       include: {
         user: { select: { id: true, name: true, image: true, plan: true } },
-        _count: { select: { comments: true, reactions: true } },
       },
-      orderBy: { createdAt: "desc" },
-      take: 50,
+      orderBy: { createdAt: "asc" },
     })
 
-    return ok({ posts })
+    return ok({ comments })
   } catch {
     return serverError()
   }
@@ -35,25 +31,17 @@ export async function POST(req: Request) {
     const session = await getServerSession(authOptions)
     if (!session?.user) return unauthorized()
 
-    const { title, content, groupId, category } = await req.json()
-    if (!title || !content) {
-      return error("title y content son requeridos")
-    }
+    const { postId, content } = await req.json()
+    if (!postId || !content) return error("postId y content son requeridos")
 
-    const post = await db.communityPost.create({
-      data: {
-        userId: session.user.id,
-        title,
-        content,
-        groupId: groupId || null,
-        category: category || "general",
-      },
+    const comment = await db.comment.create({
+      data: { postId, userId: session.user.id, content },
       include: {
         user: { select: { id: true, name: true, image: true, plan: true } },
       },
     })
 
-    return ok({ post }, 201)
+    return ok({ comment }, 201)
   } catch {
     return serverError()
   }

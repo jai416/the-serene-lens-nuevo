@@ -26,9 +26,10 @@ export const AnalysisService = {
     const oversized = files.find((f) => f.size > 10 * 1024 * 1024)
     if (oversized) throw new AnalysisError("Una imagen supera los 10MB", "VALIDATION")
 
-    // Fetch previous analysis for contextual AI + weather for real climate data
+    // Fetch analysis history for contextual AI + weather for real climate data
     let previousSkinType: string | null = null
     let previousObservations: string[] = []
+    let historyContext = ""
     let climateContext = buildClimateContext(null, null, body.climate)
     try {
       const { db } = await import("@/lib/db")
@@ -36,15 +37,34 @@ export const AnalysisService = {
         where: { id: userId },
         select: { latitude: true, longitude: true },
       })
-      const previousAnalysis = await db.skinAnalysis.findFirst({
+
+      // Fetch last 10 analyses for richer history context
+      const pastAnalyses = await db.skinAnalysis.findMany({
         where: { userId },
         orderBy: { createdAt: "desc" },
-        select: { skinType: true, observations: true },
+        take: 10,
+        select: { skinType: true, observations: true, concerns: true, createdAt: true },
       })
-      previousSkinType = previousAnalysis?.skinType || null
-      previousObservations = previousAnalysis?.observations
-        ? (() => { try { return JSON.parse(previousAnalysis.observations) } catch { return [] } })()
+
+      const latest = pastAnalyses[0]
+      previousSkinType = latest?.skinType || null
+      previousObservations = latest?.observations
+        ? (() => { try { return JSON.parse(latest.observations) } catch { return [] } })()
         : []
+
+      // Build history summary from all past analyses
+      if (pastAnalyses.length > 0) {
+        const historyLines = pastAnalyses.slice(0, 5).map((a, i) => {
+          const date = a.createdAt.toISOString().split("T")[0]
+          const obs = a.observations
+            ? (() => { try { return JSON.parse(a.observations) } catch { return [] } })()
+            : []
+          const topObs = (Array.isArray(obs) ? obs : []).slice(0, 2).map((o: any) => o.detalle || String(o)).join(", ")
+          return `[${date}] Tipo: ${a.skinType || "no determinado"}. ${a.concerns ? `Preocupaciones: ${a.concerns}.` : ""} ${topObs ? `Hallazgos: ${topObs}.` : ""}`
+        })
+        historyContext = `HISTORIAL DEL USUARIO:\n${historyLines.join("\n")}\n\nUsa este historial para dar seguimiento: si ves mejoras o empeoramientos, COMPARA y destaca los cambios. Menciona explícitamente "En tu último análisis vimos X, ahora notamos Y" y refiérete a patrones observados en el historial.`
+      }
+
       if (user?.latitude != null && user?.longitude != null) {
         const weather = await getWeather(user.latitude, user.longitude)
         if (weather) {
@@ -96,6 +116,7 @@ export const AnalysisService = {
         routine: body.routine,
         previousSkinType: previousSkinType,
         previousObservations,
+        history: historyContext,
       })
       await setCachedAnalysis([cacheKeyBase64], body.concerns, body.age, result).catch(() => {})
     } catch (e) {
@@ -184,6 +205,18 @@ export const AnalysisService = {
       await checkAndCompleteReferral(userId)
     } catch (e) {
       logger.error("Referral check failed", {
+        userId,
+        error: e instanceof Error ? e.message : String(e),
+        correlationId: getCorrelationId() || undefined,
+      })
+    }
+
+    // Check and award badges after analysis
+    try {
+      const { BadgeService } = await import("./badge.service")
+      await BadgeService.checkAfterAnalysis(userId)
+    } catch (e) {
+      logger.error("Badge check failed", {
         userId,
         error: e instanceof Error ? e.message : String(e),
         correlationId: getCorrelationId() || undefined,
