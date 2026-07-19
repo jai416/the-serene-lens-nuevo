@@ -116,7 +116,7 @@ export const adminProductUpdateSchema = z.object({
 export const adminUserUpdateSchema = z.object({
   id: z.string().min(1),
   role: z.enum(["USER", "VALIDATOR", "ADMIN"]).optional(),
-  plan: z.enum(["FREE", "PREMIUM", "PRO", "PRO_PLUS", "ESTHETICIAN"]).optional(),
+  plan: z.enum(["FREE", "PREMIUM", "PREMIUM_ANNUAL", "PRO", "PRO_ANNUAL", "PRO_PLUS", "PRO_PLUS_ANNUAL", "ESTHETICIAN", "ESTHETICIAN_ANNUAL"]).optional(),
   telegramId: z.string().nullable().optional(),
 }).strict()
 

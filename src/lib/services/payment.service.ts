@@ -30,7 +30,7 @@ export const PaymentService = {
     })
 
     const packAnalyses = packs.reduce((sum, p) => sum + p.analyses, 0)
-    const isUnlimited = ["PREMIUM", "PRO", "PRO_PLUS", "ESTHETICIAN"].includes(user.plan)
+    const isUnlimited = ["PREMIUM", "PREMIUM_ANNUAL", "PRO", "PRO_ANNUAL", "PRO_PLUS", "PRO_PLUS_ANNUAL", "ESTHETICIAN", "ESTHETICIAN_ANNUAL"].includes(user.plan)
 
     return {
       plan: user.plan,
@@ -56,9 +56,11 @@ export async function handleSuccessfulPlanPayment(
   provider: string,
   meta: { qvapayId?: string; amount: number },
 ) {
-  const packMap: Record<string, number> = { BASIC: 3, POPULAR: 5, ADVANCED: 15 }
+  const packMap: Record<string, number> = { BASIC: 3, POPULAR: 5, PACK_10: 10, ADVANCED: 15, PACK_25: 25 }
   const packAnalyses = packMap[plan]
   const cupRate = await getCUPRate()
+  const isAnnual = plan.includes("_ANNUAL")
+  const periodDays = isAnnual ? 365 : 30
 
   if (packAnalyses) {
     await db.purchasePack.create({
@@ -73,19 +75,24 @@ export async function handleSuccessfulPlanPayment(
       },
     })
   } else {
-    const limitMap: Record<string, number> = { PREMIUM: 0, PRO: 0, PRO_PLUS: 0 }
+    const limitMap: Record<string, number> = {
+      PREMIUM: 0, PREMIUM_ANNUAL: 0,
+      PRO: 0, PRO_ANNUAL: 0,
+      PRO_PLUS: 0, PRO_PLUS_ANNUAL: 0,
+      ESTHETICIAN: 0, ESTHETICIAN_ANNUAL: 0,
+    }
     const analysisLimit = limitMap[plan] ?? 5
 
     await db.user.update({
       where: { id: userId },
-      data: { plan, analysisLimit, analysisUsed: 0, analysisResetAt: new Date(Date.now() + 30 * 86400000) },
+      data: { plan, analysisLimit, analysisUsed: 0, analysisResetAt: new Date(Date.now() + periodDays * 86400000) },
     })
 
     const existing = await db.subscription.findFirst({ where: { userId, status: "active" } })
     if (existing) {
       await db.subscription.update({
         where: { id: existing.id },
-        data: { plan, status: "active", currentPeriodStart: new Date(), currentPeriodEnd: new Date(Date.now() + 30 * 86400000) },
+        data: { plan, status: "active", currentPeriodStart: new Date(), currentPeriodEnd: new Date(Date.now() + periodDays * 86400000) },
       })
     } else {
       await db.subscription.create({
@@ -96,7 +103,7 @@ export async function handleSuccessfulPlanPayment(
           provider,
           qvapayInvoiceId: meta.qvapayId || null,
           currentPeriodStart: new Date(),
-          currentPeriodEnd: new Date(Date.now() + 30 * 86400000),
+          currentPeriodEnd: new Date(Date.now() + periodDays * 86400000),
         },
       })
     }

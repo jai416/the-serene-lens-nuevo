@@ -2,7 +2,7 @@
 
 import { useSession } from "next-auth/react"
 import { redirect } from "next/navigation"
-import { useEffect, useState, useCallback } from "react"
+import { useEffect, useState, useCallback, useRef } from "react"
 import Link from "next/link"
 import { Card, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
@@ -85,6 +85,7 @@ export default function AdminPage() {
   const [healthCheck, setHealthCheck] = useState<any>(null)
   const [queueStats, setQueueStats] = useState<{ pending: number; processing: number; completed: number; failed: number } | null>(null)
   const [refreshing, setRefreshing] = useState(false)
+  const prevUserId = useRef<string | undefined>()
   const fetchStats = useCallback(() => {
     setRefreshing(true)
     fetch("/api/admin/stats")
@@ -113,6 +114,17 @@ export default function AdminPage() {
 
   useEffect(() => {
     if (session?.user?.role !== "ADMIN") return
+
+    if (prevUserId.current && prevUserId.current !== session.user.id) {
+      setStats(null)
+      setRecentUsers([])
+      setRecentAnalyses([])
+      setPlanDistribution({})
+      setSkinTypeDistribution({})
+      setHealthCheck(null)
+      setQueueStats(null)
+    }
+    prevUserId.current = session.user.id
 
     fetchStats()
     fetch("/api/health")

@@ -80,8 +80,9 @@ export default function SubscriptionPage() {
     setLoadingPayment(`transfer-${planId}`)
     try {
       const amounts: Record<string, number> = {
-        PREMIUM: 4.99, PRO: 9.99, PRO_PLUS: 14.99,
-        PREMIUM_ANNUAL: 49.99, PRO_ANNUAL: 99.99,
+        PREMIUM: 7.99, PRO: 9.99, PRO_PLUS: 14.99,
+        PREMIUM_ANNUAL: 79.99, PRO_ANNUAL: 99.99,
+        PRO_PLUS_ANNUAL: 199.99, ESTHETICIAN: 49.99, ESTHETICIAN_ANNUAL: 499.99,
       }
       const amount = amounts[planId] || 0
       const res = await fetch("/api/payments/create-transfer", {
@@ -204,7 +205,7 @@ export default function SubscriptionPage() {
                 <div className="p-3 rounded-xl border border-[#E8E8E8]">
                   <div className="flex items-center justify-between mb-2">
                     <span className="text-sm font-medium text-[#1A1A1A]">Premium Mensual</span>
-                    <span className="text-sm text-[#1A1A1A] font-semibold">$4.99/mes</span>
+                    <span className="text-sm text-[#1A1A1A] font-semibold">$7.99/mes</span>
                   </div>
                   <div className="flex gap-2">
                     <Button onClick={() => handleSubscribe("PREMIUM")} disabled={!!loadingPayment} variant="primary" className="flex-1 py-2 text-xs">
@@ -223,11 +224,11 @@ export default function SubscriptionPage() {
                   <div className="flex items-center justify-between mb-2">
                     <div>
                       <span className="text-sm font-medium text-[#1A1A1A]">Premium Anual</span>
-                      <span className="ml-2 text-[10px] font-semibold px-1.5 py-0.5 rounded-full bg-[#88B078] text-white">AHORRA 16%</span>
+                      <span className="ml-2 text-[10px] font-semibold px-1.5 py-0.5 rounded-full bg-[#88B078] text-white">AHORRA 17%</span>
                     </div>
                     <div className="text-right">
-                      <span className="text-sm text-[#1A1A1A] font-semibold">$49.99/año</span>
-                      <p className="text-[10px] text-[#666666]">$4.17/mes</p>
+                      <span className="text-sm text-[#1A1A1A] font-semibold">$79.99/año</span>
+                      <p className="text-[10px] text-[#666666]">$6.67/mes</p>
                     </div>
                   </div>
                   <div className="flex gap-2">

@@ -79,8 +79,8 @@ export function statusResponse(name: string, plan: string, planIcon: string, ana
 
 export function pricesResponse(): string {
   return pick([
-    `💰 <b>Planes The Serene Lens</b>\n\n🆓 <b>Essential</b> — Gratis\n  1 análisis al mes. Para empezar.\n\n⭐ <b>Premium</b> — $4.99/mes\n  Análisis ilimitados + historial.\n\n💎 <b>Pro</b> — $9.99/mes\n  Prioridad + acceso anticipado.\n\n👑 <b>Pro+</b> — $14.99/mes\n  Informes PDF + rutina dinámica.\n\n📦 <b>Packs extra:</b>\n  Básico (3) $1.99 • Popular (5) $4.99 • Avanzado (15) $6.99\n\n🌿 <i>Sin contratos. Cancela cuando quieras.</i>`,
-    `📋 <b>Planes y precios</b>\n\n🆓 <b>FREE</b> — $0\n  1 análisis al mes — siempre gratis.\n\n⭐ <b>Premium</b> — $4.99/mes\n  Análisis ilimitados, historial, evolución.\n\n💎 <b>Pro</b> — $9.99/mes\n  Todo Premium + prioridad.\n\n👑 <b>Pro+</b> — $14.99/mes\n  Todo Pro + informes PDF, rutina personalizada.\n\n💡 <i>¿Quieres probar? Empieza con el plan FREE.</i>`,
+    `💰 <b>Planes The Serene Lens</b>\n\n🆓 <b>Essential</b> — Gratis\n  1 análisis al mes. Para empezar.\n\n⭐ <b>Premium</b> — $7.99/mes\n  Análisis ilimitados + historial.\n\n💎 <b>Pro</b> — $9.99/mes\n  Prioridad + acceso anticipado.\n\n👑 <b>Pro+</b> — $14.99/mes\n  Informes PDF + rutina dinámica.\n\n🏥 <b>Esteticista</b> — $49.99/mes\n  Hasta 200 clientes, panel, marca propia.\n\n📦 <b>Packs extra:</b>\n  Pack 10: $4.99 • Pack 25: $9.99\n\n🌿 <i>Sin contratos. Cancela cuando quieras.</i>`,
+    `📋 <b>Planes y precios</b>\n\n🆓 <b>FREE</b> — $0\n  1 análisis al mes — siempre gratis.\n\n⭐ <b>Premium</b> — $7.99/mes\n  Análisis ilimitados, historial, evolución.\n\n💎 <b>Pro</b> — $9.99/mes\n  Todo Premium + prioridad.\n\n👑 <b>Pro+</b> — $14.99/mes\n  Todo Pro + informes PDF, rutina personalizada.\n\n🏥 <b>Esteticista</b> — $49.99/mes\n  Panel clientes, informes con tu marca.\n\n💡 <i>¿Quieres probar? Empieza con el plan FREE.</i>`,
   ])
 }
 

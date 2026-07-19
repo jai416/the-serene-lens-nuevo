@@ -144,9 +144,13 @@ export default function AdminUsersPage() {
                         >
                           <option value="FREE">FREE</option>
                           <option value="PREMIUM">PREMIUM</option>
+                          <option value="PREMIUM_ANNUAL">PREMIUM ANUAL</option>
                           <option value="PRO">PRO</option>
+                          <option value="PRO_ANNUAL">PRO ANUAL</option>
                           <option value="PRO_PLUS">PRO+</option>
+                          <option value="PRO_PLUS_ANNUAL">PRO+ ANUAL</option>
                           <option value="ESTHETICIAN">ESTHETICIAN</option>
+                          <option value="ESTHETICIAN_ANNUAL">ESTHETICIAN ANUAL</option>
                         </select>
                       </div>
                     ) : (

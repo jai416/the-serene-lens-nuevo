@@ -463,9 +463,10 @@ Características principales:
 
 Planes disponibles:
 - FREE: 1 análisis gratis al mes
-- PREMIUM ($4.99/mes): análisis ilimitados e historial
+- PREMIUM ($7.99/mes): análisis ilimitados e historial
 - PRO ($9.99/mes): prioridad y soporte rápido
-- PRO+ ($14.99/mes): informes PDF, rutina dinámica y comparativa mensual`
+- PRO+ ($14.99/mes): informes PDF, rutina dinámica y comparativa mensual
+- ESTHETICIAN ($49.99/mes): hasta 200 clientes, panel de gestión y marca propia`
   },
   {
     title: "¿Cómo funciona el análisis de piel?",
@@ -511,17 +512,18 @@ Todo el proceso toma menos de 5 minutos. Las fotos se comprimen automáticamente
     sourceUrl: "/pricing",
     keywords: ["precios", "planes", "pago", "suscripción", "costo", "premium", "pro"],
     synonyms: ["precio", "planes", "cuanto cuesta", "valor", "mensualidad", "gratis", "free"],
-    content: `The Serene Lens ofrece 4 planes de suscripción:
+    content: `The Serene Lens ofrece planes de suscripción para todos:
 
 1. FREE (Gratuito)
    - 1 análisis al mes
    - Acceso básico al historial
    - Sin límite de tiempo
 
-2. PREMIUM ($4.99/mes)
+2. PREMIUM ($7.99/mes)
    - Análisis ilimitados
    - Historial completo de evolución
    - Comparativa mes a mes
+   - También disponible anual por $79.99 ($6.67/mes)
 
 3. PRO ($9.99/mes)
    - Todo lo de PREMIUM
@@ -535,13 +537,25 @@ Todo el proceso toma menos de 5 minutos. Las fotos se comprimen automáticamente
    - Rutina dinámica personalizada
    - Comparativa mensual detallada
    - Soporte prioritario 1h
+   - También disponible anual por $199.99
+
+5. ESTHETICIAN ($49.99/mes)
+   - Todo lo de PRO+
+   - Hasta 200 clientes
+   - Panel de gestión de clientes con tu marca
+   - Informes PDF personalizados
+   - Exportación de datos (CSV)
+   - Soporte dedicado 24h
+   - También disponible anual por $499.99
 
 También ofrecemos packs de análisis sin suscripción:
 - Pack Básico (3 análisis): $1.99
 - Pack Popular (5 análisis): $4.99
+- Pack de 10 análisis: $4.99
 - Pack Avanzado (15 análisis): $6.99
+- Pack de 25 análisis: $9.99 (mejor ahorro)
 
-Todos los precios están en USD. Aceptamos QvaPay, NOWPayments (crypto/tarjeta) y Transfermóvil (Cuba).`
+Todos los precios están en USD. Aceptamos QvaPay y Transfermóvil (Cuba).`
   },
   {
     title: "Métodos de pago",
@@ -552,7 +566,7 @@ Todos los precios están en USD. Aceptamos QvaPay, NOWPayments (crypto/tarjeta) 
     sourceUrl: "/pricing",
     keywords: ["pagar", "pago", "métodos", "transfermóvil", "qvapay", "cuba"],
     synonyms: ["metodos", "como pagar", "forma de pago", "pagos", "divisa", "usd", "cup"],
-    content: `Aceptamos 3 métodos de pago para adaptarnos a todos los usuarios:
+    content: `Aceptamos 2 métodos de pago para adaptarnos a todos los usuarios:
 
 1. QvaPay (principal)
    - Pago en USD con tarjetas internacionales
@@ -564,12 +578,6 @@ Todos los precios están en USD. Aceptamos QvaPay, NOWPayments (crypto/tarjeta) 
    - Validación manual por un administrador
    - Procesamiento en 24-48 horas
    - Recibes un código de referencia para validar tu pago
-
-3. NOWPayments (crypto/tarjeta)
-   - Pago con criptomonedas o tarjeta (sin wallet obligatorio)
-   - Disponible globalmente, incluyendo Cuba
-   - Procesamiento automático
-   - Acepta USDT, BTC, ETH y más
 
 Tasa de cambio CUP: El sistema usa una tasa actualizada automáticamente. Si hay problemas con el API de cambio, usa el valor configurado en NEXT_PUBLIC_CUP_FALLBACK (default: 500).`
   },

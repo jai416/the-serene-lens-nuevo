@@ -25,6 +25,13 @@ export default function ProductsPage() {
   const [allProducts, setAllProducts] = useState<Product[]>([])
   const [loading, setLoading] = useState(true)
   const [selectedCategory, setSelectedCategory] = useState("")
+  const [failedImages, setFailedImages] = useState<Set<string>>(new Set())
+
+  const FALLBACK_IMAGE = "/images/placeholder.svg"
+
+  const handleImageError = (productId: string) => {
+    setFailedImages((prev) => new Set(prev).add(productId))
+  }
 
   const CDN = "https://images.pexels.com/photos"
   const categoryImages: Record<string, string> = {
@@ -168,10 +175,11 @@ export default function ProductsPage() {
                   <Card className="hover:ring-1 hover:ring-[#88B078] transition-all h-full group overflow-hidden">
                     <div className="relative aspect-square bg-[#F8F9FA] overflow-hidden">
                       <Image
-                        src={product.image || "/images/placeholder.svg"}
+                        src={failedImages.has(product.id) ? FALLBACK_IMAGE : (product.image || "/images/placeholder.svg")}
                         alt={product.name}
                         fill
                         className="object-cover group-hover:scale-105 transition-transform duration-300"
+                        onError={() => handleImageError(product.id)}
                       />
                     </div>
                     <CardContent className="p-4">

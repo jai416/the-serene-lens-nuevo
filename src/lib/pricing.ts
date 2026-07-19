@@ -47,8 +47,8 @@ export const PLANS: PlanDef[] = [
   {
     id: "PREMIUM",
     name: "Premium",
-    priceUSD: 4.99,
-    priceCUP: toCUP(4.99),
+    priceUSD: 7.99,
+    priceCUP: toCUP(7.99),
     period: "por mes",
     analysesPerMonth: -1,
     features: [
@@ -63,8 +63,8 @@ export const PLANS: PlanDef[] = [
   {
     id: "PREMIUM_ANNUAL",
     name: "Premium Anual",
-    priceUSD: 49.99,
-    priceCUP: toCUP(49.99),
+    priceUSD: 79.99,
+    priceCUP: toCUP(79.99),
     period: "por año",
     analysesPerMonth: -1,
     features: [
@@ -73,11 +73,11 @@ export const PLANS: PlanDef[] = [
       "Comparación de evolución",
       "Seguimiento avanzado",
       "Escaneos adicionales",
-      "Ahorras $9.89 vs. mensual",
+      "Ahorras $15.89 vs. mensual",
     ],
     popular: false,
     annual: true,
-    monthlyPrice: 4.17,
+    monthlyPrice: 6.67,
   },
   {
     id: "PRO",
@@ -133,8 +133,8 @@ export const PLANS: PlanDef[] = [
   {
     id: "ESTHETICIAN",
     name: "Esteticista",
-    priceUSD: 29.99,
-    priceCUP: toCUP(29.99),
+    priceUSD: 49.99,
+    priceCUP: toCUP(49.99),
     period: "por mes",
     analysesPerMonth: -1,
     features: [
@@ -148,6 +148,47 @@ export const PLANS: PlanDef[] = [
       "Capacitación para tu equipo",
     ],
     popular: false,
+  },
+  {
+    id: "PRO_PLUS_ANNUAL",
+    name: "Pro+ Anual",
+    priceUSD: 199.99,
+    priceCUP: toCUP(199.99),
+    period: "por año",
+    analysesPerMonth: -1,
+    features: [
+      "Todo Pro+",
+      "Comparativa mensual automática",
+      "Rutina dinámica semanal",
+      "Informe PDF descargable",
+      "Soporte prioritario (1 hora)",
+      "Ahorras vs. mensual",
+    ],
+    popular: false,
+    annual: true,
+    monthlyPrice: 16.67,
+  },
+  {
+    id: "ESTHETICIAN_ANNUAL",
+    name: "Esteticista Anual",
+    priceUSD: 499.99,
+    priceCUP: toCUP(499.99),
+    period: "por año",
+    analysesPerMonth: -1,
+    features: [
+      "Todo Esteticista",
+      "Hasta 200 clientes",
+      "Panel de gestión de clientes",
+      "Informes PDF con tu marca",
+      "Comparativas entre clientes",
+      "Exportar datos (CSV)",
+      "Soporte dedicado (24h)",
+      "Capacitación para tu equipo",
+      "Ahorras vs. mensual",
+    ],
+    popular: false,
+    annual: true,
+    monthlyPrice: 41.67,
   },
 ]
 
@@ -177,6 +218,20 @@ export const PACKS: PackDef[] = [
       "Comparación de resultados",
       "Válido por 30 días",
     ],
+    popular: false,
+  },
+  {
+    id: "PACK_10",
+    name: "Pack de 10",
+    priceUSD: 4.99,
+    priceCUP: toCUP(4.99),
+    analyses: 10,
+    features: [
+      "10 análisis de piel",
+      "Historial desbloqueado",
+      "Comparación avanzada",
+      "Válido por 30 días",
+    ],
     popular: true,
   },
   {
@@ -194,6 +249,22 @@ export const PACKS: PackDef[] = [
     ],
     popular: false,
   },
+  {
+    id: "PACK_25",
+    name: "Pack de 25",
+    priceUSD: 9.99,
+    priceCUP: toCUP(9.99),
+    analyses: 25,
+    features: [
+      "25 análisis de piel",
+      "Historial desbloqueado",
+      "Comparación avanzada",
+      "Acceso prioritario",
+      "Válido por 30 días",
+      "Mayor ahorro",
+    ],
+    popular: false,
+  },
 ]
 
 export function getPlan(id: string): PlanDef | undefined {
@@ -207,7 +278,9 @@ export function getPack(id: string): PackDef | undefined {
 export const PACK_ANALYSES: Record<string, number> = {
   BASIC: 3,
   POPULAR: 5,
+  PACK_10: 10,
   ADVANCED: 15,
+  PACK_25: 25,
 }
 
 export { FALLBACK_CUP_RATE as CUP_RATE }

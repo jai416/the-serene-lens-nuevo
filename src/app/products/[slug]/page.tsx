@@ -105,6 +105,7 @@ export default async function ProductDetailPage({
               alt={product.name}
               fill
               className="object-cover"
+              unoptimized
             />
           </div>
 

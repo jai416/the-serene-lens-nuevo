@@ -29,7 +29,9 @@ export function getPlanLabel(plan: string) {
     PRO: "Pro",
     PRO_ANNUAL: "Pro Anual",
     PRO_PLUS: "Pro+",
+    PRO_PLUS_ANNUAL: "Pro+ Anual",
     ESTHETICIAN: "Esteticista",
+    ESTHETICIAN_ANNUAL: "Esteticista Anual",
   }
   return labels[plan] || plan
 }

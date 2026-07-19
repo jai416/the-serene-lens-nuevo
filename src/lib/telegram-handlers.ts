@@ -136,7 +136,7 @@ export async function handleStatusPublic(chatId: string, userId: string) {
     await sendTelegramMessage(chatId, R.notRegistered(url))
     return
   }
-  const planIcons: Record<string, string> = { FREE: "🆓", PREMIUM: "⭐", PRO: "💎", PRO_PLUS: "👑" }
+  const planIcons: Record<string, string> = { FREE: "🆓", PREMIUM: "⭐", PRO: "💎", PRO_PLUS: "👑", ESTHETICIAN: "🏥" }
   const [analysisCount, pendingPayments, lastAnalysis] = await Promise.all([
     db.skinAnalysis.count({ where: { userId: user.id } }),
     db.payment.count({ where: { userId: user.id, status: "pending" } }),
@@ -722,7 +722,7 @@ export async function handleCliente(chatId: string, userId: string, args: string
     db.payment.count({ where: { userId: user.id, status: "pending" } }),
   ])
   const sub = user.subscriptions[0]
-  const planIcons: Record<string, string> = { FREE: "🆓", PREMIUM: "⭐", PRO: "💎", PRO_PLUS: "👑" }
+  const planIcons: Record<string, string> = { FREE: "🆓", PREMIUM: "⭐", PRO: "💎", PRO_PLUS: "👑", ESTHETICIAN: "🏥" }
   let text = `👤 <b>Cliente</b>\n`
   text += `Nombre: ${sanitizeHtml(user.name || "—")}\n`
   text += `Email: ${sanitizeHtml(email)}\n`

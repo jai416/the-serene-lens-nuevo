@@ -266,7 +266,7 @@ export default function HomePage() {
               {
                 id: "PREMIUM",
                 name: "Premium",
-                price: "$4.99",
+                price: "$7.99",
                 period: "/mes",
                 badge: "Popular",
                 popular: true,

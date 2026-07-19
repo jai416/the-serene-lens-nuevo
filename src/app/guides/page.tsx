@@ -356,6 +356,7 @@ export default function GuidesPage() {
                       alt={guide.title}
                       fill
                       className="object-cover"
+                      unoptimized={guide.image.endsWith(".svg")}
                     />
                     <Badge className="absolute top-3 left-3 bg-[#88B078] text-[#1A1A1A]">
                       {guide.category}
