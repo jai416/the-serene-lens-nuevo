@@ -30,10 +30,6 @@ const FAQSection = dynamic(() => import("@/components/faq-section").then((m) => 
   loading: () => <CardSkeleton />,
 })
 
-const AgingDemo = dynamic(() => import("@/components/aging-demo").then((m) => ({ default: m.AgingDemo })), {
-  loading: () => <CardSkeleton />,
-})
-
 const steps = [
   { icon: Eye, title: "Sube tus fotos", description: "Captura tu rostro desde varios ángulos. Sin filtros, sin maquillaje." },
   { icon: Beaker, title: "Observamos tu piel", description: "Analizamos textura, poros, brillo y más. Sin porcentajes, solo observaciones reales." },
@@ -158,9 +154,6 @@ export default function HomePage() {
           </div>
         </div>
       </section>
-
-      {/* ─── Prueba Rápida (Aging Demo) ─── */}
-      <AgingDemo />
 
       {/* ─── How It Works ─── */}
       <section id="how-it-works" className="py-20 sm:py-28 px-4 sm:px-8 bg-[#F8F9FA]">
