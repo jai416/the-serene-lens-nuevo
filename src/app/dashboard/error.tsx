@@ -3,6 +3,8 @@
 import { useEffect } from "react"
 import { Button } from "@/components/ui/button"
 import { AlertCircle, RefreshCw } from "lucide-react"
+import { useLocale } from "@/lib/locale/locale-context"
+import { t } from "@/lib/locale/translations"
 
 export default function DashboardError({
   error,
@@ -11,6 +13,7 @@ export default function DashboardError({
   error: Error & { digest?: string }
   reset: () => void
 }) {
+  const { locale } = useLocale()
   useEffect(() => {
     console.error("Dashboard error:", error)
   }, [error])
@@ -22,15 +25,14 @@ export default function DashboardError({
           <AlertCircle className="w-6 h-6 text-[#1A1A1A]" />
         </div>
         <h1 className="font-serif text-xl font-semibold text-[#1A1A1A] mb-2">
-          Algo salió mal
+          {t("common.somethingWentWrong", locale)}
         </h1>
         <p className="text-sm text-[#666666] mb-6">
-          Hubo un error al cargar esta página. Puede deberse a un reinicio del servidor.
-          Intenta recargar.
+          {t("dashboard.errorLoading", locale)}
         </p>
         <Button variant="primary" onClick={reset} className="gap-2">
           <RefreshCw className="w-4 h-4" />
-          Reintentar
+          {t("common.retry", locale)}
         </Button>
       </div>
     </div>

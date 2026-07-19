@@ -4,8 +4,11 @@ import { useSession } from "next-auth/react"
 import { redirect, usePathname } from "next/navigation"
 import { Card, CardContent } from "@/components/ui/card"
 import { Trophy, Sparkles } from "lucide-react"
+import { useLocale } from "@/lib/locale/locale-context"
+import { t } from "@/lib/locale/translations"
 
 export default function ChallengesPage() {
+  const { locale } = useLocale()
   const pathname = usePathname()
   const { data: session, status } = useSession()
 
@@ -28,14 +31,14 @@ export default function ChallengesPage() {
           <CardContent className="p-0">
             <Trophy className="w-12 h-12 text-[#88B078] mx-auto mb-4" />
             <h1 className="font-serif text-3xl font-semibold text-[#1A1A1A] mb-2">
-              Desafíos de Skincare
+              {t("challenges.title", locale)}
             </h1>
             <p className="text-[#666666] mb-4">
-              Estamos preparando nuevos desafíos para ti. Pronto podrás completar retos y ganar puntos por tus hábitos de cuidado facial.
+              {t("challenges.comingSoon", locale)}
             </p>
             <div className="flex items-center justify-center gap-2 text-sm text-[#666666]">
               <Sparkles className="w-4 h-4 text-[#88B078]" />
-              <span>Pronto disponibles</span>
+              <span>{t("challenges.comingSoon", locale)}</span>
               <Sparkles className="w-4 h-4 text-[#88B078]" />
             </div>
           </CardContent>

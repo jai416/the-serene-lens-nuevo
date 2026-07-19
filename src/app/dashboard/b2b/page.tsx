@@ -9,6 +9,8 @@ import { Badge } from "@/components/ui/badge"
 import { Building2, Download, Upload, Package, TrendingUp, AlertCircle } from "lucide-react"
 import { toast } from "sonner"
 import { CardSkeleton } from "@/components/ui/skeleton"
+import { useLocale } from "@/lib/locale/locale-context"
+import { t } from "@/lib/locale/translations"
 
 interface ClinicData {
   id: string
@@ -25,6 +27,7 @@ interface ClientAnalysis {
 
 export default function B2bDashboard() {
   const pathname = usePathname()
+  const { locale } = useLocale()
   const { data: session, status } = useSession()
   const [clinic, setClinic] = useState<ClinicData | null>(null)
   const [analyses, setAnalyses] = useState<ClientAnalysis[]>([])
@@ -64,8 +67,8 @@ export default function B2bDashboard() {
           <div className="w-14 h-14 rounded-2xl bg-[#E2ECE0] flex items-center justify-center mx-auto mb-4">
             <AlertCircle className="w-6 h-6 text-[#666666]" />
           </div>
-          <h2 className="font-serif text-xl font-semibold mb-2 text-[#1A1A1A]">Plan no disponible</h2>
-          <p className="text-sm text-[#666666] mb-6">Este panel es exclusivo para profesionales con plan Esteticista.</p>
+          <h2 className="font-serif text-xl font-semibold mb-2 text-[#1A1A1A]">{t("b2b.notAvailable", locale)}</h2>
+          <p className="text-sm text-[#666666] mb-6">{t("b2b.exclusive", locale)}</p>
         </div>
       </div>
     )
@@ -77,24 +80,24 @@ export default function B2bDashboard() {
         <div className="mb-8">
           <Badge variant="mint" className="mb-4 rounded-full px-4 py-1.5 border-0">
             <Building2 className="w-3.5 h-3.5 mr-2" />
-            Panel B2B
+            {t("b2b.title", locale)}
           </Badge>
           <h1 className="font-serif text-3xl sm:text-4xl font-semibold text-[#1A1A1A]">
-            {clinic?.name || "Mi Clínica"}
+            {clinic?.name || t("b2b.myClinic", locale)}
           </h1>
         </div>
 
         <div className="grid sm:grid-cols-3 gap-4 mb-8">
           <Card className="p-4">
             <CardContent className="p-0">
-              <p className="text-xs text-[#666666] mb-1">Análisis realizados</p>
+              <p className="text-xs text-[#666666] mb-1">{t("b2b.analyses", locale)}</p>
               <p className="text-2xl font-semibold text-[#1A1A1A]">{analyses.length}</p>
             </CardContent>
           </Card>
           <Card className="p-4">
             <CardContent className="p-0">
               <p className="text-xs text-[#666666] mb-1">Plan</p>
-              <p className="text-2xl font-semibold text-[#1A1A1A]">Esteticista</p>
+              <p className="text-2xl font-semibold text-[#1A1A1A]">{t("b2b.esthetician", locale)}</p>
             </CardContent>
           </Card>
           <Card className="p-4">
@@ -110,15 +113,15 @@ export default function B2bDashboard() {
             <CardHeader className="p-0 mb-4">
               <CardTitle className="flex items-center gap-2 text-lg text-[#1A1A1A]">
                 <Building2 className="w-5 h-5" />
-                Personalización
+                {t("b2b.customization", locale)}
               </CardTitle>
             </CardHeader>
             <CardContent className="p-0 space-y-4">
               <div>
-                <label className="text-sm font-medium mb-1.5 block text-[#1A1A1A]">Nombre de la clínica</label>
+                <label className="text-sm font-medium mb-1.5 block text-[#1A1A1A]">{t("clinic.name", locale)}</label>
                 <input
                   type="text"
-                  aria-label="Nombre de la clínica"
+                  aria-label={t("clinic.name", locale)}
                   defaultValue={clinic.name}
                   className="w-full rounded-xl border border-[#E8E8E8] bg-white px-4 py-2.5 text-sm focus:outline-none focus:ring-1 focus:ring-[#88B078] text-[#1A1A1A]"
                 />
@@ -157,7 +160,7 @@ export default function B2bDashboard() {
                   <div key={a.id} className="flex items-center justify-between p-3 rounded-2xl bg-[#F8F9FA]">
                     <div>
                       <p className="text-sm capitalize text-[#1A1A1A]">{a.skinType || "Sin clasificar"}</p>
-                      <p className="text-xs text-[#666666]">{new Date(a.createdAt).toLocaleDateString("es-ES")}</p>
+                      <p className="text-xs text-[#666666]">{new Date(a.createdAt).toLocaleDateString(locale === "en" ? "en-US" : "es-ES")}</p>
                     </div>
                     <div className="flex gap-2">
                       <Button variant="outline" size="sm" onClick={async () => {

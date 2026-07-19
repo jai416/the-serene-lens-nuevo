@@ -9,6 +9,8 @@ import { Button } from "@/components/ui/button"
 import { BookOpen, TrendingUp, TrendingDown, Minus } from "lucide-react"
 import { toast } from "sonner"
 import { CardSkeleton } from "@/components/ui/skeleton"
+import { useLocale } from "@/lib/locale/locale-context"
+import { t, Locale } from "@/lib/locale/translations"
 
 interface DiaryEntry {
   id: string
@@ -24,14 +26,6 @@ const FEELING_COLORS: Record<number, string> = {
   3: "#E8D45E",
   4: "#A8D88E",
   5: "#88B078",
-}
-
-const FEELING_LABELS: Record<number, string> = {
-  1: "Muy mal",
-  2: "Mal",
-  3: "Regular",
-  4: "Bien",
-  5: "Muy bien",
 }
 
 function startOfMonth(d: Date) {
@@ -70,13 +64,46 @@ function isSameWeek(a: Date, b: Date) {
   return b >= ws && b <= we
 }
 
-const WEEKDAY_LABELS = ["Dom", "Lun", "Mar", "Mié", "Jue", "Vie", "Sáb"]
-const MONTH_LABELS = [
-  "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio",
-  "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre",
-]
+function getWeekdayLabels(locale: Locale) {
+  return [
+    t("common.sunday", locale),
+    t("common.monday", locale),
+    t("common.tuesday", locale),
+    t("common.wednesday", locale),
+    t("common.thursday", locale),
+    t("common.friday", locale),
+    t("common.saturday", locale),
+  ]
+}
+
+function getMonthLabels(locale: Locale) {
+  return [
+    t("common.january", locale),
+    t("common.february", locale),
+    t("common.march", locale),
+    t("common.april", locale),
+    t("common.may", locale),
+    t("common.june", locale),
+    t("common.july", locale),
+    t("common.august", locale),
+    t("common.september", locale),
+    t("common.october", locale),
+    t("common.november", locale),
+    t("common.december", locale),
+  ]
+}
 
 export default function DiaryPage() {
+  const { locale } = useLocale()
+  const WEEKDAY_LABELS = getWeekdayLabels(locale)
+  const MONTH_LABELS = getMonthLabels(locale)
+  const FEELING_LABELS: Record<number, string> = {
+    1: t("diary.poor", locale),
+    2: t("diary.poor", locale),
+    3: t("diary.fair", locale),
+    4: t("diary.good", locale),
+    5: t("diary.good", locale),
+  }
   const pathname = usePathname()
   const { data: session, status } = useSession()
   const [entries, setEntries] = useState<DiaryEntry[]>([])
@@ -200,10 +227,10 @@ export default function DiaryPage() {
         <div className="mb-8">
           <Badge variant="primary" className="mb-4 flex items-center gap-2 rounded-full px-4 py-1.5">
             <BookOpen className="w-3.5 h-3.5" />
-            Diario de Piel
+            {t("diary.title", locale)}
           </Badge>
           <h1 className="font-serif text-3xl sm:text-4xl font-semibold text-[#1A1A1A]">
-            Mi Diario de Piel
+            {t("diary.subtitle", locale)}
           </h1>
           <p className="text-[#666666] mt-2 text-sm">
             Registra cómo se siente tu piel cada día
@@ -220,9 +247,9 @@ export default function DiaryPage() {
                 {weekSummary.trend === "stable" && <Minus className="w-5 h-5 text-[#E8D45E]" />}
                 <div>
                   <p className="font-medium text-[#1A1A1A] text-sm">
-                    {weekSummary.trend === "up" && "Esta semana tu piel mejoró"}
-                    {weekSummary.trend === "down" && "Esta semana tu piel bajó un poco"}
-                    {weekSummary.trend === "stable" && "Tu piel se mantiene estable esta semana"}
+                    {weekSummary.trend === "up" && t("diary.weekSummary", locale).replace("{trend}", t("diary.improved", locale))}
+                    {weekSummary.trend === "down" && t("diary.weekSummary", locale).replace("{trend}", t("diary.worsened", locale))}
+                    {weekSummary.trend === "stable" && t("diary.weekSummary", locale).replace("{trend}", t("diary.stable", locale))}
                   </p>
                   <p className="text-xs text-[#666666] mt-0.5">
                     Promedio: {weekSummary.avg.toFixed(1)} / 5
@@ -241,7 +268,7 @@ export default function DiaryPage() {
                 onClick={() => setCurrentMonth(new Date(currentMonth.getFullYear(), currentMonth.getMonth() - 1))}
                 className="text-[#666666] hover:text-[#1A1A1A] px-2 py-1 rounded-lg hover:bg-[#E2ECE0] transition-colors text-sm"
               >
-                ← Ant
+                ← {t("common.previous", locale)}
               </button>
               <CardTitle className="text-lg text-[#1A1A1A]">
                 {MONTH_LABELS[currentMonth.getMonth()]} {currentMonth.getFullYear()}
@@ -250,7 +277,7 @@ export default function DiaryPage() {
                 onClick={() => setCurrentMonth(new Date(currentMonth.getFullYear(), currentMonth.getMonth() + 1))}
                 className="text-[#666666] hover:text-[#1A1A1A] px-2 py-1 rounded-lg hover:bg-[#E2ECE0] transition-colors text-sm"
               >
-                Sig →
+                {t("common.next", locale)} →
               </button>
             </div>
           </CardHeader>
@@ -299,7 +326,7 @@ export default function DiaryPage() {
         {/* Legend */}
         <Card className="mb-6">
           <CardContent className="p-4">
-            <p className="text-xs font-medium text-[#666666] mb-2">Leyenda</p>
+            <p className="text-xs font-medium text-[#666666] mb-2">{t("diary.legend", locale)}</p>
             <div className="flex flex-wrap gap-3">
               {[1, 2, 3, 4, 5].map((f) => (
                 <div key={f} className="flex items-center gap-1.5">
@@ -315,13 +342,13 @@ export default function DiaryPage() {
         <Card>
           <CardHeader className="pb-3">
             <CardTitle className="text-lg text-[#1A1A1A]">
-              {todayEntry ? "Actualizar entrada de hoy" : "Registrar cómo se siente tu piel hoy"}
+              {t("diary.formTitle", locale)}
             </CardTitle>
           </CardHeader>
           <CardContent className="space-y-4">
             <div>
               <label className="text-sm font-medium text-[#1A1A1A] mb-2 block">
-                ¿Cómo se siente tu piel?
+                {t("diary.formFeeling", locale)}
               </label>
               <div className="flex gap-2">
                 {[1, 2, 3, 4, 5].map((f) => (
@@ -348,7 +375,7 @@ export default function DiaryPage() {
 
             <div>
               <label className="text-sm font-medium text-[#1A1A1A] mb-1.5 block">
-                Notas (opcional)
+                {t("diary.formNotes", locale)}
               </label>
               <textarea
                 value={notes}
@@ -367,7 +394,7 @@ export default function DiaryPage() {
             )}
 
             <Button onClick={handleSave} disabled={saving || !selectedFeeling} variant="primary">
-              {saving ? "Guardando..." : todayEntry ? "Actualizar entrada" : "Guardar entrada"}
+              {saving ? t("common.saving", locale) : todayEntry ? "Actualizar entrada" : t("diary.formSave", locale)}
             </Button>
           </CardContent>
         </Card>

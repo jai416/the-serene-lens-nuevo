@@ -12,6 +12,8 @@ import {
 } from "lucide-react"
 import Link from "next/link"
 import { toast } from "sonner"
+import { useLocale } from "@/lib/locale/locale-context"
+import { t } from "@/lib/locale/translations"
 
 interface MarketingData {
   clinic: { name: string; logo: string | null; referralCode: string; referredUsers: number }
@@ -20,6 +22,7 @@ interface MarketingData {
 
 export default function MarketingKitPage() {
   const pathname = usePathname()
+  const { locale } = useLocale()
   const { data: session, status } = useSession()
   const user = session?.user as any
   const [data, setData] = useState<MarketingData | null>(null)
@@ -50,7 +53,7 @@ export default function MarketingKitPage() {
       const body = d?.data || d
       if (!res.ok) throw new Error(body?.error || "Error")
       setData((prev) => prev ? { ...prev, discountCode: body.discountCode } : prev)
-      toast.success("Código de descuento generado")
+      toast.success(t("esthetician.discountGenerated", locale))
     } catch {
       toast.error("Error al generar código")
     } finally {
@@ -61,12 +64,12 @@ export default function MarketingKitPage() {
   const copyCode = (text: string) => {
     navigator.clipboard.writeText(text).then(() => {
       setCopied(true)
-      toast.success("¡Copiado!")
+      toast.success(t("esthetician.copied", locale))
       setTimeout(() => setCopied(false), 2000)
     })
   }
 
-  if (status === "loading") return <div className="p-8 text-center text-[#666666]">Cargando...</div>
+  if (status === "loading") return <div className="p-8 text-center text-[#666666]">{t("common.loading", locale)}</div>
   if (!session) redirect("/login?callbackUrl=" + encodeURIComponent(pathname))
   if (user?.plan !== "ESTHETICIAN") redirect("/dashboard/profile")
 
@@ -87,9 +90,9 @@ export default function MarketingKitPage() {
 
   const { clinic, discountCode } = data
   const referralUrl = `${window.location.origin}/register?ref=${clinic.referralCode}`
-  const emailSubject = encodeURIComponent("Te invito a descubrir tu piel con IA")
+  const emailSubject = encodeURIComponent(t("esthetician.emailSubject", locale))
   const emailBody = encodeURIComponent(
-    `¡Hola!\n\nEstoy usando The Serene Lens con mis clientes. Es una herramienta de análisis de piel con IA que me ayuda a dar seguimiento profesional a tu progreso.\n\nUsa mi código ${clinic.referralCode} al registrarte y obtén un descuento especial.\n\nRegístrate aquí: ${window.location.origin}/register`
+    t("esthetician.emailBody", locale).replace("{code}", clinic.referralCode) + `\n\nRegístrate aquí: ${window.location.origin}/register`
   )
 
   return (
@@ -98,10 +101,10 @@ export default function MarketingKitPage() {
       <div className="flex items-center justify-between">
         <div>
           <Link href="/dashboard/esthetician" className="text-xs text-[#666666] hover:text-[#1A1A1A] inline-flex items-center gap-1 mb-2">
-            <ArrowLeft className="w-3 h-3" /> Volver al panel
+            <ArrowLeft className="w-3 h-3" /> {t("nav.esthetician", locale)}
           </Link>
-          <h1 className="font-serif text-2xl font-semibold text-[#1A1A1A]">Kit de Marketing</h1>
-          <p className="text-sm text-[#666666] mt-0.5">Recursos para hacer crecer tu práctica</p>
+          <h1 className="font-serif text-2xl font-semibold text-[#1A1A1A]">{t("esthetician.marketingKit", locale)}</h1>
+          <p className="text-sm text-[#666666] mt-0.5">{t("esthetician.marketingDesc", locale)}</p>
         </div>
       </div>
 
@@ -109,17 +112,17 @@ export default function MarketingKitPage() {
       <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
         <Card className="p-4 border border-[#E8E8E8]/60">
           <CardContent className="p-0">
-            <p className="text-xs text-[#666666] mb-1">Clientes Referidos</p>
+            <p className="text-xs text-[#666666] mb-1">{t("esthetician.referredUsers", locale)}</p>
             <p className="text-2xl font-bold text-[#1A1A1A]">{clinic.referredUsers}</p>
           </CardContent>
         </Card>
         <Card className="p-4 border border-[#E8E8E8]/60">
           <CardContent className="p-0">
-            <p className="text-xs text-[#666666] mb-1">Código de Referido</p>
+            <p className="text-xs text-[#666666] mb-1">{t("esthetician.referralCode", locale)}</p>
             <div className="flex items-center gap-2">
               <code className="text-lg font-bold text-[#88B078]">{clinic.referralCode}</code>
               <button onClick={() => copyCode(clinic.referralCode)} className="p-1.5 rounded-lg hover:bg-[#E2ECE0] transition-colors"
-                aria-label="Copiar código de referido"
+                aria-label={t("esthetician.copyCode", locale)}
               >
                 {copied ? <Check className="w-4 h-4 text-[#88B078]" /> : <Copy className="w-4 h-4 text-[#666666]" />}
               </button>
@@ -128,13 +131,13 @@ export default function MarketingKitPage() {
         </Card>
         <Card className="p-4 border border-[#E8E8E8]/60">
           <CardContent className="p-0">
-            <p className="text-xs text-[#666666] mb-1">Código de Descuento</p>
+            <p className="text-xs text-[#666666] mb-1">{t("esthetician.discountCode", locale)}</p>
             {discountCode ? (
               <div className="flex items-center gap-2">
                 <code className="text-lg font-bold text-[#D4A843]">{discountCode.code}</code>
                 <Badge variant="mint" className="text-[10px]">{discountCode.discount}%</Badge>
                 <button onClick={() => copyCode(discountCode.code)} className="p-1.5 rounded-lg hover:bg-[#FFF9E6] transition-colors"
-                  aria-label="Copiar código de descuento"
+                  aria-label={t("esthetician.copyCode", locale)}
                 >
                   <Copy className="w-4 h-4 text-[#666666]" />
                 </button>
@@ -142,7 +145,7 @@ export default function MarketingKitPage() {
             ) : (
               <Button variant="primary" size="sm" onClick={generateDiscount} disabled={discountLoading}>
                 {discountLoading ? <Loader2 className="w-3.5 h-3.5 animate-spin mr-1.5" /> : <Gift className="w-3.5 h-3.5 mr-1.5" />}
-                Generar
+                {t("esthetician.generateDiscount", locale)}
               </Button>
             )}
           </CardContent>
@@ -154,16 +157,15 @@ export default function MarketingKitPage() {
         <CardContent className="p-0">
           <h2 className="font-semibold text-sm text-[#1A1A1A] mb-3 flex items-center gap-2">
             <Share2 className="w-4 h-4 text-[#D4A843]" />
-            Comparte tu código
+            {t("esthetician.shareCode", locale)}
           </h2>
           <p className="text-xs text-[#666666] mb-4">
-            Entrega este código a tus clientes para que lo usen al registrarse y obtengan un descuento.
-            Tú verás cuántos clientes se registran con tu código.
+            {t("esthetician.shareDesc", locale)}
           </p>
           <div className="flex flex-wrap gap-2">
             <Button variant="primary" size="sm" onClick={() => copyCode(clinic.referralCode)}>
               {copied ? <Check className="w-3.5 h-3.5 mr-1.5" /> : <Copy className="w-3.5 h-3.5 mr-1.5" />}
-              {copied ? "Copiado" : "Copiar código"}
+              {copied ? t("esthetician.copied", locale) : t("esthetician.copyCode", locale)}
             </Button>
             <Button variant="secondary" size="sm" onClick={() => {
               const text = `Únete a The Serene Lens con mi código ${clinic.referralCode} y obtén un descuento especial. Regístrate aquí: ${window.location.origin}/register`
@@ -190,7 +192,7 @@ export default function MarketingKitPage() {
             <div className="w-12 h-12 rounded-xl bg-[#FFF9E6] flex items-center justify-center mb-3">
               <Image className="w-6 h-6 text-[#D4A843]" />
             </div>
-            <h2 className="font-semibold text-sm text-[#1A1A1A] mb-1">Flyer Digital</h2>
+            <h2 className="font-semibold text-sm text-[#1A1A1A] mb-1">{t("esthetician.flyerTitle", locale)}</h2>
             <p className="text-xs text-[#666666] mb-4">Imagen promocional para compartir en WhatsApp o redes sociales</p>
             <div className="bg-[#F8F9FA] rounded-xl p-4 border border-[#E8E8E8]/60 mb-4">
               <div className="bg-white rounded-lg p-4 text-center border border-[#E8E8E8]">
@@ -218,24 +220,21 @@ export default function MarketingKitPage() {
             <div className="w-12 h-12 rounded-xl bg-[#FFF9E6] flex items-center justify-center mb-3">
               <Mail className="w-6 h-6 text-[#D4A843]" />
             </div>
-            <h2 className="font-semibold text-sm text-[#1A1A1A] mb-1">Plantilla de Email</h2>
+            <h2 className="font-semibold text-sm text-[#1A1A1A] mb-1">{t("esthetician.emailTemplate", locale)}</h2>
             <p className="text-xs text-[#666666] mb-4">Texto listo para enviar a tus clientes</p>
             <div className="bg-[#F8F9FA] rounded-xl p-4 border border-[#E8E8E8]/60 mb-4">
               <p className="text-xs font-medium text-[#1A1A1A] mb-1">Asunto:</p>
-              <p className="text-xs text-[#666666] mb-3 italic">Te invito a descubrir tu piel con IA</p>
+              <p className="text-xs text-[#666666] mb-3 italic">{t("esthetician.emailSubject", locale)}</p>
               <p className="text-xs font-medium text-[#1A1A1A] mb-1">Cuerpo:</p>
               <p className="text-xs text-[#666666] leading-relaxed">
-                ¡Hola! Estoy usando The Serene Lens con mis clientes. Es una herramienta de análisis de piel con IA
-                que me ayuda a dar seguimiento profesional a tu progreso.
-                <br /><br />
-                Usa mi código <strong className="text-[#88B078]">{clinic.referralCode}</strong> al registrarte
-                {discountCode ? ` y obtén un ${discountCode.discount}% de descuento` : ""}.
+                {t("esthetician.emailBody", locale).replace("{code}", clinic.referralCode)}
+                {discountCode ? ` (${discountCode.discount}% descuento)` : ""}
                 <br /><br />
                 Regístrate aquí: {typeof window !== "undefined" ? window.location.origin + "/register" : ""}
               </p>
             </div>
             <a href={`mailto:?subject=${emailSubject}&body=${encodeURIComponent(
-              `¡Hola!\n\nEstoy usando The Serene Lens con mis clientes. Es una herramienta de análisis de piel con IA que me ayuda a dar seguimiento profesional a tu progreso.\n\nUsa mi código ${clinic.referralCode} al registrarte${discountCode ? ` y obtén un ${discountCode.discount}% de descuento` : ""}.\n\nRegístrate aquí: ${typeof window !== "undefined" ? window.location.origin : ""}/register`
+              t("esthetician.emailBody", locale).replace("{code}", clinic.referralCode) + (discountCode ? ` (${discountCode.discount}% descuento)` : "") + `\n\nRegístrate aquí: ${typeof window !== "undefined" ? window.location.origin : ""}/register`
             )}`}
               className="inline-flex items-center px-3 py-1.5 text-xs font-medium rounded-xl bg-[#88B078] text-white hover:bg-[#7A9D68] transition-colors gap-1.5">
               <Mail className="w-3.5 h-3.5" />
@@ -254,14 +253,14 @@ export default function MarketingKitPage() {
                 <CheckCircle2 className="w-5 h-5 text-[#D4A843]" />
               </div>
               <div className="flex-1">
-                <p className="text-sm font-semibold text-[#1A1A1A]">Código de Descuento Activo</p>
+                <p className="text-sm font-semibold text-[#1A1A1A]">{t("esthetician.discountCode", locale)}</p>
                 <p className="text-xs text-[#666666]">
-                  Tus clientes obtienen {discountCode.discount}% de descuento al usar el código <strong>{discountCode.code}</strong>
+                  {t("esthetician.yourCodeIs", locale)} <strong>{discountCode.code}</strong> ({discountCode.discount}% {t("esthetician.discountDesc", locale)})
                 </p>
               </div>
               <Button variant="primary" size="sm" onClick={() => copyCode(discountCode.code)}>
                 {copied ? <Check className="w-3.5 h-3.5 mr-1.5" /> : <Copy className="w-3.5 h-3.5 mr-1.5" />}
-                {copied ? "Copiado" : "Copiar"}
+                {copied ? t("esthetician.copied", locale) : t("esthetician.copyCode", locale)}
               </Button>
             </div>
           </CardContent>

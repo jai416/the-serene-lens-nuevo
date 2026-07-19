@@ -13,6 +13,8 @@ import { toast } from "sonner"
 import { useRouter } from "next/navigation"
 import { getCsrfToken } from "@/lib/csrf-client"
 import { CardSkeleton } from "@/components/ui/skeleton"
+import { useLocale } from "@/lib/locale/locale-context"
+import { t } from "@/lib/locale/translations"
 
 interface Payment {
   id: string
@@ -45,6 +47,7 @@ interface Pack {
 }
 
 export default function SubscriptionPage() {
+  const { locale } = useLocale()
   const pathname = usePathname()
   const router = useRouter()
   const { data: session, status, update } = useSession()
@@ -141,10 +144,10 @@ export default function SubscriptionPage() {
         <div className="mb-8">
           <Badge variant="mint" className="mb-4 rounded-full px-4 py-1.5 border-0">
             <CreditCard className="w-3.5 h-3.5 mr-2" />
-            Mi Suscripción
+            {t("subscription.title", locale)}
           </Badge>
           <h1 className="font-serif text-3xl sm:text-4xl font-semibold text-[#1A1A1A]">
-            Mi Suscripción
+            {t("subscription.title", locale)}
           </h1>
         </div>
 
@@ -153,7 +156,7 @@ export default function SubscriptionPage() {
           <div className="mb-6 p-4 rounded-2xl bg-gradient-to-r from-[#FFF9E6] to-[#FFF3CC] border border-[#FCEAA6]">
             <p className="text-sm text-[#1A1A1A] font-medium text-center">
               Estas disfrutando de tu prueba PREMIUM de 7 dias. Tu plan volvera a Essential el{" "}
-              {new Date(session.user.trialEndsAt).toLocaleDateString("es-ES", { day: "numeric", month: "long", year: "numeric" })}.
+              {new Date(session.user.trialEndsAt).toLocaleDateString(locale === "en" ? "en-US" : "es-ES", { day: "numeric", month: "long", year: "numeric" })}.
               {new Date(session.user.trialEndsAt) < new Date() && (
                 <span className="block mt-1 text-[#D97706]">
                   Tu prueba ya expiro. Suscribete para seguir disfrutando de todas las funciones premium.
@@ -168,17 +171,17 @@ export default function SubscriptionPage() {
           <CardContent className="p-0">
             <div className="flex items-center justify-between mb-4">
               <div>
-                <p className="text-sm text-[#666666]">Plan actual</p>
+                <p className="text-sm text-[#666666]">{t("subscription.currentPlan", locale)}</p>
                 <h2 className="font-serif text-2xl font-semibold text-[#1A1A1A]">{getPlanLabel(plan)}</h2>
                 {subscription?.currentPeriodEnd && (
                   <p className="text-xs text-[#666666] mt-1">
-                    Vence el {new Date(subscription.currentPeriodEnd).toLocaleDateString("es-ES", { day: "numeric", month: "long", year: "numeric" })}
+                    Vence el {new Date(subscription.currentPeriodEnd).toLocaleDateString(locale === "en" ? "en-US" : "es-ES", { day: "numeric", month: "long", year: "numeric" })}
                     {subscription.provider === "transfer" ? " · Transfermovil" : " · QvaPay"}
                   </p>
                 )}
               </div>
               <Badge className={isPaid ? "bg-[#88B078] text-[#1A1A1A]" : "bg-[#E2ECE0] text-[#666666]"}>
-                {isPaid ? "Activo" : "Gratuito"}
+                {isPaid ? t("subscription.active", locale) : t("subscription.free", locale)}
               </Badge>
             </div>
 
@@ -195,7 +198,7 @@ export default function SubscriptionPage() {
             )}
             {!isPaid && (
               <div className="mt-4 space-y-3">
-                <p className="text-sm font-medium text-[#1A1A1A]">Actualizar a Premium</p>
+                <p className="text-sm font-medium text-[#1A1A1A]">{t("plan.upgrade", locale)}</p>
 
                 {/* Monthly */}
                 <div className="p-3 rounded-xl border border-[#E8E8E8]">
@@ -253,7 +256,7 @@ export default function SubscriptionPage() {
             <CardContent className="p-0">
               <h3 className="font-medium text-sm mb-4 flex items-center gap-2 text-[#1A1A1A]">
                 <BarChart3 className="w-4 h-4 text-[#1A1A1A]" />
-                Análisis disponibles
+                {t("subscription.analysesAvailable", locale)}
               </h3>
               <div className="space-y-3">
                 {!usage.isUnlimited && (
@@ -273,7 +276,7 @@ export default function SubscriptionPage() {
                 {usage.packTotal > 0 && (
                   <div>
                     <div className="flex justify-between text-sm mb-1">
-                      <span className="text-[#666666]">Paquetes</span>
+                      <span className="text-[#666666]">{t("subscription.packs", locale)}</span>
                       <span className="font-medium text-[#1A1A1A]">{usage.packTotal - usage.packRemaining} / {usage.packTotal}</span>
                     </div>
                     <div className="h-2 rounded-full bg-[#E2ECE0] overflow-hidden">
@@ -286,13 +289,13 @@ export default function SubscriptionPage() {
                 )}
                 {usage.isUnlimited ? (
                   <p className="text-sm text-[#1A1A1A] flex items-center gap-1">
-                    <CheckCircle2 className="w-4 h-4" /> Análisis ilimitados
+                    <CheckCircle2 className="w-4 h-4" /> {t("dashboard.unlimited", locale)}
                   </p>
                 ) : (
                   <p className="text-sm text-[#666666]">
                     {usage.totalRemaining === Infinity
-                      ? "Análisis ilimitados"
-                      : `${usage.totalRemaining} análisis restantes`}
+                      ? t("dashboard.unlimited", locale)
+                      : `${usage.totalRemaining} ${locale === "en" ? "analyses remaining" : "análisis restantes"}`}
                   </p>
                 )}
               </div>
@@ -321,7 +324,7 @@ export default function SubscriptionPage() {
         {/* Payment History */}
         {payments.length > 0 && (
           <div>
-            <h2 className="font-serif text-xl font-semibold mb-4 text-[#1A1A1A]">Historial de Pagos</h2>
+            <h2 className="font-serif text-xl font-semibold mb-4 text-[#1A1A1A]">{t("subscription.paymentHistory", locale)}</h2>
             <div className="space-y-2">
               {payments.map((p) => (
                 <Card key={p.id}>
@@ -347,7 +350,7 @@ export default function SubscriptionPage() {
                       variant={p.status === "completed" ? "success" : p.status === "pending" ? "secondary" : "outline"}
                       className="text-xs"
                     >
-                      {p.status === "completed" ? "Pagado" : p.status === "pending" ? "Pendiente" : p.status}
+                      {p.status === "completed" ? t("subscription.paid", locale) : p.status === "pending" ? t("subscription.pending", locale) : p.status}
                     </Badge>
                   </CardContent>
                 </Card>
@@ -362,7 +365,7 @@ export default function SubscriptionPage() {
               <div className="w-14 h-14 rounded-2xl bg-[#E2ECE0] flex items-center justify-center mx-auto mb-4">
                 <CreditCard className="w-6 h-6 text-[#666666]" />
               </div>
-              <p className="text-[#666666] mb-4">No tienes pagos registrados aún.</p>
+              <p className="text-[#666666] mb-4">{t("subscription.noPayments", locale)}</p>
               <Link href="/pricing">
                 <Button variant="primary">
                   Ver planes y precios

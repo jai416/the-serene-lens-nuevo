@@ -10,9 +10,12 @@ import { CardSkeleton } from "@/components/ui/skeleton"
 import { Building2, Save, ArrowLeft, Upload, CheckCircle2, AlertCircle } from "lucide-react"
 import Link from "next/link"
 import { toast } from "sonner"
+import { useLocale } from "@/lib/locale/locale-context"
+import { t } from "@/lib/locale/translations"
 
 export default function ClinicSettingsPage() {
   const pathname = usePathname()
+  const { locale } = useLocale()
   const { data: session, status } = useSession()
   const [loading, setLoading] = useState(true)
   const [saving, setSaving] = useState(false)
@@ -80,12 +83,12 @@ export default function ClinicSettingsPage() {
       })
       if (!res.ok) {
         const d = await res.json()
-        throw new Error(d.error || "Error al guardar")
+        throw new Error(d.error || t("clinic.saveError", locale))
       }
       setSuccess(true)
-      toast.success("Perfil actualizado correctamente")
+      toast.success(t("clinic.saved", locale))
     } catch (e: any) {
-      setError(e.message || "Error al guardar")
+      setError(e.message || t("clinic.saveError", locale))
     } finally {
       setSaving(false)
     }
@@ -95,11 +98,11 @@ export default function ClinicSettingsPage() {
     <div className="mx-auto max-w-2xl space-y-8 p-6">
       <div>
         <Link href="/dashboard/esthetician" className="text-xs text-[#666666] hover:text-[#1A1A1A] inline-flex items-center gap-1 mb-4">
-          <ArrowLeft className="w-3 h-3" /> Volver al panel
+          <ArrowLeft className="w-3 h-3" /> {t("clinic.back", locale)}
         </Link>
         <div className="flex items-center gap-3 mb-1">
           <Building2 className="w-5 h-5 text-[#88B078]" />
-          <h1 className="text-2xl font-bold text-[#1A1A1A]">Configuración de Clínica</h1>
+          <h1 className="text-2xl font-bold text-[#1A1A1A]">{t("clinic.title", locale)}</h1>
         </div>
         <p className="text-sm text-[#666666]">Actualiza la información profesional de tu clínica o consultorio.</p>
       </div>
@@ -116,7 +119,7 @@ export default function ClinicSettingsPage() {
           {success && (
             <div className="flex items-center gap-2 p-4 rounded-xl bg-[#E2ECE0] text-[#6F9A5E] text-sm mb-6">
               <CheckCircle2 className="w-4 h-4 shrink-0" />
-              Perfil guardado correctamente
+              {t("clinic.saved", locale)}
             </div>
           )}
 
@@ -148,7 +151,7 @@ export default function ClinicSettingsPage() {
 
             <div>
               <label htmlFor="clinic-name" className="text-sm font-medium mb-1.5 block text-[#1A1A1A]">
-                Nombre de la clínica
+                {t("clinic.name", locale)}
               </label>
               <Input
                 id="clinic-name"
@@ -161,7 +164,7 @@ export default function ClinicSettingsPage() {
 
             <div>
               <label htmlFor="license-number" className="text-sm font-medium mb-1.5 block text-[#1A1A1A]">
-                Número de licencia
+                {t("clinic.license", locale)}
               </label>
               <Input
                 id="license-number"
@@ -173,7 +176,7 @@ export default function ClinicSettingsPage() {
 
             <div>
               <label htmlFor="clinic-address" className="text-sm font-medium mb-1.5 block text-[#1A1A1A]">
-                Dirección
+                {t("clinic.address", locale)}
               </label>
               <Input
                 id="clinic-address"
@@ -185,7 +188,7 @@ export default function ClinicSettingsPage() {
 
             <div>
               <label htmlFor="clinic-phone" className="text-sm font-medium mb-1.5 block text-[#1A1A1A]">
-                Teléfono
+                {t("clinic.phone", locale)}
               </label>
               <Input
                 id="clinic-phone"
@@ -197,7 +200,7 @@ export default function ClinicSettingsPage() {
 
             <Button type="submit" disabled={saving} className="rounded-full">
               <Save className="w-4 h-4 mr-2" />
-              {saving ? "Guardando..." : "Guardar cambios"}
+              {saving ? t("common.saving", locale) : t("clinic.save", locale)}
             </Button>
           </form>
         </CardContent>

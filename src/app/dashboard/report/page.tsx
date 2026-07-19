@@ -7,6 +7,8 @@ import { Card, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { FileText, Loader2, TrendingUp, Calendar, Droplets } from "lucide-react"
 import dynamic from "next/dynamic"
+import { useLocale } from "@/lib/locale/locale-context"
+import { t } from "@/lib/locale/translations"
 
 const SkinReportDownload = dynamic(
   () => import("@/components/pdf-skin-report").then((mod) => mod.SkinReportDownload),
@@ -42,6 +44,7 @@ interface DynamicRoutine {
 }
 
 export default function ReportPage() {
+  const { locale } = useLocale()
   const { data: session, status } = useSession()
   const [analyses, setAnalyses] = useState<AnalysisData[]>([])
   const [comparison, setComparison] = useState<MonthlyComparison | null>(null)
@@ -99,10 +102,10 @@ export default function ReportPage() {
         <div className="mb-8">
           <Badge variant="mint" className="mb-4 rounded-full px-4 py-1.5 border-0">
             <FileText className="w-3.5 h-3.5 mr-2" />
-            Informe y Rutina
+            {t("report.title", locale)}
           </Badge>
           <h1 className="font-serif text-3xl sm:text-4xl font-semibold text-[#1A1A1A]">
-            Tu Informe Personalizado
+            {t("report.subtitle", locale)}
           </h1>
           <p className="text-[#666666] mt-2">
             Resumen de tu evolución, rutina dinámica y comparativa mensual.
@@ -115,9 +118,9 @@ export default function ReportPage() {
             <CardContent className="p-0">
               <div className="flex items-center justify-between">
                 <div>
-                  <h3 className="font-medium text-[#1A1A1A] flex items-center gap-2">
-                    <FileText className="w-4 h-4" />
-                    Informe PDF Completo
+                    <h3 className="font-medium text-[#1A1A1A] flex items-center gap-2">
+                      <FileText className="w-4 h-4" />
+                      {t("report.pdfReport", locale)}
                   </h3>
                   <p className="text-sm text-[#666666] mt-1">
                     Descarga tu informe con evolución, rutina y comparativa mensual.
@@ -151,9 +154,9 @@ export default function ReportPage() {
             <CardContent className="p-0">
               <div className="text-center py-4">
                 <FileText className="w-10 h-10 text-[#E8E8E8] mx-auto mb-3" />
-                <h3 className="font-medium text-[#1A1A1A] mb-1">Informe PDF</h3>
+                <h3 className="font-medium text-[#1A1A1A] mb-1">{t("report.pdfReport", locale)}</h3>
                 <p className="text-sm text-[#666666] mb-3">
-                  Disponible con plan Pro+ o Esteticista
+                  {t("report.pdfAvailable", locale)}
                 </p>
                 <a href="/pricing" className="text-sm text-[#88B078] hover:underline">
                   Ver planes →
@@ -169,7 +172,7 @@ export default function ReportPage() {
             <CardContent className="p-0">
               <h3 className="font-medium text-sm mb-4 flex items-center gap-2 text-[#1A1A1A]">
                 <Calendar className="w-4 h-4" />
-                Comparativa Mensual
+                {t("report.monthlyComparison", locale)}
               </h3>
               <div className="grid grid-cols-2 gap-4 mb-4">
                 <div className="p-3 rounded-xl bg-[#E2ECE0]">
@@ -202,11 +205,11 @@ export default function ReportPage() {
             <CardContent className="p-0">
               <h3 className="font-medium text-sm mb-4 flex items-center gap-2 text-[#1A1A1A]">
                 <Droplets className="w-4 h-4" />
-                Rutina Dinámica — {routine.seasonName}
+                {t("report.dynamicRoutine", locale)} — {routine.seasonName}
               </h3>
               <div className="space-y-4">
                 <div>
-                  <p className="text-xs font-medium text-[#666666] mb-2">MAÑANA</p>
+                    <p className="text-xs font-medium text-[#666666] mb-2">{t("report.morning", locale)}</p>
                   <ol className="space-y-1">
                     {routine.routine.morning.map((step, i) => (
                       <li key={i} className="flex items-start gap-2 text-sm text-[#1A1A1A]">
@@ -219,7 +222,7 @@ export default function ReportPage() {
                   </ol>
                 </div>
                 <div>
-                  <p className="text-xs font-medium text-[#666666] mb-2">NOCHE</p>
+                  <p className="text-xs font-medium text-[#666666] mb-2">{t("report.night", locale)}</p>
                   <ol className="space-y-1">
                     {routine.routine.evening.map((step, i) => (
                       <li key={i} className="flex items-start gap-2 text-sm text-[#1A1A1A]">
@@ -233,7 +236,7 @@ export default function ReportPage() {
                 </div>
                 {routine.routine.weekly.length > 0 && (
                   <div>
-                    <p className="text-xs font-medium text-[#666666] mb-2">SEMANAL</p>
+                    <p className="text-xs font-medium text-[#666666] mb-2">{t("report.weekly", locale)}</p>
                     <ul className="space-y-1">
                       {routine.routine.weekly.map((step, i) => (
                         <li key={i} className="flex items-start gap-2 text-sm text-[#1A1A1A]">
@@ -266,7 +269,7 @@ export default function ReportPage() {
             <CardContent className="p-0">
               <h3 className="font-medium text-sm mb-4 flex items-center gap-2 text-[#1A1A1A]">
                 <TrendingUp className="w-4 h-4" />
-                Último Análisis
+                {t("report.lastAnalysis", locale)}
               </h3>
               <div className="space-y-2">
                 <div className="flex justify-between text-sm">
@@ -274,8 +277,8 @@ export default function ReportPage() {
                   <span className="font-medium text-[#1A1A1A]">{analyses[0].skinType || "No determinado"}</span>
                 </div>
                 <div className="flex justify-between text-sm">
-                  <span className="text-[#666666]">Fecha:</span>
-                  <span className="text-[#1A1A1A]">{new Date(analyses[0].createdAt).toLocaleDateString("es-ES")}</span>
+                  <span className="text-[#666666]">{t("history.date", locale)}:</span>
+                  <span className="text-[#1A1A1A]">{new Date(analyses[0].createdAt).toLocaleDateString(locale)}</span>
                 </div>
                 {analyses[0].observations.length > 0 && (
                   <div>
@@ -296,7 +299,7 @@ export default function ReportPage() {
           <Card className="p-8">
             <CardContent className="p-0 text-center">
               <FileText className="w-12 h-12 text-[#E8E8E8] mx-auto mb-4" />
-              <h3 className="font-medium text-[#1A1A1A] mb-2">Sin datos aún</h3>
+              <h3 className="font-medium text-[#1A1A1A] mb-2">{t("common.noData", locale)}</h3>
               <p className="text-sm text-[#666666] mb-4">
                 Realiza tu primer análisis para ver tu informe personalizado.
               </p>
