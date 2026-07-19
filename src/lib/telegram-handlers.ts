@@ -15,7 +15,7 @@ const USER_KEYBOARD: { text: string }[][] = [
   [{ text: "🆘 Ayuda" }, { text: "💡 Tip" }, { text: "📬 Contacto" }],
   [{ text: "🌿 Recomendar" }, { text: "⭐ Valorar" }, { text: "⏰ Recordatorio" }],
   [{ text: "🎭 Meme" }, { text: "🧪 Test Piel" }, { text: "📋 Mi Rutina" }],
-  [{ text: "📅 Diario" }, { text: "🔔 Notificaciones" }, { text: "👥 Compartir" }],
+  [{ text: "📅 Diario" }, { text: "🤖 Asistente" }, { text: "👥 Compartir" }],
 ]
 
 type MenuContext = { chatId: string; userId: string; messageId?: number; callbackId?: string }
@@ -158,7 +158,7 @@ export async function handleAyuda(chatId: string, userId: string) {
   if (role === "ADMIN") { await sendTelegramMessage(chatId, R.adminHelpText()); return }
   if (role === "VALIDATOR") { await sendTelegramMessage(chatId, R.validatorHelpText()); return }
   await sendTelegramMessage(chatId,
-    `📖 <b>Comandos disponibles</b>\n\n/web — Ir a la web\n/precios — Ver planes\n/status — Mi estado\n/skincare — Tips\n/contacto — Contacto\n/feedback N — Valorarme\n/recordatorio — Recordatorios\n/meme — Meme\n/ayuda — Esta ayuda\n\n🌿 <i>Empieza con /web para descubrir tu piel.</i>`
+    `📖 <b>Comandos disponibles</b>\n\n/web — Ir a la web\n/precios — Ver planes\n/status — Mi estado\n/asistente — Asistente IA\n/skincare — Tips\n/contacto — Contacto\n/feedback N — Valorarme\n/recordatorio — Recordatorios\n/meme — Meme\n/ayuda — Esta ayuda\n\n🌿 <i>Empieza con /web para descubrir tu piel.</i>`
   )
 }
 
@@ -1068,6 +1068,84 @@ export async function handleWhois(chatId: string, userId: string, args: string[]
   }
   text += `\n💡 Usa /cliente email para ver detalles.`
   await sendTelegramMessage(chatId, text)
+}
+
+// ─── Asistente IA (Gemini) ───────────────────────────────────
+const asistenteDailyUsage = new Map<string, { count: number; date: string }>()
+
+function getDateKey(): string {
+  return new Date().toISOString().slice(0, 10)
+}
+
+const ASISTENTE_LIMITS: Record<string, number> = {
+  PREMIUM: 10,
+  PREMIUM_ANNUAL: 10,
+  PRO: 25,
+  PRO_ANNUAL: 25,
+  PRO_PLUS: 50,
+  PRO_PLUS_ANNUAL: 50,
+  ESTHETICIAN: 100,
+  ESTHETICIAN_ANNUAL: 100,
+}
+
+export async function handleAsistente(chatId: string, userId: string, args: string[]) {
+  const query = args.join(" ").trim()
+
+  const user = await db.user.findUnique({
+    where: { id: userId },
+    select: { plan: true, role: true },
+  })
+  if (!user) {
+    await sendTelegramMessage(chatId, "❌ No se encontró tu cuenta. Usa /start para vincularla.")
+    return
+  }
+
+  const dailyLimit = ASISTENTE_LIMITS[user.plan]
+  if (!dailyLimit && user.role !== "ADMIN") {
+    const url = process.env.NEXT_PUBLIC_APP_URL || "https://the-serene-lens-nuevo.onrender.com"
+    await sendTelegramMessage(chatId,
+      `🤖 <b>Asistente IA</b>\n\nEste comando es exclusivo para usuarios con plan de pago.\n\nPlanes que incluyen asistente:\n• Premium — 10 consultas/día\n• Pro — 25 consultas/día\n• Pro+ — 50 consultas/día\n• Esteticista — 100 consultas/día\n\n👉 <a href="${url}/pricing">Ver planes</a>`
+    )
+    return
+  }
+
+  if (user.role !== "ADMIN") {
+    const today = getDateKey()
+    const usage = asistenteDailyUsage.get(userId) || { count: 0, date: today }
+    if (usage.date !== today) {
+      usage.count = 0
+      usage.date = today
+    }
+    if (usage.count >= dailyLimit) {
+      await sendTelegramMessage(chatId,
+        `⏳ Has alcanzado tu límite diario de ${dailyLimit} consultas del asistente. El límite se reinicia mañana.\n\nSi necesitas más, considera mejorar tu plan en nuestra web.`
+      )
+      return
+    }
+    usage.count++
+    asistenteDailyUsage.set(userId, usage)
+  }
+
+  if (!query) {
+    const usage = asistenteDailyUsage.get(userId)
+    const used = user.role === "ADMIN" ? 0 : (usage?.count || 0)
+    const remaining = user.role === "ADMIN" ? "∞" : String(Math.max(0, dailyLimit - used + 1))
+    await sendTelegramMessage(chatId,
+      `🤖 <b>Asistente IA</b>\n\nSoy tu asistente virtual de The Serene Lens. Puedo ayudarte con:\n\n• Información sobre ingredientes (niacinamida, retinol, etc.)\n• Consejos de rutina según tu tipo de piel\n• Explicación de conceptos de skincare\n• Recomendaciones personalizadas\n\n<b>Uso:</b> /asistente ¿Qué es el ácido hialurónico?\n<b>Consultas restantes hoy:</b> ${remaining}\n\n🌿 <i>Escribe tu consulta después del comando.</i>`
+    )
+    return
+  }
+
+  await sendTelegramMessage(chatId, "🧠 Pensando...")
+
+  try {
+    const { chatWithGemini } = await import("@/lib/gemini-chat")
+    const response = await chatWithGemini(query)
+    await sendTelegramMessage(chatId, response)
+  } catch (e) {
+    const msg = e instanceof Error ? e.message : "Ocurrió un error inesperado."
+    await sendTelegramMessage(chatId, `❌ ${msg}`)
+  }
 }
 
 // ================================================================

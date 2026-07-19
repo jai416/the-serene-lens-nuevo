@@ -13,6 +13,7 @@ import {
   handleTrending, handleAnalisis, handlePromocion,
   handleWhois, handleConsultar,
   handleMiRutina, handleDiario, handleTestPiel, handleTestPielAnswer,
+  handleAsistente,
   handleCallback,
   searchWeb,
 } from "@/lib/telegram-handlers"
@@ -69,7 +70,7 @@ async function checkTelegramAccess(chatId: string): Promise<{ allowed: boolean; 
 
 const COMMANDS_REQUIRING_ACCESS = new Set([
   "/mi_rutina", "/diario", "/analisis", "/analysis",
-  "/status", "/historial", "/history",
+  "/status", "/historial", "/history", "/asistente",
 ])
 
 type TelegramUpdate = {
@@ -186,6 +187,11 @@ export async function POST(req: NextRequest) {
         break
       case "/diario":
         await handleDiario(chatId, userId)
+        break
+      case "/asistente":
+      case "/ai":
+      case "/chat":
+        await handleAsistente(chatId, userId, rest)
         break
 
       // ─── Validator Auth ───────────────────────

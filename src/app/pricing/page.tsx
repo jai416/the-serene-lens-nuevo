@@ -3,15 +3,17 @@
 import { useState, useEffect, useRef } from "react"
 import { useSession } from "next-auth/react"
 import { useRouter } from "next/navigation"
+import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { Card, CardContent } from "@/components/ui/card"
 import {
   CheckCircle2, CreditCard, Lock, Zap,
   DollarSign, Coins, WalletCards, Loader2, AlertCircle,
-  ShoppingBag, Repeat,
+  ShoppingBag, Repeat, X,
 } from "lucide-react"
 import { PLANS, PACKS, CUP_RATE } from "@/lib/pricing"
+import { getPlan, getPack } from "@/lib/pricing"
 import { toast } from "sonner"
 import { getCsrfToken } from "@/lib/csrf-client"
 
@@ -35,6 +37,7 @@ export default function PricingPage() {
   const [error, setError] = useState("")
   const [selectedTransfer, setSelectedTransfer] = useState<TransferData | null>(null)
   const [giftModal, setGiftModal] = useState<{ packId: string; email: string; sending: boolean } | null>(null)
+  const [confirmPurchase, setConfirmPurchase] = useState<{ id: string; type: "plan" | "pack" } | null>(null)
   const loadingStartRef = useRef(0)
 
   useEffect(() => {
@@ -61,6 +64,11 @@ export default function PricingPage() {
       return
     }
 
+    setConfirmPurchase({ id: planId, type: "plan" })
+  }
+
+  const executeSubscribe = async (planId: string) => {
+    setConfirmPurchase(null)
     setLoading(`${planId}-qvapay`)
     setError("")
 
@@ -98,6 +106,11 @@ export default function PricingPage() {
       return
     }
 
+    setConfirmPurchase({ id: packId, type: "pack" })
+  }
+
+  const executeBuyPack = async (packId: string) => {
+    setConfirmPurchase(null)
     setLoading(`${packId}-qvapay`)
     setError("")
 
@@ -196,6 +209,69 @@ export default function PricingPage() {
 
   return (
     <div className="min-h-screen pt-24 pb-16 px-4 bg-[#F8F9FA]">
+      {/* Confirm Purchase Modal */}
+      {confirmPurchase && (() => {
+        const planDef = confirmPurchase.type === "plan" ? getPlan(confirmPurchase.id) : null
+        const packDef = confirmPurchase.type === "pack" ? getPack(confirmPurchase.id) : null
+        const item = planDef || packDef
+        return (
+          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 px-4" onClick={() => setConfirmPurchase(null)}>
+            <div className="bg-white rounded-2xl p-6 max-w-sm w-full shadow-xl relative" onClick={(e) => e.stopPropagation()}>
+              <button onClick={() => setConfirmPurchase(null)} className="absolute top-3 right-3 w-8 h-8 rounded-full flex items-center justify-center hover:bg-[#E8E8E8] transition-colors text-[#666666]" aria-label="Cerrar">
+                <X className="w-4 h-4" />
+              </button>
+              <div className="text-center mb-4">
+                <div className="w-12 h-12 rounded-xl bg-[#88B078]/10 flex items-center justify-center mx-auto mb-3">
+                  <ShoppingBag className="w-6 h-6 text-[#88B078]" />
+                </div>
+                <h3 className="text-lg font-semibold text-[#1A1A1A]">Confirmar compra</h3>
+              </div>
+              <div className="space-y-3 text-sm mb-6">
+                <div className="flex justify-between py-2 border-b border-[#E8E8E8]">
+                  <span className="text-[#666666]">Producto</span>
+                  <span className="font-medium text-[#1A1A1A]">{item?.name}</span>
+                </div>
+                <div className="flex justify-between py-2 border-b border-[#E8E8E8]">
+                  <span className="text-[#666666]">Precio</span>
+                  <span className="font-semibold text-[#1A1A1A]">${item?.priceUSD.toFixed(2)} USD</span>
+                </div>
+                {planDef && (
+                  <div className="flex justify-between py-2 border-b border-[#E8E8E8]">
+                    <span className="text-[#666666]">Ciclo</span>
+                    <span className="font-medium text-[#1A1A1A]">{planDef.period}</span>
+                  </div>
+                )}
+                {packDef && (
+                  <div className="flex justify-between py-2 border-b border-[#E8E8E8]">
+                    <span className="text-[#666666]">Análisis</span>
+                    <span className="font-medium text-[#1A1A1A]">{packDef.analyses} análisis</span>
+                  </div>
+                )}
+              </div>
+              <div className="flex flex-col gap-2">
+                <Button
+                  onClick={() => {
+                    if (confirmPurchase.type === "plan") executeSubscribe(confirmPurchase.id)
+                    else executeBuyPack(confirmPurchase.id)
+                  }}
+                  variant="primary"
+                  className="w-full py-4"
+                >
+                  <Lock className="w-4 h-4 mr-2" />
+                  Confirmar y pagar
+                </Button>
+                <Button onClick={() => setConfirmPurchase(null)} variant="outline" className="w-full py-3">
+                  Cancelar
+                </Button>
+              </div>
+              <p className="text-xs text-center text-[#666666] mt-4">
+                Pago procesado de forma segura por QvaPay. No almacenamos información de pago.
+              </p>
+            </div>
+          </div>
+        )
+      })()}
+
       {/* Transfer Modal */}
       {selectedTransfer && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 px-4" onClick={() => setSelectedTransfer(null)}>
@@ -556,6 +632,9 @@ export default function PricingPage() {
         <p className="text-xs text-[#9BAA93] text-center max-w-md mx-auto mt-6">
           Pagos procesados de forma segura a traves de QvaPay y Transfermovil.
           No almacenamos informacion de pago.
+        </p>
+        <p className="text-xs text-[#9BAA93] text-center mt-2">
+          <Link href="/refunds" className="underline hover:text-[#88B078]">Politica de reembolsos</Link>
         </p>
       </div>
     </div>
