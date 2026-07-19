@@ -53,45 +53,46 @@ const guestLinks: NavSection[] = [
   },
 ]
 
-const authSections: NavSection[] = [
-  {
-    items: [
-      { href: "/", labelKey: "nav.home", icon: Home },
-      { href: "/analysis", labelKey: "nav.analysis", icon: Scan },
-      { href: "/dashboard/history", labelKey: "nav.history", icon: History },
-    ],
-  },
-  {
-    title: t("sidebar.sectionResources", locale),
-    items: [
-      { href: "/dashboard/diary", labelKey: "nav.diary", icon: BookOpenCheck },
-      { href: "/dashboard/challenges", labelKey: "nav.challenges", icon: Trophy },
-      { href: "/guides", labelKey: "nav.guides", icon: BookOpen },
-    ],
-  },
-  {
-    title: t("sidebar.sectionStore", locale),
-    items: [
-      { href: "/products", labelKey: "nav.products", icon: Package },
-      { href: "/ingredients-analyzer", labelKey: "nav.ingredients", icon: Beaker },
-    ],
-  },
-  {
-    title: t("sidebar.sectionAccount", locale),
-    items: [
-      { href: "/dashboard/subscription", labelKey: "sidebar.plan", icon: TrendingUp },
-      { href: "/dashboard/report", labelKey: "sidebar.report", icon: FileText },
-      { href: "/dashboard/guides", labelKey: "sidebar.myGuides", icon: Bookmark },
-      { href: "/dashboard/support", labelKey: "nav.support", icon: HelpCircle },
-    ],
-  },
-]
-
 export function Sidebar() {
   const pathname = usePathname()
   const { data: session } = useSession()
   const { locale } = useLocale()
   const [mobileOpen, setMobileOpen] = useState(false)
+
+  const authSections: NavSection[] = [
+    {
+      items: [
+        { href: "/", labelKey: "nav.home", icon: Home },
+        { href: "/analysis", labelKey: "nav.analysis", icon: Scan },
+        { href: "/dashboard/history", labelKey: "nav.history", icon: History },
+      ],
+    },
+    {
+      title: t("sidebar.sectionResources", locale),
+      items: [
+        { href: "/dashboard/diary", labelKey: "nav.diary", icon: BookOpenCheck },
+        { href: "/dashboard/challenges", labelKey: "nav.challenges", icon: Trophy },
+        { href: "/guides", labelKey: "nav.guides", icon: BookOpen },
+      ],
+    },
+    {
+      title: t("sidebar.sectionStore", locale),
+      items: [
+        { href: "/products", labelKey: "nav.products", icon: Package },
+        { href: "/ingredients-analyzer", labelKey: "nav.ingredients", icon: Beaker },
+      ],
+    },
+    {
+      title: t("sidebar.sectionAccount", locale),
+      items: [
+        { href: "/dashboard/subscription", labelKey: "sidebar.plan", icon: TrendingUp },
+        { href: "/dashboard/report", labelKey: "sidebar.report", icon: FileText },
+        { href: "/dashboard/guides", labelKey: "sidebar.myGuides", icon: Bookmark },
+        { href: "/dashboard/support", labelKey: "nav.support", icon: HelpCircle },
+      ],
+    },
+  ]
+
   const sections = session ? authSections : guestLinks
 
   const isActive = (href: string) => {
