@@ -32,6 +32,7 @@ export const AnalysisRepository = {
 
   async create(data: {
     userId: string
+    clientId?: string | null
     skinType?: string | null
     concerns?: string | null
     observations: string
@@ -41,6 +42,7 @@ export const AnalysisRepository = {
     return db.skinAnalysis.create({
       data: {
         user: { connect: { id: data.userId } },
+        ...(data.clientId ? { client: { connect: { id: data.clientId } } } : {}),
         skinType: data.skinType,
         concerns: data.concerns,
         observations: data.observations,

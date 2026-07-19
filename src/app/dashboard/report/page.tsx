@@ -91,7 +91,7 @@ export default function ReportPage() {
   if (!session) redirect("/login?callbackUrl=/dashboard/report")
 
   const plan = session.user.plan || "FREE"
-  const isProPlus = plan === "PRO_PLUS"
+  const canGenerateReport = plan === "PRO_PLUS" || plan === "ESTHETICIAN"
 
   return (
     <div className="min-h-screen px-4 py-8">
@@ -110,7 +110,7 @@ export default function ReportPage() {
         </div>
 
         {/* PDF Download */}
-        {isProPlus && analyses.length > 0 && (
+        {canGenerateReport && analyses.length > 0 && (
           <Card className="p-6 mb-6 ring-1 ring-[#88B078]">
             <CardContent className="p-0">
               <div className="flex items-center justify-between">
@@ -146,14 +146,14 @@ export default function ReportPage() {
           </Card>
         )}
 
-        {!isProPlus && (
+        {!canGenerateReport && (
           <Card className="p-6 mb-6">
             <CardContent className="p-0">
               <div className="text-center py-4">
                 <FileText className="w-10 h-10 text-[#E8E8E8] mx-auto mb-3" />
                 <h3 className="font-medium text-[#1A1A1A] mb-1">Informe PDF</h3>
                 <p className="text-sm text-[#666666] mb-3">
-                  Disponible con plan Pro+ ($14.99/mes)
+                  Disponible con plan Pro+ o Esteticista
                 </p>
                 <a href="/pricing" className="text-sm text-[#88B078] hover:underline">
                   Ver planes →

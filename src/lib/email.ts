@@ -105,18 +105,17 @@ export function buildWelcomeEmail(name: string): { subject: string; html: string
 
 export function buildTrialEndedEmail(name: string): { subject: string; html: string } {
   const greeting = name ? name : "querido usuario"
+  const idx = new Date().getDate() % 3
   const subjects = [
     "Tu periodo PREMIUM ha finalizado — The Serene Lens",
     "Seguimos aquí para ti — The Serene Lens",
     "¿Listo para más? Tu prueba terminó — The Serene Lens",
-    "Gracias por probar The Serene Lens",
   ]
   const messages = [
     `Hola ${greeting},\n\nTu periodo de prueba PREMIUM de 7 días en ${APP_NAME} ha finalizado. No te preocupes, tu cuenta continúa activa en el plan Essential con 1 análisis gratuito por mes.\n\nSi deseas seguir disfrutando de análisis ilimitados y funciones avanzadas, puedes suscribirte a un plan PREMIUM o PRO desde tu panel.`,
     `Estimado/a ${greeting},\n\nQueremos agradecerte por haber probado ${APP_NAME} durante estos 7 días. Esperamos que la experiencia haya sido valiosa para ti.\n\nTu cuenta ha sido reactivada en el plan Essential, que incluye 1 análisis facial gratuito cada mes. Si extrañas las funciones premium, en cualquier momento puedes volver a suscribirte.`,
     `Hola ${greeting},\n\nTu prueba gratuita de ${APP_NAME} ha terminado, pero esto no es un adiós. Tu cuenta sigue activa con 1 análisis de piel por mes incluido.\n\nLos usuarios PREMIUM disfrutan de análisis ilimitados, rutinas personalizadas, historial completo y más. Revisa nuestros planes y elige el que mejor se adapte a ti.`,
   ]
-  const idx = new Date().getDate() % subjects.length
   return {
     subject: subjects[idx],
     html: buildEmailHtml(

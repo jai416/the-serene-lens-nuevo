@@ -107,7 +107,7 @@ export async function POST(req: NextRequest) {
     if (!photos || photos.length === 0) return error("Se requieren fotos")
 
     const body: Record<string, string> = {}
-    for (const key of ["concerns", "age", "gender", "climate", "routine", "language"]) {
+    for (const key of ["concerns", "age", "gender", "climate", "routine", "language", "clientId"]) {
       const val = formData.get(key)
       if (val) body[key] = val as string
     }

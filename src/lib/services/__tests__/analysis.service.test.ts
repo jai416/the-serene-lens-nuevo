@@ -86,6 +86,7 @@ describe("AnalysisService.processAnalysis", () => {
     expect(result.result.skinType).toBe("mixta")
     expect(mockAnalysisRepository.create).toHaveBeenCalledWith({
       userId: "user-1",
+      clientId: null,
       skinType: "mixta",
       concerns: "acné",
       observations: expect.any(String),

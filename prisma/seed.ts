@@ -550,20 +550,22 @@ Para el Caribe: **SPF 50+ siempre**. La diferencia entre FPS 30 (97% bloqueo) y 
   }
   console.log(`${posts.length} blog posts created`)
 
+  const CDN = "https://images.pexels.com/photos"
   const CATEGORY_IMAGES: Record<string, string[]> = {
-    limpiadores: ["/images/products/product-01.jpg", "/images/products/product-02.jpg", "/images/products/pexels-7691100.jpg", "/images/products/pexels-7691101.jpg", "/images/products/pexels-7691102.jpg", "/images/products/pexels-7691103.jpg", "/images/products/pexels-7691095.jpg"],
-    serums: ["/images/products/product-03.jpg", "/images/products/product-04.jpg", "/images/products/pexels-7321646.jpg", "/images/products/pexels-7321647.jpg", "/images/products/pexels-7321648.jpg", "/images/products/pexels-7321650.jpg", "/images/products/pexels-7691096.jpg", "/images/products/pexels-7691097.jpg"],
-    hidratantes: ["/images/products/product-05.jpg", "/images/products/product-06.jpg", "/images/products/pexels-7691104.jpg", "/images/products/pexels-7691105.jpg", "/images/products/pexels-7691106.jpg", "/images/products/pexels-7691107.jpg"],
-    "proteccion-solar": ["/images/products/product-07.jpg", "/images/products/product-08.jpg", "/images/products/pexels-7691165.jpg", "/images/products/pexels-7691166.jpg", "/images/products/pexels-7691167.jpg"],
-    contornos: ["/images/products/product-09.jpg", "/images/products/product-10.jpg", "/images/products/pexels-8076225.jpg"],
-    exfoliantes: ["/images/products/product-11.jpg"],
-    mascarillas: ["/images/products/product-12.jpg", "/images/products/product-13.jpg", "/images/products/product-14.jpg", "/images/products/pexels-4760317.jpg", "/images/products/pexels-4760318.jpg", "/images/products/pexels-6167865.jpg", "/images/products/pexels-6167866.jpg"],
-    aceites: ["/images/products/product-15.jpg", "/images/products/product-16.jpg", "/images/products/product-17.jpg", "/images/products/pexels-7321507.jpg", "/images/products/pexels-7321508.jpg"],
+    limpiadores: [`${CDN}/7691100/pexels-photo-7691100.jpeg?auto=compress&cs=tinysrgb&w=600`, `${CDN}/4465129/pexels-photo-4465129.jpeg?auto=compress&cs=tinysrgb&w=600`, `${CDN}/3735795/pexels-photo-3735795.jpeg?auto=compress&cs=tinysrgb&w=600`, `${CDN}/3735756/pexels-photo-3735756.jpeg?auto=compress&cs=tinysrgb&w=600`, `${CDN}/4465130/pexels-photo-4465130.jpeg?auto=compress&cs=tinysrgb&w=600`],
+    serums: [`${CDN}/7321646/pexels-photo-7321646.jpeg?auto=compress&cs=tinysrgb&w=600`, `${CDN}/4465128/pexels-photo-4465128.jpeg?auto=compress&cs=tinysrgb&w=600`, `${CDN}/4465127/pexels-photo-4465127.jpeg?auto=compress&cs=tinysrgb&w=600`, `${CDN}/5069429/pexels-photo-5069429.jpeg?auto=compress&cs=tinysrgb&w=600`, `${CDN}/7691096/pexels-photo-7691096.jpeg?auto=compress&cs=tinysrgb&w=600`],
+    hidratantes: [`${CDN}/7691104/pexels-photo-7691104.jpeg?auto=compress&cs=tinysrgb&w=600`, `${CDN}/4465126/pexels-photo-4465126.jpeg?auto=compress&cs=tinysrgb&w=600`, `${CDN}/4465125/pexels-photo-4465125.jpeg?auto=compress&cs=tinysrgb&w=600`, `${CDN}/3735787/pexels-photo-3735787.jpeg?auto=compress&cs=tinysrgb&w=600`, `${CDN}/7691105/pexels-photo-7691105.jpeg?auto=compress&cs=tinysrgb&w=600`],
+    "proteccion-solar": [`${CDN}/7691165/pexels-photo-7691165.jpeg?auto=compress&cs=tinysrgb&w=600`, `${CDN}/4465124/pexels-photo-4465124.jpeg?auto=compress&cs=tinysrgb&w=600`, `${CDN}/4465123/pexels-photo-4465123.jpeg?auto=compress&cs=tinysrgb&w=600`, `${CDN}/7691166/pexels-photo-7691166.jpeg?auto=compress&cs=tinysrgb&w=600`, `${CDN}/7691167/pexels-photo-7691167.jpeg?auto=compress&cs=tinysrgb&w=600`],
+    contornos: [`${CDN}/8076225/pexels-photo-8076225.jpeg?auto=compress&cs=tinysrgb&w=600`, `${CDN}/8076224/pexels-photo-8076224.jpeg?auto=compress&cs=tinysrgb&w=600`],
+    exfoliantes: [`${CDN}/6167865/pexels-photo-6167865.jpeg?auto=compress&cs=tinysrgb&w=600`, `${CDN}/6167866/pexels-photo-6167866.jpeg?auto=compress&cs=tinysrgb&w=600`],
+    mascarillas: [`${CDN}/4760317/pexels-photo-4760317.jpeg?auto=compress&cs=tinysrgb&w=600`, `${CDN}/4760318/pexels-photo-4760318.jpeg?auto=compress&cs=tinysrgb&w=600`, `${CDN}/6167865/pexels-photo-6167865.jpeg?auto=compress&cs=tinysrgb&w=600`, `${CDN}/7691106/pexels-photo-7691106.jpeg?auto=compress&cs=tinysrgb&w=600`, `${CDN}/7691107/pexels-photo-7691107.jpeg?auto=compress&cs=tinysrgb&w=600`],
+    aceites: [`${CDN}/7321507/pexels-photo-7321507.jpeg?auto=compress&cs=tinysrgb&w=600`, `${CDN}/7321508/pexels-photo-7321508.jpeg?auto=compress&cs=tinysrgb&w=600`, `${CDN}/4465121/pexels-photo-4465121.jpeg?auto=compress&cs=tinysrgb&w=600`],
+    kits: [`${CDN}/4465130/pexels-photo-4465130.jpeg?auto=compress&cs=tinysrgb&w=600`, `${CDN}/3735756/pexels-photo-3735756.jpeg?auto=compress&cs=tinysrgb&w=600`],
   }
   const catCounters: Record<string, number> = {}
   function productImage(name: string, category: string): string {
     const images = CATEGORY_IMAGES[category]
-    if (!images || images.length === 0) return `/images/products/product-01.jpg`
+    if (!images || images.length === 0) return `${CDN}/7691166/pexels-photo-7691166.jpeg?auto=compress&cs=tinysrgb&w=600`
     if (!catCounters[category]) catCounters[category] = 0
     const idx = catCounters[category] % images.length
     catCounters[category]++

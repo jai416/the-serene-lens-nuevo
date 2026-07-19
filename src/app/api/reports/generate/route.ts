@@ -13,6 +13,10 @@ export async function GET(req: Request) {
       return unauthorized()
     }
 
+    if (session.user.plan !== "PRO_PLUS" && session.user.plan !== "ESTHETICIAN") {
+      return forbidden("Informe PDF disponible con plan Pro+ o Esteticista")
+    }
+
     const { searchParams } = new URL(req.url)
     const analysisId = searchParams.get("analysisId")
     if (!analysisId) {

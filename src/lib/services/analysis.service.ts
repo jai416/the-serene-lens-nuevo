@@ -17,7 +17,7 @@ export class AnalysisError extends Error {
 }
 
 export const AnalysisService = {
-  async processAnalysis(userId: string, files: File[], body: Record<string, string>) {
+  async processAnalysis(userId: string, files: File[], body: Record<string, string>, clientId?: string) {
     const usage = await checkAndDeductUsage(userId)
     if (!usage.allowed) {
       throw new AnalysisError(usage.error || "Límite de análisis alcanzado", "USAGE_LIMIT")
@@ -75,6 +75,7 @@ export const AnalysisService = {
 
       const analysis = await AnalysisRepository.create({
         userId,
+        clientId: body.clientId || null,
         skinType,
         concerns: body.concerns || null,
         observations: JSON.stringify(observations),
@@ -127,6 +128,7 @@ export const AnalysisService = {
     try {
       analysis = await AnalysisRepository.create({
         userId,
+        clientId: body.clientId || null,
         skinType,
         concerns: body.concerns || null,
         observations: JSON.stringify(observations),

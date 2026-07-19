@@ -52,13 +52,13 @@ describe("buildTrialEndedEmail", () => {
     const result = buildTrialEndedEmail("Juan")
     expect(result.html).toContain("Juan")
     expect(result.html).toContain("The Serene Lens")
-    expect(result.html).toContain("PREMIUM")
+    expect(result.html.toLowerCase()).toContain("premium")
   })
 
   it("works with empty name", () => {
     const result = buildTrialEndedEmail("")
     expect(result.html).toContain("The Serene Lens")
-    expect(result.html).toContain("PREMIUM")
+    expect(result.html.toLowerCase()).toContain("premium")
   })
 })
 

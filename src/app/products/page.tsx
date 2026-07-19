@@ -26,15 +26,17 @@ export default function ProductsPage() {
   const [loading, setLoading] = useState(true)
   const [selectedCategory, setSelectedCategory] = useState("")
 
+  const CDN = "https://images.pexels.com/photos"
   const categoryImages: Record<string, string> = {
-    limpiadores: "/images/products/pexels-7691100.jpg",
-    hidratantes: "/images/products/pexels-7691102.jpg",
-    serums: "/images/products/pexels-7321647.jpg",
-    "proteccion-solar": "/images/products/pexels-7691166.jpg",
-    exfoliantes: "/images/products/pexels-6167866.jpg",
-    mascarillas: "/images/products/pexels-4760317.jpg",
-    aceites: "/images/products/pexels-7321507.jpg",
-    contornos: "/images/products/pexels-8076226.jpg",
+    limpiadores: `${CDN}/7691100/pexels-photo-7691100.jpeg?auto=compress&cs=tinysrgb&w=600`,
+    hidratantes: `${CDN}/7691104/pexels-photo-7691104.jpeg?auto=compress&cs=tinysrgb&w=600`,
+    serums: `${CDN}/7321646/pexels-photo-7321646.jpeg?auto=compress&cs=tinysrgb&w=600`,
+    "proteccion-solar": `${CDN}/7691165/pexels-photo-7691165.jpeg?auto=compress&cs=tinysrgb&w=600`,
+    exfoliantes: `${CDN}/6167865/pexels-photo-6167865.jpeg?auto=compress&cs=tinysrgb&w=600`,
+    mascarillas: `${CDN}/4760317/pexels-photo-4760317.jpeg?auto=compress&cs=tinysrgb&w=600`,
+    aceites: `${CDN}/7321507/pexels-photo-7321507.jpeg?auto=compress&cs=tinysrgb&w=600`,
+    contornos: `${CDN}/8076225/pexels-photo-8076225.jpeg?auto=compress&cs=tinysrgb&w=600`,
+    kits: `${CDN}/4465130/pexels-photo-4465130.jpeg?auto=compress&cs=tinysrgb&w=600`,
   }
 
   useEffect(() => {
