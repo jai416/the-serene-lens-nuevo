@@ -28,27 +28,6 @@ export async function middleware(request: NextRequest) {
     })
   }
 
-  if (["POST", "PATCH", "DELETE"].includes(request.method) &&
-      request.nextUrl.pathname.startsWith("/api/") &&
-      !request.nextUrl.pathname.startsWith("/api/auth") &&
-      !request.nextUrl.pathname.startsWith("/api/register") &&
-      !request.nextUrl.pathname.startsWith("/api/telegram/webhook") &&
-      !request.nextUrl.pathname.startsWith("/api/cron") &&
-      !request.nextUrl.pathname.startsWith("/api/chat") &&
-      !request.nextUrl.pathname.startsWith("/api/contact") &&
-      !request.nextUrl.pathname.startsWith("/api/lead-magnet")) {
-    if (!request.headers.get("x-csrf-skip")) {
-      const headerToken = request.headers.get("x-csrf-token")
-      const cookieToken = request.cookies.get("csrf-token")?.value
-      if (!headerToken || !cookieToken || headerToken !== cookieToken) {
-        return NextResponse.json(
-          { success: false, error: "CSRF token inválido" },
-          { status: 403 }
-        )
-      }
-    }
-  }
-
   response.headers.set("X-Frame-Options", "DENY")
   response.headers.set("X-Content-Type-Options", "nosniff")
   response.headers.set("Referrer-Policy", "strict-origin-when-cross-origin")
