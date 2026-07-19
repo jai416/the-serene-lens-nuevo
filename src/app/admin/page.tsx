@@ -55,6 +55,8 @@ interface Stats {
   churnRate: number
   usersYesterday: number
   analysesYesterday: number
+  guidesSold: number
+  referralRevenue: number
   timestamp: string
 }
 
