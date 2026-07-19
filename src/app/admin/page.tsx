@@ -156,18 +156,20 @@ export default function AdminPage() {
   const metricCards = [
     { label: "Nuevos Hoy", value: stats?.newUsersToday ?? "—", icon: UserPlus, color: "text-[#88B078]", sub: usersTrend !== 0 ? `${usersTrend > 0 ? "+" : ""}${usersTrend} vs ayer` : undefined },
     { label: "Análisis Hoy", value: stats?.analysesToday ?? "—", icon: BarChart3, color: "text-[#88B078]", sub: analysesTrend !== 0 ? `${analysesTrend > 0 ? "+" : ""}${analysesTrend} vs ayer` : undefined },
+    { label: "Nuevos Semana", value: stats?.newUsersThisWeek ?? "—", icon: Calendar, color: "text-[#88B078]", sub: `${stats?.newUsersThisMonth ?? 0} este mes` },
+    { label: "Análisis Mes", value: stats?.analysesThisMonth ?? "—", icon: Activity, color: "text-[#88B078]" },
     { label: "Tasa Conversión", value: stats?.conversionRate ? `${stats.conversionRate}%` : "0%", icon: TrendingUp, color: "text-[#88B078]" },
     { label: "Usuarios Premium", value: stats?.paidUsers ?? "—", icon: Sparkles, color: "text-[#88B078]", sub: `${stats?.activeSubscriptions ?? 0} suscripciones activas` },
-    { label: "Blog Posts", value: stats?.posts ?? "—", icon: Newspaper, color: "text-[#88B078]" },
+    { label: "Pagos Completados", value: stats?.completedPayments ?? "—", icon: CheckCircle2, color: "text-[#88B078]", sub: `${stats?.pendingPayments ?? 0} pendientes` },
+    { label: "Guías Vendidas", value: stats?.guidesSold ?? "—", icon: Download, color: "text-[#88B078]", sub: `${stats?.referralRevenue ? `$${stats.referralRevenue.toFixed(2)} ref.` : ""}` },
     { label: "Productos", value: stats?.products ?? "—", icon: Package, color: "text-[#88B078]" },
-    { label: "Desafíos Activos", value: stats?.challenges ?? "—", icon: Trophy, color: "text-[#88B078]" },
-    { label: "Diario de Piel", value: stats?.diaryEntries ?? "—", icon: BookOpen, color: "text-[#88B078]", sub: "entradas totales" },
-    { label: "Packs Vendidos", value: stats?.completedPacks ?? "—", icon: ShoppingBag, color: "text-[#88B078]", sub: `${stats?.packs ?? 0} total` },
+    { label: "Blog Posts", value: stats?.posts ?? "—", icon: Newspaper, color: "text-[#88B078]" },
+    { label: "Suscripciones Activas", value: stats?.activeSubscriptions ?? "—", icon: ShieldCheck, color: "text-[#88B078]" },
+    { label: "Diario Entradas", value: stats?.diaryEntries ?? "—", icon: BookOpen, color: "text-[#88B078]" },
     { label: "Comentarios", value: stats?.comments ?? "—", icon: MessageCircle, color: "text-[#88B078]" },
-    { label: "Guías Digitales", value: stats?.digitalProducts ?? "—", icon: Download, color: "text-[#88B078]", sub: `${stats?.guideSales ?? 0} ventas` },
-    { label: "Grupos de Referidos", value: stats?.referralGroups ?? "—", icon: UsersRound, color: "text-[#88B078]", sub: `${stats?.completedGroups ?? 0} completados` },
+    { label: "Desafíos", value: stats?.challenges ?? "—", icon: Trophy, color: "text-[#88B078]" },
     { label: "Prom. Análisis/Usuario", value: stats?.avgAnalysesPerUser ?? "—", icon: Zap, color: "text-[#88B078]" },
-    { label: "Pagos Pendientes", value: stats?.pendingPayments ?? "—", icon: Clock, color: "text-[#88B078]" },
+    { label: "Grupos Referidos", value: stats?.referralGroups ?? "—", icon: UsersRound, color: "text-[#88B078]", sub: `${stats?.completedGroups ?? 0} completados` },
   ]
 
   const adminText = "text-[#1A1A1A]"
@@ -486,13 +488,13 @@ export default function AdminPage() {
         </div>
       )}
 
-      {/* Quick Links */}
-      <div className="bg-white border border-[#E8E8E8] rounded-xl p-5 mb-6">
-        <h2 className="text-base font-semibold mb-4 text-[#1A1A1A] flex items-center gap-2">
+        {/* Quick Links */}
+      <div className="bg-white border border-[#E8E8E8] rounded-xl p-6 mb-6">
+        <h2 className="text-base font-semibold mb-5 text-[#1A1A1A] flex items-center gap-2">
           <Eye className="w-4 h-4 text-[#88B078]" />
           Acceso Rápido
         </h2>
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-9 gap-2">
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-3">
           {[
             { href: "/admin/users", label: "Usuarios", icon: Users },
             { href: "/admin/payments", label: "Pagos", icon: CreditCard },
@@ -508,9 +510,11 @@ export default function AdminPage() {
             { href: "/admin/logs", label: "Logs", icon: Activity },
           ].map((item) => (
             <Link key={item.href} href={item.href}>
-              <div className="flex items-center gap-2 p-3 rounded-lg hover:bg-[#F0F0F0] transition-colors group">
-                <item.icon className="w-4 h-4 text-[#88B078]" />
-                <span className="text-sm font-medium text-[#1A1A1A] group-hover:text-[#1A1A1A] transition-colors">{item.label}</span>
+              <div className="flex flex-col items-center gap-2 p-4 rounded-xl border border-[#E8E8E8] hover:border-[#88B078]/40 hover:bg-[#F0F0F0] transition-all group">
+                <div className="w-10 h-10 rounded-lg bg-[#E2ECE0] flex items-center justify-center">
+                  <item.icon className="w-5 h-5 text-[#88B078]" />
+                </div>
+                <span className="text-xs font-medium text-[#1A1A1A] text-center leading-tight">{item.label}</span>
               </div>
             </Link>
           ))}

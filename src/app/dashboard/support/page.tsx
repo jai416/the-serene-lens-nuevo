@@ -9,6 +9,8 @@ import { Button } from "@/components/ui/button"
 import { CardSkeleton } from "@/components/ui/skeleton"
 import { MessageSquare, Send, AlertCircle, CheckCircle2 } from "lucide-react"
 import { toast } from "sonner"
+import { useLocale } from "@/lib/locale/locale-context"
+import { t } from "@/lib/locale/translations"
 
 interface SupportMessage {
   id: string
@@ -22,6 +24,7 @@ interface SupportMessage {
 
 export default function SupportPage() {
   const pathname = usePathname()
+  const { locale } = useLocale()
   const { data: session, status } = useSession()
   const [messages, setMessages] = useState<SupportMessage[]>([])
   const [loading, setLoading] = useState(true)
@@ -84,9 +87,9 @@ export default function SupportPage() {
           <MessageSquare className="w-3.5 h-3.5 mr-2" />
           Soporte
         </Badge>
-        <h1 className="text-2xl font-bold text-[#1A1A1A]">¿Necesitas ayuda?</h1>
+        <h1 className="text-2xl font-bold text-[#1A1A1A]">{t("support.subtitle", locale)}</h1>
         <p className="text-sm text-[#666666] mt-1">
-          Envíanos un mensaje y te responderemos a la brevedad.
+          {t("support.sendMessage", locale)}.
         </p>
       </div>
 
@@ -97,10 +100,10 @@ export default function SupportPage() {
               <div className="w-14 h-14 rounded-2xl bg-[#E2ECE0] flex items-center justify-center mx-auto mb-4">
                 <CheckCircle2 className="w-7 h-7 text-[#88B078]" />
               </div>
-              <h2 className="text-lg font-semibold text-[#1A1A1A] mb-2">¡Mensaje enviado!</h2>
+              <h2 className="text-lg font-semibold text-[#1A1A1A] mb-2">{t("support.sent", locale)}</h2>
               <p className="text-sm text-[#666666] mb-6">Gracias por contactarnos. Te responderemos pronto.</p>
               <Button onClick={() => setSuccess(false)} variant="outline">
-                Enviar otro mensaje
+                {t("support.sendMessage", locale)}
               </Button>
             </div>
           ) : (
@@ -113,24 +116,24 @@ export default function SupportPage() {
               )}
 
               <div>
-                <label className="text-sm font-medium mb-1.5 block text-[#1A1A1A]">Asunto</label>
+                <label className="text-sm font-medium mb-1.5 block text-[#1A1A1A]">{t("support.subject", locale)}</label>
                 <input
-                  aria-label="Asunto"
+                  aria-label={t("support.subject", locale)}
                   value={subject}
                   onChange={(e) => setSubject(e.target.value)}
-                  placeholder="¿Sobre qué quieres hablar?"
+                  placeholder={t("support.subject", locale)}
                   required
                   className="w-full rounded-xl border border-[#E8E8E8] bg-white px-4 py-2.5 text-sm text-[#1A1A1A] placeholder:text-[#666666]/50 focus:outline-none focus:ring-2 focus:ring-[#88B078]"
                 />
               </div>
 
               <div>
-                <label className="text-sm font-medium mb-1.5 block text-[#1A1A1A]">Mensaje</label>
+                <label className="text-sm font-medium mb-1.5 block text-[#1A1A1A]">{t("support.message", locale)}</label>
                 <textarea
-                  aria-label="Mensaje"
+                  aria-label={t("support.message", locale)}
                   value={message}
                   onChange={(e) => setMessage(e.target.value)}
-                  placeholder="Describe tu consulta o problema..."
+                  placeholder={t("support.message", locale)}
                   required
                   rows={5}
                   className="w-full rounded-xl border border-[#E8E8E8] bg-white px-4 py-2.5 text-sm text-[#1A1A1A] placeholder:text-[#666666]/50 focus:outline-none focus:ring-2 focus:ring-[#88B078] resize-none"
@@ -139,7 +142,7 @@ export default function SupportPage() {
 
               <Button type="submit" disabled={submitting} className="rounded-full">
                 <Send className="w-4 h-4 mr-2" />
-                {submitting ? "Enviando..." : "Enviar mensaje"}
+                {submitting ? t("common.saving", locale) : t("support.send", locale)}
               </Button>
             </form>
           )}
@@ -147,13 +150,13 @@ export default function SupportPage() {
       </Card>
 
       <div>
-        <h2 className="text-lg font-semibold text-[#1A1A1A] mb-4">Mis mensajes</h2>
+        <h2 className="text-lg font-semibold text-[#1A1A1A] mb-4">{t("support.myMessages", locale)}</h2>
         {loading ? (
           <CardSkeleton />
         ) : messages.length === 0 ? (
           <Card>
             <CardContent className="py-8 text-center">
-              <p className="text-[#666666]">No has enviado mensajes todavía.</p>
+              <p className="text-[#666666]">{t("support.noMessages", locale)}</p>
             </CardContent>
           </Card>
         ) : (
@@ -165,7 +168,7 @@ export default function SupportPage() {
                     <span className="font-medium text-[#1A1A1A]">{m.subject}</span>
                     <div className="flex items-center gap-2">
                       {m.reply && (
-                        <Badge variant="success" className="text-[10px]">Respondido</Badge>
+                        <Badge variant="success" className="text-[10px]">{t("support.reply", locale)}</Badge>
                       )}
                       {!m.read && (
                         <span className="w-2 h-2 rounded-full bg-[#88B078]" />
@@ -175,12 +178,12 @@ export default function SupportPage() {
                   <p className="text-sm text-[#666666] line-clamp-2 mb-2">{m.message}</p>
                   {m.reply && (
                     <div className="mt-2 p-3 rounded-xl bg-[#F8F9FA] border border-[#E8E8E8]">
-                      <p className="text-xs font-medium text-[#88B078] mb-1">Respuesta:</p>
+                      <p className="text-xs font-medium text-[#88B078] mb-1">{t("support.reply", locale)}:</p>
                       <p className="text-sm text-[#666666]">{m.reply}</p>
                     </div>
                   )}
                   <p className="text-xs text-[#999999] mt-2">
-                    {new Date(m.createdAt).toLocaleDateString("es-ES", {
+                    {new Date(m.createdAt).toLocaleDateString(locale === "en" ? "en-US" : "es-ES", {
                       year: "numeric", month: "long", day: "numeric",
                       hour: "2-digit", minute: "2-digit",
                     })}

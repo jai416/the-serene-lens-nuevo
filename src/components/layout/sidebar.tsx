@@ -62,7 +62,7 @@ const authSections: NavSection[] = [
     ],
   },
   {
-    title: "Recursos",
+    title: t("sidebar.sectionResources", locale),
     items: [
       { href: "/dashboard/diary", labelKey: "nav.diary", icon: BookOpenCheck },
       { href: "/dashboard/challenges", labelKey: "nav.challenges", icon: Trophy },
@@ -70,14 +70,14 @@ const authSections: NavSection[] = [
     ],
   },
   {
-    title: "Tienda",
+    title: t("sidebar.sectionStore", locale),
     items: [
       { href: "/products", labelKey: "nav.products", icon: Package },
       { href: "/ingredients-analyzer", labelKey: "nav.ingredients", icon: Beaker },
     ],
   },
   {
-    title: "Cuenta",
+    title: t("sidebar.sectionAccount", locale),
     items: [
       { href: "/dashboard/subscription", labelKey: "sidebar.plan", icon: TrendingUp },
       { href: "/dashboard/report", labelKey: "sidebar.report", icon: FileText },
@@ -148,7 +148,7 @@ export function Sidebar() {
         {session?.user?.role === "ADMIN" && (
           <div>
             <p className="px-4 text-[10px] font-semibold uppercase tracking-widest text-[#999999] mb-1">
-              Admin
+              {t("sidebar.sectionAdmin", locale)}
             </p>
             <Link
               href="/admin"
@@ -169,7 +169,7 @@ export function Sidebar() {
         {(session?.user as any)?.plan === "ESTHETICIAN" && (
           <div>
             <p className="px-4 text-[10px] font-semibold uppercase tracking-widest text-[#999999] mb-1">
-              Profesional
+              {t("sidebar.sectionProfessional", locale)}
             </p>
             <Link
               href="/dashboard/esthetician"

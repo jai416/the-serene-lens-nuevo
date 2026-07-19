@@ -82,6 +82,139 @@ export type TranslationKey =
   | "common.gotIt"
   | "common.somethingWentWrong"
   | "common.disclaimer"
+  | "common.search"
+  | "common.status"
+  | "common.active"
+  | "common.inactive"
+  | "common.send"
+  | "common.subject"
+  | "common.message"
+  | "common.noData"
+  | "common.optional"
+  | "common.cancel"
+  | "common.monday"
+  | "common.tuesday"
+  | "common.wednesday"
+  | "common.thursday"
+  | "common.friday"
+  | "common.saturday"
+  | "common.sunday"
+  | "common.january"
+  | "common.february"
+  | "common.march"
+  | "common.april"
+  | "common.may"
+  | "common.june"
+  | "common.july"
+  | "common.august"
+  | "common.september"
+  | "common.october"
+  | "common.november"
+  | "common.december"
+  | "sidebar.sectionMain"
+  | "sidebar.sectionResources"
+  | "sidebar.sectionStore"
+  | "sidebar.sectionAccount"
+  | "sidebar.sectionAdmin"
+  | "sidebar.sectionProfessional"
+  | "footer.observation"
+  | "footer.product"
+  | "footer.analysis"
+  | "footer.products"
+  | "footer.pricing"
+  | "footer.info"
+  | "footer.blog"
+  | "footer.privacy"
+  | "footer.terms"
+  | "footer.security"
+  | "footer.rights"
+  | "footer.madeWith"
+  | "history.title"
+  | "history.subtitle"
+  | "history.empty"
+  | "history.startAnalysis"
+  | "history.analysisLabel"
+  | "history.skinType"
+  | "history.date"
+  | "subscription.title"
+  | "subscription.currentPlan"
+  | "subscription.active"
+  | "subscription.free"
+  | "subscription.manage"
+  | "subscription.analysesAvailable"
+  | "subscription.packs"
+  | "subscription.paymentHistory"
+  | "subscription.noPayments"
+  | "subscription.amount"
+  | "subscription.date"
+  | "subscription.status"
+  | "subscription.paid"
+  | "subscription.pending"
+  | "report.title"
+  | "report.subtitle"
+  | "report.monthlyComparison"
+  | "report.dynamicRoutine"
+  | "report.morning"
+  | "report.night"
+  | "report.weekly"
+  | "report.lastAnalysis"
+  | "report.pdfReport"
+  | "report.pdfAvailable"
+  | "report.availableWith"
+  | "diary.title"
+  | "diary.subtitle"
+  | "diary.weekSummary"
+  | "diary.improved"
+  | "diary.stable"
+  | "diary.worsened"
+  | "diary.formTitle"
+  | "diary.formFeeling"
+  | "diary.formNotes"
+  | "diary.formSave"
+  | "diary.legend"
+  | "diary.good"
+  | "diary.fair"
+  | "diary.poor"
+  | "diary.empty"
+  | "support.title"
+  | "support.subtitle"
+  | "support.sendMessage"
+  | "support.subject"
+  | "support.message"
+  | "support.send"
+  | "support.sent"
+  | "support.myMessages"
+  | "support.noMessages"
+  | "support.reply"
+  | "support.read"
+  | "support.unread"
+  | "guides.title"
+  | "guides.subtitle"
+  | "guides.empty"
+  | "guides.browse"
+  | "guides.download"
+  | "challenges.title"
+  | "challenges.comingSoon"
+  | "referrals.title"
+  | "referrals.comingSoon"
+  | "social.title"
+  | "social.comingSoon"
+  | "clinic.title"
+  | "clinic.back"
+  | "clinic.name"
+  | "clinic.license"
+  | "clinic.address"
+  | "clinic.phone"
+  | "clinic.save"
+  | "clinic.saved"
+  | "clinic.saveError"
+  | "b2b.title"
+  | "b2b.notAvailable"
+  | "b2b.exclusive"
+  | "b2b.myClinic"
+  | "b2b.analyses"
+  | "b2b.esthetician"
+  | "b2b.customization"
   | "esthetician.panelTitle"
   | "esthetician.clinicSummary"
   | "esthetician.newReport"
@@ -252,6 +385,139 @@ const translations: Record<Locale, Record<TranslationKey, string>> = {
     "common.gotIt": "Got it",
     "common.somethingWentWrong": "Something went wrong",
     "common.disclaimer": "This analysis is for informational purposes only and does not constitute a medical diagnosis. Always consult a healthcare professional for skin concerns.",
+    "common.search": "Search",
+    "common.status": "Status",
+    "common.active": "Active",
+    "common.inactive": "Inactive",
+    "common.send": "Send",
+    "common.subject": "Subject",
+    "common.message": "Message",
+    "common.noData": "No data",
+    "common.optional": "Optional",
+    "common.cancel": "Cancel",
+    "common.monday": "Monday",
+    "common.tuesday": "Tuesday",
+    "common.wednesday": "Wednesday",
+    "common.thursday": "Thursday",
+    "common.friday": "Friday",
+    "common.saturday": "Saturday",
+    "common.sunday": "Sunday",
+    "common.january": "January",
+    "common.february": "February",
+    "common.march": "March",
+    "common.april": "April",
+    "common.may": "May",
+    "common.june": "June",
+    "common.july": "July",
+    "common.august": "August",
+    "common.september": "September",
+    "common.october": "October",
+    "common.november": "November",
+    "common.december": "December",
+    "sidebar.sectionMain": "Main",
+    "sidebar.sectionResources": "Resources",
+    "sidebar.sectionStore": "Store",
+    "sidebar.sectionAccount": "Account",
+    "sidebar.sectionAdmin": "Admin",
+    "sidebar.sectionProfessional": "Professional",
+    "footer.observation": "Cosmetic observation with AI",
+    "footer.product": "Product",
+    "footer.analysis": "Analysis",
+    "footer.products": "Products",
+    "footer.pricing": "Pricing",
+    "footer.info": "Information",
+    "footer.blog": "Blog",
+    "footer.privacy": "Privacy",
+    "footer.terms": "Terms",
+    "footer.security": "Security",
+    "footer.rights": "All rights reserved.",
+    "footer.madeWith": "Made with love for your skin",
+    "history.title": "My History",
+    "history.subtitle": "All your skin analyses in one place",
+    "history.empty": "You haven't saved any analyses yet.",
+    "history.startAnalysis": "Do your first analysis",
+    "history.analysisLabel": "Analysis - {type} Skin",
+    "history.skinType": "Skin type",
+    "history.date": "Date",
+    "subscription.title": "My Subscription",
+    "subscription.currentPlan": "Current Plan",
+    "subscription.active": "Active",
+    "subscription.free": "Free",
+    "subscription.manage": "Manage",
+    "subscription.analysesAvailable": "Analyses Available",
+    "subscription.packs": "Packs",
+    "subscription.paymentHistory": "Payment History",
+    "subscription.noPayments": "No payments recorded",
+    "subscription.amount": "Amount",
+    "subscription.date": "Date",
+    "subscription.status": "Status",
+    "subscription.paid": "Paid",
+    "subscription.pending": "Pending",
+    "report.title": "Report & Routine",
+    "report.subtitle": "Your Personalized Report",
+    "report.monthlyComparison": "Monthly Comparison",
+    "report.dynamicRoutine": "Dynamic Routine",
+    "report.morning": "MORNING",
+    "report.night": "NIGHT",
+    "report.weekly": "WEEKLY",
+    "report.lastAnalysis": "Last Analysis",
+    "report.pdfReport": "Full PDF Report",
+    "report.pdfAvailable": "Available with Pro+ or Esthetician plan",
+    "report.availableWith": "Available with {plan} plan",
+    "diary.title": "Skin Diary",
+    "diary.subtitle": "My Skin Diary",
+    "diary.weekSummary": "This week your skin has {trend}",
+    "diary.improved": "improved",
+    "diary.stable": "stayed stable",
+    "diary.worsened": "worsened",
+    "diary.formTitle": "How is your skin today?",
+    "diary.formFeeling": "Feeling",
+    "diary.formNotes": "Notes",
+    "diary.formSave": "Save entry",
+    "diary.legend": "Legend",
+    "diary.good": "Good",
+    "diary.fair": "Fair",
+    "diary.poor": "Poor",
+    "diary.empty": "No entries yet",
+    "support.title": "Support",
+    "support.subtitle": "Need help?",
+    "support.sendMessage": "Send us a message",
+    "support.subject": "Subject",
+    "support.message": "Message",
+    "support.send": "Send message",
+    "support.sent": "Message sent. We'll reply soon.",
+    "support.myMessages": "My Messages",
+    "support.noMessages": "No messages",
+    "support.reply": "Reply",
+    "support.read": "Read",
+    "support.unread": "Unread",
+    "guides.title": "My Guides",
+    "guides.subtitle": "Purchased Guides",
+    "guides.empty": "You haven't purchased any guides yet",
+    "guides.browse": "Browse guides",
+    "guides.download": "Download",
+    "challenges.title": "Challenges",
+    "challenges.comingSoon": "We're preparing new challenges. Coming soon!",
+    "referrals.title": "Referrals",
+    "referrals.comingSoon": "Soon you'll be able to invite your friends and earn rewards.",
+    "social.title": "Community",
+    "social.comingSoon": "Soon you'll be able to compare results and share your progress.",
+    "clinic.title": "Clinic Settings",
+    "clinic.back": "Back to panel",
+    "clinic.name": "Clinic Name",
+    "clinic.license": "License Number",
+    "clinic.address": "Address",
+    "clinic.phone": "Phone",
+    "clinic.save": "Save Changes",
+    "clinic.saved": "Settings saved",
+    "clinic.saveError": "Error saving settings",
+    "b2b.title": "B2B Panel",
+    "b2b.notAvailable": "Plan not available",
+    "b2b.exclusive": "This panel is exclusive to B2B clients.",
+    "b2b.myClinic": "My Clinic",
+    "b2b.analyses": "Analyses performed",
+    "b2b.esthetician": "Esthetician",
+    "b2b.customization": "Customization",
     "esthetician.panelTitle": "Esthetician Panel",
     "esthetician.clinicSummary": "{name} · {n} patients",
     "esthetician.newReport": "New Report",
@@ -421,6 +687,139 @@ const translations: Record<Locale, Record<TranslationKey, string>> = {
     "common.gotIt": "Entendido",
     "common.somethingWentWrong": "Algo salió mal",
     "common.disclaimer": "Este análisis es solo informativo y no constituye un diagnóstico médico. Consulta siempre a un profesional de la salud para problemas de la piel.",
+    "common.search": "Buscar",
+    "common.status": "Estado",
+    "common.active": "Activo",
+    "common.inactive": "Inactivo",
+    "common.send": "Enviar",
+    "common.subject": "Asunto",
+    "common.message": "Mensaje",
+    "common.noData": "Sin datos",
+    "common.optional": "Opcional",
+    "common.cancel": "Cancelar",
+    "common.monday": "Lunes",
+    "common.tuesday": "Martes",
+    "common.wednesday": "Miércoles",
+    "common.thursday": "Jueves",
+    "common.friday": "Viernes",
+    "common.saturday": "Sábado",
+    "common.sunday": "Domingo",
+    "common.january": "Enero",
+    "common.february": "Febrero",
+    "common.march": "Marzo",
+    "common.april": "Abril",
+    "common.may": "Mayo",
+    "common.june": "Junio",
+    "common.july": "Julio",
+    "common.august": "Agosto",
+    "common.september": "Septiembre",
+    "common.october": "Octubre",
+    "common.november": "Noviembre",
+    "common.december": "Diciembre",
+    "sidebar.sectionMain": "Principal",
+    "sidebar.sectionResources": "Recursos",
+    "sidebar.sectionStore": "Tienda",
+    "sidebar.sectionAccount": "Cuenta",
+    "sidebar.sectionAdmin": "Admin",
+    "sidebar.sectionProfessional": "Profesional",
+    "footer.observation": "Observación cosmética con IA",
+    "footer.product": "Producto",
+    "footer.analysis": "Análisis",
+    "footer.products": "Productos",
+    "footer.pricing": "Precios",
+    "footer.info": "Información",
+    "footer.blog": "Blog",
+    "footer.privacy": "Privacidad",
+    "footer.terms": "Términos",
+    "footer.security": "Seguridad",
+    "footer.rights": "Todos los derechos reservados.",
+    "footer.madeWith": "Hecho con amor para tu piel",
+    "history.title": "Mi Historial",
+    "history.subtitle": "Todos tus análisis de piel en un solo lugar",
+    "history.empty": "Aún no has guardado ningún análisis.",
+    "history.startAnalysis": "Haz tu primer análisis",
+    "history.analysisLabel": "Análisis - Piel {type}",
+    "history.skinType": "Tipo de piel",
+    "history.date": "Fecha",
+    "subscription.title": "Mi Suscripción",
+    "subscription.currentPlan": "Plan Actual",
+    "subscription.active": "Activo",
+    "subscription.free": "Gratuito",
+    "subscription.manage": "Gestionar",
+    "subscription.analysesAvailable": "Análisis Disponibles",
+    "subscription.packs": "Paquetes",
+    "subscription.paymentHistory": "Historial de Pagos",
+    "subscription.noPayments": "Sin pagos registrados",
+    "subscription.amount": "Monto",
+    "subscription.date": "Fecha",
+    "subscription.status": "Estado",
+    "subscription.paid": "Pagado",
+    "subscription.pending": "Pendiente",
+    "report.title": "Informe y Rutina",
+    "report.subtitle": "Tu Informe Personalizado",
+    "report.monthlyComparison": "Comparativa Mensual",
+    "report.dynamicRoutine": "Rutina Dinámica",
+    "report.morning": "MAÑANA",
+    "report.night": "NOCHE",
+    "report.weekly": "SEMANAL",
+    "report.lastAnalysis": "Último Análisis",
+    "report.pdfReport": "Informe PDF Completo",
+    "report.pdfAvailable": "Disponible con plan Pro+ o Esteticista",
+    "report.availableWith": "Disponible con plan {plan}",
+    "diary.title": "Diario de Piel",
+    "diary.subtitle": "Mi Diario de Piel",
+    "diary.weekSummary": "Esta semana tu piel ha {trend}",
+    "diary.improved": "mejorado",
+    "diary.stable": "se ha mantenido estable",
+    "diary.worsened": "empeorado",
+    "diary.formTitle": "¿Cómo está tu piel hoy?",
+    "diary.formFeeling": "Sensación",
+    "diary.formNotes": "Notas",
+    "diary.formSave": "Guardar entrada",
+    "diary.legend": "Leyenda",
+    "diary.good": "Bien",
+    "diary.fair": "Regular",
+    "diary.poor": "Mal",
+    "diary.empty": "Sin entradas aún",
+    "support.title": "Soporte",
+    "support.subtitle": "¿Necesitas ayuda?",
+    "support.sendMessage": "Envíanos un mensaje",
+    "support.subject": "Asunto",
+    "support.message": "Mensaje",
+    "support.send": "Enviar mensaje",
+    "support.sent": "Mensaje enviado. Te responderemos pronto.",
+    "support.myMessages": "Mis Mensajes",
+    "support.noMessages": "Sin mensajes",
+    "support.reply": "Responder",
+    "support.read": "Leído",
+    "support.unread": "No leído",
+    "guides.title": "Mis Guías",
+    "guides.subtitle": "Guías Compradas",
+    "guides.empty": "Aún no has comprado guías",
+    "guides.browse": "Explorar guías",
+    "guides.download": "Descargar",
+    "challenges.title": "Desafíos",
+    "challenges.comingSoon": "Estamos preparando nuevos desafíos. ¡Pronto disponibles!",
+    "referrals.title": "Referidos",
+    "referrals.comingSoon": "Próximamente podrás invitar a tus amigos y ganar recompensas.",
+    "social.title": "Comunidad",
+    "social.comingSoon": "Próximamente podrás comparar resultados y compartir tu progreso.",
+    "clinic.title": "Configuración de Clínica",
+    "clinic.back": "Volver al panel",
+    "clinic.name": "Nombre de la clínica",
+    "clinic.license": "Número de licencia",
+    "clinic.address": "Dirección",
+    "clinic.phone": "Teléfono",
+    "clinic.save": "Guardar cambios",
+    "clinic.saved": "Configuración guardada",
+    "clinic.saveError": "Error al guardar configuración",
+    "b2b.title": "Panel B2B",
+    "b2b.notAvailable": "Plan no disponible",
+    "b2b.exclusive": "Este panel es exclusivo para clientes B2B.",
+    "b2b.myClinic": "Mi Clínica",
+    "b2b.analyses": "Análisis realizados",
+    "b2b.esthetician": "Esteticista",
+    "b2b.customization": "Personalización",
     "esthetician.panelTitle": "Panel Esteticista",
     "esthetician.clinicSummary": "{name} · {n} pacientes",
     "esthetician.newReport": "Nuevo informe",

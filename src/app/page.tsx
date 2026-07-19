@@ -30,10 +30,6 @@ const FAQSection = dynamic(() => import("@/components/faq-section").then((m) => 
   loading: () => <CardSkeleton />,
 })
 
-const SkinTest = dynamic(() => import("@/components/skin-test").then((m) => ({ default: m.SkinTest })), {
-  loading: () => <CardSkeleton />,
-})
-
 const AgingDemo = dynamic(() => import("@/components/aging-demo").then((m) => ({ default: m.AgingDemo })), {
   loading: () => <CardSkeleton />,
 })
@@ -166,30 +162,6 @@ export default function HomePage() {
       {/* ─── Prueba Rápida (Aging Demo) ─── */}
       <AgingDemo />
 
-      {/* ─── Action Cards ─── */}
-      <section className="px-4 sm:px-8 pb-6">
-        <div className="max-w-7xl mx-auto">
-          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
-            {actionCards.map((card, i) => (
-              <Link key={card.title} href={card.href}>
-                <Card
-                  className="p-5 transition-all duration-300 hover:shadow-[0_8px_24px_rgba(61,50,41,0.1)] hover:-translate-y-1 cursor-pointer animate-fade-in-up h-full border-t-4 border-t-[#1A1A1A]"
-                  style={{ animationDelay: `${i * 100}ms` }}
-                >
-                  <CardContent className="p-0">
-                    <div className="w-10 h-10 rounded-xl bg-[#88B078] flex items-center justify-center mb-4">
-                      <card.icon className="w-5 h-5 text-[#1A1A1A]" />
-                    </div>
-                    <h3 className="font-serif text-base font-semibold text-[#1A1A1A] mb-1">{card.title}</h3>
-                    <p className="text-xs text-[#666666] leading-relaxed">{card.description}</p>
-                  </CardContent>
-                </Card>
-              </Link>
-            ))}
-          </div>
-        </div>
-      </section>
-
       {/* ─── How It Works ─── */}
       <section id="how-it-works" className="py-20 sm:py-28 px-4 sm:px-8 bg-[#F8F9FA]">
         <div className="max-w-7xl mx-auto">
@@ -253,19 +225,27 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* ─── Quick Skin Test ─── */}
-      <section className="py-16 sm:py-24 px-4 sm:px-8 bg-[#F8F9FA]">
-        <div className="max-w-3xl mx-auto">
-          <div className="text-center max-w-2xl mx-auto mb-10">
-            <Badge variant="secondary" className="mb-4 rounded-full px-4 py-1.5">
-              Mini Test
-            </Badge>
-            <h2 className="font-serif text-3xl sm:text-4xl font-semibold mb-4 text-[#1A1A1A]">
-              ¿Qué tipo de piel tienes?
-            </h2>
-            <p className="text-[#666666]">Responde 3 preguntas rápidas y descúbrelo.</p>
+      {/* ─── Action Cards ─── */}
+      <section className="px-4 sm:px-8 pb-6">
+        <div className="max-w-7xl mx-auto">
+          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            {actionCards.map((card, i) => (
+              <Link key={card.title} href={card.href}>
+                <Card
+                  className="p-5 transition-all duration-300 hover:shadow-[0_8px_24px_rgba(61,50,41,0.1)] hover:-translate-y-1 cursor-pointer animate-fade-in-up h-full border-t-4 border-t-[#1A1A1A]"
+                  style={{ animationDelay: `${i * 100}ms` }}
+                >
+                  <CardContent className="p-0">
+                    <div className="w-10 h-10 rounded-xl bg-[#88B078] flex items-center justify-center mb-4">
+                      <card.icon className="w-5 h-5 text-[#1A1A1A]" />
+                    </div>
+                    <h3 className="font-serif text-base font-semibold text-[#1A1A1A] mb-1">{card.title}</h3>
+                    <p className="text-xs text-[#666666] leading-relaxed">{card.description}</p>
+                  </CardContent>
+                </Card>
+              </Link>
+            ))}
           </div>
-          <SkinTest />
         </div>
       </section>
 
@@ -364,61 +344,6 @@ export default function HomePage() {
               Planes anuales (Premium $49.99/año, Pro $99.99/año) y Esteticista ($29.99/mes) disponibles.
             </p>
           </div>
-        </div>
-      </section>
-
-      {/* ─── Lead Magnet ─── */}
-      <section className="py-20 px-4 sm:px-8" style={{ backgroundColor: "#E2ECE0" }}>
-        <div className="max-w-2xl mx-auto text-center">
-          <Badge variant="mint" className="mb-4 rounded-full px-4 py-1.5 border-0">
-            <Sparkles className="w-3.5 h-3.5 mr-1.5" />
-            Gratis
-          </Badge>
-          <h2 className="font-serif text-3xl sm:text-4xl font-semibold mb-3" style={{ color: "#1A1A1A" }}>
-            Guía de Skincare para Piel Cubana
-          </h2>
-          <p className="text-sm mb-6 max-w-md mx-auto" style={{ color: "#666666" }}>
-            Descarga gratis nuestra guía con rutinas adaptadas al clima tropical, ingredientes clave y errores comunes que dañan tu piel.
-          </p>
-          <form
-            onSubmit={async (e) => {
-              e.preventDefault()
-              const form = e.currentTarget
-              const email = (form.elements.namedItem("email") as HTMLInputElement).value
-              const btn = form.querySelector("button") as HTMLButtonElement
-              btn.disabled = true
-              btn.textContent = "Enviando..."
-              try {
-                const res = await fetch("/api/lead-magnet", {
-                  method: "POST",
-                  headers: { "Content-Type": "application/json" },
-                  body: JSON.stringify({ email }),
-                })
-                if (res.ok) {
-                  btn.textContent = "¡Enviado! Revisa tu correo"
-                  form.querySelector("input")!.remove()
-                } else {
-                  const d = await res.json()
-                  btn.textContent = d.error || "Error"
-                }
-              } catch {
-                btn.textContent = "Error de conexión"
-              }
-            }}
-            className="flex flex-col sm:flex-row gap-3 max-w-md mx-auto"
-          >
-            <input
-              type="email"
-              name="email"
-              required
-              placeholder="tu@email.com"
-              className="flex-1 px-4 py-3 rounded-xl text-sm border border-[#E8E8E8] bg-white text-[#1A1A1A] placeholder-[#666666] focus:outline-none focus:ring-1 focus:ring-[#88B078]"
-            />
-            <button type="submit" className="px-6 py-3 rounded-xl font-semibold text-sm bg-[#1A1A1A] text-white hover:opacity-90 transition-all whitespace-nowrap">
-              Recibir guía gratis
-            </button>
-          </form>
-          <p className="text-xs mt-3" style={{ color: "#666666" }}>Sin spam. Solo contenido útil para tu piel.</p>
         </div>
       </section>
 

@@ -12,6 +12,8 @@ import { EvolutionChart } from "@/components/evolution-chart"
 import { PreviousAnalysesComparison } from "@/components/previous-analyses-comparison"
 import { ListSkeleton } from "@/components/ui/skeleton"
 import { toast } from "sonner"
+import { useLocale } from "@/lib/locale/locale-context"
+import { t } from "@/lib/locale/translations"
 
 interface Analysis {
   id: string
@@ -28,6 +30,7 @@ interface EvolutionResult {
 
 export default function HistoryPage() {
   const pathname = usePathname()
+  const { locale } = useLocale()
   const { data: session, status } = useSession()
   const [analyses, setAnalyses] = useState<Analysis[]>([])
   const [evolution, setEvolution] = useState<EvolutionResult | null>(null)
@@ -86,7 +89,7 @@ export default function HistoryPage() {
             Historial
           </Badge>
           <h1 className="font-serif text-3xl sm:text-4xl font-semibold text-[#1A1A1A]">
-            Mi Historial
+            {t("history.title", locale)}
           </h1>
         </div>
 
@@ -110,10 +113,10 @@ export default function HistoryPage() {
               <div className="w-14 h-14 rounded-2xl bg-[#88B078] flex items-center justify-center mx-auto mb-4">
                 <Scan className="w-6 h-6 text-[#1A1A1A]" />
               </div>
-              <p className="text-[#666666] mb-4">No tienes análisis guardados aún.</p>
+              <p className="text-[#666666] mb-4">{t("history.empty", locale)}</p>
               <Link href="/analysis">
                 <span className="text-[#1A1A1A] text-sm font-medium hover:underline cursor-pointer">
-                  Haz tu primer análisis
+                  {t("history.startAnalysis", locale)}
                 </span>
               </Link>
             </CardContent>
@@ -130,7 +133,7 @@ export default function HistoryPage() {
                       </div>
                       <div>
                         <p className="text-sm font-medium text-[#1A1A1A]">
-                          Análisis {a.skinType ? `- Piel ${a.skinType}` : ""}
+                          {t("history.analysisLabel", locale).replace("{type}", a.skinType || "")}
                         </p>
                         <p className="text-xs text-[#666666]">{formatDate(a.createdAt)}</p>
                         {a.concerns && (

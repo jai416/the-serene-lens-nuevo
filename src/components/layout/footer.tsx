@@ -1,10 +1,13 @@
 import Link from "next/link"
 import Image from "next/image"
 import { MessageCircle } from "lucide-react"
+import { useLocale } from "@/lib/locale/locale-context"
+import { t } from "@/lib/locale/translations"
 
 const whatsappNumber = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || ""
 
 export function Footer() {
+  const { locale } = useLocale()
   return (
     <footer className="border-t border-[#E8E8E8] bg-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
@@ -17,26 +20,26 @@ export function Footer() {
               <span className="font-serif text-base font-semibold text-[#1A1A1A]">The Serene Lens</span>
             </Link>
             <p className="text-sm text-[#666666]">
-              Observación cosmética de tu piel con IA para una rutina más inteligente.
+              {t("footer.observation", locale)}
             </p>
           </div>
 
           <div>
-            <h4 className="font-medium text-sm mb-3 text-[#1A1A1A]">Producto</h4>
+            <h4 className="font-medium text-sm mb-3 text-[#1A1A1A]">{t("footer.product", locale)}</h4>
             <div className="space-y-2">
-              <Link href="/analysis" className="block text-sm text-[#666666] hover:text-[#1A1A1A] transition-colors">Análisis</Link>
-              <Link href="/products" className="block text-sm text-[#666666] hover:text-[#1A1A1A] transition-colors">Productos</Link>
-              <Link href="/pricing" className="block text-sm text-[#666666] hover:text-[#1A1A1A] transition-colors">Precios</Link>
+              <Link href="/analysis" className="block text-sm text-[#666666] hover:text-[#1A1A1A] transition-colors">{t("footer.analysis", locale)}</Link>
+              <Link href="/products" className="block text-sm text-[#666666] hover:text-[#1A1A1A] transition-colors">{t("footer.products", locale)}</Link>
+              <Link href="/pricing" className="block text-sm text-[#666666] hover:text-[#1A1A1A] transition-colors">{t("footer.pricing", locale)}</Link>
             </div>
           </div>
 
           <div>
-            <h4 className="font-medium text-sm mb-3 text-[#1A1A1A]">Información</h4>
+            <h4 className="font-medium text-sm mb-3 text-[#1A1A1A]">{t("footer.info", locale)}</h4>
             <div className="space-y-2">
-              <Link href="/blog" className="block text-sm text-[#666666] hover:text-[#1A1A1A] transition-colors">Blog</Link>
-              <Link href="/privacy" className="block text-sm text-[#666666] hover:text-[#1A1A1A] transition-colors">Privacidad</Link>
-              <Link href="/terms" className="block text-sm text-[#666666] hover:text-[#1A1A1A] transition-colors">Términos</Link>
-              <Link href="/security" className="block text-sm text-[#666666] hover:text-[#1A1A1A] transition-colors">Seguridad</Link>
+              <Link href="/blog" className="block text-sm text-[#666666] hover:text-[#1A1A1A] transition-colors">{t("footer.blog", locale)}</Link>
+              <Link href="/privacy" className="block text-sm text-[#666666] hover:text-[#1A1A1A] transition-colors">{t("footer.privacy", locale)}</Link>
+              <Link href="/terms" className="block text-sm text-[#666666] hover:text-[#1A1A1A] transition-colors">{t("footer.terms", locale)}</Link>
+              <Link href="/security" className="block text-sm text-[#666666] hover:text-[#1A1A1A] transition-colors">{t("footer.security", locale)}</Link>
               {whatsappNumber && (
                 <a
                   href={`https://wa.me/${whatsappNumber}`}
@@ -53,9 +56,9 @@ export function Footer() {
         </div>
 
         <div className="mt-8 pt-6 border-t border-[#E8E8E8] text-center text-xs text-[#999999]">
-          <p>&copy; {new Date().getFullYear()} The Serene Lens. Todos los derechos reservados.</p>
+          <p>&copy; {new Date().getFullYear()} The Serene Lens. {t("footer.rights", locale)}</p>
           <p className="mt-1">
-            Los resultados del análisis son informativos y no sustituyen una consulta médica profesional.
+            {t("common.disclaimer", locale)}
           </p>
         </div>
       </div>

@@ -10,6 +10,8 @@ import { Button } from "@/components/ui/button"
 import { BookOpen, Download, ExternalLink, Loader2 } from "lucide-react"
 import { toast } from "sonner"
 import { ListSkeleton } from "@/components/ui/skeleton"
+import { useLocale } from "@/lib/locale/locale-context"
+import { t } from "@/lib/locale/translations"
 
 interface PurchasedGuide {
   id: string
@@ -25,6 +27,7 @@ interface PurchasedGuide {
 
 export default function DashboardGuidesPage() {
   const { data: session, status } = useSession()
+  const { locale } = useLocale()
   const [guides, setGuides] = useState<PurchasedGuide[]>([])
   const [loading, setLoading] = useState(true)
 
@@ -47,7 +50,7 @@ export default function DashboardGuidesPage() {
         setLoading(false)
       })
       .catch(() => {
-        toast.error("Error al cargar datos")
+        toast.error(t("common.error", locale))
         setLoading(false)
       })
     return () => controller.abort()
@@ -62,10 +65,10 @@ export default function DashboardGuidesPage() {
             Mis Guías
           </Badge>
           <h1 className="font-serif text-3xl sm:text-4xl font-semibold text-[#1A1A1A]">
-            Guías Compradas
+            {t("guides.subtitle", locale)}
           </h1>
           <p className="text-[#666666] mt-1 text-sm">
-            Accede a todas las guías que has comprado.
+            {t("guides.subtitle", locale)}.
           </p>
         </div>
 
@@ -78,14 +81,14 @@ export default function DashboardGuidesPage() {
             <CardContent className="p-0">
               <BookOpen className="w-12 h-12 text-[#E8E8E8] mx-auto mb-4" />
               <h3 className="font-medium text-[#1A1A1A] mb-2">
-                Aún no has comprado guías
+                {t("guides.empty", locale)}
               </h3>
               <p className="text-sm text-[#666666] mb-4">
-                Explora nuestra tienda de guías de skincare.
+                {t("guides.browse", locale)}.
               </p>
               <Link href="/guides">
                 <Button variant="primary">
-                  Ver guías disponibles
+                  {t("guides.browse", locale)}
                 </Button>
               </Link>
             </CardContent>
@@ -106,7 +109,7 @@ export default function DashboardGuidesPage() {
                       {guide.description}
                     </p>
                     <p className="text-xs text-[#9BAA93] mt-1">
-                      Comprado: {new Date(guide.purchaseDate).toLocaleDateString("es-ES")}
+                      {t("common.date", locale)}: {new Date(guide.purchaseDate).toLocaleDateString(locale === "en" ? "en-US" : "es-ES")}
                     </p>
                   </div>
                   <div className="flex gap-2 shrink-0">
@@ -114,14 +117,14 @@ export default function DashboardGuidesPage() {
                       <a href={guide.downloadUrl} target="_blank" rel="noopener noreferrer">
                         <Button variant="primary" size="sm">
                           <Download className="w-3.5 h-3.5 mr-1" />
-                          Descargar
+                          {t("common.download", locale)}
                         </Button>
                       </a>
                     ) : (
                       <Link href={`/guides`}>
                         <Button variant="secondary" size="sm">
                           <ExternalLink className="w-3.5 h-3.5 mr-1" />
-                          Ver
+                          {t("common.see", locale)}
                         </Button>
                       </Link>
                     )}
