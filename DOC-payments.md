@@ -1,11 +1,28 @@
 # Pagos en The Serene Lens
 
+## Planes y Precios
+
+### Suscripciones (USD)
+| Plan | Mensual | Anual |
+|------|---------|-------|
+| Essential | Gratis | — |
+| Premium | $7.99 | $79.99 |
+| Pro | $9.99 | $99.99 |
+| Pro+ | $14.99 | $199.99 |
+| Esteticista | $49.99 | $499.99 |
+
+### Packs de Análisis
+| Pack | Precio |
+|------|--------|
+| Pack 10 análisis | $4.99 |
+| Pack 25 análisis | $9.99 |
+
 ## Métodos de Pago
 
 ### QvaPay (USD — Tarjeta Internacional)
 - **Usa**: Cualquier tarjeta internacional (Visa, Mastercard, etc.)
-- **Sirve para**: Suscripciones Premium ($4.99/mes), Pro ($9.99/mes), Pro+ ($14.99/mes), Esteticista ($29.99/mes), anuales, paquetes de análisis y guías digitales
-- **Proceso**: El usuario es redirigido a QvaPay → paga → webhook confirma → plan activado automáticamente
+- **Sirve para**: Suscripciones (mensuales y anuales), paquetes de análisis y guías digitales
+- **Proceso**: Modal de confirmación → redirección a QvaPay → pago → webhook confirma → plan activado automáticamente
 - **Estado**: Automático, no requiere intervención humana
 
 ### Transfermóvil (CUP — Cuba)
@@ -15,6 +32,10 @@
   2. Usuario transfiere por Transfermóvil
   3. **Validador** confirma que la transferencia se realizó (`/validar REF`)
   4. **Admin** activa la suscripción (`/activar REF`)
+
+### Asistente IA (Gemini 2.0 Flash)
+- Disponible vía Telegram `/asistente` para usuarios con plan pago
+- Límites diarios: Premium 10, Pro 25, Pro+ 50, Esteticista 100 consultas/día
 
 ## Solución de Problemas
 
@@ -34,10 +55,14 @@
 - Contactar a soporte de QvaPay o probar desde otra IP
 
 ### Reembolsos
+- Política completa en `/refunds`
+- Suscripciones: reembolso completo primeros 7 días
+- Packs no usados: reembolso en 7 días
+- Guías digitales: no reembolsables
 - QvaPay: Gestionar directamente desde el panel de QvaPay
 - Transfermóvil: El admin puede cancelar desde `/admin/transfers`
 
 ## Notas
-- Los pagos anuales (Premium $49.99/año, Pro $99.99/año) se manejan igual que los mensuales pero con periodo de 365 días
-- Los paquetes de análisis (Gift Packs) no expiran
+- Los pagos anuales se manejan igual que los mensuales pero con periodo de 365 días
+- Los paquetes de análisis no expiran
 - Las guías digitales se habilitan inmediatamente después del pago
