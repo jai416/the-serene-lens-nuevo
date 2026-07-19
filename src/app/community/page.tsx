@@ -207,16 +207,16 @@ export default function CommunityPage() {
           {/* Sidebar: group info */}
           <div className="lg:col-span-1 space-y-4">
             {selectedGroup && (() => {
-              const current = groups.find((g) => g.id === selectedGroup) || SKIN_TYPE_GROUPS.find((g) => groups.find((gr) => gr.id === selectedGroup)?.slug === g.slug)
-              const groupDef = SKIN_TYPE_GROUPS.find((g) => groups.find((gr) => gr.id === selectedGroup)?.slug === g.slug)
+              const dbGroup = groups.find((g) => g.id === selectedGroup)
+              const skinGroup = SKIN_TYPE_GROUPS.find((g) => dbGroup?.slug === g.slug)
               return (
                 <Card className="p-4">
                   <CardContent className="p-0">
-                    <h3 className="font-semibold text-[#1A1A1A] mb-2">{groupDef?.name || "Grupo"}</h3>
-                    <p className="text-xs text-[#666666] mb-4">{groupDef?.description || current?.description}</p>
+                    <h3 className="font-semibold text-[#1A1A1A] mb-2">{dbGroup?.name || skinGroup?.name || "Grupo"}</h3>
+                    <p className="text-xs text-[#666666] mb-4">{dbGroup?.description || skinGroup?.description || ""}</p>
                     <div className="flex items-center gap-4 text-xs text-[#666666]">
-                      <span>👥 {current?._count?.members || 0} miembros</span>
-                      <span>📝 {current?._count?.posts || 0} posts</span>
+                      <span>👥 {(dbGroup as any)?._count?.members || 0} miembros</span>
+                      <span>📝 {(dbGroup as any)?._count?.posts || 0} posts</span>
                     </div>
                     <Button
                       variant="outline"
