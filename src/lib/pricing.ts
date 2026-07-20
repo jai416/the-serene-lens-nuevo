@@ -36,7 +36,7 @@ export const PLANS: PlanDef[] = [
     priceUSD: 0,
     priceCUP: 0,
     period: "para siempre",
-    analysesPerMonth: 1,
+    analysesPerMonth: 6,
     features: [
       "1 análisis de piel con IA",
       "Rutina personalizada",

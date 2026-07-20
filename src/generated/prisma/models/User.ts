@@ -435,6 +435,9 @@ export type UserWhereInput = {
   giftPacksRedeemed?: Prisma.GiftPackListRelationFilter
   reminders?: Prisma.UserReminderListRelationFilter
   referredBy?: Prisma.XOR<Prisma.ClinicNullableScalarRelationFilter, Prisma.ClinicWhereInput> | null
+  savedProducts?: Prisma.UserSavedProductListRelationFilter
+  userBadges?: Prisma.UserBadgeListRelationFilter
+  weatherLogs?: Prisma.WeatherLogListRelationFilter
 }
 
 export type UserOrderByWithRelationInput = {
@@ -502,6 +505,9 @@ export type UserOrderByWithRelationInput = {
   giftPacksRedeemed?: Prisma.GiftPackOrderByRelationAggregateInput
   reminders?: Prisma.UserReminderOrderByRelationAggregateInput
   referredBy?: Prisma.ClinicOrderByWithRelationInput
+  savedProducts?: Prisma.UserSavedProductOrderByRelationAggregateInput
+  userBadges?: Prisma.UserBadgeOrderByRelationAggregateInput
+  weatherLogs?: Prisma.WeatherLogOrderByRelationAggregateInput
 }
 
 export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -572,6 +578,9 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   giftPacksRedeemed?: Prisma.GiftPackListRelationFilter
   reminders?: Prisma.UserReminderListRelationFilter
   referredBy?: Prisma.XOR<Prisma.ClinicNullableScalarRelationFilter, Prisma.ClinicWhereInput> | null
+  savedProducts?: Prisma.UserSavedProductListRelationFilter
+  userBadges?: Prisma.UserBadgeListRelationFilter
+  weatherLogs?: Prisma.WeatherLogListRelationFilter
 }, "id" | "email" | "username">
 
 export type UserOrderByWithAggregationInput = {
@@ -702,6 +711,9 @@ export type UserCreateInput = {
   giftPacksRedeemed?: Prisma.GiftPackCreateNestedManyWithoutRedeemedByInput
   reminders?: Prisma.UserReminderCreateNestedManyWithoutUserInput
   referredBy?: Prisma.ClinicCreateNestedOneWithoutReferredUsersInput
+  savedProducts?: Prisma.UserSavedProductCreateNestedManyWithoutUserInput
+  userBadges?: Prisma.UserBadgeCreateNestedManyWithoutUserInput
+  weatherLogs?: Prisma.WeatherLogCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateInput = {
@@ -768,6 +780,9 @@ export type UserUncheckedCreateInput = {
   giftPacksBought?: Prisma.GiftPackUncheckedCreateNestedManyWithoutBuyerInput
   giftPacksRedeemed?: Prisma.GiftPackUncheckedCreateNestedManyWithoutRedeemedByInput
   reminders?: Prisma.UserReminderUncheckedCreateNestedManyWithoutUserInput
+  savedProducts?: Prisma.UserSavedProductUncheckedCreateNestedManyWithoutUserInput
+  userBadges?: Prisma.UserBadgeUncheckedCreateNestedManyWithoutUserInput
+  weatherLogs?: Prisma.WeatherLogUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserUpdateInput = {
@@ -834,6 +849,9 @@ export type UserUpdateInput = {
   giftPacksRedeemed?: Prisma.GiftPackUpdateManyWithoutRedeemedByNestedInput
   reminders?: Prisma.UserReminderUpdateManyWithoutUserNestedInput
   referredBy?: Prisma.ClinicUpdateOneWithoutReferredUsersNestedInput
+  savedProducts?: Prisma.UserSavedProductUpdateManyWithoutUserNestedInput
+  userBadges?: Prisma.UserBadgeUpdateManyWithoutUserNestedInput
+  weatherLogs?: Prisma.WeatherLogUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateInput = {
@@ -900,6 +918,9 @@ export type UserUncheckedUpdateInput = {
   giftPacksBought?: Prisma.GiftPackUncheckedUpdateManyWithoutBuyerNestedInput
   giftPacksRedeemed?: Prisma.GiftPackUncheckedUpdateManyWithoutRedeemedByNestedInput
   reminders?: Prisma.UserReminderUncheckedUpdateManyWithoutUserNestedInput
+  savedProducts?: Prisma.UserSavedProductUncheckedUpdateManyWithoutUserNestedInput
+  userBadges?: Prisma.UserBadgeUncheckedUpdateManyWithoutUserNestedInput
+  weatherLogs?: Prisma.WeatherLogUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateManyInput = {
@@ -1735,6 +1756,48 @@ export type UserUpdateOneRequiredWithoutRemindersNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutRemindersInput, Prisma.UserUpdateWithoutRemindersInput>, Prisma.UserUncheckedUpdateWithoutRemindersInput>
 }
 
+export type UserCreateNestedOneWithoutSavedProductsInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutSavedProductsInput, Prisma.UserUncheckedCreateWithoutSavedProductsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutSavedProductsInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneRequiredWithoutSavedProductsNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutSavedProductsInput, Prisma.UserUncheckedCreateWithoutSavedProductsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutSavedProductsInput
+  upsert?: Prisma.UserUpsertWithoutSavedProductsInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutSavedProductsInput, Prisma.UserUpdateWithoutSavedProductsInput>, Prisma.UserUncheckedUpdateWithoutSavedProductsInput>
+}
+
+export type UserCreateNestedOneWithoutUserBadgesInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutUserBadgesInput, Prisma.UserUncheckedCreateWithoutUserBadgesInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutUserBadgesInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneRequiredWithoutUserBadgesNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutUserBadgesInput, Prisma.UserUncheckedCreateWithoutUserBadgesInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutUserBadgesInput
+  upsert?: Prisma.UserUpsertWithoutUserBadgesInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutUserBadgesInput, Prisma.UserUpdateWithoutUserBadgesInput>, Prisma.UserUncheckedUpdateWithoutUserBadgesInput>
+}
+
+export type UserCreateNestedOneWithoutWeatherLogsInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutWeatherLogsInput, Prisma.UserUncheckedCreateWithoutWeatherLogsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutWeatherLogsInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneRequiredWithoutWeatherLogsNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutWeatherLogsInput, Prisma.UserUncheckedCreateWithoutWeatherLogsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutWeatherLogsInput
+  upsert?: Prisma.UserUpsertWithoutWeatherLogsInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutWeatherLogsInput, Prisma.UserUpdateWithoutWeatherLogsInput>, Prisma.UserUncheckedUpdateWithoutWeatherLogsInput>
+}
+
 export type UserCreateWithoutAnalysisJobsInput = {
   id?: string
   name?: string | null
@@ -1798,6 +1861,9 @@ export type UserCreateWithoutAnalysisJobsInput = {
   giftPacksRedeemed?: Prisma.GiftPackCreateNestedManyWithoutRedeemedByInput
   reminders?: Prisma.UserReminderCreateNestedManyWithoutUserInput
   referredBy?: Prisma.ClinicCreateNestedOneWithoutReferredUsersInput
+  savedProducts?: Prisma.UserSavedProductCreateNestedManyWithoutUserInput
+  userBadges?: Prisma.UserBadgeCreateNestedManyWithoutUserInput
+  weatherLogs?: Prisma.WeatherLogCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutAnalysisJobsInput = {
@@ -1863,6 +1929,9 @@ export type UserUncheckedCreateWithoutAnalysisJobsInput = {
   giftPacksBought?: Prisma.GiftPackUncheckedCreateNestedManyWithoutBuyerInput
   giftPacksRedeemed?: Prisma.GiftPackUncheckedCreateNestedManyWithoutRedeemedByInput
   reminders?: Prisma.UserReminderUncheckedCreateNestedManyWithoutUserInput
+  savedProducts?: Prisma.UserSavedProductUncheckedCreateNestedManyWithoutUserInput
+  userBadges?: Prisma.UserBadgeUncheckedCreateNestedManyWithoutUserInput
+  weatherLogs?: Prisma.WeatherLogUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutAnalysisJobsInput = {
@@ -1944,6 +2013,9 @@ export type UserUpdateWithoutAnalysisJobsInput = {
   giftPacksRedeemed?: Prisma.GiftPackUpdateManyWithoutRedeemedByNestedInput
   reminders?: Prisma.UserReminderUpdateManyWithoutUserNestedInput
   referredBy?: Prisma.ClinicUpdateOneWithoutReferredUsersNestedInput
+  savedProducts?: Prisma.UserSavedProductUpdateManyWithoutUserNestedInput
+  userBadges?: Prisma.UserBadgeUpdateManyWithoutUserNestedInput
+  weatherLogs?: Prisma.WeatherLogUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutAnalysisJobsInput = {
@@ -2009,6 +2081,9 @@ export type UserUncheckedUpdateWithoutAnalysisJobsInput = {
   giftPacksBought?: Prisma.GiftPackUncheckedUpdateManyWithoutBuyerNestedInput
   giftPacksRedeemed?: Prisma.GiftPackUncheckedUpdateManyWithoutRedeemedByNestedInput
   reminders?: Prisma.UserReminderUncheckedUpdateManyWithoutUserNestedInput
+  savedProducts?: Prisma.UserSavedProductUncheckedUpdateManyWithoutUserNestedInput
+  userBadges?: Prisma.UserBadgeUncheckedUpdateManyWithoutUserNestedInput
+  weatherLogs?: Prisma.WeatherLogUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutAccountsInput = {
@@ -2074,6 +2149,9 @@ export type UserCreateWithoutAccountsInput = {
   giftPacksRedeemed?: Prisma.GiftPackCreateNestedManyWithoutRedeemedByInput
   reminders?: Prisma.UserReminderCreateNestedManyWithoutUserInput
   referredBy?: Prisma.ClinicCreateNestedOneWithoutReferredUsersInput
+  savedProducts?: Prisma.UserSavedProductCreateNestedManyWithoutUserInput
+  userBadges?: Prisma.UserBadgeCreateNestedManyWithoutUserInput
+  weatherLogs?: Prisma.WeatherLogCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutAccountsInput = {
@@ -2139,6 +2217,9 @@ export type UserUncheckedCreateWithoutAccountsInput = {
   giftPacksBought?: Prisma.GiftPackUncheckedCreateNestedManyWithoutBuyerInput
   giftPacksRedeemed?: Prisma.GiftPackUncheckedCreateNestedManyWithoutRedeemedByInput
   reminders?: Prisma.UserReminderUncheckedCreateNestedManyWithoutUserInput
+  savedProducts?: Prisma.UserSavedProductUncheckedCreateNestedManyWithoutUserInput
+  userBadges?: Prisma.UserBadgeUncheckedCreateNestedManyWithoutUserInput
+  weatherLogs?: Prisma.WeatherLogUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutAccountsInput = {
@@ -2220,6 +2301,9 @@ export type UserUpdateWithoutAccountsInput = {
   giftPacksRedeemed?: Prisma.GiftPackUpdateManyWithoutRedeemedByNestedInput
   reminders?: Prisma.UserReminderUpdateManyWithoutUserNestedInput
   referredBy?: Prisma.ClinicUpdateOneWithoutReferredUsersNestedInput
+  savedProducts?: Prisma.UserSavedProductUpdateManyWithoutUserNestedInput
+  userBadges?: Prisma.UserBadgeUpdateManyWithoutUserNestedInput
+  weatherLogs?: Prisma.WeatherLogUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutAccountsInput = {
@@ -2285,6 +2369,9 @@ export type UserUncheckedUpdateWithoutAccountsInput = {
   giftPacksBought?: Prisma.GiftPackUncheckedUpdateManyWithoutBuyerNestedInput
   giftPacksRedeemed?: Prisma.GiftPackUncheckedUpdateManyWithoutRedeemedByNestedInput
   reminders?: Prisma.UserReminderUncheckedUpdateManyWithoutUserNestedInput
+  savedProducts?: Prisma.UserSavedProductUncheckedUpdateManyWithoutUserNestedInput
+  userBadges?: Prisma.UserBadgeUncheckedUpdateManyWithoutUserNestedInput
+  weatherLogs?: Prisma.WeatherLogUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutSessionsInput = {
@@ -2350,6 +2437,9 @@ export type UserCreateWithoutSessionsInput = {
   giftPacksRedeemed?: Prisma.GiftPackCreateNestedManyWithoutRedeemedByInput
   reminders?: Prisma.UserReminderCreateNestedManyWithoutUserInput
   referredBy?: Prisma.ClinicCreateNestedOneWithoutReferredUsersInput
+  savedProducts?: Prisma.UserSavedProductCreateNestedManyWithoutUserInput
+  userBadges?: Prisma.UserBadgeCreateNestedManyWithoutUserInput
+  weatherLogs?: Prisma.WeatherLogCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutSessionsInput = {
@@ -2415,6 +2505,9 @@ export type UserUncheckedCreateWithoutSessionsInput = {
   giftPacksBought?: Prisma.GiftPackUncheckedCreateNestedManyWithoutBuyerInput
   giftPacksRedeemed?: Prisma.GiftPackUncheckedCreateNestedManyWithoutRedeemedByInput
   reminders?: Prisma.UserReminderUncheckedCreateNestedManyWithoutUserInput
+  savedProducts?: Prisma.UserSavedProductUncheckedCreateNestedManyWithoutUserInput
+  userBadges?: Prisma.UserBadgeUncheckedCreateNestedManyWithoutUserInput
+  weatherLogs?: Prisma.WeatherLogUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutSessionsInput = {
@@ -2496,6 +2589,9 @@ export type UserUpdateWithoutSessionsInput = {
   giftPacksRedeemed?: Prisma.GiftPackUpdateManyWithoutRedeemedByNestedInput
   reminders?: Prisma.UserReminderUpdateManyWithoutUserNestedInput
   referredBy?: Prisma.ClinicUpdateOneWithoutReferredUsersNestedInput
+  savedProducts?: Prisma.UserSavedProductUpdateManyWithoutUserNestedInput
+  userBadges?: Prisma.UserBadgeUpdateManyWithoutUserNestedInput
+  weatherLogs?: Prisma.WeatherLogUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutSessionsInput = {
@@ -2561,6 +2657,9 @@ export type UserUncheckedUpdateWithoutSessionsInput = {
   giftPacksBought?: Prisma.GiftPackUncheckedUpdateManyWithoutBuyerNestedInput
   giftPacksRedeemed?: Prisma.GiftPackUncheckedUpdateManyWithoutRedeemedByNestedInput
   reminders?: Prisma.UserReminderUncheckedUpdateManyWithoutUserNestedInput
+  savedProducts?: Prisma.UserSavedProductUncheckedUpdateManyWithoutUserNestedInput
+  userBadges?: Prisma.UserBadgeUncheckedUpdateManyWithoutUserNestedInput
+  weatherLogs?: Prisma.WeatherLogUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutAnalysesInput = {
@@ -2626,6 +2725,9 @@ export type UserCreateWithoutAnalysesInput = {
   giftPacksRedeemed?: Prisma.GiftPackCreateNestedManyWithoutRedeemedByInput
   reminders?: Prisma.UserReminderCreateNestedManyWithoutUserInput
   referredBy?: Prisma.ClinicCreateNestedOneWithoutReferredUsersInput
+  savedProducts?: Prisma.UserSavedProductCreateNestedManyWithoutUserInput
+  userBadges?: Prisma.UserBadgeCreateNestedManyWithoutUserInput
+  weatherLogs?: Prisma.WeatherLogCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutAnalysesInput = {
@@ -2691,6 +2793,9 @@ export type UserUncheckedCreateWithoutAnalysesInput = {
   giftPacksBought?: Prisma.GiftPackUncheckedCreateNestedManyWithoutBuyerInput
   giftPacksRedeemed?: Prisma.GiftPackUncheckedCreateNestedManyWithoutRedeemedByInput
   reminders?: Prisma.UserReminderUncheckedCreateNestedManyWithoutUserInput
+  savedProducts?: Prisma.UserSavedProductUncheckedCreateNestedManyWithoutUserInput
+  userBadges?: Prisma.UserBadgeUncheckedCreateNestedManyWithoutUserInput
+  weatherLogs?: Prisma.WeatherLogUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutAnalysesInput = {
@@ -2772,6 +2877,9 @@ export type UserUpdateWithoutAnalysesInput = {
   giftPacksRedeemed?: Prisma.GiftPackUpdateManyWithoutRedeemedByNestedInput
   reminders?: Prisma.UserReminderUpdateManyWithoutUserNestedInput
   referredBy?: Prisma.ClinicUpdateOneWithoutReferredUsersNestedInput
+  savedProducts?: Prisma.UserSavedProductUpdateManyWithoutUserNestedInput
+  userBadges?: Prisma.UserBadgeUpdateManyWithoutUserNestedInput
+  weatherLogs?: Prisma.WeatherLogUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutAnalysesInput = {
@@ -2837,6 +2945,9 @@ export type UserUncheckedUpdateWithoutAnalysesInput = {
   giftPacksBought?: Prisma.GiftPackUncheckedUpdateManyWithoutBuyerNestedInput
   giftPacksRedeemed?: Prisma.GiftPackUncheckedUpdateManyWithoutRedeemedByNestedInput
   reminders?: Prisma.UserReminderUncheckedUpdateManyWithoutUserNestedInput
+  savedProducts?: Prisma.UserSavedProductUncheckedUpdateManyWithoutUserNestedInput
+  userBadges?: Prisma.UserBadgeUncheckedUpdateManyWithoutUserNestedInput
+  weatherLogs?: Prisma.WeatherLogUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutPaymentsInput = {
@@ -2902,6 +3013,9 @@ export type UserCreateWithoutPaymentsInput = {
   giftPacksRedeemed?: Prisma.GiftPackCreateNestedManyWithoutRedeemedByInput
   reminders?: Prisma.UserReminderCreateNestedManyWithoutUserInput
   referredBy?: Prisma.ClinicCreateNestedOneWithoutReferredUsersInput
+  savedProducts?: Prisma.UserSavedProductCreateNestedManyWithoutUserInput
+  userBadges?: Prisma.UserBadgeCreateNestedManyWithoutUserInput
+  weatherLogs?: Prisma.WeatherLogCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutPaymentsInput = {
@@ -2967,6 +3081,9 @@ export type UserUncheckedCreateWithoutPaymentsInput = {
   giftPacksBought?: Prisma.GiftPackUncheckedCreateNestedManyWithoutBuyerInput
   giftPacksRedeemed?: Prisma.GiftPackUncheckedCreateNestedManyWithoutRedeemedByInput
   reminders?: Prisma.UserReminderUncheckedCreateNestedManyWithoutUserInput
+  savedProducts?: Prisma.UserSavedProductUncheckedCreateNestedManyWithoutUserInput
+  userBadges?: Prisma.UserBadgeUncheckedCreateNestedManyWithoutUserInput
+  weatherLogs?: Prisma.WeatherLogUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutPaymentsInput = {
@@ -3048,6 +3165,9 @@ export type UserUpdateWithoutPaymentsInput = {
   giftPacksRedeemed?: Prisma.GiftPackUpdateManyWithoutRedeemedByNestedInput
   reminders?: Prisma.UserReminderUpdateManyWithoutUserNestedInput
   referredBy?: Prisma.ClinicUpdateOneWithoutReferredUsersNestedInput
+  savedProducts?: Prisma.UserSavedProductUpdateManyWithoutUserNestedInput
+  userBadges?: Prisma.UserBadgeUpdateManyWithoutUserNestedInput
+  weatherLogs?: Prisma.WeatherLogUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutPaymentsInput = {
@@ -3113,6 +3233,9 @@ export type UserUncheckedUpdateWithoutPaymentsInput = {
   giftPacksBought?: Prisma.GiftPackUncheckedUpdateManyWithoutBuyerNestedInput
   giftPacksRedeemed?: Prisma.GiftPackUncheckedUpdateManyWithoutRedeemedByNestedInput
   reminders?: Prisma.UserReminderUncheckedUpdateManyWithoutUserNestedInput
+  savedProducts?: Prisma.UserSavedProductUncheckedUpdateManyWithoutUserNestedInput
+  userBadges?: Prisma.UserBadgeUncheckedUpdateManyWithoutUserNestedInput
+  weatherLogs?: Prisma.WeatherLogUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutTransferPaymentsInput = {
@@ -3178,6 +3301,9 @@ export type UserCreateWithoutTransferPaymentsInput = {
   giftPacksRedeemed?: Prisma.GiftPackCreateNestedManyWithoutRedeemedByInput
   reminders?: Prisma.UserReminderCreateNestedManyWithoutUserInput
   referredBy?: Prisma.ClinicCreateNestedOneWithoutReferredUsersInput
+  savedProducts?: Prisma.UserSavedProductCreateNestedManyWithoutUserInput
+  userBadges?: Prisma.UserBadgeCreateNestedManyWithoutUserInput
+  weatherLogs?: Prisma.WeatherLogCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutTransferPaymentsInput = {
@@ -3243,6 +3369,9 @@ export type UserUncheckedCreateWithoutTransferPaymentsInput = {
   giftPacksBought?: Prisma.GiftPackUncheckedCreateNestedManyWithoutBuyerInput
   giftPacksRedeemed?: Prisma.GiftPackUncheckedCreateNestedManyWithoutRedeemedByInput
   reminders?: Prisma.UserReminderUncheckedCreateNestedManyWithoutUserInput
+  savedProducts?: Prisma.UserSavedProductUncheckedCreateNestedManyWithoutUserInput
+  userBadges?: Prisma.UserBadgeUncheckedCreateNestedManyWithoutUserInput
+  weatherLogs?: Prisma.WeatherLogUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutTransferPaymentsInput = {
@@ -3313,6 +3442,9 @@ export type UserCreateWithoutValidatedTransfersInput = {
   giftPacksRedeemed?: Prisma.GiftPackCreateNestedManyWithoutRedeemedByInput
   reminders?: Prisma.UserReminderCreateNestedManyWithoutUserInput
   referredBy?: Prisma.ClinicCreateNestedOneWithoutReferredUsersInput
+  savedProducts?: Prisma.UserSavedProductCreateNestedManyWithoutUserInput
+  userBadges?: Prisma.UserBadgeCreateNestedManyWithoutUserInput
+  weatherLogs?: Prisma.WeatherLogCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutValidatedTransfersInput = {
@@ -3378,6 +3510,9 @@ export type UserUncheckedCreateWithoutValidatedTransfersInput = {
   giftPacksBought?: Prisma.GiftPackUncheckedCreateNestedManyWithoutBuyerInput
   giftPacksRedeemed?: Prisma.GiftPackUncheckedCreateNestedManyWithoutRedeemedByInput
   reminders?: Prisma.UserReminderUncheckedCreateNestedManyWithoutUserInput
+  savedProducts?: Prisma.UserSavedProductUncheckedCreateNestedManyWithoutUserInput
+  userBadges?: Prisma.UserBadgeUncheckedCreateNestedManyWithoutUserInput
+  weatherLogs?: Prisma.WeatherLogUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutValidatedTransfersInput = {
@@ -3448,6 +3583,9 @@ export type UserCreateWithoutActivatedTransfersInput = {
   giftPacksRedeemed?: Prisma.GiftPackCreateNestedManyWithoutRedeemedByInput
   reminders?: Prisma.UserReminderCreateNestedManyWithoutUserInput
   referredBy?: Prisma.ClinicCreateNestedOneWithoutReferredUsersInput
+  savedProducts?: Prisma.UserSavedProductCreateNestedManyWithoutUserInput
+  userBadges?: Prisma.UserBadgeCreateNestedManyWithoutUserInput
+  weatherLogs?: Prisma.WeatherLogCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutActivatedTransfersInput = {
@@ -3513,6 +3651,9 @@ export type UserUncheckedCreateWithoutActivatedTransfersInput = {
   giftPacksBought?: Prisma.GiftPackUncheckedCreateNestedManyWithoutBuyerInput
   giftPacksRedeemed?: Prisma.GiftPackUncheckedCreateNestedManyWithoutRedeemedByInput
   reminders?: Prisma.UserReminderUncheckedCreateNestedManyWithoutUserInput
+  savedProducts?: Prisma.UserSavedProductUncheckedCreateNestedManyWithoutUserInput
+  userBadges?: Prisma.UserBadgeUncheckedCreateNestedManyWithoutUserInput
+  weatherLogs?: Prisma.WeatherLogUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutActivatedTransfersInput = {
@@ -3594,6 +3735,9 @@ export type UserUpdateWithoutTransferPaymentsInput = {
   giftPacksRedeemed?: Prisma.GiftPackUpdateManyWithoutRedeemedByNestedInput
   reminders?: Prisma.UserReminderUpdateManyWithoutUserNestedInput
   referredBy?: Prisma.ClinicUpdateOneWithoutReferredUsersNestedInput
+  savedProducts?: Prisma.UserSavedProductUpdateManyWithoutUserNestedInput
+  userBadges?: Prisma.UserBadgeUpdateManyWithoutUserNestedInput
+  weatherLogs?: Prisma.WeatherLogUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutTransferPaymentsInput = {
@@ -3659,6 +3803,9 @@ export type UserUncheckedUpdateWithoutTransferPaymentsInput = {
   giftPacksBought?: Prisma.GiftPackUncheckedUpdateManyWithoutBuyerNestedInput
   giftPacksRedeemed?: Prisma.GiftPackUncheckedUpdateManyWithoutRedeemedByNestedInput
   reminders?: Prisma.UserReminderUncheckedUpdateManyWithoutUserNestedInput
+  savedProducts?: Prisma.UserSavedProductUncheckedUpdateManyWithoutUserNestedInput
+  userBadges?: Prisma.UserBadgeUncheckedUpdateManyWithoutUserNestedInput
+  weatherLogs?: Prisma.WeatherLogUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserUpsertWithoutValidatedTransfersInput = {
@@ -3735,6 +3882,9 @@ export type UserUpdateWithoutValidatedTransfersInput = {
   giftPacksRedeemed?: Prisma.GiftPackUpdateManyWithoutRedeemedByNestedInput
   reminders?: Prisma.UserReminderUpdateManyWithoutUserNestedInput
   referredBy?: Prisma.ClinicUpdateOneWithoutReferredUsersNestedInput
+  savedProducts?: Prisma.UserSavedProductUpdateManyWithoutUserNestedInput
+  userBadges?: Prisma.UserBadgeUpdateManyWithoutUserNestedInput
+  weatherLogs?: Prisma.WeatherLogUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutValidatedTransfersInput = {
@@ -3800,6 +3950,9 @@ export type UserUncheckedUpdateWithoutValidatedTransfersInput = {
   giftPacksBought?: Prisma.GiftPackUncheckedUpdateManyWithoutBuyerNestedInput
   giftPacksRedeemed?: Prisma.GiftPackUncheckedUpdateManyWithoutRedeemedByNestedInput
   reminders?: Prisma.UserReminderUncheckedUpdateManyWithoutUserNestedInput
+  savedProducts?: Prisma.UserSavedProductUncheckedUpdateManyWithoutUserNestedInput
+  userBadges?: Prisma.UserBadgeUncheckedUpdateManyWithoutUserNestedInput
+  weatherLogs?: Prisma.WeatherLogUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserUpsertWithoutActivatedTransfersInput = {
@@ -3876,6 +4029,9 @@ export type UserUpdateWithoutActivatedTransfersInput = {
   giftPacksRedeemed?: Prisma.GiftPackUpdateManyWithoutRedeemedByNestedInput
   reminders?: Prisma.UserReminderUpdateManyWithoutUserNestedInput
   referredBy?: Prisma.ClinicUpdateOneWithoutReferredUsersNestedInput
+  savedProducts?: Prisma.UserSavedProductUpdateManyWithoutUserNestedInput
+  userBadges?: Prisma.UserBadgeUpdateManyWithoutUserNestedInput
+  weatherLogs?: Prisma.WeatherLogUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutActivatedTransfersInput = {
@@ -3941,6 +4097,9 @@ export type UserUncheckedUpdateWithoutActivatedTransfersInput = {
   giftPacksBought?: Prisma.GiftPackUncheckedUpdateManyWithoutBuyerNestedInput
   giftPacksRedeemed?: Prisma.GiftPackUncheckedUpdateManyWithoutRedeemedByNestedInput
   reminders?: Prisma.UserReminderUncheckedUpdateManyWithoutUserNestedInput
+  savedProducts?: Prisma.UserSavedProductUncheckedUpdateManyWithoutUserNestedInput
+  userBadges?: Prisma.UserBadgeUncheckedUpdateManyWithoutUserNestedInput
+  weatherLogs?: Prisma.WeatherLogUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutAuditLogsInput = {
@@ -4006,6 +4165,9 @@ export type UserCreateWithoutAuditLogsInput = {
   giftPacksRedeemed?: Prisma.GiftPackCreateNestedManyWithoutRedeemedByInput
   reminders?: Prisma.UserReminderCreateNestedManyWithoutUserInput
   referredBy?: Prisma.ClinicCreateNestedOneWithoutReferredUsersInput
+  savedProducts?: Prisma.UserSavedProductCreateNestedManyWithoutUserInput
+  userBadges?: Prisma.UserBadgeCreateNestedManyWithoutUserInput
+  weatherLogs?: Prisma.WeatherLogCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutAuditLogsInput = {
@@ -4071,6 +4233,9 @@ export type UserUncheckedCreateWithoutAuditLogsInput = {
   giftPacksBought?: Prisma.GiftPackUncheckedCreateNestedManyWithoutBuyerInput
   giftPacksRedeemed?: Prisma.GiftPackUncheckedCreateNestedManyWithoutRedeemedByInput
   reminders?: Prisma.UserReminderUncheckedCreateNestedManyWithoutUserInput
+  savedProducts?: Prisma.UserSavedProductUncheckedCreateNestedManyWithoutUserInput
+  userBadges?: Prisma.UserBadgeUncheckedCreateNestedManyWithoutUserInput
+  weatherLogs?: Prisma.WeatherLogUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutAuditLogsInput = {
@@ -4152,6 +4317,9 @@ export type UserUpdateWithoutAuditLogsInput = {
   giftPacksRedeemed?: Prisma.GiftPackUpdateManyWithoutRedeemedByNestedInput
   reminders?: Prisma.UserReminderUpdateManyWithoutUserNestedInput
   referredBy?: Prisma.ClinicUpdateOneWithoutReferredUsersNestedInput
+  savedProducts?: Prisma.UserSavedProductUpdateManyWithoutUserNestedInput
+  userBadges?: Prisma.UserBadgeUpdateManyWithoutUserNestedInput
+  weatherLogs?: Prisma.WeatherLogUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutAuditLogsInput = {
@@ -4217,6 +4385,9 @@ export type UserUncheckedUpdateWithoutAuditLogsInput = {
   giftPacksBought?: Prisma.GiftPackUncheckedUpdateManyWithoutBuyerNestedInput
   giftPacksRedeemed?: Prisma.GiftPackUncheckedUpdateManyWithoutRedeemedByNestedInput
   reminders?: Prisma.UserReminderUncheckedUpdateManyWithoutUserNestedInput
+  savedProducts?: Prisma.UserSavedProductUncheckedUpdateManyWithoutUserNestedInput
+  userBadges?: Prisma.UserBadgeUncheckedUpdateManyWithoutUserNestedInput
+  weatherLogs?: Prisma.WeatherLogUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutSubscriptionsInput = {
@@ -4282,6 +4453,9 @@ export type UserCreateWithoutSubscriptionsInput = {
   giftPacksRedeemed?: Prisma.GiftPackCreateNestedManyWithoutRedeemedByInput
   reminders?: Prisma.UserReminderCreateNestedManyWithoutUserInput
   referredBy?: Prisma.ClinicCreateNestedOneWithoutReferredUsersInput
+  savedProducts?: Prisma.UserSavedProductCreateNestedManyWithoutUserInput
+  userBadges?: Prisma.UserBadgeCreateNestedManyWithoutUserInput
+  weatherLogs?: Prisma.WeatherLogCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutSubscriptionsInput = {
@@ -4347,6 +4521,9 @@ export type UserUncheckedCreateWithoutSubscriptionsInput = {
   giftPacksBought?: Prisma.GiftPackUncheckedCreateNestedManyWithoutBuyerInput
   giftPacksRedeemed?: Prisma.GiftPackUncheckedCreateNestedManyWithoutRedeemedByInput
   reminders?: Prisma.UserReminderUncheckedCreateNestedManyWithoutUserInput
+  savedProducts?: Prisma.UserSavedProductUncheckedCreateNestedManyWithoutUserInput
+  userBadges?: Prisma.UserBadgeUncheckedCreateNestedManyWithoutUserInput
+  weatherLogs?: Prisma.WeatherLogUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutSubscriptionsInput = {
@@ -4428,6 +4605,9 @@ export type UserUpdateWithoutSubscriptionsInput = {
   giftPacksRedeemed?: Prisma.GiftPackUpdateManyWithoutRedeemedByNestedInput
   reminders?: Prisma.UserReminderUpdateManyWithoutUserNestedInput
   referredBy?: Prisma.ClinicUpdateOneWithoutReferredUsersNestedInput
+  savedProducts?: Prisma.UserSavedProductUpdateManyWithoutUserNestedInput
+  userBadges?: Prisma.UserBadgeUpdateManyWithoutUserNestedInput
+  weatherLogs?: Prisma.WeatherLogUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutSubscriptionsInput = {
@@ -4493,6 +4673,9 @@ export type UserUncheckedUpdateWithoutSubscriptionsInput = {
   giftPacksBought?: Prisma.GiftPackUncheckedUpdateManyWithoutBuyerNestedInput
   giftPacksRedeemed?: Prisma.GiftPackUncheckedUpdateManyWithoutRedeemedByNestedInput
   reminders?: Prisma.UserReminderUncheckedUpdateManyWithoutUserNestedInput
+  savedProducts?: Prisma.UserSavedProductUncheckedUpdateManyWithoutUserNestedInput
+  userBadges?: Prisma.UserBadgeUncheckedUpdateManyWithoutUserNestedInput
+  weatherLogs?: Prisma.WeatherLogUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutPurchasePacksInput = {
@@ -4558,6 +4741,9 @@ export type UserCreateWithoutPurchasePacksInput = {
   giftPacksRedeemed?: Prisma.GiftPackCreateNestedManyWithoutRedeemedByInput
   reminders?: Prisma.UserReminderCreateNestedManyWithoutUserInput
   referredBy?: Prisma.ClinicCreateNestedOneWithoutReferredUsersInput
+  savedProducts?: Prisma.UserSavedProductCreateNestedManyWithoutUserInput
+  userBadges?: Prisma.UserBadgeCreateNestedManyWithoutUserInput
+  weatherLogs?: Prisma.WeatherLogCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutPurchasePacksInput = {
@@ -4623,6 +4809,9 @@ export type UserUncheckedCreateWithoutPurchasePacksInput = {
   giftPacksBought?: Prisma.GiftPackUncheckedCreateNestedManyWithoutBuyerInput
   giftPacksRedeemed?: Prisma.GiftPackUncheckedCreateNestedManyWithoutRedeemedByInput
   reminders?: Prisma.UserReminderUncheckedCreateNestedManyWithoutUserInput
+  savedProducts?: Prisma.UserSavedProductUncheckedCreateNestedManyWithoutUserInput
+  userBadges?: Prisma.UserBadgeUncheckedCreateNestedManyWithoutUserInput
+  weatherLogs?: Prisma.WeatherLogUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutPurchasePacksInput = {
@@ -4704,6 +4893,9 @@ export type UserUpdateWithoutPurchasePacksInput = {
   giftPacksRedeemed?: Prisma.GiftPackUpdateManyWithoutRedeemedByNestedInput
   reminders?: Prisma.UserReminderUpdateManyWithoutUserNestedInput
   referredBy?: Prisma.ClinicUpdateOneWithoutReferredUsersNestedInput
+  savedProducts?: Prisma.UserSavedProductUpdateManyWithoutUserNestedInput
+  userBadges?: Prisma.UserBadgeUpdateManyWithoutUserNestedInput
+  weatherLogs?: Prisma.WeatherLogUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutPurchasePacksInput = {
@@ -4769,6 +4961,9 @@ export type UserUncheckedUpdateWithoutPurchasePacksInput = {
   giftPacksBought?: Prisma.GiftPackUncheckedUpdateManyWithoutBuyerNestedInput
   giftPacksRedeemed?: Prisma.GiftPackUncheckedUpdateManyWithoutRedeemedByNestedInput
   reminders?: Prisma.UserReminderUncheckedUpdateManyWithoutUserNestedInput
+  savedProducts?: Prisma.UserSavedProductUncheckedUpdateManyWithoutUserNestedInput
+  userBadges?: Prisma.UserBadgeUncheckedUpdateManyWithoutUserNestedInput
+  weatherLogs?: Prisma.WeatherLogUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutUsageRecordsInput = {
@@ -4834,6 +5029,9 @@ export type UserCreateWithoutUsageRecordsInput = {
   giftPacksRedeemed?: Prisma.GiftPackCreateNestedManyWithoutRedeemedByInput
   reminders?: Prisma.UserReminderCreateNestedManyWithoutUserInput
   referredBy?: Prisma.ClinicCreateNestedOneWithoutReferredUsersInput
+  savedProducts?: Prisma.UserSavedProductCreateNestedManyWithoutUserInput
+  userBadges?: Prisma.UserBadgeCreateNestedManyWithoutUserInput
+  weatherLogs?: Prisma.WeatherLogCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutUsageRecordsInput = {
@@ -4899,6 +5097,9 @@ export type UserUncheckedCreateWithoutUsageRecordsInput = {
   giftPacksBought?: Prisma.GiftPackUncheckedCreateNestedManyWithoutBuyerInput
   giftPacksRedeemed?: Prisma.GiftPackUncheckedCreateNestedManyWithoutRedeemedByInput
   reminders?: Prisma.UserReminderUncheckedCreateNestedManyWithoutUserInput
+  savedProducts?: Prisma.UserSavedProductUncheckedCreateNestedManyWithoutUserInput
+  userBadges?: Prisma.UserBadgeUncheckedCreateNestedManyWithoutUserInput
+  weatherLogs?: Prisma.WeatherLogUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutUsageRecordsInput = {
@@ -4980,6 +5181,9 @@ export type UserUpdateWithoutUsageRecordsInput = {
   giftPacksRedeemed?: Prisma.GiftPackUpdateManyWithoutRedeemedByNestedInput
   reminders?: Prisma.UserReminderUpdateManyWithoutUserNestedInput
   referredBy?: Prisma.ClinicUpdateOneWithoutReferredUsersNestedInput
+  savedProducts?: Prisma.UserSavedProductUpdateManyWithoutUserNestedInput
+  userBadges?: Prisma.UserBadgeUpdateManyWithoutUserNestedInput
+  weatherLogs?: Prisma.WeatherLogUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutUsageRecordsInput = {
@@ -5045,6 +5249,9 @@ export type UserUncheckedUpdateWithoutUsageRecordsInput = {
   giftPacksBought?: Prisma.GiftPackUncheckedUpdateManyWithoutBuyerNestedInput
   giftPacksRedeemed?: Prisma.GiftPackUncheckedUpdateManyWithoutRedeemedByNestedInput
   reminders?: Prisma.UserReminderUncheckedUpdateManyWithoutUserNestedInput
+  savedProducts?: Prisma.UserSavedProductUncheckedUpdateManyWithoutUserNestedInput
+  userBadges?: Prisma.UserBadgeUncheckedUpdateManyWithoutUserNestedInput
+  weatherLogs?: Prisma.WeatherLogUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutClinicInput = {
@@ -5110,6 +5317,9 @@ export type UserCreateWithoutClinicInput = {
   giftPacksRedeemed?: Prisma.GiftPackCreateNestedManyWithoutRedeemedByInput
   reminders?: Prisma.UserReminderCreateNestedManyWithoutUserInput
   referredBy?: Prisma.ClinicCreateNestedOneWithoutReferredUsersInput
+  savedProducts?: Prisma.UserSavedProductCreateNestedManyWithoutUserInput
+  userBadges?: Prisma.UserBadgeCreateNestedManyWithoutUserInput
+  weatherLogs?: Prisma.WeatherLogCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutClinicInput = {
@@ -5175,6 +5385,9 @@ export type UserUncheckedCreateWithoutClinicInput = {
   giftPacksBought?: Prisma.GiftPackUncheckedCreateNestedManyWithoutBuyerInput
   giftPacksRedeemed?: Prisma.GiftPackUncheckedCreateNestedManyWithoutRedeemedByInput
   reminders?: Prisma.UserReminderUncheckedCreateNestedManyWithoutUserInput
+  savedProducts?: Prisma.UserSavedProductUncheckedCreateNestedManyWithoutUserInput
+  userBadges?: Prisma.UserBadgeUncheckedCreateNestedManyWithoutUserInput
+  weatherLogs?: Prisma.WeatherLogUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutClinicInput = {
@@ -5245,6 +5458,9 @@ export type UserCreateWithoutReferredByInput = {
   giftPacksBought?: Prisma.GiftPackCreateNestedManyWithoutBuyerInput
   giftPacksRedeemed?: Prisma.GiftPackCreateNestedManyWithoutRedeemedByInput
   reminders?: Prisma.UserReminderCreateNestedManyWithoutUserInput
+  savedProducts?: Prisma.UserSavedProductCreateNestedManyWithoutUserInput
+  userBadges?: Prisma.UserBadgeCreateNestedManyWithoutUserInput
+  weatherLogs?: Prisma.WeatherLogCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutReferredByInput = {
@@ -5310,6 +5526,9 @@ export type UserUncheckedCreateWithoutReferredByInput = {
   giftPacksBought?: Prisma.GiftPackUncheckedCreateNestedManyWithoutBuyerInput
   giftPacksRedeemed?: Prisma.GiftPackUncheckedCreateNestedManyWithoutRedeemedByInput
   reminders?: Prisma.UserReminderUncheckedCreateNestedManyWithoutUserInput
+  savedProducts?: Prisma.UserSavedProductUncheckedCreateNestedManyWithoutUserInput
+  userBadges?: Prisma.UserBadgeUncheckedCreateNestedManyWithoutUserInput
+  weatherLogs?: Prisma.WeatherLogUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutReferredByInput = {
@@ -5396,6 +5615,9 @@ export type UserUpdateWithoutClinicInput = {
   giftPacksRedeemed?: Prisma.GiftPackUpdateManyWithoutRedeemedByNestedInput
   reminders?: Prisma.UserReminderUpdateManyWithoutUserNestedInput
   referredBy?: Prisma.ClinicUpdateOneWithoutReferredUsersNestedInput
+  savedProducts?: Prisma.UserSavedProductUpdateManyWithoutUserNestedInput
+  userBadges?: Prisma.UserBadgeUpdateManyWithoutUserNestedInput
+  weatherLogs?: Prisma.WeatherLogUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutClinicInput = {
@@ -5461,6 +5683,9 @@ export type UserUncheckedUpdateWithoutClinicInput = {
   giftPacksBought?: Prisma.GiftPackUncheckedUpdateManyWithoutBuyerNestedInput
   giftPacksRedeemed?: Prisma.GiftPackUncheckedUpdateManyWithoutRedeemedByNestedInput
   reminders?: Prisma.UserReminderUncheckedUpdateManyWithoutUserNestedInput
+  savedProducts?: Prisma.UserSavedProductUncheckedUpdateManyWithoutUserNestedInput
+  userBadges?: Prisma.UserBadgeUncheckedUpdateManyWithoutUserNestedInput
+  weatherLogs?: Prisma.WeatherLogUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserUpsertWithWhereUniqueWithoutReferredByInput = {
@@ -5573,6 +5798,9 @@ export type UserCreateWithoutAffiliateClicksInput = {
   giftPacksRedeemed?: Prisma.GiftPackCreateNestedManyWithoutRedeemedByInput
   reminders?: Prisma.UserReminderCreateNestedManyWithoutUserInput
   referredBy?: Prisma.ClinicCreateNestedOneWithoutReferredUsersInput
+  savedProducts?: Prisma.UserSavedProductCreateNestedManyWithoutUserInput
+  userBadges?: Prisma.UserBadgeCreateNestedManyWithoutUserInput
+  weatherLogs?: Prisma.WeatherLogCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutAffiliateClicksInput = {
@@ -5638,6 +5866,9 @@ export type UserUncheckedCreateWithoutAffiliateClicksInput = {
   giftPacksBought?: Prisma.GiftPackUncheckedCreateNestedManyWithoutBuyerInput
   giftPacksRedeemed?: Prisma.GiftPackUncheckedCreateNestedManyWithoutRedeemedByInput
   reminders?: Prisma.UserReminderUncheckedCreateNestedManyWithoutUserInput
+  savedProducts?: Prisma.UserSavedProductUncheckedCreateNestedManyWithoutUserInput
+  userBadges?: Prisma.UserBadgeUncheckedCreateNestedManyWithoutUserInput
+  weatherLogs?: Prisma.WeatherLogUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutAffiliateClicksInput = {
@@ -5719,6 +5950,9 @@ export type UserUpdateWithoutAffiliateClicksInput = {
   giftPacksRedeemed?: Prisma.GiftPackUpdateManyWithoutRedeemedByNestedInput
   reminders?: Prisma.UserReminderUpdateManyWithoutUserNestedInput
   referredBy?: Prisma.ClinicUpdateOneWithoutReferredUsersNestedInput
+  savedProducts?: Prisma.UserSavedProductUpdateManyWithoutUserNestedInput
+  userBadges?: Prisma.UserBadgeUpdateManyWithoutUserNestedInput
+  weatherLogs?: Prisma.WeatherLogUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutAffiliateClicksInput = {
@@ -5784,6 +6018,9 @@ export type UserUncheckedUpdateWithoutAffiliateClicksInput = {
   giftPacksBought?: Prisma.GiftPackUncheckedUpdateManyWithoutBuyerNestedInput
   giftPacksRedeemed?: Prisma.GiftPackUncheckedUpdateManyWithoutRedeemedByNestedInput
   reminders?: Prisma.UserReminderUncheckedUpdateManyWithoutUserNestedInput
+  savedProducts?: Prisma.UserSavedProductUncheckedUpdateManyWithoutUserNestedInput
+  userBadges?: Prisma.UserBadgeUncheckedUpdateManyWithoutUserNestedInput
+  weatherLogs?: Prisma.WeatherLogUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutContactMessagesInput = {
@@ -5849,6 +6086,9 @@ export type UserCreateWithoutContactMessagesInput = {
   giftPacksRedeemed?: Prisma.GiftPackCreateNestedManyWithoutRedeemedByInput
   reminders?: Prisma.UserReminderCreateNestedManyWithoutUserInput
   referredBy?: Prisma.ClinicCreateNestedOneWithoutReferredUsersInput
+  savedProducts?: Prisma.UserSavedProductCreateNestedManyWithoutUserInput
+  userBadges?: Prisma.UserBadgeCreateNestedManyWithoutUserInput
+  weatherLogs?: Prisma.WeatherLogCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutContactMessagesInput = {
@@ -5914,6 +6154,9 @@ export type UserUncheckedCreateWithoutContactMessagesInput = {
   giftPacksBought?: Prisma.GiftPackUncheckedCreateNestedManyWithoutBuyerInput
   giftPacksRedeemed?: Prisma.GiftPackUncheckedCreateNestedManyWithoutRedeemedByInput
   reminders?: Prisma.UserReminderUncheckedCreateNestedManyWithoutUserInput
+  savedProducts?: Prisma.UserSavedProductUncheckedCreateNestedManyWithoutUserInput
+  userBadges?: Prisma.UserBadgeUncheckedCreateNestedManyWithoutUserInput
+  weatherLogs?: Prisma.WeatherLogUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutContactMessagesInput = {
@@ -5995,6 +6238,9 @@ export type UserUpdateWithoutContactMessagesInput = {
   giftPacksRedeemed?: Prisma.GiftPackUpdateManyWithoutRedeemedByNestedInput
   reminders?: Prisma.UserReminderUpdateManyWithoutUserNestedInput
   referredBy?: Prisma.ClinicUpdateOneWithoutReferredUsersNestedInput
+  savedProducts?: Prisma.UserSavedProductUpdateManyWithoutUserNestedInput
+  userBadges?: Prisma.UserBadgeUpdateManyWithoutUserNestedInput
+  weatherLogs?: Prisma.WeatherLogUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutContactMessagesInput = {
@@ -6060,6 +6306,9 @@ export type UserUncheckedUpdateWithoutContactMessagesInput = {
   giftPacksBought?: Prisma.GiftPackUncheckedUpdateManyWithoutBuyerNestedInput
   giftPacksRedeemed?: Prisma.GiftPackUncheckedUpdateManyWithoutRedeemedByNestedInput
   reminders?: Prisma.UserReminderUncheckedUpdateManyWithoutUserNestedInput
+  savedProducts?: Prisma.UserSavedProductUncheckedUpdateManyWithoutUserNestedInput
+  userBadges?: Prisma.UserBadgeUncheckedUpdateManyWithoutUserNestedInput
+  weatherLogs?: Prisma.WeatherLogUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutEvolutionInput = {
@@ -6125,6 +6374,9 @@ export type UserCreateWithoutEvolutionInput = {
   giftPacksRedeemed?: Prisma.GiftPackCreateNestedManyWithoutRedeemedByInput
   reminders?: Prisma.UserReminderCreateNestedManyWithoutUserInput
   referredBy?: Prisma.ClinicCreateNestedOneWithoutReferredUsersInput
+  savedProducts?: Prisma.UserSavedProductCreateNestedManyWithoutUserInput
+  userBadges?: Prisma.UserBadgeCreateNestedManyWithoutUserInput
+  weatherLogs?: Prisma.WeatherLogCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutEvolutionInput = {
@@ -6190,6 +6442,9 @@ export type UserUncheckedCreateWithoutEvolutionInput = {
   giftPacksBought?: Prisma.GiftPackUncheckedCreateNestedManyWithoutBuyerInput
   giftPacksRedeemed?: Prisma.GiftPackUncheckedCreateNestedManyWithoutRedeemedByInput
   reminders?: Prisma.UserReminderUncheckedCreateNestedManyWithoutUserInput
+  savedProducts?: Prisma.UserSavedProductUncheckedCreateNestedManyWithoutUserInput
+  userBadges?: Prisma.UserBadgeUncheckedCreateNestedManyWithoutUserInput
+  weatherLogs?: Prisma.WeatherLogUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutEvolutionInput = {
@@ -6271,6 +6526,9 @@ export type UserUpdateWithoutEvolutionInput = {
   giftPacksRedeemed?: Prisma.GiftPackUpdateManyWithoutRedeemedByNestedInput
   reminders?: Prisma.UserReminderUpdateManyWithoutUserNestedInput
   referredBy?: Prisma.ClinicUpdateOneWithoutReferredUsersNestedInput
+  savedProducts?: Prisma.UserSavedProductUpdateManyWithoutUserNestedInput
+  userBadges?: Prisma.UserBadgeUpdateManyWithoutUserNestedInput
+  weatherLogs?: Prisma.WeatherLogUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutEvolutionInput = {
@@ -6336,6 +6594,9 @@ export type UserUncheckedUpdateWithoutEvolutionInput = {
   giftPacksBought?: Prisma.GiftPackUncheckedUpdateManyWithoutBuyerNestedInput
   giftPacksRedeemed?: Prisma.GiftPackUncheckedUpdateManyWithoutRedeemedByNestedInput
   reminders?: Prisma.UserReminderUncheckedUpdateManyWithoutUserNestedInput
+  savedProducts?: Prisma.UserSavedProductUncheckedUpdateManyWithoutUserNestedInput
+  userBadges?: Prisma.UserBadgeUncheckedUpdateManyWithoutUserNestedInput
+  weatherLogs?: Prisma.WeatherLogUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutSurveyFeedbackInput = {
@@ -6401,6 +6662,9 @@ export type UserCreateWithoutSurveyFeedbackInput = {
   giftPacksRedeemed?: Prisma.GiftPackCreateNestedManyWithoutRedeemedByInput
   reminders?: Prisma.UserReminderCreateNestedManyWithoutUserInput
   referredBy?: Prisma.ClinicCreateNestedOneWithoutReferredUsersInput
+  savedProducts?: Prisma.UserSavedProductCreateNestedManyWithoutUserInput
+  userBadges?: Prisma.UserBadgeCreateNestedManyWithoutUserInput
+  weatherLogs?: Prisma.WeatherLogCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutSurveyFeedbackInput = {
@@ -6466,6 +6730,9 @@ export type UserUncheckedCreateWithoutSurveyFeedbackInput = {
   giftPacksBought?: Prisma.GiftPackUncheckedCreateNestedManyWithoutBuyerInput
   giftPacksRedeemed?: Prisma.GiftPackUncheckedCreateNestedManyWithoutRedeemedByInput
   reminders?: Prisma.UserReminderUncheckedCreateNestedManyWithoutUserInput
+  savedProducts?: Prisma.UserSavedProductUncheckedCreateNestedManyWithoutUserInput
+  userBadges?: Prisma.UserBadgeUncheckedCreateNestedManyWithoutUserInput
+  weatherLogs?: Prisma.WeatherLogUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutSurveyFeedbackInput = {
@@ -6547,6 +6814,9 @@ export type UserUpdateWithoutSurveyFeedbackInput = {
   giftPacksRedeemed?: Prisma.GiftPackUpdateManyWithoutRedeemedByNestedInput
   reminders?: Prisma.UserReminderUpdateManyWithoutUserNestedInput
   referredBy?: Prisma.ClinicUpdateOneWithoutReferredUsersNestedInput
+  savedProducts?: Prisma.UserSavedProductUpdateManyWithoutUserNestedInput
+  userBadges?: Prisma.UserBadgeUpdateManyWithoutUserNestedInput
+  weatherLogs?: Prisma.WeatherLogUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutSurveyFeedbackInput = {
@@ -6612,6 +6882,9 @@ export type UserUncheckedUpdateWithoutSurveyFeedbackInput = {
   giftPacksBought?: Prisma.GiftPackUncheckedUpdateManyWithoutBuyerNestedInput
   giftPacksRedeemed?: Prisma.GiftPackUncheckedUpdateManyWithoutRedeemedByNestedInput
   reminders?: Prisma.UserReminderUncheckedUpdateManyWithoutUserNestedInput
+  savedProducts?: Prisma.UserSavedProductUncheckedUpdateManyWithoutUserNestedInput
+  userBadges?: Prisma.UserBadgeUncheckedUpdateManyWithoutUserNestedInput
+  weatherLogs?: Prisma.WeatherLogUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutCommunityPostsInput = {
@@ -6677,6 +6950,9 @@ export type UserCreateWithoutCommunityPostsInput = {
   giftPacksRedeemed?: Prisma.GiftPackCreateNestedManyWithoutRedeemedByInput
   reminders?: Prisma.UserReminderCreateNestedManyWithoutUserInput
   referredBy?: Prisma.ClinicCreateNestedOneWithoutReferredUsersInput
+  savedProducts?: Prisma.UserSavedProductCreateNestedManyWithoutUserInput
+  userBadges?: Prisma.UserBadgeCreateNestedManyWithoutUserInput
+  weatherLogs?: Prisma.WeatherLogCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutCommunityPostsInput = {
@@ -6742,6 +7018,9 @@ export type UserUncheckedCreateWithoutCommunityPostsInput = {
   giftPacksBought?: Prisma.GiftPackUncheckedCreateNestedManyWithoutBuyerInput
   giftPacksRedeemed?: Prisma.GiftPackUncheckedCreateNestedManyWithoutRedeemedByInput
   reminders?: Prisma.UserReminderUncheckedCreateNestedManyWithoutUserInput
+  savedProducts?: Prisma.UserSavedProductUncheckedCreateNestedManyWithoutUserInput
+  userBadges?: Prisma.UserBadgeUncheckedCreateNestedManyWithoutUserInput
+  weatherLogs?: Prisma.WeatherLogUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutCommunityPostsInput = {
@@ -6823,6 +7102,9 @@ export type UserUpdateWithoutCommunityPostsInput = {
   giftPacksRedeemed?: Prisma.GiftPackUpdateManyWithoutRedeemedByNestedInput
   reminders?: Prisma.UserReminderUpdateManyWithoutUserNestedInput
   referredBy?: Prisma.ClinicUpdateOneWithoutReferredUsersNestedInput
+  savedProducts?: Prisma.UserSavedProductUpdateManyWithoutUserNestedInput
+  userBadges?: Prisma.UserBadgeUpdateManyWithoutUserNestedInput
+  weatherLogs?: Prisma.WeatherLogUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutCommunityPostsInput = {
@@ -6888,6 +7170,9 @@ export type UserUncheckedUpdateWithoutCommunityPostsInput = {
   giftPacksBought?: Prisma.GiftPackUncheckedUpdateManyWithoutBuyerNestedInput
   giftPacksRedeemed?: Prisma.GiftPackUncheckedUpdateManyWithoutRedeemedByNestedInput
   reminders?: Prisma.UserReminderUncheckedUpdateManyWithoutUserNestedInput
+  savedProducts?: Prisma.UserSavedProductUncheckedUpdateManyWithoutUserNestedInput
+  userBadges?: Prisma.UserBadgeUncheckedUpdateManyWithoutUserNestedInput
+  weatherLogs?: Prisma.WeatherLogUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutCommentsInput = {
@@ -6953,6 +7238,9 @@ export type UserCreateWithoutCommentsInput = {
   giftPacksRedeemed?: Prisma.GiftPackCreateNestedManyWithoutRedeemedByInput
   reminders?: Prisma.UserReminderCreateNestedManyWithoutUserInput
   referredBy?: Prisma.ClinicCreateNestedOneWithoutReferredUsersInput
+  savedProducts?: Prisma.UserSavedProductCreateNestedManyWithoutUserInput
+  userBadges?: Prisma.UserBadgeCreateNestedManyWithoutUserInput
+  weatherLogs?: Prisma.WeatherLogCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutCommentsInput = {
@@ -7018,6 +7306,9 @@ export type UserUncheckedCreateWithoutCommentsInput = {
   giftPacksBought?: Prisma.GiftPackUncheckedCreateNestedManyWithoutBuyerInput
   giftPacksRedeemed?: Prisma.GiftPackUncheckedCreateNestedManyWithoutRedeemedByInput
   reminders?: Prisma.UserReminderUncheckedCreateNestedManyWithoutUserInput
+  savedProducts?: Prisma.UserSavedProductUncheckedCreateNestedManyWithoutUserInput
+  userBadges?: Prisma.UserBadgeUncheckedCreateNestedManyWithoutUserInput
+  weatherLogs?: Prisma.WeatherLogUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutCommentsInput = {
@@ -7099,6 +7390,9 @@ export type UserUpdateWithoutCommentsInput = {
   giftPacksRedeemed?: Prisma.GiftPackUpdateManyWithoutRedeemedByNestedInput
   reminders?: Prisma.UserReminderUpdateManyWithoutUserNestedInput
   referredBy?: Prisma.ClinicUpdateOneWithoutReferredUsersNestedInput
+  savedProducts?: Prisma.UserSavedProductUpdateManyWithoutUserNestedInput
+  userBadges?: Prisma.UserBadgeUpdateManyWithoutUserNestedInput
+  weatherLogs?: Prisma.WeatherLogUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutCommentsInput = {
@@ -7164,6 +7458,9 @@ export type UserUncheckedUpdateWithoutCommentsInput = {
   giftPacksBought?: Prisma.GiftPackUncheckedUpdateManyWithoutBuyerNestedInput
   giftPacksRedeemed?: Prisma.GiftPackUncheckedUpdateManyWithoutRedeemedByNestedInput
   reminders?: Prisma.UserReminderUncheckedUpdateManyWithoutUserNestedInput
+  savedProducts?: Prisma.UserSavedProductUncheckedUpdateManyWithoutUserNestedInput
+  userBadges?: Prisma.UserBadgeUncheckedUpdateManyWithoutUserNestedInput
+  weatherLogs?: Prisma.WeatherLogUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutCommunityGroupsInput = {
@@ -7229,6 +7526,9 @@ export type UserCreateWithoutCommunityGroupsInput = {
   giftPacksRedeemed?: Prisma.GiftPackCreateNestedManyWithoutRedeemedByInput
   reminders?: Prisma.UserReminderCreateNestedManyWithoutUserInput
   referredBy?: Prisma.ClinicCreateNestedOneWithoutReferredUsersInput
+  savedProducts?: Prisma.UserSavedProductCreateNestedManyWithoutUserInput
+  userBadges?: Prisma.UserBadgeCreateNestedManyWithoutUserInput
+  weatherLogs?: Prisma.WeatherLogCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutCommunityGroupsInput = {
@@ -7294,6 +7594,9 @@ export type UserUncheckedCreateWithoutCommunityGroupsInput = {
   giftPacksBought?: Prisma.GiftPackUncheckedCreateNestedManyWithoutBuyerInput
   giftPacksRedeemed?: Prisma.GiftPackUncheckedCreateNestedManyWithoutRedeemedByInput
   reminders?: Prisma.UserReminderUncheckedCreateNestedManyWithoutUserInput
+  savedProducts?: Prisma.UserSavedProductUncheckedCreateNestedManyWithoutUserInput
+  userBadges?: Prisma.UserBadgeUncheckedCreateNestedManyWithoutUserInput
+  weatherLogs?: Prisma.WeatherLogUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutCommunityGroupsInput = {
@@ -7375,6 +7678,9 @@ export type UserUpdateWithoutCommunityGroupsInput = {
   giftPacksRedeemed?: Prisma.GiftPackUpdateManyWithoutRedeemedByNestedInput
   reminders?: Prisma.UserReminderUpdateManyWithoutUserNestedInput
   referredBy?: Prisma.ClinicUpdateOneWithoutReferredUsersNestedInput
+  savedProducts?: Prisma.UserSavedProductUpdateManyWithoutUserNestedInput
+  userBadges?: Prisma.UserBadgeUpdateManyWithoutUserNestedInput
+  weatherLogs?: Prisma.WeatherLogUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutCommunityGroupsInput = {
@@ -7440,6 +7746,9 @@ export type UserUncheckedUpdateWithoutCommunityGroupsInput = {
   giftPacksBought?: Prisma.GiftPackUncheckedUpdateManyWithoutBuyerNestedInput
   giftPacksRedeemed?: Prisma.GiftPackUncheckedUpdateManyWithoutRedeemedByNestedInput
   reminders?: Prisma.UserReminderUncheckedUpdateManyWithoutUserNestedInput
+  savedProducts?: Prisma.UserSavedProductUncheckedUpdateManyWithoutUserNestedInput
+  userBadges?: Prisma.UserBadgeUncheckedUpdateManyWithoutUserNestedInput
+  weatherLogs?: Prisma.WeatherLogUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutCommunityMembershipsInput = {
@@ -7505,6 +7814,9 @@ export type UserCreateWithoutCommunityMembershipsInput = {
   giftPacksRedeemed?: Prisma.GiftPackCreateNestedManyWithoutRedeemedByInput
   reminders?: Prisma.UserReminderCreateNestedManyWithoutUserInput
   referredBy?: Prisma.ClinicCreateNestedOneWithoutReferredUsersInput
+  savedProducts?: Prisma.UserSavedProductCreateNestedManyWithoutUserInput
+  userBadges?: Prisma.UserBadgeCreateNestedManyWithoutUserInput
+  weatherLogs?: Prisma.WeatherLogCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutCommunityMembershipsInput = {
@@ -7570,6 +7882,9 @@ export type UserUncheckedCreateWithoutCommunityMembershipsInput = {
   giftPacksBought?: Prisma.GiftPackUncheckedCreateNestedManyWithoutBuyerInput
   giftPacksRedeemed?: Prisma.GiftPackUncheckedCreateNestedManyWithoutRedeemedByInput
   reminders?: Prisma.UserReminderUncheckedCreateNestedManyWithoutUserInput
+  savedProducts?: Prisma.UserSavedProductUncheckedCreateNestedManyWithoutUserInput
+  userBadges?: Prisma.UserBadgeUncheckedCreateNestedManyWithoutUserInput
+  weatherLogs?: Prisma.WeatherLogUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutCommunityMembershipsInput = {
@@ -7651,6 +7966,9 @@ export type UserUpdateWithoutCommunityMembershipsInput = {
   giftPacksRedeemed?: Prisma.GiftPackUpdateManyWithoutRedeemedByNestedInput
   reminders?: Prisma.UserReminderUpdateManyWithoutUserNestedInput
   referredBy?: Prisma.ClinicUpdateOneWithoutReferredUsersNestedInput
+  savedProducts?: Prisma.UserSavedProductUpdateManyWithoutUserNestedInput
+  userBadges?: Prisma.UserBadgeUpdateManyWithoutUserNestedInput
+  weatherLogs?: Prisma.WeatherLogUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutCommunityMembershipsInput = {
@@ -7716,6 +8034,9 @@ export type UserUncheckedUpdateWithoutCommunityMembershipsInput = {
   giftPacksBought?: Prisma.GiftPackUncheckedUpdateManyWithoutBuyerNestedInput
   giftPacksRedeemed?: Prisma.GiftPackUncheckedUpdateManyWithoutRedeemedByNestedInput
   reminders?: Prisma.UserReminderUncheckedUpdateManyWithoutUserNestedInput
+  savedProducts?: Prisma.UserSavedProductUncheckedUpdateManyWithoutUserNestedInput
+  userBadges?: Prisma.UserBadgeUncheckedUpdateManyWithoutUserNestedInput
+  weatherLogs?: Prisma.WeatherLogUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutPostReactionsInput = {
@@ -7781,6 +8102,9 @@ export type UserCreateWithoutPostReactionsInput = {
   giftPacksRedeemed?: Prisma.GiftPackCreateNestedManyWithoutRedeemedByInput
   reminders?: Prisma.UserReminderCreateNestedManyWithoutUserInput
   referredBy?: Prisma.ClinicCreateNestedOneWithoutReferredUsersInput
+  savedProducts?: Prisma.UserSavedProductCreateNestedManyWithoutUserInput
+  userBadges?: Prisma.UserBadgeCreateNestedManyWithoutUserInput
+  weatherLogs?: Prisma.WeatherLogCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutPostReactionsInput = {
@@ -7846,6 +8170,9 @@ export type UserUncheckedCreateWithoutPostReactionsInput = {
   giftPacksBought?: Prisma.GiftPackUncheckedCreateNestedManyWithoutBuyerInput
   giftPacksRedeemed?: Prisma.GiftPackUncheckedCreateNestedManyWithoutRedeemedByInput
   reminders?: Prisma.UserReminderUncheckedCreateNestedManyWithoutUserInput
+  savedProducts?: Prisma.UserSavedProductUncheckedCreateNestedManyWithoutUserInput
+  userBadges?: Prisma.UserBadgeUncheckedCreateNestedManyWithoutUserInput
+  weatherLogs?: Prisma.WeatherLogUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutPostReactionsInput = {
@@ -7927,6 +8254,9 @@ export type UserUpdateWithoutPostReactionsInput = {
   giftPacksRedeemed?: Prisma.GiftPackUpdateManyWithoutRedeemedByNestedInput
   reminders?: Prisma.UserReminderUpdateManyWithoutUserNestedInput
   referredBy?: Prisma.ClinicUpdateOneWithoutReferredUsersNestedInput
+  savedProducts?: Prisma.UserSavedProductUpdateManyWithoutUserNestedInput
+  userBadges?: Prisma.UserBadgeUpdateManyWithoutUserNestedInput
+  weatherLogs?: Prisma.WeatherLogUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutPostReactionsInput = {
@@ -7992,6 +8322,9 @@ export type UserUncheckedUpdateWithoutPostReactionsInput = {
   giftPacksBought?: Prisma.GiftPackUncheckedUpdateManyWithoutBuyerNestedInput
   giftPacksRedeemed?: Prisma.GiftPackUncheckedUpdateManyWithoutRedeemedByNestedInput
   reminders?: Prisma.UserReminderUncheckedUpdateManyWithoutUserNestedInput
+  savedProducts?: Prisma.UserSavedProductUncheckedUpdateManyWithoutUserNestedInput
+  userBadges?: Prisma.UserBadgeUncheckedUpdateManyWithoutUserNestedInput
+  weatherLogs?: Prisma.WeatherLogUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutSkinDiaryInput = {
@@ -8057,6 +8390,9 @@ export type UserCreateWithoutSkinDiaryInput = {
   giftPacksRedeemed?: Prisma.GiftPackCreateNestedManyWithoutRedeemedByInput
   reminders?: Prisma.UserReminderCreateNestedManyWithoutUserInput
   referredBy?: Prisma.ClinicCreateNestedOneWithoutReferredUsersInput
+  savedProducts?: Prisma.UserSavedProductCreateNestedManyWithoutUserInput
+  userBadges?: Prisma.UserBadgeCreateNestedManyWithoutUserInput
+  weatherLogs?: Prisma.WeatherLogCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutSkinDiaryInput = {
@@ -8122,6 +8458,9 @@ export type UserUncheckedCreateWithoutSkinDiaryInput = {
   giftPacksBought?: Prisma.GiftPackUncheckedCreateNestedManyWithoutBuyerInput
   giftPacksRedeemed?: Prisma.GiftPackUncheckedCreateNestedManyWithoutRedeemedByInput
   reminders?: Prisma.UserReminderUncheckedCreateNestedManyWithoutUserInput
+  savedProducts?: Prisma.UserSavedProductUncheckedCreateNestedManyWithoutUserInput
+  userBadges?: Prisma.UserBadgeUncheckedCreateNestedManyWithoutUserInput
+  weatherLogs?: Prisma.WeatherLogUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutSkinDiaryInput = {
@@ -8203,6 +8542,9 @@ export type UserUpdateWithoutSkinDiaryInput = {
   giftPacksRedeemed?: Prisma.GiftPackUpdateManyWithoutRedeemedByNestedInput
   reminders?: Prisma.UserReminderUpdateManyWithoutUserNestedInput
   referredBy?: Prisma.ClinicUpdateOneWithoutReferredUsersNestedInput
+  savedProducts?: Prisma.UserSavedProductUpdateManyWithoutUserNestedInput
+  userBadges?: Prisma.UserBadgeUpdateManyWithoutUserNestedInput
+  weatherLogs?: Prisma.WeatherLogUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutSkinDiaryInput = {
@@ -8268,6 +8610,9 @@ export type UserUncheckedUpdateWithoutSkinDiaryInput = {
   giftPacksBought?: Prisma.GiftPackUncheckedUpdateManyWithoutBuyerNestedInput
   giftPacksRedeemed?: Prisma.GiftPackUncheckedUpdateManyWithoutRedeemedByNestedInput
   reminders?: Prisma.UserReminderUncheckedUpdateManyWithoutUserNestedInput
+  savedProducts?: Prisma.UserSavedProductUncheckedUpdateManyWithoutUserNestedInput
+  userBadges?: Prisma.UserBadgeUncheckedUpdateManyWithoutUserNestedInput
+  weatherLogs?: Prisma.WeatherLogUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutUserChallengesInput = {
@@ -8333,6 +8678,9 @@ export type UserCreateWithoutUserChallengesInput = {
   giftPacksRedeemed?: Prisma.GiftPackCreateNestedManyWithoutRedeemedByInput
   reminders?: Prisma.UserReminderCreateNestedManyWithoutUserInput
   referredBy?: Prisma.ClinicCreateNestedOneWithoutReferredUsersInput
+  savedProducts?: Prisma.UserSavedProductCreateNestedManyWithoutUserInput
+  userBadges?: Prisma.UserBadgeCreateNestedManyWithoutUserInput
+  weatherLogs?: Prisma.WeatherLogCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutUserChallengesInput = {
@@ -8398,6 +8746,9 @@ export type UserUncheckedCreateWithoutUserChallengesInput = {
   giftPacksBought?: Prisma.GiftPackUncheckedCreateNestedManyWithoutBuyerInput
   giftPacksRedeemed?: Prisma.GiftPackUncheckedCreateNestedManyWithoutRedeemedByInput
   reminders?: Prisma.UserReminderUncheckedCreateNestedManyWithoutUserInput
+  savedProducts?: Prisma.UserSavedProductUncheckedCreateNestedManyWithoutUserInput
+  userBadges?: Prisma.UserBadgeUncheckedCreateNestedManyWithoutUserInput
+  weatherLogs?: Prisma.WeatherLogUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutUserChallengesInput = {
@@ -8479,6 +8830,9 @@ export type UserUpdateWithoutUserChallengesInput = {
   giftPacksRedeemed?: Prisma.GiftPackUpdateManyWithoutRedeemedByNestedInput
   reminders?: Prisma.UserReminderUpdateManyWithoutUserNestedInput
   referredBy?: Prisma.ClinicUpdateOneWithoutReferredUsersNestedInput
+  savedProducts?: Prisma.UserSavedProductUpdateManyWithoutUserNestedInput
+  userBadges?: Prisma.UserBadgeUpdateManyWithoutUserNestedInput
+  weatherLogs?: Prisma.WeatherLogUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutUserChallengesInput = {
@@ -8544,6 +8898,9 @@ export type UserUncheckedUpdateWithoutUserChallengesInput = {
   giftPacksBought?: Prisma.GiftPackUncheckedUpdateManyWithoutBuyerNestedInput
   giftPacksRedeemed?: Prisma.GiftPackUncheckedUpdateManyWithoutRedeemedByNestedInput
   reminders?: Prisma.UserReminderUncheckedUpdateManyWithoutUserNestedInput
+  savedProducts?: Prisma.UserSavedProductUncheckedUpdateManyWithoutUserNestedInput
+  userBadges?: Prisma.UserBadgeUncheckedUpdateManyWithoutUserNestedInput
+  weatherLogs?: Prisma.WeatherLogUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutProductReviewsInput = {
@@ -8609,6 +8966,9 @@ export type UserCreateWithoutProductReviewsInput = {
   giftPacksRedeemed?: Prisma.GiftPackCreateNestedManyWithoutRedeemedByInput
   reminders?: Prisma.UserReminderCreateNestedManyWithoutUserInput
   referredBy?: Prisma.ClinicCreateNestedOneWithoutReferredUsersInput
+  savedProducts?: Prisma.UserSavedProductCreateNestedManyWithoutUserInput
+  userBadges?: Prisma.UserBadgeCreateNestedManyWithoutUserInput
+  weatherLogs?: Prisma.WeatherLogCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutProductReviewsInput = {
@@ -8674,6 +9034,9 @@ export type UserUncheckedCreateWithoutProductReviewsInput = {
   giftPacksBought?: Prisma.GiftPackUncheckedCreateNestedManyWithoutBuyerInput
   giftPacksRedeemed?: Prisma.GiftPackUncheckedCreateNestedManyWithoutRedeemedByInput
   reminders?: Prisma.UserReminderUncheckedCreateNestedManyWithoutUserInput
+  savedProducts?: Prisma.UserSavedProductUncheckedCreateNestedManyWithoutUserInput
+  userBadges?: Prisma.UserBadgeUncheckedCreateNestedManyWithoutUserInput
+  weatherLogs?: Prisma.WeatherLogUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutProductReviewsInput = {
@@ -8755,6 +9118,9 @@ export type UserUpdateWithoutProductReviewsInput = {
   giftPacksRedeemed?: Prisma.GiftPackUpdateManyWithoutRedeemedByNestedInput
   reminders?: Prisma.UserReminderUpdateManyWithoutUserNestedInput
   referredBy?: Prisma.ClinicUpdateOneWithoutReferredUsersNestedInput
+  savedProducts?: Prisma.UserSavedProductUpdateManyWithoutUserNestedInput
+  userBadges?: Prisma.UserBadgeUpdateManyWithoutUserNestedInput
+  weatherLogs?: Prisma.WeatherLogUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutProductReviewsInput = {
@@ -8820,6 +9186,9 @@ export type UserUncheckedUpdateWithoutProductReviewsInput = {
   giftPacksBought?: Prisma.GiftPackUncheckedUpdateManyWithoutBuyerNestedInput
   giftPacksRedeemed?: Prisma.GiftPackUncheckedUpdateManyWithoutRedeemedByNestedInput
   reminders?: Prisma.UserReminderUncheckedUpdateManyWithoutUserNestedInput
+  savedProducts?: Prisma.UserSavedProductUncheckedUpdateManyWithoutUserNestedInput
+  userBadges?: Prisma.UserBadgeUncheckedUpdateManyWithoutUserNestedInput
+  weatherLogs?: Prisma.WeatherLogUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutGroupsOwnedInput = {
@@ -8885,6 +9254,9 @@ export type UserCreateWithoutGroupsOwnedInput = {
   giftPacksRedeemed?: Prisma.GiftPackCreateNestedManyWithoutRedeemedByInput
   reminders?: Prisma.UserReminderCreateNestedManyWithoutUserInput
   referredBy?: Prisma.ClinicCreateNestedOneWithoutReferredUsersInput
+  savedProducts?: Prisma.UserSavedProductCreateNestedManyWithoutUserInput
+  userBadges?: Prisma.UserBadgeCreateNestedManyWithoutUserInput
+  weatherLogs?: Prisma.WeatherLogCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutGroupsOwnedInput = {
@@ -8950,6 +9322,9 @@ export type UserUncheckedCreateWithoutGroupsOwnedInput = {
   giftPacksBought?: Prisma.GiftPackUncheckedCreateNestedManyWithoutBuyerInput
   giftPacksRedeemed?: Prisma.GiftPackUncheckedCreateNestedManyWithoutRedeemedByInput
   reminders?: Prisma.UserReminderUncheckedCreateNestedManyWithoutUserInput
+  savedProducts?: Prisma.UserSavedProductUncheckedCreateNestedManyWithoutUserInput
+  userBadges?: Prisma.UserBadgeUncheckedCreateNestedManyWithoutUserInput
+  weatherLogs?: Prisma.WeatherLogUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutGroupsOwnedInput = {
@@ -9031,6 +9406,9 @@ export type UserUpdateWithoutGroupsOwnedInput = {
   giftPacksRedeemed?: Prisma.GiftPackUpdateManyWithoutRedeemedByNestedInput
   reminders?: Prisma.UserReminderUpdateManyWithoutUserNestedInput
   referredBy?: Prisma.ClinicUpdateOneWithoutReferredUsersNestedInput
+  savedProducts?: Prisma.UserSavedProductUpdateManyWithoutUserNestedInput
+  userBadges?: Prisma.UserBadgeUpdateManyWithoutUserNestedInput
+  weatherLogs?: Prisma.WeatherLogUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutGroupsOwnedInput = {
@@ -9096,6 +9474,9 @@ export type UserUncheckedUpdateWithoutGroupsOwnedInput = {
   giftPacksBought?: Prisma.GiftPackUncheckedUpdateManyWithoutBuyerNestedInput
   giftPacksRedeemed?: Prisma.GiftPackUncheckedUpdateManyWithoutRedeemedByNestedInput
   reminders?: Prisma.UserReminderUncheckedUpdateManyWithoutUserNestedInput
+  savedProducts?: Prisma.UserSavedProductUncheckedUpdateManyWithoutUserNestedInput
+  userBadges?: Prisma.UserBadgeUncheckedUpdateManyWithoutUserNestedInput
+  weatherLogs?: Prisma.WeatherLogUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutReferralsOwnedInput = {
@@ -9161,6 +9542,9 @@ export type UserCreateWithoutReferralsOwnedInput = {
   giftPacksRedeemed?: Prisma.GiftPackCreateNestedManyWithoutRedeemedByInput
   reminders?: Prisma.UserReminderCreateNestedManyWithoutUserInput
   referredBy?: Prisma.ClinicCreateNestedOneWithoutReferredUsersInput
+  savedProducts?: Prisma.UserSavedProductCreateNestedManyWithoutUserInput
+  userBadges?: Prisma.UserBadgeCreateNestedManyWithoutUserInput
+  weatherLogs?: Prisma.WeatherLogCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutReferralsOwnedInput = {
@@ -9226,6 +9610,9 @@ export type UserUncheckedCreateWithoutReferralsOwnedInput = {
   giftPacksBought?: Prisma.GiftPackUncheckedCreateNestedManyWithoutBuyerInput
   giftPacksRedeemed?: Prisma.GiftPackUncheckedCreateNestedManyWithoutRedeemedByInput
   reminders?: Prisma.UserReminderUncheckedCreateNestedManyWithoutUserInput
+  savedProducts?: Prisma.UserSavedProductUncheckedCreateNestedManyWithoutUserInput
+  userBadges?: Prisma.UserBadgeUncheckedCreateNestedManyWithoutUserInput
+  weatherLogs?: Prisma.WeatherLogUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutReferralsOwnedInput = {
@@ -9296,6 +9683,9 @@ export type UserCreateWithoutReferralsReferredInput = {
   giftPacksRedeemed?: Prisma.GiftPackCreateNestedManyWithoutRedeemedByInput
   reminders?: Prisma.UserReminderCreateNestedManyWithoutUserInput
   referredBy?: Prisma.ClinicCreateNestedOneWithoutReferredUsersInput
+  savedProducts?: Prisma.UserSavedProductCreateNestedManyWithoutUserInput
+  userBadges?: Prisma.UserBadgeCreateNestedManyWithoutUserInput
+  weatherLogs?: Prisma.WeatherLogCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutReferralsReferredInput = {
@@ -9361,6 +9751,9 @@ export type UserUncheckedCreateWithoutReferralsReferredInput = {
   giftPacksBought?: Prisma.GiftPackUncheckedCreateNestedManyWithoutBuyerInput
   giftPacksRedeemed?: Prisma.GiftPackUncheckedCreateNestedManyWithoutRedeemedByInput
   reminders?: Prisma.UserReminderUncheckedCreateNestedManyWithoutUserInput
+  savedProducts?: Prisma.UserSavedProductUncheckedCreateNestedManyWithoutUserInput
+  userBadges?: Prisma.UserBadgeUncheckedCreateNestedManyWithoutUserInput
+  weatherLogs?: Prisma.WeatherLogUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutReferralsReferredInput = {
@@ -9442,6 +9835,9 @@ export type UserUpdateWithoutReferralsOwnedInput = {
   giftPacksRedeemed?: Prisma.GiftPackUpdateManyWithoutRedeemedByNestedInput
   reminders?: Prisma.UserReminderUpdateManyWithoutUserNestedInput
   referredBy?: Prisma.ClinicUpdateOneWithoutReferredUsersNestedInput
+  savedProducts?: Prisma.UserSavedProductUpdateManyWithoutUserNestedInput
+  userBadges?: Prisma.UserBadgeUpdateManyWithoutUserNestedInput
+  weatherLogs?: Prisma.WeatherLogUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutReferralsOwnedInput = {
@@ -9507,6 +9903,9 @@ export type UserUncheckedUpdateWithoutReferralsOwnedInput = {
   giftPacksBought?: Prisma.GiftPackUncheckedUpdateManyWithoutBuyerNestedInput
   giftPacksRedeemed?: Prisma.GiftPackUncheckedUpdateManyWithoutRedeemedByNestedInput
   reminders?: Prisma.UserReminderUncheckedUpdateManyWithoutUserNestedInput
+  savedProducts?: Prisma.UserSavedProductUncheckedUpdateManyWithoutUserNestedInput
+  userBadges?: Prisma.UserBadgeUncheckedUpdateManyWithoutUserNestedInput
+  weatherLogs?: Prisma.WeatherLogUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserUpsertWithoutReferralsReferredInput = {
@@ -9583,6 +9982,9 @@ export type UserUpdateWithoutReferralsReferredInput = {
   giftPacksRedeemed?: Prisma.GiftPackUpdateManyWithoutRedeemedByNestedInput
   reminders?: Prisma.UserReminderUpdateManyWithoutUserNestedInput
   referredBy?: Prisma.ClinicUpdateOneWithoutReferredUsersNestedInput
+  savedProducts?: Prisma.UserSavedProductUpdateManyWithoutUserNestedInput
+  userBadges?: Prisma.UserBadgeUpdateManyWithoutUserNestedInput
+  weatherLogs?: Prisma.WeatherLogUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutReferralsReferredInput = {
@@ -9648,6 +10050,9 @@ export type UserUncheckedUpdateWithoutReferralsReferredInput = {
   giftPacksBought?: Prisma.GiftPackUncheckedUpdateManyWithoutBuyerNestedInput
   giftPacksRedeemed?: Prisma.GiftPackUncheckedUpdateManyWithoutRedeemedByNestedInput
   reminders?: Prisma.UserReminderUncheckedUpdateManyWithoutUserNestedInput
+  savedProducts?: Prisma.UserSavedProductUncheckedUpdateManyWithoutUserNestedInput
+  userBadges?: Prisma.UserBadgeUncheckedUpdateManyWithoutUserNestedInput
+  weatherLogs?: Prisma.WeatherLogUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutDigitalPurchasesInput = {
@@ -9713,6 +10118,9 @@ export type UserCreateWithoutDigitalPurchasesInput = {
   giftPacksRedeemed?: Prisma.GiftPackCreateNestedManyWithoutRedeemedByInput
   reminders?: Prisma.UserReminderCreateNestedManyWithoutUserInput
   referredBy?: Prisma.ClinicCreateNestedOneWithoutReferredUsersInput
+  savedProducts?: Prisma.UserSavedProductCreateNestedManyWithoutUserInput
+  userBadges?: Prisma.UserBadgeCreateNestedManyWithoutUserInput
+  weatherLogs?: Prisma.WeatherLogCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutDigitalPurchasesInput = {
@@ -9778,6 +10186,9 @@ export type UserUncheckedCreateWithoutDigitalPurchasesInput = {
   giftPacksBought?: Prisma.GiftPackUncheckedCreateNestedManyWithoutBuyerInput
   giftPacksRedeemed?: Prisma.GiftPackUncheckedCreateNestedManyWithoutRedeemedByInput
   reminders?: Prisma.UserReminderUncheckedCreateNestedManyWithoutUserInput
+  savedProducts?: Prisma.UserSavedProductUncheckedCreateNestedManyWithoutUserInput
+  userBadges?: Prisma.UserBadgeUncheckedCreateNestedManyWithoutUserInput
+  weatherLogs?: Prisma.WeatherLogUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutDigitalPurchasesInput = {
@@ -9859,6 +10270,9 @@ export type UserUpdateWithoutDigitalPurchasesInput = {
   giftPacksRedeemed?: Prisma.GiftPackUpdateManyWithoutRedeemedByNestedInput
   reminders?: Prisma.UserReminderUpdateManyWithoutUserNestedInput
   referredBy?: Prisma.ClinicUpdateOneWithoutReferredUsersNestedInput
+  savedProducts?: Prisma.UserSavedProductUpdateManyWithoutUserNestedInput
+  userBadges?: Prisma.UserBadgeUpdateManyWithoutUserNestedInput
+  weatherLogs?: Prisma.WeatherLogUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutDigitalPurchasesInput = {
@@ -9924,6 +10338,9 @@ export type UserUncheckedUpdateWithoutDigitalPurchasesInput = {
   giftPacksBought?: Prisma.GiftPackUncheckedUpdateManyWithoutBuyerNestedInput
   giftPacksRedeemed?: Prisma.GiftPackUncheckedUpdateManyWithoutRedeemedByNestedInput
   reminders?: Prisma.UserReminderUncheckedUpdateManyWithoutUserNestedInput
+  savedProducts?: Prisma.UserSavedProductUncheckedUpdateManyWithoutUserNestedInput
+  userBadges?: Prisma.UserBadgeUncheckedUpdateManyWithoutUserNestedInput
+  weatherLogs?: Prisma.WeatherLogUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutCheckInsInput = {
@@ -9989,6 +10406,9 @@ export type UserCreateWithoutCheckInsInput = {
   giftPacksRedeemed?: Prisma.GiftPackCreateNestedManyWithoutRedeemedByInput
   reminders?: Prisma.UserReminderCreateNestedManyWithoutUserInput
   referredBy?: Prisma.ClinicCreateNestedOneWithoutReferredUsersInput
+  savedProducts?: Prisma.UserSavedProductCreateNestedManyWithoutUserInput
+  userBadges?: Prisma.UserBadgeCreateNestedManyWithoutUserInput
+  weatherLogs?: Prisma.WeatherLogCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutCheckInsInput = {
@@ -10054,6 +10474,9 @@ export type UserUncheckedCreateWithoutCheckInsInput = {
   giftPacksBought?: Prisma.GiftPackUncheckedCreateNestedManyWithoutBuyerInput
   giftPacksRedeemed?: Prisma.GiftPackUncheckedCreateNestedManyWithoutRedeemedByInput
   reminders?: Prisma.UserReminderUncheckedCreateNestedManyWithoutUserInput
+  savedProducts?: Prisma.UserSavedProductUncheckedCreateNestedManyWithoutUserInput
+  userBadges?: Prisma.UserBadgeUncheckedCreateNestedManyWithoutUserInput
+  weatherLogs?: Prisma.WeatherLogUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutCheckInsInput = {
@@ -10135,6 +10558,9 @@ export type UserUpdateWithoutCheckInsInput = {
   giftPacksRedeemed?: Prisma.GiftPackUpdateManyWithoutRedeemedByNestedInput
   reminders?: Prisma.UserReminderUpdateManyWithoutUserNestedInput
   referredBy?: Prisma.ClinicUpdateOneWithoutReferredUsersNestedInput
+  savedProducts?: Prisma.UserSavedProductUpdateManyWithoutUserNestedInput
+  userBadges?: Prisma.UserBadgeUpdateManyWithoutUserNestedInput
+  weatherLogs?: Prisma.WeatherLogUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutCheckInsInput = {
@@ -10200,6 +10626,9 @@ export type UserUncheckedUpdateWithoutCheckInsInput = {
   giftPacksBought?: Prisma.GiftPackUncheckedUpdateManyWithoutBuyerNestedInput
   giftPacksRedeemed?: Prisma.GiftPackUncheckedUpdateManyWithoutRedeemedByNestedInput
   reminders?: Prisma.UserReminderUncheckedUpdateManyWithoutUserNestedInput
+  savedProducts?: Prisma.UserSavedProductUncheckedUpdateManyWithoutUserNestedInput
+  userBadges?: Prisma.UserBadgeUncheckedUpdateManyWithoutUserNestedInput
+  weatherLogs?: Prisma.WeatherLogUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutClientsInput = {
@@ -10265,6 +10694,9 @@ export type UserCreateWithoutClientsInput = {
   giftPacksRedeemed?: Prisma.GiftPackCreateNestedManyWithoutRedeemedByInput
   reminders?: Prisma.UserReminderCreateNestedManyWithoutUserInput
   referredBy?: Prisma.ClinicCreateNestedOneWithoutReferredUsersInput
+  savedProducts?: Prisma.UserSavedProductCreateNestedManyWithoutUserInput
+  userBadges?: Prisma.UserBadgeCreateNestedManyWithoutUserInput
+  weatherLogs?: Prisma.WeatherLogCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutClientsInput = {
@@ -10330,6 +10762,9 @@ export type UserUncheckedCreateWithoutClientsInput = {
   giftPacksBought?: Prisma.GiftPackUncheckedCreateNestedManyWithoutBuyerInput
   giftPacksRedeemed?: Prisma.GiftPackUncheckedCreateNestedManyWithoutRedeemedByInput
   reminders?: Prisma.UserReminderUncheckedCreateNestedManyWithoutUserInput
+  savedProducts?: Prisma.UserSavedProductUncheckedCreateNestedManyWithoutUserInput
+  userBadges?: Prisma.UserBadgeUncheckedCreateNestedManyWithoutUserInput
+  weatherLogs?: Prisma.WeatherLogUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutClientsInput = {
@@ -10411,6 +10846,9 @@ export type UserUpdateWithoutClientsInput = {
   giftPacksRedeemed?: Prisma.GiftPackUpdateManyWithoutRedeemedByNestedInput
   reminders?: Prisma.UserReminderUpdateManyWithoutUserNestedInput
   referredBy?: Prisma.ClinicUpdateOneWithoutReferredUsersNestedInput
+  savedProducts?: Prisma.UserSavedProductUpdateManyWithoutUserNestedInput
+  userBadges?: Prisma.UserBadgeUpdateManyWithoutUserNestedInput
+  weatherLogs?: Prisma.WeatherLogUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutClientsInput = {
@@ -10476,6 +10914,9 @@ export type UserUncheckedUpdateWithoutClientsInput = {
   giftPacksBought?: Prisma.GiftPackUncheckedUpdateManyWithoutBuyerNestedInput
   giftPacksRedeemed?: Prisma.GiftPackUncheckedUpdateManyWithoutRedeemedByNestedInput
   reminders?: Prisma.UserReminderUncheckedUpdateManyWithoutUserNestedInput
+  savedProducts?: Prisma.UserSavedProductUncheckedUpdateManyWithoutUserNestedInput
+  userBadges?: Prisma.UserBadgeUncheckedUpdateManyWithoutUserNestedInput
+  weatherLogs?: Prisma.WeatherLogUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutNotificationsInput = {
@@ -10541,6 +10982,9 @@ export type UserCreateWithoutNotificationsInput = {
   giftPacksRedeemed?: Prisma.GiftPackCreateNestedManyWithoutRedeemedByInput
   reminders?: Prisma.UserReminderCreateNestedManyWithoutUserInput
   referredBy?: Prisma.ClinicCreateNestedOneWithoutReferredUsersInput
+  savedProducts?: Prisma.UserSavedProductCreateNestedManyWithoutUserInput
+  userBadges?: Prisma.UserBadgeCreateNestedManyWithoutUserInput
+  weatherLogs?: Prisma.WeatherLogCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutNotificationsInput = {
@@ -10606,6 +11050,9 @@ export type UserUncheckedCreateWithoutNotificationsInput = {
   giftPacksBought?: Prisma.GiftPackUncheckedCreateNestedManyWithoutBuyerInput
   giftPacksRedeemed?: Prisma.GiftPackUncheckedCreateNestedManyWithoutRedeemedByInput
   reminders?: Prisma.UserReminderUncheckedCreateNestedManyWithoutUserInput
+  savedProducts?: Prisma.UserSavedProductUncheckedCreateNestedManyWithoutUserInput
+  userBadges?: Prisma.UserBadgeUncheckedCreateNestedManyWithoutUserInput
+  weatherLogs?: Prisma.WeatherLogUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutNotificationsInput = {
@@ -10687,6 +11134,9 @@ export type UserUpdateWithoutNotificationsInput = {
   giftPacksRedeemed?: Prisma.GiftPackUpdateManyWithoutRedeemedByNestedInput
   reminders?: Prisma.UserReminderUpdateManyWithoutUserNestedInput
   referredBy?: Prisma.ClinicUpdateOneWithoutReferredUsersNestedInput
+  savedProducts?: Prisma.UserSavedProductUpdateManyWithoutUserNestedInput
+  userBadges?: Prisma.UserBadgeUpdateManyWithoutUserNestedInput
+  weatherLogs?: Prisma.WeatherLogUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutNotificationsInput = {
@@ -10752,6 +11202,9 @@ export type UserUncheckedUpdateWithoutNotificationsInput = {
   giftPacksBought?: Prisma.GiftPackUncheckedUpdateManyWithoutBuyerNestedInput
   giftPacksRedeemed?: Prisma.GiftPackUncheckedUpdateManyWithoutRedeemedByNestedInput
   reminders?: Prisma.UserReminderUncheckedUpdateManyWithoutUserNestedInput
+  savedProducts?: Prisma.UserSavedProductUncheckedUpdateManyWithoutUserNestedInput
+  userBadges?: Prisma.UserBadgeUncheckedUpdateManyWithoutUserNestedInput
+  weatherLogs?: Prisma.WeatherLogUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutSupportTicketsInput = {
@@ -10817,6 +11270,9 @@ export type UserCreateWithoutSupportTicketsInput = {
   giftPacksRedeemed?: Prisma.GiftPackCreateNestedManyWithoutRedeemedByInput
   reminders?: Prisma.UserReminderCreateNestedManyWithoutUserInput
   referredBy?: Prisma.ClinicCreateNestedOneWithoutReferredUsersInput
+  savedProducts?: Prisma.UserSavedProductCreateNestedManyWithoutUserInput
+  userBadges?: Prisma.UserBadgeCreateNestedManyWithoutUserInput
+  weatherLogs?: Prisma.WeatherLogCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutSupportTicketsInput = {
@@ -10882,6 +11338,9 @@ export type UserUncheckedCreateWithoutSupportTicketsInput = {
   giftPacksBought?: Prisma.GiftPackUncheckedCreateNestedManyWithoutBuyerInput
   giftPacksRedeemed?: Prisma.GiftPackUncheckedCreateNestedManyWithoutRedeemedByInput
   reminders?: Prisma.UserReminderUncheckedCreateNestedManyWithoutUserInput
+  savedProducts?: Prisma.UserSavedProductUncheckedCreateNestedManyWithoutUserInput
+  userBadges?: Prisma.UserBadgeUncheckedCreateNestedManyWithoutUserInput
+  weatherLogs?: Prisma.WeatherLogUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutSupportTicketsInput = {
@@ -10963,6 +11422,9 @@ export type UserUpdateWithoutSupportTicketsInput = {
   giftPacksRedeemed?: Prisma.GiftPackUpdateManyWithoutRedeemedByNestedInput
   reminders?: Prisma.UserReminderUpdateManyWithoutUserNestedInput
   referredBy?: Prisma.ClinicUpdateOneWithoutReferredUsersNestedInput
+  savedProducts?: Prisma.UserSavedProductUpdateManyWithoutUserNestedInput
+  userBadges?: Prisma.UserBadgeUpdateManyWithoutUserNestedInput
+  weatherLogs?: Prisma.WeatherLogUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutSupportTicketsInput = {
@@ -11028,6 +11490,9 @@ export type UserUncheckedUpdateWithoutSupportTicketsInput = {
   giftPacksBought?: Prisma.GiftPackUncheckedUpdateManyWithoutBuyerNestedInput
   giftPacksRedeemed?: Prisma.GiftPackUncheckedUpdateManyWithoutRedeemedByNestedInput
   reminders?: Prisma.UserReminderUncheckedUpdateManyWithoutUserNestedInput
+  savedProducts?: Prisma.UserSavedProductUncheckedUpdateManyWithoutUserNestedInput
+  userBadges?: Prisma.UserBadgeUncheckedUpdateManyWithoutUserNestedInput
+  weatherLogs?: Prisma.WeatherLogUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutTicketResponsesInput = {
@@ -11093,6 +11558,9 @@ export type UserCreateWithoutTicketResponsesInput = {
   giftPacksRedeemed?: Prisma.GiftPackCreateNestedManyWithoutRedeemedByInput
   reminders?: Prisma.UserReminderCreateNestedManyWithoutUserInput
   referredBy?: Prisma.ClinicCreateNestedOneWithoutReferredUsersInput
+  savedProducts?: Prisma.UserSavedProductCreateNestedManyWithoutUserInput
+  userBadges?: Prisma.UserBadgeCreateNestedManyWithoutUserInput
+  weatherLogs?: Prisma.WeatherLogCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutTicketResponsesInput = {
@@ -11158,6 +11626,9 @@ export type UserUncheckedCreateWithoutTicketResponsesInput = {
   giftPacksBought?: Prisma.GiftPackUncheckedCreateNestedManyWithoutBuyerInput
   giftPacksRedeemed?: Prisma.GiftPackUncheckedCreateNestedManyWithoutRedeemedByInput
   reminders?: Prisma.UserReminderUncheckedCreateNestedManyWithoutUserInput
+  savedProducts?: Prisma.UserSavedProductUncheckedCreateNestedManyWithoutUserInput
+  userBadges?: Prisma.UserBadgeUncheckedCreateNestedManyWithoutUserInput
+  weatherLogs?: Prisma.WeatherLogUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutTicketResponsesInput = {
@@ -11239,6 +11710,9 @@ export type UserUpdateWithoutTicketResponsesInput = {
   giftPacksRedeemed?: Prisma.GiftPackUpdateManyWithoutRedeemedByNestedInput
   reminders?: Prisma.UserReminderUpdateManyWithoutUserNestedInput
   referredBy?: Prisma.ClinicUpdateOneWithoutReferredUsersNestedInput
+  savedProducts?: Prisma.UserSavedProductUpdateManyWithoutUserNestedInput
+  userBadges?: Prisma.UserBadgeUpdateManyWithoutUserNestedInput
+  weatherLogs?: Prisma.WeatherLogUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutTicketResponsesInput = {
@@ -11304,6 +11778,9 @@ export type UserUncheckedUpdateWithoutTicketResponsesInput = {
   giftPacksBought?: Prisma.GiftPackUncheckedUpdateManyWithoutBuyerNestedInput
   giftPacksRedeemed?: Prisma.GiftPackUncheckedUpdateManyWithoutRedeemedByNestedInput
   reminders?: Prisma.UserReminderUncheckedUpdateManyWithoutUserNestedInput
+  savedProducts?: Prisma.UserSavedProductUncheckedUpdateManyWithoutUserNestedInput
+  userBadges?: Prisma.UserBadgeUncheckedUpdateManyWithoutUserNestedInput
+  weatherLogs?: Prisma.WeatherLogUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutChatMessagesInput = {
@@ -11369,6 +11846,9 @@ export type UserCreateWithoutChatMessagesInput = {
   giftPacksRedeemed?: Prisma.GiftPackCreateNestedManyWithoutRedeemedByInput
   reminders?: Prisma.UserReminderCreateNestedManyWithoutUserInput
   referredBy?: Prisma.ClinicCreateNestedOneWithoutReferredUsersInput
+  savedProducts?: Prisma.UserSavedProductCreateNestedManyWithoutUserInput
+  userBadges?: Prisma.UserBadgeCreateNestedManyWithoutUserInput
+  weatherLogs?: Prisma.WeatherLogCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutChatMessagesInput = {
@@ -11434,6 +11914,9 @@ export type UserUncheckedCreateWithoutChatMessagesInput = {
   giftPacksBought?: Prisma.GiftPackUncheckedCreateNestedManyWithoutBuyerInput
   giftPacksRedeemed?: Prisma.GiftPackUncheckedCreateNestedManyWithoutRedeemedByInput
   reminders?: Prisma.UserReminderUncheckedCreateNestedManyWithoutUserInput
+  savedProducts?: Prisma.UserSavedProductUncheckedCreateNestedManyWithoutUserInput
+  userBadges?: Prisma.UserBadgeUncheckedCreateNestedManyWithoutUserInput
+  weatherLogs?: Prisma.WeatherLogUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutChatMessagesInput = {
@@ -11515,6 +11998,9 @@ export type UserUpdateWithoutChatMessagesInput = {
   giftPacksRedeemed?: Prisma.GiftPackUpdateManyWithoutRedeemedByNestedInput
   reminders?: Prisma.UserReminderUpdateManyWithoutUserNestedInput
   referredBy?: Prisma.ClinicUpdateOneWithoutReferredUsersNestedInput
+  savedProducts?: Prisma.UserSavedProductUpdateManyWithoutUserNestedInput
+  userBadges?: Prisma.UserBadgeUpdateManyWithoutUserNestedInput
+  weatherLogs?: Prisma.WeatherLogUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutChatMessagesInput = {
@@ -11580,6 +12066,9 @@ export type UserUncheckedUpdateWithoutChatMessagesInput = {
   giftPacksBought?: Prisma.GiftPackUncheckedUpdateManyWithoutBuyerNestedInput
   giftPacksRedeemed?: Prisma.GiftPackUncheckedUpdateManyWithoutRedeemedByNestedInput
   reminders?: Prisma.UserReminderUncheckedUpdateManyWithoutUserNestedInput
+  savedProducts?: Prisma.UserSavedProductUncheckedUpdateManyWithoutUserNestedInput
+  userBadges?: Prisma.UserBadgeUncheckedUpdateManyWithoutUserNestedInput
+  weatherLogs?: Prisma.WeatherLogUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutGiftPacksBoughtInput = {
@@ -11645,6 +12134,9 @@ export type UserCreateWithoutGiftPacksBoughtInput = {
   giftPacksRedeemed?: Prisma.GiftPackCreateNestedManyWithoutRedeemedByInput
   reminders?: Prisma.UserReminderCreateNestedManyWithoutUserInput
   referredBy?: Prisma.ClinicCreateNestedOneWithoutReferredUsersInput
+  savedProducts?: Prisma.UserSavedProductCreateNestedManyWithoutUserInput
+  userBadges?: Prisma.UserBadgeCreateNestedManyWithoutUserInput
+  weatherLogs?: Prisma.WeatherLogCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutGiftPacksBoughtInput = {
@@ -11710,6 +12202,9 @@ export type UserUncheckedCreateWithoutGiftPacksBoughtInput = {
   postReactions?: Prisma.PostReactionUncheckedCreateNestedManyWithoutUserInput
   giftPacksRedeemed?: Prisma.GiftPackUncheckedCreateNestedManyWithoutRedeemedByInput
   reminders?: Prisma.UserReminderUncheckedCreateNestedManyWithoutUserInput
+  savedProducts?: Prisma.UserSavedProductUncheckedCreateNestedManyWithoutUserInput
+  userBadges?: Prisma.UserBadgeUncheckedCreateNestedManyWithoutUserInput
+  weatherLogs?: Prisma.WeatherLogUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutGiftPacksBoughtInput = {
@@ -11780,6 +12275,9 @@ export type UserCreateWithoutGiftPacksRedeemedInput = {
   giftPacksBought?: Prisma.GiftPackCreateNestedManyWithoutBuyerInput
   reminders?: Prisma.UserReminderCreateNestedManyWithoutUserInput
   referredBy?: Prisma.ClinicCreateNestedOneWithoutReferredUsersInput
+  savedProducts?: Prisma.UserSavedProductCreateNestedManyWithoutUserInput
+  userBadges?: Prisma.UserBadgeCreateNestedManyWithoutUserInput
+  weatherLogs?: Prisma.WeatherLogCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutGiftPacksRedeemedInput = {
@@ -11845,6 +12343,9 @@ export type UserUncheckedCreateWithoutGiftPacksRedeemedInput = {
   postReactions?: Prisma.PostReactionUncheckedCreateNestedManyWithoutUserInput
   giftPacksBought?: Prisma.GiftPackUncheckedCreateNestedManyWithoutBuyerInput
   reminders?: Prisma.UserReminderUncheckedCreateNestedManyWithoutUserInput
+  savedProducts?: Prisma.UserSavedProductUncheckedCreateNestedManyWithoutUserInput
+  userBadges?: Prisma.UserBadgeUncheckedCreateNestedManyWithoutUserInput
+  weatherLogs?: Prisma.WeatherLogUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutGiftPacksRedeemedInput = {
@@ -11926,6 +12427,9 @@ export type UserUpdateWithoutGiftPacksBoughtInput = {
   giftPacksRedeemed?: Prisma.GiftPackUpdateManyWithoutRedeemedByNestedInput
   reminders?: Prisma.UserReminderUpdateManyWithoutUserNestedInput
   referredBy?: Prisma.ClinicUpdateOneWithoutReferredUsersNestedInput
+  savedProducts?: Prisma.UserSavedProductUpdateManyWithoutUserNestedInput
+  userBadges?: Prisma.UserBadgeUpdateManyWithoutUserNestedInput
+  weatherLogs?: Prisma.WeatherLogUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutGiftPacksBoughtInput = {
@@ -11991,6 +12495,9 @@ export type UserUncheckedUpdateWithoutGiftPacksBoughtInput = {
   postReactions?: Prisma.PostReactionUncheckedUpdateManyWithoutUserNestedInput
   giftPacksRedeemed?: Prisma.GiftPackUncheckedUpdateManyWithoutRedeemedByNestedInput
   reminders?: Prisma.UserReminderUncheckedUpdateManyWithoutUserNestedInput
+  savedProducts?: Prisma.UserSavedProductUncheckedUpdateManyWithoutUserNestedInput
+  userBadges?: Prisma.UserBadgeUncheckedUpdateManyWithoutUserNestedInput
+  weatherLogs?: Prisma.WeatherLogUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserUpsertWithoutGiftPacksRedeemedInput = {
@@ -12067,6 +12574,9 @@ export type UserUpdateWithoutGiftPacksRedeemedInput = {
   giftPacksBought?: Prisma.GiftPackUpdateManyWithoutBuyerNestedInput
   reminders?: Prisma.UserReminderUpdateManyWithoutUserNestedInput
   referredBy?: Prisma.ClinicUpdateOneWithoutReferredUsersNestedInput
+  savedProducts?: Prisma.UserSavedProductUpdateManyWithoutUserNestedInput
+  userBadges?: Prisma.UserBadgeUpdateManyWithoutUserNestedInput
+  weatherLogs?: Prisma.WeatherLogUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutGiftPacksRedeemedInput = {
@@ -12132,6 +12642,9 @@ export type UserUncheckedUpdateWithoutGiftPacksRedeemedInput = {
   postReactions?: Prisma.PostReactionUncheckedUpdateManyWithoutUserNestedInput
   giftPacksBought?: Prisma.GiftPackUncheckedUpdateManyWithoutBuyerNestedInput
   reminders?: Prisma.UserReminderUncheckedUpdateManyWithoutUserNestedInput
+  savedProducts?: Prisma.UserSavedProductUncheckedUpdateManyWithoutUserNestedInput
+  userBadges?: Prisma.UserBadgeUncheckedUpdateManyWithoutUserNestedInput
+  weatherLogs?: Prisma.WeatherLogUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutRemindersInput = {
@@ -12197,6 +12710,9 @@ export type UserCreateWithoutRemindersInput = {
   giftPacksBought?: Prisma.GiftPackCreateNestedManyWithoutBuyerInput
   giftPacksRedeemed?: Prisma.GiftPackCreateNestedManyWithoutRedeemedByInput
   referredBy?: Prisma.ClinicCreateNestedOneWithoutReferredUsersInput
+  savedProducts?: Prisma.UserSavedProductCreateNestedManyWithoutUserInput
+  userBadges?: Prisma.UserBadgeCreateNestedManyWithoutUserInput
+  weatherLogs?: Prisma.WeatherLogCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutRemindersInput = {
@@ -12262,6 +12778,9 @@ export type UserUncheckedCreateWithoutRemindersInput = {
   postReactions?: Prisma.PostReactionUncheckedCreateNestedManyWithoutUserInput
   giftPacksBought?: Prisma.GiftPackUncheckedCreateNestedManyWithoutBuyerInput
   giftPacksRedeemed?: Prisma.GiftPackUncheckedCreateNestedManyWithoutRedeemedByInput
+  savedProducts?: Prisma.UserSavedProductUncheckedCreateNestedManyWithoutUserInput
+  userBadges?: Prisma.UserBadgeUncheckedCreateNestedManyWithoutUserInput
+  weatherLogs?: Prisma.WeatherLogUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutRemindersInput = {
@@ -12343,6 +12862,9 @@ export type UserUpdateWithoutRemindersInput = {
   giftPacksBought?: Prisma.GiftPackUpdateManyWithoutBuyerNestedInput
   giftPacksRedeemed?: Prisma.GiftPackUpdateManyWithoutRedeemedByNestedInput
   referredBy?: Prisma.ClinicUpdateOneWithoutReferredUsersNestedInput
+  savedProducts?: Prisma.UserSavedProductUpdateManyWithoutUserNestedInput
+  userBadges?: Prisma.UserBadgeUpdateManyWithoutUserNestedInput
+  weatherLogs?: Prisma.WeatherLogUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutRemindersInput = {
@@ -12408,6 +12930,873 @@ export type UserUncheckedUpdateWithoutRemindersInput = {
   postReactions?: Prisma.PostReactionUncheckedUpdateManyWithoutUserNestedInput
   giftPacksBought?: Prisma.GiftPackUncheckedUpdateManyWithoutBuyerNestedInput
   giftPacksRedeemed?: Prisma.GiftPackUncheckedUpdateManyWithoutRedeemedByNestedInput
+  savedProducts?: Prisma.UserSavedProductUncheckedUpdateManyWithoutUserNestedInput
+  userBadges?: Prisma.UserBadgeUncheckedUpdateManyWithoutUserNestedInput
+  weatherLogs?: Prisma.WeatherLogUncheckedUpdateManyWithoutUserNestedInput
+}
+
+export type UserCreateWithoutSavedProductsInput = {
+  id?: string
+  name?: string | null
+  email: string
+  emailVerified?: Date | string | null
+  image?: string | null
+  password?: string | null
+  username?: string | null
+  role?: string
+  plan?: string
+  qvapayId?: string | null
+  analysisLimit?: number
+  analysisUsed?: number
+  analysisResetAt?: Date | string | null
+  telegramId?: string | null
+  telegramTrialStartedAt?: Date | string | null
+  isTelegramPremiumActive?: boolean
+  latitude?: number | null
+  longitude?: number | null
+  currentStreak?: number
+  maxStreak?: number
+  lastCheckInDate?: Date | string | null
+  trialEndsAt?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
+  sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
+  analyses?: Prisma.SkinAnalysisCreateNestedManyWithoutUserInput
+  analysisJobs?: Prisma.AnalysisJobCreateNestedManyWithoutUserInput
+  payments?: Prisma.PaymentCreateNestedManyWithoutUserInput
+  subscriptions?: Prisma.SubscriptionCreateNestedManyWithoutUserInput
+  purchasePacks?: Prisma.PurchasePackCreateNestedManyWithoutUserInput
+  usageRecords?: Prisma.UsageTrackingCreateNestedManyWithoutUserInput
+  clinic?: Prisma.ClinicCreateNestedOneWithoutOwnerInput
+  clients?: Prisma.ClientCreateNestedManyWithoutEstheticianInput
+  surveyFeedback?: Prisma.SurveyFeedbackCreateNestedManyWithoutUserInput
+  communityPosts?: Prisma.CommunityPostCreateNestedManyWithoutUserInput
+  comments?: Prisma.CommentCreateNestedManyWithoutUserInput
+  skinDiary?: Prisma.SkinDiaryCreateNestedManyWithoutUserInput
+  userChallenges?: Prisma.UserChallengeCreateNestedManyWithoutUserInput
+  productReviews?: Prisma.ProductReviewCreateNestedManyWithoutUserInput
+  referralsOwned?: Prisma.ReferralCreateNestedManyWithoutReferrerInput
+  referralsReferred?: Prisma.ReferralCreateNestedManyWithoutReferredInput
+  groupsOwned?: Prisma.GroupAnalyticsCreateNestedManyWithoutReferrerInput
+  digitalPurchases?: Prisma.DigitalProductPurchaseCreateNestedManyWithoutUserInput
+  affiliateClicks?: Prisma.AffiliateClickCreateNestedManyWithoutUserInput
+  evolution?: Prisma.UserEvolutionCreateNestedOneWithoutUserInput
+  checkIns?: Prisma.DailyCheckInCreateNestedManyWithoutUserInput
+  transferPayments?: Prisma.TransferPaymentCreateNestedManyWithoutUserInput
+  validatedTransfers?: Prisma.TransferPaymentCreateNestedManyWithoutValidatorInput
+  activatedTransfers?: Prisma.TransferPaymentCreateNestedManyWithoutActivatorInput
+  auditLogs?: Prisma.AuditLogCreateNestedManyWithoutUserInput
+  notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
+  supportTickets?: Prisma.SupportTicketCreateNestedManyWithoutUserInput
+  ticketResponses?: Prisma.SupportTicketResponseCreateNestedManyWithoutUserInput
+  chatMessages?: Prisma.ChatMessageCreateNestedManyWithoutUserInput
+  contactMessages?: Prisma.ContactMessageCreateNestedManyWithoutUserInput
+  communityGroups?: Prisma.CommunityGroupCreateNestedManyWithoutCreatorInput
+  communityMemberships?: Prisma.CommunityMemberCreateNestedManyWithoutUserInput
+  postReactions?: Prisma.PostReactionCreateNestedManyWithoutUserInput
+  giftPacksBought?: Prisma.GiftPackCreateNestedManyWithoutBuyerInput
+  giftPacksRedeemed?: Prisma.GiftPackCreateNestedManyWithoutRedeemedByInput
+  reminders?: Prisma.UserReminderCreateNestedManyWithoutUserInput
+  referredBy?: Prisma.ClinicCreateNestedOneWithoutReferredUsersInput
+  userBadges?: Prisma.UserBadgeCreateNestedManyWithoutUserInput
+  weatherLogs?: Prisma.WeatherLogCreateNestedManyWithoutUserInput
+}
+
+export type UserUncheckedCreateWithoutSavedProductsInput = {
+  id?: string
+  name?: string | null
+  email: string
+  emailVerified?: Date | string | null
+  image?: string | null
+  password?: string | null
+  username?: string | null
+  role?: string
+  plan?: string
+  qvapayId?: string | null
+  analysisLimit?: number
+  analysisUsed?: number
+  analysisResetAt?: Date | string | null
+  telegramId?: string | null
+  telegramTrialStartedAt?: Date | string | null
+  isTelegramPremiumActive?: boolean
+  latitude?: number | null
+  longitude?: number | null
+  currentStreak?: number
+  maxStreak?: number
+  lastCheckInDate?: Date | string | null
+  trialEndsAt?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  referredByEstheticianId?: string | null
+  accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
+  sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
+  analyses?: Prisma.SkinAnalysisUncheckedCreateNestedManyWithoutUserInput
+  analysisJobs?: Prisma.AnalysisJobUncheckedCreateNestedManyWithoutUserInput
+  payments?: Prisma.PaymentUncheckedCreateNestedManyWithoutUserInput
+  subscriptions?: Prisma.SubscriptionUncheckedCreateNestedManyWithoutUserInput
+  purchasePacks?: Prisma.PurchasePackUncheckedCreateNestedManyWithoutUserInput
+  usageRecords?: Prisma.UsageTrackingUncheckedCreateNestedManyWithoutUserInput
+  clinic?: Prisma.ClinicUncheckedCreateNestedOneWithoutOwnerInput
+  clients?: Prisma.ClientUncheckedCreateNestedManyWithoutEstheticianInput
+  surveyFeedback?: Prisma.SurveyFeedbackUncheckedCreateNestedManyWithoutUserInput
+  communityPosts?: Prisma.CommunityPostUncheckedCreateNestedManyWithoutUserInput
+  comments?: Prisma.CommentUncheckedCreateNestedManyWithoutUserInput
+  skinDiary?: Prisma.SkinDiaryUncheckedCreateNestedManyWithoutUserInput
+  userChallenges?: Prisma.UserChallengeUncheckedCreateNestedManyWithoutUserInput
+  productReviews?: Prisma.ProductReviewUncheckedCreateNestedManyWithoutUserInput
+  referralsOwned?: Prisma.ReferralUncheckedCreateNestedManyWithoutReferrerInput
+  referralsReferred?: Prisma.ReferralUncheckedCreateNestedManyWithoutReferredInput
+  groupsOwned?: Prisma.GroupAnalyticsUncheckedCreateNestedManyWithoutReferrerInput
+  digitalPurchases?: Prisma.DigitalProductPurchaseUncheckedCreateNestedManyWithoutUserInput
+  affiliateClicks?: Prisma.AffiliateClickUncheckedCreateNestedManyWithoutUserInput
+  evolution?: Prisma.UserEvolutionUncheckedCreateNestedOneWithoutUserInput
+  checkIns?: Prisma.DailyCheckInUncheckedCreateNestedManyWithoutUserInput
+  transferPayments?: Prisma.TransferPaymentUncheckedCreateNestedManyWithoutUserInput
+  validatedTransfers?: Prisma.TransferPaymentUncheckedCreateNestedManyWithoutValidatorInput
+  activatedTransfers?: Prisma.TransferPaymentUncheckedCreateNestedManyWithoutActivatorInput
+  auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutUserInput
+  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
+  supportTickets?: Prisma.SupportTicketUncheckedCreateNestedManyWithoutUserInput
+  ticketResponses?: Prisma.SupportTicketResponseUncheckedCreateNestedManyWithoutUserInput
+  chatMessages?: Prisma.ChatMessageUncheckedCreateNestedManyWithoutUserInput
+  contactMessages?: Prisma.ContactMessageUncheckedCreateNestedManyWithoutUserInput
+  communityGroups?: Prisma.CommunityGroupUncheckedCreateNestedManyWithoutCreatorInput
+  communityMemberships?: Prisma.CommunityMemberUncheckedCreateNestedManyWithoutUserInput
+  postReactions?: Prisma.PostReactionUncheckedCreateNestedManyWithoutUserInput
+  giftPacksBought?: Prisma.GiftPackUncheckedCreateNestedManyWithoutBuyerInput
+  giftPacksRedeemed?: Prisma.GiftPackUncheckedCreateNestedManyWithoutRedeemedByInput
+  reminders?: Prisma.UserReminderUncheckedCreateNestedManyWithoutUserInput
+  userBadges?: Prisma.UserBadgeUncheckedCreateNestedManyWithoutUserInput
+  weatherLogs?: Prisma.WeatherLogUncheckedCreateNestedManyWithoutUserInput
+}
+
+export type UserCreateOrConnectWithoutSavedProductsInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutSavedProductsInput, Prisma.UserUncheckedCreateWithoutSavedProductsInput>
+}
+
+export type UserUpsertWithoutSavedProductsInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutSavedProductsInput, Prisma.UserUncheckedUpdateWithoutSavedProductsInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutSavedProductsInput, Prisma.UserUncheckedCreateWithoutSavedProductsInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutSavedProductsInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutSavedProductsInput, Prisma.UserUncheckedUpdateWithoutSavedProductsInput>
+}
+
+export type UserUpdateWithoutSavedProductsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  emailVerified?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.StringFieldUpdateOperationsInput | string
+  plan?: Prisma.StringFieldUpdateOperationsInput | string
+  qvapayId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  analysisLimit?: Prisma.IntFieldUpdateOperationsInput | number
+  analysisUsed?: Prisma.IntFieldUpdateOperationsInput | number
+  analysisResetAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  telegramId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  telegramTrialStartedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  isTelegramPremiumActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  latitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  longitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  currentStreak?: Prisma.IntFieldUpdateOperationsInput | number
+  maxStreak?: Prisma.IntFieldUpdateOperationsInput | number
+  lastCheckInDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  trialEndsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
+  sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
+  analyses?: Prisma.SkinAnalysisUpdateManyWithoutUserNestedInput
+  analysisJobs?: Prisma.AnalysisJobUpdateManyWithoutUserNestedInput
+  payments?: Prisma.PaymentUpdateManyWithoutUserNestedInput
+  subscriptions?: Prisma.SubscriptionUpdateManyWithoutUserNestedInput
+  purchasePacks?: Prisma.PurchasePackUpdateManyWithoutUserNestedInput
+  usageRecords?: Prisma.UsageTrackingUpdateManyWithoutUserNestedInput
+  clinic?: Prisma.ClinicUpdateOneWithoutOwnerNestedInput
+  clients?: Prisma.ClientUpdateManyWithoutEstheticianNestedInput
+  surveyFeedback?: Prisma.SurveyFeedbackUpdateManyWithoutUserNestedInput
+  communityPosts?: Prisma.CommunityPostUpdateManyWithoutUserNestedInput
+  comments?: Prisma.CommentUpdateManyWithoutUserNestedInput
+  skinDiary?: Prisma.SkinDiaryUpdateManyWithoutUserNestedInput
+  userChallenges?: Prisma.UserChallengeUpdateManyWithoutUserNestedInput
+  productReviews?: Prisma.ProductReviewUpdateManyWithoutUserNestedInput
+  referralsOwned?: Prisma.ReferralUpdateManyWithoutReferrerNestedInput
+  referralsReferred?: Prisma.ReferralUpdateManyWithoutReferredNestedInput
+  groupsOwned?: Prisma.GroupAnalyticsUpdateManyWithoutReferrerNestedInput
+  digitalPurchases?: Prisma.DigitalProductPurchaseUpdateManyWithoutUserNestedInput
+  affiliateClicks?: Prisma.AffiliateClickUpdateManyWithoutUserNestedInput
+  evolution?: Prisma.UserEvolutionUpdateOneWithoutUserNestedInput
+  checkIns?: Prisma.DailyCheckInUpdateManyWithoutUserNestedInput
+  transferPayments?: Prisma.TransferPaymentUpdateManyWithoutUserNestedInput
+  validatedTransfers?: Prisma.TransferPaymentUpdateManyWithoutValidatorNestedInput
+  activatedTransfers?: Prisma.TransferPaymentUpdateManyWithoutActivatorNestedInput
+  auditLogs?: Prisma.AuditLogUpdateManyWithoutUserNestedInput
+  notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
+  supportTickets?: Prisma.SupportTicketUpdateManyWithoutUserNestedInput
+  ticketResponses?: Prisma.SupportTicketResponseUpdateManyWithoutUserNestedInput
+  chatMessages?: Prisma.ChatMessageUpdateManyWithoutUserNestedInput
+  contactMessages?: Prisma.ContactMessageUpdateManyWithoutUserNestedInput
+  communityGroups?: Prisma.CommunityGroupUpdateManyWithoutCreatorNestedInput
+  communityMemberships?: Prisma.CommunityMemberUpdateManyWithoutUserNestedInput
+  postReactions?: Prisma.PostReactionUpdateManyWithoutUserNestedInput
+  giftPacksBought?: Prisma.GiftPackUpdateManyWithoutBuyerNestedInput
+  giftPacksRedeemed?: Prisma.GiftPackUpdateManyWithoutRedeemedByNestedInput
+  reminders?: Prisma.UserReminderUpdateManyWithoutUserNestedInput
+  referredBy?: Prisma.ClinicUpdateOneWithoutReferredUsersNestedInput
+  userBadges?: Prisma.UserBadgeUpdateManyWithoutUserNestedInput
+  weatherLogs?: Prisma.WeatherLogUpdateManyWithoutUserNestedInput
+}
+
+export type UserUncheckedUpdateWithoutSavedProductsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  emailVerified?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.StringFieldUpdateOperationsInput | string
+  plan?: Prisma.StringFieldUpdateOperationsInput | string
+  qvapayId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  analysisLimit?: Prisma.IntFieldUpdateOperationsInput | number
+  analysisUsed?: Prisma.IntFieldUpdateOperationsInput | number
+  analysisResetAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  telegramId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  telegramTrialStartedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  isTelegramPremiumActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  latitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  longitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  currentStreak?: Prisma.IntFieldUpdateOperationsInput | number
+  maxStreak?: Prisma.IntFieldUpdateOperationsInput | number
+  lastCheckInDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  trialEndsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  referredByEstheticianId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
+  sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
+  analyses?: Prisma.SkinAnalysisUncheckedUpdateManyWithoutUserNestedInput
+  analysisJobs?: Prisma.AnalysisJobUncheckedUpdateManyWithoutUserNestedInput
+  payments?: Prisma.PaymentUncheckedUpdateManyWithoutUserNestedInput
+  subscriptions?: Prisma.SubscriptionUncheckedUpdateManyWithoutUserNestedInput
+  purchasePacks?: Prisma.PurchasePackUncheckedUpdateManyWithoutUserNestedInput
+  usageRecords?: Prisma.UsageTrackingUncheckedUpdateManyWithoutUserNestedInput
+  clinic?: Prisma.ClinicUncheckedUpdateOneWithoutOwnerNestedInput
+  clients?: Prisma.ClientUncheckedUpdateManyWithoutEstheticianNestedInput
+  surveyFeedback?: Prisma.SurveyFeedbackUncheckedUpdateManyWithoutUserNestedInput
+  communityPosts?: Prisma.CommunityPostUncheckedUpdateManyWithoutUserNestedInput
+  comments?: Prisma.CommentUncheckedUpdateManyWithoutUserNestedInput
+  skinDiary?: Prisma.SkinDiaryUncheckedUpdateManyWithoutUserNestedInput
+  userChallenges?: Prisma.UserChallengeUncheckedUpdateManyWithoutUserNestedInput
+  productReviews?: Prisma.ProductReviewUncheckedUpdateManyWithoutUserNestedInput
+  referralsOwned?: Prisma.ReferralUncheckedUpdateManyWithoutReferrerNestedInput
+  referralsReferred?: Prisma.ReferralUncheckedUpdateManyWithoutReferredNestedInput
+  groupsOwned?: Prisma.GroupAnalyticsUncheckedUpdateManyWithoutReferrerNestedInput
+  digitalPurchases?: Prisma.DigitalProductPurchaseUncheckedUpdateManyWithoutUserNestedInput
+  affiliateClicks?: Prisma.AffiliateClickUncheckedUpdateManyWithoutUserNestedInput
+  evolution?: Prisma.UserEvolutionUncheckedUpdateOneWithoutUserNestedInput
+  checkIns?: Prisma.DailyCheckInUncheckedUpdateManyWithoutUserNestedInput
+  transferPayments?: Prisma.TransferPaymentUncheckedUpdateManyWithoutUserNestedInput
+  validatedTransfers?: Prisma.TransferPaymentUncheckedUpdateManyWithoutValidatorNestedInput
+  activatedTransfers?: Prisma.TransferPaymentUncheckedUpdateManyWithoutActivatorNestedInput
+  auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutUserNestedInput
+  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
+  supportTickets?: Prisma.SupportTicketUncheckedUpdateManyWithoutUserNestedInput
+  ticketResponses?: Prisma.SupportTicketResponseUncheckedUpdateManyWithoutUserNestedInput
+  chatMessages?: Prisma.ChatMessageUncheckedUpdateManyWithoutUserNestedInput
+  contactMessages?: Prisma.ContactMessageUncheckedUpdateManyWithoutUserNestedInput
+  communityGroups?: Prisma.CommunityGroupUncheckedUpdateManyWithoutCreatorNestedInput
+  communityMemberships?: Prisma.CommunityMemberUncheckedUpdateManyWithoutUserNestedInput
+  postReactions?: Prisma.PostReactionUncheckedUpdateManyWithoutUserNestedInput
+  giftPacksBought?: Prisma.GiftPackUncheckedUpdateManyWithoutBuyerNestedInput
+  giftPacksRedeemed?: Prisma.GiftPackUncheckedUpdateManyWithoutRedeemedByNestedInput
+  reminders?: Prisma.UserReminderUncheckedUpdateManyWithoutUserNestedInput
+  userBadges?: Prisma.UserBadgeUncheckedUpdateManyWithoutUserNestedInput
+  weatherLogs?: Prisma.WeatherLogUncheckedUpdateManyWithoutUserNestedInput
+}
+
+export type UserCreateWithoutUserBadgesInput = {
+  id?: string
+  name?: string | null
+  email: string
+  emailVerified?: Date | string | null
+  image?: string | null
+  password?: string | null
+  username?: string | null
+  role?: string
+  plan?: string
+  qvapayId?: string | null
+  analysisLimit?: number
+  analysisUsed?: number
+  analysisResetAt?: Date | string | null
+  telegramId?: string | null
+  telegramTrialStartedAt?: Date | string | null
+  isTelegramPremiumActive?: boolean
+  latitude?: number | null
+  longitude?: number | null
+  currentStreak?: number
+  maxStreak?: number
+  lastCheckInDate?: Date | string | null
+  trialEndsAt?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
+  sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
+  analyses?: Prisma.SkinAnalysisCreateNestedManyWithoutUserInput
+  analysisJobs?: Prisma.AnalysisJobCreateNestedManyWithoutUserInput
+  payments?: Prisma.PaymentCreateNestedManyWithoutUserInput
+  subscriptions?: Prisma.SubscriptionCreateNestedManyWithoutUserInput
+  purchasePacks?: Prisma.PurchasePackCreateNestedManyWithoutUserInput
+  usageRecords?: Prisma.UsageTrackingCreateNestedManyWithoutUserInput
+  clinic?: Prisma.ClinicCreateNestedOneWithoutOwnerInput
+  clients?: Prisma.ClientCreateNestedManyWithoutEstheticianInput
+  surveyFeedback?: Prisma.SurveyFeedbackCreateNestedManyWithoutUserInput
+  communityPosts?: Prisma.CommunityPostCreateNestedManyWithoutUserInput
+  comments?: Prisma.CommentCreateNestedManyWithoutUserInput
+  skinDiary?: Prisma.SkinDiaryCreateNestedManyWithoutUserInput
+  userChallenges?: Prisma.UserChallengeCreateNestedManyWithoutUserInput
+  productReviews?: Prisma.ProductReviewCreateNestedManyWithoutUserInput
+  referralsOwned?: Prisma.ReferralCreateNestedManyWithoutReferrerInput
+  referralsReferred?: Prisma.ReferralCreateNestedManyWithoutReferredInput
+  groupsOwned?: Prisma.GroupAnalyticsCreateNestedManyWithoutReferrerInput
+  digitalPurchases?: Prisma.DigitalProductPurchaseCreateNestedManyWithoutUserInput
+  affiliateClicks?: Prisma.AffiliateClickCreateNestedManyWithoutUserInput
+  evolution?: Prisma.UserEvolutionCreateNestedOneWithoutUserInput
+  checkIns?: Prisma.DailyCheckInCreateNestedManyWithoutUserInput
+  transferPayments?: Prisma.TransferPaymentCreateNestedManyWithoutUserInput
+  validatedTransfers?: Prisma.TransferPaymentCreateNestedManyWithoutValidatorInput
+  activatedTransfers?: Prisma.TransferPaymentCreateNestedManyWithoutActivatorInput
+  auditLogs?: Prisma.AuditLogCreateNestedManyWithoutUserInput
+  notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
+  supportTickets?: Prisma.SupportTicketCreateNestedManyWithoutUserInput
+  ticketResponses?: Prisma.SupportTicketResponseCreateNestedManyWithoutUserInput
+  chatMessages?: Prisma.ChatMessageCreateNestedManyWithoutUserInput
+  contactMessages?: Prisma.ContactMessageCreateNestedManyWithoutUserInput
+  communityGroups?: Prisma.CommunityGroupCreateNestedManyWithoutCreatorInput
+  communityMemberships?: Prisma.CommunityMemberCreateNestedManyWithoutUserInput
+  postReactions?: Prisma.PostReactionCreateNestedManyWithoutUserInput
+  giftPacksBought?: Prisma.GiftPackCreateNestedManyWithoutBuyerInput
+  giftPacksRedeemed?: Prisma.GiftPackCreateNestedManyWithoutRedeemedByInput
+  reminders?: Prisma.UserReminderCreateNestedManyWithoutUserInput
+  referredBy?: Prisma.ClinicCreateNestedOneWithoutReferredUsersInput
+  savedProducts?: Prisma.UserSavedProductCreateNestedManyWithoutUserInput
+  weatherLogs?: Prisma.WeatherLogCreateNestedManyWithoutUserInput
+}
+
+export type UserUncheckedCreateWithoutUserBadgesInput = {
+  id?: string
+  name?: string | null
+  email: string
+  emailVerified?: Date | string | null
+  image?: string | null
+  password?: string | null
+  username?: string | null
+  role?: string
+  plan?: string
+  qvapayId?: string | null
+  analysisLimit?: number
+  analysisUsed?: number
+  analysisResetAt?: Date | string | null
+  telegramId?: string | null
+  telegramTrialStartedAt?: Date | string | null
+  isTelegramPremiumActive?: boolean
+  latitude?: number | null
+  longitude?: number | null
+  currentStreak?: number
+  maxStreak?: number
+  lastCheckInDate?: Date | string | null
+  trialEndsAt?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  referredByEstheticianId?: string | null
+  accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
+  sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
+  analyses?: Prisma.SkinAnalysisUncheckedCreateNestedManyWithoutUserInput
+  analysisJobs?: Prisma.AnalysisJobUncheckedCreateNestedManyWithoutUserInput
+  payments?: Prisma.PaymentUncheckedCreateNestedManyWithoutUserInput
+  subscriptions?: Prisma.SubscriptionUncheckedCreateNestedManyWithoutUserInput
+  purchasePacks?: Prisma.PurchasePackUncheckedCreateNestedManyWithoutUserInput
+  usageRecords?: Prisma.UsageTrackingUncheckedCreateNestedManyWithoutUserInput
+  clinic?: Prisma.ClinicUncheckedCreateNestedOneWithoutOwnerInput
+  clients?: Prisma.ClientUncheckedCreateNestedManyWithoutEstheticianInput
+  surveyFeedback?: Prisma.SurveyFeedbackUncheckedCreateNestedManyWithoutUserInput
+  communityPosts?: Prisma.CommunityPostUncheckedCreateNestedManyWithoutUserInput
+  comments?: Prisma.CommentUncheckedCreateNestedManyWithoutUserInput
+  skinDiary?: Prisma.SkinDiaryUncheckedCreateNestedManyWithoutUserInput
+  userChallenges?: Prisma.UserChallengeUncheckedCreateNestedManyWithoutUserInput
+  productReviews?: Prisma.ProductReviewUncheckedCreateNestedManyWithoutUserInput
+  referralsOwned?: Prisma.ReferralUncheckedCreateNestedManyWithoutReferrerInput
+  referralsReferred?: Prisma.ReferralUncheckedCreateNestedManyWithoutReferredInput
+  groupsOwned?: Prisma.GroupAnalyticsUncheckedCreateNestedManyWithoutReferrerInput
+  digitalPurchases?: Prisma.DigitalProductPurchaseUncheckedCreateNestedManyWithoutUserInput
+  affiliateClicks?: Prisma.AffiliateClickUncheckedCreateNestedManyWithoutUserInput
+  evolution?: Prisma.UserEvolutionUncheckedCreateNestedOneWithoutUserInput
+  checkIns?: Prisma.DailyCheckInUncheckedCreateNestedManyWithoutUserInput
+  transferPayments?: Prisma.TransferPaymentUncheckedCreateNestedManyWithoutUserInput
+  validatedTransfers?: Prisma.TransferPaymentUncheckedCreateNestedManyWithoutValidatorInput
+  activatedTransfers?: Prisma.TransferPaymentUncheckedCreateNestedManyWithoutActivatorInput
+  auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutUserInput
+  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
+  supportTickets?: Prisma.SupportTicketUncheckedCreateNestedManyWithoutUserInput
+  ticketResponses?: Prisma.SupportTicketResponseUncheckedCreateNestedManyWithoutUserInput
+  chatMessages?: Prisma.ChatMessageUncheckedCreateNestedManyWithoutUserInput
+  contactMessages?: Prisma.ContactMessageUncheckedCreateNestedManyWithoutUserInput
+  communityGroups?: Prisma.CommunityGroupUncheckedCreateNestedManyWithoutCreatorInput
+  communityMemberships?: Prisma.CommunityMemberUncheckedCreateNestedManyWithoutUserInput
+  postReactions?: Prisma.PostReactionUncheckedCreateNestedManyWithoutUserInput
+  giftPacksBought?: Prisma.GiftPackUncheckedCreateNestedManyWithoutBuyerInput
+  giftPacksRedeemed?: Prisma.GiftPackUncheckedCreateNestedManyWithoutRedeemedByInput
+  reminders?: Prisma.UserReminderUncheckedCreateNestedManyWithoutUserInput
+  savedProducts?: Prisma.UserSavedProductUncheckedCreateNestedManyWithoutUserInput
+  weatherLogs?: Prisma.WeatherLogUncheckedCreateNestedManyWithoutUserInput
+}
+
+export type UserCreateOrConnectWithoutUserBadgesInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutUserBadgesInput, Prisma.UserUncheckedCreateWithoutUserBadgesInput>
+}
+
+export type UserUpsertWithoutUserBadgesInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutUserBadgesInput, Prisma.UserUncheckedUpdateWithoutUserBadgesInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutUserBadgesInput, Prisma.UserUncheckedCreateWithoutUserBadgesInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutUserBadgesInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutUserBadgesInput, Prisma.UserUncheckedUpdateWithoutUserBadgesInput>
+}
+
+export type UserUpdateWithoutUserBadgesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  emailVerified?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.StringFieldUpdateOperationsInput | string
+  plan?: Prisma.StringFieldUpdateOperationsInput | string
+  qvapayId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  analysisLimit?: Prisma.IntFieldUpdateOperationsInput | number
+  analysisUsed?: Prisma.IntFieldUpdateOperationsInput | number
+  analysisResetAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  telegramId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  telegramTrialStartedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  isTelegramPremiumActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  latitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  longitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  currentStreak?: Prisma.IntFieldUpdateOperationsInput | number
+  maxStreak?: Prisma.IntFieldUpdateOperationsInput | number
+  lastCheckInDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  trialEndsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
+  sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
+  analyses?: Prisma.SkinAnalysisUpdateManyWithoutUserNestedInput
+  analysisJobs?: Prisma.AnalysisJobUpdateManyWithoutUserNestedInput
+  payments?: Prisma.PaymentUpdateManyWithoutUserNestedInput
+  subscriptions?: Prisma.SubscriptionUpdateManyWithoutUserNestedInput
+  purchasePacks?: Prisma.PurchasePackUpdateManyWithoutUserNestedInput
+  usageRecords?: Prisma.UsageTrackingUpdateManyWithoutUserNestedInput
+  clinic?: Prisma.ClinicUpdateOneWithoutOwnerNestedInput
+  clients?: Prisma.ClientUpdateManyWithoutEstheticianNestedInput
+  surveyFeedback?: Prisma.SurveyFeedbackUpdateManyWithoutUserNestedInput
+  communityPosts?: Prisma.CommunityPostUpdateManyWithoutUserNestedInput
+  comments?: Prisma.CommentUpdateManyWithoutUserNestedInput
+  skinDiary?: Prisma.SkinDiaryUpdateManyWithoutUserNestedInput
+  userChallenges?: Prisma.UserChallengeUpdateManyWithoutUserNestedInput
+  productReviews?: Prisma.ProductReviewUpdateManyWithoutUserNestedInput
+  referralsOwned?: Prisma.ReferralUpdateManyWithoutReferrerNestedInput
+  referralsReferred?: Prisma.ReferralUpdateManyWithoutReferredNestedInput
+  groupsOwned?: Prisma.GroupAnalyticsUpdateManyWithoutReferrerNestedInput
+  digitalPurchases?: Prisma.DigitalProductPurchaseUpdateManyWithoutUserNestedInput
+  affiliateClicks?: Prisma.AffiliateClickUpdateManyWithoutUserNestedInput
+  evolution?: Prisma.UserEvolutionUpdateOneWithoutUserNestedInput
+  checkIns?: Prisma.DailyCheckInUpdateManyWithoutUserNestedInput
+  transferPayments?: Prisma.TransferPaymentUpdateManyWithoutUserNestedInput
+  validatedTransfers?: Prisma.TransferPaymentUpdateManyWithoutValidatorNestedInput
+  activatedTransfers?: Prisma.TransferPaymentUpdateManyWithoutActivatorNestedInput
+  auditLogs?: Prisma.AuditLogUpdateManyWithoutUserNestedInput
+  notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
+  supportTickets?: Prisma.SupportTicketUpdateManyWithoutUserNestedInput
+  ticketResponses?: Prisma.SupportTicketResponseUpdateManyWithoutUserNestedInput
+  chatMessages?: Prisma.ChatMessageUpdateManyWithoutUserNestedInput
+  contactMessages?: Prisma.ContactMessageUpdateManyWithoutUserNestedInput
+  communityGroups?: Prisma.CommunityGroupUpdateManyWithoutCreatorNestedInput
+  communityMemberships?: Prisma.CommunityMemberUpdateManyWithoutUserNestedInput
+  postReactions?: Prisma.PostReactionUpdateManyWithoutUserNestedInput
+  giftPacksBought?: Prisma.GiftPackUpdateManyWithoutBuyerNestedInput
+  giftPacksRedeemed?: Prisma.GiftPackUpdateManyWithoutRedeemedByNestedInput
+  reminders?: Prisma.UserReminderUpdateManyWithoutUserNestedInput
+  referredBy?: Prisma.ClinicUpdateOneWithoutReferredUsersNestedInput
+  savedProducts?: Prisma.UserSavedProductUpdateManyWithoutUserNestedInput
+  weatherLogs?: Prisma.WeatherLogUpdateManyWithoutUserNestedInput
+}
+
+export type UserUncheckedUpdateWithoutUserBadgesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  emailVerified?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.StringFieldUpdateOperationsInput | string
+  plan?: Prisma.StringFieldUpdateOperationsInput | string
+  qvapayId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  analysisLimit?: Prisma.IntFieldUpdateOperationsInput | number
+  analysisUsed?: Prisma.IntFieldUpdateOperationsInput | number
+  analysisResetAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  telegramId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  telegramTrialStartedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  isTelegramPremiumActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  latitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  longitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  currentStreak?: Prisma.IntFieldUpdateOperationsInput | number
+  maxStreak?: Prisma.IntFieldUpdateOperationsInput | number
+  lastCheckInDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  trialEndsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  referredByEstheticianId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
+  sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
+  analyses?: Prisma.SkinAnalysisUncheckedUpdateManyWithoutUserNestedInput
+  analysisJobs?: Prisma.AnalysisJobUncheckedUpdateManyWithoutUserNestedInput
+  payments?: Prisma.PaymentUncheckedUpdateManyWithoutUserNestedInput
+  subscriptions?: Prisma.SubscriptionUncheckedUpdateManyWithoutUserNestedInput
+  purchasePacks?: Prisma.PurchasePackUncheckedUpdateManyWithoutUserNestedInput
+  usageRecords?: Prisma.UsageTrackingUncheckedUpdateManyWithoutUserNestedInput
+  clinic?: Prisma.ClinicUncheckedUpdateOneWithoutOwnerNestedInput
+  clients?: Prisma.ClientUncheckedUpdateManyWithoutEstheticianNestedInput
+  surveyFeedback?: Prisma.SurveyFeedbackUncheckedUpdateManyWithoutUserNestedInput
+  communityPosts?: Prisma.CommunityPostUncheckedUpdateManyWithoutUserNestedInput
+  comments?: Prisma.CommentUncheckedUpdateManyWithoutUserNestedInput
+  skinDiary?: Prisma.SkinDiaryUncheckedUpdateManyWithoutUserNestedInput
+  userChallenges?: Prisma.UserChallengeUncheckedUpdateManyWithoutUserNestedInput
+  productReviews?: Prisma.ProductReviewUncheckedUpdateManyWithoutUserNestedInput
+  referralsOwned?: Prisma.ReferralUncheckedUpdateManyWithoutReferrerNestedInput
+  referralsReferred?: Prisma.ReferralUncheckedUpdateManyWithoutReferredNestedInput
+  groupsOwned?: Prisma.GroupAnalyticsUncheckedUpdateManyWithoutReferrerNestedInput
+  digitalPurchases?: Prisma.DigitalProductPurchaseUncheckedUpdateManyWithoutUserNestedInput
+  affiliateClicks?: Prisma.AffiliateClickUncheckedUpdateManyWithoutUserNestedInput
+  evolution?: Prisma.UserEvolutionUncheckedUpdateOneWithoutUserNestedInput
+  checkIns?: Prisma.DailyCheckInUncheckedUpdateManyWithoutUserNestedInput
+  transferPayments?: Prisma.TransferPaymentUncheckedUpdateManyWithoutUserNestedInput
+  validatedTransfers?: Prisma.TransferPaymentUncheckedUpdateManyWithoutValidatorNestedInput
+  activatedTransfers?: Prisma.TransferPaymentUncheckedUpdateManyWithoutActivatorNestedInput
+  auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutUserNestedInput
+  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
+  supportTickets?: Prisma.SupportTicketUncheckedUpdateManyWithoutUserNestedInput
+  ticketResponses?: Prisma.SupportTicketResponseUncheckedUpdateManyWithoutUserNestedInput
+  chatMessages?: Prisma.ChatMessageUncheckedUpdateManyWithoutUserNestedInput
+  contactMessages?: Prisma.ContactMessageUncheckedUpdateManyWithoutUserNestedInput
+  communityGroups?: Prisma.CommunityGroupUncheckedUpdateManyWithoutCreatorNestedInput
+  communityMemberships?: Prisma.CommunityMemberUncheckedUpdateManyWithoutUserNestedInput
+  postReactions?: Prisma.PostReactionUncheckedUpdateManyWithoutUserNestedInput
+  giftPacksBought?: Prisma.GiftPackUncheckedUpdateManyWithoutBuyerNestedInput
+  giftPacksRedeemed?: Prisma.GiftPackUncheckedUpdateManyWithoutRedeemedByNestedInput
+  reminders?: Prisma.UserReminderUncheckedUpdateManyWithoutUserNestedInput
+  savedProducts?: Prisma.UserSavedProductUncheckedUpdateManyWithoutUserNestedInput
+  weatherLogs?: Prisma.WeatherLogUncheckedUpdateManyWithoutUserNestedInput
+}
+
+export type UserCreateWithoutWeatherLogsInput = {
+  id?: string
+  name?: string | null
+  email: string
+  emailVerified?: Date | string | null
+  image?: string | null
+  password?: string | null
+  username?: string | null
+  role?: string
+  plan?: string
+  qvapayId?: string | null
+  analysisLimit?: number
+  analysisUsed?: number
+  analysisResetAt?: Date | string | null
+  telegramId?: string | null
+  telegramTrialStartedAt?: Date | string | null
+  isTelegramPremiumActive?: boolean
+  latitude?: number | null
+  longitude?: number | null
+  currentStreak?: number
+  maxStreak?: number
+  lastCheckInDate?: Date | string | null
+  trialEndsAt?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
+  sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
+  analyses?: Prisma.SkinAnalysisCreateNestedManyWithoutUserInput
+  analysisJobs?: Prisma.AnalysisJobCreateNestedManyWithoutUserInput
+  payments?: Prisma.PaymentCreateNestedManyWithoutUserInput
+  subscriptions?: Prisma.SubscriptionCreateNestedManyWithoutUserInput
+  purchasePacks?: Prisma.PurchasePackCreateNestedManyWithoutUserInput
+  usageRecords?: Prisma.UsageTrackingCreateNestedManyWithoutUserInput
+  clinic?: Prisma.ClinicCreateNestedOneWithoutOwnerInput
+  clients?: Prisma.ClientCreateNestedManyWithoutEstheticianInput
+  surveyFeedback?: Prisma.SurveyFeedbackCreateNestedManyWithoutUserInput
+  communityPosts?: Prisma.CommunityPostCreateNestedManyWithoutUserInput
+  comments?: Prisma.CommentCreateNestedManyWithoutUserInput
+  skinDiary?: Prisma.SkinDiaryCreateNestedManyWithoutUserInput
+  userChallenges?: Prisma.UserChallengeCreateNestedManyWithoutUserInput
+  productReviews?: Prisma.ProductReviewCreateNestedManyWithoutUserInput
+  referralsOwned?: Prisma.ReferralCreateNestedManyWithoutReferrerInput
+  referralsReferred?: Prisma.ReferralCreateNestedManyWithoutReferredInput
+  groupsOwned?: Prisma.GroupAnalyticsCreateNestedManyWithoutReferrerInput
+  digitalPurchases?: Prisma.DigitalProductPurchaseCreateNestedManyWithoutUserInput
+  affiliateClicks?: Prisma.AffiliateClickCreateNestedManyWithoutUserInput
+  evolution?: Prisma.UserEvolutionCreateNestedOneWithoutUserInput
+  checkIns?: Prisma.DailyCheckInCreateNestedManyWithoutUserInput
+  transferPayments?: Prisma.TransferPaymentCreateNestedManyWithoutUserInput
+  validatedTransfers?: Prisma.TransferPaymentCreateNestedManyWithoutValidatorInput
+  activatedTransfers?: Prisma.TransferPaymentCreateNestedManyWithoutActivatorInput
+  auditLogs?: Prisma.AuditLogCreateNestedManyWithoutUserInput
+  notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
+  supportTickets?: Prisma.SupportTicketCreateNestedManyWithoutUserInput
+  ticketResponses?: Prisma.SupportTicketResponseCreateNestedManyWithoutUserInput
+  chatMessages?: Prisma.ChatMessageCreateNestedManyWithoutUserInput
+  contactMessages?: Prisma.ContactMessageCreateNestedManyWithoutUserInput
+  communityGroups?: Prisma.CommunityGroupCreateNestedManyWithoutCreatorInput
+  communityMemberships?: Prisma.CommunityMemberCreateNestedManyWithoutUserInput
+  postReactions?: Prisma.PostReactionCreateNestedManyWithoutUserInput
+  giftPacksBought?: Prisma.GiftPackCreateNestedManyWithoutBuyerInput
+  giftPacksRedeemed?: Prisma.GiftPackCreateNestedManyWithoutRedeemedByInput
+  reminders?: Prisma.UserReminderCreateNestedManyWithoutUserInput
+  referredBy?: Prisma.ClinicCreateNestedOneWithoutReferredUsersInput
+  savedProducts?: Prisma.UserSavedProductCreateNestedManyWithoutUserInput
+  userBadges?: Prisma.UserBadgeCreateNestedManyWithoutUserInput
+}
+
+export type UserUncheckedCreateWithoutWeatherLogsInput = {
+  id?: string
+  name?: string | null
+  email: string
+  emailVerified?: Date | string | null
+  image?: string | null
+  password?: string | null
+  username?: string | null
+  role?: string
+  plan?: string
+  qvapayId?: string | null
+  analysisLimit?: number
+  analysisUsed?: number
+  analysisResetAt?: Date | string | null
+  telegramId?: string | null
+  telegramTrialStartedAt?: Date | string | null
+  isTelegramPremiumActive?: boolean
+  latitude?: number | null
+  longitude?: number | null
+  currentStreak?: number
+  maxStreak?: number
+  lastCheckInDate?: Date | string | null
+  trialEndsAt?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  referredByEstheticianId?: string | null
+  accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
+  sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
+  analyses?: Prisma.SkinAnalysisUncheckedCreateNestedManyWithoutUserInput
+  analysisJobs?: Prisma.AnalysisJobUncheckedCreateNestedManyWithoutUserInput
+  payments?: Prisma.PaymentUncheckedCreateNestedManyWithoutUserInput
+  subscriptions?: Prisma.SubscriptionUncheckedCreateNestedManyWithoutUserInput
+  purchasePacks?: Prisma.PurchasePackUncheckedCreateNestedManyWithoutUserInput
+  usageRecords?: Prisma.UsageTrackingUncheckedCreateNestedManyWithoutUserInput
+  clinic?: Prisma.ClinicUncheckedCreateNestedOneWithoutOwnerInput
+  clients?: Prisma.ClientUncheckedCreateNestedManyWithoutEstheticianInput
+  surveyFeedback?: Prisma.SurveyFeedbackUncheckedCreateNestedManyWithoutUserInput
+  communityPosts?: Prisma.CommunityPostUncheckedCreateNestedManyWithoutUserInput
+  comments?: Prisma.CommentUncheckedCreateNestedManyWithoutUserInput
+  skinDiary?: Prisma.SkinDiaryUncheckedCreateNestedManyWithoutUserInput
+  userChallenges?: Prisma.UserChallengeUncheckedCreateNestedManyWithoutUserInput
+  productReviews?: Prisma.ProductReviewUncheckedCreateNestedManyWithoutUserInput
+  referralsOwned?: Prisma.ReferralUncheckedCreateNestedManyWithoutReferrerInput
+  referralsReferred?: Prisma.ReferralUncheckedCreateNestedManyWithoutReferredInput
+  groupsOwned?: Prisma.GroupAnalyticsUncheckedCreateNestedManyWithoutReferrerInput
+  digitalPurchases?: Prisma.DigitalProductPurchaseUncheckedCreateNestedManyWithoutUserInput
+  affiliateClicks?: Prisma.AffiliateClickUncheckedCreateNestedManyWithoutUserInput
+  evolution?: Prisma.UserEvolutionUncheckedCreateNestedOneWithoutUserInput
+  checkIns?: Prisma.DailyCheckInUncheckedCreateNestedManyWithoutUserInput
+  transferPayments?: Prisma.TransferPaymentUncheckedCreateNestedManyWithoutUserInput
+  validatedTransfers?: Prisma.TransferPaymentUncheckedCreateNestedManyWithoutValidatorInput
+  activatedTransfers?: Prisma.TransferPaymentUncheckedCreateNestedManyWithoutActivatorInput
+  auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutUserInput
+  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
+  supportTickets?: Prisma.SupportTicketUncheckedCreateNestedManyWithoutUserInput
+  ticketResponses?: Prisma.SupportTicketResponseUncheckedCreateNestedManyWithoutUserInput
+  chatMessages?: Prisma.ChatMessageUncheckedCreateNestedManyWithoutUserInput
+  contactMessages?: Prisma.ContactMessageUncheckedCreateNestedManyWithoutUserInput
+  communityGroups?: Prisma.CommunityGroupUncheckedCreateNestedManyWithoutCreatorInput
+  communityMemberships?: Prisma.CommunityMemberUncheckedCreateNestedManyWithoutUserInput
+  postReactions?: Prisma.PostReactionUncheckedCreateNestedManyWithoutUserInput
+  giftPacksBought?: Prisma.GiftPackUncheckedCreateNestedManyWithoutBuyerInput
+  giftPacksRedeemed?: Prisma.GiftPackUncheckedCreateNestedManyWithoutRedeemedByInput
+  reminders?: Prisma.UserReminderUncheckedCreateNestedManyWithoutUserInput
+  savedProducts?: Prisma.UserSavedProductUncheckedCreateNestedManyWithoutUserInput
+  userBadges?: Prisma.UserBadgeUncheckedCreateNestedManyWithoutUserInput
+}
+
+export type UserCreateOrConnectWithoutWeatherLogsInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutWeatherLogsInput, Prisma.UserUncheckedCreateWithoutWeatherLogsInput>
+}
+
+export type UserUpsertWithoutWeatherLogsInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutWeatherLogsInput, Prisma.UserUncheckedUpdateWithoutWeatherLogsInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutWeatherLogsInput, Prisma.UserUncheckedCreateWithoutWeatherLogsInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutWeatherLogsInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutWeatherLogsInput, Prisma.UserUncheckedUpdateWithoutWeatherLogsInput>
+}
+
+export type UserUpdateWithoutWeatherLogsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  emailVerified?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.StringFieldUpdateOperationsInput | string
+  plan?: Prisma.StringFieldUpdateOperationsInput | string
+  qvapayId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  analysisLimit?: Prisma.IntFieldUpdateOperationsInput | number
+  analysisUsed?: Prisma.IntFieldUpdateOperationsInput | number
+  analysisResetAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  telegramId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  telegramTrialStartedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  isTelegramPremiumActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  latitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  longitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  currentStreak?: Prisma.IntFieldUpdateOperationsInput | number
+  maxStreak?: Prisma.IntFieldUpdateOperationsInput | number
+  lastCheckInDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  trialEndsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
+  sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
+  analyses?: Prisma.SkinAnalysisUpdateManyWithoutUserNestedInput
+  analysisJobs?: Prisma.AnalysisJobUpdateManyWithoutUserNestedInput
+  payments?: Prisma.PaymentUpdateManyWithoutUserNestedInput
+  subscriptions?: Prisma.SubscriptionUpdateManyWithoutUserNestedInput
+  purchasePacks?: Prisma.PurchasePackUpdateManyWithoutUserNestedInput
+  usageRecords?: Prisma.UsageTrackingUpdateManyWithoutUserNestedInput
+  clinic?: Prisma.ClinicUpdateOneWithoutOwnerNestedInput
+  clients?: Prisma.ClientUpdateManyWithoutEstheticianNestedInput
+  surveyFeedback?: Prisma.SurveyFeedbackUpdateManyWithoutUserNestedInput
+  communityPosts?: Prisma.CommunityPostUpdateManyWithoutUserNestedInput
+  comments?: Prisma.CommentUpdateManyWithoutUserNestedInput
+  skinDiary?: Prisma.SkinDiaryUpdateManyWithoutUserNestedInput
+  userChallenges?: Prisma.UserChallengeUpdateManyWithoutUserNestedInput
+  productReviews?: Prisma.ProductReviewUpdateManyWithoutUserNestedInput
+  referralsOwned?: Prisma.ReferralUpdateManyWithoutReferrerNestedInput
+  referralsReferred?: Prisma.ReferralUpdateManyWithoutReferredNestedInput
+  groupsOwned?: Prisma.GroupAnalyticsUpdateManyWithoutReferrerNestedInput
+  digitalPurchases?: Prisma.DigitalProductPurchaseUpdateManyWithoutUserNestedInput
+  affiliateClicks?: Prisma.AffiliateClickUpdateManyWithoutUserNestedInput
+  evolution?: Prisma.UserEvolutionUpdateOneWithoutUserNestedInput
+  checkIns?: Prisma.DailyCheckInUpdateManyWithoutUserNestedInput
+  transferPayments?: Prisma.TransferPaymentUpdateManyWithoutUserNestedInput
+  validatedTransfers?: Prisma.TransferPaymentUpdateManyWithoutValidatorNestedInput
+  activatedTransfers?: Prisma.TransferPaymentUpdateManyWithoutActivatorNestedInput
+  auditLogs?: Prisma.AuditLogUpdateManyWithoutUserNestedInput
+  notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
+  supportTickets?: Prisma.SupportTicketUpdateManyWithoutUserNestedInput
+  ticketResponses?: Prisma.SupportTicketResponseUpdateManyWithoutUserNestedInput
+  chatMessages?: Prisma.ChatMessageUpdateManyWithoutUserNestedInput
+  contactMessages?: Prisma.ContactMessageUpdateManyWithoutUserNestedInput
+  communityGroups?: Prisma.CommunityGroupUpdateManyWithoutCreatorNestedInput
+  communityMemberships?: Prisma.CommunityMemberUpdateManyWithoutUserNestedInput
+  postReactions?: Prisma.PostReactionUpdateManyWithoutUserNestedInput
+  giftPacksBought?: Prisma.GiftPackUpdateManyWithoutBuyerNestedInput
+  giftPacksRedeemed?: Prisma.GiftPackUpdateManyWithoutRedeemedByNestedInput
+  reminders?: Prisma.UserReminderUpdateManyWithoutUserNestedInput
+  referredBy?: Prisma.ClinicUpdateOneWithoutReferredUsersNestedInput
+  savedProducts?: Prisma.UserSavedProductUpdateManyWithoutUserNestedInput
+  userBadges?: Prisma.UserBadgeUpdateManyWithoutUserNestedInput
+}
+
+export type UserUncheckedUpdateWithoutWeatherLogsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  emailVerified?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  password?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.StringFieldUpdateOperationsInput | string
+  plan?: Prisma.StringFieldUpdateOperationsInput | string
+  qvapayId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  analysisLimit?: Prisma.IntFieldUpdateOperationsInput | number
+  analysisUsed?: Prisma.IntFieldUpdateOperationsInput | number
+  analysisResetAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  telegramId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  telegramTrialStartedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  isTelegramPremiumActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  latitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  longitude?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  currentStreak?: Prisma.IntFieldUpdateOperationsInput | number
+  maxStreak?: Prisma.IntFieldUpdateOperationsInput | number
+  lastCheckInDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  trialEndsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  referredByEstheticianId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
+  sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
+  analyses?: Prisma.SkinAnalysisUncheckedUpdateManyWithoutUserNestedInput
+  analysisJobs?: Prisma.AnalysisJobUncheckedUpdateManyWithoutUserNestedInput
+  payments?: Prisma.PaymentUncheckedUpdateManyWithoutUserNestedInput
+  subscriptions?: Prisma.SubscriptionUncheckedUpdateManyWithoutUserNestedInput
+  purchasePacks?: Prisma.PurchasePackUncheckedUpdateManyWithoutUserNestedInput
+  usageRecords?: Prisma.UsageTrackingUncheckedUpdateManyWithoutUserNestedInput
+  clinic?: Prisma.ClinicUncheckedUpdateOneWithoutOwnerNestedInput
+  clients?: Prisma.ClientUncheckedUpdateManyWithoutEstheticianNestedInput
+  surveyFeedback?: Prisma.SurveyFeedbackUncheckedUpdateManyWithoutUserNestedInput
+  communityPosts?: Prisma.CommunityPostUncheckedUpdateManyWithoutUserNestedInput
+  comments?: Prisma.CommentUncheckedUpdateManyWithoutUserNestedInput
+  skinDiary?: Prisma.SkinDiaryUncheckedUpdateManyWithoutUserNestedInput
+  userChallenges?: Prisma.UserChallengeUncheckedUpdateManyWithoutUserNestedInput
+  productReviews?: Prisma.ProductReviewUncheckedUpdateManyWithoutUserNestedInput
+  referralsOwned?: Prisma.ReferralUncheckedUpdateManyWithoutReferrerNestedInput
+  referralsReferred?: Prisma.ReferralUncheckedUpdateManyWithoutReferredNestedInput
+  groupsOwned?: Prisma.GroupAnalyticsUncheckedUpdateManyWithoutReferrerNestedInput
+  digitalPurchases?: Prisma.DigitalProductPurchaseUncheckedUpdateManyWithoutUserNestedInput
+  affiliateClicks?: Prisma.AffiliateClickUncheckedUpdateManyWithoutUserNestedInput
+  evolution?: Prisma.UserEvolutionUncheckedUpdateOneWithoutUserNestedInput
+  checkIns?: Prisma.DailyCheckInUncheckedUpdateManyWithoutUserNestedInput
+  transferPayments?: Prisma.TransferPaymentUncheckedUpdateManyWithoutUserNestedInput
+  validatedTransfers?: Prisma.TransferPaymentUncheckedUpdateManyWithoutValidatorNestedInput
+  activatedTransfers?: Prisma.TransferPaymentUncheckedUpdateManyWithoutActivatorNestedInput
+  auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutUserNestedInput
+  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
+  supportTickets?: Prisma.SupportTicketUncheckedUpdateManyWithoutUserNestedInput
+  ticketResponses?: Prisma.SupportTicketResponseUncheckedUpdateManyWithoutUserNestedInput
+  chatMessages?: Prisma.ChatMessageUncheckedUpdateManyWithoutUserNestedInput
+  contactMessages?: Prisma.ContactMessageUncheckedUpdateManyWithoutUserNestedInput
+  communityGroups?: Prisma.CommunityGroupUncheckedUpdateManyWithoutCreatorNestedInput
+  communityMemberships?: Prisma.CommunityMemberUncheckedUpdateManyWithoutUserNestedInput
+  postReactions?: Prisma.PostReactionUncheckedUpdateManyWithoutUserNestedInput
+  giftPacksBought?: Prisma.GiftPackUncheckedUpdateManyWithoutBuyerNestedInput
+  giftPacksRedeemed?: Prisma.GiftPackUncheckedUpdateManyWithoutRedeemedByNestedInput
+  reminders?: Prisma.UserReminderUncheckedUpdateManyWithoutUserNestedInput
+  savedProducts?: Prisma.UserSavedProductUncheckedUpdateManyWithoutUserNestedInput
+  userBadges?: Prisma.UserBadgeUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateManyReferredByInput = {
@@ -12500,6 +13889,9 @@ export type UserUpdateWithoutReferredByInput = {
   giftPacksBought?: Prisma.GiftPackUpdateManyWithoutBuyerNestedInput
   giftPacksRedeemed?: Prisma.GiftPackUpdateManyWithoutRedeemedByNestedInput
   reminders?: Prisma.UserReminderUpdateManyWithoutUserNestedInput
+  savedProducts?: Prisma.UserSavedProductUpdateManyWithoutUserNestedInput
+  userBadges?: Prisma.UserBadgeUpdateManyWithoutUserNestedInput
+  weatherLogs?: Prisma.WeatherLogUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutReferredByInput = {
@@ -12565,6 +13957,9 @@ export type UserUncheckedUpdateWithoutReferredByInput = {
   giftPacksBought?: Prisma.GiftPackUncheckedUpdateManyWithoutBuyerNestedInput
   giftPacksRedeemed?: Prisma.GiftPackUncheckedUpdateManyWithoutRedeemedByNestedInput
   reminders?: Prisma.UserReminderUncheckedUpdateManyWithoutUserNestedInput
+  savedProducts?: Prisma.UserSavedProductUncheckedUpdateManyWithoutUserNestedInput
+  userBadges?: Prisma.UserBadgeUncheckedUpdateManyWithoutUserNestedInput
+  weatherLogs?: Prisma.WeatherLogUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateManyWithoutReferredByInput = {
@@ -12636,6 +14031,9 @@ export type UserCountOutputType = {
   giftPacksBought: number
   giftPacksRedeemed: number
   reminders: number
+  savedProducts: number
+  userBadges: number
+  weatherLogs: number
 }
 
 export type UserCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -12675,6 +14073,9 @@ export type UserCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.I
   giftPacksBought?: boolean | UserCountOutputTypeCountGiftPacksBoughtArgs
   giftPacksRedeemed?: boolean | UserCountOutputTypeCountGiftPacksRedeemedArgs
   reminders?: boolean | UserCountOutputTypeCountRemindersArgs
+  savedProducts?: boolean | UserCountOutputTypeCountSavedProductsArgs
+  userBadges?: boolean | UserCountOutputTypeCountUserBadgesArgs
+  weatherLogs?: boolean | UserCountOutputTypeCountWeatherLogsArgs
 }
 
 /**
@@ -12939,6 +14340,27 @@ export type UserCountOutputTypeCountRemindersArgs<ExtArgs extends runtime.Types.
   where?: Prisma.UserReminderWhereInput
 }
 
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountSavedProductsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.UserSavedProductWhereInput
+}
+
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountUserBadgesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.UserBadgeWhereInput
+}
+
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountWeatherLogsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.WeatherLogWhereInput
+}
+
 
 export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -13005,6 +14427,9 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   giftPacksRedeemed?: boolean | Prisma.User$giftPacksRedeemedArgs<ExtArgs>
   reminders?: boolean | Prisma.User$remindersArgs<ExtArgs>
   referredBy?: boolean | Prisma.User$referredByArgs<ExtArgs>
+  savedProducts?: boolean | Prisma.User$savedProductsArgs<ExtArgs>
+  userBadges?: boolean | Prisma.User$userBadgesArgs<ExtArgs>
+  weatherLogs?: boolean | Prisma.User$weatherLogsArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["user"]>
 
@@ -13135,6 +14560,9 @@ export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   giftPacksRedeemed?: boolean | Prisma.User$giftPacksRedeemedArgs<ExtArgs>
   reminders?: boolean | Prisma.User$remindersArgs<ExtArgs>
   referredBy?: boolean | Prisma.User$referredByArgs<ExtArgs>
+  savedProducts?: boolean | Prisma.User$savedProductsArgs<ExtArgs>
+  userBadges?: boolean | Prisma.User$userBadgesArgs<ExtArgs>
+  weatherLogs?: boolean | Prisma.User$weatherLogsArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type UserIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -13186,6 +14614,9 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     giftPacksRedeemed: Prisma.$GiftPackPayload<ExtArgs>[]
     reminders: Prisma.$UserReminderPayload<ExtArgs>[]
     referredBy: Prisma.$ClinicPayload<ExtArgs> | null
+    savedProducts: Prisma.$UserSavedProductPayload<ExtArgs>[]
+    userBadges: Prisma.$UserBadgePayload<ExtArgs>[]
+    weatherLogs: Prisma.$WeatherLogPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -13646,6 +15077,9 @@ export interface Prisma__UserClient<T, Null = never, ExtArgs extends runtime.Typ
   giftPacksRedeemed<T extends Prisma.User$giftPacksRedeemedArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$giftPacksRedeemedArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$GiftPackPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   reminders<T extends Prisma.User$remindersArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$remindersArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$UserReminderPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   referredBy<T extends Prisma.User$referredByArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$referredByArgs<ExtArgs>>): Prisma.Prisma__ClinicClient<runtime.Types.Result.GetResult<Prisma.$ClinicPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  savedProducts<T extends Prisma.User$savedProductsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$savedProductsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$UserSavedProductPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  userBadges<T extends Prisma.User$userBadgesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$userBadgesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$UserBadgePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  weatherLogs<T extends Prisma.User$weatherLogsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$weatherLogsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$WeatherLogPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -15019,6 +16453,78 @@ export type User$referredByArgs<ExtArgs extends runtime.Types.Extensions.Interna
    */
   include?: Prisma.ClinicInclude<ExtArgs> | null
   where?: Prisma.ClinicWhereInput
+}
+
+/**
+ * User.savedProducts
+ */
+export type User$savedProductsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the UserSavedProduct
+   */
+  select?: Prisma.UserSavedProductSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the UserSavedProduct
+   */
+  omit?: Prisma.UserSavedProductOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.UserSavedProductInclude<ExtArgs> | null
+  where?: Prisma.UserSavedProductWhereInput
+  orderBy?: Prisma.UserSavedProductOrderByWithRelationInput | Prisma.UserSavedProductOrderByWithRelationInput[]
+  cursor?: Prisma.UserSavedProductWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.UserSavedProductScalarFieldEnum | Prisma.UserSavedProductScalarFieldEnum[]
+}
+
+/**
+ * User.userBadges
+ */
+export type User$userBadgesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the UserBadge
+   */
+  select?: Prisma.UserBadgeSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the UserBadge
+   */
+  omit?: Prisma.UserBadgeOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.UserBadgeInclude<ExtArgs> | null
+  where?: Prisma.UserBadgeWhereInput
+  orderBy?: Prisma.UserBadgeOrderByWithRelationInput | Prisma.UserBadgeOrderByWithRelationInput[]
+  cursor?: Prisma.UserBadgeWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.UserBadgeScalarFieldEnum | Prisma.UserBadgeScalarFieldEnum[]
+}
+
+/**
+ * User.weatherLogs
+ */
+export type User$weatherLogsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the WeatherLog
+   */
+  select?: Prisma.WeatherLogSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the WeatherLog
+   */
+  omit?: Prisma.WeatherLogOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.WeatherLogInclude<ExtArgs> | null
+  where?: Prisma.WeatherLogWhereInput
+  orderBy?: Prisma.WeatherLogOrderByWithRelationInput | Prisma.WeatherLogOrderByWithRelationInput[]
+  cursor?: Prisma.WeatherLogWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.WeatherLogScalarFieldEnum | Prisma.WeatherLogScalarFieldEnum[]
 }
 
 /**

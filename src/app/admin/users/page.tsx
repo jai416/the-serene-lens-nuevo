@@ -11,6 +11,8 @@ import { Users, ArrowLeft } from "lucide-react"
 import { formatDate, getPlanLabel } from "@/lib/utils"
 import { toast } from "sonner"
 import { ListSkeleton } from "@/components/ui/skeleton"
+import { useLocale } from "@/lib/locale/locale-context"
+import { t } from "@/lib/locale/translations"
 
 interface User {
   id: string
@@ -30,6 +32,7 @@ const roleColors: Record<string, string> = {
 }
 
 export default function AdminUsersPage() {
+  const { locale } = useLocale()
   const { data: session, status } = useSession()
   const [users, setUsers] = useState<User[]>([])
   const [editing, setEditing] = useState<string | null>(null)
@@ -74,9 +77,7 @@ export default function AdminUsersPage() {
   return (
     <div className="overflow-x-hidden">
       <div className="mb-8">
-          <Link href="/admin" className="text-xs text-[#666666] hover:text-[#1A1A1A] inline-flex items-center gap-1 mb-4">
-          <ArrowLeft className="w-3 h-3" /> Volver al panel
-        </Link>
+          <Link href="/admin" className="text-sm text-[#666666] hover:text-[#1A1A1A]">{t("common.back", locale)}</Link>
         <Badge className="bg-[#88B078]/20 text-[#88B078] border-0 rounded-full px-3 py-1 text-[10px] font-medium">
           <Users className="w-3 h-3 mr-1.5" />
           Usuarios

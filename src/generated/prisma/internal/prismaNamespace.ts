@@ -439,7 +439,11 @@ export const ModelName = {
   ChatMessage: 'ChatMessage',
   LeadMagnet: 'LeadMagnet',
   GiftPack: 'GiftPack',
-  UserReminder: 'UserReminder'
+  UserReminder: 'UserReminder',
+  UserSavedProduct: 'UserSavedProduct',
+  Badge: 'Badge',
+  UserBadge: 'UserBadge',
+  WeatherLog: 'WeatherLog'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -455,7 +459,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "user" | "analysisJob" | "account" | "session" | "verificationToken" | "skinAnalysis" | "blogPost" | "product" | "payment" | "transferPayment" | "auditLog" | "subscription" | "purchasePack" | "usageTracking" | "feedback" | "clinic" | "affiliateClick" | "contactMessage" | "botLog" | "botKnowledge" | "botFeedback" | "cache" | "webhookEvent" | "userEvolution" | "rateLimit" | "appConfig" | "surveyFeedback" | "communityPost" | "comment" | "communityGroup" | "communityMember" | "postReaction" | "conversationState" | "skinDiary" | "challenge" | "userChallenge" | "productReview" | "groupAnalytics" | "referral" | "digitalProduct" | "digitalProductPurchase" | "dailyCheckIn" | "ingredientKB" | "client" | "telegramAuth" | "telegramLog" | "notification" | "telegramAlert" | "discountCode" | "telegramReminder" | "supportTicket" | "supportTicketResponse" | "chatMessage" | "leadMagnet" | "giftPack" | "userReminder"
+    modelProps: "user" | "analysisJob" | "account" | "session" | "verificationToken" | "skinAnalysis" | "blogPost" | "product" | "payment" | "transferPayment" | "auditLog" | "subscription" | "purchasePack" | "usageTracking" | "feedback" | "clinic" | "affiliateClick" | "contactMessage" | "botLog" | "botKnowledge" | "botFeedback" | "cache" | "webhookEvent" | "userEvolution" | "rateLimit" | "appConfig" | "surveyFeedback" | "communityPost" | "comment" | "communityGroup" | "communityMember" | "postReaction" | "conversationState" | "skinDiary" | "challenge" | "userChallenge" | "productReview" | "groupAnalytics" | "referral" | "digitalProduct" | "digitalProductPurchase" | "dailyCheckIn" | "ingredientKB" | "client" | "telegramAuth" | "telegramLog" | "notification" | "telegramAlert" | "discountCode" | "telegramReminder" | "supportTicket" | "supportTicketResponse" | "chatMessage" | "leadMagnet" | "giftPack" | "userReminder" | "userSavedProduct" | "badge" | "userBadge" | "weatherLog"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -4603,6 +4607,302 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    UserSavedProduct: {
+      payload: Prisma.$UserSavedProductPayload<ExtArgs>
+      fields: Prisma.UserSavedProductFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.UserSavedProductFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserSavedProductPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.UserSavedProductFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserSavedProductPayload>
+        }
+        findFirst: {
+          args: Prisma.UserSavedProductFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserSavedProductPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.UserSavedProductFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserSavedProductPayload>
+        }
+        findMany: {
+          args: Prisma.UserSavedProductFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserSavedProductPayload>[]
+        }
+        create: {
+          args: Prisma.UserSavedProductCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserSavedProductPayload>
+        }
+        createMany: {
+          args: Prisma.UserSavedProductCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.UserSavedProductCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserSavedProductPayload>[]
+        }
+        delete: {
+          args: Prisma.UserSavedProductDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserSavedProductPayload>
+        }
+        update: {
+          args: Prisma.UserSavedProductUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserSavedProductPayload>
+        }
+        deleteMany: {
+          args: Prisma.UserSavedProductDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.UserSavedProductUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.UserSavedProductUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserSavedProductPayload>[]
+        }
+        upsert: {
+          args: Prisma.UserSavedProductUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserSavedProductPayload>
+        }
+        aggregate: {
+          args: Prisma.UserSavedProductAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateUserSavedProduct>
+        }
+        groupBy: {
+          args: Prisma.UserSavedProductGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.UserSavedProductGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.UserSavedProductCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.UserSavedProductCountAggregateOutputType> | number
+        }
+      }
+    }
+    Badge: {
+      payload: Prisma.$BadgePayload<ExtArgs>
+      fields: Prisma.BadgeFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.BadgeFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$BadgePayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.BadgeFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$BadgePayload>
+        }
+        findFirst: {
+          args: Prisma.BadgeFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$BadgePayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.BadgeFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$BadgePayload>
+        }
+        findMany: {
+          args: Prisma.BadgeFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$BadgePayload>[]
+        }
+        create: {
+          args: Prisma.BadgeCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$BadgePayload>
+        }
+        createMany: {
+          args: Prisma.BadgeCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.BadgeCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$BadgePayload>[]
+        }
+        delete: {
+          args: Prisma.BadgeDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$BadgePayload>
+        }
+        update: {
+          args: Prisma.BadgeUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$BadgePayload>
+        }
+        deleteMany: {
+          args: Prisma.BadgeDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.BadgeUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.BadgeUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$BadgePayload>[]
+        }
+        upsert: {
+          args: Prisma.BadgeUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$BadgePayload>
+        }
+        aggregate: {
+          args: Prisma.BadgeAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateBadge>
+        }
+        groupBy: {
+          args: Prisma.BadgeGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.BadgeGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.BadgeCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.BadgeCountAggregateOutputType> | number
+        }
+      }
+    }
+    UserBadge: {
+      payload: Prisma.$UserBadgePayload<ExtArgs>
+      fields: Prisma.UserBadgeFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.UserBadgeFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserBadgePayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.UserBadgeFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserBadgePayload>
+        }
+        findFirst: {
+          args: Prisma.UserBadgeFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserBadgePayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.UserBadgeFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserBadgePayload>
+        }
+        findMany: {
+          args: Prisma.UserBadgeFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserBadgePayload>[]
+        }
+        create: {
+          args: Prisma.UserBadgeCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserBadgePayload>
+        }
+        createMany: {
+          args: Prisma.UserBadgeCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.UserBadgeCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserBadgePayload>[]
+        }
+        delete: {
+          args: Prisma.UserBadgeDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserBadgePayload>
+        }
+        update: {
+          args: Prisma.UserBadgeUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserBadgePayload>
+        }
+        deleteMany: {
+          args: Prisma.UserBadgeDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.UserBadgeUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.UserBadgeUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserBadgePayload>[]
+        }
+        upsert: {
+          args: Prisma.UserBadgeUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UserBadgePayload>
+        }
+        aggregate: {
+          args: Prisma.UserBadgeAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateUserBadge>
+        }
+        groupBy: {
+          args: Prisma.UserBadgeGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.UserBadgeGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.UserBadgeCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.UserBadgeCountAggregateOutputType> | number
+        }
+      }
+    }
+    WeatherLog: {
+      payload: Prisma.$WeatherLogPayload<ExtArgs>
+      fields: Prisma.WeatherLogFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.WeatherLogFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$WeatherLogPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.WeatherLogFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$WeatherLogPayload>
+        }
+        findFirst: {
+          args: Prisma.WeatherLogFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$WeatherLogPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.WeatherLogFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$WeatherLogPayload>
+        }
+        findMany: {
+          args: Prisma.WeatherLogFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$WeatherLogPayload>[]
+        }
+        create: {
+          args: Prisma.WeatherLogCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$WeatherLogPayload>
+        }
+        createMany: {
+          args: Prisma.WeatherLogCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.WeatherLogCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$WeatherLogPayload>[]
+        }
+        delete: {
+          args: Prisma.WeatherLogDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$WeatherLogPayload>
+        }
+        update: {
+          args: Prisma.WeatherLogUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$WeatherLogPayload>
+        }
+        deleteMany: {
+          args: Prisma.WeatherLogDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.WeatherLogUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.WeatherLogUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$WeatherLogPayload>[]
+        }
+        upsert: {
+          args: Prisma.WeatherLogUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$WeatherLogPayload>
+        }
+        aggregate: {
+          args: Prisma.WeatherLogAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateWeatherLog>
+        }
+        groupBy: {
+          args: Prisma.WeatherLogGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.WeatherLogGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.WeatherLogCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.WeatherLogCountAggregateOutputType> | number
+        }
+      }
+    }
   }
 } & {
   other: {
@@ -5050,6 +5350,7 @@ export const SurveyFeedbackScalarFieldEnum = {
   userId: 'userId',
   rating: 'rating',
   comment: 'comment',
+  source: 'source',
   createdAt: 'createdAt'
 } as const
 
@@ -5318,6 +5619,8 @@ export const NotificationScalarFieldEnum = {
   message: 'message',
   link: 'link',
   read: 'read',
+  emailSent: 'emailSent',
+  sentAt: 'sentAt',
   createdAt: 'createdAt'
 } as const
 
@@ -5437,6 +5740,54 @@ export const UserReminderScalarFieldEnum = {
 } as const
 
 export type UserReminderScalarFieldEnum = (typeof UserReminderScalarFieldEnum)[keyof typeof UserReminderScalarFieldEnum]
+
+
+export const UserSavedProductScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  productId: 'productId',
+  createdAt: 'createdAt'
+} as const
+
+export type UserSavedProductScalarFieldEnum = (typeof UserSavedProductScalarFieldEnum)[keyof typeof UserSavedProductScalarFieldEnum]
+
+
+export const BadgeScalarFieldEnum = {
+  id: 'id',
+  slug: 'slug',
+  name: 'name',
+  description: 'description',
+  icon: 'icon',
+  criteria: 'criteria',
+  active: 'active',
+  createdAt: 'createdAt'
+} as const
+
+export type BadgeScalarFieldEnum = (typeof BadgeScalarFieldEnum)[keyof typeof BadgeScalarFieldEnum]
+
+
+export const UserBadgeScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  badgeId: 'badgeId',
+  earnedAt: 'earnedAt',
+  notified: 'notified'
+} as const
+
+export type UserBadgeScalarFieldEnum = (typeof UserBadgeScalarFieldEnum)[keyof typeof UserBadgeScalarFieldEnum]
+
+
+export const WeatherLogScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  date: 'date',
+  humidity: 'humidity',
+  temp: 'temp',
+  condition: 'condition',
+  createdAt: 'createdAt'
+} as const
+
+export type WeatherLogScalarFieldEnum = (typeof WeatherLogScalarFieldEnum)[keyof typeof WeatherLogScalarFieldEnum]
 
 
 export const SortOrder = {
@@ -5728,6 +6079,10 @@ export type GlobalOmitConfig = {
   leadMagnet?: Prisma.LeadMagnetOmit
   giftPack?: Prisma.GiftPackOmit
   userReminder?: Prisma.UserReminderOmit
+  userSavedProduct?: Prisma.UserSavedProductOmit
+  badge?: Prisma.BadgeOmit
+  userBadge?: Prisma.UserBadgeOmit
+  weatherLog?: Prisma.WeatherLogOmit
 }
 
 /* Types for Logging */

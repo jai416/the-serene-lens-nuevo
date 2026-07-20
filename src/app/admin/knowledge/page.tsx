@@ -11,6 +11,8 @@ import { BookOpen, ArrowLeft, Plus, Trash2, RefreshCw } from "lucide-react"
 import { getCsrfToken } from "@/lib/csrf-client"
 import { toast } from "sonner"
 import { ListSkeleton } from "@/components/ui/skeleton"
+import { useLocale } from "@/lib/locale/locale-context"
+import { t } from "@/lib/locale/translations"
 
 interface KnowledgeEntry {
   id: string
@@ -32,6 +34,7 @@ interface KnowledgeEntry {
 }
 
 export default function AdminKnowledgePage() {
+  const { locale } = useLocale()
   const { data: session, status } = useSession()
   const [entries, setEntries] = useState<KnowledgeEntry[]>([])
   const [loading, setLoading] = useState(true)
@@ -134,9 +137,7 @@ export default function AdminKnowledgePage() {
   return (
     <div>
       <div className="mb-8">
-        <Link href="/admin" className="text-xs text-[#666666] hover:text-[#1A1A1A] inline-flex items-center gap-1 mb-4">
-          <ArrowLeft className="w-3 h-3" /> Volver al panel
-        </Link>
+        <Link href="/admin" className="text-sm text-[#666666] hover:text-[#1A1A1A]">{t("common.back", locale)}</Link>
         <Badge className="bg-[#E2ECE0] text-[#1A1A1A] border-0 rounded-full px-3 py-1 text-[10px] font-medium">
           <BookOpen className="w-3 h-3 mr-1.5" />
           Base de Conocimiento

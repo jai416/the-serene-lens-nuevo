@@ -252,7 +252,7 @@ export default function HomePage() {
             <p className="text-[#666666]">Sin letra pequeña. Sin sorpresas.</p>
           </div>
 
-          <div className="grid md:grid-cols-3 gap-5">
+          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
             {[
               {
                 id: "FREE",
@@ -275,11 +275,20 @@ export default function HomePage() {
               {
                 id: "PRO",
                 name: "Pro",
-                price: "$9.99",
+                price: "$14.99",
                 period: "/mes",
                 badge: "Recomendado",
                 popular: false,
                 features: ["Todo Premium", "Procesamiento prioritario", "Acceso temprano a funciones", "Soporte prioritario"],
+              },
+              {
+                id: "ESTHETICIAN",
+                name: "Esteticista",
+                price: "$49.99",
+                period: "/mes",
+                badge: "Profesional",
+                popular: false,
+                features: ["Análisis ilimitados", "Dashboard multiusuario", "QR de referido", "Soporte prioritario 24/7", "Estadísticas de clientes"],
               },
             ].map((p, i) => (
               <Card
@@ -327,14 +336,14 @@ export default function HomePage() {
                       variant={p.popular ? "primary" : "secondary"}
                       className="w-full py-5 h-auto"
                     >
-                      {p.popular ? "Empezar con Premium" : p.id === "FREE" ? "Comenzar Gratis" : "Elegir Pro"}
+                      {p.popular ? "Empezar con Premium" : p.id === "FREE" ? "Comenzar Gratis" : p.id === "ESTHETICIAN" ? "Elegir Esteticista" : "Elegir Pro"}
                     </Button>
                   </Link>
                 </CardContent>
               </Card>
             ))}
             <p className="col-span-full text-center text-xs text-[#666666] mt-4">
-              Planes anuales (Premium $49.99/año, Pro $99.99/año) y Esteticista ($29.99/mes) disponibles.
+              Planes anuales (Premium $79.99/año) y Esteticista ($499.99/año) disponibles.
             </p>
           </div>
         </div>
@@ -348,6 +357,16 @@ export default function HomePage() {
           Esta herramienta ofrece observaciones cosméticas orientativas basadas únicamente en fotografías proporcionadas por el usuario. No constituye diagnóstico médico ni reemplaza la evaluación de un dermatólogo.
         </p>
       </section>
+
+      <footer className="border-t border-[#E8E8E8] py-6 px-4">
+        <div className="max-w-5xl mx-auto flex flex-wrap justify-center gap-x-6 gap-y-2 text-sm text-[#666666]">
+          <Link href="/privacy">Políticas de Privacidad</Link>
+          <Link href="/terms">Términos de Servicio</Link>
+          <Link href="/payment-policy">Política de Pagos</Link>
+          <Link href="/contact">Contacto</Link>
+          <Link href="/about">Sobre Nosotros</Link>
+        </div>
+      </footer>
     </div>
   )
 }

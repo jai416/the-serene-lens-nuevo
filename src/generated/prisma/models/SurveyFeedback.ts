@@ -39,6 +39,7 @@ export type SurveyFeedbackMinAggregateOutputType = {
   userId: string | null
   rating: number | null
   comment: string | null
+  source: string | null
   createdAt: Date | null
 }
 
@@ -47,6 +48,7 @@ export type SurveyFeedbackMaxAggregateOutputType = {
   userId: string | null
   rating: number | null
   comment: string | null
+  source: string | null
   createdAt: Date | null
 }
 
@@ -55,6 +57,7 @@ export type SurveyFeedbackCountAggregateOutputType = {
   userId: number
   rating: number
   comment: number
+  source: number
   createdAt: number
   _all: number
 }
@@ -73,6 +76,7 @@ export type SurveyFeedbackMinAggregateInputType = {
   userId?: true
   rating?: true
   comment?: true
+  source?: true
   createdAt?: true
 }
 
@@ -81,6 +85,7 @@ export type SurveyFeedbackMaxAggregateInputType = {
   userId?: true
   rating?: true
   comment?: true
+  source?: true
   createdAt?: true
 }
 
@@ -89,6 +94,7 @@ export type SurveyFeedbackCountAggregateInputType = {
   userId?: true
   rating?: true
   comment?: true
+  source?: true
   createdAt?: true
   _all?: true
 }
@@ -184,6 +190,7 @@ export type SurveyFeedbackGroupByOutputType = {
   userId: string
   rating: number
   comment: string | null
+  source: string | null
   createdAt: Date
   _count: SurveyFeedbackCountAggregateOutputType | null
   _avg: SurveyFeedbackAvgAggregateOutputType | null
@@ -215,6 +222,7 @@ export type SurveyFeedbackWhereInput = {
   userId?: Prisma.StringFilter<"SurveyFeedback"> | string
   rating?: Prisma.IntFilter<"SurveyFeedback"> | number
   comment?: Prisma.StringNullableFilter<"SurveyFeedback"> | string | null
+  source?: Prisma.StringNullableFilter<"SurveyFeedback"> | string | null
   createdAt?: Prisma.DateTimeFilter<"SurveyFeedback"> | Date | string
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
 }
@@ -224,6 +232,7 @@ export type SurveyFeedbackOrderByWithRelationInput = {
   userId?: Prisma.SortOrder
   rating?: Prisma.SortOrder
   comment?: Prisma.SortOrderInput | Prisma.SortOrder
+  source?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   user?: Prisma.UserOrderByWithRelationInput
 }
@@ -236,6 +245,7 @@ export type SurveyFeedbackWhereUniqueInput = Prisma.AtLeast<{
   userId?: Prisma.StringFilter<"SurveyFeedback"> | string
   rating?: Prisma.IntFilter<"SurveyFeedback"> | number
   comment?: Prisma.StringNullableFilter<"SurveyFeedback"> | string | null
+  source?: Prisma.StringNullableFilter<"SurveyFeedback"> | string | null
   createdAt?: Prisma.DateTimeFilter<"SurveyFeedback"> | Date | string
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
 }, "id">
@@ -245,6 +255,7 @@ export type SurveyFeedbackOrderByWithAggregationInput = {
   userId?: Prisma.SortOrder
   rating?: Prisma.SortOrder
   comment?: Prisma.SortOrderInput | Prisma.SortOrder
+  source?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   _count?: Prisma.SurveyFeedbackCountOrderByAggregateInput
   _avg?: Prisma.SurveyFeedbackAvgOrderByAggregateInput
@@ -261,6 +272,7 @@ export type SurveyFeedbackScalarWhereWithAggregatesInput = {
   userId?: Prisma.StringWithAggregatesFilter<"SurveyFeedback"> | string
   rating?: Prisma.IntWithAggregatesFilter<"SurveyFeedback"> | number
   comment?: Prisma.StringNullableWithAggregatesFilter<"SurveyFeedback"> | string | null
+  source?: Prisma.StringNullableWithAggregatesFilter<"SurveyFeedback"> | string | null
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"SurveyFeedback"> | Date | string
 }
 
@@ -268,6 +280,7 @@ export type SurveyFeedbackCreateInput = {
   id?: string
   rating: number
   comment?: string | null
+  source?: string | null
   createdAt?: Date | string
   user: Prisma.UserCreateNestedOneWithoutSurveyFeedbackInput
 }
@@ -277,6 +290,7 @@ export type SurveyFeedbackUncheckedCreateInput = {
   userId: string
   rating: number
   comment?: string | null
+  source?: string | null
   createdAt?: Date | string
 }
 
@@ -284,6 +298,7 @@ export type SurveyFeedbackUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   rating?: Prisma.IntFieldUpdateOperationsInput | number
   comment?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  source?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   user?: Prisma.UserUpdateOneRequiredWithoutSurveyFeedbackNestedInput
 }
@@ -293,6 +308,7 @@ export type SurveyFeedbackUncheckedUpdateInput = {
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   rating?: Prisma.IntFieldUpdateOperationsInput | number
   comment?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  source?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -301,6 +317,7 @@ export type SurveyFeedbackCreateManyInput = {
   userId: string
   rating: number
   comment?: string | null
+  source?: string | null
   createdAt?: Date | string
 }
 
@@ -308,6 +325,7 @@ export type SurveyFeedbackUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   rating?: Prisma.IntFieldUpdateOperationsInput | number
   comment?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  source?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -316,6 +334,7 @@ export type SurveyFeedbackUncheckedUpdateManyInput = {
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   rating?: Prisma.IntFieldUpdateOperationsInput | number
   comment?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  source?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -334,6 +353,7 @@ export type SurveyFeedbackCountOrderByAggregateInput = {
   userId?: Prisma.SortOrder
   rating?: Prisma.SortOrder
   comment?: Prisma.SortOrder
+  source?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
 }
 
@@ -346,6 +366,7 @@ export type SurveyFeedbackMaxOrderByAggregateInput = {
   userId?: Prisma.SortOrder
   rating?: Prisma.SortOrder
   comment?: Prisma.SortOrder
+  source?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
 }
 
@@ -354,6 +375,7 @@ export type SurveyFeedbackMinOrderByAggregateInput = {
   userId?: Prisma.SortOrder
   rating?: Prisma.SortOrder
   comment?: Prisma.SortOrder
+  source?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
 }
 
@@ -407,6 +429,7 @@ export type SurveyFeedbackCreateWithoutUserInput = {
   id?: string
   rating: number
   comment?: string | null
+  source?: string | null
   createdAt?: Date | string
 }
 
@@ -414,6 +437,7 @@ export type SurveyFeedbackUncheckedCreateWithoutUserInput = {
   id?: string
   rating: number
   comment?: string | null
+  source?: string | null
   createdAt?: Date | string
 }
 
@@ -451,6 +475,7 @@ export type SurveyFeedbackScalarWhereInput = {
   userId?: Prisma.StringFilter<"SurveyFeedback"> | string
   rating?: Prisma.IntFilter<"SurveyFeedback"> | number
   comment?: Prisma.StringNullableFilter<"SurveyFeedback"> | string | null
+  source?: Prisma.StringNullableFilter<"SurveyFeedback"> | string | null
   createdAt?: Prisma.DateTimeFilter<"SurveyFeedback"> | Date | string
 }
 
@@ -458,6 +483,7 @@ export type SurveyFeedbackCreateManyUserInput = {
   id?: string
   rating: number
   comment?: string | null
+  source?: string | null
   createdAt?: Date | string
 }
 
@@ -465,6 +491,7 @@ export type SurveyFeedbackUpdateWithoutUserInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   rating?: Prisma.IntFieldUpdateOperationsInput | number
   comment?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  source?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -472,6 +499,7 @@ export type SurveyFeedbackUncheckedUpdateWithoutUserInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   rating?: Prisma.IntFieldUpdateOperationsInput | number
   comment?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  source?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -479,6 +507,7 @@ export type SurveyFeedbackUncheckedUpdateManyWithoutUserInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   rating?: Prisma.IntFieldUpdateOperationsInput | number
   comment?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  source?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -489,6 +518,7 @@ export type SurveyFeedbackSelect<ExtArgs extends runtime.Types.Extensions.Intern
   userId?: boolean
   rating?: boolean
   comment?: boolean
+  source?: boolean
   createdAt?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["surveyFeedback"]>
@@ -498,6 +528,7 @@ export type SurveyFeedbackSelectCreateManyAndReturn<ExtArgs extends runtime.Type
   userId?: boolean
   rating?: boolean
   comment?: boolean
+  source?: boolean
   createdAt?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["surveyFeedback"]>
@@ -507,6 +538,7 @@ export type SurveyFeedbackSelectUpdateManyAndReturn<ExtArgs extends runtime.Type
   userId?: boolean
   rating?: boolean
   comment?: boolean
+  source?: boolean
   createdAt?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["surveyFeedback"]>
@@ -516,10 +548,11 @@ export type SurveyFeedbackSelectScalar = {
   userId?: boolean
   rating?: boolean
   comment?: boolean
+  source?: boolean
   createdAt?: boolean
 }
 
-export type SurveyFeedbackOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "rating" | "comment" | "createdAt", ExtArgs["result"]["surveyFeedback"]>
+export type SurveyFeedbackOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "rating" | "comment" | "source" | "createdAt", ExtArgs["result"]["surveyFeedback"]>
 export type SurveyFeedbackInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }
@@ -540,6 +573,7 @@ export type $SurveyFeedbackPayload<ExtArgs extends runtime.Types.Extensions.Inte
     userId: string
     rating: number
     comment: string | null
+    source: string | null
     createdAt: Date
   }, ExtArgs["result"]["surveyFeedback"]>
   composites: {}
@@ -969,6 +1003,7 @@ export interface SurveyFeedbackFieldRefs {
   readonly userId: Prisma.FieldRef<"SurveyFeedback", 'String'>
   readonly rating: Prisma.FieldRef<"SurveyFeedback", 'Int'>
   readonly comment: Prisma.FieldRef<"SurveyFeedback", 'String'>
+  readonly source: Prisma.FieldRef<"SurveyFeedback", 'String'>
   readonly createdAt: Prisma.FieldRef<"SurveyFeedback", 'DateTime'>
 }
     

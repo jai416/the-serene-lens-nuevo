@@ -12,6 +12,8 @@ import { formatDate } from "@/lib/utils"
 import { toast } from "sonner"
 import { getCsrfToken } from "@/lib/csrf-client"
 import { ListSkeleton } from "@/components/ui/skeleton"
+import { useLocale } from "@/lib/locale/locale-context"
+import { t } from "@/lib/locale/translations"
 
 interface Transfer {
   id: string
@@ -38,6 +40,7 @@ const statusConfig: Record<string, { label: string; variant: "secondary" | "succ
 }
 
 export default function AdminTransfersPage() {
+  const { locale } = useLocale()
   const { data: session, status } = useSession()
   const [transfers, setTransfers] = useState<Transfer[]>([])
   const [loading, setLoading] = useState(true)
@@ -137,9 +140,7 @@ export default function AdminTransfersPage() {
     <div className="min-h-screen bg-[#F8F9FA] pt-24 pb-16 px-4">
       <div className="max-w-6xl mx-auto">
         <div className="mb-8">
-          <Link href="/admin" className="text-sm text-[#666666] hover:text-[#1A1A1A] inline-flex items-center gap-1 mb-4">
-            <ArrowLeft className="w-3 h-3" /> Volver al panel
-          </Link>
+          <Link href="/admin" className="text-sm text-[#666666] hover:text-[#1A1A1A]">{t("common.back", locale)}</Link>
           <Badge variant="secondary" className="mb-4 rounded-full px-4 py-1.5">
             <ShieldCheck className="w-3.5 h-3.5 mr-2" />
             Transferencias

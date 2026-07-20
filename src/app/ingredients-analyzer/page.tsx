@@ -9,6 +9,7 @@ import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { Upload, Camera, Loader2, AlertCircle, CheckCircle2, ArrowRight } from "lucide-react"
 import { toast } from "sonner"
+import WebcamCapture from "@/components/webcam-capture"
 
 interface Ingredient {
   name: string
@@ -32,6 +33,7 @@ export default function IngredientsAnalyzerPage() {
   const [scanning, setScanning] = useState(false)
   const [result, setResult] = useState<ScanResult | null>(null)
   const [error, setError] = useState("")
+  const [showCamera, setShowCamera] = useState(false)
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const f = e.target.files?.[0]
@@ -43,6 +45,17 @@ export default function IngredientsAnalyzerPage() {
     setFile(f)
     setResult(null)
     setError("")
+    const reader = new FileReader()
+    reader.onload = (ev) => setPreview(ev.target?.result as string)
+    reader.readAsDataURL(f)
+  }
+
+  const handleCameraCapture = (blob: Blob) => {
+    const f = new File([blob], "camera-capture.jpg", { type: "image/jpeg" })
+    setFile(f)
+    setResult(null)
+    setError("")
+    setShowCamera(false)
     const reader = new FileReader()
     reader.onload = (ev) => setPreview(ev.target?.result as string)
     reader.readAsDataURL(f)
@@ -145,25 +158,45 @@ export default function IngredientsAnalyzerPage() {
                     </Button>
                     <Button
                       variant="secondary"
-                      onClick={() => { setFile(null); setPreview(null); setResult(null) }}
+                      onClick={() => { setFile(null); setPreview(null); setResult(null); setShowCamera(false) }}
                     >
                       Cambiar foto
                     </Button>
                   </div>
                 </div>
+              ) : showCamera ? (
+                <WebcamCapture onCapture={handleCameraCapture} onClose={() => setShowCamera(false)} />
               ) : (
-                <button
-                  onClick={() => fileInputRef.current?.click()}
-                  className="w-full border-2 border-dashed border-[#E8E8E8] rounded-xl p-12 text-center hover:border-[#88B078] hover:bg-[#F8F9FA] transition-colors"
-                >
-                  <Upload className="w-10 h-10 text-[#88B078] mx-auto mb-3" />
-                  <p className="font-medium text-[#1A1A1A] mb-1">
-                    Sube una foto de los ingredientes
-                  </p>
-                  <p className="text-sm text-[#999999]">
-                    JPG, PNG — máximo 10MB
-                  </p>
-                </button>
+                <div className="space-y-3">
+                  <button
+                    onClick={() => fileInputRef.current?.click()}
+                    className="w-full border-2 border-dashed border-[#E8E8E8] rounded-xl p-12 text-center hover:border-[#88B078] hover:bg-[#F8F9FA] transition-colors"
+                  >
+                    <Upload className="w-10 h-10 text-[#88B078] mx-auto mb-3" />
+                    <p className="font-medium text-[#1A1A1A] mb-1">
+                      Sube una foto de los ingredientes
+                    </p>
+                    <p className="text-sm text-[#999999]">
+                      JPG, PNG — máximo 10MB
+                    </p>
+                  </button>
+                  <div className="relative">
+                    <div className="absolute inset-0 flex items-center">
+                      <div className="w-full border-t border-[#E8E8E8]" />
+                    </div>
+                    <div className="relative flex justify-center text-xs text-[#999999]">
+                      <span className="bg-white px-2">o</span>
+                    </div>
+                  </div>
+                  <Button
+                    variant="secondary"
+                    onClick={() => setShowCamera(true)}
+                    className="w-full"
+                  >
+                    <Camera className="w-4 h-4 mr-2" />
+                    Escanear con cámara
+                  </Button>
+                </div>
               )}
 
               {error && (

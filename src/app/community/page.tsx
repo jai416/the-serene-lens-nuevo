@@ -1,7 +1,8 @@
 "use client"
 
 import { useSession } from "next-auth/react"
-import { useEffect, useState } from "react"
+import { useEffect, useState, useCallback } from "react"
+import { useLocale, t } from "@/lib/locale"
 import Link from "next/link"
 import { Card, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
@@ -62,6 +63,17 @@ export default function CommunityPage() {
   const [postContent, setPostContent] = useState("")
   const [submitting, setSubmitting] = useState(false)
   const [userSkinType, setUserSkinType] = useState<string>("")
+  const [expandedPosts, setExpandedPosts] = useState<Set<string>>(new Set())
+  const { locale } = useLocale()
+
+  const togglePost = useCallback((postId: string) => {
+    setExpandedPosts((prev) => {
+      const next = new Set(prev)
+      if (next.has(postId)) next.delete(postId)
+      else next.add(postId)
+      return next
+    })
+  }, [])
 
   useEffect(() => {
     if (!session) { setLoading(false); return }
@@ -300,7 +312,25 @@ export default function CommunityPage() {
                       </div>
                     </div>
                     <h3 className="font-semibold text-[#1A1A1A] mb-1">{post.title}</h3>
-                    <p className="text-sm text-[#666666] whitespace-pre-line line-clamp-3">{post.content}</p>
+                    {(() => {
+                      const isLong = post.content.length > 150
+                      const isExpanded = expandedPosts.has(post.id)
+                      return (
+                        <>
+                          <p className={`text-sm text-[#666666] whitespace-pre-line ${!isExpanded && isLong ? "line-clamp-3" : ""}`}>
+                            {post.content}
+                          </p>
+                          {isLong && (
+                            <button
+                              onClick={() => togglePost(post.id)}
+                              className="text-xs text-[#88B078] hover:text-[#6A9A5A] font-medium mt-1 transition-colors"
+                            >
+                              {isExpanded ? t("community.showLess", locale) : t("community.showMore", locale)}
+                            </button>
+                          )}
+                        </>
+                      )
+                    })()}
                     <div className="flex items-center gap-4 mt-3 text-xs text-[#999]">
                       <span className="flex items-center gap-1">
                         <MessageCircle className="w-3.5 h-3.5" /> {post._count.comments}

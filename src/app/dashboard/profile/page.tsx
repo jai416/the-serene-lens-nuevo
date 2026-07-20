@@ -11,7 +11,7 @@ import { LocaleSwitcher } from "@/components/locale-switcher"
 import { useLocale } from "@/lib/locale/locale-context"
 import { t } from "@/lib/locale/translations"
 import {
-  Crown, Trash2, LogOut, Save, AlertCircle, User, Mail, Calendar, Activity, Bell, Loader2,
+  Crown, Trash2, LogOut, Save, AlertCircle, User, Mail, Calendar, Activity, Bell, Loader2, Send,
 } from "lucide-react"
 import { toast } from "sonner"
 
@@ -254,6 +254,37 @@ export default function ProfilePage() {
                   <Save className="w-4 h-4 mr-1.5" />
                   Guardar recordatorio
                 </Button>
+              </div>
+            )}
+          </CardContent>
+        </Card>
+
+        {/* Telegram */}
+        <Card className="p-5 border border-[#E8E8E8]/60">
+          <CardContent className="p-0">
+            <h3 className="font-semibold text-sm text-[#1A1A1A] flex items-center gap-2 mb-3">
+              <Send className="w-4 h-4 text-[#2AABEE]" />
+              Telegram
+            </h3>
+            {user?.telegramId ? (
+              <div className="flex items-center gap-2 mb-2">
+                <Badge variant="mint" className="rounded-full px-3 py-1 border-0">
+                  Vinculado: {user.telegramId}
+                </Badge>
+              </div>
+            ) : (
+              <div>
+                <p className="text-sm text-[#666666] mb-3">
+                  Vincula tu cuenta de Telegram para recibir alertas, recordatorios y usar el asistente IA desde el chat.
+                </p>
+                <div className="bg-[#F8F9FA] rounded-xl p-3 border border-[#E8E8E8]/50">
+                  <p className="text-xs text-[#666666] mb-2 font-medium">Cómo vincular:</p>
+                  <ol className="text-xs text-[#666666] space-y-1 list-decimal list-inside">
+                    <li>Busca <strong>@TheSereneLensBot</strong> en Telegram</li>
+                    <li>Inicia el bot con <code className="bg-[#E2ECE0] px-1 rounded">/start</code></li>
+                    <li>Envía tu código de usuario: <code className="bg-[#E2ECE0] px-1 rounded">{user?.id}</code></li>
+                  </ol>
+                </div>
               </div>
             )}
           </CardContent>

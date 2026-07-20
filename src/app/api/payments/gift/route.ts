@@ -6,7 +6,7 @@ import { ok, error, unauthorized, serverError } from "@/lib/api-response"
 import { handlePrismaError } from "@/lib/prisma-error"
 import { checkRateLimit } from "@/lib/rate-limit"
 import { validateCsrf } from "@/lib/csrf-middleware"
-import { sendEmail, buildGiftEmail } from "@/lib/email"
+import { createGiftNotification } from "@/lib/notifications"
 import { z } from "zod"
 import { logger } from "@/lib/logger"
 import { PACK_ANALYSES } from "@/lib/pricing"
@@ -49,14 +49,7 @@ export async function POST(req: NextRequest) {
       },
     })
 
-    const { subject, html } = buildGiftEmail({
-      buyerName: session.user.name || "Un amigo",
-      recipientEmail,
-      giftCode,
-      analyses,
-      packType,
-    })
-    await sendEmail({ to: recipientEmail, subject, html })
+    createGiftNotification(session.user.id, giftCode, analyses).catch(() => {})
 
     logger.info("Gift pack created", { giftId: gift.id, packType, recipientEmail })
     return ok({ giftCode, analyses })

@@ -96,9 +96,103 @@
 | `src/app/dashboard/products/page.tsx` | Productos guardados con detección de conflictos |
 | `src/components/badge-display.tsx` | Visualización de insignias |
 | `src/components/save-product-button.tsx` | Botón guardar producto |
+| `src/components/webcam-capture.tsx` | Captura de foto con cámara para escanear ingredientes |
+| `src/components/qr-code-image.tsx` | Generador de QR para enlace de referido |
+| `src/app/api/telegram/webhook/route.ts` | Webhook Telegram con after(), Redis, access check |
 | `prisma/seed-community.ts` | Seed de grupos e insignias |
 
+### Webhook Telegram refactorizado con `after()`
+- `after()` de Next.js 16 para responder 200 OK instantáneamente y procesar en background
+- Cooldown spam migrado de Map en memoria a `checkRateLimit()` con Redis (Upstash)
+- Siempre retorna 200 OK incluso en catch (evita reintentos infinitos de Telegram)
+- `secret_token` validado con header `X-Telegram-Bot-Api-Secret-Token`
+- Lógica de routing extraída a `processUpdate()` para claridad
+- `checkTelegramAccess()` extraída como función reutilizable para comandos restringidos
+
+### Rate limits persistentes en Redis
+- Asistente rate limit migrado a `checkRateLimit()` con key `asistente:daily:{userId}` en Upstash
+- Cooldown spam de comandos también usa `checkRateLimit()` con key `cooldown:telegram:{chatId}`
+- Eliminados todos los Map en memoria que se perdían al reiniciar Render
+
+### FREE limit extendido
+- `analysesPerMonth: 6` en pricing.ts (antes 1)
+
+### Escáner de ingredientes por webcam
+- Nuevo componente `WebcamCapture` (`src/components/webcam-capture.tsx`)
+- Botón "Escanear con cámara" en `/ingredients-analyzer` que activa la cámara trasera
+- Captura foto → la envía al mismo endpoint `/api/product-scan` para OCR con Groq Vision
+- Compatible con permisos de cámara en mobile y desktop
+
+### Código QR para esteticistas
+- Nuevo componente `QRCodeImage` (`src/components/qr-code-image.tsx`) que genera QR del enlace de referido
+- Añadido al kit de marketing del esteticista (`/dashboard/esthetician/marketing`)
+- El QR codifica `{origin}/register?ref={referralCode}`
+- Botón para descargar QR como PNG
+- Usa `qrcode` npm (fallback a `api.qrserver.com` si no está disponible)
+
+### Comunidad con caché
+- `getUserSkinType()` envuelta en `cache()` de React para evitar DB roundtrips innecesarios
+- `Promise.all()` para paralelizar consultas
+
+### "Ver más" en comunidad
+- Posts largos (>150 chars) muestran botón "Ver más" / "Show more"
+- Nuevas claves de traducción: `community.showMore`, `community.showLess`
+
+### Modelo Groq actualizado
+- `llama-3.2-11b-vision-preview` fue deprecado por Groq
+- Reemplazado por `meta-llama/llama-4-scout-17b-16e-instruct` en:
+  - `src/lib/groq.ts` (análisis de piel)
+  - `src/lib/product-scanner.ts` (escaner de ingredientes)
+  - `src/app/api/aging-demo/route.ts` (envejecimiento demo)
+
+### Guías — SVGs únicos generados
+- Script `scripts/generate-guide-svgs.ts` genera 50 SVGs únicos con colores por categoría
+- Cada SVG tiene título, categoría, ícono representativo y diseño gradient
+- PDFs individuales generados para cada guía en `public/guides/*.pdf`
+- `seed-guides.ts` actualizado: cada guía tiene su propio `fileUrl` (`/guides/{slug}.pdf`)
+- Fallback de imagen agregado a `guides/page.tsx` (como en products page)
+
+### Email reemplazado por notificaciones web
+- `src/lib/email.ts`变成了 stub: todas las funciones devuelven "Próximamente", nunca envía emails reales
+- Nuevo `src/lib/notifications.ts`: crea notificaciones web en DB (modelo `Notification`)
+- Notificaciones expiran a las 48h via cron `/api/cron/cleanup-notifications`
+- Campana de notificaciones (`NotificationBell`) en sidebar con contador no leídos
+- Dashboard `/dashboard/notifications` con lista completa de notificaciones
+- APIs existentes: `GET /api/notifications`, `PUT /api/notifications`, `PATCH /api/notifications/[id]`
+- Todos los callers de email reemplazados:
+  - Registro: crea `createWelcomeNotification`
+  - Auth: crea `createWelcomeNotification`
+  - Payment success: crea `createPaymentSuccessNotification`
+  - Gift: crea `createGiftNotification`
+  - Password reset: devuelve resetUrl directamente en API response
+  - Retention cron: crea `createRetentionNotification`
+  - Reminder cron: crea `createReminderNotification`
+  - Trial cleanup cron: crea `createTrialEndedNotification`
+  - Lead magnet: ya no envía email, solo guarda en DB
+  - Admin email blast: crea notificaciones web
+  - Cron emails: marca todas como web-only
+
+### Admin — Back buttons traducidos
+- 10 páginas admin cambiadas de "Volver al panel" hardcoded a `t("common.back", locale)`
+
+### Login — Telegram section en perfil
+- Nueva sección en `/dashboard/profile` que muestra estado de Telegram vinculado
+- Si no está vinculado, muestra instrucciones para vincular con `@TheSereneLensBot`
+- Muestra `telegramId` del usuario si ya está vinculado
+
+### Homepage — Precios actualizados + Footer
+- PREMIUM: $7.99/mes ($79.99/año)
+- PRO: $14.99/mes
+- ESTHETICIAN: $49.99/mes ($499.99/año)
+- Nuevo footer con links: /privacy, /terms, /payment-policy, /contact, /about
+- Nuevas páginas: /payment-policy, /contact
+
+### Notification Bell (sidebar)
+- Componente `NotificationBell` con badge de contador no leídos
+- Sidebar item "Notificaciones" en sección Cuenta (con traducción `sidebar.notifications`)
+- Claves de traducción agregadas para EN/ES
+
 ## Próximas tareas pendientes
-- Traducir pages restantes: subscription, report, diary, challenges, referrals, social, clinic-settings, b2b, error.tsx, esthetician/marketing
-- Arreglar CSP duplicado (middleware.ts dead code)
-- Verificar build en Render
+- Verificar build en Render (últimos cambios: Groq model, email stub, notification system, guide SVGs)
+- Monitorear Sentry tras deploy
+- Verificar que el cron cleanup de notificaciones se ejecute diariamente

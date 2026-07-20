@@ -2,9 +2,9 @@ import { NextRequest } from "next/server"
 import { getServerSession } from "next-auth"
 import { authOptions } from "@/lib/auth"
 import { db } from "@/lib/db"
-import { sendEmail, buildEmailHtml } from "@/lib/email"
 import { checkRateLimit } from "@/lib/rate-limit"
 import { ok, error, serverError, unauthorized } from "@/lib/api-response"
+import { createWebNotification } from "@/lib/notifications"
 
 const SEGMENT_FILTERS: Record<string, any> = {
   all: {},
@@ -39,31 +39,24 @@ export async function POST(req: NextRequest) {
     }
 
     const baseFilter = (segment && SEGMENT_FILTERS[segment]) ? SEGMENT_FILTERS[segment] : {}
-    const emailFilter = userIds && Array.isArray(userIds) ? { id: { in: userIds } } : baseFilter
+    const userFilter = userIds && Array.isArray(userIds) ? { id: { in: userIds } } : baseFilter
 
     const users = await db.user.findMany({
-      where: emailFilter,
-      select: { email: true },
+      where: userFilter,
+      select: { id: true },
     })
 
-    const html = buildEmailHtml(subject, message)
     let sent = 0
-    let failed = 0
-
     for (const user of users) {
-      if (!user.email) continue
       try {
-        const ok = await sendEmail({ to: user.email, subject, html })
-        if (ok) sent++
-        else failed++
-      } catch {
-        failed++
-      }
+        await createWebNotification(user.id, subject, message)
+        sent++
+      } catch {}
     }
 
-    return ok({ sent, failed, total: users.length })
+    return ok({ sent, failed: users.length - sent, total: users.length, info: "Notificaciones web enviadas (email próximamente)" })
   } catch (e) {
-    console.error("Admin email send error:", e)
+    console.error("Admin notification send error:", e)
     return serverError(e)
   }
 }

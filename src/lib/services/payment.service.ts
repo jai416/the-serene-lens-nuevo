@@ -1,7 +1,7 @@
 import { db } from "@/lib/db"
 import { PACK_EXPIRY_DAYS } from "@/lib/pricing"
 import { getCUPRate } from "@/lib/cup-rate"
-import { sendEmail, buildPaymentSuccessEmail } from "@/lib/email"
+import { createPaymentSuccessNotification } from "@/lib/notifications"
 
 export const PaymentService = {
   async getUserPayments(userId: string) {
@@ -120,11 +120,5 @@ export async function handleSuccessfulPlanPayment(
     },
   })
 
-  const user = await db.user.findUnique({ where: { id: userId }, select: { email: true } })
-  if (user?.email) {
-    const { subject, html } = buildPaymentSuccessEmail(plan, meta.amount)
-    sendEmail({ to: user.email, subject, html }).catch((e) =>
-      console.error("Payment success email failed to send:", e),
-    )
-  }
+  createPaymentSuccessNotification(userId, plan, meta.amount).catch(() => {})
 }

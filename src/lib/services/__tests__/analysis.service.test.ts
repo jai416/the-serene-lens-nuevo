@@ -117,6 +117,7 @@ describe("AnalysisService.processAnalysis", () => {
       gender: undefined,
       climate: "Clima: Tropical húmedo (predeterminado).",
       routine: undefined,
+      history: "",
       previousSkinType: null,
       previousObservations: [],
     })

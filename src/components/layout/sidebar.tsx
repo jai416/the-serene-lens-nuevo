@@ -28,6 +28,7 @@ import {
   HelpCircle,
   BookOpenCheck,
   Users,
+  Bell,
 } from "lucide-react"
 import { useState } from "react"
 import { useLocale } from "@/lib/locale/locale-context"
@@ -91,6 +92,7 @@ export function Sidebar() {
       items: [
         { href: "/dashboard/subscription", labelKey: "sidebar.plan", icon: TrendingUp },
         { href: "/dashboard/report", labelKey: "sidebar.report", icon: FileText },
+        { href: "/dashboard/notifications", labelKey: "sidebar.notifications", icon: Bell },
         { href: "/dashboard/guides", labelKey: "sidebar.myGuides", icon: Bookmark },
         { href: "/dashboard/support", labelKey: "nav.support", icon: HelpCircle },
       ],

@@ -33,6 +33,7 @@ export type TranslationKey =
   | "sidebar.plan"
   | "sidebar.report"
   | "sidebar.myGuides"
+  | "sidebar.notifications"
   | "topHeader.premiumUser"
   | "profile.title"
   | "profile.name"
@@ -305,6 +306,8 @@ export type TranslationKey =
   | "dashboard.recentAnalyses"
   | "dashboard.analysisLabel"
   | "dashboard.errorLoading"
+  | "community.showMore"
+  | "community.showLess"
 
 const translations: Record<Locale, Record<TranslationKey, string>> = {
   en: {
@@ -340,6 +343,7 @@ const translations: Record<Locale, Record<TranslationKey, string>> = {
     "sidebar.plan": "Plan",
     "sidebar.report": "Report",
     "sidebar.myGuides": "My Guides",
+    "sidebar.notifications": "Notifications",
     "topHeader.premiumUser": "Premium User",
     "profile.title": "My Account",
     "profile.name": "Name",
@@ -612,6 +616,8 @@ const translations: Record<Locale, Record<TranslationKey, string>> = {
     "dashboard.recentAnalyses": "Recent Analyses",
     "dashboard.analysisLabel": "Analysis {type}",
     "dashboard.errorLoading": "Error loading analyses",
+    "community.showMore": "Show more",
+    "community.showLess": "Show less",
   },
   es: {
     "app.name": "The Serene Lens",
@@ -646,6 +652,7 @@ const translations: Record<Locale, Record<TranslationKey, string>> = {
     "sidebar.plan": "Plan",
     "sidebar.report": "Informe",
     "sidebar.myGuides": "Mis Guías",
+    "sidebar.notifications": "Notificaciones",
     "topHeader.premiumUser": "Usuario Premium",
     "profile.title": "Mi Cuenta",
     "profile.name": "Nombre",
@@ -918,6 +925,8 @@ const translations: Record<Locale, Record<TranslationKey, string>> = {
     "dashboard.recentAnalyses": "Análisis recientes",
     "dashboard.analysisLabel": "Análisis {type}",
     "dashboard.errorLoading": "Error al cargar análisis",
+    "community.showMore": "Ver más",
+    "community.showLess": "Ver menos",
   },
 }
 

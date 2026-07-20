@@ -8,12 +8,13 @@ import { Card, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import {
   Gift, Share2, FileText, Download, Copy, Check,
-  Mail, Image, ArrowLeft, Loader2, CheckCircle2,
+  Mail, Image, QrCode, ArrowLeft, Loader2, CheckCircle2,
 } from "lucide-react"
 import Link from "next/link"
 import { toast } from "sonner"
 import { useLocale } from "@/lib/locale/locale-context"
 import { t } from "@/lib/locale/translations"
+import QRCodeImage from "@/components/qr-code-image"
 
 interface MarketingData {
   clinic: { name: string; logo: string | null; referralCode: string; referredUsers: number }
@@ -185,7 +186,7 @@ export default function MarketingKitPage() {
       </Card>
 
       {/* Resources */}
-      <div className="grid md:grid-cols-2 gap-4">
+      <div className="grid md:grid-cols-3 gap-4">
         {/* Flyer */}
         <Card className="p-5 border border-[#E8E8E8]/60">
           <CardContent className="p-0">
@@ -211,6 +212,18 @@ export default function MarketingKitPage() {
               <Download className="w-3.5 h-3.5 mr-1.5" />
               Descargar Flyer (copia el código)
             </Button>
+          </CardContent>
+        </Card>
+
+        {/* QR Code */}
+        <Card className="p-5 border border-[#E8E8E8]/60">
+          <CardContent className="p-0">
+            <div className="w-12 h-12 rounded-xl bg-[#FFF9E6] flex items-center justify-center mb-3">
+              <QrCode className="w-6 h-6 text-[#D4A843]" />
+            </div>
+            <h2 className="font-semibold text-sm text-[#1A1A1A] mb-1">Código QR</h2>
+            <p className="text-xs text-[#666666] mb-4">Imprime o comparte este QR para que tus pacientes se registren</p>
+            <QRCodeImage url={referralUrl} size={180} />
           </CardContent>
         </Card>
 

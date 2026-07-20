@@ -1071,12 +1071,6 @@ export async function handleWhois(chatId: string, userId: string, args: string[]
 }
 
 // ─── Asistente IA (Gemini) ───────────────────────────────────
-const asistenteDailyUsage = new Map<string, { count: number; date: string }>()
-
-function getDateKey(): string {
-  return new Date().toISOString().slice(0, 10)
-}
-
 const ASISTENTE_LIMITS: Record<string, number> = {
   PREMIUM: 10,
   PREMIUM_ANNUAL: 10,
@@ -1086,6 +1080,16 @@ const ASISTENTE_LIMITS: Record<string, number> = {
   PRO_PLUS_ANNUAL: 50,
   ESTHETICIAN: 100,
   ESTHETICIAN_ANNUAL: 100,
+}
+
+async function checkAsistenteRateLimit(userId: string, userPlan: string): Promise<{ allowed: boolean; remaining: number; error?: string }> {
+  const { checkRateLimit } = await import("@/lib/rate-limit")
+  const dailyLimit = ASISTENTE_LIMITS[userPlan]
+  if (!dailyLimit) return { allowed: false, remaining: 0, error: "Plan sin acceso" }
+  const windowMs = 24 * 60 * 60 * 1000
+  const key = `asistente:daily:${userId}`
+  const result = await checkRateLimit(key, dailyLimit, windowMs)
+  return { ...result, error: result.allowed ? undefined : `Has alcanzado tu límite diario de ${dailyLimit} consultas.` }
 }
 
 export async function handleAsistente(chatId: string, userId: string, args: string[]) {
@@ -1109,27 +1113,20 @@ export async function handleAsistente(chatId: string, userId: string, args: stri
     return
   }
 
+  // Check rate limit with Redis persistence
   if (user.role !== "ADMIN") {
-    const today = getDateKey()
-    const usage = asistenteDailyUsage.get(userId) || { count: 0, date: today }
-    if (usage.date !== today) {
-      usage.count = 0
-      usage.date = today
-    }
-    if (usage.count >= dailyLimit) {
+    const rl = await checkAsistenteRateLimit(user.id, user.plan)
+    if (!rl.allowed) {
       await sendTelegramMessage(chatId,
-        `⏳ Has alcanzado tu límite diario de ${dailyLimit} consultas del asistente. El límite se reinicia mañana.\n\nSi necesitas más, considera mejorar tu plan en nuestra web.`
+        rl.error ? `⏳ ${rl.error} El límite se reinicia mañana.\n\nSi necesitas más, considera mejorar tu plan.` : "⏳ Límite alcanzado."
       )
       return
     }
-    usage.count++
-    asistenteDailyUsage.set(userId, usage)
   }
 
   if (!query) {
-    const usage = asistenteDailyUsage.get(userId)
-    const used = user.role === "ADMIN" ? 0 : (usage?.count || 0)
-    const remaining = user.role === "ADMIN" ? "∞" : String(Math.max(0, dailyLimit - used + 1))
+    const rl = user.role === "ADMIN" ? { remaining: Infinity } : await checkAsistenteRateLimit(user.id, user.plan)
+    const remaining = user.role === "ADMIN" ? "∞" : String(rl.remaining)
     await sendTelegramMessage(chatId,
       `🤖 <b>Asistente IA</b>\n\nSoy tu asistente virtual de The Serene Lens. Puedo ayudarte con:\n\n• Información sobre ingredientes (niacinamida, retinol, etc.)\n• Consejos de rutina según tu tipo de piel\n• Explicación de conceptos de skincare\n• Recomendaciones personalizadas\n\n<b>Uso:</b> /asistente ¿Qué es el ácido hialurónico?\n<b>Consultas restantes hoy:</b> ${remaining}\n\n🌿 <i>Escribe tu consulta después del comando.</i>`
     )

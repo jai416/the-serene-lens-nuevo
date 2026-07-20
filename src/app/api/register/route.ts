@@ -3,7 +3,8 @@ import { registerUser } from "@/lib/auth"
 import { checkRateLimit } from "@/lib/rate-limit"
 import { registerSchema } from "@/lib/validations"
 import { error, ok, serverError } from "@/lib/api-response"
-import { sendEmail, buildWelcomeEmail } from "@/lib/email"
+import { logger } from "@/lib/logger"
+import { createWelcomeNotification } from "@/lib/notifications"
 
 export async function POST(req: NextRequest) {
   try {
@@ -27,10 +28,9 @@ export async function POST(req: NextRequest) {
       return error(result.error, 400)
     }
 
-    const { subject, html } = buildWelcomeEmail(name || username || "")
-    sendEmail({ to: email, subject, html }).catch((e) =>
-      console.error("Welcome email failed to send:", e),
-    )
+    if (result.user?.id) {
+      createWelcomeNotification(result.user.id, name || username || "").catch(() => {})
+    }
 
     return ok({ userId: result.user?.id })
   } catch {

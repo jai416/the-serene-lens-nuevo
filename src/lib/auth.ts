@@ -79,11 +79,10 @@ export async function registerUser(email: string, password: string, name?: strin
     },
   })
 
-  if (!isAdmin) {
+  if (!isAdmin && user) {
     try {
-      const { sendEmail, buildWelcomeEmail } = await import("@/lib/email")
-      const { subject, html } = buildWelcomeEmail(name || "Usuario")
-      sendEmail({ to: email, subject, html }).catch(() => {})
+      const { createWelcomeNotification } = await import("@/lib/notifications")
+      createWelcomeNotification(user.id, name || "Usuario").catch(() => {})
     } catch {}
   }
 

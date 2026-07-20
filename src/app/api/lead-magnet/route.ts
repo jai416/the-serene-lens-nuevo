@@ -1,6 +1,5 @@
 import { NextResponse } from "next/server"
 import { db } from "@/lib/db"
-import { sendEmail, buildLeadMagnetEmail } from "@/lib/email"
 import { checkRateLimit } from "@/lib/rate-limit"
 import { logger } from "@/lib/logger"
 
@@ -24,12 +23,9 @@ export async function POST(req: Request) {
       await db.leadMagnet.create({ data: { email } })
     }
 
-    const { subject, html } = buildLeadMagnetEmail()
-    await sendEmail({ to: email, subject, html })
-
     const downloadUrl = `${APP_URL}/guides/skincare-tropical.pdf`
 
-    logger.info("Lead magnet sent", { email })
+    logger.info("Lead magnet saved", { email })
     return NextResponse.json({ success: true, downloadUrl })
   } catch (e) {
     logger.error("Lead magnet error", { error: e instanceof Error ? e.message : String(e) })

@@ -47,6 +47,11 @@ export default function GuidesPage() {
   const [freeEmail, setFreeEmail] = useState("")
   const [freeSubmitting, setFreeSubmitting] = useState(false)
   const [freeDownloadUrl, setFreeDownloadUrl] = useState<string | null>(null)
+  const [failedImages, setFailedImages] = useState<Set<string>>(new Set())
+  const FALLBACK_IMAGE = "/images/placeholder.svg"
+  const handleImageError = (guideId: string) => {
+    setFailedImages((prev) => new Set(prev).add(guideId))
+  }
 
   const loadPurchased = useCallback(async () => {
     if (!session) return
@@ -352,11 +357,12 @@ export default function GuidesPage() {
                 <Card key={guide.id} className="overflow-hidden hover:shadow-lg transition-shadow">
                   <div className="aspect-[16/9] bg-[#E2ECE0] relative">
                     <Image
-                      src={guide.image}
+                      src={failedImages.has(guide.id) ? FALLBACK_IMAGE : guide.image}
                       alt={guide.title}
                       fill
                       className="object-cover"
                       unoptimized={guide.image.endsWith(".svg")}
+                      onError={() => handleImageError(guide.id)}
                     />
                     <Badge className="absolute top-3 left-3 bg-[#88B078] text-[#1A1A1A]">
                       {guide.category}

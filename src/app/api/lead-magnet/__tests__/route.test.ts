@@ -1,9 +1,8 @@
 import { describe, it, expect, vi, beforeEach } from "vitest"
 
-const { mockCreate, mockFindUnique, mockSendEmail, mockCheckRateLimit } = vi.hoisted(() => ({
+const { mockCreate, mockFindUnique, mockCheckRateLimit } = vi.hoisted(() => ({
   mockCreate: vi.fn(),
   mockFindUnique: vi.fn(),
-  mockSendEmail: vi.fn().mockResolvedValue(true),
   mockCheckRateLimit: vi.fn().mockResolvedValue({ allowed: true, remaining: 2 }),
 }))
 
@@ -11,11 +10,6 @@ vi.mock("@/lib/db", () => ({
   db: {
     leadMagnet: { create: mockCreate, findUnique: mockFindUnique },
   },
-}))
-
-vi.mock("@/lib/email", () => ({
-  sendEmail: mockSendEmail,
-  buildLeadMagnetEmail: vi.fn().mockReturnValue({ subject: "Guide", html: "<p>Guide</p>" }),
 }))
 
 vi.mock("@/lib/rate-limit", () => ({
@@ -55,7 +49,7 @@ describe("Lead Magnet API", () => {
     expect(res.status).toBe(400)
   })
 
-  it("creates lead and sends guide", async () => {
+  it("creates lead and returns download url", async () => {
     mockFindUnique.mockResolvedValue(null)
     mockCreate.mockResolvedValue({ id: "lead-1", email: "test@test.com" })
     const req = new Request("http://localhost/api/lead-magnet", {
@@ -68,7 +62,6 @@ describe("Lead Magnet API", () => {
     expect(body.success).toBe(true)
     expect(body.downloadUrl).toContain("skincare-tropical")
     expect(mockCreate).toHaveBeenCalled()
-    expect(mockSendEmail).toHaveBeenCalled()
   })
 
   it("skips create for existing email", async () => {

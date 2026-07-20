@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server"
 import { db } from "@/lib/db"
-import { sendEmail, buildReminderEmail } from "@/lib/email"
 import { logger } from "@/lib/logger"
+import { createReminderNotification } from "@/lib/notifications"
 
 const CRON_SECRET = process.env.CRON_SECRET || ""
 
@@ -14,15 +14,13 @@ export async function GET(req: NextRequest) {
   try {
     const reminders = await db.userReminder.findMany({
       where: { enabled: true },
-      include: { user: { select: { id: true, email: true, name: true } } },
+      include: { user: { select: { id: true, name: true } } },
     })
 
     let sent = 0
     let skipped = 0
 
     for (const r of reminders) {
-      if (!r.user.email) { skipped++; continue }
-
       const lastSent = r.lastSentAt
       const now = new Date()
       let shouldSend = false
@@ -37,13 +35,11 @@ export async function GET(req: NextRequest) {
 
       if (!shouldSend) { skipped++; continue }
 
-      const { subject, html } = buildReminderEmail(r.user.name || "")
-      const ok = await sendEmail({ to: r.user.email, subject, html })
-
-      if (ok) {
+      try {
+        await createReminderNotification(r.user.id, r.user.name || "")
         await db.userReminder.update({ where: { id: r.id }, data: { lastSentAt: now } })
         sent++
-      } else {
+      } catch {
         skipped++
       }
     }

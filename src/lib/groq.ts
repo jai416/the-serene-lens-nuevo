@@ -1,7 +1,7 @@
 import { logger } from "@/lib/logger"
 
 const GROQ_API_BASE = "https://api.groq.com/openai/v1"
-const MODEL = "llama-3.2-11b-vision-preview"
+const MODEL = "meta-llama/llama-4-scout-17b-16e-instruct"
 
 function buildSystemPrompt(context: {
   age?: string

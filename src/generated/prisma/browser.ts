@@ -297,3 +297,23 @@ export type GiftPack = Prisma.GiftPackModel
  * 
  */
 export type UserReminder = Prisma.UserReminderModel
+/**
+ * Model UserSavedProduct
+ * 
+ */
+export type UserSavedProduct = Prisma.UserSavedProductModel
+/**
+ * Model Badge
+ * 
+ */
+export type Badge = Prisma.BadgeModel
+/**
+ * Model UserBadge
+ * 
+ */
+export type UserBadge = Prisma.UserBadgeModel
+/**
+ * Model WeatherLog
+ * 
+ */
+export type WeatherLog = Prisma.WeatherLogModel

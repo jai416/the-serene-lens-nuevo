@@ -11,6 +11,8 @@ import { MessageSquare, ArrowLeft, Eye, EyeOff, Star, Crown } from "lucide-react
 import { formatDate } from "@/lib/utils"
 import { toast } from "sonner"
 import { ListSkeleton } from "@/components/ui/skeleton"
+import { useLocale } from "@/lib/locale/locale-context"
+import { t } from "@/lib/locale/translations"
 
 interface ContactMessage {
   id: string
@@ -27,6 +29,7 @@ interface ContactMessage {
 }
 
 export default function AdminMessagesPage() {
+  const { locale } = useLocale()
   const { data: session, status } = useSession()
   const [messages, setMessages] = useState<ContactMessage[]>([])
   const [selected, setSelected] = useState<ContactMessage | null>(null)
@@ -96,9 +99,7 @@ export default function AdminMessagesPage() {
   return (
     <div className="overflow-x-hidden">
       <div className="mb-8">
-          <Link href="/admin" className="text-xs text-[#666666] hover:text-[#1A1A1A] inline-flex items-center gap-1 mb-4">
-          <ArrowLeft className="w-3 h-3" /> Volver al panel
-        </Link>
+          <Link href="/admin" className="text-sm text-[#666666] hover:text-[#1A1A1A]">{t("common.back", locale)}</Link>
         <Badge className="bg-[#88B078]/20 text-[#88B078] border-0 rounded-full px-3 py-1 text-[10px] font-medium">
           <MessageSquare className="w-3 h-3 mr-1.5" />
           Mensajes

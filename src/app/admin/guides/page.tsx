@@ -11,6 +11,8 @@ import { Download, ArrowLeft, Plus, Eye, EyeOff, Trash2 } from "lucide-react"
 import { formatDate, formatPrice } from "@/lib/utils"
 import { toast } from "sonner"
 import { ListSkeleton } from "@/components/ui/skeleton"
+import { useLocale } from "@/lib/locale/locale-context"
+import { t } from "@/lib/locale/translations"
 
 interface Guide {
   id: string
@@ -28,6 +30,7 @@ interface Guide {
 }
 
 export default function AdminGuidesPage() {
+  const { locale } = useLocale()
   const { data: session, status } = useSession()
   const [guides, setGuides] = useState<Guide[]>([])
   const [loading, setLoading] = useState(true)
@@ -128,9 +131,7 @@ export default function AdminGuidesPage() {
       <div className="max-w-6xl mx-auto">
         <div className="mb-8 flex items-center justify-between">
           <div>
-            <Link href="/admin" className="text-sm text-[#666666] hover:text-[#1A1A1A] inline-flex items-center gap-1 mb-4">
-              <ArrowLeft className="w-3 h-3" /> Volver al panel
-            </Link>
+            <Link href="/admin" className="text-sm text-[#666666] hover:text-[#1A1A1A]">{t("common.back", locale)}</Link>
             <Badge variant="secondary" className="mb-4 rounded-full px-4 py-1.5">
               <Download className="w-3.5 h-3.5 mr-2" />
               Guías Digitales

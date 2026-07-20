@@ -11,6 +11,8 @@ import { Sparkles, Newspaper, ArrowLeft, Plus, Trash2, ExternalLink, Loader2 } f
 import { formatDate } from "@/lib/utils"
 import { toast } from "sonner"
 import { ListSkeleton } from "@/components/ui/skeleton"
+import { useLocale } from "@/lib/locale/locale-context"
+import { t } from "@/lib/locale/translations"
 
 interface BlogPost {
   id: string
@@ -23,6 +25,7 @@ interface BlogPost {
 }
 
 export default function AdminBlogPage() {
+  const { locale } = useLocale()
   const { data: session, status } = useSession()
   const [posts, setPosts] = useState<BlogPost[]>([])
   const [editing, setEditing] = useState<string | null>(null)
@@ -130,9 +133,7 @@ export default function AdminBlogPage() {
     <div className="min-h-screen bg-[#F8F9FA] pt-24 pb-16 px-4">
       <div className="max-w-6xl mx-auto">
         <div className="mb-8">
-          <Link href="/admin" className="text-sm text-[#666666] hover:text-[#1A1A1A] inline-flex items-center gap-1 mb-4">
-            <ArrowLeft className="w-3 h-3" /> Volver al panel
-          </Link>
+          <Link href="/admin" className="text-sm text-[#666666] hover:text-[#1A1A1A]">{t("common.back", locale)}</Link>
           <Badge variant="secondary" className="mb-4 rounded-full px-4 py-1.5">
             <Newspaper className="w-3.5 h-3.5 mr-2" />
             Blog

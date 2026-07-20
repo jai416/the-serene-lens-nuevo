@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server"
 import { db } from "@/lib/db"
 import { logger } from "@/lib/logger"
+import { createRetentionNotification } from "@/lib/notifications"
 
 export async function POST(req: Request) {
   try {
@@ -16,21 +17,16 @@ export async function POST(req: Request) {
         plan: "FREE",
         updatedAt: { lt: thirtyDaysAgo },
       },
-      select: { id: true, email: true, name: true, updatedAt: true },
+      select: { id: true, name: true },
       take: 50,
     })
 
     let sent = 0
     for (const u of inactive) {
-      if (!u.email) continue
       try {
-        const { sendEmail, buildRetentionEmail } = await import("@/lib/email")
-        const { subject, html } = buildRetentionEmail(u.name || "Usuario")
-        const ok = await sendEmail({ to: u.email, subject, html })
-        if (ok) sent++
-      } catch {
-        continue
-      }
+        await createRetentionNotification(u.id, u.name || "Usuario")
+        sent++
+      } catch { continue }
     }
 
     logger.info("Retention cron completed", { checked: inactive.length, sent })

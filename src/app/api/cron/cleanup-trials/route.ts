@@ -26,16 +26,13 @@ export async function POST(req: Request) {
     if (count > 0) {
       const expired = await db.user.findMany({
         where: { plan: "FREE", trialEndsAt: null, updatedAt: { gte: new Date(Date.now() - 60000) } },
-        select: { email: true, name: true },
+        select: { id: true, name: true },
       })
       for (const u of expired) {
-        if (u.email) {
-          try {
-            const { sendEmail, buildTrialEndedEmail } = await import("@/lib/email")
-            const { subject, html } = buildTrialEndedEmail(u.name || "Usuario")
-            sendEmail({ to: u.email, subject, html }).catch(() => {})
-          } catch {}
-        }
+        try {
+          const { createTrialEndedNotification } = await import("@/lib/notifications")
+          await createTrialEndedNotification(u.id, u.name || "Usuario")
+        } catch {}
       }
     }
 

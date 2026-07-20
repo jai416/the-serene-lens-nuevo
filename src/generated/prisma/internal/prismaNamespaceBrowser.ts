@@ -106,7 +106,11 @@ export const ModelName = {
   ChatMessage: 'ChatMessage',
   LeadMagnet: 'LeadMagnet',
   GiftPack: 'GiftPack',
-  UserReminder: 'UserReminder'
+  UserReminder: 'UserReminder',
+  UserSavedProduct: 'UserSavedProduct',
+  Badge: 'Badge',
+  UserBadge: 'UserBadge',
+  WeatherLog: 'WeatherLog'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -533,6 +537,7 @@ export const SurveyFeedbackScalarFieldEnum = {
   userId: 'userId',
   rating: 'rating',
   comment: 'comment',
+  source: 'source',
   createdAt: 'createdAt'
 } as const
 
@@ -801,6 +806,8 @@ export const NotificationScalarFieldEnum = {
   message: 'message',
   link: 'link',
   read: 'read',
+  emailSent: 'emailSent',
+  sentAt: 'sentAt',
   createdAt: 'createdAt'
 } as const
 
@@ -920,6 +927,54 @@ export const UserReminderScalarFieldEnum = {
 } as const
 
 export type UserReminderScalarFieldEnum = (typeof UserReminderScalarFieldEnum)[keyof typeof UserReminderScalarFieldEnum]
+
+
+export const UserSavedProductScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  productId: 'productId',
+  createdAt: 'createdAt'
+} as const
+
+export type UserSavedProductScalarFieldEnum = (typeof UserSavedProductScalarFieldEnum)[keyof typeof UserSavedProductScalarFieldEnum]
+
+
+export const BadgeScalarFieldEnum = {
+  id: 'id',
+  slug: 'slug',
+  name: 'name',
+  description: 'description',
+  icon: 'icon',
+  criteria: 'criteria',
+  active: 'active',
+  createdAt: 'createdAt'
+} as const
+
+export type BadgeScalarFieldEnum = (typeof BadgeScalarFieldEnum)[keyof typeof BadgeScalarFieldEnum]
+
+
+export const UserBadgeScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  badgeId: 'badgeId',
+  earnedAt: 'earnedAt',
+  notified: 'notified'
+} as const
+
+export type UserBadgeScalarFieldEnum = (typeof UserBadgeScalarFieldEnum)[keyof typeof UserBadgeScalarFieldEnum]
+
+
+export const WeatherLogScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  date: 'date',
+  humidity: 'humidity',
+  temp: 'temp',
+  condition: 'condition',
+  createdAt: 'createdAt'
+} as const
+
+export type WeatherLogScalarFieldEnum = (typeof WeatherLogScalarFieldEnum)[keyof typeof WeatherLogScalarFieldEnum]
 
 
 export const SortOrder = {
