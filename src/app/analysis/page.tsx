@@ -9,7 +9,7 @@ import {
   Scan, Camera, Loader2, AlertCircle, CheckCircle2, Shield, User, ArrowLeft, ArrowRight,
   Droplets, ClipboardList, Trash2, Sparkles,
 } from "lucide-react"
-import { WebcamCapture } from "@/components/webcam-capture"
+import WebcamCapture from "@/components/webcam-capture"
 import Image from "next/image"
 import { useSession } from "next-auth/react"
 import { compressImage } from "@/lib/image-compression"
