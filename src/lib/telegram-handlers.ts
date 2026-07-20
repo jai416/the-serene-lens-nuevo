@@ -1097,7 +1097,7 @@ export async function handleAsistente(chatId: string, userId: string, args: stri
 
   const user = await db.user.findUnique({
     where: { id: userId },
-    select: { plan: true, role: true },
+    select: { id: true, plan: true, role: true },
   })
   if (!user) {
     await sendTelegramMessage(chatId, "❌ No se encontró tu cuenta. Usa /start para vincularla.")
