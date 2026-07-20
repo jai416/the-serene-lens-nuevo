@@ -1,6 +1,6 @@
 "use client"
 
-import { useRef, useState, useEffect } from "react"
+import { useEffect, useState } from "react"
 import { Download, Loader2 } from "lucide-react"
 import { Button } from "@/components/ui/button"
 
@@ -10,32 +10,17 @@ interface Props {
 }
 
 export default function QRCodeImage({ url, size = 200 }: Props) {
-  const canvasRef = useRef<HTMLCanvasElement>(null)
   const [qrDataUrl, setQrDataUrl] = useState<string | null>(null)
   const [generating, setGenerating] = useState(true)
 
   useEffect(() => {
     let cancelled = false
     setGenerating(true)
-
-    const generate = async () => {
-      try {
-        const QRCode = (await import("qrcode")).default
-        const dataUrl = await QRCode.toDataURL(url, {
-          width: size,
-          margin: 2,
-          color: { dark: "#1A1A1A", light: "#FFFFFF" },
-        })
-        if (!cancelled) setQrDataUrl(dataUrl)
-      } catch {
-        const fallbackUrl = `https://api.qrserver.com/v1/create-qr-code/?size=${size}x${size}&data=${encodeURIComponent(url)}`
-        if (!cancelled) setQrDataUrl(fallbackUrl)
-      } finally {
-        if (!cancelled) setGenerating(false)
-      }
+    const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=${size}x${size}&data=${encodeURIComponent(url)}`
+    if (!cancelled) {
+      setQrDataUrl(qrUrl)
+      setGenerating(false)
     }
-
-    generate()
     return () => { cancelled = true }
   }, [url, size])
 
