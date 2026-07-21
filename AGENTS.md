@@ -70,9 +70,10 @@
 - `GEMINI_API_KEY` se configura en `.env` local y en variables de entorno de Render
 
 ### Decisiones de AI
+- **Gemini 2.0 Flash** para análisis de piel con imágenes (reemplazó a Groq cuyos modelos vision fueron descontinuados)
 - **Gemini 2.0 Flash** para asistente Telegram (`/asistente`)
-- **Groq** (`llama-3.2-11b-vision-preview`) para análisis de piel con imágenes
-- Rate limit de `/asistente` en memoria (`Map<string, {count, date}>`), se reinicia al reiniciar server
+- **Groq** (`llama-3.3-70b-versatile`) para chat del bot (RAG, respuestas sin imágenes)
+- Rate limit de `/asistente` persiste en Redis (`checkRateLimit()` con key `asistente:daily:{userId}`)
 
 ### Documentación
 - **DOC-admin.md**: Solo contiene "cómo usar el panel admin"
@@ -88,8 +89,10 @@
 | `src/lib/services/badge.service.ts` | Evaluación y asignación de insignias |
 | `src/lib/services/ingredient.service.ts` | Detección de conflictos entre ingredientes |
 | `src/lib/services/analysis.service.ts` | Análisis de piel con historial completo |
-| `src/lib/groq.ts` | Cliente Groq para visión IA |
-| `src/lib/gemini-chat.ts` | Cliente Gemini 2.0 Flash para asistente |
+| `src/lib/gemini-vision.ts` | Visión IA con Gemini 2.0 Flash (reemplaza a Groq para imágenes) |
+| `src/lib/groq.ts` | Análisis de piel (usa Gemini internamente) |
+| `src/lib/groq-chat.ts` | Chat Groq con `llama-3.3-70b-versatile` para RAG |
+| `src/lib/gemini-chat.ts` | Cliente Gemini 2.0 Flash para asistente Telegram |
 | `src/app/api/cron/weather-alert/route.ts` | Alertas por cambios climáticos |
 | `src/app/api/community/` | API completa de comunidad (grupos, posts, comentarios) |
 | `src/app/community/page.tsx` | Comunidad segmentada por tipo de piel |
@@ -97,7 +100,7 @@
 | `src/components/badge-display.tsx` | Visualización de insignias |
 | `src/components/save-product-button.tsx` | Botón guardar producto |
 | `src/components/webcam-capture.tsx` | Captura de foto con cámara para escanear ingredientes |
-| `src/components/qr-code-image.tsx` | Generador de QR para enlace de referido |
+| `src/components/qr-code-image.tsx` | Generador de QR para enlace de referido (fallback a API externa) |
 | `src/app/api/telegram/webhook/route.ts` | Webhook Telegram con after(), Redis, access check |
 | `prisma/seed-community.ts` | Seed de grupos e insignias |
 
@@ -128,7 +131,7 @@
 - Añadido al kit de marketing del esteticista (`/dashboard/esthetician/marketing`)
 - El QR codifica `{origin}/register?ref={referralCode}`
 - Botón para descargar QR como PNG
-- Usa `qrcode` npm (fallback a `api.qrserver.com` si no está disponible)
+- Usa `api.qrserver.com` como backend (qrcode npm no instalable por timeout de red en esta máquina)
 
 ### Comunidad con caché
 - `getUserSkinType()` envuelta en `cache()` de React para evitar DB roundtrips innecesarios
@@ -140,10 +143,14 @@
 
 ### Modelo Groq actualizado
 - `llama-3.2-11b-vision-preview` fue deprecado por Groq
-- Reemplazado por `meta-llama/llama-4-scout-17b-16e-instruct` en:
-  - `src/lib/groq.ts` (análisis de piel)
-  - `src/lib/product-scanner.ts` (escaner de ingredientes)
-  - `src/app/api/aging-demo/route.ts` (envejecimiento demo)
+- Se intentó reemplazar por `meta-llama/llama-4-scout-17b-16e-instruct` pero ese modelo tampoco existe en Groq
+- Todos los modelos vision de Groq fueron descontinuados (`model_decommissioned`)
+- **Solución**: Migrar toda la visión (análisis de piel, escáner de ingredientes, aging demo) a **Gemini 2.0 Flash**
+- Nuevo archivo `src/lib/gemini-vision.ts` con funciones `analyzeImageWithGemini()` y `analyzeMultipleImagesWithGemini()`
+- `src/lib/groq.ts` ahora usa Gemini internamente (el API pública `analyzeSkinWithGroq` no cambia)
+- `src/lib/product-scanner.ts` usa `analyzeImageWithGemini()` directamente
+- `src/app/api/aging-demo/route.ts` usa `analyzeImageWithGemini()` directamente
+- Groq sigue usándose solo para chat sin imágenes (`llama-3.3-70b-versatile` en `groq-chat.ts`)
 
 ### Guías — SVGs únicos generados
 - Script `scripts/generate-guide-svgs.ts` genera 50 SVGs únicos con colores por categoría
@@ -192,7 +199,25 @@
 - Sidebar item "Notificaciones" en sección Cuenta (con traducción `sidebar.notifications`)
 - Claves de traducción agregadas para EN/ES
 
+### Orphaned `notification-bell.tsx` eliminado
+- Existían dos archivos: `src/components/notification-bell.tsx` (dead code, 45 líneas) y `src/components/notifications/notification-bell.tsx` (activo, 200+ líneas)
+- Se eliminó `src/components/notification-bell.tsx` del repo
+
+### Admin emails → Notificaciones
+- La página `/admin/emails` se renombró de "Correo Electrónico" a "Notificaciones"
+- Se eliminó el modo email (stub) y el toggle Email/Push
+- Ahora solo envía notificaciones web push por segmento
+
+### Password reset con copia
+- Al solicitar restablecimiento de contraseña, el enlace se muestra en pantalla con botón "Copiar enlace"
+- Ya no depende de email (que es stub)
+
+### Fixes de build
+- `src/lib/telegram-handlers.ts`: se agregó `id: true` al `select` de Prisma (faltaba el campo, causaba TS error)
+- `src/components/qr-code-image.tsx`: se eliminó el `import("qrcode")` dinámico para evitar error de módulo no encontrado
+
 ## Próximas tareas pendientes
-- Verificar build en Render (últimos cambios: Groq model, email stub, notification system, guide SVGs)
-- Monitorear Sentry tras deploy
-- Verificar que el cron cleanup de notificaciones se ejecute diariamente
+- Monitorear build en Render tras push de fixes (qrcode, telegram-handlers)
+- Verificar que `/api/cron/cleanup-notifications` aparezca tras el build (daba 404 en Render)
+- Configurar `TELEGRAM_BOT_TOKEN` en Render si se desea UV alerts
+- Commit de `CRON-SETUP.md` (documentación, no crítico)
