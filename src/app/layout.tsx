@@ -78,8 +78,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <link rel="dns-prefetch" href="https://api.groq.com" />
         <link rel="preconnect" href="https://api.qvapay.com" crossOrigin="anonymous" />
         <link rel="dns-prefetch" href="https://api.qvapay.com" />
-        <link rel="preconnect" href="https://api.resend.com" crossOrigin="anonymous" />
-        <link rel="dns-prefetch" href="https://api.resend.com" />
         <link rel="preconnect" href="https://app.posthog.com" crossOrigin="anonymous" />
         <link rel="dns-prefetch" href="https://app.posthog.com" />
 

@@ -51,7 +51,22 @@ export default function TermsPage() {
           </section>
 
           <section>
-            <h2 className="font-serif text-lg font-semibold text-[#1A1A1A] mb-2">4. Cuentas de usuario</h2>
+            <h2 className="font-serif text-lg font-semibold text-[#1A1A1A] mb-2">4. Tratamiento de imágenes con IA</h2>
+            <p className="mb-2">
+              Al usar The Serene Lens, aceptas que tus fotos sean procesadas por inteligencia artificial
+              (Gemini 2.0 Flash de Google) para generar observaciones cosméticas.
+            </p>
+            <ul className="list-disc pl-4 space-y-1">
+              <li><strong>Consentimiento explícito:</strong> Debes aceptar este término antes de subir cualquier foto. No hay casillas pre-marcadas.</li>
+              <li><strong>Uso limitado:</strong> Las fotos se usan exclusivamente para el análisis solicitado. No se usan para entrenar modelos de IA.</li>
+              <li><strong>Transparencia:</strong> Este es un sistema de IA, no un dermatólogo humano. Los resultados son observaciones cosméticas, no diagnósticos.</li>
+              <li><strong>Retiro de consentimiento:</strong> Puedes revocar tu permiso en cualquier momento y solicitar la eliminación de tus fotos y datos escribiendo a theserenelens@gmail.com.</li>
+              <li><strong>Eliminación:</strong> Puedes borrar tus fotos y análisis desde tu dashboard en cualquier momento.</li>
+            </ul>
+          </section>
+
+          <section>
+            <h2 className="font-serif text-lg font-semibold text-[#1A1A1A] mb-2">5. Cuentas de usuario</h2>
             <ul className="list-disc pl-4 space-y-1">
               <li>Eres responsable de mantener la confidencialidad de tu contraseña</li>
               <li>Debes proporcionar información precisa y actualizada</li>

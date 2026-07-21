@@ -38,7 +38,7 @@ export async function POST(req: NextRequest) {
     })
 
     return ok({ feedback })
-  } catch {
-    return serverError()
+  } catch (e) {
+    return serverError(e)
   }
 }

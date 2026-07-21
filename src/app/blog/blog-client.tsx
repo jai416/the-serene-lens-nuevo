@@ -146,6 +146,7 @@ export default function BlogClient({ initialPosts, initialTotalPages }: Props) {
                       src={post.image || "/images/placeholder.svg"}
                       alt={post.title}
                       fill
+                      sizes="(max-width: 768px) 100vw, 50vw"
                       className="object-cover group-hover:scale-105 transition-transform duration-500"
                     />
                     <Badge className="absolute top-3 left-3 bg-white/90 text-[#1A1A1A] text-xs backdrop-blur-sm border-0">

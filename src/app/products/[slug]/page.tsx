@@ -106,7 +106,7 @@ export default async function ProductDetailPage({
               alt={product.name}
               fill
               className="object-cover"
-              unoptimized
+              unoptimized={(product.image || "/images/placeholder.svg").endsWith(".svg")}
             />
           </div>
 

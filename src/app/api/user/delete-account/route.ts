@@ -56,7 +56,7 @@ export async function DELETE() {
     await db.user.delete({ where: { id: userId } })
 
     return ok({ deleted: true })
-  } catch {
-    return serverError()
+  } catch (e) {
+    return serverError(e)
   }
 }

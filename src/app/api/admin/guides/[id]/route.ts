@@ -37,7 +37,7 @@ export async function PATCH(
       },
     })
 
-    revalidateTag("guides", {})
+    revalidateTag("guides")
     return ok({ guide: updated })
   } catch (e) {
     console.error("Admin guide PATCH error:", e)
@@ -61,7 +61,7 @@ export async function DELETE(
     if (!guide) return notFound()
 
     await db.digitalProduct.delete({ where: { id } })
-    revalidateTag("guides", {})
+    revalidateTag("guides")
     return ok({ deleted: true })
   } catch (e) {
     console.error("Admin guide DELETE error:", e)

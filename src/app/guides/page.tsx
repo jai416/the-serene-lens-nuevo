@@ -360,6 +360,7 @@ export default function GuidesPage() {
                       src={failedImages.has(guide.id) ? FALLBACK_IMAGE : guide.image}
                       alt={guide.title}
                       fill
+                      sizes="(max-width: 768px) 100vw, 50vw"
                       className="object-cover"
                       unoptimized={guide.image.endsWith(".svg")}
                       onError={() => handleImageError(guide.id)}

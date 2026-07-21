@@ -15,8 +15,8 @@ export async function GET() {
     })
 
     return ok({ savedProducts })
-  } catch {
-    return serverError()
+  } catch (e) {
+    return serverError(e)
   }
 }
 
@@ -38,8 +38,8 @@ export async function POST(req: Request) {
     })
 
     return ok({ saved: true })
-  } catch {
-    return serverError()
+  } catch (e) {
+    return serverError(e)
   }
 }
 
@@ -56,7 +56,7 @@ export async function DELETE(req: Request) {
     })
 
     return ok({ removed: true })
-  } catch {
-    return serverError()
+  } catch (e) {
+    return serverError(e)
   }
 }

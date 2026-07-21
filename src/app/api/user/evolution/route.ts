@@ -12,7 +12,7 @@ export async function GET() {
 
     const evolution = await UserService.getEvolution(session.user.id)
     return ok(evolution)
-  } catch {
-    return serverError()
+  } catch (e) {
+    return serverError(e)
   }
 }

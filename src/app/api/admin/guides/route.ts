@@ -52,7 +52,7 @@ export async function POST(request: NextRequest) {
     }
 
     const guide = await db.digitalProduct.create({ data: parsed.data })
-    revalidateTag("guides", {})
+    revalidateTag("guides")
 
     return ok({ guide })
   } catch (e) {

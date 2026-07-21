@@ -1,7 +1,7 @@
 import { logger } from "@/lib/logger"
 
 const QVAPAY_TIMEOUT = 25000
-const QVAPAY_USER_AGENT = "TheSereneLens/3.0 (+https://the-serene-lens-nuevo.onrender.com)"
+const QVAPAY_USER_AGENT = `TheSereneLens/3.0 (+${process.env.NEXT_PUBLIC_APP_URL || "https://the-serene-lens-nuevo.onrender.com"})`
 
 function getPaymentsEnv() {
   const QVAPAY_API_URL = process.env.QVAPAY_API_URL || "https://api.qvapay.com"

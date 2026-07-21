@@ -602,10 +602,10 @@ export default function AnalysisResultsPage() {
                       navigator.share({
                         title: "The Serene Lens - Analisis de Piel",
                         text: `Descubrí que mi tipo de piel es ${result.skinType || "único"}. Haz tu análisis gratis con IA en The Serene Lens.`,
-                        url: "https://the-serene-lens-nuevo.onrender.com",
+                        url: process.env.NEXT_PUBLIC_APP_URL || "https://the-serene-lens-nuevo.onrender.com",
                       }).catch(() => {})
                     } else {
-                      navigator.clipboard.writeText("https://the-serene-lens-nuevo.onrender.com")
+                      navigator.clipboard.writeText(process.env.NEXT_PUBLIC_APP_URL || "https://the-serene-lens-nuevo.onrender.com")
                       toast.success("Enlace copiado al portapapeles")
                     }
                   }}
@@ -617,7 +617,8 @@ export default function AnalysisResultsPage() {
                 <button
                   onClick={() => {
                     const text = `Descubrí que mi tipo de piel es ${result.skinType || "únic"}. Haz tu análisis gratis con IA en The Serene Lens.`
-                    const url = `https://api.whatsapp.com/send?text=${encodeURIComponent(text + " " + "https://the-serene-lens-nuevo.onrender.com")}`
+                    const shareUrl = process.env.NEXT_PUBLIC_APP_URL || "https://the-serene-lens-nuevo.onrender.com"
+                    const url = `https://api.whatsapp.com/send?text=${encodeURIComponent(text + " " + shareUrl)}`
                     window.open(url, "_blank", "noopener,noreferrer")
                   }}
                   className="inline-flex items-center gap-2 px-4 py-2 bg-[#25D366] text-white rounded-full text-xs font-medium hover:opacity-90 transition-opacity"
@@ -627,7 +628,7 @@ export default function AnalysisResultsPage() {
                 </button>
                 <button
                   onClick={() => {
-                    const url = `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent("https://the-serene-lens-nuevo.onrender.com")}`
+                    const url = `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(process.env.NEXT_PUBLIC_APP_URL || "https://the-serene-lens-nuevo.onrender.com")}`
                     window.open(url, "_blank", "noopener,noreferrer")
                   }}
                   className="inline-flex items-center gap-2 px-4 py-2 bg-[#0A66C2] text-white rounded-full text-xs font-medium hover:opacity-90 transition-opacity"

@@ -38,7 +38,7 @@ export async function POST(req: NextRequest, { params }: { params: Promise<{ id:
     })
 
     return ok({ saved: true })
-  } catch {
-    return serverError()
+  } catch (e) {
+    return serverError(e)
   }
 }

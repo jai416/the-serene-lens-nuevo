@@ -59,7 +59,7 @@ export async function POST(req: NextRequest) {
       },
     })
 
-    revalidateTag("blog-posts", {})
+    revalidateTag("blog-posts")
 
     return ok({ post })
   } catch (e) {
@@ -93,7 +93,7 @@ export async function PUT(req: NextRequest) {
       data: updateData,
     })
 
-    revalidateTag("blog-posts", {})
+    revalidateTag("blog-posts")
 
     return ok({ post })
   } catch (e) {
@@ -118,7 +118,7 @@ export async function DELETE(req: NextRequest) {
 
     await db.blogPost.delete({ where: { id: parsed.data.id } })
 
-    revalidateTag("blog-posts", {})
+    revalidateTag("blog-posts")
 
     return ok({ deleted: true })
   } catch (e) {

@@ -40,7 +40,7 @@ export default function PrivacyPage() {
             <h2 className="font-serif text-lg font-semibold text-[#1A1A1A] mb-2">2. Cómo usamos tu información</h2>
             <h3 className="font-medium text-[#1A1A1A] mt-3 mb-1">Para proporcionar el servicio:</h3>
             <ul className="list-disc pl-4 space-y-1">
-              <li>Analizar las fotos de tu piel usando inteligencia artificial (Groq)</li>
+              <li>Analizar las fotos de tu piel usando inteligencia artificial (Gemini 2.0 Flash)</li>
               <li>Generar rutinas de cuidado personalizadas</li>
               <li>Recomendar productos según tu tipo de piel</li>
               <li>Enviar recordatorios de cuidado de la piel</li>
@@ -66,10 +66,11 @@ export default function PrivacyPage() {
               <CardContent className="p-4 text-sm">
                 <ul className="list-disc pl-4 space-y-1">
                   <li>Las fotos se usan exclusivamente para el análisis solicitado.</li>
-                  <li>Se envían a la API de Groq (IA) para su procesamiento.</li>
+                  <li>Se envían a la API de Gemini (Google) para su procesamiento con IA.</li>
                   <li>No compartimos tus imágenes con terceros fuera del proceso de análisis.</li>
-                  <li>No usamos tus fotos para entrenar modelos de IA.</li>
+                  <li>No usamos tus fotos para entrenar modelos de IA. Google no entrena sus modelos con tus imágenes.</li>
                   <li>Puedes eliminar tus fotos y análisis en cualquier momento desde tu dashboard.</li>
+                  <li>Puedes solicitar la eliminación completa de tus datos escribiendo a theserenelens@gmail.com.</li>
                 </ul>
               </CardContent>
             </Card>
@@ -111,7 +112,8 @@ export default function PrivacyPage() {
             <h2 className="font-serif text-lg font-semibold text-[#1A1A1A] mb-2">6. Compartición con terceros</h2>
             <h3 className="font-medium text-[#1A1A1A] mt-3 mb-1">Proveedores de servicio necesarios:</h3>
             <ul className="list-disc pl-4 space-y-1">
-              <li><strong>Groq</strong> — procesamiento de IA para análisis de piel</li>
+              <li><strong>Gemini (Google)</strong> — procesamiento de IA para análisis de piel y escáner de ingredientes</li>
+              <li><strong>Groq</strong> — procesamiento de IA para chat y asistente virtual</li>
               <li><strong>Supabase</strong> — alojamiento de base de datos</li>
               <li><strong>Render</strong> — alojamiento de la aplicación</li>
               <li><strong>Google</strong> — inicio de sesión OAuth (opcional)</li>

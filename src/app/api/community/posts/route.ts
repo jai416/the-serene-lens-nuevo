@@ -25,8 +25,8 @@ export async function GET(req: Request) {
     })
 
     return ok({ posts })
-  } catch {
-    return serverError()
+  } catch (e) {
+    return serverError(e)
   }
 }
 
@@ -54,7 +54,7 @@ export async function POST(req: Request) {
     })
 
     return ok({ post }, 201)
-  } catch {
-    return serverError()
+  } catch (e) {
+    return serverError(e)
   }
 }

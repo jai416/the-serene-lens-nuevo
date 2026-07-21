@@ -17,7 +17,7 @@ export async function POST(req: Request) {
     )
 
     return ok({ conflicts })
-  } catch {
-    return serverError()
+  } catch (e) {
+    return serverError(e)
   }
 }

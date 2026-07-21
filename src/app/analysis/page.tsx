@@ -272,14 +272,20 @@ export default function AnalysisPage() {
                 </div>
 
                 <div className="text-sm leading-relaxed mb-4 p-4 rounded-xl" style={{ color: "#666666", backgroundColor: "#F8F9FA", border: "1px solid #E8E8E8" }}>
-                  <p className="mb-2">
-                    Esta herramienta realiza observaciones cosméticas orientativas basadas únicamente en fotografías
-                    y la información proporcionada por el usuario.
-                  </p>
-                  <p>
-                    No diagnostica enfermedades, no sustituye a dermatólogos ni profesionales de la salud y no debe
-                    utilizarse como herramienta médica.
-                  </p>
+                  <p className="mb-2 font-medium" style={{ color: "#1A1A1A" }}>¿Qué pasa con tus fotos?</p>
+                  <ul className="list-disc pl-4 space-y-1 mb-3">
+                    <li>Las fotos se envían a <strong>Gemini (Google)</strong> para el análisis con IA.</li>
+                    <li>No se usan para entrenar modelos ni se comparten con terceros.</li>
+                    <li>Puedes eliminar tus fotos y análisis en cualquier momento desde tu dashboard.</li>
+                    <li>Puedes solicitar la eliminación completa de tus datos escribiendo a theserenelens@gmail.com.</li>
+                  </ul>
+                  <p className="mb-2 font-medium" style={{ color: "#1A1A1A" }}>Importante</p>
+                  <ul className="list-disc pl-4 space-y-1">
+                    <li>Esta herramienta realiza <strong>observaciones cosméticas</strong> basadas en fotografías, no diagnósticos médicos.</li>
+                    <li>No sustituye a dermatólogos ni profesionales de la salud.</li>
+                    <li>La IA puede cometer errores. Verifica siempre con un profesional.</li>
+                    <li>Puedes retirar tu consentimiento en cualquier momento.</li>
+                  </ul>
                 </div>
 
                 <label className="flex items-start gap-3 cursor-pointer">
@@ -291,7 +297,8 @@ export default function AnalysisPage() {
                     style={{ accentColor: "#88B078", borderColor: "#E8E8E8" }}
                   />
                   <span className="text-sm" style={{ color: "#666666" }}>
-                    He leído y acepto los términos. Entiendo que esta herramienta no reemplaza una consulta profesional.
+                    He leído y acepto. Entiendo que esto no es un diagnóstico médico y acepto el tratamiento de mis fotos por IA según la{" "}
+                    <Link href="/privacy" className="underline hover:text-[#88B078]">Política de Privacidad</Link>.
                   </span>
                 </label>
 

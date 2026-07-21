@@ -33,7 +33,7 @@ export async function POST(req: NextRequest) {
     }
 
     return ok({ userId: result.user?.id })
-  } catch {
-    return serverError()
+  } catch (e) {
+    return serverError(e)
   }
 }
