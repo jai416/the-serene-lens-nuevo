@@ -72,7 +72,7 @@ export async function POST(req: NextRequest) {
       skinAge: typeof parsed.skinAge === "number" ? Math.max(10, Math.min(80, parsed.skinAge)) : null,
     })
   } catch (e) {
-    console.error("Aging demo error:", e)
-    return error("Error interno", 500)
+    const msg = e instanceof Error ? e.message : String(e)
+    return error(msg, 500)
   }
 }
