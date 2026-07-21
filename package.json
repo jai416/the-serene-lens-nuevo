@@ -21,7 +21,7 @@
     "seed:knowledge": "tsx prisma/seed-knowledge.ts",
     "seed:guides": "tsx prisma/seed-guides.ts",
     "seed:community": "tsx prisma/seed-community.ts",
-    "test:gemini": "tsx scripts/test-gemini-bot.ts",
+
     "download:assets": "tsx scripts/download-assets.ts",
     "postinstall": "prisma generate"
   },

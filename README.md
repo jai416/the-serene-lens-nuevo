@@ -9,9 +9,8 @@ Observación cosmética de tu piel con inteligencia artificial.
 | Framework | Next.js 16 (Turbopack) |
 | Base de datos | PostgreSQL (Supabase) + Prisma 7 |
 | Autenticación | NextAuth v4 (JWT) + Google OAuth |
-| AI Visión | Gemini 2.0 Flash (análisis de piel, escáner ingredientes, aging demo). ⚠️ `GEMINI_API_KEY` no configurada en Render |
-| AI Asistente | Gemini 2.0 Flash (Telegram `/asistente`). ⚠️ No funcional sin `GEMINI_API_KEY` |
-| AI Chat (RAG) | Groq `llama-3.3-70b-versatile` (chat sin imágenes). ✅ Funcional en Render |
+| AI Visión | Gemini 2.0 Flash (análisis de piel, escáner ingredientes). ⚠️ `GEMINI_API_KEY` no configurada en Render |
+| AI Chat (RAG + `/asistente`) | Groq `llama-3.3-70b-versatile` (chat sin imágenes). ✅ Funcional en Render |
 | Pagos | QvaPay (USD) + Transfermóvil (CUP) |
 | Bot | Telegram (webhook, RAG, `/asistente`, validación pagos) |
 | Notificaciones | Sistema propio web + Redis (Upstash). Email desactivado (stubs) |
@@ -22,7 +21,7 @@ Observación cosmética de tu piel con inteligencia artificial.
 
 - **Análisis de piel con IA**: Sube selfies y recibe observaciones cosméticas personalizadas con rutinas AM/PM. La IA recuerda tu historial completo de análisis y compara progreso.
 - **Planes**: Essential (gratis, 6 análisis/mes), Premium ($7.99/mes), Pro ($14.99/mes), Pro+ ($14.99/mes), Esteticista ($49.99/mes). Anuales y packs de análisis disponibles.
-- **Asistente IA**: Chat con Gemini 2.0 Flash vía Telegram (`/asistente`). Límite diario según plan.
+- **Asistente IA**: Chat con Groq `llama-3.3-70b-versatile` vía Telegram (`/asistente`). Límite diario según plan.
 - **Notificaciones web**: Campana en sidebar con contador de no leídos, dashboard de notificaciones, expiran a las 48h. Reemplaza completamente al email.
 - **Productos guardados**: Guarda tus productos favoritos y detecta conflictos entre ingredientes (retinol + BHA, niacina + vitamina C, etc.).
 - **Insignias**: Logros automáticos por rachas, análisis completados y mejora de hidratación.
@@ -46,7 +45,7 @@ Observación cosmética de tu piel con inteligencia artificial.
 
 - Node.js 20+
 - PostgreSQL (Supabase recomendado)
-- API keys: Gemini, Groq (solo para chat RAG), QvaPay, Telegram Bot, Sentry, Clarity, OpenWeatherMap, Redis Upstash
+- API keys: Gemini (solo visión: análisis piel + escáner), Groq (chat RAG + `/asistente`), QvaPay, Telegram Bot, Sentry, Clarity, OpenWeatherMap, Redis Upstash
 - `.npmrc` con `legacy-peer-deps=true` (necesario por `@sentry/nextjs` con Next.js 16)
 
 ## Comandos
@@ -60,7 +59,7 @@ npm run seed:guides      # Seed guías digitales (64 guías con SVGs/PDFs)
 npm run seed:community   # Seed comunidades (6 grupos, 8 insignias)
 npm run seed:knowledge   # Seed base de conocimiento RAG
 npm run db:push          # Push schema a DB
-npm run test:gemini      # Test del cliente Gemini
+
 ```
 
 ## Cron Jobs (configurar en cron-job.org)
@@ -95,8 +94,9 @@ Ver `CRON-SETUP.md` para configuración detallada. Todos requieren header `Autho
 | Notificaciones web | Reemplaza email. Campana en sidebar, dashboard, cleanup 48h |
 | Guías con SVGs únicos | 50 SVGs generados por categoría, cada guía con PDF propio |
 | QR sin dependencia | Fallback a `api.qrserver.com` (qrcode npm no disponible) |
-| Visión IA migrada a Gemini | Groq descontinuó todos sus modelos vision. Migrado a Gemini 2.0 Flash. ⚠️ `GEMINI_API_KEY` debe configurarse manualmente en Render Dashboard |
-| Debug endpoint `/api/debug` | Verifica env vars en Render. Requiere `CRON_SECRET` en header Authorization. 404 hasta que Render rebuild con commit `7b73176` |
+| Visión IA migrada a Gemini | Groq descontinuó todos sus modelos vision. Migrado a Gemini 2.0 Flash. Solo análisis piel + escáner ingredientes (sin aging demo, sin `/asistente`). ⚠️ `GEMINI_API_KEY` debe configurarse en Render Dashboard |
+| `/asistente` migrado a Groq | Antes usaba Gemini Chat, ahora usa Groq `llama-3.3-70b-versatile` (mismo modelo que RAG). Ya no requiere `GEMINI_API_KEY` |
+| Aging demo eliminado | Componente y API route removidos. Era código muerto (no se importaba en ninguna página) |
 
 ## Licencia
 

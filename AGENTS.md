@@ -9,7 +9,7 @@
 ### Homepage — SkinTest y LeadMagnet eliminados
 - **Mini Test**: Se quitó el componente SkinTest de la landing page porque es una versión reducida que compite con el análisis real por IA
 - **Lead Magnet**: Se quitó el formulario de captura de email para la guía gratuita (está en `/guides` y no necesita estar en la landing)
-- **Orden**: AgingDemo → HowItWorks → Features → ActionCards → Pricing → FAQ
+- **Orden**: HowItWorks → Features → ActionCards → Pricing → FAQ
 
 ### Admin Panel — Quick Access rediseñado
 - Layout cambió de `grid-cols-9 gap-2` a `grid-cols-6 gap-3` con cards individuales (icono + borde + hover)
@@ -70,9 +70,9 @@
 - `GEMINI_API_KEY` se configura en `.env` local y en variables de entorno de Render
 
 ### Decisiones de AI
-- **Gemini 2.0 Flash** para análisis de piel con imágenes (reemplazó a Groq cuyos modelos vision fueron descontinuados)
-- **Gemini 2.0 Flash** para asistente Telegram (`/asistente`)
-- **Groq** (`llama-3.3-70b-versatile`) para chat del bot (RAG, respuestas sin imágenes)
+- **Gemini 2.0 Flash** para visión (análisis de piel + escáner ingredientes). Reemplazó a Groq cuyos modelos vision fueron descontinuados
+- **Groq** (`llama-3.3-70b-versatile`) para TODO el chat: RAG + `/asistente` (ya no depende de `GEMINI_API_KEY`)
+- `gemini-chat.ts` eliminado — `/asistente` migrado a Groq
 - Rate limit de `/asistente` persiste en Redis (`checkRateLimit()` con key `asistente:daily:{userId}`)
 
 ### Documentación
@@ -89,10 +89,9 @@
 | `src/lib/services/badge.service.ts` | Evaluación y asignación de insignias |
 | `src/lib/services/ingredient.service.ts` | Detección de conflictos entre ingredientes |
 | `src/lib/services/analysis.service.ts` | Análisis de piel con historial completo |
-| `src/lib/gemini-vision.ts` | Visión IA con Gemini 2.0 Flash (reemplaza a Groq para imágenes) |
+| `src/lib/gemini-vision.ts` | Visión IA con Gemini 2.0 Flash (análisis piel + escáner ingredientes) |
 | `src/lib/groq.ts` | Análisis de piel (usa Gemini internamente) |
-| `src/lib/groq-chat.ts` | Chat Groq con `llama-3.3-70b-versatile` para RAG |
-| `src/lib/gemini-chat.ts` | Cliente Gemini 2.0 Flash para asistente Telegram |
+| `src/lib/groq-chat.ts` | Chat Groq con `llama-3.3-70b-versatile` para RAG + `/asistente` |
 | `src/app/api/cron/weather-alert/route.ts` | Alertas por cambios climáticos |
 | `src/app/api/community/` | API completa de comunidad (grupos, posts, comentarios) |
 | `src/app/community/page.tsx` | Comunidad segmentada por tipo de piel |
@@ -145,12 +144,13 @@
 - `llama-3.2-11b-vision-preview` fue deprecado por Groq
 - Se intentó reemplazar por `meta-llama/llama-4-scout-17b-16e-instruct` pero ese modelo tampoco existe en Groq
 - Todos los modelos vision de Groq fueron descontinuados (`model_decommissioned`)
-- **Solución**: Migrar toda la visión (análisis de piel, escáner de ingredientes, aging demo) a **Gemini 2.0 Flash**
+- **Solución**: Migrar la visión (análisis de piel y escáner de ingredientes) a **Gemini 2.0 Flash**. 
 - Nuevo archivo `src/lib/gemini-vision.ts` con funciones `analyzeImageWithGemini()` y `analyzeMultipleImagesWithGemini()`
 - `src/lib/groq.ts` ahora usa Gemini internamente (el API pública `analyzeSkinWithGroq` no cambia)
 - `src/lib/product-scanner.ts` usa `analyzeImageWithGemini()` directamente
-- `src/app/api/aging-demo/route.ts` usa `analyzeImageWithGemini()` directamente
-- Groq sigue usándose solo para chat sin imágenes (`llama-3.3-70b-versatile` en `groq-chat.ts`)
+- Groq se usa para TODO el chat (`llama-3.3-70b-versatile` en `groq-chat.ts`) — tanto RAG como `/asistente`
+- `gemini-chat.ts` eliminado: `/asistente` migrado a Groq (ya no depende de `GEMINI_API_KEY`)
+- Aging demo eliminado: componente y API route removidos (código muerto, no se usaba)
 
 ### Guías — SVGs únicos generados
 - Script `scripts/generate-guide-svgs.ts` genera 50 SVGs únicos con colores por categoría
@@ -218,20 +218,18 @@
 
 ## Estado crítico — Gemini NO funcional en Render
 - `GEMINI_API_KEY` **no está configurada en Render**. No aparece en `render.yaml` (agregada en `7b73176` pero marcada `sync:false`)
-- Todas las funciones de visión (análisis de piel, escáner de ingredientes, aging demo) fallan con 500 "Error interno"
-- Para activar: ir a Render Dashboard → Environment → agregar `GEMINI_API_KEY` con valor válido. El código ya está migrado a Gemini 2.0 Flash
+- Las funciones de visión (análisis de piel, escáner de ingredientes) fallan con 500 "Error interno"
+- Para activar: ir a Render Dashboard → Environment → agregar `GEMINI_API_KEY` con valor válido.
 - El endpoint `/api/debug` (commit `d9cf882`) permite verificar env vars desde Render, pero build actual no lo incluye
-- El bot de Telegram `/asistente` también requiere `GEMINI_API_KEY` (usa Gemini 2.0 Flash)
+- El bot de Telegram `/asistente` **ya no requiere Gemini** — usa Groq `llama-3.3-70b-versatile` igual que el chat RAG
 
 ## Estado del build en Render
 - Último build desplegado: versión antigua (health reporta "2026-07-04-final")
-- Push `7b73176` (render.yaml + GEMINI_API_KEY) enviado a GitHub, Render debería auto-desplegar
+- Push `0d4bc14` (docs) + `7b73176` (render.yaml) + nuevo commit pendiente enviados a GitHub, Render debería auto-desplegar
 - Si auto-deploy no funciona, Trigger Manual Deploy en Render Dashboard
 
 ## Próximas tareas pendientes
-- ⚠️ **Configurar `GEMINI_API_KEY` en Render Dashboard** (crítico — sin esto no funcionan análisis de piel, escáner, aging demo, ni asistente Telegram)
-- Monitorear build en Render tras push `7b73176`
-- Verificar que `/api/debug` responda 401 (sin auth) o JSON con env vars (con auth)
-- Probar aging-demo con `GEMINI_API_KEY` configurada
+- ⚠️ **Configurar `GEMINI_API_KEY` en Render Dashboard** (crítico para análisis piel + escáner ingredientes)
+- Monitorear build en Render tras push
 - Verificar que `/api/cron/cleanup-notifications` aparezca tras el build
 - Configurar `TELEGRAM_BOT_TOKEN` en Render si se desea UV alerts

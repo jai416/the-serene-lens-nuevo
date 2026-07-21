@@ -6,6 +6,7 @@ import {
   setReminder, getReminderStatus, generateDiscountCode, validateDiscountCode,
   saveFeedback, getFeedbackAvg, getRandomMeme,
 } from "@/lib/telegram"
+import { groqChat } from "@/lib/groq-chat"
 import { sanitizeHtml } from "@/lib/sanitize"
 import * as R from "@/lib/telegram-responses"
 
@@ -1136,12 +1137,18 @@ export async function handleAsistente(chatId: string, userId: string, args: stri
   await sendTelegramMessage(chatId, "🧠 Pensando...")
 
   try {
-    const { chatWithGemini } = await import("@/lib/gemini-chat")
-    const response = await chatWithGemini(query)
+    const response = await groqChat(
+      [{ role: "user", content: query }],
+      {
+        system: "Eres un asistente virtual de The Serene Lens, una app de análisis de piel con IA. Responde de forma amable, profesional y en español. Responde en máximo 3 párrafos.",
+        temperature: 0.3,
+        maxTokens: 1024,
+      }
+    )
     await sendTelegramMessage(chatId, response)
   } catch (e) {
     const msg = e instanceof Error ? e.message : "Ocurrió un error inesperado."
-    await sendTelegramMessage(chatId, `❌ ${msg}`)
+    await sendTelegramMessage(chatId, `❌ Error de IA: ${msg}`)
   }
 }
 
