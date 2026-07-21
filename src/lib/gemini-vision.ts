@@ -1,4 +1,5 @@
 import { logger } from "@/lib/logger"
+import { captureError, captureMessage } from "@/lib/sentry"
 
 const GEMINI_API_URL = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent"
 
@@ -65,11 +66,12 @@ export async function analyzeImageWithGemini(
     if (!res.ok) {
       const text = await res.text().catch(() => "unknown")
       logger.error("Gemini vision error", { status: res.status, body: text.slice(0, 500) })
+      if (res.status === 403 || res.status === 401) {
+        captureMessage("GEMINI_API_KEY expirada o inválida", { status: res.status, body: text.slice(0, 200) })
+        throw new GeminiVisionError("Error de autenticación con la IA. La API Key podría estar expirada.", "AUTH_ERROR")
+      }
       if (res.status === 429) {
         throw new GeminiVisionError("Demasiadas solicitudes a la IA. Espera un momento.", "RATE_LIMITED")
-      }
-      if (res.status === 403 || res.status === 401) {
-        throw new GeminiVisionError("Error de autenticación con la IA.", "AUTH_ERROR")
       }
       throw new GeminiVisionError(`Error de IA (${res.status}). Intenta de nuevo.`, "API_ERROR")
     }
@@ -88,6 +90,7 @@ export async function analyzeImageWithGemini(
       throw new GeminiVisionError("La conexión con la IA tardó demasiado.", "TIMEOUT")
     }
     logger.error("Gemini vision fetch error", { error: e instanceof Error ? e.message : String(e) })
+    captureError(e, { context: "analyzeImageWithGemini" })
     throw new GeminiVisionError("Error al conectar con la IA.", "NETWORK_ERROR")
   } finally {
     clearTimeout(timeoutId)
@@ -132,6 +135,10 @@ export async function analyzeMultipleImagesWithGemini(
     if (!res.ok) {
       const text = await res.text().catch(() => "unknown")
       logger.error("Gemini multi-image error", { status: res.status, body: text.slice(0, 500) })
+      if (res.status === 403 || res.status === 401) {
+        captureMessage("GEMINI_API_KEY expirada o inválida (multi-image)", { status: res.status, body: text.slice(0, 200) })
+        throw new GeminiVisionError("Error de autenticación con la IA. La API Key podría estar expirada.", "AUTH_ERROR")
+      }
       if (res.status === 429) {
         throw new GeminiVisionError("Demasiadas solicitudes. Espera un momento.", "RATE_LIMITED")
       }
@@ -152,6 +159,7 @@ export async function analyzeMultipleImagesWithGemini(
       throw new GeminiVisionError("La conexión con la IA tardó demasiado.", "TIMEOUT")
     }
     logger.error("Gemini multi-image fetch error", { error: e instanceof Error ? e.message : String(e) })
+    captureError(e, { context: "analyzeMultipleImagesWithGemini" })
     throw new GeminiVisionError("Error al conectar con la IA.", "NETWORK_ERROR")
   } finally {
     clearTimeout(timeoutId)

@@ -228,6 +228,12 @@
 - Push `0d4bc14` (docs) + `7b73176` (render.yaml) + nuevo commit pendiente enviados a GitHub, Render debería auto-desplegar
 - Si auto-deploy no funciona, Trigger Manual Deploy en Render Dashboard
 
+## Monitoreo Gemini
+- `gemini-vision.ts` envía errores a Sentry mediante `captureError` y `captureMessage`
+- Auth errors (401/403) = disparan `captureMessage("GEMINI_API_KEY expirada o inválida")` → visible en Sentry Dashboard
+- Network errors y fallos inesperados = `captureError()` con contexto
+- `GEMINI_API_KEY` agregado al schema de `env.ts` (Zod validation) y `requireEnv()` ahora lanza error si falta (antes devolvía `""` silenciosamente)
+
 ## Próximas tareas pendientes
 - ⚠️ **Configurar `GEMINI_API_KEY` en Render Dashboard** (crítico para análisis piel + escáner ingredientes)
 - Monitorear build en Render tras push

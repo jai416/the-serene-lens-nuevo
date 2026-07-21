@@ -4,6 +4,7 @@ const envSchema = z.object({
   DATABASE_URL: z.string().min(1),
   NEXTAUTH_SECRET: z.string().min(1),
   NEXTAUTH_URL: z.string().url().default("http://localhost:3000"),
+  GEMINI_API_KEY: z.string().min(1),
   GROQ_API_KEY: z.string().min(1),
   QVAPAY_UUID: z.string().min(1),
   QVAPAY_SECRET: z.string().min(1),
@@ -52,7 +53,9 @@ export function getEnv(): Env {
 }
 
 export function requireEnv(key: string): string {
-  return getEnv()[key as keyof Env] || ""
+  const val = getEnv()[key as keyof Env]
+  if (!val) throw new Error(`Missing required env variable: ${key}`)
+  return val
 }
 
 export function optionalEnv(key: string, fallback = ""): string {
