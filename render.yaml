@@ -28,6 +28,8 @@ services:
         value: https://api.qvapay.com
       - key: RESEND_API_KEY
         sync: false
+      - key: GEMINI_API_KEY
+        sync: false
       - key: CRON_SECRET
         sync: false
       - key: ROOT_ADMIN_EMAIL
