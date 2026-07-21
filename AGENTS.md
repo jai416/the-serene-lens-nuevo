@@ -216,8 +216,22 @@
 - `src/lib/telegram-handlers.ts`: se agregó `id: true` al `select` de Prisma (faltaba el campo, causaba TS error)
 - `src/components/qr-code-image.tsx`: se eliminó el `import("qrcode")` dinámico para evitar error de módulo no encontrado
 
+## Estado crítico — Gemini NO funcional en Render
+- `GEMINI_API_KEY` **no está configurada en Render**. No aparece en `render.yaml` (agregada en `7b73176` pero marcada `sync:false`)
+- Todas las funciones de visión (análisis de piel, escáner de ingredientes, aging demo) fallan con 500 "Error interno"
+- Para activar: ir a Render Dashboard → Environment → agregar `GEMINI_API_KEY` con valor válido. El código ya está migrado a Gemini 2.0 Flash
+- El endpoint `/api/debug` (commit `d9cf882`) permite verificar env vars desde Render, pero build actual no lo incluye
+- El bot de Telegram `/asistente` también requiere `GEMINI_API_KEY` (usa Gemini 2.0 Flash)
+
+## Estado del build en Render
+- Último build desplegado: versión antigua (health reporta "2026-07-04-final")
+- Push `7b73176` (render.yaml + GEMINI_API_KEY) enviado a GitHub, Render debería auto-desplegar
+- Si auto-deploy no funciona, Trigger Manual Deploy en Render Dashboard
+
 ## Próximas tareas pendientes
-- Monitorear build en Render tras push de fixes (qrcode, telegram-handlers)
-- Verificar que `/api/cron/cleanup-notifications` aparezca tras el build (daba 404 en Render)
+- ⚠️ **Configurar `GEMINI_API_KEY` en Render Dashboard** (crítico — sin esto no funcionan análisis de piel, escáner, aging demo, ni asistente Telegram)
+- Monitorear build en Render tras push `7b73176`
+- Verificar que `/api/debug` responda 401 (sin auth) o JSON con env vars (con auth)
+- Probar aging-demo con `GEMINI_API_KEY` configurada
+- Verificar que `/api/cron/cleanup-notifications` aparezca tras el build
 - Configurar `TELEGRAM_BOT_TOKEN` en Render si se desea UV alerts
-- Commit de `CRON-SETUP.md` (documentación, no crítico)

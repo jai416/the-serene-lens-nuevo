@@ -9,9 +9,9 @@ Observación cosmética de tu piel con inteligencia artificial.
 | Framework | Next.js 16 (Turbopack) |
 | Base de datos | PostgreSQL (Supabase) + Prisma 7 |
 | Autenticación | NextAuth v4 (JWT) + Google OAuth |
-| AI Visión | Gemini 2.0 Flash (análisis de piel, escáner ingredientes, aging demo) |
-| AI Asistente | Gemini 2.0 Flash (Telegram `/asistente`) |
-| AI Chat (RAG) | Groq `llama-3.3-70b-versatile` (chat sin imágenes) |
+| AI Visión | Gemini 2.0 Flash (análisis de piel, escáner ingredientes, aging demo). ⚠️ `GEMINI_API_KEY` no configurada en Render |
+| AI Asistente | Gemini 2.0 Flash (Telegram `/asistente`). ⚠️ No funcional sin `GEMINI_API_KEY` |
+| AI Chat (RAG) | Groq `llama-3.3-70b-versatile` (chat sin imágenes). ✅ Funcional en Render |
 | Pagos | QvaPay (USD) + Transfermóvil (CUP) |
 | Bot | Telegram (webhook, RAG, `/asistente`, validación pagos) |
 | Notificaciones | Sistema propio web + Redis (Upstash). Email desactivado (stubs) |
@@ -95,7 +95,8 @@ Ver `CRON-SETUP.md` para configuración detallada. Todos requieren header `Autho
 | Notificaciones web | Reemplaza email. Campana en sidebar, dashboard, cleanup 48h |
 | Guías con SVGs únicos | 50 SVGs generados por categoría, cada guía con PDF propio |
 | QR sin dependencia | Fallback a `api.qrserver.com` (qrcode npm no disponible) |
-| Visión IA migrada a Gemini | Groq descontinuó todos sus modelos vision. Migrado a Gemini 2.0 Flash |
+| Visión IA migrada a Gemini | Groq descontinuó todos sus modelos vision. Migrado a Gemini 2.0 Flash. ⚠️ `GEMINI_API_KEY` debe configurarse manualmente en Render Dashboard |
+| Debug endpoint `/api/debug` | Verifica env vars en Render. Requiere `CRON_SECRET` en header Authorization. 404 hasta que Render rebuild con commit `7b73176` |
 
 ## Licencia
 
