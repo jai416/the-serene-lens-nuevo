@@ -1,9 +1,6 @@
 import { NextRequest } from "next/server"
 import { ok, error } from "@/lib/api-response"
-import { logger } from "@/lib/logger"
-
-const GROQ_API_BASE = "https://api.groq.com/openai/v1"
-const MODEL = "meta-llama/llama-4-scout-17b-16e-instruct"
+import { analyzeImageWithGemini } from "@/lib/gemini-vision"
 
 const SYSTEM_PROMPT = `Eres un modelo analítico avanzado de IA especializado en estética cosmética.
 Actúa como un analista cosmético profesional.
@@ -37,13 +34,6 @@ function checkRateLimit(ip: string): boolean {
   return true
 }
 
-function compactImage(base64: string): string {
-  if (base64.length > 500000) {
-    return base64.slice(0, 250000) + base64.slice(-250000)
-  }
-  return base64
-}
-
 export async function POST(req: NextRequest) {
   try {
     const forwarded = req.headers.get("x-forwarded-for")
@@ -60,52 +50,11 @@ export async function POST(req: NextRequest) {
       return error("Imagen requerida", 400)
     }
 
-    const apiKey = process.env.GROQ_API_KEY
-    if (!apiKey) {
-      return error("Servicio temporalmente no disponible", 503)
-    }
-
-    const response = await fetch(`${GROQ_API_BASE}/chat/completions`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${apiKey}`,
-      },
-      body: JSON.stringify({
-        model: MODEL,
-        messages: [
-          { role: "system", content: SYSTEM_PROMPT },
-          {
-            role: "user",
-            content: [
-              { type: "text", text: "Analiza esta foto facial y devuelve el JSON en el formato especificado." },
-              { type: "image_url", image_url: { url: compactImage(imageBase64) } },
-            ],
-          },
-        ],
-        temperature: 0.2,
-        max_tokens: 800,
-      }),
-      signal: AbortSignal.timeout(60000),
+    const prompt = "Analiza esta foto facial y devuelve el JSON en el formato especificado."
+    const parsed = await analyzeImageWithGemini(imageBase64, prompt, SYSTEM_PROMPT, {
+      temperature: 0.2,
+      maxTokens: 800,
     })
-
-    if (!response.ok) {
-      const text = await response.text()
-      logger.error("Groq aging demo error", { status: response.status, text })
-      return error("Error al procesar la imagen", 502)
-    }
-
-    const data = await response.json()
-    const content = data.choices?.[0]?.message?.content
-    if (!content) return error("Respuesta vacía del modelo", 502)
-
-    let parsed: Record<string, unknown>
-    try {
-      const clean = content.replace(/```json|```/g, "").trim()
-      parsed = JSON.parse(clean)
-    } catch {
-      return error("Respuesta inválida del modelo", 502)
-    }
 
     const scores = parsed.scores as Record<string, number> | undefined
     if (!scores) return error("Puntajes no encontrados", 502)

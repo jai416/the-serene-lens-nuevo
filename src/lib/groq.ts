@@ -1,7 +1,5 @@
 import { logger } from "@/lib/logger"
-
-const GROQ_API_BASE = "https://api.groq.com/openai/v1"
-const MODEL = "meta-llama/llama-4-scout-17b-16e-instruct"
+import { analyzeMultipleImagesWithGemini } from "@/lib/gemini-vision"
 
 function buildSystemPrompt(context: {
   age?: string
@@ -64,35 +62,20 @@ DEBES DEVOLVER ESTRICTAMENTE UN JSON con esta estructura exacta:
 }`
 }
 
-function getApiKey(): string {
-  const key = process.env.GROQ_API_KEY
-  if (!key) throw new Error("No GROQ_API_KEY configured")
-  return key
-}
-
-function extractJSON(content: string): any {
-  const clean = content.replace(/```json|```/g, "").trim()
+async function geminiFetch(
+  imagesBuffer: Buffer[],
+  prompt: string,
+  systemPrompt: string,
+): Promise<any> {
+  const imagesBase64 = imagesBuffer.map((buf) => buf.toString("base64"))
   try {
-    return JSON.parse(clean)
-  } catch {}
-  const match = content.match(/\{[\s\S]*\}/)
-  if (match) {
-    try {
-      return JSON.parse(match[0])
-    } catch {}
-  }
-  return {
-    resumenGeneral: "No se pudo analizar la imagen con claridad suficiente.",
-    tipoDePiel: "No determinado",
-    observations: [],
-    observationExplanations: "",
-    confidenceReason: "La imagen no tenía la claridad suficiente para un análisis confiable.",
-    factores: [],
-    recomendaciones: ["Por favor, repite el análisis con mejor iluminación y enfoque nítido."],
-    rutina: { manana: [], noche: [] },
-    productosRecomendados: [],
-    historialComparativo: "",
-    _fallback: true,
+    return await analyzeMultipleImagesWithGemini(imagesBase64, prompt, systemPrompt, {
+      temperature: 0.2,
+      maxTokens: 4096,
+    })
+  } catch (e) {
+    logger.error("Gemini vision analysis failed", { error: e instanceof Error ? e.message : String(e) })
+    throw e
   }
 }
 
@@ -111,74 +94,6 @@ async function compressImage(file: File, maxDim = 512): Promise<Buffer> {
   return Buffer.from(bytes)
 }
 
-function sleep(ms: number) {
-  return new Promise((r) => setTimeout(r, ms))
-}
-
-async function groqFetch(
-  imagesBuffer: Buffer[],
-  prompt: string,
-  systemPrompt: string,
-  attempt = 1
-): Promise<any> {
-  const key = getApiKey()
-  const url = `${GROQ_API_BASE}/chat/completions`
-
-  const content: any[] = [{ type: "text", text: prompt }]
-  for (const buf of imagesBuffer) {
-    content.push({
-      type: "image_url",
-      image_url: { url: `data:image/jpeg;base64,${buf.toString("base64")}` },
-    })
-  }
-
-  const res = await fetch(url, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      "Authorization": `Bearer ${key}`,
-    },
-    body: JSON.stringify({
-      model: MODEL,
-      messages: [
-        { role: "system", content: systemPrompt },
-        { role: "user", content },
-      ],
-      temperature: 0.2,
-      max_tokens: 2048,
-    }),
-    signal: AbortSignal.timeout(60000),
-  })
-
-  if (res.status === 429 && attempt < 3) {
-    const delay = Math.min(2000 * Math.pow(2, attempt - 1), 10000)
-    logger.warn("Groq rate limited, retrying", { attempt, delay })
-    await sleep(delay)
-    return groqFetch(imagesBuffer, prompt, systemPrompt, attempt + 1)
-  }
-
-  if (!res.ok) {
-    const text = await res.text().catch(() => "unknown")
-    logger.error("Groq API error", { status: res.status, body: text.slice(0, 500), attempt })
-    if (res.status === 429) {
-      throw new Error("Demasiadas solicitudes a la IA. Espera un momento.")
-    }
-    if (res.status >= 500) {
-      throw new Error("El servicio de IA está temporalmente no disponible.")
-    }
-    throw new Error(`Error de IA (${res.status}). Intenta de nuevo.`)
-  }
-
-  const data = await res.json()
-  const content_text = data?.choices?.[0]?.message?.content
-  if (!content_text) {
-    logger.error("Groq empty response", { data: JSON.stringify(data).slice(0, 500) })
-    return extractJSON("")
-  }
-
-  return extractJSON(content_text)
-}
-
 export async function analyzeSkinWithGroq(
   files: File[],
   context: {
@@ -195,5 +110,5 @@ export async function analyzeSkinWithGroq(
   const buffers = await Promise.all(files.map((f) => compressImage(f)))
   const systemPrompt = buildSystemPrompt(context)
   const userPrompt = `Analiza estas fotos faciales del usuario. Evalúa: textura, poros, hidratación, sebo, pigmentación, líneas de expresión, ojeras, y uniformidad del tono. Identifica las zonas específicas (frente, mejillas, nariz, barbilla, contorno de ojos). Devuelve el JSON exacto en el formato especificado.`
-  return groqFetch(buffers, userPrompt, systemPrompt)
+  return geminiFetch(buffers, userPrompt, systemPrompt)
 }

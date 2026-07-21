@@ -1,7 +1,7 @@
 import { logger } from "@/lib/logger"
 
 const GROQ_API_BASE = "https://api.groq.com/openai/v1"
-const MODEL = "qwen3-32b"
+const MODEL = "llama-3.3-70b-versatile"
 
 function getApiKey(): string {
   const key = process.env.GROQ_API_KEY
@@ -53,7 +53,7 @@ export async function groqChat(
     model: MODEL,
     messages: groqMessages,
     temperature: options?.temperature ?? 0.3,
-    max_tokens: options?.maxTokens ?? 2048,
+    max_tokens: options?.maxTokens ?? 4096,
   }
 
   if (options?.responseFormat === "json") {

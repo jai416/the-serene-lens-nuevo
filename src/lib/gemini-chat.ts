@@ -29,7 +29,7 @@ export async function chatWithGemini(message: string): Promise<string> {
     ],
     generationConfig: {
       temperature: 0.3,
-      maxOutputTokens: 500,
+      maxOutputTokens: 1024,
     },
   }
 
