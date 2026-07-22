@@ -57,7 +57,7 @@ const sections = [
         <p>style-src &apos;self&apos; &apos;unsafe-inline&apos;</p>
         <p>img-src &apos;self&apos; data: blob: https://*.supabase.co https://avatars.githubusercontent.com https://lh3.googleusercontent.com</p>
         <p>font-src &apos;self&apos; data:</p>
-        <p>connect-src &apos;self&apos; https://api.qvapay.com https://*.supabase.co https://api.groq.com https://app.posthog.com https://api.telegram.org</p>
+        <p>connect-src &apos;self&apos; https://api-m.paypal.com https://*.supabase.co https://api.groq.com https://app.posthog.com https://api.telegram.org</p>
         <p>frame-src &apos;self&apos;</p>
         <p>frame-ancestors &apos;none&apos;</p>
         <p>object-src &apos;none&apos;</p>
@@ -105,7 +105,7 @@ const sections = [
     icon: CreditCard,
     content: (
       <>
-        <h3 className="font-medium text-[#1A1A1A] mt-3 mb-1">QvaPay (USD)</h3>
+        <h3 className="font-medium text-[#1A1A1A] mt-3 mb-1">PayPal (USD)</h3>
         <ul className="list-disc pl-4 space-y-1">
           <li>Webhooks autenticados por IP y token</li>
           <li>Transacciones atómicas con $transaction de Prisma</li>
@@ -124,7 +124,7 @@ const sections = [
         <ul className="list-disc pl-4 space-y-1">
           <li>No almacenamos números de tarjeta de crédito</li>
           <li>Solo conservamos registros de transacción (monto, fecha, plan)</li>
-          <li>El procesamiento se realiza a través de pasarelas externas (QvaPay)</li>
+          <li>El procesamiento se realiza a través de pasarelas externas (PayPal)</li>
         </ul>
       </>
     ),

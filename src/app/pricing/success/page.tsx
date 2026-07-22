@@ -13,19 +13,19 @@ import { getCsrfToken } from "@/lib/csrf-client"
 export default function PricingSuccessPage() {
   const { data: session } = useSession()
   const searchParams = useSearchParams()
-  const qvapayId = searchParams.get("payment_id") || searchParams.get("transaction_uuid")
-  const [verifying, setVerifying] = useState(!!qvapayId)
+  const token = searchParams.get("token")
+  const [verifying, setVerifying] = useState(!!token)
   const [verified, setVerified] = useState(false)
   const [error, setError] = useState<string | null>(null)
 
   useEffect(() => {
-    if (qvapayId) {
+    if (token) {
       const verify = async () => {
         try {
           const res = await fetch("/api/payments/verify", {
             method: "POST",
             headers: { "Content-Type": "application/json", "x-csrf-token": getCsrfToken() },
-            body: JSON.stringify({ qvapayId }),
+            body: JSON.stringify({ paypalOrderId: token }),
           })
           const data = await res.json()
           if (data?.data?.completed || data?.data?.alreadyCompleted) {
@@ -41,7 +41,7 @@ export default function PricingSuccessPage() {
       }
       verify()
     }
-  }, [qvapayId])
+  }, [token])
 
   if (verifying) {
     return (

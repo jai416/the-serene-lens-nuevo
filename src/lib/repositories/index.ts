@@ -106,20 +106,20 @@ export const PaymentRepository = {
     })
   },
 
-  async createQvaPay(data: {
+  async createPayPal(data: {
     userId: string
     plan: string
     amount: number
-    qvapayId: string
+    paypalOrderId: string
   }) {
     return db.payment.create({
       data: {
         userId: data.userId,
-        provider: "qvapay",
+        provider: "paypal",
         plan: data.plan,
         amount: data.amount,
         currency: "USD",
-        qvapayId: data.qvapayId,
+        paypalOrderId: data.paypalOrderId,
       },
     })
   },

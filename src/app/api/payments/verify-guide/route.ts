@@ -3,7 +3,7 @@ import { getServerSession } from "next-auth"
 import { authOptions } from "@/lib/auth"
 import { db } from "@/lib/db"
 import { ok, error, unauthorized, forbidden, serverError } from "@/lib/api-response"
-import { getQvaPayPaymentStatus } from "@/lib/payments"
+import { verifyPayPalOrder } from "@/lib/paypal"
 import { logger } from "@/lib/logger"
 import { validateCsrf } from "@/lib/csrf-middleware"
 
@@ -21,13 +21,13 @@ export async function POST(req: NextRequest) {
       return error("Cuerpo inválido")
     }
 
-    const { qvapayId } = body as { qvapayId?: string }
-    if (!qvapayId || typeof qvapayId !== "string") {
-      return error("qvapayId requerido")
+    const { paypalOrderId } = body as { paypalOrderId?: string }
+    if (!paypalOrderId || typeof paypalOrderId !== "string") {
+      return error("paypalOrderId requerido")
     }
 
     const purchase = await db.digitalProductPurchase.findFirst({
-      where: { qvapayId },
+      where: { paypalOrderId: paypalOrderId },
       include: { digitalProduct: true },
     })
 
@@ -43,19 +43,18 @@ export async function POST(req: NextRequest) {
       return ok({ alreadyCompleted: true, downloadUrl: purchase.downloadUrl })
     }
 
-    let qvapayStatus: any = null
+    let paypalStatus: { status: string; amount: number }
     try {
-      qvapayStatus = await getQvaPayPaymentStatus(qvapayId)
+      paypalStatus = await verifyPayPalOrder(paypalOrderId)
     } catch (e) {
-      logger.error("QvaPay guide status check failed", { error: e instanceof Error ? e.message : "Unknown", qvapayId })
+      logger.error("PayPal guide status check failed", { error: e instanceof Error ? e.message : "Unknown", paypalOrderId })
       return error("No se pudo verificar el estado del pago")
     }
 
-    const remoteStatus = qvapayStatus?.status || qvapayStatus?.data?.status
-    logger.info("Guide purchase verify result", { qvapayId, remoteStatus, purchaseStatus: purchase.status })
+    logger.info("Guide purchase verify result", { paypalOrderId, paypalStatus: paypalStatus.status, purchaseStatus: purchase.status })
 
-    if (remoteStatus !== "paid" && remoteStatus !== "completed") {
-      return ok({ completed: false, status: remoteStatus || "unknown" })
+    if (paypalStatus.status !== "COMPLETED" && paypalStatus.status !== "APPROVED") {
+      return ok({ completed: false, status: paypalStatus.status || "unknown" })
     }
 
     const downloadUrl = purchase.digitalProduct?.fileUrl || ""

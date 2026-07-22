@@ -54,7 +54,6 @@ export type UserMinAggregateOutputType = {
   username: string | null
   role: string | null
   plan: string | null
-  qvapayId: string | null
   analysisLimit: number | null
   analysisUsed: number | null
   analysisResetAt: Date | null
@@ -82,7 +81,6 @@ export type UserMaxAggregateOutputType = {
   username: string | null
   role: string | null
   plan: string | null
-  qvapayId: string | null
   analysisLimit: number | null
   analysisUsed: number | null
   analysisResetAt: Date | null
@@ -110,7 +108,6 @@ export type UserCountAggregateOutputType = {
   username: number
   role: number
   plan: number
-  qvapayId: number
   analysisLimit: number
   analysisUsed: number
   analysisResetAt: number
@@ -158,7 +155,6 @@ export type UserMinAggregateInputType = {
   username?: true
   role?: true
   plan?: true
-  qvapayId?: true
   analysisLimit?: true
   analysisUsed?: true
   analysisResetAt?: true
@@ -186,7 +182,6 @@ export type UserMaxAggregateInputType = {
   username?: true
   role?: true
   plan?: true
-  qvapayId?: true
   analysisLimit?: true
   analysisUsed?: true
   analysisResetAt?: true
@@ -214,7 +209,6 @@ export type UserCountAggregateInputType = {
   username?: true
   role?: true
   plan?: true
-  qvapayId?: true
   analysisLimit?: true
   analysisUsed?: true
   analysisResetAt?: true
@@ -329,7 +323,6 @@ export type UserGroupByOutputType = {
   username: string | null
   role: string
   plan: string
-  qvapayId: string | null
   analysisLimit: number
   analysisUsed: number
   analysisResetAt: Date | null
@@ -380,7 +373,6 @@ export type UserWhereInput = {
   username?: Prisma.StringNullableFilter<"User"> | string | null
   role?: Prisma.StringFilter<"User"> | string
   plan?: Prisma.StringFilter<"User"> | string
-  qvapayId?: Prisma.StringNullableFilter<"User"> | string | null
   analysisLimit?: Prisma.IntFilter<"User"> | number
   analysisUsed?: Prisma.IntFilter<"User"> | number
   analysisResetAt?: Prisma.DateTimeNullableFilter<"User"> | Date | string | null
@@ -450,7 +442,6 @@ export type UserOrderByWithRelationInput = {
   username?: Prisma.SortOrderInput | Prisma.SortOrder
   role?: Prisma.SortOrder
   plan?: Prisma.SortOrder
-  qvapayId?: Prisma.SortOrderInput | Prisma.SortOrder
   analysisLimit?: Prisma.SortOrder
   analysisUsed?: Prisma.SortOrder
   analysisResetAt?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -523,7 +514,6 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   password?: Prisma.StringNullableFilter<"User"> | string | null
   role?: Prisma.StringFilter<"User"> | string
   plan?: Prisma.StringFilter<"User"> | string
-  qvapayId?: Prisma.StringNullableFilter<"User"> | string | null
   analysisLimit?: Prisma.IntFilter<"User"> | number
   analysisUsed?: Prisma.IntFilter<"User"> | number
   analysisResetAt?: Prisma.DateTimeNullableFilter<"User"> | Date | string | null
@@ -593,7 +583,6 @@ export type UserOrderByWithAggregationInput = {
   username?: Prisma.SortOrderInput | Prisma.SortOrder
   role?: Prisma.SortOrder
   plan?: Prisma.SortOrder
-  qvapayId?: Prisma.SortOrderInput | Prisma.SortOrder
   analysisLimit?: Prisma.SortOrder
   analysisUsed?: Prisma.SortOrder
   analysisResetAt?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -629,7 +618,6 @@ export type UserScalarWhereWithAggregatesInput = {
   username?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
   role?: Prisma.StringWithAggregatesFilter<"User"> | string
   plan?: Prisma.StringWithAggregatesFilter<"User"> | string
-  qvapayId?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
   analysisLimit?: Prisma.IntWithAggregatesFilter<"User"> | number
   analysisUsed?: Prisma.IntWithAggregatesFilter<"User"> | number
   analysisResetAt?: Prisma.DateTimeNullableWithAggregatesFilter<"User"> | Date | string | null
@@ -657,7 +645,6 @@ export type UserCreateInput = {
   username?: string | null
   role?: string
   plan?: string
-  qvapayId?: string | null
   analysisLimit?: number
   analysisUsed?: number
   analysisResetAt?: Date | string | null
@@ -726,7 +713,6 @@ export type UserUncheckedCreateInput = {
   username?: string | null
   role?: string
   plan?: string
-  qvapayId?: string | null
   analysisLimit?: number
   analysisUsed?: number
   analysisResetAt?: Date | string | null
@@ -795,7 +781,6 @@ export type UserUpdateInput = {
   username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.StringFieldUpdateOperationsInput | string
   plan?: Prisma.StringFieldUpdateOperationsInput | string
-  qvapayId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   analysisLimit?: Prisma.IntFieldUpdateOperationsInput | number
   analysisUsed?: Prisma.IntFieldUpdateOperationsInput | number
   analysisResetAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -864,7 +849,6 @@ export type UserUncheckedUpdateInput = {
   username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.StringFieldUpdateOperationsInput | string
   plan?: Prisma.StringFieldUpdateOperationsInput | string
-  qvapayId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   analysisLimit?: Prisma.IntFieldUpdateOperationsInput | number
   analysisUsed?: Prisma.IntFieldUpdateOperationsInput | number
   analysisResetAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -933,7 +917,6 @@ export type UserCreateManyInput = {
   username?: string | null
   role?: string
   plan?: string
-  qvapayId?: string | null
   analysisLimit?: number
   analysisUsed?: number
   analysisResetAt?: Date | string | null
@@ -961,7 +944,6 @@ export type UserUpdateManyMutationInput = {
   username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.StringFieldUpdateOperationsInput | string
   plan?: Prisma.StringFieldUpdateOperationsInput | string
-  qvapayId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   analysisLimit?: Prisma.IntFieldUpdateOperationsInput | number
   analysisUsed?: Prisma.IntFieldUpdateOperationsInput | number
   analysisResetAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -988,7 +970,6 @@ export type UserUncheckedUpdateManyInput = {
   username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.StringFieldUpdateOperationsInput | string
   plan?: Prisma.StringFieldUpdateOperationsInput | string
-  qvapayId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   analysisLimit?: Prisma.IntFieldUpdateOperationsInput | number
   analysisUsed?: Prisma.IntFieldUpdateOperationsInput | number
   analysisResetAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -1016,7 +997,6 @@ export type UserCountOrderByAggregateInput = {
   username?: Prisma.SortOrder
   role?: Prisma.SortOrder
   plan?: Prisma.SortOrder
-  qvapayId?: Prisma.SortOrder
   analysisLimit?: Prisma.SortOrder
   analysisUsed?: Prisma.SortOrder
   analysisResetAt?: Prisma.SortOrder
@@ -1053,7 +1033,6 @@ export type UserMaxOrderByAggregateInput = {
   username?: Prisma.SortOrder
   role?: Prisma.SortOrder
   plan?: Prisma.SortOrder
-  qvapayId?: Prisma.SortOrder
   analysisLimit?: Prisma.SortOrder
   analysisUsed?: Prisma.SortOrder
   analysisResetAt?: Prisma.SortOrder
@@ -1081,7 +1060,6 @@ export type UserMinOrderByAggregateInput = {
   username?: Prisma.SortOrder
   role?: Prisma.SortOrder
   plan?: Prisma.SortOrder
-  qvapayId?: Prisma.SortOrder
   analysisLimit?: Prisma.SortOrder
   analysisUsed?: Prisma.SortOrder
   analysisResetAt?: Prisma.SortOrder
@@ -1808,7 +1786,6 @@ export type UserCreateWithoutAnalysisJobsInput = {
   username?: string | null
   role?: string
   plan?: string
-  qvapayId?: string | null
   analysisLimit?: number
   analysisUsed?: number
   analysisResetAt?: Date | string | null
@@ -1876,7 +1853,6 @@ export type UserUncheckedCreateWithoutAnalysisJobsInput = {
   username?: string | null
   role?: string
   plan?: string
-  qvapayId?: string | null
   analysisLimit?: number
   analysisUsed?: number
   analysisResetAt?: Date | string | null
@@ -1960,7 +1936,6 @@ export type UserUpdateWithoutAnalysisJobsInput = {
   username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.StringFieldUpdateOperationsInput | string
   plan?: Prisma.StringFieldUpdateOperationsInput | string
-  qvapayId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   analysisLimit?: Prisma.IntFieldUpdateOperationsInput | number
   analysisUsed?: Prisma.IntFieldUpdateOperationsInput | number
   analysisResetAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -2028,7 +2003,6 @@ export type UserUncheckedUpdateWithoutAnalysisJobsInput = {
   username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.StringFieldUpdateOperationsInput | string
   plan?: Prisma.StringFieldUpdateOperationsInput | string
-  qvapayId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   analysisLimit?: Prisma.IntFieldUpdateOperationsInput | number
   analysisUsed?: Prisma.IntFieldUpdateOperationsInput | number
   analysisResetAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -2096,7 +2070,6 @@ export type UserCreateWithoutAccountsInput = {
   username?: string | null
   role?: string
   plan?: string
-  qvapayId?: string | null
   analysisLimit?: number
   analysisUsed?: number
   analysisResetAt?: Date | string | null
@@ -2164,7 +2137,6 @@ export type UserUncheckedCreateWithoutAccountsInput = {
   username?: string | null
   role?: string
   plan?: string
-  qvapayId?: string | null
   analysisLimit?: number
   analysisUsed?: number
   analysisResetAt?: Date | string | null
@@ -2248,7 +2220,6 @@ export type UserUpdateWithoutAccountsInput = {
   username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.StringFieldUpdateOperationsInput | string
   plan?: Prisma.StringFieldUpdateOperationsInput | string
-  qvapayId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   analysisLimit?: Prisma.IntFieldUpdateOperationsInput | number
   analysisUsed?: Prisma.IntFieldUpdateOperationsInput | number
   analysisResetAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -2316,7 +2287,6 @@ export type UserUncheckedUpdateWithoutAccountsInput = {
   username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.StringFieldUpdateOperationsInput | string
   plan?: Prisma.StringFieldUpdateOperationsInput | string
-  qvapayId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   analysisLimit?: Prisma.IntFieldUpdateOperationsInput | number
   analysisUsed?: Prisma.IntFieldUpdateOperationsInput | number
   analysisResetAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -2384,7 +2354,6 @@ export type UserCreateWithoutSessionsInput = {
   username?: string | null
   role?: string
   plan?: string
-  qvapayId?: string | null
   analysisLimit?: number
   analysisUsed?: number
   analysisResetAt?: Date | string | null
@@ -2452,7 +2421,6 @@ export type UserUncheckedCreateWithoutSessionsInput = {
   username?: string | null
   role?: string
   plan?: string
-  qvapayId?: string | null
   analysisLimit?: number
   analysisUsed?: number
   analysisResetAt?: Date | string | null
@@ -2536,7 +2504,6 @@ export type UserUpdateWithoutSessionsInput = {
   username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.StringFieldUpdateOperationsInput | string
   plan?: Prisma.StringFieldUpdateOperationsInput | string
-  qvapayId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   analysisLimit?: Prisma.IntFieldUpdateOperationsInput | number
   analysisUsed?: Prisma.IntFieldUpdateOperationsInput | number
   analysisResetAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -2604,7 +2571,6 @@ export type UserUncheckedUpdateWithoutSessionsInput = {
   username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.StringFieldUpdateOperationsInput | string
   plan?: Prisma.StringFieldUpdateOperationsInput | string
-  qvapayId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   analysisLimit?: Prisma.IntFieldUpdateOperationsInput | number
   analysisUsed?: Prisma.IntFieldUpdateOperationsInput | number
   analysisResetAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -2672,7 +2638,6 @@ export type UserCreateWithoutAnalysesInput = {
   username?: string | null
   role?: string
   plan?: string
-  qvapayId?: string | null
   analysisLimit?: number
   analysisUsed?: number
   analysisResetAt?: Date | string | null
@@ -2740,7 +2705,6 @@ export type UserUncheckedCreateWithoutAnalysesInput = {
   username?: string | null
   role?: string
   plan?: string
-  qvapayId?: string | null
   analysisLimit?: number
   analysisUsed?: number
   analysisResetAt?: Date | string | null
@@ -2824,7 +2788,6 @@ export type UserUpdateWithoutAnalysesInput = {
   username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.StringFieldUpdateOperationsInput | string
   plan?: Prisma.StringFieldUpdateOperationsInput | string
-  qvapayId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   analysisLimit?: Prisma.IntFieldUpdateOperationsInput | number
   analysisUsed?: Prisma.IntFieldUpdateOperationsInput | number
   analysisResetAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -2892,7 +2855,6 @@ export type UserUncheckedUpdateWithoutAnalysesInput = {
   username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.StringFieldUpdateOperationsInput | string
   plan?: Prisma.StringFieldUpdateOperationsInput | string
-  qvapayId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   analysisLimit?: Prisma.IntFieldUpdateOperationsInput | number
   analysisUsed?: Prisma.IntFieldUpdateOperationsInput | number
   analysisResetAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -2960,7 +2922,6 @@ export type UserCreateWithoutPaymentsInput = {
   username?: string | null
   role?: string
   plan?: string
-  qvapayId?: string | null
   analysisLimit?: number
   analysisUsed?: number
   analysisResetAt?: Date | string | null
@@ -3028,7 +2989,6 @@ export type UserUncheckedCreateWithoutPaymentsInput = {
   username?: string | null
   role?: string
   plan?: string
-  qvapayId?: string | null
   analysisLimit?: number
   analysisUsed?: number
   analysisResetAt?: Date | string | null
@@ -3112,7 +3072,6 @@ export type UserUpdateWithoutPaymentsInput = {
   username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.StringFieldUpdateOperationsInput | string
   plan?: Prisma.StringFieldUpdateOperationsInput | string
-  qvapayId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   analysisLimit?: Prisma.IntFieldUpdateOperationsInput | number
   analysisUsed?: Prisma.IntFieldUpdateOperationsInput | number
   analysisResetAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -3180,7 +3139,6 @@ export type UserUncheckedUpdateWithoutPaymentsInput = {
   username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.StringFieldUpdateOperationsInput | string
   plan?: Prisma.StringFieldUpdateOperationsInput | string
-  qvapayId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   analysisLimit?: Prisma.IntFieldUpdateOperationsInput | number
   analysisUsed?: Prisma.IntFieldUpdateOperationsInput | number
   analysisResetAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -3248,7 +3206,6 @@ export type UserCreateWithoutTransferPaymentsInput = {
   username?: string | null
   role?: string
   plan?: string
-  qvapayId?: string | null
   analysisLimit?: number
   analysisUsed?: number
   analysisResetAt?: Date | string | null
@@ -3316,7 +3273,6 @@ export type UserUncheckedCreateWithoutTransferPaymentsInput = {
   username?: string | null
   role?: string
   plan?: string
-  qvapayId?: string | null
   analysisLimit?: number
   analysisUsed?: number
   analysisResetAt?: Date | string | null
@@ -3389,7 +3345,6 @@ export type UserCreateWithoutValidatedTransfersInput = {
   username?: string | null
   role?: string
   plan?: string
-  qvapayId?: string | null
   analysisLimit?: number
   analysisUsed?: number
   analysisResetAt?: Date | string | null
@@ -3457,7 +3412,6 @@ export type UserUncheckedCreateWithoutValidatedTransfersInput = {
   username?: string | null
   role?: string
   plan?: string
-  qvapayId?: string | null
   analysisLimit?: number
   analysisUsed?: number
   analysisResetAt?: Date | string | null
@@ -3530,7 +3484,6 @@ export type UserCreateWithoutActivatedTransfersInput = {
   username?: string | null
   role?: string
   plan?: string
-  qvapayId?: string | null
   analysisLimit?: number
   analysisUsed?: number
   analysisResetAt?: Date | string | null
@@ -3598,7 +3551,6 @@ export type UserUncheckedCreateWithoutActivatedTransfersInput = {
   username?: string | null
   role?: string
   plan?: string
-  qvapayId?: string | null
   analysisLimit?: number
   analysisUsed?: number
   analysisResetAt?: Date | string | null
@@ -3682,7 +3634,6 @@ export type UserUpdateWithoutTransferPaymentsInput = {
   username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.StringFieldUpdateOperationsInput | string
   plan?: Prisma.StringFieldUpdateOperationsInput | string
-  qvapayId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   analysisLimit?: Prisma.IntFieldUpdateOperationsInput | number
   analysisUsed?: Prisma.IntFieldUpdateOperationsInput | number
   analysisResetAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -3750,7 +3701,6 @@ export type UserUncheckedUpdateWithoutTransferPaymentsInput = {
   username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.StringFieldUpdateOperationsInput | string
   plan?: Prisma.StringFieldUpdateOperationsInput | string
-  qvapayId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   analysisLimit?: Prisma.IntFieldUpdateOperationsInput | number
   analysisUsed?: Prisma.IntFieldUpdateOperationsInput | number
   analysisResetAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -3829,7 +3779,6 @@ export type UserUpdateWithoutValidatedTransfersInput = {
   username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.StringFieldUpdateOperationsInput | string
   plan?: Prisma.StringFieldUpdateOperationsInput | string
-  qvapayId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   analysisLimit?: Prisma.IntFieldUpdateOperationsInput | number
   analysisUsed?: Prisma.IntFieldUpdateOperationsInput | number
   analysisResetAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -3897,7 +3846,6 @@ export type UserUncheckedUpdateWithoutValidatedTransfersInput = {
   username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.StringFieldUpdateOperationsInput | string
   plan?: Prisma.StringFieldUpdateOperationsInput | string
-  qvapayId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   analysisLimit?: Prisma.IntFieldUpdateOperationsInput | number
   analysisUsed?: Prisma.IntFieldUpdateOperationsInput | number
   analysisResetAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -3976,7 +3924,6 @@ export type UserUpdateWithoutActivatedTransfersInput = {
   username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.StringFieldUpdateOperationsInput | string
   plan?: Prisma.StringFieldUpdateOperationsInput | string
-  qvapayId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   analysisLimit?: Prisma.IntFieldUpdateOperationsInput | number
   analysisUsed?: Prisma.IntFieldUpdateOperationsInput | number
   analysisResetAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -4044,7 +3991,6 @@ export type UserUncheckedUpdateWithoutActivatedTransfersInput = {
   username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.StringFieldUpdateOperationsInput | string
   plan?: Prisma.StringFieldUpdateOperationsInput | string
-  qvapayId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   analysisLimit?: Prisma.IntFieldUpdateOperationsInput | number
   analysisUsed?: Prisma.IntFieldUpdateOperationsInput | number
   analysisResetAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -4112,7 +4058,6 @@ export type UserCreateWithoutAuditLogsInput = {
   username?: string | null
   role?: string
   plan?: string
-  qvapayId?: string | null
   analysisLimit?: number
   analysisUsed?: number
   analysisResetAt?: Date | string | null
@@ -4180,7 +4125,6 @@ export type UserUncheckedCreateWithoutAuditLogsInput = {
   username?: string | null
   role?: string
   plan?: string
-  qvapayId?: string | null
   analysisLimit?: number
   analysisUsed?: number
   analysisResetAt?: Date | string | null
@@ -4264,7 +4208,6 @@ export type UserUpdateWithoutAuditLogsInput = {
   username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.StringFieldUpdateOperationsInput | string
   plan?: Prisma.StringFieldUpdateOperationsInput | string
-  qvapayId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   analysisLimit?: Prisma.IntFieldUpdateOperationsInput | number
   analysisUsed?: Prisma.IntFieldUpdateOperationsInput | number
   analysisResetAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -4332,7 +4275,6 @@ export type UserUncheckedUpdateWithoutAuditLogsInput = {
   username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.StringFieldUpdateOperationsInput | string
   plan?: Prisma.StringFieldUpdateOperationsInput | string
-  qvapayId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   analysisLimit?: Prisma.IntFieldUpdateOperationsInput | number
   analysisUsed?: Prisma.IntFieldUpdateOperationsInput | number
   analysisResetAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -4400,7 +4342,6 @@ export type UserCreateWithoutSubscriptionsInput = {
   username?: string | null
   role?: string
   plan?: string
-  qvapayId?: string | null
   analysisLimit?: number
   analysisUsed?: number
   analysisResetAt?: Date | string | null
@@ -4468,7 +4409,6 @@ export type UserUncheckedCreateWithoutSubscriptionsInput = {
   username?: string | null
   role?: string
   plan?: string
-  qvapayId?: string | null
   analysisLimit?: number
   analysisUsed?: number
   analysisResetAt?: Date | string | null
@@ -4552,7 +4492,6 @@ export type UserUpdateWithoutSubscriptionsInput = {
   username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.StringFieldUpdateOperationsInput | string
   plan?: Prisma.StringFieldUpdateOperationsInput | string
-  qvapayId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   analysisLimit?: Prisma.IntFieldUpdateOperationsInput | number
   analysisUsed?: Prisma.IntFieldUpdateOperationsInput | number
   analysisResetAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -4620,7 +4559,6 @@ export type UserUncheckedUpdateWithoutSubscriptionsInput = {
   username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.StringFieldUpdateOperationsInput | string
   plan?: Prisma.StringFieldUpdateOperationsInput | string
-  qvapayId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   analysisLimit?: Prisma.IntFieldUpdateOperationsInput | number
   analysisUsed?: Prisma.IntFieldUpdateOperationsInput | number
   analysisResetAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -4688,7 +4626,6 @@ export type UserCreateWithoutPurchasePacksInput = {
   username?: string | null
   role?: string
   plan?: string
-  qvapayId?: string | null
   analysisLimit?: number
   analysisUsed?: number
   analysisResetAt?: Date | string | null
@@ -4756,7 +4693,6 @@ export type UserUncheckedCreateWithoutPurchasePacksInput = {
   username?: string | null
   role?: string
   plan?: string
-  qvapayId?: string | null
   analysisLimit?: number
   analysisUsed?: number
   analysisResetAt?: Date | string | null
@@ -4840,7 +4776,6 @@ export type UserUpdateWithoutPurchasePacksInput = {
   username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.StringFieldUpdateOperationsInput | string
   plan?: Prisma.StringFieldUpdateOperationsInput | string
-  qvapayId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   analysisLimit?: Prisma.IntFieldUpdateOperationsInput | number
   analysisUsed?: Prisma.IntFieldUpdateOperationsInput | number
   analysisResetAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -4908,7 +4843,6 @@ export type UserUncheckedUpdateWithoutPurchasePacksInput = {
   username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.StringFieldUpdateOperationsInput | string
   plan?: Prisma.StringFieldUpdateOperationsInput | string
-  qvapayId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   analysisLimit?: Prisma.IntFieldUpdateOperationsInput | number
   analysisUsed?: Prisma.IntFieldUpdateOperationsInput | number
   analysisResetAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -4976,7 +4910,6 @@ export type UserCreateWithoutUsageRecordsInput = {
   username?: string | null
   role?: string
   plan?: string
-  qvapayId?: string | null
   analysisLimit?: number
   analysisUsed?: number
   analysisResetAt?: Date | string | null
@@ -5044,7 +4977,6 @@ export type UserUncheckedCreateWithoutUsageRecordsInput = {
   username?: string | null
   role?: string
   plan?: string
-  qvapayId?: string | null
   analysisLimit?: number
   analysisUsed?: number
   analysisResetAt?: Date | string | null
@@ -5128,7 +5060,6 @@ export type UserUpdateWithoutUsageRecordsInput = {
   username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.StringFieldUpdateOperationsInput | string
   plan?: Prisma.StringFieldUpdateOperationsInput | string
-  qvapayId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   analysisLimit?: Prisma.IntFieldUpdateOperationsInput | number
   analysisUsed?: Prisma.IntFieldUpdateOperationsInput | number
   analysisResetAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -5196,7 +5127,6 @@ export type UserUncheckedUpdateWithoutUsageRecordsInput = {
   username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.StringFieldUpdateOperationsInput | string
   plan?: Prisma.StringFieldUpdateOperationsInput | string
-  qvapayId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   analysisLimit?: Prisma.IntFieldUpdateOperationsInput | number
   analysisUsed?: Prisma.IntFieldUpdateOperationsInput | number
   analysisResetAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -5264,7 +5194,6 @@ export type UserCreateWithoutClinicInput = {
   username?: string | null
   role?: string
   plan?: string
-  qvapayId?: string | null
   analysisLimit?: number
   analysisUsed?: number
   analysisResetAt?: Date | string | null
@@ -5332,7 +5261,6 @@ export type UserUncheckedCreateWithoutClinicInput = {
   username?: string | null
   role?: string
   plan?: string
-  qvapayId?: string | null
   analysisLimit?: number
   analysisUsed?: number
   analysisResetAt?: Date | string | null
@@ -5405,7 +5333,6 @@ export type UserCreateWithoutReferredByInput = {
   username?: string | null
   role?: string
   plan?: string
-  qvapayId?: string | null
   analysisLimit?: number
   analysisUsed?: number
   analysisResetAt?: Date | string | null
@@ -5473,7 +5400,6 @@ export type UserUncheckedCreateWithoutReferredByInput = {
   username?: string | null
   role?: string
   plan?: string
-  qvapayId?: string | null
   analysisLimit?: number
   analysisUsed?: number
   analysisResetAt?: Date | string | null
@@ -5562,7 +5488,6 @@ export type UserUpdateWithoutClinicInput = {
   username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.StringFieldUpdateOperationsInput | string
   plan?: Prisma.StringFieldUpdateOperationsInput | string
-  qvapayId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   analysisLimit?: Prisma.IntFieldUpdateOperationsInput | number
   analysisUsed?: Prisma.IntFieldUpdateOperationsInput | number
   analysisResetAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -5630,7 +5555,6 @@ export type UserUncheckedUpdateWithoutClinicInput = {
   username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.StringFieldUpdateOperationsInput | string
   plan?: Prisma.StringFieldUpdateOperationsInput | string
-  qvapayId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   analysisLimit?: Prisma.IntFieldUpdateOperationsInput | number
   analysisUsed?: Prisma.IntFieldUpdateOperationsInput | number
   analysisResetAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -5717,7 +5641,6 @@ export type UserScalarWhereInput = {
   username?: Prisma.StringNullableFilter<"User"> | string | null
   role?: Prisma.StringFilter<"User"> | string
   plan?: Prisma.StringFilter<"User"> | string
-  qvapayId?: Prisma.StringNullableFilter<"User"> | string | null
   analysisLimit?: Prisma.IntFilter<"User"> | number
   analysisUsed?: Prisma.IntFilter<"User"> | number
   analysisResetAt?: Prisma.DateTimeNullableFilter<"User"> | Date | string | null
@@ -5745,7 +5668,6 @@ export type UserCreateWithoutAffiliateClicksInput = {
   username?: string | null
   role?: string
   plan?: string
-  qvapayId?: string | null
   analysisLimit?: number
   analysisUsed?: number
   analysisResetAt?: Date | string | null
@@ -5813,7 +5735,6 @@ export type UserUncheckedCreateWithoutAffiliateClicksInput = {
   username?: string | null
   role?: string
   plan?: string
-  qvapayId?: string | null
   analysisLimit?: number
   analysisUsed?: number
   analysisResetAt?: Date | string | null
@@ -5897,7 +5818,6 @@ export type UserUpdateWithoutAffiliateClicksInput = {
   username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.StringFieldUpdateOperationsInput | string
   plan?: Prisma.StringFieldUpdateOperationsInput | string
-  qvapayId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   analysisLimit?: Prisma.IntFieldUpdateOperationsInput | number
   analysisUsed?: Prisma.IntFieldUpdateOperationsInput | number
   analysisResetAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -5965,7 +5885,6 @@ export type UserUncheckedUpdateWithoutAffiliateClicksInput = {
   username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.StringFieldUpdateOperationsInput | string
   plan?: Prisma.StringFieldUpdateOperationsInput | string
-  qvapayId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   analysisLimit?: Prisma.IntFieldUpdateOperationsInput | number
   analysisUsed?: Prisma.IntFieldUpdateOperationsInput | number
   analysisResetAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -6033,7 +5952,6 @@ export type UserCreateWithoutContactMessagesInput = {
   username?: string | null
   role?: string
   plan?: string
-  qvapayId?: string | null
   analysisLimit?: number
   analysisUsed?: number
   analysisResetAt?: Date | string | null
@@ -6101,7 +6019,6 @@ export type UserUncheckedCreateWithoutContactMessagesInput = {
   username?: string | null
   role?: string
   plan?: string
-  qvapayId?: string | null
   analysisLimit?: number
   analysisUsed?: number
   analysisResetAt?: Date | string | null
@@ -6185,7 +6102,6 @@ export type UserUpdateWithoutContactMessagesInput = {
   username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.StringFieldUpdateOperationsInput | string
   plan?: Prisma.StringFieldUpdateOperationsInput | string
-  qvapayId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   analysisLimit?: Prisma.IntFieldUpdateOperationsInput | number
   analysisUsed?: Prisma.IntFieldUpdateOperationsInput | number
   analysisResetAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -6253,7 +6169,6 @@ export type UserUncheckedUpdateWithoutContactMessagesInput = {
   username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.StringFieldUpdateOperationsInput | string
   plan?: Prisma.StringFieldUpdateOperationsInput | string
-  qvapayId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   analysisLimit?: Prisma.IntFieldUpdateOperationsInput | number
   analysisUsed?: Prisma.IntFieldUpdateOperationsInput | number
   analysisResetAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -6321,7 +6236,6 @@ export type UserCreateWithoutEvolutionInput = {
   username?: string | null
   role?: string
   plan?: string
-  qvapayId?: string | null
   analysisLimit?: number
   analysisUsed?: number
   analysisResetAt?: Date | string | null
@@ -6389,7 +6303,6 @@ export type UserUncheckedCreateWithoutEvolutionInput = {
   username?: string | null
   role?: string
   plan?: string
-  qvapayId?: string | null
   analysisLimit?: number
   analysisUsed?: number
   analysisResetAt?: Date | string | null
@@ -6473,7 +6386,6 @@ export type UserUpdateWithoutEvolutionInput = {
   username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.StringFieldUpdateOperationsInput | string
   plan?: Prisma.StringFieldUpdateOperationsInput | string
-  qvapayId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   analysisLimit?: Prisma.IntFieldUpdateOperationsInput | number
   analysisUsed?: Prisma.IntFieldUpdateOperationsInput | number
   analysisResetAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -6541,7 +6453,6 @@ export type UserUncheckedUpdateWithoutEvolutionInput = {
   username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.StringFieldUpdateOperationsInput | string
   plan?: Prisma.StringFieldUpdateOperationsInput | string
-  qvapayId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   analysisLimit?: Prisma.IntFieldUpdateOperationsInput | number
   analysisUsed?: Prisma.IntFieldUpdateOperationsInput | number
   analysisResetAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -6609,7 +6520,6 @@ export type UserCreateWithoutSurveyFeedbackInput = {
   username?: string | null
   role?: string
   plan?: string
-  qvapayId?: string | null
   analysisLimit?: number
   analysisUsed?: number
   analysisResetAt?: Date | string | null
@@ -6677,7 +6587,6 @@ export type UserUncheckedCreateWithoutSurveyFeedbackInput = {
   username?: string | null
   role?: string
   plan?: string
-  qvapayId?: string | null
   analysisLimit?: number
   analysisUsed?: number
   analysisResetAt?: Date | string | null
@@ -6761,7 +6670,6 @@ export type UserUpdateWithoutSurveyFeedbackInput = {
   username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.StringFieldUpdateOperationsInput | string
   plan?: Prisma.StringFieldUpdateOperationsInput | string
-  qvapayId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   analysisLimit?: Prisma.IntFieldUpdateOperationsInput | number
   analysisUsed?: Prisma.IntFieldUpdateOperationsInput | number
   analysisResetAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -6829,7 +6737,6 @@ export type UserUncheckedUpdateWithoutSurveyFeedbackInput = {
   username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.StringFieldUpdateOperationsInput | string
   plan?: Prisma.StringFieldUpdateOperationsInput | string
-  qvapayId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   analysisLimit?: Prisma.IntFieldUpdateOperationsInput | number
   analysisUsed?: Prisma.IntFieldUpdateOperationsInput | number
   analysisResetAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -6897,7 +6804,6 @@ export type UserCreateWithoutCommunityPostsInput = {
   username?: string | null
   role?: string
   plan?: string
-  qvapayId?: string | null
   analysisLimit?: number
   analysisUsed?: number
   analysisResetAt?: Date | string | null
@@ -6965,7 +6871,6 @@ export type UserUncheckedCreateWithoutCommunityPostsInput = {
   username?: string | null
   role?: string
   plan?: string
-  qvapayId?: string | null
   analysisLimit?: number
   analysisUsed?: number
   analysisResetAt?: Date | string | null
@@ -7049,7 +6954,6 @@ export type UserUpdateWithoutCommunityPostsInput = {
   username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.StringFieldUpdateOperationsInput | string
   plan?: Prisma.StringFieldUpdateOperationsInput | string
-  qvapayId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   analysisLimit?: Prisma.IntFieldUpdateOperationsInput | number
   analysisUsed?: Prisma.IntFieldUpdateOperationsInput | number
   analysisResetAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -7117,7 +7021,6 @@ export type UserUncheckedUpdateWithoutCommunityPostsInput = {
   username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.StringFieldUpdateOperationsInput | string
   plan?: Prisma.StringFieldUpdateOperationsInput | string
-  qvapayId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   analysisLimit?: Prisma.IntFieldUpdateOperationsInput | number
   analysisUsed?: Prisma.IntFieldUpdateOperationsInput | number
   analysisResetAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -7185,7 +7088,6 @@ export type UserCreateWithoutCommentsInput = {
   username?: string | null
   role?: string
   plan?: string
-  qvapayId?: string | null
   analysisLimit?: number
   analysisUsed?: number
   analysisResetAt?: Date | string | null
@@ -7253,7 +7155,6 @@ export type UserUncheckedCreateWithoutCommentsInput = {
   username?: string | null
   role?: string
   plan?: string
-  qvapayId?: string | null
   analysisLimit?: number
   analysisUsed?: number
   analysisResetAt?: Date | string | null
@@ -7337,7 +7238,6 @@ export type UserUpdateWithoutCommentsInput = {
   username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.StringFieldUpdateOperationsInput | string
   plan?: Prisma.StringFieldUpdateOperationsInput | string
-  qvapayId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   analysisLimit?: Prisma.IntFieldUpdateOperationsInput | number
   analysisUsed?: Prisma.IntFieldUpdateOperationsInput | number
   analysisResetAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -7405,7 +7305,6 @@ export type UserUncheckedUpdateWithoutCommentsInput = {
   username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.StringFieldUpdateOperationsInput | string
   plan?: Prisma.StringFieldUpdateOperationsInput | string
-  qvapayId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   analysisLimit?: Prisma.IntFieldUpdateOperationsInput | number
   analysisUsed?: Prisma.IntFieldUpdateOperationsInput | number
   analysisResetAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -7473,7 +7372,6 @@ export type UserCreateWithoutCommunityGroupsInput = {
   username?: string | null
   role?: string
   plan?: string
-  qvapayId?: string | null
   analysisLimit?: number
   analysisUsed?: number
   analysisResetAt?: Date | string | null
@@ -7541,7 +7439,6 @@ export type UserUncheckedCreateWithoutCommunityGroupsInput = {
   username?: string | null
   role?: string
   plan?: string
-  qvapayId?: string | null
   analysisLimit?: number
   analysisUsed?: number
   analysisResetAt?: Date | string | null
@@ -7625,7 +7522,6 @@ export type UserUpdateWithoutCommunityGroupsInput = {
   username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.StringFieldUpdateOperationsInput | string
   plan?: Prisma.StringFieldUpdateOperationsInput | string
-  qvapayId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   analysisLimit?: Prisma.IntFieldUpdateOperationsInput | number
   analysisUsed?: Prisma.IntFieldUpdateOperationsInput | number
   analysisResetAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -7693,7 +7589,6 @@ export type UserUncheckedUpdateWithoutCommunityGroupsInput = {
   username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.StringFieldUpdateOperationsInput | string
   plan?: Prisma.StringFieldUpdateOperationsInput | string
-  qvapayId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   analysisLimit?: Prisma.IntFieldUpdateOperationsInput | number
   analysisUsed?: Prisma.IntFieldUpdateOperationsInput | number
   analysisResetAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -7761,7 +7656,6 @@ export type UserCreateWithoutCommunityMembershipsInput = {
   username?: string | null
   role?: string
   plan?: string
-  qvapayId?: string | null
   analysisLimit?: number
   analysisUsed?: number
   analysisResetAt?: Date | string | null
@@ -7829,7 +7723,6 @@ export type UserUncheckedCreateWithoutCommunityMembershipsInput = {
   username?: string | null
   role?: string
   plan?: string
-  qvapayId?: string | null
   analysisLimit?: number
   analysisUsed?: number
   analysisResetAt?: Date | string | null
@@ -7913,7 +7806,6 @@ export type UserUpdateWithoutCommunityMembershipsInput = {
   username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.StringFieldUpdateOperationsInput | string
   plan?: Prisma.StringFieldUpdateOperationsInput | string
-  qvapayId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   analysisLimit?: Prisma.IntFieldUpdateOperationsInput | number
   analysisUsed?: Prisma.IntFieldUpdateOperationsInput | number
   analysisResetAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -7981,7 +7873,6 @@ export type UserUncheckedUpdateWithoutCommunityMembershipsInput = {
   username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.StringFieldUpdateOperationsInput | string
   plan?: Prisma.StringFieldUpdateOperationsInput | string
-  qvapayId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   analysisLimit?: Prisma.IntFieldUpdateOperationsInput | number
   analysisUsed?: Prisma.IntFieldUpdateOperationsInput | number
   analysisResetAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -8049,7 +7940,6 @@ export type UserCreateWithoutPostReactionsInput = {
   username?: string | null
   role?: string
   plan?: string
-  qvapayId?: string | null
   analysisLimit?: number
   analysisUsed?: number
   analysisResetAt?: Date | string | null
@@ -8117,7 +8007,6 @@ export type UserUncheckedCreateWithoutPostReactionsInput = {
   username?: string | null
   role?: string
   plan?: string
-  qvapayId?: string | null
   analysisLimit?: number
   analysisUsed?: number
   analysisResetAt?: Date | string | null
@@ -8201,7 +8090,6 @@ export type UserUpdateWithoutPostReactionsInput = {
   username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.StringFieldUpdateOperationsInput | string
   plan?: Prisma.StringFieldUpdateOperationsInput | string
-  qvapayId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   analysisLimit?: Prisma.IntFieldUpdateOperationsInput | number
   analysisUsed?: Prisma.IntFieldUpdateOperationsInput | number
   analysisResetAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -8269,7 +8157,6 @@ export type UserUncheckedUpdateWithoutPostReactionsInput = {
   username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.StringFieldUpdateOperationsInput | string
   plan?: Prisma.StringFieldUpdateOperationsInput | string
-  qvapayId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   analysisLimit?: Prisma.IntFieldUpdateOperationsInput | number
   analysisUsed?: Prisma.IntFieldUpdateOperationsInput | number
   analysisResetAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -8337,7 +8224,6 @@ export type UserCreateWithoutSkinDiaryInput = {
   username?: string | null
   role?: string
   plan?: string
-  qvapayId?: string | null
   analysisLimit?: number
   analysisUsed?: number
   analysisResetAt?: Date | string | null
@@ -8405,7 +8291,6 @@ export type UserUncheckedCreateWithoutSkinDiaryInput = {
   username?: string | null
   role?: string
   plan?: string
-  qvapayId?: string | null
   analysisLimit?: number
   analysisUsed?: number
   analysisResetAt?: Date | string | null
@@ -8489,7 +8374,6 @@ export type UserUpdateWithoutSkinDiaryInput = {
   username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.StringFieldUpdateOperationsInput | string
   plan?: Prisma.StringFieldUpdateOperationsInput | string
-  qvapayId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   analysisLimit?: Prisma.IntFieldUpdateOperationsInput | number
   analysisUsed?: Prisma.IntFieldUpdateOperationsInput | number
   analysisResetAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -8557,7 +8441,6 @@ export type UserUncheckedUpdateWithoutSkinDiaryInput = {
   username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.StringFieldUpdateOperationsInput | string
   plan?: Prisma.StringFieldUpdateOperationsInput | string
-  qvapayId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   analysisLimit?: Prisma.IntFieldUpdateOperationsInput | number
   analysisUsed?: Prisma.IntFieldUpdateOperationsInput | number
   analysisResetAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -8625,7 +8508,6 @@ export type UserCreateWithoutUserChallengesInput = {
   username?: string | null
   role?: string
   plan?: string
-  qvapayId?: string | null
   analysisLimit?: number
   analysisUsed?: number
   analysisResetAt?: Date | string | null
@@ -8693,7 +8575,6 @@ export type UserUncheckedCreateWithoutUserChallengesInput = {
   username?: string | null
   role?: string
   plan?: string
-  qvapayId?: string | null
   analysisLimit?: number
   analysisUsed?: number
   analysisResetAt?: Date | string | null
@@ -8777,7 +8658,6 @@ export type UserUpdateWithoutUserChallengesInput = {
   username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.StringFieldUpdateOperationsInput | string
   plan?: Prisma.StringFieldUpdateOperationsInput | string
-  qvapayId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   analysisLimit?: Prisma.IntFieldUpdateOperationsInput | number
   analysisUsed?: Prisma.IntFieldUpdateOperationsInput | number
   analysisResetAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -8845,7 +8725,6 @@ export type UserUncheckedUpdateWithoutUserChallengesInput = {
   username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.StringFieldUpdateOperationsInput | string
   plan?: Prisma.StringFieldUpdateOperationsInput | string
-  qvapayId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   analysisLimit?: Prisma.IntFieldUpdateOperationsInput | number
   analysisUsed?: Prisma.IntFieldUpdateOperationsInput | number
   analysisResetAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -8913,7 +8792,6 @@ export type UserCreateWithoutProductReviewsInput = {
   username?: string | null
   role?: string
   plan?: string
-  qvapayId?: string | null
   analysisLimit?: number
   analysisUsed?: number
   analysisResetAt?: Date | string | null
@@ -8981,7 +8859,6 @@ export type UserUncheckedCreateWithoutProductReviewsInput = {
   username?: string | null
   role?: string
   plan?: string
-  qvapayId?: string | null
   analysisLimit?: number
   analysisUsed?: number
   analysisResetAt?: Date | string | null
@@ -9065,7 +8942,6 @@ export type UserUpdateWithoutProductReviewsInput = {
   username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.StringFieldUpdateOperationsInput | string
   plan?: Prisma.StringFieldUpdateOperationsInput | string
-  qvapayId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   analysisLimit?: Prisma.IntFieldUpdateOperationsInput | number
   analysisUsed?: Prisma.IntFieldUpdateOperationsInput | number
   analysisResetAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -9133,7 +9009,6 @@ export type UserUncheckedUpdateWithoutProductReviewsInput = {
   username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.StringFieldUpdateOperationsInput | string
   plan?: Prisma.StringFieldUpdateOperationsInput | string
-  qvapayId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   analysisLimit?: Prisma.IntFieldUpdateOperationsInput | number
   analysisUsed?: Prisma.IntFieldUpdateOperationsInput | number
   analysisResetAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -9201,7 +9076,6 @@ export type UserCreateWithoutGroupsOwnedInput = {
   username?: string | null
   role?: string
   plan?: string
-  qvapayId?: string | null
   analysisLimit?: number
   analysisUsed?: number
   analysisResetAt?: Date | string | null
@@ -9269,7 +9143,6 @@ export type UserUncheckedCreateWithoutGroupsOwnedInput = {
   username?: string | null
   role?: string
   plan?: string
-  qvapayId?: string | null
   analysisLimit?: number
   analysisUsed?: number
   analysisResetAt?: Date | string | null
@@ -9353,7 +9226,6 @@ export type UserUpdateWithoutGroupsOwnedInput = {
   username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.StringFieldUpdateOperationsInput | string
   plan?: Prisma.StringFieldUpdateOperationsInput | string
-  qvapayId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   analysisLimit?: Prisma.IntFieldUpdateOperationsInput | number
   analysisUsed?: Prisma.IntFieldUpdateOperationsInput | number
   analysisResetAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -9421,7 +9293,6 @@ export type UserUncheckedUpdateWithoutGroupsOwnedInput = {
   username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.StringFieldUpdateOperationsInput | string
   plan?: Prisma.StringFieldUpdateOperationsInput | string
-  qvapayId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   analysisLimit?: Prisma.IntFieldUpdateOperationsInput | number
   analysisUsed?: Prisma.IntFieldUpdateOperationsInput | number
   analysisResetAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -9489,7 +9360,6 @@ export type UserCreateWithoutReferralsOwnedInput = {
   username?: string | null
   role?: string
   plan?: string
-  qvapayId?: string | null
   analysisLimit?: number
   analysisUsed?: number
   analysisResetAt?: Date | string | null
@@ -9557,7 +9427,6 @@ export type UserUncheckedCreateWithoutReferralsOwnedInput = {
   username?: string | null
   role?: string
   plan?: string
-  qvapayId?: string | null
   analysisLimit?: number
   analysisUsed?: number
   analysisResetAt?: Date | string | null
@@ -9630,7 +9499,6 @@ export type UserCreateWithoutReferralsReferredInput = {
   username?: string | null
   role?: string
   plan?: string
-  qvapayId?: string | null
   analysisLimit?: number
   analysisUsed?: number
   analysisResetAt?: Date | string | null
@@ -9698,7 +9566,6 @@ export type UserUncheckedCreateWithoutReferralsReferredInput = {
   username?: string | null
   role?: string
   plan?: string
-  qvapayId?: string | null
   analysisLimit?: number
   analysisUsed?: number
   analysisResetAt?: Date | string | null
@@ -9782,7 +9649,6 @@ export type UserUpdateWithoutReferralsOwnedInput = {
   username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.StringFieldUpdateOperationsInput | string
   plan?: Prisma.StringFieldUpdateOperationsInput | string
-  qvapayId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   analysisLimit?: Prisma.IntFieldUpdateOperationsInput | number
   analysisUsed?: Prisma.IntFieldUpdateOperationsInput | number
   analysisResetAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -9850,7 +9716,6 @@ export type UserUncheckedUpdateWithoutReferralsOwnedInput = {
   username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.StringFieldUpdateOperationsInput | string
   plan?: Prisma.StringFieldUpdateOperationsInput | string
-  qvapayId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   analysisLimit?: Prisma.IntFieldUpdateOperationsInput | number
   analysisUsed?: Prisma.IntFieldUpdateOperationsInput | number
   analysisResetAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -9929,7 +9794,6 @@ export type UserUpdateWithoutReferralsReferredInput = {
   username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.StringFieldUpdateOperationsInput | string
   plan?: Prisma.StringFieldUpdateOperationsInput | string
-  qvapayId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   analysisLimit?: Prisma.IntFieldUpdateOperationsInput | number
   analysisUsed?: Prisma.IntFieldUpdateOperationsInput | number
   analysisResetAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -9997,7 +9861,6 @@ export type UserUncheckedUpdateWithoutReferralsReferredInput = {
   username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.StringFieldUpdateOperationsInput | string
   plan?: Prisma.StringFieldUpdateOperationsInput | string
-  qvapayId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   analysisLimit?: Prisma.IntFieldUpdateOperationsInput | number
   analysisUsed?: Prisma.IntFieldUpdateOperationsInput | number
   analysisResetAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -10065,7 +9928,6 @@ export type UserCreateWithoutDigitalPurchasesInput = {
   username?: string | null
   role?: string
   plan?: string
-  qvapayId?: string | null
   analysisLimit?: number
   analysisUsed?: number
   analysisResetAt?: Date | string | null
@@ -10133,7 +9995,6 @@ export type UserUncheckedCreateWithoutDigitalPurchasesInput = {
   username?: string | null
   role?: string
   plan?: string
-  qvapayId?: string | null
   analysisLimit?: number
   analysisUsed?: number
   analysisResetAt?: Date | string | null
@@ -10217,7 +10078,6 @@ export type UserUpdateWithoutDigitalPurchasesInput = {
   username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.StringFieldUpdateOperationsInput | string
   plan?: Prisma.StringFieldUpdateOperationsInput | string
-  qvapayId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   analysisLimit?: Prisma.IntFieldUpdateOperationsInput | number
   analysisUsed?: Prisma.IntFieldUpdateOperationsInput | number
   analysisResetAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -10285,7 +10145,6 @@ export type UserUncheckedUpdateWithoutDigitalPurchasesInput = {
   username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.StringFieldUpdateOperationsInput | string
   plan?: Prisma.StringFieldUpdateOperationsInput | string
-  qvapayId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   analysisLimit?: Prisma.IntFieldUpdateOperationsInput | number
   analysisUsed?: Prisma.IntFieldUpdateOperationsInput | number
   analysisResetAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -10353,7 +10212,6 @@ export type UserCreateWithoutCheckInsInput = {
   username?: string | null
   role?: string
   plan?: string
-  qvapayId?: string | null
   analysisLimit?: number
   analysisUsed?: number
   analysisResetAt?: Date | string | null
@@ -10421,7 +10279,6 @@ export type UserUncheckedCreateWithoutCheckInsInput = {
   username?: string | null
   role?: string
   plan?: string
-  qvapayId?: string | null
   analysisLimit?: number
   analysisUsed?: number
   analysisResetAt?: Date | string | null
@@ -10505,7 +10362,6 @@ export type UserUpdateWithoutCheckInsInput = {
   username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.StringFieldUpdateOperationsInput | string
   plan?: Prisma.StringFieldUpdateOperationsInput | string
-  qvapayId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   analysisLimit?: Prisma.IntFieldUpdateOperationsInput | number
   analysisUsed?: Prisma.IntFieldUpdateOperationsInput | number
   analysisResetAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -10573,7 +10429,6 @@ export type UserUncheckedUpdateWithoutCheckInsInput = {
   username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.StringFieldUpdateOperationsInput | string
   plan?: Prisma.StringFieldUpdateOperationsInput | string
-  qvapayId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   analysisLimit?: Prisma.IntFieldUpdateOperationsInput | number
   analysisUsed?: Prisma.IntFieldUpdateOperationsInput | number
   analysisResetAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -10641,7 +10496,6 @@ export type UserCreateWithoutClientsInput = {
   username?: string | null
   role?: string
   plan?: string
-  qvapayId?: string | null
   analysisLimit?: number
   analysisUsed?: number
   analysisResetAt?: Date | string | null
@@ -10709,7 +10563,6 @@ export type UserUncheckedCreateWithoutClientsInput = {
   username?: string | null
   role?: string
   plan?: string
-  qvapayId?: string | null
   analysisLimit?: number
   analysisUsed?: number
   analysisResetAt?: Date | string | null
@@ -10793,7 +10646,6 @@ export type UserUpdateWithoutClientsInput = {
   username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.StringFieldUpdateOperationsInput | string
   plan?: Prisma.StringFieldUpdateOperationsInput | string
-  qvapayId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   analysisLimit?: Prisma.IntFieldUpdateOperationsInput | number
   analysisUsed?: Prisma.IntFieldUpdateOperationsInput | number
   analysisResetAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -10861,7 +10713,6 @@ export type UserUncheckedUpdateWithoutClientsInput = {
   username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.StringFieldUpdateOperationsInput | string
   plan?: Prisma.StringFieldUpdateOperationsInput | string
-  qvapayId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   analysisLimit?: Prisma.IntFieldUpdateOperationsInput | number
   analysisUsed?: Prisma.IntFieldUpdateOperationsInput | number
   analysisResetAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -10929,7 +10780,6 @@ export type UserCreateWithoutNotificationsInput = {
   username?: string | null
   role?: string
   plan?: string
-  qvapayId?: string | null
   analysisLimit?: number
   analysisUsed?: number
   analysisResetAt?: Date | string | null
@@ -10997,7 +10847,6 @@ export type UserUncheckedCreateWithoutNotificationsInput = {
   username?: string | null
   role?: string
   plan?: string
-  qvapayId?: string | null
   analysisLimit?: number
   analysisUsed?: number
   analysisResetAt?: Date | string | null
@@ -11081,7 +10930,6 @@ export type UserUpdateWithoutNotificationsInput = {
   username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.StringFieldUpdateOperationsInput | string
   plan?: Prisma.StringFieldUpdateOperationsInput | string
-  qvapayId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   analysisLimit?: Prisma.IntFieldUpdateOperationsInput | number
   analysisUsed?: Prisma.IntFieldUpdateOperationsInput | number
   analysisResetAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -11149,7 +10997,6 @@ export type UserUncheckedUpdateWithoutNotificationsInput = {
   username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.StringFieldUpdateOperationsInput | string
   plan?: Prisma.StringFieldUpdateOperationsInput | string
-  qvapayId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   analysisLimit?: Prisma.IntFieldUpdateOperationsInput | number
   analysisUsed?: Prisma.IntFieldUpdateOperationsInput | number
   analysisResetAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -11217,7 +11064,6 @@ export type UserCreateWithoutSupportTicketsInput = {
   username?: string | null
   role?: string
   plan?: string
-  qvapayId?: string | null
   analysisLimit?: number
   analysisUsed?: number
   analysisResetAt?: Date | string | null
@@ -11285,7 +11131,6 @@ export type UserUncheckedCreateWithoutSupportTicketsInput = {
   username?: string | null
   role?: string
   plan?: string
-  qvapayId?: string | null
   analysisLimit?: number
   analysisUsed?: number
   analysisResetAt?: Date | string | null
@@ -11369,7 +11214,6 @@ export type UserUpdateWithoutSupportTicketsInput = {
   username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.StringFieldUpdateOperationsInput | string
   plan?: Prisma.StringFieldUpdateOperationsInput | string
-  qvapayId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   analysisLimit?: Prisma.IntFieldUpdateOperationsInput | number
   analysisUsed?: Prisma.IntFieldUpdateOperationsInput | number
   analysisResetAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -11437,7 +11281,6 @@ export type UserUncheckedUpdateWithoutSupportTicketsInput = {
   username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.StringFieldUpdateOperationsInput | string
   plan?: Prisma.StringFieldUpdateOperationsInput | string
-  qvapayId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   analysisLimit?: Prisma.IntFieldUpdateOperationsInput | number
   analysisUsed?: Prisma.IntFieldUpdateOperationsInput | number
   analysisResetAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -11505,7 +11348,6 @@ export type UserCreateWithoutTicketResponsesInput = {
   username?: string | null
   role?: string
   plan?: string
-  qvapayId?: string | null
   analysisLimit?: number
   analysisUsed?: number
   analysisResetAt?: Date | string | null
@@ -11573,7 +11415,6 @@ export type UserUncheckedCreateWithoutTicketResponsesInput = {
   username?: string | null
   role?: string
   plan?: string
-  qvapayId?: string | null
   analysisLimit?: number
   analysisUsed?: number
   analysisResetAt?: Date | string | null
@@ -11657,7 +11498,6 @@ export type UserUpdateWithoutTicketResponsesInput = {
   username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.StringFieldUpdateOperationsInput | string
   plan?: Prisma.StringFieldUpdateOperationsInput | string
-  qvapayId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   analysisLimit?: Prisma.IntFieldUpdateOperationsInput | number
   analysisUsed?: Prisma.IntFieldUpdateOperationsInput | number
   analysisResetAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -11725,7 +11565,6 @@ export type UserUncheckedUpdateWithoutTicketResponsesInput = {
   username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.StringFieldUpdateOperationsInput | string
   plan?: Prisma.StringFieldUpdateOperationsInput | string
-  qvapayId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   analysisLimit?: Prisma.IntFieldUpdateOperationsInput | number
   analysisUsed?: Prisma.IntFieldUpdateOperationsInput | number
   analysisResetAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -11793,7 +11632,6 @@ export type UserCreateWithoutChatMessagesInput = {
   username?: string | null
   role?: string
   plan?: string
-  qvapayId?: string | null
   analysisLimit?: number
   analysisUsed?: number
   analysisResetAt?: Date | string | null
@@ -11861,7 +11699,6 @@ export type UserUncheckedCreateWithoutChatMessagesInput = {
   username?: string | null
   role?: string
   plan?: string
-  qvapayId?: string | null
   analysisLimit?: number
   analysisUsed?: number
   analysisResetAt?: Date | string | null
@@ -11945,7 +11782,6 @@ export type UserUpdateWithoutChatMessagesInput = {
   username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.StringFieldUpdateOperationsInput | string
   plan?: Prisma.StringFieldUpdateOperationsInput | string
-  qvapayId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   analysisLimit?: Prisma.IntFieldUpdateOperationsInput | number
   analysisUsed?: Prisma.IntFieldUpdateOperationsInput | number
   analysisResetAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -12013,7 +11849,6 @@ export type UserUncheckedUpdateWithoutChatMessagesInput = {
   username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.StringFieldUpdateOperationsInput | string
   plan?: Prisma.StringFieldUpdateOperationsInput | string
-  qvapayId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   analysisLimit?: Prisma.IntFieldUpdateOperationsInput | number
   analysisUsed?: Prisma.IntFieldUpdateOperationsInput | number
   analysisResetAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -12081,7 +11916,6 @@ export type UserCreateWithoutGiftPacksBoughtInput = {
   username?: string | null
   role?: string
   plan?: string
-  qvapayId?: string | null
   analysisLimit?: number
   analysisUsed?: number
   analysisResetAt?: Date | string | null
@@ -12149,7 +11983,6 @@ export type UserUncheckedCreateWithoutGiftPacksBoughtInput = {
   username?: string | null
   role?: string
   plan?: string
-  qvapayId?: string | null
   analysisLimit?: number
   analysisUsed?: number
   analysisResetAt?: Date | string | null
@@ -12222,7 +12055,6 @@ export type UserCreateWithoutGiftPacksRedeemedInput = {
   username?: string | null
   role?: string
   plan?: string
-  qvapayId?: string | null
   analysisLimit?: number
   analysisUsed?: number
   analysisResetAt?: Date | string | null
@@ -12290,7 +12122,6 @@ export type UserUncheckedCreateWithoutGiftPacksRedeemedInput = {
   username?: string | null
   role?: string
   plan?: string
-  qvapayId?: string | null
   analysisLimit?: number
   analysisUsed?: number
   analysisResetAt?: Date | string | null
@@ -12374,7 +12205,6 @@ export type UserUpdateWithoutGiftPacksBoughtInput = {
   username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.StringFieldUpdateOperationsInput | string
   plan?: Prisma.StringFieldUpdateOperationsInput | string
-  qvapayId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   analysisLimit?: Prisma.IntFieldUpdateOperationsInput | number
   analysisUsed?: Prisma.IntFieldUpdateOperationsInput | number
   analysisResetAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -12442,7 +12272,6 @@ export type UserUncheckedUpdateWithoutGiftPacksBoughtInput = {
   username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.StringFieldUpdateOperationsInput | string
   plan?: Prisma.StringFieldUpdateOperationsInput | string
-  qvapayId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   analysisLimit?: Prisma.IntFieldUpdateOperationsInput | number
   analysisUsed?: Prisma.IntFieldUpdateOperationsInput | number
   analysisResetAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -12521,7 +12350,6 @@ export type UserUpdateWithoutGiftPacksRedeemedInput = {
   username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.StringFieldUpdateOperationsInput | string
   plan?: Prisma.StringFieldUpdateOperationsInput | string
-  qvapayId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   analysisLimit?: Prisma.IntFieldUpdateOperationsInput | number
   analysisUsed?: Prisma.IntFieldUpdateOperationsInput | number
   analysisResetAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -12589,7 +12417,6 @@ export type UserUncheckedUpdateWithoutGiftPacksRedeemedInput = {
   username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.StringFieldUpdateOperationsInput | string
   plan?: Prisma.StringFieldUpdateOperationsInput | string
-  qvapayId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   analysisLimit?: Prisma.IntFieldUpdateOperationsInput | number
   analysisUsed?: Prisma.IntFieldUpdateOperationsInput | number
   analysisResetAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -12657,7 +12484,6 @@ export type UserCreateWithoutRemindersInput = {
   username?: string | null
   role?: string
   plan?: string
-  qvapayId?: string | null
   analysisLimit?: number
   analysisUsed?: number
   analysisResetAt?: Date | string | null
@@ -12725,7 +12551,6 @@ export type UserUncheckedCreateWithoutRemindersInput = {
   username?: string | null
   role?: string
   plan?: string
-  qvapayId?: string | null
   analysisLimit?: number
   analysisUsed?: number
   analysisResetAt?: Date | string | null
@@ -12809,7 +12634,6 @@ export type UserUpdateWithoutRemindersInput = {
   username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.StringFieldUpdateOperationsInput | string
   plan?: Prisma.StringFieldUpdateOperationsInput | string
-  qvapayId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   analysisLimit?: Prisma.IntFieldUpdateOperationsInput | number
   analysisUsed?: Prisma.IntFieldUpdateOperationsInput | number
   analysisResetAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -12877,7 +12701,6 @@ export type UserUncheckedUpdateWithoutRemindersInput = {
   username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.StringFieldUpdateOperationsInput | string
   plan?: Prisma.StringFieldUpdateOperationsInput | string
-  qvapayId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   analysisLimit?: Prisma.IntFieldUpdateOperationsInput | number
   analysisUsed?: Prisma.IntFieldUpdateOperationsInput | number
   analysisResetAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -12945,7 +12768,6 @@ export type UserCreateWithoutSavedProductsInput = {
   username?: string | null
   role?: string
   plan?: string
-  qvapayId?: string | null
   analysisLimit?: number
   analysisUsed?: number
   analysisResetAt?: Date | string | null
@@ -13013,7 +12835,6 @@ export type UserUncheckedCreateWithoutSavedProductsInput = {
   username?: string | null
   role?: string
   plan?: string
-  qvapayId?: string | null
   analysisLimit?: number
   analysisUsed?: number
   analysisResetAt?: Date | string | null
@@ -13097,7 +12918,6 @@ export type UserUpdateWithoutSavedProductsInput = {
   username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.StringFieldUpdateOperationsInput | string
   plan?: Prisma.StringFieldUpdateOperationsInput | string
-  qvapayId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   analysisLimit?: Prisma.IntFieldUpdateOperationsInput | number
   analysisUsed?: Prisma.IntFieldUpdateOperationsInput | number
   analysisResetAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -13165,7 +12985,6 @@ export type UserUncheckedUpdateWithoutSavedProductsInput = {
   username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.StringFieldUpdateOperationsInput | string
   plan?: Prisma.StringFieldUpdateOperationsInput | string
-  qvapayId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   analysisLimit?: Prisma.IntFieldUpdateOperationsInput | number
   analysisUsed?: Prisma.IntFieldUpdateOperationsInput | number
   analysisResetAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -13233,7 +13052,6 @@ export type UserCreateWithoutUserBadgesInput = {
   username?: string | null
   role?: string
   plan?: string
-  qvapayId?: string | null
   analysisLimit?: number
   analysisUsed?: number
   analysisResetAt?: Date | string | null
@@ -13301,7 +13119,6 @@ export type UserUncheckedCreateWithoutUserBadgesInput = {
   username?: string | null
   role?: string
   plan?: string
-  qvapayId?: string | null
   analysisLimit?: number
   analysisUsed?: number
   analysisResetAt?: Date | string | null
@@ -13385,7 +13202,6 @@ export type UserUpdateWithoutUserBadgesInput = {
   username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.StringFieldUpdateOperationsInput | string
   plan?: Prisma.StringFieldUpdateOperationsInput | string
-  qvapayId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   analysisLimit?: Prisma.IntFieldUpdateOperationsInput | number
   analysisUsed?: Prisma.IntFieldUpdateOperationsInput | number
   analysisResetAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -13453,7 +13269,6 @@ export type UserUncheckedUpdateWithoutUserBadgesInput = {
   username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.StringFieldUpdateOperationsInput | string
   plan?: Prisma.StringFieldUpdateOperationsInput | string
-  qvapayId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   analysisLimit?: Prisma.IntFieldUpdateOperationsInput | number
   analysisUsed?: Prisma.IntFieldUpdateOperationsInput | number
   analysisResetAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -13521,7 +13336,6 @@ export type UserCreateWithoutWeatherLogsInput = {
   username?: string | null
   role?: string
   plan?: string
-  qvapayId?: string | null
   analysisLimit?: number
   analysisUsed?: number
   analysisResetAt?: Date | string | null
@@ -13589,7 +13403,6 @@ export type UserUncheckedCreateWithoutWeatherLogsInput = {
   username?: string | null
   role?: string
   plan?: string
-  qvapayId?: string | null
   analysisLimit?: number
   analysisUsed?: number
   analysisResetAt?: Date | string | null
@@ -13673,7 +13486,6 @@ export type UserUpdateWithoutWeatherLogsInput = {
   username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.StringFieldUpdateOperationsInput | string
   plan?: Prisma.StringFieldUpdateOperationsInput | string
-  qvapayId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   analysisLimit?: Prisma.IntFieldUpdateOperationsInput | number
   analysisUsed?: Prisma.IntFieldUpdateOperationsInput | number
   analysisResetAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -13741,7 +13553,6 @@ export type UserUncheckedUpdateWithoutWeatherLogsInput = {
   username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.StringFieldUpdateOperationsInput | string
   plan?: Prisma.StringFieldUpdateOperationsInput | string
-  qvapayId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   analysisLimit?: Prisma.IntFieldUpdateOperationsInput | number
   analysisUsed?: Prisma.IntFieldUpdateOperationsInput | number
   analysisResetAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -13809,7 +13620,6 @@ export type UserCreateManyReferredByInput = {
   username?: string | null
   role?: string
   plan?: string
-  qvapayId?: string | null
   analysisLimit?: number
   analysisUsed?: number
   analysisResetAt?: Date | string | null
@@ -13836,7 +13646,6 @@ export type UserUpdateWithoutReferredByInput = {
   username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.StringFieldUpdateOperationsInput | string
   plan?: Prisma.StringFieldUpdateOperationsInput | string
-  qvapayId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   analysisLimit?: Prisma.IntFieldUpdateOperationsInput | number
   analysisUsed?: Prisma.IntFieldUpdateOperationsInput | number
   analysisResetAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -13904,7 +13713,6 @@ export type UserUncheckedUpdateWithoutReferredByInput = {
   username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.StringFieldUpdateOperationsInput | string
   plan?: Prisma.StringFieldUpdateOperationsInput | string
-  qvapayId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   analysisLimit?: Prisma.IntFieldUpdateOperationsInput | number
   analysisUsed?: Prisma.IntFieldUpdateOperationsInput | number
   analysisResetAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -13972,7 +13780,6 @@ export type UserUncheckedUpdateManyWithoutReferredByInput = {
   username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.StringFieldUpdateOperationsInput | string
   plan?: Prisma.StringFieldUpdateOperationsInput | string
-  qvapayId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   analysisLimit?: Prisma.IntFieldUpdateOperationsInput | number
   analysisUsed?: Prisma.IntFieldUpdateOperationsInput | number
   analysisResetAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -14372,7 +14179,6 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   username?: boolean
   role?: boolean
   plan?: boolean
-  qvapayId?: boolean
   analysisLimit?: boolean
   analysisUsed?: boolean
   analysisResetAt?: boolean
@@ -14443,7 +14249,6 @@ export type UserSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   username?: boolean
   role?: boolean
   plan?: boolean
-  qvapayId?: boolean
   analysisLimit?: boolean
   analysisUsed?: boolean
   analysisResetAt?: boolean
@@ -14472,7 +14277,6 @@ export type UserSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   username?: boolean
   role?: boolean
   plan?: boolean
-  qvapayId?: boolean
   analysisLimit?: boolean
   analysisUsed?: boolean
   analysisResetAt?: boolean
@@ -14501,7 +14305,6 @@ export type UserSelectScalar = {
   username?: boolean
   role?: boolean
   plan?: boolean
-  qvapayId?: boolean
   analysisLimit?: boolean
   analysisUsed?: boolean
   analysisResetAt?: boolean
@@ -14519,7 +14322,7 @@ export type UserSelectScalar = {
   referredByEstheticianId?: boolean
 }
 
-export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "email" | "emailVerified" | "image" | "password" | "username" | "role" | "plan" | "qvapayId" | "analysisLimit" | "analysisUsed" | "analysisResetAt" | "telegramId" | "telegramTrialStartedAt" | "isTelegramPremiumActive" | "latitude" | "longitude" | "currentStreak" | "maxStreak" | "lastCheckInDate" | "trialEndsAt" | "createdAt" | "updatedAt" | "referredByEstheticianId", ExtArgs["result"]["user"]>
+export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "email" | "emailVerified" | "image" | "password" | "username" | "role" | "plan" | "analysisLimit" | "analysisUsed" | "analysisResetAt" | "telegramId" | "telegramTrialStartedAt" | "isTelegramPremiumActive" | "latitude" | "longitude" | "currentStreak" | "maxStreak" | "lastCheckInDate" | "trialEndsAt" | "createdAt" | "updatedAt" | "referredByEstheticianId", ExtArgs["result"]["user"]>
 export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   accounts?: boolean | Prisma.User$accountsArgs<ExtArgs>
   sessions?: boolean | Prisma.User$sessionsArgs<ExtArgs>
@@ -14628,7 +14431,6 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     username: string | null
     role: string
     plan: string
-    qvapayId: string | null
     analysisLimit: number
     analysisUsed: number
     analysisResetAt: Date | null
@@ -15118,7 +14920,6 @@ export interface UserFieldRefs {
   readonly username: Prisma.FieldRef<"User", 'String'>
   readonly role: Prisma.FieldRef<"User", 'String'>
   readonly plan: Prisma.FieldRef<"User", 'String'>
-  readonly qvapayId: Prisma.FieldRef<"User", 'String'>
   readonly analysisLimit: Prisma.FieldRef<"User", 'Int'>
   readonly analysisUsed: Prisma.FieldRef<"User", 'Int'>
   readonly analysisResetAt: Prisma.FieldRef<"User", 'DateTime'>

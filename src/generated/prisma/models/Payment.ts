@@ -42,14 +42,13 @@ export type PaymentMinAggregateOutputType = {
   id: string | null
   userId: string | null
   provider: string | null
-  qvapayId: string | null
+  paypalOrderId: string | null
   plan: string | null
   amount: number | null
   amountUsd: number | null
   amountCup: number | null
   currency: string | null
   status: string | null
-  remoteId: string | null
   confirmedAt: Date | null
   createdAt: Date | null
 }
@@ -58,14 +57,13 @@ export type PaymentMaxAggregateOutputType = {
   id: string | null
   userId: string | null
   provider: string | null
-  qvapayId: string | null
+  paypalOrderId: string | null
   plan: string | null
   amount: number | null
   amountUsd: number | null
   amountCup: number | null
   currency: string | null
   status: string | null
-  remoteId: string | null
   confirmedAt: Date | null
   createdAt: Date | null
 }
@@ -74,14 +72,13 @@ export type PaymentCountAggregateOutputType = {
   id: number
   userId: number
   provider: number
-  qvapayId: number
+  paypalOrderId: number
   plan: number
   amount: number
   amountUsd: number
   amountCup: number
   currency: number
   status: number
-  remoteId: number
   confirmedAt: number
   createdAt: number
   _all: number
@@ -104,14 +101,13 @@ export type PaymentMinAggregateInputType = {
   id?: true
   userId?: true
   provider?: true
-  qvapayId?: true
+  paypalOrderId?: true
   plan?: true
   amount?: true
   amountUsd?: true
   amountCup?: true
   currency?: true
   status?: true
-  remoteId?: true
   confirmedAt?: true
   createdAt?: true
 }
@@ -120,14 +116,13 @@ export type PaymentMaxAggregateInputType = {
   id?: true
   userId?: true
   provider?: true
-  qvapayId?: true
+  paypalOrderId?: true
   plan?: true
   amount?: true
   amountUsd?: true
   amountCup?: true
   currency?: true
   status?: true
-  remoteId?: true
   confirmedAt?: true
   createdAt?: true
 }
@@ -136,14 +131,13 @@ export type PaymentCountAggregateInputType = {
   id?: true
   userId?: true
   provider?: true
-  qvapayId?: true
+  paypalOrderId?: true
   plan?: true
   amount?: true
   amountUsd?: true
   amountCup?: true
   currency?: true
   status?: true
-  remoteId?: true
   confirmedAt?: true
   createdAt?: true
   _all?: true
@@ -239,14 +233,13 @@ export type PaymentGroupByOutputType = {
   id: string
   userId: string
   provider: string
-  qvapayId: string | null
+  paypalOrderId: string | null
   plan: string
   amount: number
   amountUsd: number | null
   amountCup: number | null
   currency: string
   status: string
-  remoteId: string | null
   confirmedAt: Date | null
   createdAt: Date
   _count: PaymentCountAggregateOutputType | null
@@ -278,14 +271,13 @@ export type PaymentWhereInput = {
   id?: Prisma.StringFilter<"Payment"> | string
   userId?: Prisma.StringFilter<"Payment"> | string
   provider?: Prisma.StringFilter<"Payment"> | string
-  qvapayId?: Prisma.StringNullableFilter<"Payment"> | string | null
+  paypalOrderId?: Prisma.StringNullableFilter<"Payment"> | string | null
   plan?: Prisma.StringFilter<"Payment"> | string
   amount?: Prisma.FloatFilter<"Payment"> | number
   amountUsd?: Prisma.FloatNullableFilter<"Payment"> | number | null
   amountCup?: Prisma.FloatNullableFilter<"Payment"> | number | null
   currency?: Prisma.StringFilter<"Payment"> | string
   status?: Prisma.StringFilter<"Payment"> | string
-  remoteId?: Prisma.StringNullableFilter<"Payment"> | string | null
   confirmedAt?: Prisma.DateTimeNullableFilter<"Payment"> | Date | string | null
   createdAt?: Prisma.DateTimeFilter<"Payment"> | Date | string
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
@@ -295,14 +287,13 @@ export type PaymentOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   userId?: Prisma.SortOrder
   provider?: Prisma.SortOrder
-  qvapayId?: Prisma.SortOrderInput | Prisma.SortOrder
+  paypalOrderId?: Prisma.SortOrderInput | Prisma.SortOrder
   plan?: Prisma.SortOrder
   amount?: Prisma.SortOrder
   amountUsd?: Prisma.SortOrderInput | Prisma.SortOrder
   amountCup?: Prisma.SortOrderInput | Prisma.SortOrder
   currency?: Prisma.SortOrder
   status?: Prisma.SortOrder
-  remoteId?: Prisma.SortOrderInput | Prisma.SortOrder
   confirmedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   user?: Prisma.UserOrderByWithRelationInput
@@ -310,7 +301,7 @@ export type PaymentOrderByWithRelationInput = {
 
 export type PaymentWhereUniqueInput = Prisma.AtLeast<{
   id?: string
-  qvapayId?: string
+  paypalOrderId?: string
   AND?: Prisma.PaymentWhereInput | Prisma.PaymentWhereInput[]
   OR?: Prisma.PaymentWhereInput[]
   NOT?: Prisma.PaymentWhereInput | Prisma.PaymentWhereInput[]
@@ -322,24 +313,22 @@ export type PaymentWhereUniqueInput = Prisma.AtLeast<{
   amountCup?: Prisma.FloatNullableFilter<"Payment"> | number | null
   currency?: Prisma.StringFilter<"Payment"> | string
   status?: Prisma.StringFilter<"Payment"> | string
-  remoteId?: Prisma.StringNullableFilter<"Payment"> | string | null
   confirmedAt?: Prisma.DateTimeNullableFilter<"Payment"> | Date | string | null
   createdAt?: Prisma.DateTimeFilter<"Payment"> | Date | string
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
-}, "id" | "qvapayId">
+}, "id" | "paypalOrderId">
 
 export type PaymentOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   userId?: Prisma.SortOrder
   provider?: Prisma.SortOrder
-  qvapayId?: Prisma.SortOrderInput | Prisma.SortOrder
+  paypalOrderId?: Prisma.SortOrderInput | Prisma.SortOrder
   plan?: Prisma.SortOrder
   amount?: Prisma.SortOrder
   amountUsd?: Prisma.SortOrderInput | Prisma.SortOrder
   amountCup?: Prisma.SortOrderInput | Prisma.SortOrder
   currency?: Prisma.SortOrder
   status?: Prisma.SortOrder
-  remoteId?: Prisma.SortOrderInput | Prisma.SortOrder
   confirmedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   _count?: Prisma.PaymentCountOrderByAggregateInput
@@ -356,14 +345,13 @@ export type PaymentScalarWhereWithAggregatesInput = {
   id?: Prisma.StringWithAggregatesFilter<"Payment"> | string
   userId?: Prisma.StringWithAggregatesFilter<"Payment"> | string
   provider?: Prisma.StringWithAggregatesFilter<"Payment"> | string
-  qvapayId?: Prisma.StringNullableWithAggregatesFilter<"Payment"> | string | null
+  paypalOrderId?: Prisma.StringNullableWithAggregatesFilter<"Payment"> | string | null
   plan?: Prisma.StringWithAggregatesFilter<"Payment"> | string
   amount?: Prisma.FloatWithAggregatesFilter<"Payment"> | number
   amountUsd?: Prisma.FloatNullableWithAggregatesFilter<"Payment"> | number | null
   amountCup?: Prisma.FloatNullableWithAggregatesFilter<"Payment"> | number | null
   currency?: Prisma.StringWithAggregatesFilter<"Payment"> | string
   status?: Prisma.StringWithAggregatesFilter<"Payment"> | string
-  remoteId?: Prisma.StringNullableWithAggregatesFilter<"Payment"> | string | null
   confirmedAt?: Prisma.DateTimeNullableWithAggregatesFilter<"Payment"> | Date | string | null
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Payment"> | Date | string
 }
@@ -371,14 +359,13 @@ export type PaymentScalarWhereWithAggregatesInput = {
 export type PaymentCreateInput = {
   id?: string
   provider?: string
-  qvapayId?: string | null
+  paypalOrderId?: string | null
   plan: string
   amount: number
   amountUsd?: number | null
   amountCup?: number | null
   currency?: string
   status?: string
-  remoteId?: string | null
   confirmedAt?: Date | string | null
   createdAt?: Date | string
   user: Prisma.UserCreateNestedOneWithoutPaymentsInput
@@ -388,14 +375,13 @@ export type PaymentUncheckedCreateInput = {
   id?: string
   userId: string
   provider?: string
-  qvapayId?: string | null
+  paypalOrderId?: string | null
   plan: string
   amount: number
   amountUsd?: number | null
   amountCup?: number | null
   currency?: string
   status?: string
-  remoteId?: string | null
   confirmedAt?: Date | string | null
   createdAt?: Date | string
 }
@@ -403,14 +389,13 @@ export type PaymentUncheckedCreateInput = {
 export type PaymentUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   provider?: Prisma.StringFieldUpdateOperationsInput | string
-  qvapayId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  paypalOrderId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   plan?: Prisma.StringFieldUpdateOperationsInput | string
   amount?: Prisma.FloatFieldUpdateOperationsInput | number
   amountUsd?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   amountCup?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   currency?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.StringFieldUpdateOperationsInput | string
-  remoteId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   confirmedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   user?: Prisma.UserUpdateOneRequiredWithoutPaymentsNestedInput
@@ -420,14 +405,13 @@ export type PaymentUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   provider?: Prisma.StringFieldUpdateOperationsInput | string
-  qvapayId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  paypalOrderId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   plan?: Prisma.StringFieldUpdateOperationsInput | string
   amount?: Prisma.FloatFieldUpdateOperationsInput | number
   amountUsd?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   amountCup?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   currency?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.StringFieldUpdateOperationsInput | string
-  remoteId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   confirmedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -436,14 +420,13 @@ export type PaymentCreateManyInput = {
   id?: string
   userId: string
   provider?: string
-  qvapayId?: string | null
+  paypalOrderId?: string | null
   plan: string
   amount: number
   amountUsd?: number | null
   amountCup?: number | null
   currency?: string
   status?: string
-  remoteId?: string | null
   confirmedAt?: Date | string | null
   createdAt?: Date | string
 }
@@ -451,14 +434,13 @@ export type PaymentCreateManyInput = {
 export type PaymentUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   provider?: Prisma.StringFieldUpdateOperationsInput | string
-  qvapayId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  paypalOrderId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   plan?: Prisma.StringFieldUpdateOperationsInput | string
   amount?: Prisma.FloatFieldUpdateOperationsInput | number
   amountUsd?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   amountCup?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   currency?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.StringFieldUpdateOperationsInput | string
-  remoteId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   confirmedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -467,14 +449,13 @@ export type PaymentUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   provider?: Prisma.StringFieldUpdateOperationsInput | string
-  qvapayId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  paypalOrderId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   plan?: Prisma.StringFieldUpdateOperationsInput | string
   amount?: Prisma.FloatFieldUpdateOperationsInput | number
   amountUsd?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   amountCup?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   currency?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.StringFieldUpdateOperationsInput | string
-  remoteId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   confirmedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -493,14 +474,13 @@ export type PaymentCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   userId?: Prisma.SortOrder
   provider?: Prisma.SortOrder
-  qvapayId?: Prisma.SortOrder
+  paypalOrderId?: Prisma.SortOrder
   plan?: Prisma.SortOrder
   amount?: Prisma.SortOrder
   amountUsd?: Prisma.SortOrder
   amountCup?: Prisma.SortOrder
   currency?: Prisma.SortOrder
   status?: Prisma.SortOrder
-  remoteId?: Prisma.SortOrder
   confirmedAt?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
 }
@@ -515,14 +495,13 @@ export type PaymentMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
   userId?: Prisma.SortOrder
   provider?: Prisma.SortOrder
-  qvapayId?: Prisma.SortOrder
+  paypalOrderId?: Prisma.SortOrder
   plan?: Prisma.SortOrder
   amount?: Prisma.SortOrder
   amountUsd?: Prisma.SortOrder
   amountCup?: Prisma.SortOrder
   currency?: Prisma.SortOrder
   status?: Prisma.SortOrder
-  remoteId?: Prisma.SortOrder
   confirmedAt?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
 }
@@ -531,14 +510,13 @@ export type PaymentMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
   userId?: Prisma.SortOrder
   provider?: Prisma.SortOrder
-  qvapayId?: Prisma.SortOrder
+  paypalOrderId?: Prisma.SortOrder
   plan?: Prisma.SortOrder
   amount?: Prisma.SortOrder
   amountUsd?: Prisma.SortOrder
   amountCup?: Prisma.SortOrder
   currency?: Prisma.SortOrder
   status?: Prisma.SortOrder
-  remoteId?: Prisma.SortOrder
   confirmedAt?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
 }
@@ -594,14 +572,13 @@ export type PaymentUncheckedUpdateManyWithoutUserNestedInput = {
 export type PaymentCreateWithoutUserInput = {
   id?: string
   provider?: string
-  qvapayId?: string | null
+  paypalOrderId?: string | null
   plan: string
   amount: number
   amountUsd?: number | null
   amountCup?: number | null
   currency?: string
   status?: string
-  remoteId?: string | null
   confirmedAt?: Date | string | null
   createdAt?: Date | string
 }
@@ -609,14 +586,13 @@ export type PaymentCreateWithoutUserInput = {
 export type PaymentUncheckedCreateWithoutUserInput = {
   id?: string
   provider?: string
-  qvapayId?: string | null
+  paypalOrderId?: string | null
   plan: string
   amount: number
   amountUsd?: number | null
   amountCup?: number | null
   currency?: string
   status?: string
-  remoteId?: string | null
   confirmedAt?: Date | string | null
   createdAt?: Date | string
 }
@@ -654,14 +630,13 @@ export type PaymentScalarWhereInput = {
   id?: Prisma.StringFilter<"Payment"> | string
   userId?: Prisma.StringFilter<"Payment"> | string
   provider?: Prisma.StringFilter<"Payment"> | string
-  qvapayId?: Prisma.StringNullableFilter<"Payment"> | string | null
+  paypalOrderId?: Prisma.StringNullableFilter<"Payment"> | string | null
   plan?: Prisma.StringFilter<"Payment"> | string
   amount?: Prisma.FloatFilter<"Payment"> | number
   amountUsd?: Prisma.FloatNullableFilter<"Payment"> | number | null
   amountCup?: Prisma.FloatNullableFilter<"Payment"> | number | null
   currency?: Prisma.StringFilter<"Payment"> | string
   status?: Prisma.StringFilter<"Payment"> | string
-  remoteId?: Prisma.StringNullableFilter<"Payment"> | string | null
   confirmedAt?: Prisma.DateTimeNullableFilter<"Payment"> | Date | string | null
   createdAt?: Prisma.DateTimeFilter<"Payment"> | Date | string
 }
@@ -669,14 +644,13 @@ export type PaymentScalarWhereInput = {
 export type PaymentCreateManyUserInput = {
   id?: string
   provider?: string
-  qvapayId?: string | null
+  paypalOrderId?: string | null
   plan: string
   amount: number
   amountUsd?: number | null
   amountCup?: number | null
   currency?: string
   status?: string
-  remoteId?: string | null
   confirmedAt?: Date | string | null
   createdAt?: Date | string
 }
@@ -684,14 +658,13 @@ export type PaymentCreateManyUserInput = {
 export type PaymentUpdateWithoutUserInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   provider?: Prisma.StringFieldUpdateOperationsInput | string
-  qvapayId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  paypalOrderId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   plan?: Prisma.StringFieldUpdateOperationsInput | string
   amount?: Prisma.FloatFieldUpdateOperationsInput | number
   amountUsd?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   amountCup?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   currency?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.StringFieldUpdateOperationsInput | string
-  remoteId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   confirmedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -699,14 +672,13 @@ export type PaymentUpdateWithoutUserInput = {
 export type PaymentUncheckedUpdateWithoutUserInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   provider?: Prisma.StringFieldUpdateOperationsInput | string
-  qvapayId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  paypalOrderId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   plan?: Prisma.StringFieldUpdateOperationsInput | string
   amount?: Prisma.FloatFieldUpdateOperationsInput | number
   amountUsd?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   amountCup?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   currency?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.StringFieldUpdateOperationsInput | string
-  remoteId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   confirmedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -714,14 +686,13 @@ export type PaymentUncheckedUpdateWithoutUserInput = {
 export type PaymentUncheckedUpdateManyWithoutUserInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   provider?: Prisma.StringFieldUpdateOperationsInput | string
-  qvapayId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  paypalOrderId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   plan?: Prisma.StringFieldUpdateOperationsInput | string
   amount?: Prisma.FloatFieldUpdateOperationsInput | number
   amountUsd?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   amountCup?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   currency?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.StringFieldUpdateOperationsInput | string
-  remoteId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   confirmedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -732,14 +703,13 @@ export type PaymentSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs 
   id?: boolean
   userId?: boolean
   provider?: boolean
-  qvapayId?: boolean
+  paypalOrderId?: boolean
   plan?: boolean
   amount?: boolean
   amountUsd?: boolean
   amountCup?: boolean
   currency?: boolean
   status?: boolean
-  remoteId?: boolean
   confirmedAt?: boolean
   createdAt?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
@@ -749,14 +719,13 @@ export type PaymentSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Exten
   id?: boolean
   userId?: boolean
   provider?: boolean
-  qvapayId?: boolean
+  paypalOrderId?: boolean
   plan?: boolean
   amount?: boolean
   amountUsd?: boolean
   amountCup?: boolean
   currency?: boolean
   status?: boolean
-  remoteId?: boolean
   confirmedAt?: boolean
   createdAt?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
@@ -766,14 +735,13 @@ export type PaymentSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Exten
   id?: boolean
   userId?: boolean
   provider?: boolean
-  qvapayId?: boolean
+  paypalOrderId?: boolean
   plan?: boolean
   amount?: boolean
   amountUsd?: boolean
   amountCup?: boolean
   currency?: boolean
   status?: boolean
-  remoteId?: boolean
   confirmedAt?: boolean
   createdAt?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
@@ -783,19 +751,18 @@ export type PaymentSelectScalar = {
   id?: boolean
   userId?: boolean
   provider?: boolean
-  qvapayId?: boolean
+  paypalOrderId?: boolean
   plan?: boolean
   amount?: boolean
   amountUsd?: boolean
   amountCup?: boolean
   currency?: boolean
   status?: boolean
-  remoteId?: boolean
   confirmedAt?: boolean
   createdAt?: boolean
 }
 
-export type PaymentOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "provider" | "qvapayId" | "plan" | "amount" | "amountUsd" | "amountCup" | "currency" | "status" | "remoteId" | "confirmedAt" | "createdAt", ExtArgs["result"]["payment"]>
+export type PaymentOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "provider" | "paypalOrderId" | "plan" | "amount" | "amountUsd" | "amountCup" | "currency" | "status" | "confirmedAt" | "createdAt", ExtArgs["result"]["payment"]>
 export type PaymentInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }
@@ -815,14 +782,13 @@ export type $PaymentPayload<ExtArgs extends runtime.Types.Extensions.InternalArg
     id: string
     userId: string
     provider: string
-    qvapayId: string | null
+    paypalOrderId: string | null
     plan: string
     amount: number
     amountUsd: number | null
     amountCup: number | null
     currency: string
     status: string
-    remoteId: string | null
     confirmedAt: Date | null
     createdAt: Date
   }, ExtArgs["result"]["payment"]>
@@ -1252,14 +1218,13 @@ export interface PaymentFieldRefs {
   readonly id: Prisma.FieldRef<"Payment", 'String'>
   readonly userId: Prisma.FieldRef<"Payment", 'String'>
   readonly provider: Prisma.FieldRef<"Payment", 'String'>
-  readonly qvapayId: Prisma.FieldRef<"Payment", 'String'>
+  readonly paypalOrderId: Prisma.FieldRef<"Payment", 'String'>
   readonly plan: Prisma.FieldRef<"Payment", 'String'>
   readonly amount: Prisma.FieldRef<"Payment", 'Float'>
   readonly amountUsd: Prisma.FieldRef<"Payment", 'Float'>
   readonly amountCup: Prisma.FieldRef<"Payment", 'Float'>
   readonly currency: Prisma.FieldRef<"Payment", 'String'>
   readonly status: Prisma.FieldRef<"Payment", 'String'>
-  readonly remoteId: Prisma.FieldRef<"Payment", 'String'>
   readonly confirmedAt: Prisma.FieldRef<"Payment", 'DateTime'>
   readonly createdAt: Prisma.FieldRef<"Payment", 'DateTime'>
 }

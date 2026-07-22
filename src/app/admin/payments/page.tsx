@@ -16,7 +16,7 @@ import { t } from "@/lib/locale/translations"
 interface Payment {
   id: string
   provider: string
-  qvapayId: string | null
+  paypalOrderId: string | null
   plan: string
   amount: number
   currency: string
@@ -102,7 +102,7 @@ export default function AdminPaymentsPage() {
                     </td>
                     <td className="p-4 text-xs text-[#666666]">{formatDate(p.createdAt)}</td>
                     <td className="p-4 text-xs text-[#666666] font-mono">
-                      {p.qvapayId ? p.qvapayId.slice(0, 12) + "..." : "—"}
+                      {p.paypalOrderId ? p.paypalOrderId.slice(0, 12) + "..." : "—"}
                     </td>
                   </tr>
                 ))}

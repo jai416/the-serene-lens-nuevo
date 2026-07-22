@@ -119,14 +119,14 @@ export default function GuidesPage() {
 
   useEffect(() => {
     const successGuideId = searchParams.get("success")
-    const qvapayId = searchParams.get("payment_id") || searchParams.get("transaction_uuid")
+    const token = searchParams.get("token")
 
-    if (successGuideId && qvapayId) {
+    if (successGuideId && token) {
       setVerifyingGuide(successGuideId)
       fetch("/api/payments/verify-guide", {
         method: "POST",
         headers: { "Content-Type": "application/json", "x-csrf-token": getCsrfToken() },
-        body: JSON.stringify({ qvapayId }),
+        body: JSON.stringify({ paypalOrderId: token }),
       })
         .then((r) => r.json())
         .then((d) => {

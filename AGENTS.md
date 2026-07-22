@@ -78,7 +78,7 @@
 ### Documentación
 - **DOC-admin.md**: Solo contiene "cómo usar el panel admin"
 - **DOC-validator.md**: Solo comandos y responsabilidades
-- **DOC-payments.md**: Describe QvaPay, Transfermóvil, precios actualizados, política de reembolsos
+- **DOC-payments.md**: Describe PayPal, Transfermóvil, precios actualizados, política de reembolsos
 - **AGENTS.md**: Decisiones técnicas y mejoras recientes
 - **README.md**: Documentación oficial de la app
 

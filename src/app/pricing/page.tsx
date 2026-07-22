@@ -69,14 +69,14 @@ export default function PricingPage() {
 
   const executeSubscribe = async (planId: string) => {
     setConfirmPurchase(null)
-    setLoading(`${planId}-qvapay`)
+    setLoading(`${planId}-paypal`)
     setError("")
 
     try {
       const res = await fetch("/api/payments/create", {
         method: "POST",
         headers: { "Content-Type": "application/json", "x-csrf-token": getCsrfToken() },
-        body: JSON.stringify({ plan: planId, provider: "qvapay" }),
+        body: JSON.stringify({ plan: planId, provider: "paypal" }),
       })
 
       const data = await res.json()
@@ -111,14 +111,14 @@ export default function PricingPage() {
 
   const executeBuyPack = async (packId: string) => {
     setConfirmPurchase(null)
-    setLoading(`${packId}-qvapay`)
+    setLoading(`${packId}-paypal`)
     setError("")
 
     try {
       const res = await fetch("/api/payments/create-pack", {
         method: "POST",
         headers: { "Content-Type": "application/json", "x-csrf-token": getCsrfToken() },
-        body: JSON.stringify({ packType: packId, provider: "qvapay" }),
+        body: JSON.stringify({ packType: packId, provider: "paypal" }),
       })
 
       const data = await res.json()
@@ -176,7 +176,7 @@ export default function PricingPage() {
   }
 
   const isLoadingPlan = (id: string) =>
-    loading === `${id}-qvapay` || loading === `${id}-transfer`
+    loading === `${id}-paypal` || loading === `${id}-transfer`
 
   const handleGiftPack = (packId: string) => {
     if (!session) { router.push("/login?callbackUrl=/pricing"); return }
@@ -265,7 +265,7 @@ export default function PricingPage() {
                 </Button>
               </div>
               <p className="text-xs text-center text-[#666666] mt-4">
-                Pago procesado de forma segura por QvaPay. No almacenamos información de pago.
+                Pago procesado de forma segura por PayPal. No almacenamos información de pago.
               </p>
             </div>
           </div>
@@ -477,14 +477,14 @@ export default function PricingPage() {
                       disabled={isLoadingPlan(plan.id)}
                       variant={plan.popular ? "primary" : "secondary"}
                       className="w-full py-4"
-                      aria-label={`${plan.name} - QvaPay`}
+                      aria-label={`${plan.name} - PayPal`}
                     >
-                      {loading === `${plan.id}-qvapay` ? (
+                      {loading === `${plan.id}-paypal` ? (
                         <Loader2 className="w-4 h-4 mr-2 animate-spin" />
                       ) : (
                         <WalletCards className="w-4 h-4 mr-2" />
                       )}
-                      {loading === `${plan.id}-qvapay` ? getPaymentLoadingText() : "Pagar con QvaPay"}
+                      {loading === `${plan.id}-paypal` ? getPaymentLoadingText() : "Pagar con PayPal"}
                     </Button>
                     <Button
                       onClick={() => handleTransfer(plan.id, plan.priceUSD)}
@@ -577,14 +577,14 @@ export default function PricingPage() {
                     disabled={isLoadingPlan(pack.id)}
                     variant={pack.popular ? "primary" : "secondary"}
                     className="w-full py-4"
-                    aria-label={`${pack.name} - QvaPay`}
+                    aria-label={`${pack.name} - PayPal`}
                   >
-                    {loading === `${pack.id}-qvapay` ? (
+                    {loading === `${pack.id}-paypal` ? (
                       <Loader2 className="w-4 h-4 mr-2 animate-spin" />
                     ) : (
                       <WalletCards className="w-4 h-4 mr-2" />
                     )}
-                    {loading === `${pack.id}-qvapay` ? getPaymentLoadingText() : "Pagar con QvaPay"}
+                    {loading === `${pack.id}-paypal` ? getPaymentLoadingText() : "Pagar con PayPal"}
                   </Button>
                   <Button
                     onClick={() => handleTransfer(pack.id, pack.priceUSD)}
@@ -630,7 +630,7 @@ export default function PricingPage() {
         </div>
 
         <p className="text-xs text-[#9BAA93] text-center max-w-md mx-auto mt-6">
-          Pagos procesados de forma segura a traves de QvaPay y Transfermovil.
+          Pagos procesados de forma segura a traves de PayPal y Transfermovil.
           No almacenamos informacion de pago.
         </p>
         <p className="text-xs text-[#9BAA93] text-center mt-2">

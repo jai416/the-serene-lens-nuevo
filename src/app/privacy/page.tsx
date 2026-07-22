@@ -30,7 +30,7 @@ export default function PrivacyPage() {
             </ul>
             <h3 className="font-medium text-[#1A1A1A] mt-3 mb-1">Información de pago:</h3>
             <ul className="list-disc pl-4 space-y-1">
-              <li>Los pagos se procesan a través de QvaPay o Transfermóvil</li>
+              <li>Los pagos se procesan a través de PayPal o Transfermóvil</li>
               <li>NO almacenamos números de tarjeta de crédito ni datos bancarios</li>
               <li>Solo conservamos el registro de la transacción (monto, fecha, plan)</li>
             </ul>
@@ -117,7 +117,7 @@ export default function PrivacyPage() {
               <li><strong>Supabase</strong> — alojamiento de base de datos</li>
               <li><strong>Render</strong> — alojamiento de la aplicación</li>
               <li><strong>Google</strong> — inicio de sesión OAuth (opcional)</li>
-              <li><strong>QvaPay</strong> — procesamiento de pagos internacionales</li>
+              <li><strong>PayPal</strong> — procesamiento de pagos internacionales</li>
             </ul>
             <p className="mt-2"><strong>NO</strong> compartimos tus datos con anunciantes, redes publicitarias, vendedores de datos ni compañías farmacéuticas.</p>
           </section>

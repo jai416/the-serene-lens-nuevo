@@ -29,7 +29,7 @@ interface Stats {
   posts: number
   products: number
   revenue: number
-  revenueQvaPay: number
+  revenuePayPal: number
   revenueTransfer: number
   activeUsers: number
   newUsersThisMonth: number
@@ -163,7 +163,7 @@ export default function AdminPage() {
   const mainCards = [
     { label: "Usuarios Totales", value: stats?.users ?? "—", icon: Users, href: "/admin/users", color: "bg-[#88B078]", trend: `+${stats?.newUsersThisWeek ?? 0} esta semana` },
     { label: "Análisis Totales", value: stats?.analyses ?? "—", icon: Activity, href: "/admin", color: "bg-[#E2ECE0]", trend: `${stats?.analysesToday ?? 0} hoy · ${stats?.analysesThisMonth ?? 0} este mes` },
-    { label: "Ingresos Totales", value: stats?.revenue ? `$${stats.revenue.toFixed(2)}` : "$0", icon: DollarSign, href: "/admin/payments", color: "bg-[#88B078]", trend: `QvaPay: $${stats?.revenueQvaPay?.toFixed(2) ?? "0.00"} | Transfer: $${stats?.revenueTransfer?.toFixed(2) ?? "0.00"}` },
+    { label: "Ingresos Totales", value: stats?.revenue ? `$${stats.revenue.toFixed(2)}` : "$0", icon: DollarSign, href: "/admin/payments", color: "bg-[#88B078]", trend: `PayPal: $${stats?.revenuePayPal?.toFixed(2) ?? "0.00"} | Transfer: $${stats?.revenueTransfer?.toFixed(2) ?? "0.00"}` },
     { label: "Mensajes", value: stats?.messages ?? "—", icon: MessageSquare, href: "/admin/messages", color: "bg-[#88B078]", trend: `${stats?.unreadMessages ?? 0} sin leer` },
   ]
 
@@ -300,8 +300,8 @@ export default function AdminPage() {
           </h2>
           <div className="space-y-3">
             <div className="flex justify-between items-center">
-              <span className="text-sm text-[#666666]">QvaPay</span>
-              <span className="font-medium text-[#1A1A1A]">${stats?.revenueQvaPay?.toFixed(2) ?? "0.00"}</span>
+              <span className="text-sm text-[#666666]">PayPal</span>
+              <span className="font-medium text-[#1A1A1A]">${stats?.revenuePayPal?.toFixed(2) ?? "0.00"}</span>
             </div>
             <div className="flex justify-between items-center">
               <span className="text-sm text-[#666666]">Transfermóvil</span>
@@ -309,20 +309,20 @@ export default function AdminPage() {
             </div>
             <div className="w-full h-3 rounded-full bg-white flex overflow-hidden ring-1 ring-inset ring-[#E8E8E8]">
               {(() => {
-                const q = stats?.revenueQvaPay || 0
+                const q = stats?.revenuePayPal || 0
                 const t = stats?.revenueTransfer || 0
                 const total = q + t || 1
                 const qp = ((q/total)*100).toFixed(1)
                 const tp = ((t/total)*100).toFixed(1)
                 return <>
-                  {q > 0 && <div className="h-full bg-[#88B078] relative group cursor-pointer transition-all hover:brightness-110" style={{ width: `${qp}%` }} title={`QvaPay: $${q.toFixed(2)} (${qp}%)`} />}
+                  {q > 0 && <div className="h-full bg-[#88B078] relative group cursor-pointer transition-all hover:brightness-110" style={{ width: `${qp}%` }} title={`PayPal: $${q.toFixed(2)} (${qp}%)`} />}
                   {t > 0 && <div className="h-full bg-[#D4A574] relative group cursor-pointer transition-all hover:brightness-110" style={{ width: `${tp}%` }} title={`Transfermóvil: $${t.toFixed(2)} (${tp}%)`} />}
                 </>
               })()}
             </div>
             <div className="grid grid-cols-2 gap-2">
               {(() => {
-                const q = stats?.revenueQvaPay || 0
+                const q = stats?.revenuePayPal || 0
                 const t = stats?.revenueTransfer || 0
                 const total = q + t || 1
                 const qp = ((q/total)*100).toFixed(1)
@@ -331,7 +331,7 @@ export default function AdminPage() {
                   <div className="p-2 rounded-lg bg-white border border-[#E8E8E8]">
                     <div className="flex items-center gap-1.5 mb-1">
                       <span className="w-2 h-2 rounded-full bg-[#88B078]" />
-                      <span className="text-[10px] text-[#666666]">QvaPay</span>
+                      <span className="text-[10px] text-[#666666]">PayPal</span>
                     </div>
                     <p className="text-xs font-semibold text-[#1A1A1A]">${q.toFixed(2)}</p>
                     <p className="text-[9px] text-[#666666]">{qp}%</p>

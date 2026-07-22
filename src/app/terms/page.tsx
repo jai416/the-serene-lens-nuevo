@@ -106,7 +106,7 @@ export default function TermsPage() {
             </ul>
             <h3 className="font-medium text-[#1A1A1A] mt-3 mb-1">Procesamiento de pagos</h3>
             <ul className="list-disc pl-4 space-y-1">
-              <li>QvaPay (USD, tarjeta internacional) — procesamiento automático</li>
+              <li>PayPal (USD, tarjeta internacional) — procesamiento automático</li>
               <li>Transfermóvil (CUP, Cuba) — procesamiento con verificación humana</li>
               <li>No almacenamos información de tarjetas en nuestros servidores</li>
             </ul>

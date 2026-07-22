@@ -4,7 +4,7 @@ Transformar "The Serene Lens" de herramienta funcional a negocio sostenible con 
 ## Constraints & Preferences
 - Next.js 16 + TypeScript + Prisma 7 + next-auth v4 + @auth/prisma-adapter v2.8
 - Spanish UI, English code. Diseño v2.0: paleta sage (#C2E09D), fondo #F8FAF5, cards blancas, sin neon/glass/dark mode
-- Doble pasarela: Stripe (USD) + QvaPay (CUP). Posicionamiento: "observación cosmética, no diagnóstico médico"
+- Pasarela: PayPal (USD) + Transfermóvil (CUP/Cuba). Posicionamiento: "observación cosmética, no diagnóstico médico"
 - Prohibido: contadores ficticios, testimonios inventados, logs de PII en PostHog, llamadas síncronas sin timeout
 - `tsconfig.json` con `strict: true` ya configurado
 - URL de producción: `https://the-serene-lens-nuevo.onrender.com`
@@ -39,7 +39,7 @@ Transformar "The Serene Lens" de herramienta funcional a negocio sostenible con 
 - **Function() eval eliminado**: sentry.ts, analytics.ts, email.ts, email-sequence.ts usan `import()` nativo con try/catch. Paquetes opcionales instalados (posthog-js, @sentry/nextjs, resend)
 - **Rate limiter DB-backed**: tabla `RateLimit` en Supabase. Reemplaza Map en memoria
 - **Cron auth timing-safe**: `verifyCronSecret()` centralizado con `crypto.timingSafeEqual()`
-- **QvaPay webhook blindado**: Solo confía en `getQvaPayPaymentStatus()` via GET. Nunca usa status del body
+- **PayPal webhook**: Verifica orden con `verifyPayPalOrder()` vía PayPal REST API
 - **Post-AI sanitización**: `containsPercentages()` + `stripPercentages()` en openrouter.ts
 - **SSE keep-alive**: Heartbeat `: keepalive\n\n` cada 4s en AnalysisStream
 - **Photo validation yield**: `scheduler.yield()` antes de crear ImageBitmap
@@ -50,8 +50,7 @@ Transformar "The Serene Lens" de herramienta funcional a negocio sostenible con 
 - **SEO generator slug fix**: Usa keyword slug en vez de AI-generated slug (previene duplicados)
 - **B2B rate limit**: register route con rate limit 10/IP/24h. analyze route ya usa userId:ip (no bloquea clínicas)
 - **OAuth account linking**: `signIn` callback en auth.ts — auto-linka OAuth a cuenta existente con mismo email
-- **Create-pack fallback QvaPay**: Si Stripe no está configurado, auto-fallback a QvaPay (sin 400)
-- **Create fallback QvaPay**: Mismo fix para suscripciones
+- **PayPal create**: `createPayPalOrder()` para packs, suscripciones y guías
 - **URL actualizada**: Todos los fallbacks hardcoded apuntan a `https://the-serene-lens-nuevo.onrender.com`
 - **query-provider.tsx**: Componente pass-through (sin react-query dependency)
 - **global.d.ts**: Tipos para `scheduler.yield()`
@@ -62,7 +61,7 @@ Transformar "The Serene Lens" de herramienta funcional a negocio sostenible con 
 
 ### Blocked
 - **DB unreachable from CLI**: Schema pushes y seeds solo ejecutables desde entorno con acceso a Supabase
-- **Stripe env vars vacíos**: STRIPE_SECRET_KEY, STRIPE_WEBHOOK_SECRET, PRICE_IDs — fallback automático a QvaPay
+- **PayPal env vars requeridos**: PAYPAL_CLIENT_ID, PAYPAL_CLIENT_SECRET. Sin ellos, pagos fallan con 503
 
 ## Key Decisions
 - **Servicios usan repositorios**: Desacopla Prisma de lógica de negocio
@@ -82,12 +81,12 @@ Transformar "The Serene Lens" de herramienta funcional a negocio sostenible con 
 - **CUP rate from AppConfig**: Tabla de 1 registro, cache 30min, fallback a env var
 - **Pack credits first**: Expiran en 30d, se usan antes que free monthly credits
 - **SEO slug from keyword**: Previene duplicados cuando AI genera slug diferente
-- **QvaPay auto-fallback**: Si Stripe no configurado, usa QvaPay automáticamente
+- **PayPal como pasarela principal**: QvaPay eliminado. PayPal + Transfermóvil
 - **OAuth auto-linking**: Cuenta OAuth se linka a credentials existente con mismo email
 
 ## Next Steps
 1. Ejecutar seed en la DB de producción (Render Shell o Supabase Dashboard)
-2. Configurar Stripe keys reales + price IDs (opcional — QvaPay funciona como fallback)
+2. Configurar PAYPAL_CLIENT_ID y PAYPAL_CLIENT_SECRET en Render Dashboard
 3. Configurar CRON_SECRET como env var en Render Dashboard
 4. Verificar cron-job.org apunta a `the-serene-lens-nuevo.onrender.com`
 
@@ -96,7 +95,7 @@ Transformar "The Serene Lens" de herramienta funcional a negocio sostenible con 
 - **URL producción**: `https://the-serene-lens-nuevo.onrender.com`
 - **DB**: PostgreSQL via Supabase. 21 modelos. Schema en `prisma/schema.prisma`
 - **Auth**: NextAuth v4 + credentials + Google + GitHub. Auto-linking en signIn callback
-- **Pagos**: QvaPay (CUP) como pasarela principal. Stripe como fallback cuando esté configurado
+- **Pagos**: PayPal (USD) como pasarela principal. Transfermóvil (CUP) para Cuba
 - **Cron**: 3 jobs via cron-job.org → `the-serene-lens-nuevo.onrender.com/api/cron/*`
 - **Rate limit**: analyze (5/min por userId:ip), register (10/IP/24h), DB-backed
 - **Env vars clave**: RESEND_API_KEY, CRON_SECRET, CRONJOB_API_KEY, POSTHOG_KEY, SENTRY_DSN
@@ -128,9 +127,9 @@ Transformar "The Serene Lens" de herramienta funcional a negocio sostenible con 
 - `/home/jai/theserene/src/lib/services/seo-generator.ts`: slug usa selected.slug (no AI)
 - `/home/jai/theserene/src/lib/services/payment.service.ts`: getCUPRate() async
 - `/home/jai/theserene/src/app/api/user/delete-account/route.ts`: Storage cleanup + UserEvolution
-- `/home/jai/theserene/src/app/api/payments/create-pack/route.ts`: Auto-fallback QvaPay
-- `/home/jai/theserene/src/app/api/payments/create/route.ts`: Auto-fallback QvaPay
-- `/home/jai/theserene/src/app/api/payments/webhook/route.ts`: QvaPay verification via GET
+- `/home/jai/theserene/src/app/api/payments/create-pack/route.ts`: PayPal order creation
+- `/home/jai/theserene/src/app/api/payments/create/route.ts`: PayPal order creation
+- `/home/jai/theserene/src/app/api/payments/webhook/route.ts`: PayPal order verification
 - `/home/jai/theserene/src/app/api/cron/generate-seo/route.ts`: verifyCronSecret
 - `/home/jai/theserene/src/app/api/cron/emails/route.ts`: verifyCronSecret
 - `/home/jai/theserene/src/app/api/cron/retention/route.ts`: verifyCronSecret

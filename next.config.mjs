@@ -40,7 +40,7 @@ const nextConfig = {
               "style-src 'self' 'unsafe-inline'",
               "img-src 'self' data: blob: https://avatars.githubusercontent.com https://lh3.googleusercontent.com https://cdn-icons-png.flaticon.com https://*.supabase.co https://images.pexels.com https://images.unsplash.com https://res.cloudinary.com https://www.google-analytics.com",
               "font-src 'self' data:",
-              "connect-src 'self' https://api.qvapay.com https://www.qvapay.com https://*.supabase.co https://app.posthog.com https://us.i.posthog.com https://us-assets.i.posthog.com https://api.telegram.org https://www.clarity.ms https://c.clarity.ms https://www.google-analytics.com https://analytics.google.com",
+              "connect-src 'self' https://*.supabase.co https://app.posthog.com https://us.i.posthog.com https://us-assets.i.posthog.com https://api.telegram.org https://www.clarity.ms https://c.clarity.ms https://www.google-analytics.com https://analytics.google.com",
               "frame-src 'self'",
               "object-src 'none'",
               "base-uri 'self'",

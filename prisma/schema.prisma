@@ -17,7 +17,6 @@ model User {
   username          String?   @unique
   role              String    @default("USER")
   plan              String    @default("FREE")
-  qvapayId          String?
   analysisLimit     Int       @default(1)
   analysisUsed      Int       @default(0)
   analysisResetAt   DateTime?
@@ -211,15 +210,14 @@ model Product {
 model Payment {
   id                String    @id @default(cuid())
   userId            String
-  provider          String    @default("qvapay")
-  qvapayId          String?   @unique
+  provider          String    @default("paypal")
+  paypalOrderId     String?   @unique
   plan              String
   amount            Float
   amountUsd         Float?
   amountCup         Float?
   currency          String    @default("USD")
   status            String    @default("pending")
-  remoteId          String?
   confirmedAt       DateTime?
   createdAt         DateTime  @default(now())
 
@@ -280,8 +278,8 @@ model AuditLog {
 model Subscription {
   id                   String   @id @default(cuid())
   userId               String
-  provider             String   @default("qvapay")
-  qvapayInvoiceId      String?  @unique
+  provider             String   @default("paypal")
+  paypalSubscriptionId String?  @unique
   plan                 String
   status               String   @default("active")
   currentPeriodStart   DateTime?
@@ -301,7 +299,7 @@ model PurchasePack {
   id        String   @id @default(cuid())
   userId    String
   packType  String
-  provider  String   @default("qvapay")
+  provider  String   @default("paypal")
   amountUsd Float
   amountCup Float
   analyses  Int
@@ -743,8 +741,8 @@ model DigitalProductPurchase {
   digitalProductId String
   amount          Float
   currency        String   @default("USD")
-  provider        String   @default("qvapay")
-  qvapayId        String?  @unique
+  provider        String   @default("paypal")
+  paypalOrderId   String?  @unique
   status          String   @default("completed")
   downloadUrl     String?
   createdAt       DateTime @default(now())

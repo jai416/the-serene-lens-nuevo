@@ -5,7 +5,7 @@ const {
   mockfindFirst,
   mockUpdate,
   mockCreate,
-  mockQvaPayStatus,
+  mockPayPalStatus,
   mockGetCUPRate,
   mockCheckRateLimit,
   mockTransaction,
@@ -14,7 +14,7 @@ const {
   mockfindFirst: vi.fn().mockResolvedValue(null),
   mockUpdate: vi.fn(),
   mockCreate: vi.fn(),
-  mockQvaPayStatus: vi.fn(),
+  mockPayPalStatus: vi.fn(),
   mockGetCUPRate: vi.fn(),
   mockCheckRateLimit: vi.fn().mockResolvedValue({ allowed: true, remaining: 29 }),
   mockTransaction: vi.fn(async (cb: any) => cb({
@@ -53,8 +53,8 @@ vi.mock("@/lib/db", () => ({
   },
 }))
 
-vi.mock("@/lib/payments", () => ({
-  getQvaPayPaymentStatus: mockQvaPayStatus,
+vi.mock("@/lib/paypal", () => ({
+  verifyPayPalOrder: mockPayPalStatus,
 }))
 
 vi.mock("@/lib/cup-rate", () => ({
@@ -115,27 +115,27 @@ describe("Webhook Processor", () => {
     expect(data.data?.received).toBe(true)
   })
 
-  it("returns error when QvaPay verification fails", async () => {
+  it("returns error when PayPal verification fails", async () => {
     mockFindUnique.mockResolvedValue({ id: "p1", status: "pending", user: {} })
-    mockQvaPayStatus.mockRejectedValue(new Error("Network error"))
+    mockPayPalStatus.mockRejectedValue(new Error("Network error"))
     const req = createRequest({ transaction_uuid: "abc-123" })
     const res = await POST(req)
     const data = await res.json()
-    expect(data.error?.message).toBe("No se pudo verificar el pago con QvaPay")
+    expect(data.error?.message).toBe("No se pudo verificar el estado del pago")
   })
 
-  it("returns unverified if QvaPay status is not paid", async () => {
+  it("returns unverified if PayPal status is not paid", async () => {
     mockFindUnique.mockResolvedValue({ id: "p1", status: "pending", user: {} })
-    mockQvaPayStatus.mockResolvedValue({ status: "pending" })
+    mockPayPalStatus.mockResolvedValue({ status: "pending" })
     const req = createRequest({ transaction_uuid: "abc-123" })
     const res = await POST(req)
     const data = await res.json()
     expect(data.data?.verified).toBe(false)
   })
 
-  it("returns unverified if QvaPay status is empty", async () => {
+  it("returns unverified if PayPal status is empty", async () => {
     mockFindUnique.mockResolvedValue({ id: "p1", status: "pending", user: {} })
-    mockQvaPayStatus.mockResolvedValue({})
+    mockPayPalStatus.mockResolvedValue({})
     const req = createRequest({ transaction_uuid: "abc-123" })
     const res = await POST(req)
     const data = await res.json()
@@ -146,7 +146,7 @@ describe("Webhook Processor", () => {
     mockFindUnique.mockResolvedValue({
       id: "p1", status: "pending", plan: "BASIC", amount: 1.99, userId: "u1", user: {},
     })
-    mockQvaPayStatus.mockResolvedValue({ data: { status: "paid" } })
+    mockPayPalStatus.mockResolvedValue({ status: "COMPLETED" })
     mockUpdate.mockResolvedValue({})
     mockCreate.mockResolvedValue({})
 
@@ -161,7 +161,7 @@ describe("Webhook Processor", () => {
     mockFindUnique.mockResolvedValue({
       id: "p1", status: "pending", plan: "BASIC", amount: 1.99, userId: "user-1", user: {},
     })
-    mockQvaPayStatus.mockResolvedValue({ status: "paid" })
+    mockPayPalStatus.mockResolvedValue({ status: "COMPLETED" })
     mockUpdate.mockResolvedValue({})
     mockCreate.mockResolvedValue({})
 
@@ -182,7 +182,7 @@ describe("Webhook Processor", () => {
     mockFindUnique.mockResolvedValue({
       id: "p1", status: "pending", plan: "POPULAR", amount: 4.99, userId: "user-1", user: {},
     })
-    mockQvaPayStatus.mockResolvedValue({ status: "paid" })
+    mockPayPalStatus.mockResolvedValue({ status: "COMPLETED" })
     mockUpdate.mockResolvedValue({})
     mockCreate.mockResolvedValue({})
 
@@ -202,7 +202,7 @@ describe("Webhook Processor", () => {
     mockFindUnique.mockResolvedValue({
       id: "p1", status: "pending", plan: "ADVANCED", amount: 6.99, userId: "user-1", user: {},
     })
-    mockQvaPayStatus.mockResolvedValue({ status: "paid" })
+    mockPayPalStatus.mockResolvedValue({ status: "COMPLETED" })
     mockUpdate.mockResolvedValue({})
     mockCreate.mockResolvedValue({})
 
@@ -222,7 +222,7 @@ describe("Webhook Processor", () => {
     mockFindUnique.mockResolvedValue({
       id: "p1", status: "pending", plan: "PREMIUM", amount: 4.99, userId: "user-1", user: {},
     })
-    mockQvaPayStatus.mockResolvedValue({ status: "completed" })
+    mockPayPalStatus.mockResolvedValue({ status: "COMPLETED" })
     mockUpdate.mockResolvedValue({})
     mockCreate.mockResolvedValue({})
 
@@ -238,7 +238,7 @@ describe("Webhook Processor", () => {
       data: expect.objectContaining({
         plan: "PREMIUM",
         status: "active",
-        provider: "qvapay",
+        provider: "paypal",
       }),
     })
   })
@@ -247,7 +247,7 @@ describe("Webhook Processor", () => {
     mockFindUnique.mockResolvedValue({
       id: "p1", status: "pending", plan: "PRO", amount: 9.99, userId: "user-2", user: {},
     })
-    mockQvaPayStatus.mockResolvedValue({ status: "paid" })
+    mockPayPalStatus.mockResolvedValue({ status: "COMPLETED" })
     mockUpdate.mockResolvedValue({})
     mockCreate.mockResolvedValue({})
 
@@ -265,7 +265,7 @@ describe("Webhook Processor", () => {
     mockFindUnique.mockResolvedValue({
       id: "p1", status: "pending", plan: "PRO_PLUS", amount: 14.99, userId: "user-3", user: {},
     })
-    mockQvaPayStatus.mockResolvedValue({ status: "paid" })
+    mockPayPalStatus.mockResolvedValue({ status: "COMPLETED" })
     mockUpdate.mockResolvedValue({})
     mockCreate.mockResolvedValue({})
 
@@ -289,7 +289,7 @@ describe("Webhook Processor", () => {
     mockFindUnique.mockResolvedValue({
       id: "p1", status: "pending", plan: null, amount: 1.0, userId: "user-4", user: {},
     })
-    mockQvaPayStatus.mockResolvedValue({ status: "paid" })
+    mockPayPalStatus.mockResolvedValue({ status: "COMPLETED" })
     mockUpdate.mockResolvedValue({})
 
     const req = createRequest({ transaction_uuid: "no-plan-001" })
@@ -307,7 +307,7 @@ describe("Webhook Processor", () => {
     const data = await res.json()
     expect(data.error?.message).toBe("Pago no encontrado")
     expect(mockFindUnique).toHaveBeenCalledWith({
-      where: { qvapayId: "xyz-789" },
+      where: { paypalOrderId: "xyz-789" },
       include: { user: true },
     })
   })
@@ -326,7 +326,7 @@ describe("Webhook Processor", () => {
     mockFindUnique.mockResolvedValue({
       id: "p1", status: "pending", plan: "BASIC", amount: 1.99, userId: "user-1", user: {},
     })
-    mockQvaPayStatus.mockResolvedValue({ status: "paid" })
+    mockPayPalStatus.mockResolvedValue({ status: "COMPLETED" })
     mockUpdate.mockResolvedValue({})
     mockCreate.mockResolvedValue({})
 
@@ -346,7 +346,7 @@ describe("Webhook Processor", () => {
     mockFindUnique.mockResolvedValue({
       id: "p1", status: "pending", plan: "PREMIUM", amount: 4.99, userId: "user-1", user: {},
     })
-    mockQvaPayStatus.mockResolvedValue({ status: "paid" })
+    mockPayPalStatus.mockResolvedValue({ status: "COMPLETED" })
     mockUpdate.mockResolvedValue({})
     mockCreate.mockResolvedValue({})
 

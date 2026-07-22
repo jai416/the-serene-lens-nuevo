@@ -56,7 +56,7 @@ function progressBar(value: number, max: number, size = 8): string {
 }
 
 function formatPaymentRow(p: { id: string; amount: number; status: string; plan: string; provider: string; createdAt: Date }): string {
-  const icons: Record<string, string> = { qvapay: "💳", transfer: "🏦" }
+  const icons: Record<string, string> = { paypal: "💳", transfer: "🏦" }
   const icon = icons[p.provider] || "💳"
   return `${icon} #${p.id.slice(-6)} | ${sanitizeHtml(p.plan)} | $${p.amount.toFixed(2)} | ${statusIcon(p.status)} ${sanitizeHtml(p.status)}`
 }

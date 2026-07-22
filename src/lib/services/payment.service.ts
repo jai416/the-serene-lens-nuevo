@@ -54,7 +54,7 @@ export async function handleSuccessfulPlanPayment(
   userId: string,
   plan: string,
   provider: string,
-  meta: { qvapayId?: string; amount: number },
+  meta: { paypalOrderId?: string; amount: number },
 ) {
   const packMap: Record<string, number> = { BASIC: 3, POPULAR: 5, PACK_10: 10, ADVANCED: 15, PACK_25: 25 }
   const packAnalyses = packMap[plan]
@@ -101,7 +101,7 @@ export async function handleSuccessfulPlanPayment(
           plan,
           status: "active",
           provider,
-          qvapayInvoiceId: meta.qvapayId || null,
+          paypalSubscriptionId: meta.paypalOrderId || null,
           currentPeriodStart: new Date(),
           currentPeriodEnd: new Date(Date.now() + periodDays * 86400000),
         },
@@ -115,7 +115,7 @@ export async function handleSuccessfulPlanPayment(
       plan,
       amount: meta.amount,
       provider,
-      qvapayId: meta.qvapayId,
+      paypalOrderId: meta.paypalOrderId,
       status: "completed",
     },
   })

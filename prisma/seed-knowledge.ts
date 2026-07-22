@@ -555,7 +555,7 @@ También ofrecemos packs de análisis sin suscripción:
 - Pack Avanzado (15 análisis): $6.99
 - Pack de 25 análisis: $9.99 (mejor ahorro)
 
-Todos los precios están en USD. Aceptamos QvaPay y Transfermóvil (Cuba).`
+Todos los precios están en USD. Aceptamos PayPal y Transfermóvil (Cuba).`
   },
   {
     title: "Métodos de pago",
@@ -564,11 +564,11 @@ Todos los precios están en USD. Aceptamos QvaPay y Transfermóvil (Cuba).`
     priority: 9,
     source: "web",
     sourceUrl: "/pricing",
-    keywords: ["pagar", "pago", "métodos", "transfermóvil", "qvapay", "cuba"],
-    synonyms: ["metodos", "como pagar", "forma de pago", "pagos", "divisa", "usd", "cup"],
+    keywords: ["pagar", "pago", "métodos", "transfermóvil", "paypal", "cuba"],
+    synonyms: ["metodos", "como pagar", "forma de pago", "pagos", "divisa", "usd", "cup", "tarjeta"],
     content: `Aceptamos 2 métodos de pago para adaptarnos a todos los usuarios:
 
-1. QvaPay (principal)
+1. PayPal (principal)
    - Pago en USD con tarjetas internacionales
    - Procesamiento instantáneo
    - Ideal para usuarios fuera de Cuba
@@ -758,7 +758,7 @@ Guías disponibles:
 - Guía de exfoliación
 - Skincare masculino
 
-Cada guía cuesta entre $1.99 y $4.99 USD. Se pagan con QvaPay y se descargan inmediatamente en PDF.`
+Cada guía cuesta entre $1.99 y $4.99 USD. Se pagan con PayPal y se descargan inmediatamente en PDF.`
   },
   {
     title: "Sistema de referidos",
@@ -894,7 +894,7 @@ El escáner funciona con cualquier producto, solo necesitas una foto clara de la
 - Las imágenes se comprimen antes de enviarse a la IA
 - No guardamos las imágenes originales después del análisis
 - Usamos encriptación SSL para toda la transmisión de datos
-- Los pagos se procesan a través de proveedores seguros (QvaPay, NOWPayments, Transfermóvil)
+- Los pagos se procesan a través de proveedores seguros (PayPal, Transfermóvil)
 
 Tienes derecho a:
 - Acceder a tus datos personales

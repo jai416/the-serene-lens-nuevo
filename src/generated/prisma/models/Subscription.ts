@@ -28,7 +28,7 @@ export type SubscriptionMinAggregateOutputType = {
   id: string | null
   userId: string | null
   provider: string | null
-  qvapayInvoiceId: string | null
+  paypalSubscriptionId: string | null
   plan: string | null
   status: string | null
   currentPeriodStart: Date | null
@@ -41,7 +41,7 @@ export type SubscriptionMaxAggregateOutputType = {
   id: string | null
   userId: string | null
   provider: string | null
-  qvapayInvoiceId: string | null
+  paypalSubscriptionId: string | null
   plan: string | null
   status: string | null
   currentPeriodStart: Date | null
@@ -54,7 +54,7 @@ export type SubscriptionCountAggregateOutputType = {
   id: number
   userId: number
   provider: number
-  qvapayInvoiceId: number
+  paypalSubscriptionId: number
   plan: number
   status: number
   currentPeriodStart: number
@@ -69,7 +69,7 @@ export type SubscriptionMinAggregateInputType = {
   id?: true
   userId?: true
   provider?: true
-  qvapayInvoiceId?: true
+  paypalSubscriptionId?: true
   plan?: true
   status?: true
   currentPeriodStart?: true
@@ -82,7 +82,7 @@ export type SubscriptionMaxAggregateInputType = {
   id?: true
   userId?: true
   provider?: true
-  qvapayInvoiceId?: true
+  paypalSubscriptionId?: true
   plan?: true
   status?: true
   currentPeriodStart?: true
@@ -95,7 +95,7 @@ export type SubscriptionCountAggregateInputType = {
   id?: true
   userId?: true
   provider?: true
-  qvapayInvoiceId?: true
+  paypalSubscriptionId?: true
   plan?: true
   status?: true
   currentPeriodStart?: true
@@ -181,7 +181,7 @@ export type SubscriptionGroupByOutputType = {
   id: string
   userId: string
   provider: string
-  qvapayInvoiceId: string | null
+  paypalSubscriptionId: string | null
   plan: string
   status: string
   currentPeriodStart: Date | null
@@ -215,7 +215,7 @@ export type SubscriptionWhereInput = {
   id?: Prisma.StringFilter<"Subscription"> | string
   userId?: Prisma.StringFilter<"Subscription"> | string
   provider?: Prisma.StringFilter<"Subscription"> | string
-  qvapayInvoiceId?: Prisma.StringNullableFilter<"Subscription"> | string | null
+  paypalSubscriptionId?: Prisma.StringNullableFilter<"Subscription"> | string | null
   plan?: Prisma.StringFilter<"Subscription"> | string
   status?: Prisma.StringFilter<"Subscription"> | string
   currentPeriodStart?: Prisma.DateTimeNullableFilter<"Subscription"> | Date | string | null
@@ -229,7 +229,7 @@ export type SubscriptionOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   userId?: Prisma.SortOrder
   provider?: Prisma.SortOrder
-  qvapayInvoiceId?: Prisma.SortOrderInput | Prisma.SortOrder
+  paypalSubscriptionId?: Prisma.SortOrderInput | Prisma.SortOrder
   plan?: Prisma.SortOrder
   status?: Prisma.SortOrder
   currentPeriodStart?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -241,7 +241,7 @@ export type SubscriptionOrderByWithRelationInput = {
 
 export type SubscriptionWhereUniqueInput = Prisma.AtLeast<{
   id?: string
-  qvapayInvoiceId?: string
+  paypalSubscriptionId?: string
   AND?: Prisma.SubscriptionWhereInput | Prisma.SubscriptionWhereInput[]
   OR?: Prisma.SubscriptionWhereInput[]
   NOT?: Prisma.SubscriptionWhereInput | Prisma.SubscriptionWhereInput[]
@@ -254,13 +254,13 @@ export type SubscriptionWhereUniqueInput = Prisma.AtLeast<{
   createdAt?: Prisma.DateTimeFilter<"Subscription"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Subscription"> | Date | string
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
-}, "id" | "qvapayInvoiceId">
+}, "id" | "paypalSubscriptionId">
 
 export type SubscriptionOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   userId?: Prisma.SortOrder
   provider?: Prisma.SortOrder
-  qvapayInvoiceId?: Prisma.SortOrderInput | Prisma.SortOrder
+  paypalSubscriptionId?: Prisma.SortOrderInput | Prisma.SortOrder
   plan?: Prisma.SortOrder
   status?: Prisma.SortOrder
   currentPeriodStart?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -279,7 +279,7 @@ export type SubscriptionScalarWhereWithAggregatesInput = {
   id?: Prisma.StringWithAggregatesFilter<"Subscription"> | string
   userId?: Prisma.StringWithAggregatesFilter<"Subscription"> | string
   provider?: Prisma.StringWithAggregatesFilter<"Subscription"> | string
-  qvapayInvoiceId?: Prisma.StringNullableWithAggregatesFilter<"Subscription"> | string | null
+  paypalSubscriptionId?: Prisma.StringNullableWithAggregatesFilter<"Subscription"> | string | null
   plan?: Prisma.StringWithAggregatesFilter<"Subscription"> | string
   status?: Prisma.StringWithAggregatesFilter<"Subscription"> | string
   currentPeriodStart?: Prisma.DateTimeNullableWithAggregatesFilter<"Subscription"> | Date | string | null
@@ -291,7 +291,7 @@ export type SubscriptionScalarWhereWithAggregatesInput = {
 export type SubscriptionCreateInput = {
   id?: string
   provider?: string
-  qvapayInvoiceId?: string | null
+  paypalSubscriptionId?: string | null
   plan: string
   status?: string
   currentPeriodStart?: Date | string | null
@@ -305,7 +305,7 @@ export type SubscriptionUncheckedCreateInput = {
   id?: string
   userId: string
   provider?: string
-  qvapayInvoiceId?: string | null
+  paypalSubscriptionId?: string | null
   plan: string
   status?: string
   currentPeriodStart?: Date | string | null
@@ -317,7 +317,7 @@ export type SubscriptionUncheckedCreateInput = {
 export type SubscriptionUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   provider?: Prisma.StringFieldUpdateOperationsInput | string
-  qvapayInvoiceId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  paypalSubscriptionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   plan?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.StringFieldUpdateOperationsInput | string
   currentPeriodStart?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -331,7 +331,7 @@ export type SubscriptionUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   provider?: Prisma.StringFieldUpdateOperationsInput | string
-  qvapayInvoiceId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  paypalSubscriptionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   plan?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.StringFieldUpdateOperationsInput | string
   currentPeriodStart?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -344,7 +344,7 @@ export type SubscriptionCreateManyInput = {
   id?: string
   userId: string
   provider?: string
-  qvapayInvoiceId?: string | null
+  paypalSubscriptionId?: string | null
   plan: string
   status?: string
   currentPeriodStart?: Date | string | null
@@ -356,7 +356,7 @@ export type SubscriptionCreateManyInput = {
 export type SubscriptionUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   provider?: Prisma.StringFieldUpdateOperationsInput | string
-  qvapayInvoiceId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  paypalSubscriptionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   plan?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.StringFieldUpdateOperationsInput | string
   currentPeriodStart?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -369,7 +369,7 @@ export type SubscriptionUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   provider?: Prisma.StringFieldUpdateOperationsInput | string
-  qvapayInvoiceId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  paypalSubscriptionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   plan?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.StringFieldUpdateOperationsInput | string
   currentPeriodStart?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -392,7 +392,7 @@ export type SubscriptionCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   userId?: Prisma.SortOrder
   provider?: Prisma.SortOrder
-  qvapayInvoiceId?: Prisma.SortOrder
+  paypalSubscriptionId?: Prisma.SortOrder
   plan?: Prisma.SortOrder
   status?: Prisma.SortOrder
   currentPeriodStart?: Prisma.SortOrder
@@ -405,7 +405,7 @@ export type SubscriptionMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
   userId?: Prisma.SortOrder
   provider?: Prisma.SortOrder
-  qvapayInvoiceId?: Prisma.SortOrder
+  paypalSubscriptionId?: Prisma.SortOrder
   plan?: Prisma.SortOrder
   status?: Prisma.SortOrder
   currentPeriodStart?: Prisma.SortOrder
@@ -418,7 +418,7 @@ export type SubscriptionMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
   userId?: Prisma.SortOrder
   provider?: Prisma.SortOrder
-  qvapayInvoiceId?: Prisma.SortOrder
+  paypalSubscriptionId?: Prisma.SortOrder
   plan?: Prisma.SortOrder
   status?: Prisma.SortOrder
   currentPeriodStart?: Prisma.SortOrder
@@ -472,7 +472,7 @@ export type SubscriptionUncheckedUpdateManyWithoutUserNestedInput = {
 export type SubscriptionCreateWithoutUserInput = {
   id?: string
   provider?: string
-  qvapayInvoiceId?: string | null
+  paypalSubscriptionId?: string | null
   plan: string
   status?: string
   currentPeriodStart?: Date | string | null
@@ -484,7 +484,7 @@ export type SubscriptionCreateWithoutUserInput = {
 export type SubscriptionUncheckedCreateWithoutUserInput = {
   id?: string
   provider?: string
-  qvapayInvoiceId?: string | null
+  paypalSubscriptionId?: string | null
   plan: string
   status?: string
   currentPeriodStart?: Date | string | null
@@ -526,7 +526,7 @@ export type SubscriptionScalarWhereInput = {
   id?: Prisma.StringFilter<"Subscription"> | string
   userId?: Prisma.StringFilter<"Subscription"> | string
   provider?: Prisma.StringFilter<"Subscription"> | string
-  qvapayInvoiceId?: Prisma.StringNullableFilter<"Subscription"> | string | null
+  paypalSubscriptionId?: Prisma.StringNullableFilter<"Subscription"> | string | null
   plan?: Prisma.StringFilter<"Subscription"> | string
   status?: Prisma.StringFilter<"Subscription"> | string
   currentPeriodStart?: Prisma.DateTimeNullableFilter<"Subscription"> | Date | string | null
@@ -538,7 +538,7 @@ export type SubscriptionScalarWhereInput = {
 export type SubscriptionCreateManyUserInput = {
   id?: string
   provider?: string
-  qvapayInvoiceId?: string | null
+  paypalSubscriptionId?: string | null
   plan: string
   status?: string
   currentPeriodStart?: Date | string | null
@@ -550,7 +550,7 @@ export type SubscriptionCreateManyUserInput = {
 export type SubscriptionUpdateWithoutUserInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   provider?: Prisma.StringFieldUpdateOperationsInput | string
-  qvapayInvoiceId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  paypalSubscriptionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   plan?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.StringFieldUpdateOperationsInput | string
   currentPeriodStart?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -562,7 +562,7 @@ export type SubscriptionUpdateWithoutUserInput = {
 export type SubscriptionUncheckedUpdateWithoutUserInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   provider?: Prisma.StringFieldUpdateOperationsInput | string
-  qvapayInvoiceId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  paypalSubscriptionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   plan?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.StringFieldUpdateOperationsInput | string
   currentPeriodStart?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -574,7 +574,7 @@ export type SubscriptionUncheckedUpdateWithoutUserInput = {
 export type SubscriptionUncheckedUpdateManyWithoutUserInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   provider?: Prisma.StringFieldUpdateOperationsInput | string
-  qvapayInvoiceId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  paypalSubscriptionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   plan?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.StringFieldUpdateOperationsInput | string
   currentPeriodStart?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -589,7 +589,7 @@ export type SubscriptionSelect<ExtArgs extends runtime.Types.Extensions.Internal
   id?: boolean
   userId?: boolean
   provider?: boolean
-  qvapayInvoiceId?: boolean
+  paypalSubscriptionId?: boolean
   plan?: boolean
   status?: boolean
   currentPeriodStart?: boolean
@@ -603,7 +603,7 @@ export type SubscriptionSelectCreateManyAndReturn<ExtArgs extends runtime.Types.
   id?: boolean
   userId?: boolean
   provider?: boolean
-  qvapayInvoiceId?: boolean
+  paypalSubscriptionId?: boolean
   plan?: boolean
   status?: boolean
   currentPeriodStart?: boolean
@@ -617,7 +617,7 @@ export type SubscriptionSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.
   id?: boolean
   userId?: boolean
   provider?: boolean
-  qvapayInvoiceId?: boolean
+  paypalSubscriptionId?: boolean
   plan?: boolean
   status?: boolean
   currentPeriodStart?: boolean
@@ -631,7 +631,7 @@ export type SubscriptionSelectScalar = {
   id?: boolean
   userId?: boolean
   provider?: boolean
-  qvapayInvoiceId?: boolean
+  paypalSubscriptionId?: boolean
   plan?: boolean
   status?: boolean
   currentPeriodStart?: boolean
@@ -640,7 +640,7 @@ export type SubscriptionSelectScalar = {
   updatedAt?: boolean
 }
 
-export type SubscriptionOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "provider" | "qvapayInvoiceId" | "plan" | "status" | "currentPeriodStart" | "currentPeriodEnd" | "createdAt" | "updatedAt", ExtArgs["result"]["subscription"]>
+export type SubscriptionOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "provider" | "paypalSubscriptionId" | "plan" | "status" | "currentPeriodStart" | "currentPeriodEnd" | "createdAt" | "updatedAt", ExtArgs["result"]["subscription"]>
 export type SubscriptionInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }
@@ -660,7 +660,7 @@ export type $SubscriptionPayload<ExtArgs extends runtime.Types.Extensions.Intern
     id: string
     userId: string
     provider: string
-    qvapayInvoiceId: string | null
+    paypalSubscriptionId: string | null
     plan: string
     status: string
     currentPeriodStart: Date | null
@@ -1094,7 +1094,7 @@ export interface SubscriptionFieldRefs {
   readonly id: Prisma.FieldRef<"Subscription", 'String'>
   readonly userId: Prisma.FieldRef<"Subscription", 'String'>
   readonly provider: Prisma.FieldRef<"Subscription", 'String'>
-  readonly qvapayInvoiceId: Prisma.FieldRef<"Subscription", 'String'>
+  readonly paypalSubscriptionId: Prisma.FieldRef<"Subscription", 'String'>
   readonly plan: Prisma.FieldRef<"Subscription", 'String'>
   readonly status: Prisma.FieldRef<"Subscription", 'String'>
   readonly currentPeriodStart: Prisma.FieldRef<"Subscription", 'DateTime'>

@@ -58,12 +58,12 @@ export default function SubscriptionPage() {
   const [loadingPayment, setLoadingPayment] = useState<string | null>(null)
 
   const handleSubscribe = async (planId: string) => {
-    setLoadingPayment(`qvapay-${planId}`)
+    setLoadingPayment(`paypal-${planId}`)
     try {
       const res = await fetch("/api/payments/create", {
         method: "POST",
         headers: { "Content-Type": "application/json", "x-csrf-token": getCsrfToken() },
-        body: JSON.stringify({ plan: planId, provider: "qvapay" }),
+        body: JSON.stringify({ plan: planId, provider: "paypal" }),
       })
       const data = await res.json()
       const payload = data?.data || data
@@ -177,7 +177,7 @@ export default function SubscriptionPage() {
                 {subscription?.currentPeriodEnd && (
                   <p className="text-xs text-[#666666] mt-1">
                     Vence el {new Date(subscription.currentPeriodEnd).toLocaleDateString(locale === "en" ? "en-US" : "es-ES", { day: "numeric", month: "long", year: "numeric" })}
-                    {subscription.provider === "transfer" ? " · Transfermovil" : " · QvaPay"}
+                    {subscription.provider === "transfer" ? " · Transfermovil" : " · PayPal"}
                   </p>
                 )}
               </div>
@@ -209,8 +209,8 @@ export default function SubscriptionPage() {
                   </div>
                   <div className="flex gap-2">
                     <Button onClick={() => handleSubscribe("PREMIUM")} disabled={!!loadingPayment} variant="primary" className="flex-1 py-2 text-xs">
-                      {loadingPayment === "qvapay-PREMIUM" ? <Loader2 className="w-3 h-3 mr-1 animate-spin" /> : <WalletCards className="w-3 h-3 mr-1" />}
-                      QvaPay
+                      {loadingPayment === "paypal-PREMIUM" ? <Loader2 className="w-3 h-3 mr-1 animate-spin" /> : <WalletCards className="w-3 h-3 mr-1" />}
+                      PayPal
                     </Button>
                     <Button onClick={() => handleTransfer("PREMIUM")} disabled={!!loadingPayment} variant="outline" className="flex-1 py-2 text-xs">
                       {loadingPayment === "transfer-PREMIUM" ? <Loader2 className="w-3 h-3 mr-1 animate-spin" /> : <CreditCard className="w-3 h-3 mr-1" />}
@@ -233,8 +233,8 @@ export default function SubscriptionPage() {
                   </div>
                   <div className="flex gap-2">
                     <Button onClick={() => handleSubscribe("PREMIUM_ANNUAL")} disabled={!!loadingPayment} variant="primary" className="flex-1 py-2 text-xs">
-                      {loadingPayment === "qvapay-PREMIUM_ANNUAL" ? <Loader2 className="w-3 h-3 mr-1 animate-spin" /> : <WalletCards className="w-3 h-3 mr-1" />}
-                      QvaPay
+                      {loadingPayment === "paypal-PREMIUM_ANNUAL" ? <Loader2 className="w-3 h-3 mr-1 animate-spin" /> : <WalletCards className="w-3 h-3 mr-1" />}
+                      PayPal
                     </Button>
                     <Button onClick={() => handleTransfer("PREMIUM_ANNUAL")} disabled={!!loadingPayment} variant="outline" className="flex-1 py-2 text-xs">
                       {loadingPayment === "transfer-PREMIUM_ANNUAL" ? <Loader2 className="w-3 h-3 mr-1 animate-spin" /> : <CreditCard className="w-3 h-3 mr-1" />}
@@ -343,7 +343,7 @@ export default function SubscriptionPage() {
                           {getPlanLabel(p.plan)} - {formatPrice(p.amount, p.currency)}
                         </p>
                         <p className="text-xs text-[#666666]">
-                          {formatDate(p.createdAt)} · QvaPay
+                          {formatDate(p.createdAt)} · PayPal
                         </p>
                       </div>
                     </div>

@@ -2,7 +2,7 @@ import { NextRequest } from "next/server"
 import { db } from "@/lib/db"
 import { ok, error, serverError } from "@/lib/api-response"
 import { handlePrismaError } from "@/lib/prisma-error"
-import { getQvaPayPaymentStatus } from "@/lib/payments"
+import { verifyPayPalOrder } from "@/lib/paypal"
 import { getCUPRate } from "@/lib/cup-rate"
 import { checkRateLimit } from "@/lib/rate-limit"
 import { logger } from "@/lib/logger"
@@ -17,24 +17,24 @@ export async function POST(req: NextRequest) {
     }
 
     const body = await req.json()
-    const transactionUuid = body.transaction_uuid || body.payment_id
+    const orderId = body.eventType || body.id
 
-    logger.info("Webhook received", { transactionUuid, body })
+    logger.info("Webhook received", { orderId, body })
 
-    if (!transactionUuid || typeof transactionUuid !== "string") {
-      return error("transaction_uuid requerido")
+    if (!orderId || typeof orderId !== "string") {
+      return error("orderId requerido")
     }
 
     const existingEvent = await db.webhookEvent.findFirst({
-      where: { provider: "qvapay", eventType: transactionUuid, processedAt: { not: null } },
+      where: { provider: "paypal", eventType: orderId, processedAt: { not: null } },
     })
     if (existingEvent) {
-      logger.info("Webhook already processed, skipping", { transactionUuid })
+      logger.info("Webhook already processed, skipping", { orderId })
       return ok({ received: true, duplicate: true })
     }
 
     const guidePurchase = await db.digitalProductPurchase.findFirst({
-      where: { qvapayId: transactionUuid },
+      where: { paypalOrderId: orderId },
       include: { digitalProduct: true },
     })
 
@@ -43,16 +43,14 @@ export async function POST(req: NextRequest) {
         return ok({ received: true, type: "guide" })
       }
 
-      let qvapayStatus: any = null
+      let paypalStatus: { status: string; amount: number }
       try {
-        qvapayStatus = await getQvaPayPaymentStatus(transactionUuid)
+        paypalStatus = await verifyPayPalOrder(orderId)
       } catch {
-        return error("No se pudo verificar el pago con QvaPay")
+        return error("No se pudo verificar el pago con PayPal")
       }
 
-      const remoteStatus = qvapayStatus?.status || qvapayStatus?.data?.status
-
-      if (remoteStatus !== "paid" && remoteStatus !== "completed") {
+      if (paypalStatus.status !== "COMPLETED" && paypalStatus.status !== "APPROVED") {
         return ok({ received: true, verified: false, type: "guide" })
       }
 
@@ -72,7 +70,7 @@ export async function POST(req: NextRequest) {
     }
 
     const payment = await db.payment.findUnique({
-      where: { qvapayId: transactionUuid },
+      where: { paypalOrderId: orderId },
       include: { user: true },
     })
 
@@ -84,16 +82,14 @@ export async function POST(req: NextRequest) {
       return ok({ received: true, type: "plan" })
     }
 
-    let qvapayStatus: any = null
+    let paypalStatus: { status: string; amount: number }
     try {
-      qvapayStatus = await getQvaPayPaymentStatus(transactionUuid)
+      paypalStatus = await verifyPayPalOrder(orderId)
     } catch {
-      return error("No se pudo verificar el pago con QvaPay")
+      return error("No se pudo verificar el pago con PayPal")
     }
 
-    const remoteStatus = qvapayStatus?.status || qvapayStatus?.data?.status
-
-    if (remoteStatus !== "paid" && remoteStatus !== "completed") {
+    if (paypalStatus.status !== "COMPLETED" && paypalStatus.status !== "APPROVED") {
       return ok({ received: true, verified: false, type: "plan" })
     }
 
@@ -121,7 +117,7 @@ export async function POST(req: NextRequest) {
           data: {
             userId: payment.userId,
             packType: payment.plan,
-            provider: "qvapay",
+            provider: "paypal",
             amountUsd,
             amountCup: amountUsd * cupRate,
             analyses,
@@ -141,8 +137,8 @@ export async function POST(req: NextRequest) {
         await tx.subscription.create({
           data: {
             userId: payment.userId,
-            provider: "qvapay",
-            qvapayInvoiceId: transactionUuid,
+            provider: "paypal",
+            paypalSubscriptionId: orderId,
             plan: payment.plan,
             status: "active",
             currentPeriodStart: new Date(),
@@ -153,8 +149,8 @@ export async function POST(req: NextRequest) {
 
       await tx.webhookEvent.create({
         data: {
-          provider: "qvapay",
-          eventType: transactionUuid,
+          provider: "paypal",
+          eventType: orderId,
           payload: body,
           processedAt: new Date(),
         },

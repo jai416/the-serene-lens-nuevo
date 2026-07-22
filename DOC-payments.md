@@ -19,10 +19,10 @@
 
 ## Métodos de Pago
 
-### QvaPay (USD — Tarjeta Internacional)
-- **Usa**: Cualquier tarjeta internacional (Visa, Mastercard, etc.)
+### PayPal (USD — Tarjeta Internacional / Saldo PayPal)
+- **Usa**: Tarjeta de crédito/débito internacional (Visa, Mastercard, etc.) o saldo PayPal
 - **Sirve para**: Suscripciones (mensuales y anuales), paquetes de análisis y guías digitales
-- **Proceso**: Modal de confirmación → redirección a QvaPay → pago → webhook confirma → plan activado automáticamente
+- **Proceso**: Redirección a PayPal → usuario autoriza → webhook capture confirma → plan activado automáticamente
 - **Estado**: Automático, no requiere intervención humana
 
 ### Transfermóvil (CUP — Cuba)
@@ -39,27 +39,27 @@
 
 ## Solución de Problemas
 
-### El usuario pagó por QvaPay pero no recibe el plan
+### El usuario pagó por PayPal pero no recibe el plan
 1. Verificar en `/admin/payments` si el webhook llegó
 2. Si el pago aparece "completed" pero el plan no cambió, ejecutar `/activar REF` manual
-3. Si el pago no aparece, contactar a soporte de QvaPay
+3. Si el pago no aparece, contactar a soporte de PayPal
 
 ### El usuario pagó por Transfermóvil y nadie valida
 1. Revisar `POST /api/cron/keep-alive` mantiene el bot activo
 2. El validador debe usar `/pendientes` para ver transferencias pendientes
 3. Si el bot no responde, revisar logs en `/admin/logs`
 
-### Error 502 en QvaPay
+### Error en PayPal
 - Timeout de 25s con 1 reintento automático
-- Si persiste, es un bloqueo de red entre Render y Cloudflare (QvaPay)
-- Contactar a soporte de QvaPay o probar desde otra IP
+- Si persiste, verificar credenciales de API de PayPal
+- Contactar a soporte de PayPal o revisar logs en `/admin/logs`
 
 ### Reembolsos
 - Política completa en `/refunds`
 - Suscripciones: reembolso completo primeros 7 días
 - Packs no usados: reembolso en 7 días
 - Guías digitales: no reembolsables
-- QvaPay: Gestionar directamente desde el panel de QvaPay
+- PayPal: Gestionar directamente desde el panel de PayPal
 - Transfermóvil: El admin puede cancelar desde `/admin/transfers`
 
 ## Notas

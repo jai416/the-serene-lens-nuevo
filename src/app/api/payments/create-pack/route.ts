@@ -3,7 +3,7 @@ import { getServerSession } from "next-auth"
 import { authOptions } from "@/lib/auth"
 import { db } from "@/lib/db"
 import { ok, error, unauthorized } from "@/lib/api-response"
-import { createQvaPayPackPayment } from "@/lib/payments"
+import { createPayPalOrder } from "@/lib/paypal"
 import { getPack } from "@/lib/pricing"
 import { getCUPRate } from "@/lib/cup-rate"
 import { z } from "zod"
@@ -48,7 +48,7 @@ export async function POST(req: NextRequest) {
       logger.warn("CUP rate fetch failed, using default 500")
     }
 
-    logger.info("Creating QvaPay pack payment", { packType, amount, userId: session.user.id })
+    logger.info("Creating PayPal pack payment", { packType, amount, userId: session.user.id })
 
     const existingIntent = await db.payment.findFirst({
       where: {
@@ -62,13 +62,13 @@ export async function POST(req: NextRequest) {
       if (existingIntent.status === "pending_creation") {
         return error("Ya hay un pago en proceso para este pack. Espera unos segundos y vuelve a intentar.", 409)
       }
-      return ok({ url: null, id: existingIntent.qvapayId, provider: "qvapay", existing: true, paymentId: existingIntent.id })
+      return ok({ url: null, id: existingIntent.paypalOrderId, provider: "paypal", existing: true, paymentId: existingIntent.id })
     }
 
     const payment = await db.payment.create({
       data: {
         userId: session.user.id,
-        provider: "qvapay",
+        provider: "paypal",
         plan: packType,
         status: "pending_creation",
         amount,
@@ -77,14 +77,14 @@ export async function POST(req: NextRequest) {
       },
     })
 
-    let qvapayPayment: any
+    const appUrl = process.env.NEXT_PUBLIC_APP_URL || "https://the-serene-lens-nuevo.onrender.com"
+    let paypalOrder: { id: string; approvalUrl: string }
     try {
-      qvapayPayment = await createQvaPayPackPayment({
+      paypalOrder = await createPayPalOrder({
         amount,
         description: `Pack ${packDef.name} - The Serene Lens`,
-        plan: "",
-        userId: session.user.id,
-        packType,
+        returnUrl: appUrl + "/pricing/success?provider=paypal&token=",
+        cancelUrl: appUrl + "/pricing?cancelled=true",
       })
     } catch (e) {
       await db.payment.update({
@@ -94,20 +94,17 @@ export async function POST(req: NextRequest) {
       throw e
     }
 
-    logger.info("QvaPay pack invoice created", {
-      invoice_id: qvapayPayment?.invoice_id,
-      hasUrl: !!qvapayPayment?.url,
-      keys: qvapayPayment ? Object.keys(qvapayPayment) : [],
+    logger.info("PayPal pack order created", {
+      orderId: paypalOrder.id,
+      hasApprovalUrl: !!paypalOrder.approvalUrl,
     })
 
-    const transactionUuid = qvapayPayment?.invoice_id || qvapayPayment?.transaction_uuid
-    if (transactionUuid) {
+    if (paypalOrder.id) {
       try {
         await db.payment.update({
           where: { id: payment.id },
           data: {
-            qvapayId: String(transactionUuid),
-            remoteId: qvapayPayment.remote_id,
+            paypalOrderId: paypalOrder.id,
             status: "pending",
           },
         })
@@ -116,8 +113,8 @@ export async function POST(req: NextRequest) {
       }
     }
 
-    if (!qvapayPayment?.url) {
-      logger.error("QvaPay returned no URL", { qvapayPayment })
+    if (!paypalOrder.approvalUrl) {
+      logger.error("PayPal returned no approval URL", { paypalOrder })
       await db.payment.update({
         where: { id: payment.id },
         data: { status: "failed" },
@@ -125,12 +122,12 @@ export async function POST(req: NextRequest) {
       return error("Error al generar enlace de pago")
     }
 
-    return ok({ url: qvapayPayment.url, id: transactionUuid, provider: "qvapay" })
+    return ok({ url: paypalOrder.approvalUrl, id: paypalOrder.id, provider: "paypal" })
   } catch (e) {
     const errMsg = e instanceof Error ? e.message : String(e)
     logger.error("Pack payment error", { error: errMsg })
 
-    if (errMsg.includes("QvaPay credentials")) {
+    if (errMsg.includes("PayPal credentials")) {
       return error("Sistema de pagos no configurado. Contacta al soporte.", 503)
     }
     if (errMsg.includes("fetch failed") || errMsg.includes("ETIMEDOUT")) {

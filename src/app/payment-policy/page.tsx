@@ -13,7 +13,7 @@ export default function PaymentPolicyPage() {
           <section>
             <h2 className="font-serif text-lg font-semibold text-[#1A1A1A] mb-2">1. Métodos de pago</h2>
             <ul className="list-disc pl-4 space-y-1">
-              <li><strong>QvaPay:</strong> pagos internacionales en USD con tarjeta de crédito/débito, PayPal y criptomonedas.</li>
+              <li><strong>PayPal:</strong> pagos internacionales seguros con tarjeta de crédito/débito o saldo PayPal.</li>
               <li><strong>Transfermóvil:</strong> pagos en CUP para usuarios en Cuba.</li>
             </ul>
           </section>

@@ -21,9 +21,9 @@ export async function GET() {
       return NextResponse.json({ success: false, error: "Demasiadas solicitudes" }, { status: 429 })
     }
 
-    const [totalPayments, qvapayPayments, recentSubscriptions, recentPacks] = await db.$transaction([
+    const [totalPayments, paypalPayments, recentSubscriptions, recentPacks] = await db.$transaction([
       db.payment.findMany({ where: { status: "completed" } }),
-      db.payment.findMany({ where: { status: "completed", provider: "qvapay" } }),
+      db.payment.findMany({ where: { status: "completed", provider: "paypal" } }),
       db.subscription.findMany({
         orderBy: { createdAt: "desc" },
         take: 10,
@@ -43,7 +43,7 @@ export async function GET() {
     })
 
     const revenueByProvider = {
-      qvapay: qvapayPayments.reduce((sum, p) => sum + p.amount, 0),
+      paypal: paypalPayments.reduce((sum, p) => sum + p.amount, 0),
       total: totalPayments.reduce((sum, p) => sum + p.amount, 0),
     }
 

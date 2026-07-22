@@ -3,7 +3,7 @@ import { getServerSession } from "next-auth"
 import { authOptions } from "@/lib/auth"
 import { db } from "@/lib/db"
 import { ok, error, unauthorized, serverError } from "@/lib/api-response"
-import { getQvaPayPaymentStatus } from "@/lib/payments"
+import { verifyPayPalOrder } from "@/lib/paypal"
 import { validateCsrf } from "@/lib/csrf-middleware"
 import { logger } from "@/lib/logger"
 
@@ -23,15 +23,15 @@ export async function POST(req: NextRequest) {
       return error("Cuerpo inválido")
     }
 
-    const bodyData = body as { qvapayId?: string }
-    const { qvapayId } = bodyData
+    const bodyData = body as { paypalOrderId?: string }
+    const { paypalOrderId } = bodyData
 
-    if (!qvapayId || typeof qvapayId !== "string") {
-      return error("qvapayId requerido")
+    if (!paypalOrderId || typeof paypalOrderId !== "string") {
+      return error("paypalOrderId requerido")
     }
 
     const payment = await db.payment.findUnique({
-      where: { qvapayId },
+      where: { paypalOrderId: paypalOrderId },
       include: { user: true },
     })
 
@@ -47,19 +47,18 @@ export async function POST(req: NextRequest) {
       return ok({ alreadyCompleted: true })
     }
 
-    let qvapayStatus: any = null
+    let paypalStatus: { status: string; amount: number }
     try {
-      qvapayStatus = await getQvaPayPaymentStatus(qvapayId)
+      paypalStatus = await verifyPayPalOrder(paypalOrderId)
     } catch (e) {
-      logger.error("QvaPay status check failed", { error: e instanceof Error ? e.message : "Unknown", qvapayId })
+      logger.error("PayPal status check failed", { error: e instanceof Error ? e.message : "Unknown", paypalOrderId })
       return error("No se pudo verificar el estado del pago")
     }
 
-    const remoteStatus = qvapayStatus?.status || qvapayStatus?.data?.status
-    logger.info("Payment verify result", { qvapayId, remoteStatus, paymentStatus: payment.status })
+    logger.info("Payment verify result", { paypalOrderId, paypalStatus: paypalStatus.status, paymentStatus: payment.status })
 
-    if (remoteStatus !== "paid" && remoteStatus !== "completed") {
-      return ok({ completed: false, status: remoteStatus || "unknown" })
+    if (paypalStatus.status !== "COMPLETED" && paypalStatus.status !== "APPROVED") {
+      return ok({ completed: false, status: paypalStatus.status || "unknown" })
     }
 
     const isPack = ["BASIC", "POPULAR", "ADVANCED"].includes(payment.plan)
@@ -81,7 +80,7 @@ export async function POST(req: NextRequest) {
           data: {
             userId: payment.userId,
             packType: payment.plan,
-            provider: "qvapay",
+            provider: "paypal",
             amountUsd,
             amountCup: amountUsd * cupRate,
             analyses,
@@ -101,8 +100,8 @@ export async function POST(req: NextRequest) {
         await tx.subscription.create({
           data: {
             userId: payment.userId,
-            provider: "qvapay",
-            qvapayInvoiceId: qvapayId,
+            provider: "paypal",
+            paypalSubscriptionId: paypalOrderId,
             plan: payment.plan,
             status: "active",
             currentPeriodStart: new Date(),

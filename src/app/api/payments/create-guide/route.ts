@@ -5,6 +5,7 @@ import { db } from "@/lib/db"
 import { ok, unauthorized, serverError, error } from "@/lib/api-response"
 import { logger } from "@/lib/logger"
 import { validateCsrf } from "@/lib/csrf-middleware"
+import { createPayPalOrder, isPaypalConfigured } from "@/lib/paypal"
 
 export async function POST(req: NextRequest) {
   try {
@@ -46,61 +47,26 @@ export async function POST(req: NextRequest) {
       })
     }
 
-    const QVAPAY_API_URL = process.env.QVAPAY_API_URL || "https://api.qvapay.com"
-    const QVAPAY_UUID = process.env.QVAPAY_UUID || ""
-    const QVAPAY_SECRET = process.env.QVAPAY_SECRET || ""
-    const appUrl = process.env.NEXT_PUBLIC_APP_URL || "https://the-serene-lens-nuevo.onrender.com"
-
-    if (!QVAPAY_UUID || !QVAPAY_SECRET) {
+    if (!isPaypalConfigured()) {
       return error("Sistema de pagos no configurado. Contacta al soporte.", 503)
     }
 
-    let qvapayData: Record<string, unknown>
+    const appUrl = process.env.NEXT_PUBLIC_APP_URL || "https://the-serene-lens-nuevo.onrender.com"
+
+    let paypalOrder: { id: string; approvalUrl: string }
     try {
-      const controller = new AbortController()
-      const timeout = setTimeout(() => controller.abort(), 30000)
-
-      try {
-        const response = await fetch(`${QVAPAY_API_URL}/v2/create_invoice`, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            "app-id": QVAPAY_UUID,
-            "app-secret": QVAPAY_SECRET,
-          },
-          body: JSON.stringify({
-            title: guide.title,
-            description: `Guía: ${guide.title}`,
-            amount: guide.price,
-            currency: "USD",
-            reference_id: `guide-${guideId}-${session.user.id}`,
-            success_url: `${appUrl}/guides?success=${guideId}`,
-            cancel_url: `${appUrl}/guides`,
-          }),
-          signal: controller.signal,
-        })
-
-        const text = await response.text()
-        logger.info("QvaPay guide response", { status: response.status, body: text })
-
-        try {
-          qvapayData = JSON.parse(text)
-        } catch {
-          logger.error("QvaPay guide invalid JSON", { body: text })
-          return error("Respuesta inválida del procesador de pagos")
-        }
-
-        if (!response.ok || !qvapayData.invoice_id) {
-          logger.error("QvaPay guide create failed", { status: response.status, data: qvapayData })
-          return error("Error al crear pago en el procesador")
-        }
-      } finally {
-        clearTimeout(timeout)
-      }
+      paypalOrder = await createPayPalOrder({
+        amount: guide.price,
+        description: `Guía: ${guide.title}`,
+        returnUrl: `${appUrl}/guides?success=${guideId}`,
+        cancelUrl: `${appUrl}/guides`,
+      })
     } catch (e) {
-      logger.error("QvaPay guide fetch error", { error: e instanceof Error ? e.message : "Unknown" })
+      logger.error("PayPal guide order error", { error: e instanceof Error ? e.message : "Unknown" })
       return error("No se pudo conectar con el procesador de pagos")
     }
+
+    logger.info("PayPal guide order created", { orderId: paypalOrder.id })
 
     try {
       await db.digitalProductPurchase.create({
@@ -108,8 +74,8 @@ export async function POST(req: NextRequest) {
           userId: session.user.id,
           digitalProductId: guideId,
           amount: guide.price,
-          provider: "qvapay",
-          qvapayId: qvapayData.invoice_id as string,
+          provider: "paypal",
+          paypalOrderId: paypalOrder.id,
           status: "pending",
         },
       })
@@ -118,8 +84,8 @@ export async function POST(req: NextRequest) {
     }
 
     return ok({
-      url: qvapayData.invoice_url,
-      invoiceId: qvapayData.invoice_id,
+      url: paypalOrder.approvalUrl,
+      invoiceId: paypalOrder.id,
     })
   } catch (e) {
     logger.error("create-guide error", { error: e instanceof Error ? e.message : String(e) })

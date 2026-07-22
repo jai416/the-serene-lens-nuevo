@@ -11,7 +11,7 @@ Observación cosmética de tu piel con inteligencia artificial.
 | Autenticación | NextAuth v4 (JWT) + Google OAuth |
 | AI Visión | Gemini 2.0 Flash (análisis de piel, escáner ingredientes). ⚠️ `GEMINI_API_KEY` no configurada en Render |
 | AI Chat (RAG + `/asistente`) | Groq `llama-3.3-70b-versatile` (chat sin imágenes). ✅ Funcional en Render |
-| Pagos | QvaPay (USD) + Transfermóvil (CUP) |
+| Pagos | PayPal (USD) + Transfermóvil (CUP) |
 | Bot | Telegram (webhook, RAG, `/asistente`, validación pagos) |
 | Notificaciones | Sistema propio web + Redis (Upstash). Email desactivado (stubs) |
 | Monitoreo | Sentry + Microsoft Clarity |
@@ -45,7 +45,7 @@ Observación cosmética de tu piel con inteligencia artificial.
 
 - Node.js 20+
 - PostgreSQL (Supabase recomendado)
-- API keys: Gemini (solo visión: análisis piel + escáner), Groq (chat RAG + `/asistente`), QvaPay, Telegram Bot, Sentry, Clarity, OpenWeatherMap, Redis Upstash
+- API keys: Gemini (solo visión: análisis piel + escáner), Groq (chat RAG + `/asistente`), PayPal, Telegram Bot, Sentry, Clarity, OpenWeatherMap, Redis Upstash
 - `.npmrc` con `legacy-peer-deps=true` (necesario por `@sentry/nextjs` con Next.js 16)
 
 ## Comandos
