@@ -2,16 +2,18 @@ import { describe, it, expect, vi, beforeEach } from "vitest"
 
 const {
   mockFindUnique,
-  mockfindFirst,
+  mockFindFirst,
   mockUpdate,
   mockCreate,
   mockPayPalStatus,
   mockGetCUPRate,
   mockCheckRateLimit,
   mockTransaction,
+  mockWebhookFindFirst,
+  mockWebhookCreate,
 } = vi.hoisted(() => ({
   mockFindUnique: vi.fn(),
-  mockfindFirst: vi.fn().mockResolvedValue(null),
+  mockFindFirst: vi.fn().mockResolvedValue(null),
   mockUpdate: vi.fn(),
   mockCreate: vi.fn(),
   mockPayPalStatus: vi.fn(),
@@ -22,8 +24,10 @@ const {
     purchasePack: { create: mockCreate },
     user: { update: mockUpdate },
     subscription: { create: mockCreate },
-    webhookEvent: { create: vi.fn() },
+    webhookEvent: { create: mockWebhookCreate },
   })),
+  mockWebhookFindFirst: vi.fn().mockResolvedValue(null),
+  mockWebhookCreate: vi.fn(),
 }))
 
 vi.mock("@/lib/db", () => ({
@@ -33,7 +37,7 @@ vi.mock("@/lib/db", () => ({
       update: mockUpdate,
     },
     digitalProductPurchase: {
-      findFirst: mockfindFirst,
+      findFirst: mockFindFirst,
       update: mockUpdate,
     },
     purchasePack: {
@@ -46,8 +50,8 @@ vi.mock("@/lib/db", () => ({
       create: mockCreate,
     },
     webhookEvent: {
-      findFirst: vi.fn().mockResolvedValue(null),
-      create: vi.fn(),
+      findFirst: mockWebhookFindFirst,
+      create: mockWebhookCreate,
     },
     $transaction: mockTransaction,
   },
@@ -83,89 +87,157 @@ describe("Webhook Processor", () => {
   beforeEach(() => {
     vi.clearAllMocks()
     mockGetCUPRate.mockResolvedValue(500)
+    mockFindFirst.mockResolvedValue(null)
   })
 
-  it("returns error when no transaction_uuid", async () => {
+  it("returns error when no orderId", async () => {
     const req = createRequest({})
     const res = await POST(req)
     const data = await res.json()
     expect(data.error?.code).toBe("VALIDATION_ERROR")
   })
 
-  it("returns error when transaction_uuid is not a string", async () => {
-    const req = createRequest({ transaction_uuid: 12345 })
+  it("returns error when orderId is not a string", async () => {
+    const req = createRequest({ id: 12345 })
     const res = await POST(req)
     const data = await res.json()
     expect(data.error?.code).toBe("VALIDATION_ERROR")
   })
 
+  it("reads orderId from body.eventType", async () => {
+    mockFindUnique.mockResolvedValue(null)
+    mockFindFirst.mockResolvedValue(null)
+    const req = createRequest({ eventType: "abc-123" })
+    const res = await POST(req)
+    const data = await res.json()
+    expect(data.error?.message).toBe("Pago no encontrado")
+    expect(mockFindUnique).toHaveBeenCalledWith({
+      where: { paypalOrderId: "abc-123" },
+      include: { user: true },
+    })
+  })
+
+  it("reads orderId from body.id", async () => {
+    mockFindUnique.mockResolvedValue(null)
+    mockFindFirst.mockResolvedValue(null)
+    const req = createRequest({ id: "xyz-789" })
+    const res = await POST(req)
+    const data = await res.json()
+    expect(data.error?.message).toBe("Pago no encontrado")
+    expect(mockFindUnique).toHaveBeenCalledWith({
+      where: { paypalOrderId: "xyz-789" },
+      include: { user: true },
+    })
+  })
+
+  it("returns duplicate when already processed", async () => {
+    mockWebhookFindFirst.mockResolvedValueOnce({ id: "e1" })
+    const req = createRequest({ id: "abc-123" })
+    const res = await POST(req)
+    const data = await res.json()
+    expect(data.data?.duplicate).toBe(true)
+  })
+
   it("returns error when payment not found", async () => {
     mockFindUnique.mockResolvedValue(null)
-    const req = createRequest({ transaction_uuid: "abc-123" })
+    mockFindFirst.mockResolvedValue(null)
+    const req = createRequest({ id: "abc-123" })
     const res = await POST(req)
     const data = await res.json()
     expect(data.error?.message).toBe("Pago no encontrado")
   })
 
   it("returns already completed if payment already processed", async () => {
+    mockFindFirst.mockResolvedValue(null)
     mockFindUnique.mockResolvedValue({ id: "p1", status: "completed", user: {} })
-    const req = createRequest({ transaction_uuid: "abc-123" })
+    const req = createRequest({ id: "abc-123" })
     const res = await POST(req)
     const data = await res.json()
     expect(data.data?.received).toBe(true)
+    expect(data.data?.type).toBe("plan")
   })
 
-  it("returns error when PayPal verification fails", async () => {
-    mockFindUnique.mockResolvedValue({ id: "p1", status: "pending", user: {} })
-    mockPayPalStatus.mockRejectedValue(new Error("Network error"))
-    const req = createRequest({ transaction_uuid: "abc-123" })
-    const res = await POST(req)
-    const data = await res.json()
-    expect(data.error?.message).toBe("No se pudo verificar el estado del pago")
-  })
-
-  it("returns unverified if PayPal status is not paid", async () => {
-    mockFindUnique.mockResolvedValue({ id: "p1", status: "pending", user: {} })
-    mockPayPalStatus.mockResolvedValue({ status: "pending" })
-    const req = createRequest({ transaction_uuid: "abc-123" })
-    const res = await POST(req)
-    const data = await res.json()
-    expect(data.data?.verified).toBe(false)
-  })
-
-  it("returns unverified if PayPal status is empty", async () => {
-    mockFindUnique.mockResolvedValue({ id: "p1", status: "pending", user: {} })
-    mockPayPalStatus.mockResolvedValue({})
-    const req = createRequest({ transaction_uuid: "abc-123" })
-    const res = await POST(req)
-    const data = await res.json()
-    expect(data.data?.verified).toBe(false)
-  })
-
-  it("reads status from data.status (nested format)", async () => {
-    mockFindUnique.mockResolvedValue({
-      id: "p1", status: "pending", plan: "BASIC", amount: 1.99, userId: "u1", user: {},
+  it("processes guide purchase", async () => {
+    mockFindFirst.mockResolvedValue({
+      id: "g1",
+      status: "pending",
+      userId: "u1",
+      digitalProduct: { fileUrl: "/guides/test.pdf" },
     })
-    mockPayPalStatus.mockResolvedValue({ status: "COMPLETED" })
+    mockPayPalStatus.mockResolvedValue({ status: "COMPLETED", amount: 2.99 })
     mockUpdate.mockResolvedValue({})
-    mockCreate.mockResolvedValue({})
 
-    const req = createRequest({ transaction_uuid: "abc-123" })
+    const req = createRequest({ eventType: "guide-123" })
     const res = await POST(req)
     const data = await res.json()
-    expect(data.data?.received).toBe(true)
-    expect(mockUpdate).toHaveBeenCalled()
+    expect(data.data?.type).toBe("guide")
+    expect(mockUpdate).toHaveBeenCalledWith({
+      where: { id: "g1" },
+      data: { status: "completed", downloadUrl: "/guides/test.pdf" },
+    })
+  })
+
+  it("returns already completed guide purchase", async () => {
+    mockFindFirst.mockResolvedValue({
+      id: "g1",
+      status: "completed",
+      userId: "u1",
+      digitalProduct: null,
+    })
+    const req = createRequest({ id: "guide-123" })
+    const res = await POST(req)
+    const data = await res.json()
+    expect(data.data?.type).toBe("guide")
+  })
+
+  it("returns error when PayPal verification fails for guide", async () => {
+    mockFindFirst.mockResolvedValue({
+      id: "g1",
+      status: "pending",
+      userId: "u1",
+      digitalProduct: null,
+    })
+    mockPayPalStatus.mockRejectedValue(new Error("Network error"))
+    const req = createRequest({ id: "guide-123" })
+    const res = await POST(req)
+    const data = await res.json()
+    expect(data.error?.message).toBe("No se pudo verificar el pago con PayPal")
+  })
+
+  it("returns unverified if PayPal status is not completed for guide", async () => {
+    mockFindFirst.mockResolvedValue({
+      id: "g1",
+      status: "pending",
+      userId: "u1",
+      digitalProduct: null,
+    })
+    mockPayPalStatus.mockResolvedValue({ status: "PENDING", amount: 2.99 })
+    const req = createRequest({ id: "guide-123" })
+    const res = await POST(req)
+    const data = await res.json()
+    expect(data.data?.verified).toBe(false)
+  })
+
+  it("returns unverified if PayPal status is not COMPLETED for plan", async () => {
+    mockFindFirst.mockResolvedValue(null)
+    mockFindUnique.mockResolvedValue({ id: "p1", status: "pending", plan: "PREMIUM", amount: 4.99, userId: "u1", user: {} })
+    mockPayPalStatus.mockResolvedValue({ status: "PENDING", amount: 4.99 })
+    const req = createRequest({ id: "abc-123" })
+    const res = await POST(req)
+    const data = await res.json()
+    expect(data.data?.verified).toBe(false)
   })
 
   it("processes successful BASIC pack payment (3 analyses)", async () => {
+    mockFindFirst.mockResolvedValue(null)
     mockFindUnique.mockResolvedValue({
       id: "p1", status: "pending", plan: "BASIC", amount: 1.99, userId: "user-1", user: {},
     })
-    mockPayPalStatus.mockResolvedValue({ status: "COMPLETED" })
+    mockPayPalStatus.mockResolvedValue({ status: "COMPLETED", amount: 1.99 })
     mockUpdate.mockResolvedValue({})
     mockCreate.mockResolvedValue({})
 
-    const req = createRequest({ transaction_uuid: "abc-123" })
+    const req = createRequest({ id: "abc-123" })
     const res = await POST(req)
     const data = await res.json()
     expect(data.data?.received).toBe(true)
@@ -179,14 +251,15 @@ describe("Webhook Processor", () => {
   })
 
   it("processes successful POPULAR pack payment (5 analyses)", async () => {
+    mockFindFirst.mockResolvedValue(null)
     mockFindUnique.mockResolvedValue({
       id: "p1", status: "pending", plan: "POPULAR", amount: 4.99, userId: "user-1", user: {},
     })
-    mockPayPalStatus.mockResolvedValue({ status: "COMPLETED" })
+    mockPayPalStatus.mockResolvedValue({ status: "COMPLETED", amount: 4.99 })
     mockUpdate.mockResolvedValue({})
     mockCreate.mockResolvedValue({})
 
-    const req = createRequest({ transaction_uuid: "abc-123" })
+    const req = createRequest({ id: "abc-123" })
     const res = await POST(req)
     const data = await res.json()
     expect(data.data?.received).toBe(true)
@@ -199,14 +272,15 @@ describe("Webhook Processor", () => {
   })
 
   it("processes successful ADVANCED pack payment (15 analyses)", async () => {
+    mockFindFirst.mockResolvedValue(null)
     mockFindUnique.mockResolvedValue({
       id: "p1", status: "pending", plan: "ADVANCED", amount: 6.99, userId: "user-1", user: {},
     })
-    mockPayPalStatus.mockResolvedValue({ status: "COMPLETED" })
+    mockPayPalStatus.mockResolvedValue({ status: "COMPLETED", amount: 6.99 })
     mockUpdate.mockResolvedValue({})
     mockCreate.mockResolvedValue({})
 
-    const req = createRequest({ transaction_uuid: "abc-123" })
+    const req = createRequest({ id: "abc-123" })
     const res = await POST(req)
     const data = await res.json()
     expect(data.data?.received).toBe(true)
@@ -219,14 +293,15 @@ describe("Webhook Processor", () => {
   })
 
   it("processes successful PREMIUM subscription", async () => {
+    mockFindFirst.mockResolvedValue(null)
     mockFindUnique.mockResolvedValue({
       id: "p1", status: "pending", plan: "PREMIUM", amount: 4.99, userId: "user-1", user: {},
     })
-    mockPayPalStatus.mockResolvedValue({ status: "COMPLETED" })
+    mockPayPalStatus.mockResolvedValue({ status: "COMPLETED", amount: 4.99 })
     mockUpdate.mockResolvedValue({})
     mockCreate.mockResolvedValue({})
 
-    const req = createRequest({ transaction_uuid: "abc-123" })
+    const req = createRequest({ id: "abc-123" })
     const res = await POST(req)
     const data = await res.json()
     expect(data.data?.received).toBe(true)
@@ -244,14 +319,15 @@ describe("Webhook Processor", () => {
   })
 
   it("processes successful PRO subscription", async () => {
+    mockFindFirst.mockResolvedValue(null)
     mockFindUnique.mockResolvedValue({
       id: "p1", status: "pending", plan: "PRO", amount: 9.99, userId: "user-2", user: {},
     })
-    mockPayPalStatus.mockResolvedValue({ status: "COMPLETED" })
+    mockPayPalStatus.mockResolvedValue({ status: "COMPLETED", amount: 9.99 })
     mockUpdate.mockResolvedValue({})
     mockCreate.mockResolvedValue({})
 
-    const req = createRequest({ transaction_uuid: "def-456" })
+    const req = createRequest({ id: "def-456" })
     const res = await POST(req)
     const data = await res.json()
     expect(data.data?.received).toBe(true)
@@ -262,14 +338,15 @@ describe("Webhook Processor", () => {
   })
 
   it("processes successful PRO_PLUS subscription", async () => {
+    mockFindFirst.mockResolvedValue(null)
     mockFindUnique.mockResolvedValue({
       id: "p1", status: "pending", plan: "PRO_PLUS", amount: 14.99, userId: "user-3", user: {},
     })
-    mockPayPalStatus.mockResolvedValue({ status: "COMPLETED" })
+    mockPayPalStatus.mockResolvedValue({ status: "COMPLETED", amount: 14.99 })
     mockUpdate.mockResolvedValue({})
     mockCreate.mockResolvedValue({})
 
-    const req = createRequest({ transaction_uuid: "ghi-789" })
+    const req = createRequest({ id: "ghi-789" })
     const res = await POST(req)
     const data = await res.json()
     expect(data.data?.received).toBe(true)
@@ -286,13 +363,14 @@ describe("Webhook Processor", () => {
   })
 
   it("handles payment with no plan (skips pack/subscription)", async () => {
+    mockFindFirst.mockResolvedValue(null)
     mockFindUnique.mockResolvedValue({
       id: "p1", status: "pending", plan: null, amount: 1.0, userId: "user-4", user: {},
     })
-    mockPayPalStatus.mockResolvedValue({ status: "COMPLETED" })
+    mockPayPalStatus.mockResolvedValue({ status: "COMPLETED", amount: 1.0 })
     mockUpdate.mockResolvedValue({})
 
-    const req = createRequest({ transaction_uuid: "no-plan-001" })
+    const req = createRequest({ id: "no-plan-001" })
     const res = await POST(req)
     const data = await res.json()
     expect(data.data?.received).toBe(true)
@@ -300,21 +378,9 @@ describe("Webhook Processor", () => {
     expect(mockCreate).not.toHaveBeenCalled()
   })
 
-  it("handles v2 webhook format with payment_id", async () => {
-    mockFindUnique.mockResolvedValue(null)
-    const req = createRequest({ payment_id: "xyz-789" })
-    const res = await POST(req)
-    const data = await res.json()
-    expect(data.error?.message).toBe("Pago no encontrado")
-    expect(mockFindUnique).toHaveBeenCalledWith({
-      where: { paypalOrderId: "xyz-789" },
-      include: { user: true },
-    })
-  })
-
   it("returns 429 when rate limited", async () => {
     mockCheckRateLimit.mockResolvedValueOnce({ allowed: false, remaining: 0 })
-    const req = createRequest({ transaction_uuid: "abc-123" })
+    const req = createRequest({ id: "abc-123" })
     const res = await POST(req)
     expect(res.status).toBe(429)
     const data = await res.json()
@@ -323,14 +389,15 @@ describe("Webhook Processor", () => {
 
   it("calculates CUP amount correctly for packs", async () => {
     mockGetCUPRate.mockResolvedValue(500)
+    mockFindFirst.mockResolvedValue(null)
     mockFindUnique.mockResolvedValue({
       id: "p1", status: "pending", plan: "BASIC", amount: 1.99, userId: "user-1", user: {},
     })
-    mockPayPalStatus.mockResolvedValue({ status: "COMPLETED" })
+    mockPayPalStatus.mockResolvedValue({ status: "COMPLETED", amount: 1.99 })
     mockUpdate.mockResolvedValue({})
     mockCreate.mockResolvedValue({})
 
-    const req = createRequest({ transaction_uuid: "abc-123" })
+    const req = createRequest({ id: "abc-123" })
     await POST(req)
 
     expect(mockCreate).toHaveBeenCalledWith({
@@ -343,19 +410,41 @@ describe("Webhook Processor", () => {
 
   it("sets subscription period end to 30 days", async () => {
     const now = new Date()
+    mockFindFirst.mockResolvedValue(null)
     mockFindUnique.mockResolvedValue({
       id: "p1", status: "pending", plan: "PREMIUM", amount: 4.99, userId: "user-1", user: {},
     })
-    mockPayPalStatus.mockResolvedValue({ status: "COMPLETED" })
+    mockPayPalStatus.mockResolvedValue({ status: "COMPLETED", amount: 4.99 })
     mockUpdate.mockResolvedValue({})
     mockCreate.mockResolvedValue({})
 
-    const req = createRequest({ transaction_uuid: "abc-123" })
+    const req = createRequest({ id: "abc-123" })
     await POST(req)
 
-    const createCall = mockCreate.mock.calls[0][0]
-    const periodEnd = createCall.data.currentPeriodEnd
+    const createCall = mockCreate.mock.calls.find((c: any[]) => c[0]?.data?.currentPeriodEnd)
+    expect(createCall).toBeDefined()
+    const periodEnd = createCall[0].data.currentPeriodEnd
     const diffDays = Math.round((periodEnd.getTime() - now.getTime()) / (1000 * 60 * 60 * 24))
     expect(diffDays).toBe(30)
+  })
+
+  it("sets subscription period end to 365 days for annual plans", async () => {
+    const now = new Date()
+    mockFindFirst.mockResolvedValue(null)
+    mockFindUnique.mockResolvedValue({
+      id: "p1", status: "pending", plan: "PREMIUM_ANNUAL", amount: 79.99, userId: "user-1", user: {},
+    })
+    mockPayPalStatus.mockResolvedValue({ status: "COMPLETED", amount: 79.99 })
+    mockUpdate.mockResolvedValue({})
+    mockCreate.mockResolvedValue({})
+
+    const req = createRequest({ id: "abc-123" })
+    await POST(req)
+
+    const createCall = mockCreate.mock.calls.find((c: any[]) => c[0]?.data?.currentPeriodEnd)
+    expect(createCall).toBeDefined()
+    const periodEnd = createCall[0].data.currentPeriodEnd
+    const diffDays = Math.round((periodEnd.getTime() - now.getTime()) / (1000 * 60 * 60 * 24))
+    expect(diffDays).toBe(365)
   })
 })
