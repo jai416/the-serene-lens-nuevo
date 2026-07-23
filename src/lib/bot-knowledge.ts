@@ -55,9 +55,11 @@ export async function searchKnowledge(query: string, limit = 3): Promise<Knowled
     })
 
     // Update lastUsedAt
-    scored.slice(0, limit).forEach((r) => {
-      db.botKnowledge.update({ where: { id: r.id }, data: { lastUsedAt: new Date() } }).catch(() => {})
-    })
+    Promise.allSettled(
+      scored.slice(0, limit).map((r) =>
+        db.botKnowledge.update({ where: { id: r.id }, data: { lastUsedAt: new Date() } })
+      )
+    ).catch(() => {})
 
     return scored.sort((a, b) => b.score - a.score).slice(0, limit)
   } catch (e) {

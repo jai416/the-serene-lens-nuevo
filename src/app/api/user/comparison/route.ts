@@ -214,7 +214,11 @@ Proporciona tu análisis en la estructura JSON exacta especificada.`
       const content = data.choices?.[0]?.message?.content
       if (!content) throw new Error("No response from AI")
       const clean = content.replace(/```json|```/g, "").trim()
-      parsed = JSON.parse(clean)
+      try {
+        parsed = JSON.parse(clean)
+      } catch {
+        throw new Error("AI returned invalid JSON: " + clean.slice(0, 200))
+      }
     } else {
       const prompt = `Compara estos dos análisis y genera un informe de evolución.\n\n${textContext}`
       parsed = await groqChatJSON<Record<string, unknown>>(

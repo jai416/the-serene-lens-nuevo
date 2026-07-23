@@ -1,10 +1,18 @@
 import { NextRequest } from "next/server"
+import { z } from "zod"
 import { cache } from "react"
 import { getServerSession } from "next-auth"
 import { authOptions } from "@/lib/auth"
 import { db } from "@/lib/db"
 import { ok, unauthorized, error, serverError } from "@/lib/api-response"
 import { validateCsrf } from "@/lib/csrf-middleware"
+
+const createGroupSchema = z.object({
+  name: z.string().min(1, "name es requerido").max(100),
+  slug: z.string().min(1, "slug es requerido").max(50).regex(/^[a-z0-9-]+$/, "slug inválido"),
+  description: z.string().min(1, "description es requerido").max(500),
+  image: z.string().url().optional().or(z.literal("")),
+})
 
 const getUserSkinType = cache(async (userId: string): Promise<string> => {
   const analysis = await db.skinAnalysis.findFirst({
@@ -47,17 +55,20 @@ export async function POST(req: NextRequest) {
     if (!session?.user) return unauthorized()
     if (!validateCsrf(req)) return error("CSRF token inválido", 403)
 
-    const { name, slug, description, image } = await req.json()
-    if (!name || !slug || !description) {
-      return error("name, slug y description son requeridos")
+    const body = await req.json()
+    const parsed = createGroupSchema.safeParse(body)
+    if (!parsed.success) {
+      return error(parsed.error.errors.map((e) => e.message).join(", "))
     }
+
+    const { name, slug, description, image } = parsed.data
 
     const group = await db.communityGroup.create({
       data: {
         name,
         slug,
         description,
-        image,
+        image: image || null,
         createdById: session.user.id,
       },
     })

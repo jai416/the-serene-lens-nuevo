@@ -83,7 +83,7 @@ export async function registerUser(email: string, password: string, name?: strin
   if (!isAdmin && user) {
     try {
       const { createWelcomeNotification } = await import("@/lib/notifications")
-      createWelcomeNotification(user.id, name || "Usuario").catch(() => {})
+      createWelcomeNotification(user.id, name || "Usuario").catch((e) => logger.error("Welcome notification failed", { error: e }))
     } catch {}
   }
 
@@ -139,7 +139,7 @@ export const authOptions: NextAuthOptions = {
         const valid = await verifyPassword(credentials.password, user.password)
         if (!valid) return null
 
-        clearRateLimit(emailKey).catch(() => {})
+        clearRateLimit(emailKey).catch((e) => logger.error("Rate limit clear failed", { error: e }))
 
         return {
           id: user.id,
@@ -192,7 +192,7 @@ export const authOptions: NextAuthOptions = {
             analysisLimit: 0,
             trialEndsAt: new Date(Date.now() + 7 * 86400000),
           },
-        }).catch(() => {})
+        }).catch((e) => logger.error("Trial setup failed", { error: e }))
       }
 
       // Auto-generate username for Google/GitHub users if not set
@@ -200,7 +200,7 @@ export const authOptions: NextAuthOptions = {
         let username = user.email.split("@")[0].replace(/[^a-zA-Z0-9_]/g, "").toLowerCase().slice(0, 20)
         const existingUsername = await db.user.findFirst({ where: { username } })
         if (existingUsername) username += Math.floor(100 + Math.random() * 900)
-        await db.user.update({ where: { id: existingUser.id }, data: { username } }).catch(() => {})
+        await db.user.update({ where: { id: existingUser.id }, data: { username } }).catch((e) => logger.error("Username gen failed", { error: e }))
       }
 
       const hasLinkedAccount = existingUser.accounts.some(

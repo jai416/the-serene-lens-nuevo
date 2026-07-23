@@ -1,139 +1,118 @@
 ## Goal
-Transformar "The Serene Lens" de herramienta funcional a negocio sostenible con validación de producto, adquisición orgánica, evolución de datos, B2B e internacionalización, optimizando rendimiento, UX, seguridad y observabilidad.
+Estabilizar y lanzar plataforma con IA funcional (Gemini visión + Groq chat), notificaciones web, guías únicas, migración completa de email a notificaciones internas, y soporte PayPal.
 
 ## Constraints & Preferences
-- Next.js 16 + TypeScript + Prisma 7 + next-auth v4 + @auth/prisma-adapter v2.8
-- Spanish UI, English code. Diseño v2.0: paleta sage (#C2E09D), fondo #F8FAF5, cards blancas, sin neon/glass/dark mode
-- Pasarela: PayPal (USD) + Transfermóvil (CUP/Cuba). Posicionamiento: "observación cosmética, no diagnóstico médico"
-- Prohibido: contadores ficticios, testimonios inventados, logs de PII en PostHog, llamadas síncronas sin timeout
-- `tsconfig.json` con `strict: true` ya configurado
-- URL de producción: `https://the-serene-lens-nuevo.onrender.com`
+- Gemini 2.0 Flash solo para visión (análisis piel + escáner ingredientes). Groq `llama-3.3-70b-versatile` para TODO el chat (RAG + `/asistente`)
+- PayPal sandbox (USD) + Transfermóvil (CUP/Cuba). QvaPay eliminado del código
+- Paleta light mode only: primary `#88B078`, bg `#F8F9FA`, text `#1A1A1A`
+- Locale EN/ES auto-detect + toggle manual
+- Email desactivado: todas las funciones reemplazadas por stubs. Notificaciones web son el reemplazo. Password reset devuelve link directo en pantalla
+- `.npmrc legacy-peer-deps=true` requerido permanentemente por `@sentry/nextjs` vs Next.js 16
 
 ## Progress
 ### Done
-- **Prisma 7 migration completa**: schema, config, db.ts, seed, imports, generate ejecutado. 21 modelos (RateLimit, AppConfig agregados)
-- **Seed**: admin + demo users, 10 blog posts (5 categorías), 10 productos (8 categorías)
-- **Tests Vitest**: 104 tests, 12 suites. Mock pattern: `vi.hoisted()` para Vitest v3
-- **N1 - Build Turbopack**: `next.config.ts` con `transpilePackages`, `compiler.removeConsole`, CSP
-- **N2 - CSRF**: `csrf.ts` con timingSafeEqual
-- **N3 - API unificado**: `api-response.ts` + `error-codes.ts`. 24+ API routes
-- **N4 - CacheAdapter**: `cache.ts` con interfaz, memory/Map, createRedisCache stub
-- **N5 - Tests**: 12 test files, 104 tests
-- **N6 - a11y**: aria-label, role="alert", role="status"
-- **N7 - WebP**: image-compression.ts, webp.ts
-- **N8 - Repository pattern**: 6 repos en `repositories/index.ts`
-- **N9 - Logger estructurado**: correlation-id, JSON output
-- **N12 - Robots/Sitemap**: sitemap.ts + robots.ts
-- **N13 - Landing bundle**: FAQ lazy-load
-- **Cache híbrida DB**: memory hot cache + tabla Cache Supabase
-- **Retry mechanism**: `retry.ts` con backoff exponencial
-- **Streaming SSE**: `AnalysisStream`, `createStreamGenerator`, `useAnalysisStream` hook
-- **SEO Article Generator**: 20 keywords, cron diario via cron-job.org
-- **Email Sequence**: 6 emails automáticos (Día 0-21) via Resend
-- **SEO Landing Pages**: 6 páginas optimizadas
-- **OG Dinámico**: `/api/og` con skinType, analysisId, productName
-- **Cron jobs**: 3 endpoints — SEO (8am), emails (9am), retención (10am)
-- **Cron-job.org**: 3 jobs apuntan a `the-serene-lens-nuevo.onrender.com`
-- **Edge Runtime eliminado**: health, og, analyze/stream ahora usan Node.js runtime (Prisma compatibility)
-- **crypto lazy import**: `auth.ts` usa `await import("crypto")` — sin warning Edge Runtime
-- **Function() eval eliminado**: sentry.ts, analytics.ts, email.ts, email-sequence.ts usan `import()` nativo con try/catch. Paquetes opcionales instalados (posthog-js, @sentry/nextjs, resend)
-- **Rate limiter DB-backed**: tabla `RateLimit` en Supabase. Reemplaza Map en memoria
-- **Cron auth timing-safe**: `verifyCronSecret()` centralizado con `crypto.timingSafeEqual()`
-- **PayPal webhook**: Verifica orden con `verifyPayPalOrder()` vía PayPal REST API
-- **Post-AI sanitización**: `containsPercentages()` + `stripPercentages()` en openrouter.ts
-- **SSE keep-alive**: Heartbeat `: keepalive\n\n` cada 4s en AnalysisStream
-- **Photo validation yield**: `scheduler.yield()` antes de crear ImageBitmap
-- **CUP rate dinámico**: tabla `AppConfig` en Supabase, `getCUPRate()` con unstable_cache (30min)
-- **pricing.ts separado**: Sync constants para bundle cliente, `cup-rate.ts` async para server
-- **Delete account blindado**: Limpieza de imageUrl + Supabase Storage (best-effort) + cascade completo (UserEvolution incluido)
-- **Pack consumption order**: Pack credits primero (expiran en 30d), free credits después (resetea mensual)
-- **SEO generator slug fix**: Usa keyword slug en vez de AI-generated slug (previene duplicados)
-- **B2B rate limit**: register route con rate limit 10/IP/24h. analyze route ya usa userId:ip (no bloquea clínicas)
-- **OAuth account linking**: `signIn` callback en auth.ts — auto-linka OAuth a cuenta existente con mismo email
-- **PayPal create**: `createPayPalOrder()` para packs, suscripciones y guías
-- **URL actualizada**: Todos los fallbacks hardcoded apuntan a `https://the-serene-lens-nuevo.onrender.com`
-- **query-provider.tsx**: Componente pass-through (sin react-query dependency)
-- **global.d.ts**: Tipos para `scheduler.yield()`
-- **Schema actualizado**: RateLimit + AppConfig models agregados
+- **QvaPay → PayPal migración completa**: Prisma schema (todos los modelos actualizados a `paypalOrderId`/`paypalSubscriptionId`). Nuevo `src/lib/paypal.ts` con `createPayPalOrder()`, `capturePayPalOrder()`, `verifyPayPalOrder()`. API routes de create, create-pack, create-guide, webhook, verify, verify-guide migradas. Frontend pages (pricing, subscription, admin, guides) actualizadas. `src/lib/payments.ts` eliminado. CSP, layout, render.yaml, seed-knowledge, .opencode/anchor.md actualizados. `prisma generate` ejecutado
+- **PayPal sandbox configurado**: `.env.local` con `PAYPAL_CLIENT_ID`, `PAYPAL_CLIENT_SECRET`, `PAYPAL_API_URL=https://api-m.sandbox.paypal.com`. Credenciales verificadas — access token obtenido exitosamente
+- **CSRF añadido a 25 endpoints**: feedback (4), notifications (3), analysis (4), skin-diary (2), user (4), contact (1), community (7)
+- **Logger reemplazó console.log/error**: 13 instancias migradas (api-response, sentry, auth, health, admin challenges, emails, guides, user, check-in)
+- **Blog XSS sanitizado**: `dangerouslySetInnerHTML` en `blog/[slug]/page.tsx` ahora sanitiza scripts, event handlers y `javascript:`
+- **N+1 queries eliminados**: `badge.service.ts` (Promise.all + createMany), `cleanup-trials/route.ts` (updateMany), `send-reminders/route.ts` (createMany), `telegram-handlers.ts` (validate/activate/broadcast usan batch updateMany + createMany)
+- **Paginación cursor-based**: community posts y comments ahora soportan `?cursor=` con `hasMore`
+- **CSP actualizado**: connect-src incluye `generativelanguage.googleapis.com`, `api.groq.com`, `api-m.paypal.com`, `api-m.sandbox.paypal.com`, `api.qrserver.com`
+- **Preconnect añadido**: Gemini API, Groq, PayPal en `layout.tsx`
+- **removeConsole: true**: console.log no llega al cliente en producción
+- **Service worker lazyOnload**: inline script convertido a `<Script strategy="lazyOnload">`
+- **Performance hero image**: `priority` en hero de homepage, `loading="lazy"` en productos
+- **revalidateTag corregido**: 9 calls ahora pasan segundo argumento `"max"` (Next.js 16.2.11 requiere 2 args)
+- **Imports no usados removidos**: `Clock`, `MessageSquare` de dashboard/page.tsx
+- **`as any` → tipos reales**: dashboard, esthetician, history pages
+- **Manifest duplicado removido**: `layout.tsx`
+- **`typeof window === "undefined"` removido**: analysis/page.tsx (archivo `"use client"`)
+- **`public/robots.txt` eliminado**: competía con dynamic `robots.ts`
+- **`localhost:3000` fallback eliminado**: forgot-password/route.ts
+- **Tests**: 239/239 pasando en 27 archivos (webhook.test.ts reescrito para PayPal)
+- **Commits**: `dc6b87b`, `99c1ec3`, `5064cff`, `96419e3`, `d5259b3`, `91d96cd` — todos pusheados a main
+- **CSRF delete-account fix**: `DELETE()` ahora acepta `NextRequest` y pasa `req` a `validateCsrf` (antes creaba fake Request vacío = bypass total)
+- **JSON.parse safety**: comparison route envuelve `JSON.parse(clean)` en try/catch con error explícito
+- **Bot-knowledge N+1 fix**: `forEach` con fire-and-forget reemplazado por `Promise.allSettled` + `map`
+- **Auth empty catch blocks**: 4 `.catch(() => {})` ahora loggean error vía `logger.error()` (welcome notification, rate limit clear, trial setup, username gen)
+- **Zod validation community groups POST**: `createGroupSchema` con name/slug/description/image validados via `safeParse`
 
 ### In Progress
-- **CRON_SECRET env var en Render Dashboard**: Verificar que esté configurada como env var en Render
+- Esperar que el usuario instale dependencias localmente y haga deploy en Render
 
 ### Blocked
-- **DB unreachable from CLI**: Schema pushes y seeds solo ejecutables desde entorno con acceso a Supabase
-- **PayPal env vars requeridos**: PAYPAL_CLIENT_ID, PAYPAL_CLIENT_SECRET. Sin ellos, pagos fallan con 503
+- **`GEMINI_API_KEY` expirada/inválida**: da 403 Forbidden. Necesita renovarse en Google AI Studio
+- **`GROQ_API_KEY` expirada**: da 403 Forbidden. Necesita renovarse en consola de Groq
+- **`PAYPAL_CLIENT_ID`/`PAYPAL_CLIENT_SECRET` no configurados en Render Dashboard**: solo están en `.env.local`. Render no los tiene
+- **Build Bus error en local**: segfault módulo nativo (Prisma/SWC). Solo en esta máquina, en Render funciona
+- **`PAYPAL_API_URL` en Render**: default es producción (`api-m.paypal.com`). Para sandbox necesita setearse explícitamente
 
 ## Key Decisions
-- **Servicios usan repositorios**: Desacopla Prisma de lógica de negocio
-- **Prisma 7 con driver adapter**: `@prisma/adapter-pg` + `pg`. `prisma.config.ts`
-- **Cache híbrida sin deps extra**: memory/Map hot cache + tabla Cache en Supabase
-- **Streaming SSE con edge runtime**: `AnalysisStream` + hook `useAnalysisStream`
-- **SEO generator con contexto por keyword**: 20 keywords con instrucciones específicas
-- **Email segmentation por comportamiento**: FREE sin análisis→onboarding, con análisis→conversión
-- **Landing pages estáticas**: 6 páginas SEO sin datos dinámicos
-- **OG dinámico con DB lookup**: Busca skinType en DB para imagen personalizada
-- **Cron auth dual header**: Endpoints aceptan `Authorization: Bearer` y `x-cron-secret`
-- **Guest auth gating**: Análisis requiere login. Sidebar/mobil-nav muestran links según sesión
-- **Photo quality valida antes de comprimir**: Evita que compresión WebP degrade imagen
-- **Service worker solo en producción**: En dev no se registra para evitar cache stale
-- **Proxy sin withAuth**: Cookie check directo evita loop infinito
-- **Rate limiter DB-backed**: Supabase en vez de Map en memoria (serverless-safe)
-- **CUP rate from AppConfig**: Tabla de 1 registro, cache 30min, fallback a env var
-- **Pack credits first**: Expiran en 30d, se usan antes que free monthly credits
-- **SEO slug from keyword**: Previene duplicados cuando AI genera slug diferente
-- **PayPal como pasarela principal**: QvaPay eliminado. PayPal + Transfermóvil
-- **OAuth auto-linking**: Cuenta OAuth se linka a credentials existente con mismo email
+- **QvaPay reemplazado por PayPal**: QvaPay eliminado completamente del código (env vars, lib, API routes, frontend, docs). PayPal implementado vía REST API. Transfermóvil se mantiene para Cuba
+- **CSRF priorizado en endpoints críticos**: 25 endpoints cubiertos (feedback, notifications, analysis, user, contact, community). Restantes ~45 endpoints admin tienen prioridad media
+- **Gemini y Groq APIs actualmente no funcionales**: ambas keys expiradas. Sin renovación no funcionan análisis piel, escáner ni chat RAG
+- **`revalidateTag("x", "max")`**: Next.js 16.2.11 cambió la firma — segundo argumento requerido
 
 ## Next Steps
-1. Ejecutar seed en la DB de producción (Render Shell o Supabase Dashboard)
-2. Configurar PAYPAL_CLIENT_ID y PAYPAL_CLIENT_SECRET en Render Dashboard
-3. Configurar CRON_SECRET como env var en Render Dashboard
-4. Verificar cron-job.org apunta a `the-serene-lens-nuevo.onrender.com`
+1. ⚠️ **Renovar `GEMINI_API_KEY`** en Google AI Studio (la actual da 403)
+2. ⚠️ **Renovar `GROQ_API_KEY`** en consola de Groq (también da 403)
+3. ⚠️ **Configurar `PAYPAL_CLIENT_ID`, `PAYPAL_CLIENT_SECRET` y `PAYPAL_API_URL` en Render Dashboard**
+4. **Trigger Manual Deploy en Render** para que tome todos los cambios de los últimos 6 commits
+5. **Verificar build exitoso** en Render Dashboard
+6. **Configurar `TELEGRAM_BOT_TOKEN` en Render** si se desea UV alerts funcionales
 
 ## Critical Context
-- **Build**: 0 warnings, 104 tests, ~2.5min con Turbopack
-- **URL producción**: `https://the-serene-lens-nuevo.onrender.com`
-- **DB**: PostgreSQL via Supabase. 21 modelos. Schema en `prisma/schema.prisma`
-- **Auth**: NextAuth v4 + credentials + Google + GitHub. Auto-linking en signIn callback
-- **Pagos**: PayPal (USD) como pasarela principal. Transfermóvil (CUP) para Cuba
-- **Cron**: 3 jobs via cron-job.org → `the-serene-lens-nuevo.onrender.com/api/cron/*`
-- **Rate limit**: analyze (5/min por userId:ip), register (10/IP/24h), DB-backed
-- **Env vars clave**: RESEND_API_KEY, CRON_SECRET, CRONJOB_API_KEY, POSTHOG_KEY, SENTRY_DSN
-- **Paquetes opcionales instalados**: posthog-js, @sentry/nextjs, resend, @supabase/supabase-js
-- **Funciones server-only**: `cup-rate.ts` (getCUPRate), `auth.ts` (registerUser, hashPassword)
-- **Funciones client-safe**: `pricing.ts` (PLANS, PACKS, CUP_RATE como fallback)
-- **Streaming**: 7 etapas, keep-alive heartbeat cada 4s
-- **SEO**: 20 keywords, slug del keyword (no del AI), cron diario
-- **Emails**: 6 templates, segmentación por comportamiento, Resend lazy
-- **Delete account**: Limpia imageUrl, Supabase Storage (best-effort), UserEvolution, cascade completo
-- **Pack consumption**: Pack credits primero, free credits después
+- **Render URL**: `https://the-serene-lens-nuevo.onrender.com`
+- **Último commit**: `91d96cd` (fix: CSRF, JSON.parse, N+1, Zod validation, empty catch blocks)
+- **Modelos**: Gemini 2.0 Flash para visión (análisis piel, escáner ingredientes). Groq `llama-3.3-70b-versatile` para chat RAG + `/asistente`. **No hay modelos vision disponibles en Groq**
+- **Gemini API**: `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent`
+- **PayPal API**: sandbox `https://api-m.sandbox.paypal.com` (en `.env.local`). Producción `https://api-m.paypal.com` (default en `env.ts` si no se configura)
+- **Groq API**: `https://api.groq.com/openai/v1/chat/completions`
+- **`.npmrc legacy-peer-deps=true`**: crítico para build con Sentry + Next.js 16
+- **Redis Upstash**: configurado para rate limits y contadores
+- **Email desactivado**: `src/lib/email.ts` es stub. Notificaciones web son canal activo. Password reset muestra link en pantalla
+- **CRON_SECRET local**: `6fa3cf59eb56ed8979b033cb109a3939f3f626b4efad80e2e7e8d0c0feaba29b`
+- **API keys locales**: `GEMINI_API_KEY` y `GROQ_API_KEY` ambas expiradas (403). Las de Render son independientes
+- **PayPal sandbox credentials en `.env.local`**: `PAYPAL_CLIENT_ID`, `PAYPAL_CLIENT_SECRET`, `PAYPAL_API_URL=https://api-m.sandbox.paypal.com` — NO commiteados (`.env.local` en `.gitignore`)
+- **Tests**: 239 pasando, 27 archivos
+- **CSRF**: 25 endpoints cubiertos, ~45 admin endpoints restantes (prioridad media)
 
 ## Relevant Files
-- `/home/jai/theserene/.env`: URL producción `the-serene-lens-nuevo.onrender.com`. Stripe keys vacías
-- `/home/jai/theserene/prisma/schema.prisma`: 21 modelos (incluye RateLimit, AppConfig)
-- `/home/jai/theserene/src/lib/auth.ts`: NextAuth + credentials + OAuth auto-linking + crypto lazy import
-- `/home/jai/theserene/src/lib/cron-auth.ts`: `verifyCronSecret()` con crypto.timingSafeEqual
-- `/home/jai/theserene/src/lib/rate-limit.ts`: DB-backed (Supabase tabla RateLimit)
-- `/home/jai/theserene/src/lib/cup-rate.ts`: getCUPRate() con unstable_cache + AppConfig lookup
-- `/home/jai/theserene/src/lib/pricing.ts`: Sync constants (PLANS, PACKS, CUP_RATE). Sin DB import
-- `/home/jai/theserene/src/lib/usage.ts`: Pack credits primero, free credits después
-- `/home/jai/theserene/src/lib/openrouter.ts`: analyzeSkin + stripPercentages post-AI
-- `/home/jai/theserene/src/lib/streaming.ts`: AnalysisStream + keep-alive heartbeat + emit() helper
-- `/home/jai/theserene/src/lib/photo-quality.ts`: validatePhoto + scheduler.yield()
-- `/home/jai/theserene/src/lib/sentry.ts`: import() nativo con try/catch
-- `/home/jai/theserene/src/lib/analytics.ts`: import() nativo con try/catch
-- `/home/jai/theserene/src/lib/email.ts`: import() nativo con try/catch
-- `/home/jai/theserene/src/lib/services/email-sequence.ts`: import() nativo con try/catch
-- `/home/jai/theserene/src/lib/services/seo-generator.ts`: slug usa selected.slug (no AI)
-- `/home/jai/theserene/src/lib/services/payment.service.ts`: getCUPRate() async
-- `/home/jai/theserene/src/app/api/user/delete-account/route.ts`: Storage cleanup + UserEvolution
-- `/home/jai/theserene/src/app/api/payments/create-pack/route.ts`: PayPal order creation
-- `/home/jai/theserene/src/app/api/payments/create/route.ts`: PayPal order creation
-- `/home/jai/theserene/src/app/api/payments/webhook/route.ts`: PayPal order verification
-- `/home/jai/theserene/src/app/api/cron/generate-seo/route.ts`: verifyCronSecret
-- `/home/jai/theserene/src/app/api/cron/emails/route.ts`: verifyCronSecret
-- `/home/jai/theserene/src/app/api/cron/retention/route.ts`: verifyCronSecret
-- `/home/jai/theserene/src/app/api/analyze/route.ts`: await checkRateLimit (DB-backed)
-- `/home/jai/theserene/src/app/api/register/route.ts`: Rate limit 10/IP/24h
-- `/home/jai/theserene/src/components/query-provider.tsx`: Pass-through (sin react-query)
-- `/home/jai/theserene/src/global.d.ts`: Scheduler types
+- `src/lib/paypal.ts`: NUEVO — `createPayPalOrder()`, `capturePayPalOrder()`, `verifyPayPalOrder()`, `isPaypalConfigured()`
+- `src/lib/payments.ts`: ELIMINADO — reemplazado por paypal.ts
+- `src/lib/env.ts`: MODIFICADO — QVAPAY_* → PAYPAL_*. `GEMINI_API_KEY` añadido al schema. `EXCHANGERATE_API_KEY`, `RESEND_API_KEY` eliminados
+- `src/app/api/payments/*.ts`: TODOS REFACTORED — QvaPay → PayPal (create, create-pack, create-guide, webhook, verify, verify-guide)
+- `src/app/api/payments/webhook/__tests__/webhook.test.ts`: REESCRITO — 23 tests para PayPal flow
+- `src/app/api/contact/route.ts`: MODIFICADO — CSRF añadido
+- `src/app/api/feedback/*.ts`: MODIFICADO — CSRF añadido (4 endpoints)
+- `src/app/api/notifications/*.ts`: MODIFICADO — CSRF añadido (3 endpoints)
+- `src/app/api/analysis/[id]/*.ts`: MODIFICADO — CSRF añadido (4 endpoints)
+- `src/app/api/skin-diary/route.ts`: MODIFICADO — CSRF añadido
+- `src/app/api/user/*.ts`: MODIFICADO — CSRF añadido (4 endpoints); delete-account CSRF bugfix
+- `src/app/api/user/comparison/route.ts`: MODIFICADO — JSON.parse try/catch + CSRF
+- `src/app/api/community/*.ts`: MODIFICADO — CSRF añadido (7 endpoints), paginación cursor-based, Zod validation POST
+- `src/app/api/community/groups/route.ts`: MODIFICADO — Zod `createGroupSchema` con `safeParse`
+- `src/lib/telegram-handlers.ts`: MODIFICADO — N+1 eliminado (validate/activate/broadcast batch ops)
+- `src/lib/services/badge.service.ts`: MODIFICADO — N+1 eliminado (Promise.all + createMany)
+- `src/app/api/cron/cleanup-trials/route.ts`: MODIFICADO — N+1 eliminado (updateMany)
+- `src/app/api/cron/send-reminders/route.ts`: MODIFICADO — N+1 eliminado (createMany)
+- `src/app/blog/[slug]/page.tsx`: MODIFICADO — sanitización XSS en contenido HTML
+- `src/app/layout.tsx`: MODIFICADO — preconnect Gemini/Groq/PayPal, service worker lazyOnload, manifest duplicado removido
+- `src/app/page.tsx`: MODIFICADO — hero image `priority`
+- `src/app/products/page.tsx`: MODIFICADO — product images `loading="lazy"`
+- `src/app/analysis/page.tsx`: MODIFICADO — `typeof window` guard removido, lazy loading en imágenes
+- `src/app/dashboard/page.tsx`: MODIFICADO — imports no usados removidos, `as any` → tipo real
+- `src/app/dashboard/esthetician/page.tsx`: MODIFICADO — `as any` → tipo real
+- `src/app/dashboard/history/page.tsx`: MODIFICADO — `any[]` → `EvolutionPoint[]`
+- `src/app/dashboard/error.tsx`: MODIFICADO — `console.error` → `logger.error`
+- `src/app/analysis/error.tsx`: MODIFICADO — `console.error` → `logger.error`
+- `src/lib/api-response.ts`: MODIFICADO — `console.error` → `logger.error`
+- `src/lib/sentry.ts`: MODIFICADO — `console.error` → `logger.error`
+- `src/lib/auth.ts`: MODIFICADO — `console.error` → `logger.error`, 4 `.catch(() => {})` → `logger.error`
+- `src/lib/bot-knowledge.ts`: MODIFICADO — `forEach` fire-and-forget → `Promise.allSettled`
+- `next.config.mjs`: MODIFICADO — `removeConsole: true`, CSP domains añadidos
+- `prisma/schema.prisma`: MODIFICADO — `User.qvapayId` eliminado
+- `prisma/seed-knowledge.ts`: MODIFICADO — QvaPay → PayPal (3 referencias)
+- `render.yaml`: MODIFICADO — QVAPAY_* → PAYPAL_*
+- `public/robots.txt`: ELIMINADO — competía con dynamic `robots.ts`
