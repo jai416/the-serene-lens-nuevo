@@ -58,7 +58,7 @@ export async function POST(req: NextRequest) {
       },
     })
 
-    revalidateTag("products-catalog")
+    revalidateTag("products-catalog", "max")
 
     return ok({ product })
   } catch (e) {
@@ -88,7 +88,7 @@ export async function PUT(req: NextRequest) {
       data,
     })
 
-    revalidateTag("products-catalog")
+    revalidateTag("products-catalog", "max")
 
     return ok({ product })
   } catch (e) {
@@ -113,7 +113,7 @@ export async function DELETE(req: NextRequest) {
 
     await db.product.delete({ where: { id: parsed.data.id } })
 
-    revalidateTag("products-catalog")
+    revalidateTag("products-catalog", "max")
 
     return ok({ deleted: true })
   } catch (e) {
