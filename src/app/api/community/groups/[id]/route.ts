@@ -3,6 +3,7 @@ import { getServerSession } from "next-auth"
 import { authOptions } from "@/lib/auth"
 import { db } from "@/lib/db"
 import { ok, error, serverError, notFound } from "@/lib/api-response"
+import { validateCsrf } from "@/lib/csrf-middleware"
 
 export async function GET(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   try {
@@ -31,6 +32,7 @@ export async function POST(req: NextRequest, { params }: { params: Promise<{ id:
   try {
     const session = await getServerSession(authOptions)
     if (!session?.user?.id) return error("No autorizado", 401)
+    if (!validateCsrf(req)) return error("CSRF token inválido", 403)
 
     const { id } = await params
     const group = await db.communityGroup.findUnique({ where: { id } })
@@ -56,6 +58,7 @@ export async function DELETE(req: NextRequest, { params }: { params: Promise<{ i
   try {
     const session = await getServerSession(authOptions)
     if (!session?.user?.id) return error("No autorizado", 401)
+    if (!validateCsrf(req)) return error("CSRF token inválido", 403)
 
     const { id } = await params
     const member = await db.communityMember.findUnique({

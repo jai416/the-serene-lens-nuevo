@@ -3,6 +3,7 @@ import { getServerSession } from "next-auth"
 import { authOptions } from "@/lib/auth"
 import { db } from "@/lib/db"
 import { ok, error, serverError, notFound } from "@/lib/api-response"
+import { validateCsrf } from "@/lib/csrf-middleware"
 
 const VALID_TYPES = ["LIKE", "LOVE", "HELPFUL", "INSIGHTFUL", "INTERESTING"]
 
@@ -10,6 +11,7 @@ export async function POST(req: NextRequest, { params }: { params: Promise<{ id:
   try {
     const session = await getServerSession(authOptions)
     if (!session?.user?.id) return error("No autorizado", 401)
+    if (!validateCsrf(req)) return error("CSRF token inválido", 403)
 
     const { id } = await params
     const post = await db.communityPost.findUnique({ where: { id } })

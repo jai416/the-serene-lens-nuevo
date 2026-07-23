@@ -1,7 +1,9 @@
+import { NextRequest } from "next/server"
 import { getServerSession } from "next-auth"
 import { authOptions } from "@/lib/auth"
 import { db } from "@/lib/db"
 import { ok, unauthorized, error, serverError } from "@/lib/api-response"
+import { validateCsrf } from "@/lib/csrf-middleware"
 
 export async function GET(req: Request) {
   try {
@@ -10,6 +12,7 @@ export async function GET(req: Request) {
 
     const url = new URL(req.url)
     const groupId = url.searchParams.get("groupId")
+    const cursor = url.searchParams.get("cursor")
 
     const where: any = {}
     if (groupId) where.groupId = groupId
@@ -21,19 +24,24 @@ export async function GET(req: Request) {
         _count: { select: { comments: true, reactions: true } },
       },
       orderBy: { createdAt: "desc" },
-      take: 50,
+      take: 51,
+      ...(cursor ? { skip: 1, cursor: { id: cursor } } : {}),
     })
 
-    return ok({ posts })
+    const hasMore = posts.length > 50
+    const items = hasMore ? posts.slice(0, 50) : posts
+
+    return ok({ posts: items, nextCursor: hasMore ? items[items.length - 1]?.id : null })
   } catch (e) {
     return serverError(e)
   }
 }
 
-export async function POST(req: Request) {
+export async function POST(req: NextRequest) {
   try {
     const session = await getServerSession(authOptions)
     if (!session?.user) return unauthorized()
+    if (!validateCsrf(req)) return error("CSRF token inválido", 403)
 
     const { title, content, groupId, category } = await req.json()
     if (!title || !content) {

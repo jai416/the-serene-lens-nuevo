@@ -23,8 +23,18 @@ interface Analysis {
   createdAt: string
 }
 
+interface EvolutionPoint {
+  date: string
+  texture?: string
+  shine?: string
+  pores?: string
+  uniformity?: string
+  apparentSensitivity?: string
+  apparentOil?: string
+}
+
 interface EvolutionResult {
-  points: any[]
+  points: EvolutionPoint[]
   trends: Record<string, string>
   totalAnalyses: number
 }

@@ -178,6 +178,7 @@ export default function ProductsPage() {
                         src={failedImages.has(product.id) ? FALLBACK_IMAGE : (product.image || "/images/placeholder.svg")}
                         alt={product.name}
                         fill
+                        loading="lazy"
                         sizes="(max-width: 768px) 100vw, 50vw"
                         className="object-cover group-hover:scale-105 transition-transform duration-300"
                         onError={() => handleImageError(product.id)}

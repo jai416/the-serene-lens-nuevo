@@ -334,7 +334,7 @@ export default function AnalysisPage() {
                       <div key={slot.id} onDragOver={handleDragOver} onDrop={(e) => handleDrop(e, slot.id)}>
                         {hasPhoto ? (
                           <div className="relative aspect-square rounded-xl overflow-hidden" style={{ border: "1px solid #E8E8E8" }}>
-                            <Image src={photo.preview!} alt={slot.label} fill className="object-cover" />
+                            <Image src={photo.preview!} alt={slot.label} fill className="object-cover" loading="lazy" fetchpriority="low" />
                             <div className="absolute inset-0 bg-black/0 hover:bg-black/10 transition-colors" />
                             <button onClick={() => removePhoto(slot.id)}
                               className="absolute top-2 right-2 text-xs px-2.5 py-1.5 rounded-full shadow-sm backdrop-blur-sm"
@@ -483,7 +483,7 @@ export default function AnalysisPage() {
                       <div key={slot.id} className="aspect-square rounded-xl overflow-hidden relative"
                         style={{ border: "1px solid #E8E8E8", backgroundColor: "#F8F9FA" }}>
                         {photo?.file ? (
-                          <Image src={photo.preview!} alt={slot.label} fill className="object-cover" />
+                          <Image src={photo.preview!} alt={slot.label} fill className="object-cover" loading="lazy" fetchpriority="low" />
                         ) : (
                           <div className="flex items-center justify-center h-full text-[10px]" style={{ color: "#666666" }}>
                             Sin foto

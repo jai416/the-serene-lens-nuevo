@@ -7,7 +7,7 @@ import Link from "next/link"
 import { Card, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
-import { Scan, History, Droplets, Beaker, ArrowRight, Sparkles, Sun, Clock, ChevronRight, TrendingUp, Shield, Bell, Crown, MessageSquare } from "lucide-react"
+import { Scan, History, Droplets, Beaker, ArrowRight, Sparkles, Sun, ChevronRight, TrendingUp, Shield, Bell, Crown } from "lucide-react"
 import { formatDate } from "@/lib/utils"
 import { CardSkeleton } from "@/components/ui/skeleton"
 import { toast } from "sonner"
@@ -76,8 +76,8 @@ export default function DashboardPage() {
   const hasAnalyses = analyses.length > 0
   const progressScore = hasAnalyses ? Math.min(100, 70 + analyses.length * 2) : 0
 
-  const user = session.user as any
-  const isFree = user?.plan === "FREE" || user?.plan === "ESSENTIAL"
+  const user = session.user
+  const isFree = user.plan === "FREE" || user.plan === "ESSENTIAL"
 
   return (
     <div className="px-4 py-6 md:py-8">

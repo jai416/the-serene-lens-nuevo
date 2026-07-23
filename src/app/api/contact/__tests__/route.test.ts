@@ -26,6 +26,10 @@ vi.mock("@/lib/logger", () => ({
   logger: { info: vi.fn(), error: vi.fn() },
 }))
 
+vi.mock("@/lib/csrf-middleware", () => ({
+  validateCsrf: vi.fn(() => true),
+}))
+
 import { POST } from "../route"
 
 describe("Contact API", () => {

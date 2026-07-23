@@ -50,7 +50,7 @@ export default function EstheticianPage() {
   const pathname = usePathname()
   const { data: session, status } = useSession()
   const { locale } = useLocale()
-  const user = session?.user as any
+  const user = session?.user
   const [clinic, setClinic] = useState<ClinicProfile | null>(null)
   const [clients, setClients] = useState<ClientData[]>([])
   const [loading, setLoading] = useState(true)

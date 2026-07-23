@@ -4,6 +4,7 @@ import { authOptions } from "@/lib/auth";
 import { db } from "@/lib/db";
 import { ok, error, serverError } from "@/lib/api-response";
 import { z } from "zod";
+import { validateCsrf } from "@/lib/csrf-middleware";
 
 const stripHtml = (s: string) => s.replace(/<[^>]*>/g, "").trim()
 
@@ -23,13 +24,20 @@ export async function GET(
       return error("Publicación no encontrada", 404);
     }
 
+    const cursor = request.nextUrl.searchParams.get("cursor");
+
     const comments = await db.comment.findMany({
       where: { postId: id },
       include: { user: { select: { name: true } } },
       orderBy: { createdAt: "asc" },
+      take: 51,
+      ...(cursor ? { skip: 1, cursor: { id: cursor } } : {}),
     });
 
-    return ok(comments);
+    const hasMore = comments.length > 50
+    const items = hasMore ? comments.slice(0, 50) : comments
+
+    return ok({ comments: items, nextCursor: hasMore ? items[items.length - 1]?.id : null });
   } catch (err) {
     return serverError(err);
   }
@@ -44,6 +52,7 @@ export async function POST(
     if (!session?.user?.email) {
       return error("No autorizado", 401);
     }
+    if (!validateCsrf(request)) return error("CSRF token inválido", 403);
 
     const user = await db.user.findUnique({
       where: { email: session.user.email },

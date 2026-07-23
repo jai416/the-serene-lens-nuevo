@@ -3,6 +3,7 @@
 import { useEffect } from "react"
 import { Button } from "@/components/ui/button"
 import { AlertCircle, RefreshCw } from "lucide-react"
+import { logger } from "@/lib/logger"
 
 export default function AnalysisError({
   error,
@@ -12,7 +13,7 @@ export default function AnalysisError({
   reset: () => void
 }) {
   useEffect(() => {
-    console.error("Analysis error:", error)
+    logger.error("Analysis error", { message: error.message, digest: error.digest })
   }, [error])
 
   return (

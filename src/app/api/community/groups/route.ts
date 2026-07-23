@@ -1,8 +1,10 @@
+import { NextRequest } from "next/server"
 import { cache } from "react"
 import { getServerSession } from "next-auth"
 import { authOptions } from "@/lib/auth"
 import { db } from "@/lib/db"
 import { ok, unauthorized, error, serverError } from "@/lib/api-response"
+import { validateCsrf } from "@/lib/csrf-middleware"
 
 const getUserSkinType = cache(async (userId: string): Promise<string> => {
   const analysis = await db.skinAnalysis.findFirst({
@@ -39,10 +41,11 @@ export async function GET() {
   }
 }
 
-export async function POST(req: Request) {
+export async function POST(req: NextRequest) {
   try {
     const session = await getServerSession(authOptions)
     if (!session?.user) return unauthorized()
+    if (!validateCsrf(req)) return error("CSRF token inválido", 403)
 
     const { name, slug, description, image } = await req.json()
     if (!name || !slug || !description) {

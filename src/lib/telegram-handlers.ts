@@ -449,20 +449,12 @@ export async function handleValidar(chatId: string, userId: string, args: string
   if (args[0] === "todos") {
     const pendings = await db.transferPayment.findMany({ where: { status: "pending" }, orderBy: { createdAt: "asc" } })
     if (pendings.length === 0) { await sendTelegramMessage(chatId, "✅ No hay pagos pendientes."); return }
-    let ok = 0, fail = 0
-    for (const p of pendings) {
-      try {
-        await db.$transaction([
-          db.transferPayment.update({ where: { id: p.id }, data: { status: "validated", validatedById: userId, validatedAt: new Date() } }),
-          db.auditLog.create({ data: { userId, action: "validate_transfer", targetId: p.id, targetType: "transfer", details: `Batch validated ${p.referenceCode}` } }),
-        ])
-        ok++
-      } catch {
-        await db.transferPayment.update({ where: { id: p.id }, data: { status: "pending" } }).catch(() => {})
-        fail++
-      }
-    }
-    await sendTelegramMessage(chatId, R.batchValidateResult(ok, fail))
+    const pendingIds = pendings.map(p => p.id)
+    await db.$transaction([
+      db.transferPayment.updateMany({ where: { id: { in: pendingIds } }, data: { status: "validated", validatedById: userId, validatedAt: new Date() } }),
+      db.auditLog.createMany({ data: pendings.map(p => ({ userId, action: "validate_transfer", targetId: p.id, targetType: "transfer", details: `Batch validated ${p.referenceCode}` })) }),
+    ])
+    await sendTelegramMessage(chatId, R.batchValidateResult(pendingIds.length, 0))
     return
   }
 
@@ -471,22 +463,13 @@ export async function handleValidar(chatId: string, userId: string, args: string
     const indices = args[0].split(",").map(s => parseInt(s.trim())).filter(n => !isNaN(n))
     if (indices.length === 0) { await sendTelegramMessage(chatId, "❌ Índices inválidos. Usa: /validar 1,2,3"); return }
     const pendings = await db.transferPayment.findMany({ where: { status: "pending" }, orderBy: { createdAt: "asc" }, take: Math.max(...indices) })
-    let ok = 0, fail = 0
-    for (const idx of indices) {
-      const p = pendings[idx - 1]
-      if (!p) { fail++; continue }
-      try {
-        await db.$transaction([
-          db.transferPayment.update({ where: { id: p.id }, data: { status: "validated", validatedById: userId, validatedAt: new Date() } }),
-          db.auditLog.create({ data: { userId, action: "validate_transfer", targetId: p.id, targetType: "transfer", details: `Batch validated ${p.referenceCode}` } }),
-        ])
-        ok++
-      } catch {
-        await db.transferPayment.update({ where: { id: p.id }, data: { status: "pending" } }).catch(() => {})
-        fail++
-      }
-    }
-    await sendTelegramMessage(chatId, R.batchValidateResult(ok, fail))
+    const selected = indices.map(idx => pendings[idx - 1]).filter((p): p is NonNullable<typeof p> => !!p)
+    const selectedIds = selected.map(p => p.id)
+    await db.$transaction([
+      db.transferPayment.updateMany({ where: { id: { in: selectedIds } }, data: { status: "validated", validatedById: userId, validatedAt: new Date() } }),
+      db.auditLog.createMany({ data: selected.map(p => ({ userId, action: "validate_transfer", targetId: p.id, targetType: "transfer", details: `Batch validated ${p.referenceCode}` })) }),
+    ])
+    await sendTelegramMessage(chatId, R.batchValidateResult(selectedIds.length, indices.length - selectedIds.length))
     return
   }
 
@@ -648,27 +631,21 @@ export async function handleActivar(chatId: string, userId: string, args: string
   if (ref.includes(",")) {
     const indices = ref.split(",").map(s => parseInt(s.trim())).filter(n => !isNaN(n))
     const validated = await db.transferPayment.findMany({ where: { status: "validated" }, orderBy: { createdAt: "asc" } })
-    let ok = 0, fail = 0
-    for (const idx of indices) {
-      const t = validated[idx - 1]
-      if (!t) { fail++; continue }
-      try {
-        const periodEnd = new Date()
-        periodEnd.setDate(periodEnd.getDate() + (t.plan.endsWith("_ANNUAL") ? 365 : 30))
-        await db.$transaction([
-          db.transferPayment.update({ where: { id: t.id }, data: { status: "activated", activatedById: userId, activatedAt: new Date() } }),
-          db.user.update({ where: { id: t.userId }, data: { plan: t.plan } }),
-          db.subscription.create({ data: { userId: t.userId, plan: t.plan, provider: "transfer", status: "active", currentPeriodStart: new Date(), currentPeriodEnd: periodEnd } }),
-          db.payment.create({ data: { userId: t.userId, provider: "transfer", plan: t.plan, amount: t.amount, status: "completed", confirmedAt: new Date(), remoteId: t.referenceCode } }),
-          db.auditLog.create({ data: { userId, action: "activate_transfer", targetId: t.id, targetType: "transfer", details: `Batch activated ${t.referenceCode}` } }),
-        ])
-        ok++
-      } catch {
-        await db.transferPayment.update({ where: { id: t.id }, data: { status: "validated" } }).catch(() => {})
-        fail++
-      }
-    }
-    await sendTelegramMessage(chatId, R.batchValidateResult(ok, fail))
+    const selected = indices.map(idx => validated[idx - 1]).filter((t): t is NonNullable<typeof t> => !!t)
+    const now = new Date()
+    const subs = selected.map(t => {
+      const pe = new Date(now)
+      pe.setDate(pe.getDate() + (t.plan.endsWith("_ANNUAL") ? 365 : 30))
+      return { userId: t.userId, plan: t.plan, provider: "transfer", status: "active", currentPeriodStart: now, currentPeriodEnd: pe }
+    })
+    await db.$transaction([
+      db.transferPayment.updateMany({ where: { id: { in: selected.map(t => t.id) } }, data: { status: "activated", activatedById: userId, activatedAt: now } }),
+      ...selected.map(t => db.user.update({ where: { id: t.userId }, data: { plan: t.plan } })),
+      db.subscription.createMany({ data: subs }),
+      db.payment.createMany({ data: selected.map(t => ({ userId: t.userId, provider: "transfer", plan: t.plan, amount: t.amount, status: "completed", confirmedAt: now, remoteId: t.referenceCode })) }),
+      db.auditLog.createMany({ data: selected.map(t => ({ userId, action: "activate_transfer", targetId: t.id, targetType: "transfer", details: `Batch activated ${t.referenceCode}` })) }),
+    ])
+    await sendTelegramMessage(chatId, R.batchValidateResult(selected.length, indices.length - selected.length))
     return
   }
 
@@ -837,8 +814,12 @@ export async function handleBroadcastGo(chatId: string, userId: string) {
   broadcastPending = null
   const users = await db.user.findMany({ where: { telegramId: { not: null } }, select: { telegramId: true } })
   let sent = 0
-  for (const u of users) {
-    if (u.telegramId) { if (await sendTelegramMessage(u.telegramId, msg)) sent++ }
+  const batchSize = 30
+  for (let i = 0; i < users.length; i += batchSize) {
+    const batch = users.slice(i, i + batchSize)
+    const results = await Promise.allSettled(batch.map(u => u.telegramId ? sendTelegramMessage(u.telegramId, msg) : Promise.resolve(false)))
+    sent += results.filter(r => r.status === "fulfilled" && r.value).length
+    if (i + batchSize < users.length) await new Promise(r => setTimeout(r, 1000))
   }
   await sendTelegramMessage(chatId, R.broadcastResult(sent, users.length))
 }

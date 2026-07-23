@@ -147,6 +147,7 @@ export default function HomePage() {
                   src="/images/hero-skincare.webp"
                   alt="The Serene Lens — Análisis de piel con IA"
                   fill
+                  priority
                   sizes="(max-width: 768px) 100vw, 50vw"
                   className="object-cover rounded-[32px]"
                 />

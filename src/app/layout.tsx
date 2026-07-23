@@ -2,6 +2,7 @@ import type { Metadata } from "next"
 import { Inter } from "next/font/google"
 import "./globals.css"
 import { Toaster } from "sonner"
+import Script from "next/script"
 
 const inter = Inter({
   subsets: ["latin"],
@@ -75,10 +76,16 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <meta name="google-site-verification" content="FyNhwOqJ_JWdfoU_RZPYAqSNuHeuCXUgjmwDqT1cGXw" />
         <link rel="preconnect" href="https://api.groq.com" crossOrigin="anonymous" />
         <link rel="dns-prefetch" href="https://api.groq.com" />
+        <link rel="preconnect" href="https://generativelanguage.googleapis.com" crossOrigin="anonymous" />
+        <link rel="dns-prefetch" href="https://generativelanguage.googleapis.com" />
+        <link rel="preconnect" href="https://api-m.paypal.com" crossOrigin="anonymous" />
+        <link rel="dns-prefetch" href="https://api-m.paypal.com" />
         <link rel="preconnect" href="https://app.posthog.com" crossOrigin="anonymous" />
         <link rel="dns-prefetch" href="https://app.posthog.com" />
         {process.env.NODE_ENV === "production" && (
-          <script
+          <Script
+            id="service-worker"
+            strategy="lazyOnload"
             dangerouslySetInnerHTML={{
               __html: `
                 if ("serviceWorker" in navigator) {

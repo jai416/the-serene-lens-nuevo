@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button"
 import { AlertCircle, RefreshCw } from "lucide-react"
 import { useLocale } from "@/lib/locale/locale-context"
 import { t } from "@/lib/locale/translations"
+import { logger } from "@/lib/logger"
 
 export default function DashboardError({
   error,
@@ -15,7 +16,7 @@ export default function DashboardError({
 }) {
   const { locale } = useLocale()
   useEffect(() => {
-    console.error("Dashboard error:", error)
+    logger.error("Dashboard error", { message: error.message, digest: error.digest })
   }, [error])
 
   return (
