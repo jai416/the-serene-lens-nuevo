@@ -4,6 +4,7 @@ import { authOptions } from "@/lib/auth"
 import { db } from "@/lib/db"
 import { checkRateLimit } from "@/lib/rate-limit"
 import { ok, error, unauthorized, notFound, serverError } from "@/lib/api-response"
+import { logger } from "@/lib/logger"
 
 export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   try {
@@ -33,7 +34,7 @@ export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id
 
     return ok(updated)
   } catch (e) {
-    console.error("Challenge PATCH error:", e)
+    logger.error("Challenge PATCH error:", e)
     return serverError(e)
   }
 }
@@ -53,7 +54,7 @@ export async function DELETE(_req: NextRequest, { params }: { params: Promise<{ 
     await db.challenge.delete({ where: { id } })
     return ok({ deleted: true })
   } catch (e) {
-    console.error("Challenge DELETE error:", e)
+    logger.error("Challenge DELETE error:", e)
     return serverError(e)
   }
 }

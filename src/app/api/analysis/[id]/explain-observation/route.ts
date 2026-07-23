@@ -3,6 +3,7 @@ import { getServerSession } from "next-auth"
 import { authOptions } from "@/lib/auth"
 import { db } from "@/lib/db"
 import { ok, error, unauthorized, notFound, serverError } from "@/lib/api-response"
+import { validateCsrf } from "@/lib/csrf-middleware"
 import { z } from "zod"
 import { groqChatJSON } from "@/lib/groq-chat"
 
@@ -14,6 +15,7 @@ const SYSTEM = "Eres un experto en análisis cosmético de piel con amplia exper
 
 export async function POST(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   try {
+    if (!validateCsrf(req)) return error("CSRF token inválido", 403)
     const session = await getServerSession(authOptions)
     if (!session?.user) return unauthorized()
     const { id } = await params

@@ -4,6 +4,7 @@ import { authOptions } from "@/lib/auth"
 import { db } from "@/lib/db"
 import { checkRateLimit } from "@/lib/rate-limit"
 import { ok, error, unauthorized, serverError } from "@/lib/api-response"
+import { logger } from "@/lib/logger"
 import { z } from "zod"
 import { revalidateTag } from "next/cache"
 
@@ -31,7 +32,7 @@ export async function GET() {
 
     return ok({ guides })
   } catch (e) {
-    console.error("Admin guides GET error:", e)
+    logger.error("Admin guides GET error:", e)
     return serverError(e)
   }
 }
@@ -56,7 +57,7 @@ export async function POST(request: NextRequest) {
 
     return ok({ guide })
   } catch (e) {
-    console.error("Admin guides POST error:", e)
+    logger.error("Admin guides POST error:", e)
     return serverError(e)
   }
 }

@@ -4,6 +4,7 @@ import { authOptions } from "@/lib/auth"
 import { db } from "@/lib/db"
 import { z } from "zod"
 import { ok, error, unauthorized, notFound, serverError } from "@/lib/api-response"
+import { validateCsrf } from "@/lib/csrf-middleware"
 
 const bodySchema = z.object({
   analysisId: z.string().min(1),
@@ -14,6 +15,7 @@ const bodySchema = z.object({
 
 export async function POST(req: NextRequest) {
   try {
+    if (!validateCsrf(req)) return error("CSRF token inválido", 403)
     const session = await getServerSession(authOptions)
     if (!session?.user) {
       return unauthorized("Debes iniciar sesión")

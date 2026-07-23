@@ -7,12 +7,13 @@ import { db } from "@/lib/db"
 import { getEnv } from "@/lib/env"
 import { checkRateLimit, clearRateLimit } from "@/lib/rate-limit"
 import { setSentryUser } from "@/lib/sentry"
+import { logger } from "@/lib/logger"
 
 function getAuthEnv() {
   try {
     return getEnv()
   } catch (e) {
-    console.error("[Auth] Failed to load env vars:", e instanceof Error ? e.message : e)
+    logger.error("[Auth] Failed to load env vars:", e instanceof Error ? e.message : e)
     return null
   }
 }

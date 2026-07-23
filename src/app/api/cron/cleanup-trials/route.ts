@@ -49,16 +49,18 @@ export async function POST(req: Request) {
         where: { status: "expired", updatedAt: { gte: new Date(Date.now() - 60000) } },
         select: { id: true, userId: true, plan: true },
       })
-      for (const sub of expired) {
-        const hasActive = await db.subscription.findFirst({
-          where: { userId: sub.userId, status: "active", id: { not: sub.id } },
+      const userIds = expired.map(s => s.userId)
+      const activeSubs = await db.subscription.findMany({
+        where: { userId: { in: userIds }, status: "active" },
+        select: { userId: true },
+      })
+      const activeUserIds = new Set(activeSubs.map(s => s.userId))
+      const toDegrade = userIds.filter(id => !activeUserIds.has(id))
+      if (toDegrade.length > 0) {
+        await db.user.updateMany({
+          where: { id: { in: toDegrade } },
+          data: { plan: "FREE", analysisLimit: 1 },
         })
-        if (!hasActive) {
-          await db.user.update({
-            where: { id: sub.userId },
-            data: { plan: "FREE", analysisLimit: 1 },
-          })
-        }
       }
     }
 

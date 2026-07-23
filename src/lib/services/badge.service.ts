@@ -19,13 +19,13 @@ const BADGE_DEFINITIONS = [
 
 export const BadgeService = {
   async ensureBadges(): Promise<void> {
-    for (const def of BADGE_DEFINITIONS) {
-      await db.badge.upsert({
+    await Promise.all(BADGE_DEFINITIONS.map(def =>
+      db.badge.upsert({
         where: { slug: def.slug },
         update: { name: def.name, description: def.description, icon: def.icon, criteria: JSON.stringify(def.criteria) },
         create: { slug: def.slug, name: def.name, description: def.description, icon: def.icon, criteria: JSON.stringify(def.criteria) },
       })
-    }
+    ))
   },
 
   async checkAndAward(userId: string): Promise<string[]> {
@@ -35,18 +35,20 @@ export const BadgeService = {
     const earnedIds = new Set(userBadges.map((b) => b.badgeId))
     const newlyAwarded: string[] = []
 
-    for (const badge of badges) {
-      if (earnedIds.has(badge.id)) continue
-      const criteria = JSON.parse(badge.criteria) as BadgeCriteria
-      const earned = await this.evaluateCriteria(userId, criteria)
-      if (earned) {
-        try {
-          await db.userBadge.create({ data: { userId, badgeId: badge.id } })
-          newlyAwarded.push(badge.slug)
-        } catch {
-          // Duplicate check race — skip
-        }
-      }
+    const toAward = await Promise.all(badges
+      .filter(b => !earnedIds.has(b.id))
+      .map(async (badge) => {
+        const criteria = JSON.parse(badge.criteria) as BadgeCriteria
+        const earned = await this.evaluateCriteria(userId, criteria)
+        return earned ? badge : null
+      }))
+    const awarded = toAward.filter((b): b is typeof badges[number] => b !== null)
+    if (awarded.length > 0) {
+      await db.userBadge.createMany({
+        data: awarded.map(b => ({ userId, badgeId: b.id })),
+        skipDuplicates: true,
+      })
+      newlyAwarded.push(...awarded.map(b => b.slug))
     }
     return newlyAwarded
   },

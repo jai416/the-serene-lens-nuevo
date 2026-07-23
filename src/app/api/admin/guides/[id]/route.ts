@@ -4,6 +4,7 @@ import { authOptions } from "@/lib/auth"
 import { db } from "@/lib/db"
 import { checkRateLimit } from "@/lib/rate-limit"
 import { ok, error, unauthorized, notFound, serverError } from "@/lib/api-response"
+import { logger } from "@/lib/logger"
 import { revalidateTag } from "next/cache"
 
 export async function PATCH(
@@ -40,7 +41,7 @@ export async function PATCH(
     revalidateTag("guides")
     return ok({ guide: updated })
   } catch (e) {
-    console.error("Admin guide PATCH error:", e)
+    logger.error("Admin guide PATCH error:", e)
     return serverError(e)
   }
 }
@@ -64,7 +65,7 @@ export async function DELETE(
     revalidateTag("guides")
     return ok({ deleted: true })
   } catch (e) {
-    console.error("Admin guide DELETE error:", e)
+    logger.error("Admin guide DELETE error:", e)
     return serverError(e)
   }
 }

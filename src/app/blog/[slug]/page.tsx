@@ -1,3 +1,11 @@
+function sanitizeHtml(html: string): string {
+  return html
+    .replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, '')
+    .replace(/ on\w+="[^"]*"/gi, '')
+    .replace(/ on\w+='[^']*'/gi, '')
+    .replace(/javascript:/gi, '')
+}
+
 import { notFound } from "next/navigation"
 import { db } from "@/lib/db"
 import { formatDate } from "@/lib/utils"
@@ -161,7 +169,7 @@ export default async function BlogPostPage({
             prose-headings:font-serif prose-headings:font-semibold
             prose-a:text-[#88B078] prose-a:no-underline hover:prose-a:underline
             prose-img:rounded-2xl prose-img:shadow-sm"
-          dangerouslySetInnerHTML={{ __html: post.content }}
+          dangerouslySetInnerHTML={{ __html: sanitizeHtml(post.content) }}
         />
 
         <hr className="my-8 border-[#E8E8E8]" />

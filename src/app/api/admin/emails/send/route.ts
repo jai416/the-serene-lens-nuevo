@@ -4,6 +4,7 @@ import { authOptions } from "@/lib/auth"
 import { db } from "@/lib/db"
 import { checkRateLimit } from "@/lib/rate-limit"
 import { ok, error, serverError, unauthorized } from "@/lib/api-response"
+import { logger } from "@/lib/logger"
 import { createWebNotification } from "@/lib/notifications"
 
 const SEGMENT_FILTERS: Record<string, any> = {
@@ -56,7 +57,7 @@ export async function POST(req: NextRequest) {
 
     return ok({ sent, failed: users.length - sent, total: users.length, info: "Notificaciones web enviadas (email próximamente)" })
   } catch (e) {
-    console.error("Admin notification send error:", e)
+    logger.error("Admin notification send error:", e)
     return serverError(e)
   }
 }

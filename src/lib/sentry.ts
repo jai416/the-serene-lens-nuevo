@@ -1,8 +1,9 @@
 import * as Sentry from "@sentry/nextjs"
+import { logger } from "@/lib/logger"
 
 export function captureError(error: unknown, context?: Record<string, unknown>) {
   if (process.env.NODE_ENV === "development") {
-    console.error("[DEV Error]", error, context || "")
+    logger.error("[DEV Error]", error, context || "")
     return
   }
   Sentry.captureException(error, {

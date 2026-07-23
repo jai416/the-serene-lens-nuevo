@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server"
 import { db } from "@/lib/db"
 import { analysisQueue } from "@/lib/queue"
+import { logger } from "@/lib/logger"
 
 export const dynamic = "force-dynamic"
 
@@ -82,7 +83,7 @@ export async function GET() {
     detail: `${heapUsedMB}MB / ${heapTotalMB}MB`,
   }
   if (heapUsedMB > 400) {
-    console.warn(`[MEMORY WARNING] ${heapUsedMB}MB used — near Render free tier limit`)
+    logger.warn(`[MEMORY WARNING] ${heapUsedMB}MB used — near Render free tier limit`)
   }
 
   const response = {

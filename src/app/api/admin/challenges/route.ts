@@ -4,6 +4,7 @@ import { authOptions } from "@/lib/auth"
 import { db } from "@/lib/db"
 import { checkRateLimit } from "@/lib/rate-limit"
 import { ok, error, unauthorized, notFound, serverError } from "@/lib/api-response"
+import { logger } from "@/lib/logger"
 import { challengeCreateSchema } from "@/lib/validations"
 
 export async function GET() {
@@ -20,7 +21,7 @@ export async function GET() {
 
     return ok({ challenges })
   } catch (e) {
-    console.error("Challenges GET error:", e)
+    logger.error("Challenges GET error:", e)
     return serverError(e)
   }
 }
@@ -42,7 +43,7 @@ export async function POST(req: NextRequest) {
     const challenge = await db.challenge.create({ data: parsed.data })
     return ok(challenge, 201)
   } catch (e) {
-    console.error("Challenges POST error:", e)
+    logger.error("Challenges POST error:", e)
     return serverError(e)
   }
 }

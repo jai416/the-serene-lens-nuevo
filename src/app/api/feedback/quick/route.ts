@@ -3,6 +3,7 @@ import { getServerSession } from "next-auth"
 import { authOptions } from "@/lib/auth"
 import { db } from "@/lib/db"
 import { ok, error, unauthorized, notFound, serverError } from "@/lib/api-response"
+import { validateCsrf } from "@/lib/csrf-middleware"
 import { z } from "zod"
 
 const schema = z.object({
@@ -12,6 +13,7 @@ const schema = z.object({
 
 export async function POST(req: NextRequest) {
   try {
+    if (!validateCsrf(req)) return error("CSRF token inválido", 403)
     const session = await getServerSession(authOptions)
     if (!session?.user) return unauthorized()
 

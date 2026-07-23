@@ -73,7 +73,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <head>
         <link rel="manifest" href="/manifest.json" />
         <meta name="google-site-verification" content="FyNhwOqJ_JWdfoU_RZPYAqSNuHeuCXUgjmwDqT1cGXw" />
-        <link rel="manifest" href="/manifest.json" />
         <link rel="preconnect" href="https://api.groq.com" crossOrigin="anonymous" />
         <link rel="dns-prefetch" href="https://api.groq.com" />
         <link rel="preconnect" href="https://app.posthog.com" crossOrigin="anonymous" />

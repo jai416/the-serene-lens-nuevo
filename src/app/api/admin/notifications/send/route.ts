@@ -3,6 +3,7 @@ import { getServerSession } from "next-auth"
 import { authOptions } from "@/lib/auth"
 import { db } from "@/lib/db"
 import { ok, error, serverError, unauthorized } from "@/lib/api-response"
+import { logger } from "@/lib/logger"
 
 const SEGMENT_FILTERS: Record<string, any> = {
   all: {},
@@ -63,7 +64,7 @@ export async function POST(req: NextRequest) {
 
     return ok({ sent, failed: 0 })
   } catch (e) {
-    console.error("Notification send error:", e)
+    logger.error("Notification send error:", e)
     return serverError(e)
   }
 }

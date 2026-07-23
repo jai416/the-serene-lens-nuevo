@@ -3,10 +3,12 @@ import { getServerSession } from "next-auth"
 import { authOptions } from "@/lib/auth"
 import { db } from "@/lib/db"
 import { ok, error, unauthorized, serverError } from "@/lib/api-response"
+import { validateCsrf } from "@/lib/csrf-middleware"
 import { logger } from "@/lib/logger"
 
 export async function POST(req: NextRequest) {
   try {
+    if (!validateCsrf(req)) return error("CSRF token inválido", 403)
     const session = await getServerSession(authOptions)
     if (!session?.user) return unauthorized()
 
@@ -101,7 +103,7 @@ export async function POST(req: NextRequest) {
       reward,
     })
   } catch (e) {
-    console.error("Check-in error:", e)
+    logger.error("Check-in error:", e)
     return serverError(e)
   }
 }
@@ -140,7 +142,7 @@ export async function GET() {
       todayCheckIns: todayCheckIns.map((c) => c.routine),
     })
   } catch (e) {
-    console.error("Check-in GET error:", e)
+    logger.error("Check-in GET error:", e)
     return serverError(e)
   }
 }

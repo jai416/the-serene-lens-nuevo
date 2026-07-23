@@ -2,10 +2,12 @@ import { NextRequest } from "next/server"
 import { getServerSession } from "next-auth"
 import { authOptions } from "@/lib/auth"
 import { db } from "@/lib/db"
-import { ok, unauthorized, notFound, serverError } from "@/lib/api-response"
+import { ok, unauthorized, notFound, serverError, error } from "@/lib/api-response"
+import { validateCsrf } from "@/lib/csrf-middleware"
 
 export async function POST(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   try {
+    if (!validateCsrf(req)) return error("CSRF token inválido", 403)
     const session = await getServerSession(authOptions)
     if (!session?.user) return unauthorized()
 

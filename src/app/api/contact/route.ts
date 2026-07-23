@@ -1,11 +1,13 @@
 import { NextRequest } from "next/server"
 import { db } from "@/lib/db"
 import { ok, error, serverError } from "@/lib/api-response"
+import { validateCsrf } from "@/lib/csrf-middleware"
 import { checkRateLimit } from "@/lib/rate-limit"
 import { logger } from "@/lib/logger"
 
 export async function POST(req: NextRequest) {
   try {
+    if (!validateCsrf(req)) return error("CSRF token inválido", 403)
     const ip = req.headers.get("x-forwarded-for")?.split(",")[0]?.trim() || "unknown"
     const { allowed } = await checkRateLimit(`contact:${ip}`, 5, 3600000)
     if (!allowed) return error("Demasiados mensajes. Intenta en una hora.", 429)

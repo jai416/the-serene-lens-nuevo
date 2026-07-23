@@ -2,7 +2,7 @@
 const nextConfig = {
   transpilePackages: ["lucide-react"],
   compiler: {
-    removeConsole: false,
+    removeConsole: true,
   },
   turbopack: {},
   images: {

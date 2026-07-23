@@ -17,32 +17,34 @@ export async function GET(req: NextRequest) {
       include: { user: { select: { id: true, name: true } } },
     })
 
-    let sent = 0
-    let skipped = 0
-
-    for (const r of reminders) {
-      const lastSent = r.lastSentAt
-      const now = new Date()
-      let shouldSend = false
-
-      const daysSinceLast = lastSent
-        ? Math.floor((now.getTime() - lastSent.getTime()) / (1000 * 60 * 60 * 24))
+    const now = new Date()
+    const toSend = reminders.filter(r => {
+      const daysSinceLast = r.lastSentAt
+        ? Math.floor((now.getTime() - r.lastSentAt.getTime()) / (1000 * 60 * 60 * 24))
         : Infinity
+      if (r.frequency === "weekly" && daysSinceLast >= 7) return true
+      if (r.frequency === "biweekly" && daysSinceLast >= 14) return true
+      if (r.frequency === "monthly" && daysSinceLast >= 30) return true
+      return false
+    })
 
-      if (r.frequency === "weekly" && daysSinceLast >= 7) shouldSend = true
-      else if (r.frequency === "biweekly" && daysSinceLast >= 14) shouldSend = true
-      else if (r.frequency === "monthly" && daysSinceLast >= 30) shouldSend = true
-
-      if (!shouldSend) { skipped++; continue }
-
-      try {
-        await createReminderNotification(r.user.id, r.user.name || "")
-        await db.userReminder.update({ where: { id: r.id }, data: { lastSentAt: now } })
-        sent++
-      } catch {
-        skipped++
-      }
+    if (toSend.length > 0) {
+      await db.notification.createMany({
+        data: toSend.map(r => ({
+          userId: r.user.id,
+          title: "Recordatorio de rutina",
+          message: "¡Es hora de tu rutina de cuidado facial!",
+          link: "/dashboard",
+        })),
+      })
+      await db.userReminder.updateMany({
+        where: { id: { in: toSend.map(r => r.id) } },
+        data: { lastSentAt: now },
+      })
     }
+
+    const sent = toSend.length
+    const skipped = reminders.length - sent
 
     logger.info("Reminders sent", { sent, skipped })
     return NextResponse.json({ sent, skipped })
