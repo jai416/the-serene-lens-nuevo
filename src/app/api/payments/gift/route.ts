@@ -49,7 +49,7 @@ export async function POST(req: NextRequest) {
       },
     })
 
-    createGiftNotification(session.user.id, giftCode, analyses).catch(() => {})
+    createGiftNotification(session.user.id, giftCode, analyses).catch((e) => logger.error("Gift notif failed", { error: e }))
 
     logger.info("Gift pack created", { giftId: gift.id, packType, recipientEmail })
     return ok({ giftCode, analyses })

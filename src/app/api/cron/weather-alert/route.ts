@@ -112,7 +112,7 @@ export async function GET(req: NextRequest) {
               parse_mode: "HTML",
             }),
             signal: AbortSignal.timeout(5000),
-          }).catch(() => {})
+          }).catch((e) => logger.error("Telegram msg failed", { error: e }))
         }
 
         notified++

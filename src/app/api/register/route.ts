@@ -29,7 +29,7 @@ export async function POST(req: NextRequest) {
     }
 
     if (result.user?.id) {
-      createWelcomeNotification(result.user.id, name || username || "").catch(() => {})
+      createWelcomeNotification(result.user.id, name || username || "").catch((e) => logger.error("Welcome notif failed", { error: e }))
     }
 
     return ok({ userId: result.user?.id })

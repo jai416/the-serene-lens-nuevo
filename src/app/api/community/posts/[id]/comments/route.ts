@@ -5,6 +5,7 @@ import { db } from "@/lib/db";
 import { ok, error, serverError } from "@/lib/api-response";
 import { z } from "zod";
 import { validateCsrf } from "@/lib/csrf-middleware";
+import { logger } from "@/lib/logger";
 
 const stripHtml = (s: string) => s.replace(/<[^>]*>/g, "").trim()
 
@@ -89,7 +90,7 @@ export async function POST(
       const { sendTelegramMessage } = await import("@/lib/telegram");
       const adminChats = await db.telegramAuth.findMany({ where: { role: "ADMIN" }, select: { chatId: true } });
       for (const ac of adminChats) {
-        sendTelegramMessage(ac.chatId, `🚨 Nuevo comentario retenido por spam en "${post.title}".\n\n"${parsed.data.content.slice(0, 200)}"`).catch(() => {})
+        sendTelegramMessage(ac.chatId, `🚨 Nuevo comentario retenido por spam en "${post.title}".\n\n"${parsed.data.content.slice(0, 200)}"`).catch((e) => logger.error("Telegram alert failed", { error: e }))
       }
     }
 

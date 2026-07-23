@@ -3,6 +3,7 @@ import crypto from "crypto"
 import { db } from "@/lib/db"
 import { ok, error, serverError } from "@/lib/api-response"
 import { checkRateLimit } from "@/lib/rate-limit"
+import { logger } from "@/lib/logger"
 import { validateCsrf } from "@/lib/csrf-middleware"
 
 async function hashPassword(password: string): Promise<string> {
@@ -44,7 +45,7 @@ export async function POST(req: NextRequest) {
     }
 
     if (new Date() > stored.expires) {
-      await db.verificationToken.delete({ where: { token: stored.token } }).catch(() => {})
+      await db.verificationToken.delete({ where: { token: stored.token } }).catch((e) => logger.error("Token cleanup failed", { error: e }))
       return error("El token ha expirado. Solicita uno nuevo.", 400)
     }
 

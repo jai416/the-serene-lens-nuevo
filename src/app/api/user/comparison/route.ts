@@ -9,6 +9,7 @@ import {
   formatIngredientsForPrompt,
 } from "@/lib/ingredient-kb"
 import { groqChatJSON } from "@/lib/groq-chat"
+import { validateCsrf } from "@/lib/csrf-middleware"
 
 const GROQ_API_BASE = "https://api.groq.com/openai/v1"
 const MODEL = "meta-llama/llama-4-scout-17b-16e-instruct"
@@ -41,6 +42,7 @@ function sanitizeStringArray(val: unknown): string[] {
 
 export async function POST(req: NextRequest) {
   try {
+    if (!validateCsrf(req)) return error("CSRF token inválido", 403)
     const session = await getServerSession(authOptions)
     if (!session?.user) return unauthorized("Debes iniciar sesión")
 

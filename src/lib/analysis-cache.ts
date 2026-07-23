@@ -24,7 +24,7 @@ export async function getCachedAnalysis(
     const cached = await db.cache.findUnique({ where: { key } })
     if (!cached) return null
     if (cached.expiresAt < new Date()) {
-      await db.cache.delete({ where: { key } }).catch(() => {})
+      await db.cache.delete({ where: { key } }).catch((e) => logger.error("Cache delete failed", { error: e }))
       return null
     }
     return JSON.parse(cached.value)

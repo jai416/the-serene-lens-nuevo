@@ -7,6 +7,7 @@ import { checkRateLimit } from "@/lib/rate-limit"
 import { checkAndDeductUsage } from "@/lib/usage"
 import { analyzeSkinWithGroq } from "@/lib/groq"
 import { getCachedAnalysis, setCachedAnalysis } from "@/lib/analysis-cache"
+import { logger } from "@/lib/logger"
 
 export async function POST(req: Request) {
   try {
@@ -62,7 +63,7 @@ export async function POST(req: Request) {
         },
       })
       const { recalculateAndSaveEvolution } = await import("@/lib/services/evolution-calculator")
-      recalculateAndSaveEvolution(session.user.id).catch(() => {})
+      recalculateAndSaveEvolution(session.user.id).catch((e) => logger.error("Evolution calc failed", { error: e }))
       stream.sendComplete({ analysisId: analysis.id, result: cached })
       return new Response(webStream, {
         headers: { "Content-Type": "text/event-stream", "Cache-Control": "no-cache", Connection: "keep-alive" },
@@ -74,7 +75,7 @@ export async function POST(req: Request) {
     stream.sendProgress("analyzing-texture", "Analizando textura de la piel...")
 
     const result = await analyzeSkinWithGroq(files)
-    await setCachedAnalysis([cacheKeyBase64], concerns || undefined, age || undefined, result).catch(() => {})
+    await setCachedAnalysis([cacheKeyBase64], concerns || undefined, age || undefined, result).catch((e) => logger.error("Cache analysis failed", { error: e }))
 
     stream.sendProgress("saving", "Guardando resultados...")
 
@@ -90,7 +91,7 @@ export async function POST(req: Request) {
     })
 
     const { recalculateAndSaveEvolution } = await import("@/lib/services/evolution-calculator")
-    recalculateAndSaveEvolution(session.user.id).catch(() => {})
+    recalculateAndSaveEvolution(session.user.id).catch((e) => logger.error("Evolution calc failed", { error: e }))
 
     stream.sendComplete({ analysisId: analysis.id, result })
 

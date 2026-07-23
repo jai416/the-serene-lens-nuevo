@@ -75,7 +75,7 @@ export async function POST(req: NextRequest) {
       where: { key: cacheKey },
       update: { value: JSON.stringify(result), expiresAt: new Date(Date.now() + CACHE_TTL_MS) },
       create: { key: cacheKey, value: JSON.stringify(result), expiresAt: new Date(Date.now() + CACHE_TTL_MS) },
-    }).catch(() => {})
+    }).catch((e) => logger.error("Cache upsert failed", { error: e }))
 
     if (result.summary) {
       result.summary = sanitizeSummary(result.summary as string)

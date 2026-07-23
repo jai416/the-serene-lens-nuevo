@@ -4,6 +4,7 @@ import { cache } from "react"
 import { getServerSession } from "next-auth"
 import { authOptions } from "@/lib/auth"
 import { db } from "@/lib/db"
+import { logger } from "@/lib/logger"
 import { ok, unauthorized, error, serverError } from "@/lib/api-response"
 import { validateCsrf } from "@/lib/csrf-middleware"
 
@@ -76,7 +77,7 @@ export async function POST(req: NextRequest) {
     // Auto-join the creator
     await db.communityMember.create({
       data: { groupId: group.id, userId: session.user.id },
-    }).catch(() => {})
+    }).catch((e) => logger.error("Auto-join failed", { error: e }))
 
     return ok({ group }, 201)
   } catch {

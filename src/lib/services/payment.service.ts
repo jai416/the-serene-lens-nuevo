@@ -2,6 +2,7 @@ import { db } from "@/lib/db"
 import { PACK_EXPIRY_DAYS } from "@/lib/pricing"
 import { getCUPRate } from "@/lib/cup-rate"
 import { createPaymentSuccessNotification } from "@/lib/notifications"
+import { logger } from "@/lib/logger"
 
 export const PaymentService = {
   async getUserPayments(userId: string) {
@@ -120,5 +121,5 @@ export async function handleSuccessfulPlanPayment(
     },
   })
 
-  createPaymentSuccessNotification(userId, plan, meta.amount).catch(() => {})
+  createPaymentSuccessNotification(userId, plan, meta.amount).catch((e) => logger.error("Payment notif failed", { error: e }))
 }

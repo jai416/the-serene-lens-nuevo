@@ -23,6 +23,10 @@ vi.mock("@/lib/services/challenge.service", () => ({
   },
 }))
 
+vi.mock("@/lib/csrf-middleware", () => ({
+  validateCsrf: vi.fn(() => true),
+}))
+
 vi.mock("@/lib/validations", () => ({
   challengeCompleteSchema: {
     safeParse: vi.fn().mockReturnValue({ success: true, data: { challengeId: "ch-1" } }),

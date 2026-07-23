@@ -3,6 +3,7 @@ import { getServerSession } from "next-auth"
 import { authOptions } from "@/lib/auth"
 import { db } from "@/lib/db"
 import { ok, error, unauthorized, serverError } from "@/lib/api-response"
+import { validateCsrf } from "@/lib/csrf-middleware"
 import { z } from "zod"
 
 const stripHtml = (s: string) => s.replace(/<[^>]*>/g, "").trim()
@@ -29,6 +30,7 @@ export async function GET() {
 
 export async function POST(req: NextRequest) {
   try {
+    if (!validateCsrf(req)) return error("CSRF token inválido", 403)
     const session = await getServerSession(authOptions)
     if (!session?.user) return unauthorized()
 

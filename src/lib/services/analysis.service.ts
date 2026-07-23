@@ -118,7 +118,7 @@ export const AnalysisService = {
         previousObservations,
         history: historyContext,
       })
-      await setCachedAnalysis([cacheKeyBase64], body.concerns, body.age, result).catch(() => {})
+      await setCachedAnalysis([cacheKeyBase64], body.concerns, body.age, result).catch((e) => logger.error("Cache analysis failed", { error: e }))
     } catch (e) {
       const msg = e instanceof Error ? e.message : String(e)
       if (msg.includes("429")) {
@@ -252,7 +252,7 @@ export async function saveAnalysisWithEvolution(
 
   try {
     const { recalculateAndSaveEvolution } = await import("./evolution-calculator")
-    recalculateAndSaveEvolution(userId).catch(() => {})
+    recalculateAndSaveEvolution(userId).catch((e) => logger.error("Evolution calc failed", { error: e }))
   } catch {
     // evolution update is optional, don't block response
   }
