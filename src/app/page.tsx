@@ -63,12 +63,12 @@ export default function HomePage() {
               {
                 "@type": "WebSite",
                 name: "The Serene Lens",
-                url: process.env.NEXT_PUBLIC_APP_URL || "https://the-serene-lens-nuevo.onrender.com",
+                url: process.env.NEXT_PUBLIC_APP_URL || "",
                 potentialAction: {
                   "@type": "SearchAction",
                   target: {
                     "@type": "EntryPoint",
-                    urlTemplate: `${process.env.NEXT_PUBLIC_APP_URL || "https://the-serene-lens-nuevo.onrender.com"}/blog?q={search_term_string}`,
+                    urlTemplate: `${process.env.NEXT_PUBLIC_APP_URL || ""}/blog?q={search_term_string}`,
                   },
                   "query-input": "required name=search_term_string",
                 },
@@ -76,8 +76,8 @@ export default function HomePage() {
               {
                 "@type": "Organization",
                 name: "The Serene Lens",
-                url: process.env.NEXT_PUBLIC_APP_URL || "https://the-serene-lens-nuevo.onrender.com",
-                logo: `${process.env.NEXT_PUBLIC_APP_URL || "https://the-serene-lens-nuevo.onrender.com"}/logo.webp`,
+                url: process.env.NEXT_PUBLIC_APP_URL || "",
+                logo: `${process.env.NEXT_PUBLIC_APP_URL || ""}/logo.webp`,
                 description: "Observación cosmética de tu piel con inteligencia artificial.",
               },
             ],

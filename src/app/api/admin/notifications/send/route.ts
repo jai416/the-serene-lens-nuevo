@@ -5,7 +5,7 @@ import { db } from "@/lib/db"
 import { ok, error, serverError, unauthorized } from "@/lib/api-response"
 import { logger } from "@/lib/logger"
 
-const SEGMENT_FILTERS: Record<string, any> = {
+const SEGMENT_FILTERS: Record<string, Record<string, string>> = {
   all: {},
   free: { plan: "FREE" },
   premium: { plan: "PREMIUM" },

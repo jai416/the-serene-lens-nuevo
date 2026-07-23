@@ -70,9 +70,9 @@ function TrendBadge({ trend }: { trend: string }) {
 export function EvolutionChart({ data }: { data: EvolutionResult }) {
   const chartData = useMemo(() => {
     return (data.points || []).map((p) => {
-      const row: Record<string, any> = { date: p.date }
+      const row: Record<string, number | string> = { date: p.date }
       for (const key of Object.keys(CATEGORY_LABELS)) {
-        row[key] = toNumeric((p as any)[key])
+        row[key] = toNumeric((p as Record<string, string | undefined>)[key])
       }
       return row
     })
@@ -145,8 +145,8 @@ export function EvolutionChart({ data }: { data: EvolutionResult }) {
         <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
           {Object.entries(CATEGORY_LABELS).map(([key, label]) => {
             const trend = data.trends?.[key] || "insufficient_data"
-            const firstVal = toNumeric((data.points?.[0] as any)?.[key])
-            const lastVal = toNumeric((data.points?.[data.points.length - 1] as any)?.[key])
+            const firstVal = toNumeric((data.points?.[0] as Record<string, unknown>)?.[key] as number)
+            const lastVal = toNumeric((data.points?.[data.points.length - 1] as Record<string, unknown>)?.[key] as number)
             const diff = firstVal !== null && lastVal !== null ? lastVal - firstVal : null
             return (
               <div key={key} className="p-2 rounded-xl bg-[#F8F9FA]">

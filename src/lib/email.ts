@@ -1,7 +1,7 @@
 import { logger } from "./logger"
 
 const APP_NAME = "The Serene Lens"
-const APP_URL = process.env.NEXT_PUBLIC_APP_URL || "https://the-serene-lens-nuevo.onrender.com"
+const APP_URL = process.env.NEXT_PUBLIC_APP_URL || ""
 
 export interface SendEmailInput {
   to: string

@@ -47,7 +47,7 @@ const values = [
 ]
 
 export default function AboutPage() {
-  const baseUrl = process.env.NEXT_PUBLIC_APP_URL || "https://the-serene-lens-nuevo.onrender.com"
+  const baseUrl = process.env.NEXT_PUBLIC_APP_URL || ""
 
   const jsonLd = {
     "@context": "https://schema.org",

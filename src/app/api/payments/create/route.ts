@@ -88,7 +88,7 @@ export async function POST(req: NextRequest) {
       },
     })
 
-    const appUrl = process.env.NEXT_PUBLIC_APP_URL || "https://the-serene-lens-nuevo.onrender.com"
+    const appUrl = process.env.NEXT_PUBLIC_APP_URL || ""
     let paypalOrder: { id: string; approvalUrl: string }
     try {
       paypalOrder = await createPayPalOrder({

@@ -24,7 +24,7 @@ const PAGES_TO_SYNC = [
 ]
 
 async function fetchPageContent(url: string): Promise<string> {
-  const baseUrl = process.env.NEXT_PUBLIC_APP_URL || "https://the-serene-lens-nuevo.onrender.com"
+  const baseUrl = process.env.NEXT_PUBLIC_APP_URL || ""
   try {
     const res = await fetch(`${baseUrl}${url}`, { signal: AbortSignal.timeout(10000) })
     if (!res.ok) return ""

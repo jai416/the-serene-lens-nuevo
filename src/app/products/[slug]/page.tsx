@@ -25,7 +25,7 @@ export async function generateMetadata({
   if (!product) return { title: "Producto no encontrado" }
 
   const description = product.shortDesc || product.description.slice(0, 160)
-  const url = `${process.env.NEXT_PUBLIC_APP_URL || "https://the-serene-lens-nuevo.onrender.com"}/products/${product.slug}`
+  const url = `${process.env.NEXT_PUBLIC_APP_URL || ""}/products/${product.slug}`
 
   return {
     title: product.name,
@@ -60,7 +60,7 @@ export default async function ProductDetailPage({
 
   if (!product) notFound()
 
-  const baseUrl = process.env.NEXT_PUBLIC_APP_URL || "https://the-serene-lens-nuevo.onrender.com"
+  const baseUrl = process.env.NEXT_PUBLIC_APP_URL || ""
 
   const jsonLd = {
     "@context": "https://schema.org",

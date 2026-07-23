@@ -75,7 +75,7 @@ export async function getSkinEvolution(userId: string): Promise<EvolutionResult>
   const trends: Record<string, "improving" | "stable" | "worsening" | "insufficient_data"> = {}
 
   for (const cat of categories) {
-    const values = points.map((p) => severityToNumber((p as any)[cat])).filter((v) => v >= 0)
+    const values = points.map((p) => severityToNumber((p as Record<string, unknown>)[cat] as number)).filter((v) => v >= 0)
     if (values.length < 2) {
       trends[cat] = "insufficient_data"
       continue

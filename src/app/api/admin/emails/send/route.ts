@@ -7,7 +7,7 @@ import { ok, error, serverError, unauthorized } from "@/lib/api-response"
 import { logger } from "@/lib/logger"
 import { createWebNotification } from "@/lib/notifications"
 
-const SEGMENT_FILTERS: Record<string, any> = {
+const SEGMENT_FILTERS: Record<string, Record<string, string>> = {
   all: {},
   free: { plan: "FREE" },
   premium: { plan: "PREMIUM" },

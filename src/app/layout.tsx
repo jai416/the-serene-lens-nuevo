@@ -22,7 +22,7 @@ import { GoogleAnalytics } from "@/components/google-analytics"
 import { FeatureFlagProvider } from "@/components/feature-flag-provider"
 import { LocaleProvider } from "@/lib/locale/locale-context"
 
-const APP_URL = process.env.NEXT_PUBLIC_APP_URL || "https://the-serene-lens-nuevo.onrender.com"
+const APP_URL = process.env.NEXT_PUBLIC_APP_URL || ""
 
 export const metadata: Metadata = {
   metadataBase: new URL(APP_URL),

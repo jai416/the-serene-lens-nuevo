@@ -25,7 +25,7 @@ export default function MarketingKitPage() {
   const pathname = usePathname()
   const { locale } = useLocale()
   const { data: session, status } = useSession()
-  const user = session?.user as any
+  const user = session?.user
   const [data, setData] = useState<MarketingData | null>(null)
   const [loading, setLoading] = useState(true)
   const [discountLoading, setDiscountLoading] = useState(false)

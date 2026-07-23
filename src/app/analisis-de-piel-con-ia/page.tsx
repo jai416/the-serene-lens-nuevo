@@ -6,11 +6,11 @@ import { buttonVariants } from "@/components/ui/button"
 export const metadata: Metadata = {
   title: "Análisis de Piel con IA - Gratis y en Línea | The Serene Lens",
   description: "Análisis de piel con inteligencia artificial. Sube fotos, responde preguntas y recibe recomendaciones personalizadas. Gratis.",
-  alternates: { canonical: `${process.env.NEXT_PUBLIC_APP_URL || "https://the-serene-lens-nuevo.onrender.com"}/analisis-de-piel-con-ia` },
+  alternates: { canonical: `${process.env.NEXT_PUBLIC_APP_URL || ""}/analisis-de-piel-con-ia` },
   openGraph: {
     title: "Análisis de Piel con IA",
     description: "Análisis cosmético de piel con inteligencia artificial. Gratis y sin registro.",
-    url: `${process.env.NEXT_PUBLIC_APP_URL || "https://the-serene-lens-nuevo.onrender.com"}/analisis-de-piel-con-ia`,
+    url: `${process.env.NEXT_PUBLIC_APP_URL || ""}/analisis-de-piel-con-ia`,
   },
 }
 

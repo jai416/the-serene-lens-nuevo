@@ -16,7 +16,7 @@ export function ClientInit() {
           identifyUser(session.user.id, {
             email: session.user.email || undefined,
             name: session.user.name || undefined,
-            plan: (session.user as any).plan || "FREE",
+            plan: session.user.plan || "FREE",
           })
         }
       })

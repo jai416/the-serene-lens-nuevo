@@ -227,8 +227,8 @@ export default function CommunityPage() {
                     <h3 className="font-semibold text-[#1A1A1A] mb-2">{dbGroup?.name || skinGroup?.name || "Grupo"}</h3>
                     <p className="text-xs text-[#666666] mb-4">{dbGroup?.description || skinGroup?.description || ""}</p>
                     <div className="flex items-center gap-4 text-xs text-[#666666]">
-                      <span>👥 {(dbGroup as any)?._count?.members || 0} miembros</span>
-                      <span>📝 {(dbGroup as any)?._count?.posts || 0} posts</span>
+                      <span>👥 {dbGroup?._count?.members || 0} miembros</span>
+                      <span>📝 {dbGroup?._count?.posts || 0} posts</span>
                     </div>
                     <Button
                       variant="outline"

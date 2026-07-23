@@ -29,7 +29,7 @@ export async function generateMetadata({
 
   if (!post) return { title: "Artículo no encontrado" }
 
-  const url = `${process.env.NEXT_PUBLIC_APP_URL || "https://the-serene-lens-nuevo.onrender.com"}/blog/${post.slug}`
+  const url = `${process.env.NEXT_PUBLIC_APP_URL || ""}/blog/${post.slug}`
 
   return {
     title: post.title,
@@ -65,7 +65,7 @@ export default async function BlogPostPage({
 
   if (!post) notFound()
 
-  const baseUrl = process.env.NEXT_PUBLIC_APP_URL || "https://the-serene-lens-nuevo.onrender.com"
+  const baseUrl = process.env.NEXT_PUBLIC_APP_URL || ""
 
   const jsonLd = {
     "@context": "https://schema.org",

@@ -120,7 +120,7 @@ export async function handleStart(chatId: string, userId: string, username?: str
 
 export async function handleWeb(chatId: string, userId: string) {
   await logTelegramCommand(chatId, "web", null, null)
-  const url = process.env.NEXT_PUBLIC_APP_URL || "https://the-serene-lens-nuevo.onrender.com"
+  const url = process.env.NEXT_PUBLIC_APP_URL || ""
   await sendTelegramMessage(chatId, `🌐 <b>The Serene Lens</b>\n\n${R.smartLink(url, "Visita nuestra web")} y descubre cómo es tu piel realmente.\n\n🔬 Análisis con IA • Rutinas personalizadas • Guías de skincare`)
 }
 
@@ -133,7 +133,7 @@ export async function handleStatusPublic(chatId: string, userId: string) {
   await logTelegramCommand(chatId, "status", null, null)
   const user = await db.user.findFirst({ where: { telegramId: chatId } })
   if (!user) {
-    const url = process.env.NEXT_PUBLIC_APP_URL || "https://the-serene-lens-nuevo.onrender.com"
+    const url = process.env.NEXT_PUBLIC_APP_URL || ""
     await sendTelegramMessage(chatId, R.notRegistered(url))
     return
   }
@@ -170,7 +170,7 @@ export async function handleSkincare(chatId: string, userId: string) {
 
 export async function handleContacto(chatId: string, userId: string) {
   await logTelegramCommand(chatId, "contacto", null, null)
-  const url = process.env.NEXT_PUBLIC_APP_URL || "https://the-serene-lens-nuevo.onrender.com"
+  const url = process.env.NEXT_PUBLIC_APP_URL || ""
   await sendTelegramMessage(chatId, R.contactResponse(url))
 }
 
@@ -225,7 +225,7 @@ export async function handleMiRutina(chatId: string, userId: string) {
   await logTelegramCommand(chatId, "mi_rutina", null, null)
   const user = await db.user.findFirst({ where: { telegramId: chatId } })
   if (!user) {
-    const url = process.env.NEXT_PUBLIC_APP_URL || "https://the-serene-lens-nuevo.onrender.com"
+    const url = process.env.NEXT_PUBLIC_APP_URL || ""
     await sendTelegramMessage(chatId, R.notRegistered(url))
     return
   }
@@ -273,7 +273,7 @@ export async function handleDiario(chatId: string, userId: string) {
   await logTelegramCommand(chatId, "diario", null, null)
   const user = await db.user.findFirst({ where: { telegramId: chatId } })
   if (!user) {
-    const url = process.env.NEXT_PUBLIC_APP_URL || "https://the-serene-lens-nuevo.onrender.com"
+    const url = process.env.NEXT_PUBLIC_APP_URL || ""
     await sendTelegramMessage(chatId, R.notRegistered(url))
     return
   }
@@ -375,7 +375,7 @@ export async function handleTestPielAnswer(chatId: string, text: string) {
     desc = "Tu piel tiende a la sequedad. Prioriza limpiadores cremosos, hidratantes ricos y evitar exfoliantes agresivos."
   }
 
-  const url = process.env.NEXT_PUBLIC_APP_URL || "https://the-serene-lens-nuevo.onrender.com"
+  const url = process.env.NEXT_PUBLIC_APP_URL || ""
 
   await sendTelegramMessage(chatId,
     `${emoji} <b>Resultado del Test</b>\n\n` +
@@ -721,7 +721,7 @@ export async function handleCliente(chatId: string, userId: string, args: string
     for (const p of user.payments) text += `${formatPaymentRow(p)} — ${relativeTime(p.createdAt)}\n`
   }
   const buttons = [
-    [{ text: "🔗 Ver en Admin Panel", url: `${process.env.NEXT_PUBLIC_APP_URL || "https://the-serene-lens-nuevo.onrender.com"}/admin/users?search=${encodeURIComponent(email)}` }],
+    [{ text: "🔗 Ver en Admin Panel", url: `${process.env.NEXT_PUBLIC_APP_URL || ""}/admin/users?search=${encodeURIComponent(email)}` }],
     MENU_BACK_ROW,
   ]
   await sendTelegramMenu(chatId, text, buttons)
@@ -998,7 +998,7 @@ export async function handlePromocion(chatId: string, userId: string, args: stri
   }
   await logTelegramCommand(chatId, "promocion", `${discount}%`, role)
   const code = await generateDiscountCode(discount, chatId)
-  const url = process.env.NEXT_PUBLIC_APP_URL || "https://the-serene-lens-nuevo.onrender.com"
+  const url = process.env.NEXT_PUBLIC_APP_URL || ""
   await sendTelegramMessage(chatId, R.promoGenerated(code, discount, url))
 }
 
@@ -1088,7 +1088,7 @@ export async function handleAsistente(chatId: string, userId: string, args: stri
 
   const dailyLimit = ASISTENTE_LIMITS[user.plan]
   if (!dailyLimit && user.role !== "ADMIN") {
-    const url = process.env.NEXT_PUBLIC_APP_URL || "https://the-serene-lens-nuevo.onrender.com"
+    const url = process.env.NEXT_PUBLIC_APP_URL || ""
     await sendTelegramMessage(chatId,
       `🤖 <b>Asistente IA</b>\n\nEste comando es exclusivo para usuarios con plan de pago.\n\nPlanes que incluyen asistente:\n• Premium — 10 consultas/día\n• Pro — 25 consultas/día\n• Pro+ — 50 consultas/día\n• Esteticista — 100 consultas/día\n\n👉 <a href="${url}/pricing">Ver planes</a>`
     )

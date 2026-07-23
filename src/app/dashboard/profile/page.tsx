@@ -27,7 +27,7 @@ export default function ProfilePage() {
   const pathname = usePathname()
   const { data: session, status, update } = useSession()
   const { locale } = useLocale()
-  const user = session?.user as any
+  const user = session?.user
   const plan = user?.plan || "FREE"
   const planLabel = PLAN_LABELS[plan]?.[locale] || PLAN_LABELS[plan]?.en || plan
   const [name, setName] = useState(user?.name || "")

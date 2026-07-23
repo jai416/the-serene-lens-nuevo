@@ -41,10 +41,11 @@ export async function PUT(req: NextRequest) {
 
     const existing = await db.clinic.findUnique({ where: { ownerId: session.user.id } })
 
-    const data: any = {}
+    const data: Record<string, unknown> = {}
     if (name !== undefined) data.name = name
     if (phone !== undefined) data.phone = phone
     if (address !== undefined) data.address = address
+    if (logo !== undefined) data.logo = logo
     if (licenseNumber !== undefined) data.licenseNumber = licenseNumber
 
     if (logo !== undefined) {

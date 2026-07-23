@@ -6,11 +6,11 @@ import { buttonVariants } from "@/components/ui/button"
 export const metadata: Metadata = {
   title: "Cómo Saber Mi Tipo de Piel - Guía Gratis | The Serene Lens",
   description: "Descubre cómo identificar tu tipo de piel con una guía completa y un análisis de IA gratuito. Grasa, seca, mixta, normal o sensible.",
-  alternates: { canonical: `${process.env.NEXT_PUBLIC_APP_URL || "https://the-serene-lens-nuevo.onrender.com"}/como-saber-mi-tipo-de-piel` },
+  alternates: { canonical: `${process.env.NEXT_PUBLIC_APP_URL || ""}/como-saber-mi-tipo-de-piel` },
   openGraph: {
     title: "Cómo Saber Mi Tipo de Piel",
     description: "Guía completa para identificar tu tipo de piel. Análisis gratuito con inteligencia artificial.",
-    url: `${process.env.NEXT_PUBLIC_APP_URL || "https://the-serene-lens-nuevo.onrender.com"}/como-saber-mi-tipo-de-piel`,
+    url: `${process.env.NEXT_PUBLIC_APP_URL || ""}/como-saber-mi-tipo-de-piel`,
   },
 }
 

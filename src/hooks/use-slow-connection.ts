@@ -8,7 +8,7 @@ export function useSlowConnection(): boolean {
   useEffect(() => {
     if (!("connection" in navigator)) return
 
-    const connection = (navigator as any).connection
+    const connection = (navigator as { connection?: { effectiveType?: string; addEventListener: (e: string, f: () => void) => void; removeEventListener: (e: string, f: () => void) => void } }).connection
     if (!connection) return
 
     const check = () => {

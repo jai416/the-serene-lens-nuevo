@@ -173,7 +173,7 @@ export function Sidebar() {
           </div>
         )}
 
-        {(session?.user as any)?.plan === "ESTHETICIAN" && (
+        {session?.user?.plan === "ESTHETICIAN" && (
           <div>
             <p className="px-4 text-[10px] font-semibold uppercase tracking-widest text-[#999999] mb-1">
               {t("sidebar.sectionProfessional", locale)}

@@ -58,7 +58,7 @@ export default function B2bDashboard() {
 
   if (!session) redirect("/login?callbackUrl=" + encodeURIComponent(pathname))
 
-  const isB2b = (session.user as any).plan === "ESTHETICIAN"
+  const isB2b = session.user.plan === "ESTHETICIAN"
 
   if (!isB2b) {
     return (

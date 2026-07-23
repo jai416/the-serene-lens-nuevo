@@ -255,8 +255,8 @@ Proporciona tu análisis en la estructura JSON exacta especificada.`
                 r !== null &&
                 "ingredient" in r &&
                 "reason" in r &&
-                typeof (r as any).ingredient === "string" &&
-                typeof (r as any).reason === "string"
+                typeof (r as Record<string, unknown>).ingredient === "string" &&
+                typeof (r as Record<string, unknown>).reason === "string"
             )
             .slice(0, 8)
         : [],

@@ -10,9 +10,11 @@ const LEVEL_ORDER: Record<LogLevel, number> = {
   error: 3,
 }
 
+const g = globalThis as { __correlationStore?: { id: string } }
+
 export function getCorrelationId(): string {
   if (typeof globalThis !== "undefined") {
-    const store = (globalThis as any).__correlationStore
+    const store = g.__correlationStore
     if (store?.id) return store.id
   }
   return ""
@@ -20,7 +22,7 @@ export function getCorrelationId(): string {
 
 export function setCorrelationId(id: string): void {
   if (typeof globalThis !== "undefined") {
-    ;(globalThis as any).__correlationStore = { id }
+    g.__correlationStore = { id }
   }
 }
 

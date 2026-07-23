@@ -42,7 +42,7 @@ export async function compressImage(file: File, maxSizeMB = 10): Promise<File> {
     const isSlowConnection =
       typeof navigator !== "undefined" &&
       "connection" in navigator &&
-      ["slow-2g", "2g", "3g"].includes((navigator as any).connection?.effectiveType || "")
+      ["slow-2g", "2g", "3g"].includes((navigator as { connection?: { effectiveType?: string } }).connection?.effectiveType || "")
     const isOversized = file.size > maxSizeBytes
     // Max 1024px — more than enough for Groq, keeps files under 100KB
     const maxDimension = isOversized ? 640 : isSlowConnection ? 480 : 1024

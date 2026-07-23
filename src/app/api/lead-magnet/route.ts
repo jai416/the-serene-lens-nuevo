@@ -3,7 +3,7 @@ import { db } from "@/lib/db"
 import { checkRateLimit } from "@/lib/rate-limit"
 import { logger } from "@/lib/logger"
 
-const APP_URL = process.env.NEXT_PUBLIC_APP_URL || "https://the-serene-lens-nuevo.onrender.com"
+const APP_URL = process.env.NEXT_PUBLIC_APP_URL || ""
 
 export async function POST(req: Request) {
   try {

@@ -87,7 +87,7 @@ export function pricesResponse(): string {
 // ─── No auth / not registered ───────────────────────────────────
 
 export function notRegistered(url: string): string {
-  const base = url || process.env.NEXT_PUBLIC_APP_URL || "https://the-serene-lens-nuevo.onrender.com"
+  const base = url || process.env.NEXT_PUBLIC_APP_URL || ""
   return pick([
     `👋 Aún no estás registrado en The Serene Lens.\n\nRegístrate gratis en <a href="${base}/login">nuestra web</a> y vuelve para vincular tu Telegram desde tu perfil. 🌿`,
     `🌿 Parece que no tienes cuenta todavía.\n\nCrea una gratis en <a href="${base}/login">${base}/login</a> y después vincula Telegram en tu perfil. ¡Te esperamos!`,
@@ -305,11 +305,11 @@ export function confirmValidation(ref: string, userName: string, amount: number,
 // ─── Smart link formatter ──────────────────────────────────────
 
 export function smartLink(url: string | undefined, text: string): string {
-  const base = url || process.env.NEXT_PUBLIC_APP_URL || "https://the-serene-lens-nuevo.onrender.com"
+  const base = url || process.env.NEXT_PUBLIC_APP_URL || ""
   return `<a href="${base}">${text}</a>`
 }
 
 export function adminPanelLink(email: string): string {
-  const base = process.env.NEXT_PUBLIC_APP_URL || "https://the-serene-lens-nuevo.onrender.com"
+  const base = process.env.NEXT_PUBLIC_APP_URL || ""
   return `<a href="${base}/admin/users?search=${encodeURIComponent(email)}">🔗 Ver en Admin Panel</a>`
 }

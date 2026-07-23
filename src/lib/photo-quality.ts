@@ -163,7 +163,7 @@ export async function validatePhoto(file: File): Promise<PhotoQualityResult> {
     const isSlowConnection =
       typeof navigator !== "undefined" &&
       "connection" in navigator &&
-      ["slow-2g", "2g", "3g"].includes((navigator as any).connection?.effectiveType || "")
+      ["slow-2g", "2g", "3g"].includes((navigator as { connection?: { effectiveType?: string } }).connection?.effectiveType || "")
 
     const isLargeFile = file.size > 500 * 1024
     const downsample = isSlowConnection || isLargeFile
