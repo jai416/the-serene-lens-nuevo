@@ -1,5 +1,10 @@
 # Pagos en The Serene Lens
 
+## Pasarelas
+- **PayPal (USD)**: Principal → tarjeta internacional o saldo PayPal
+- **Transfermóvil (CUP)**: Solo Cuba → requiere validación manual
+- **QvaPay**: ❌ Eliminado completamente del código (Julio 2026)
+
 ## Planes y Precios
 
 ### Suscripciones (USD)
@@ -19,50 +24,49 @@
 
 ## Métodos de Pago
 
-### PayPal (USD — Tarjeta Internacional / Saldo PayPal)
-- **Usa**: Tarjeta de crédito/débito internacional (Visa, Mastercard, etc.) o saldo PayPal
-- **Sirve para**: Suscripciones (mensuales y anuales), paquetes de análisis y guías digitales
-- **Proceso**: Redirección a PayPal → usuario autoriza → webhook capture confirma → plan activado automáticamente
-- **Estado**: Automático, no requiere intervención humana
+### PayPal (USD)
+- **Flujo**: CreateOrder → usuario autoriza en PayPal → webhook `CHECKOUT.ORDER.APPROVED` → `capturePayPalOrder()` → plan activado
+- **API**: REST API directa via `src/lib/paypal.ts` (sin SDK npm). Funciones: `createPayPalOrder()`, `capturePayPalOrder()`, `verifyPayPalOrder()`
+- **Models**: `paypalOrderId` / `paypalSubscriptionId` en Prisma (QvaPay IDs eliminados)
+- **Endpoints**: `/api/payments/create`, `create-pack`, `create-guide`, `webhook`, `verify`, `verify-guide`
+- **Sandbox**: `.env.local` con `PAYPAL_API_URL=https://api-m.sandbox.paypal.com`
+- **Producción**: `PAYPAL_API_URL=https://api-m.paypal.com` (default en `env.ts`)
+- **CSRF protegido**: Todos los endpoints de pago tienen CSRF vía `validateCsrf()`
 
-### Transfermóvil (CUP — Cuba)
-- **Usa**: Solo para suscripciones en CUP desde Cuba
+### Transfermóvil (CUP)
+- Solo para suscripciones en CUP desde Cuba
 - **Proceso**:
   1. Usuario solicita pago → admin genera referencia
   2. Usuario transfiere por Transfermóvil
-  3. **Validador** confirma que la transferencia se realizó (`/validar REF`)
-  4. **Admin** activa la suscripción (`/activar REF`)
+  3. **Validador** confirma con `/validar REF`
+  4. **Admin** activa con `/activar REF`
 
-### Asistente IA (Gemini 2.0 Flash)
+### Asistente IA (Groq llama-3.3-70b-versatile)
 - Disponible vía Telegram `/asistente` para usuarios con plan pago
-- Límites diarios: Premium 10, Pro 25, Pro+ 50, Esteticista 100 consultas/día
+- Límites diarios: Premium 10, Pro 25, Pro+ 50, Esteticista 100
 
 ## Solución de Problemas
 
-### El usuario pagó por PayPal pero no recibe el plan
+### PayPal: usuario pagó pero no recibe el plan
 1. Verificar en `/admin/payments` si el webhook llegó
-2. Si el pago aparece "completed" pero el plan no cambió, ejecutar `/activar REF` manual
-3. Si el pago no aparece, contactar a soporte de PayPal
+2. Si `PAYPAL_API_URL` no está en Render Dashboard → default es producción
+3. Timeout de 25s con 1 reintento automático
+4. Contactar a PayPal Support si el webhook no llega
 
-### El usuario pagó por Transfermóvil y nadie valida
-1. Revisar `POST /api/cron/keep-alive` mantiene el bot activo
-2. El validador debe usar `/pendientes` para ver transferencias pendientes
+### Transfermóvil: nadie valida
+1. `POST /api/cron/keep-alive` mantiene el bot activo
+2. `/pendientes` para ver transferencias pendientes
 3. Si el bot no responde, revisar logs en `/admin/logs`
-
-### Error en PayPal
-- Timeout de 25s con 1 reintento automático
-- Si persiste, verificar credenciales de API de PayPal
-- Contactar a soporte de PayPal o revisar logs en `/admin/logs`
 
 ### Reembolsos
 - Política completa en `/refunds`
 - Suscripciones: reembolso completo primeros 7 días
 - Packs no usados: reembolso en 7 días
 - Guías digitales: no reembolsables
-- PayPal: Gestionar directamente desde el panel de PayPal
-- Transfermóvil: El admin puede cancelar desde `/admin/transfers`
+- PayPal: Gestionar desde panel de PayPal
+- Transfermóvil: Admin cancela desde `/admin/transfers`
 
 ## Notas
-- Los pagos anuales se manejan igual que los mensuales pero con periodo de 365 días
-- Los paquetes de análisis no expiran
-- Las guías digitales se habilitan inmediatamente después del pago
+- Packs de análisis no expiran (pero pack credits expiran en 30d, se consumen antes que free credits)
+- Guías digitales se habilitan inmediatamente después del pago
+- Anual = mismo flujo que mensual pero periodo de 365 días

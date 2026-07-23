@@ -223,6 +223,16 @@
 - El endpoint `/api/debug` (commit `d9cf882`) permite verificar env vars desde Render, pero build actual no lo incluye
 - El bot de Telegram `/asistente` **ya no requiere Gemini** — usa Groq `llama-3.3-70b-versatile` igual que el chat RAG
 
+### Fixes de código (Julio 2026)
+- **CSRF añadido a +39 endpoints**: user/comparison, user/clinic, user/clients, esthetician/clients, esthetician/clients/[id], esthetician/marketing, challenges, referral, referral/[code], support/messages, ingredients/check-conflicts, feedback(4), notifications(3), analysis(4), skin-diary(2), user(4), contact(1), community(7), delete-account
+- **Empty catch blocks loggean errores**: ~25 catch blocks en API routes y lib ahora usan `logger.error()` en vez de silenciar (register, reset-password, gift, analyze/stream, community, product-scan, weather-alert, analysis-cache, analysis.service, payment.service, auth.ts, bot-knowledge)
+- **`as any` eliminados**: ~25 casts removidos de session.user (plan/role ya tipados en next-auth.d.ts), navigator.connection, globalThis, Prisma dynamic keys, Record<string, any>, clarity window
+- **Hardcoded URLs eliminados**: 44 referencias a `the-serene-lens-nuevo.onrender.com` reemplazadas por `process.env.NEXT_PUBLIC_APP_URL || ""`
+- **N+1 queries**: badge.service, cleanup-trials, send-reminders, telegram-handlers, bot-knowledge
+- **Paginación cursor-based**: community posts/comments
+- **CSP actualizado**: Gemini, Groq, PayPal, QRServer
+- **Tests**: 239 pasando en 27 archivos
+
 ## Estado del build en Render
 - Último build desplegado: versión antigua (health reporta "2026-07-04-final")
 - Push `0d4bc14` (docs) + `7b73176` (render.yaml) + nuevo commit pendiente enviados a GitHub, Render debería auto-desplegar
