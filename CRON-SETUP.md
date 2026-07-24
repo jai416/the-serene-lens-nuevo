@@ -4,11 +4,9 @@
 
 1. Crear cuenta en [cron-job.org](https://cron-job.org)
 2. Tener configurada la variable `CRON_SECRET` en Render (Dashboard → Environment)
-3. La URL base de Render: `https://the-serene-lens-nuevo.onrender.com`
+3. La URL base: `https://the-serene-lens-nuevo.onrender.com` (o tu dominio personalizado)
 
 ## Configuración general (para cada cron)
-
-Al crear cada tarea en cron-job.org:
 
 | Campo | Valor |
 |---|---|

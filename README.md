@@ -8,11 +8,11 @@ Observación cosmética de tu piel con inteligencia artificial.
 |------|------------|
 | Framework | Next.js 16 (Turbopack) |
 | Base de datos | PostgreSQL (Supabase) + Prisma 7 |
-| Autenticación | NextAuth v4 (JWT) + Google OAuth |
+| Autenticación | NextAuth v4 (JWT + credentials + Google + GitHub) |
 | AI Visión | Gemini 2.0 Flash (análisis de piel, escáner ingredientes). ⚠️ `GEMINI_API_KEY` no configurada en Render |
 | AI Chat (RAG + `/asistente`) | Groq `llama-3.3-70b-versatile` (chat sin imágenes). ✅ Funcional en Render |
-| Pagos | PayPal (USD) + Transfermóvil (CUP) |
-| Bot | Telegram (webhook, RAG, `/asistente`, validación pagos) |
+| Pagos | PayPal (USD) + Transfermóvil (CUP). QvaPay eliminado |
+| Bot | Telegram (webhook con `after()`, RAG, `/asistente`, validación pagos) |
 | Notificaciones | Sistema propio web + Redis (Upstash). Email desactivado (stubs) |
 | Monitoreo | Sentry + Microsoft Clarity |
 | Despliegue | Render |
@@ -20,20 +20,30 @@ Observación cosmética de tu piel con inteligencia artificial.
 ## Funcionalidades principales
 
 - **Análisis de piel con IA**: Sube selfies y recibe observaciones cosméticas personalizadas con rutinas AM/PM. La IA recuerda tu historial completo de análisis y compara progreso.
-- **Planes**: Essential (gratis, 6 análisis/mes), Premium ($7.99/mes), Pro ($14.99/mes), Pro+ ($14.99/mes), Esteticista ($49.99/mes). Anuales y packs de análisis disponibles.
+- **Planes**: Essential (gratis, 6 análisis/mes), Premium ($7.99/mes), Pro ($14.99/mes), Esteticista ($49.99/mes). Anuales y packs de análisis disponibles.
 - **Asistente IA**: Chat con Groq `llama-3.3-70b-versatile` vía Telegram (`/asistente`). Límite diario según plan.
 - **Notificaciones web**: Campana en sidebar con contador de no leídos, dashboard de notificaciones, expiran a las 48h. Reemplaza completamente al email.
 - **Productos guardados**: Guarda tus productos favoritos y detecta conflictos entre ingredientes (retinol + BHA, niacina + vitamina C, etc.).
 - **Insignias**: Logros automáticos por rachas, análisis completados y mejora de hidratación.
-- **Comunidad segmentada**: Grupos por tipo de piel (grasa, seca, mixta, sensible, normal, general).
+- **Comunidad segmentada**: Grupos por tipo de piel (grasa, seca, mixta, sensible, normal, general). Paginación cursor-based.
 - **Evolución visual**: Gráficos Recharts con tendencias de textura, brillo, poros, uniformidad, sensibilidad y grasa. Disponible para todos los planes.
 - **Alertas climáticas**: Notificaciones automáticas cuando humedad o temperatura cambian significativamente.
 - **Blog + Productos + Guías digitales**: Contenido educativo y tienda integrada. 50 guías con SVGs y PDFs únicos.
-- **Escáner de ingredientes por webcam**: Captura foto de ingredientes con la cámara y analiza con Groq Vision.
-- **Panel Esteticista**: Gestión de pacientes propios, análisis, informes PDF, código QR de referido (fallback a API externa).
+- **Escáner de ingredientes por webcam**: Captura foto de ingredientes con la cámara y analiza con Gemini Visión.
+- **Panel Esteticista**: Gestión de pacientes propios, análisis, informes PDF, código QR de referido.
 - **Panel Admin**: Dashboard con métricas, usuarios, pagos, blog, productos, guías, Telegram, notificaciones push.
 - **Diario de piel, Desafíos**: Seguimiento diario con streaks.
 - **Idioma**: Español e Inglés (detección automática + toggle manual).
+
+## Seguridad
+
+- **CSRF**: ~39 endpoints de mutación protegidos con `validateCsrf()`
+- **Logger estructurado**: Todos los errores pasan por `logger.error()` (sin `console.log/error` raw en producción)
+- **Tipado estricto**: `strict: true` en tsconfig. Sin `as any` en código fuente
+- **Sin URLs hardcodeadas**: Todas las URLs usan `NEXT_PUBLIC_APP_URL` desde env vars
+- **XSS sanitizado**: `dangerouslySetInnerHTML` sanitiza scripts y event handlers
+- **Rate limits**: DB-backed (Upstash Redis) para login, registro y análisis
+- **N+1 queries eliminados**: Batch operations con `createMany`/`updateMany`
 
 ## Enlaces
 
@@ -45,7 +55,7 @@ Observación cosmética de tu piel con inteligencia artificial.
 
 - Node.js 20+
 - PostgreSQL (Supabase recomendado)
-- API keys: Gemini (solo visión: análisis piel + escáner), Groq (chat RAG + `/asistente`), PayPal, Telegram Bot, Sentry, Clarity, OpenWeatherMap, Redis Upstash
+- API keys: Gemini (solo visión), Groq (chat RAG + `/asistente`), PayPal, Telegram Bot, Sentry, Clarity, OpenWeatherMap, Redis Upstash
 - `.npmrc` con `legacy-peer-deps=true` (necesario por `@sentry/nextjs` con Next.js 16)
 
 ## Comandos
@@ -53,13 +63,12 @@ Observación cosmética de tu piel con inteligencia artificial.
 ```bash
 npm run dev              # Desarrollo
 npm run build            # Build producción
-npm test                 # Tests (Vitest, 240+ tests)
+npm test                 # Tests (Vitest, 239 tests, 27 archivos)
 npm run seed             # Seed principal (productos, challenges, digital products)
 npm run seed:guides      # Seed guías digitales (64 guías con SVGs/PDFs)
 npm run seed:community   # Seed comunidades (6 grupos, 8 insignias)
 npm run seed:knowledge   # Seed base de conocimiento RAG
 npm run db:push          # Push schema a DB
-
 ```
 
 ## Cron Jobs (configurar en cron-job.org)
@@ -83,6 +92,12 @@ Ver `CRON-SETUP.md` para configuración detallada. Todos requieren header `Autho
 
 | Mejora | Descripción |
 |--------|-------------|
+| QvaPay → PayPal | Migración completa: schema, API, frontend, tests. PayPal REST API sin SDK npm |
+| CSRF masivo | +39 endpoints de mutación protegidos |
+| Logger estructurado | Todos los console.* reemplazados por logger |
+| Catch blocks visibles | ~30 catch vacíos ahora loggean errores |
+| Sin `as any` | ~25 casts eliminados, types existentes en next-auth.d.ts |
+| Sin URLs hardcodeadas | 44 referencias a render.com reemplazadas por env vars |
 | IA con memoria | El prompt incluye historial completo de análisis (últimos 5) |
 | Productos guardados | Guarda productos y detecta conflictos entre ingredientes |
 | Insignias | Logros automáticos: rachas, análisis, mejora de hidratación |
@@ -93,10 +108,8 @@ Ver `CRON-SETUP.md` para configuración detallada. Todos requieren header `Autho
 | Webhook Telegram async | `after()` de Next.js 16 + rate limits persistentes en Redis |
 | Notificaciones web | Reemplaza email. Campana en sidebar, dashboard, cleanup 48h |
 | Guías con SVGs únicos | 50 SVGs generados por categoría, cada guía con PDF propio |
-| QR sin dependencia | Fallback a `api.qrserver.com` (qrcode npm no disponible) |
-| Visión IA migrada a Gemini | Groq descontinuó todos sus modelos vision. Migrado a Gemini 2.0 Flash. Solo análisis piel + escáner ingredientes (sin aging demo, sin `/asistente`). ⚠️ `GEMINI_API_KEY` debe configurarse en Render Dashboard |
-| `/asistente` migrado a Groq | Antes usaba Gemini Chat, ahora usa Groq `llama-3.3-70b-versatile` (mismo modelo que RAG). Ya no requiere `GEMINI_API_KEY` |
-| Aging demo eliminado | Componente y API route removidos. Era código muerto (no se importaba en ninguna página) |
+| Visión IA migrada a Gemini | Groq descontinuó modelos vision. Migrado a Gemini 2.0 Flash |
+| `/asistente` migrado a Groq | Antes Gemini Chat, ahora Groq `llama-3.3-70b-versatile` |
 
 ## Licencia
 
