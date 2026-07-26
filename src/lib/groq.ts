@@ -90,7 +90,7 @@ async function compressImage(file: File, maxDim = 512): Promise<Buffer> {
         .jpeg({ quality: 75 })
         .toBuffer()
     }
-  } catch {}
+  } catch (e) { logger.error("Image resize failed", { error: e }) }
   return Buffer.from(bytes)
 }
 

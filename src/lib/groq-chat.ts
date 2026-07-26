@@ -13,12 +13,12 @@ function extractJSON(content: string): any {
   const clean = content.replace(/```json|```/g, "").trim()
   try {
     return JSON.parse(clean)
-  } catch {}
+  } catch { /* try fallback regex extraction */ }
   const match = content.match(/\{[\s\S]*\}/)
   if (match) {
     try {
       return JSON.parse(match[0])
-    } catch {}
+    } catch { /* not valid JSON either */ }
   }
   throw new Error("No se pudo parsear la respuesta de Groq")
 }

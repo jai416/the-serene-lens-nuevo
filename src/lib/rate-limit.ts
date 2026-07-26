@@ -78,11 +78,11 @@ export async function clearRateLimit(key: string): Promise<void> {
   if (isRedisConfigured()) {
     try {
       await redisDel(`ratelimit:${key}`)
-    } catch {}
+    } catch (e) { logger.error("Redis rate limit clear failed", { error: e }) }
   }
   try {
     await db.rateLimit.delete({ where: { key } })
-  } catch {}
+  } catch (e) { logger.error("DB rate limit clear failed", { error: e }) }
 }
 
 export async function cleanupExpiredRateLimits(): Promise<number> {

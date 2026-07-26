@@ -84,7 +84,7 @@ export async function registerUser(email: string, password: string, name?: strin
     try {
       const { createWelcomeNotification } = await import("@/lib/notifications")
       createWelcomeNotification(user.id, name || "Usuario").catch((e) => logger.error("Welcome notification failed", { error: e }))
-    } catch {}
+    } catch (e) { logger.error("Welcome notification import failed", { error: e }) }
   }
 
   return { user: { id: user.id, email: user.email, name: user.name } }
@@ -264,7 +264,7 @@ export const authOptions: NextAuthOptions = {
             token.longitude = dbUser.longitude
             token.trialEndsAt = dbUser.trialEndsAt?.toISOString() ?? null
           }
-        } catch {}
+        } catch (e) { logger.error("JWT token DB lookup failed", { error: e }) }
       }
       return token
     },

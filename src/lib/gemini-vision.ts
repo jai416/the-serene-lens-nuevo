@@ -20,12 +20,12 @@ function extractJSON(text: string): any {
   const clean = text.replace(/```json|```/g, "").trim()
   try {
     return JSON.parse(clean)
-  } catch {}
+  } catch { /* try fallback regex extraction */ }
   const match = text.match(/\{[\s\S]*\}/)
   if (match) {
     try {
       return JSON.parse(match[0])
-    } catch {}
+    } catch { /* not valid JSON either */ }
   }
   throw new GeminiVisionError("No se pudo parsear la respuesta JSON", "PARSE_ERROR")
 }

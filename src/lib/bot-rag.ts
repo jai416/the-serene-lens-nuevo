@@ -49,7 +49,7 @@ export async function generateBotResponse(userMessage: string, chatId: string, u
           knowledgeId: results[0].id,
         }
       }
-    } catch {}
+    } catch (e) { logger.error("RAG knowledge search failed", { error: e }) }
 
     return {
       text: "Lo siento, tuve un problema al procesar tu mensaje. Por favor intenta de nuevo más tarde.",

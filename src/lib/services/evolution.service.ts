@@ -108,11 +108,11 @@ export async function getUserEvolution(userId: string) {
     const { getCachedEvolution } = await import("./evolution-calculator")
     const cached = await getCachedEvolution(userId)
     if (cached && cached.totalAnalyses > 0) return cached
-  } catch {}
+  } catch (e) { logger.error("Cache evolution failed", { error: e }) }
   const fresh = await getSkinEvolution(userId)
   try {
     const { recalculateAndSaveEvolution } = await import("./evolution-calculator")
     await recalculateAndSaveEvolution(userId)
-  } catch {}
+  } catch (e) { logger.error("Recalculate evolution failed", { error: e }) }
   return fresh
 }

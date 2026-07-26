@@ -847,7 +847,7 @@ export async function handleLogs(chatId: string, userId: string, args: string[])
           `• ${e.createdAt.toLocaleTimeString("es")} | <code>${e.action}</code> | ${e.details?.slice(0, 100) || "—"}`
         ).join("\n")
     }
-  } catch {}
+  } catch (e) { logger.error("Recent errors fetch failed", { error: e }) }
 
   let text = `📋 <b>Logs${fecha ? ` (${fecha})` : ""}</b>\n\n${logs.join("\n") || "Sin registros."}${errorSection}`
   if (text.length > 4000) {
@@ -1191,7 +1191,7 @@ export async function handleCallback(data: string, chatId: string, userId: strin
         const helpful = payload.slice(underscoreIdx + 1) === "1"
         await recordFeedback(knowledgeId, helpful)
       }
-    } catch {}
+    } catch (e) { logger.error("Callback feedback failed", { error: e }) }
     return
   }
 

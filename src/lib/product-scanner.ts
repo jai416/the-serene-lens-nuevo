@@ -31,7 +31,7 @@ Responde SOLO con JSON en este formato exacto y nada más:
     if (cached && cached.expiresAt > new Date()) {
       return JSON.parse(cached.value)
     }
-  } catch {}
+  } catch (e) { logger.error("Cache read failed", { error: e }) }
 
   try {
     const prompt = "Analiza esta imagen de producto skincare y devuelve el JSON en el formato especificado."
@@ -47,7 +47,7 @@ Responde SOLO con JSON en este formato exacto y nada más:
         create: { key: cacheKey, value: JSON.stringify(parsed), expiresAt: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000) },
         update: { value: JSON.stringify(parsed), expiresAt: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000) },
       })
-    } catch {}
+    } catch (e) { logger.error("Cache upsert failed", { error: e }) }
 
     return parsed
   } catch (e) {
