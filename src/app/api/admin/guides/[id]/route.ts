@@ -41,7 +41,7 @@ export async function PATCH(
     revalidateTag("guides", "max")
     return ok({ guide: updated })
   } catch (e) {
-    logger.error("Admin guide PATCH error:", e)
+    logger.error("Admin guide PATCH error", { error: e })
     return serverError(e)
   }
 }
@@ -65,7 +65,7 @@ export async function DELETE(
     revalidateTag("guides", "max")
     return ok({ deleted: true })
   } catch (e) {
-    logger.error("Admin guide DELETE error:", e)
+    logger.error("Admin guide DELETE error", { error: e })
     return serverError(e)
   }
 }

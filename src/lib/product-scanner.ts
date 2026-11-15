@@ -1,6 +1,6 @@
 import { logger } from "@/lib/logger"
 import { createHash } from "crypto"
-import { analyzeImageWithGemini } from "@/lib/gemini-vision"
+import { analyzeImage } from "@/lib/vision"
 
 export async function scanProductIngredients(imageBase64: string, skinType?: string | null) {
   const skinContext = skinType
@@ -35,7 +35,7 @@ Responde SOLO con JSON en este formato exacto y nada más:
 
   try {
     const prompt = "Analiza esta imagen de producto skincare y devuelve el JSON en el formato especificado."
-    const parsed = await analyzeImageWithGemini(imageBase64, prompt, SYSTEM_PROMPT, {
+    const parsed = await analyzeImage(imageBase64, prompt, SYSTEM_PROMPT, {
       temperature: 0.2,
       maxTokens: 1024,
     })

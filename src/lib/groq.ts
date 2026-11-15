@@ -1,5 +1,5 @@
 import { logger } from "@/lib/logger"
-import { analyzeMultipleImagesWithGemini } from "@/lib/gemini-vision"
+import { analyzeMultipleImages } from "@/lib/vision"
 
 function buildSystemPrompt(context: {
   age?: string
@@ -69,12 +69,12 @@ async function geminiFetch(
 ): Promise<any> {
   const imagesBase64 = imagesBuffer.map((buf) => buf.toString("base64"))
   try {
-    return await analyzeMultipleImagesWithGemini(imagesBase64, prompt, systemPrompt, {
+    return await analyzeMultipleImages(imagesBase64, prompt, systemPrompt, {
       temperature: 0.2,
       maxTokens: 4096,
     })
   } catch (e) {
-    logger.error("Gemini vision analysis failed", { error: e instanceof Error ? e.message : String(e) })
+    logger.error("Vision analysis failed", { error: e instanceof Error ? e.message : String(e) })
     throw e
   }
 }

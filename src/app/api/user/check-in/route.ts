@@ -103,7 +103,7 @@ export async function POST(req: NextRequest) {
       reward,
     })
   } catch (e) {
-    logger.error("Check-in error:", e)
+    logger.error("Check-in error", { error: e })
     return serverError(e)
   }
 }
@@ -142,7 +142,7 @@ export async function GET() {
       todayCheckIns: todayCheckIns.map((c) => c.routine),
     })
   } catch (e) {
-    logger.error("Check-in GET error:", e)
+    logger.error("Check-in GET error", { error: e })
     return serverError(e)
   }
 }

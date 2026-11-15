@@ -34,7 +34,7 @@ export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id
 
     return ok(updated)
   } catch (e) {
-    logger.error("Challenge PATCH error:", e)
+    logger.error("Challenge PATCH error", { error: e })
     return serverError(e)
   }
 }
@@ -54,7 +54,7 @@ export async function DELETE(_req: NextRequest, { params }: { params: Promise<{ 
     await db.challenge.delete({ where: { id } })
     return ok({ deleted: true })
   } catch (e) {
-    logger.error("Challenge DELETE error:", e)
+    logger.error("Challenge DELETE error", { error: e })
     return serverError(e)
   }
 }

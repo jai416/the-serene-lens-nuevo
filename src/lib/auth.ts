@@ -13,7 +13,7 @@ function getAuthEnv() {
   try {
     return getEnv()
   } catch (e) {
-    logger.error("[Auth] Failed to load env vars:", e instanceof Error ? e.message : e)
+    logger.error("[Auth] Failed to load env vars", { error: e instanceof Error ? e.message : e })
     return null
   }
 }

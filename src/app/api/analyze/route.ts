@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server"
 import { getServerSession } from "next-auth"
 import { authOptions } from "@/lib/auth"
 import { ok, error, serverError, unauthorized } from "@/lib/api-response"
+import { validateCsrf } from "@/lib/csrf-middleware"
 import { checkRateLimit } from "@/lib/rate-limit"
 import { AnalysisService, AnalysisError } from "@/lib/services/analysis.service"
 import { analysisQueue } from "@/lib/queue"
@@ -21,6 +22,7 @@ export async function POST(req: NextRequest) {
     let userRole: string = "USER"
 
     if (session?.user) {
+      if (!validateCsrf(req)) return error("CSRF token inválido", 403)
       const user = await db.user.findUnique({
         where: { id: session.user.id },
         select: { id: true, plan: true, role: true },

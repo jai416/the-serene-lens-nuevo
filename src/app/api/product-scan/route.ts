@@ -3,6 +3,7 @@ import { getServerSession } from "next-auth"
 import { authOptions } from "@/lib/auth"
 import { scanProductIngredients } from "@/lib/product-scanner"
 import { ok, error, serverError, unauthorized } from "@/lib/api-response"
+import { validateCsrf } from "@/lib/csrf-middleware"
 import { logger } from "@/lib/logger"
 import { createHash } from "crypto"
 import { db } from "@/lib/db"
@@ -30,6 +31,7 @@ async function getCacheKey(base64: string): Promise<string> {
 const CACHE_TTL_MS = 7 * 24 * 60 * 60 * 1000
 
 export async function POST(req: NextRequest) {
+  if (!validateCsrf(req)) return error("CSRF token inválido", 403)
   const session = await getServerSession(authOptions)
   if (!session?.user) {
     return unauthorized("Inicia sesión para escanear productos")

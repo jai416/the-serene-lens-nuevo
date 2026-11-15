@@ -20,6 +20,10 @@ vi.mock("@/lib/logger", () => ({
   logger: { info: vi.fn(), error: vi.fn() },
 }))
 
+vi.mock("@/lib/csrf-middleware", () => ({
+  validateCsrf: vi.fn().mockReturnValue(true),
+}))
+
 import { POST } from "../route"
 
 describe("Lead Magnet API", () => {
@@ -30,7 +34,7 @@ describe("Lead Magnet API", () => {
   it("returns 400 for missing email", async () => {
     const req = new Request("http://localhost/api/lead-magnet", {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers: { "Content-Type": "application/json", "x-csrf-token": "test" },
       body: JSON.stringify({}),
     })
     const res = await POST(req)
@@ -42,7 +46,7 @@ describe("Lead Magnet API", () => {
   it("returns 400 for invalid email", async () => {
     const req = new Request("http://localhost/api/lead-magnet", {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers: { "Content-Type": "application/json", "x-csrf-token": "test" },
       body: JSON.stringify({ email: "not-an-email" }),
     })
     const res = await POST(req)
@@ -54,7 +58,7 @@ describe("Lead Magnet API", () => {
     mockCreate.mockResolvedValue({ id: "lead-1", email: "test@test.com" })
     const req = new Request("http://localhost/api/lead-magnet", {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers: { "Content-Type": "application/json", "x-csrf-token": "test" },
       body: JSON.stringify({ email: "test@test.com" }),
     })
     const res = await POST(req)
@@ -68,7 +72,7 @@ describe("Lead Magnet API", () => {
     mockFindUnique.mockResolvedValue({ id: "lead-1", email: "test@test.com" })
     const req = new Request("http://localhost/api/lead-magnet", {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers: { "Content-Type": "application/json", "x-csrf-token": "test" },
       body: JSON.stringify({ email: "test@test.com" }),
     })
     const res = await POST(req)
@@ -81,7 +85,7 @@ describe("Lead Magnet API", () => {
     mockCheckRateLimit.mockResolvedValue({ allowed: false, remaining: 0 })
     const req = new Request("http://localhost/api/lead-magnet", {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers: { "Content-Type": "application/json", "x-csrf-token": "test" },
       body: JSON.stringify({ email: "test@test.com" }),
     })
     const res = await POST(req)

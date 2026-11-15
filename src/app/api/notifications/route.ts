@@ -3,6 +3,7 @@ import { authOptions } from "@/lib/auth"
 import { getUserNotifications, markAllRead, markNotificationRead } from "@/lib/notifications"
 import { ok, unauthorized, error, serverError } from "@/lib/api-response"
 import { validateCsrf } from "@/lib/csrf-middleware"
+import { NextRequest } from "next/server"
 
 export async function GET() {
   try {
@@ -13,7 +14,7 @@ export async function GET() {
   } catch { return serverError() }
 }
 
-export async function PUT(req: Request) {
+export async function PUT(req: NextRequest) {
   try {
     if (!validateCsrf(req)) return error("CSRF token inválido", 403)
     const session = await getServerSession(authOptions)

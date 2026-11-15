@@ -40,6 +40,7 @@ export default function ProfilePage() {
 
   if (status === "loading") return <div className="p-8 text-center text-[#666666]">{t("common.loading", locale)}</div>
   if (!session) redirect("/login?callbackUrl=" + encodeURIComponent(pathname))
+  if (!user) return null
 
   const handleSave = async () => {
     setSaving(true)

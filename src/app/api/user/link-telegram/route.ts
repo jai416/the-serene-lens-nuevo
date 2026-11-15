@@ -3,8 +3,10 @@ import { authOptions } from "@/lib/auth"
 import { db } from "@/lib/db"
 import { ok, error, unauthorized, serverError } from "@/lib/api-response"
 import { validateCsrf } from "@/lib/csrf-middleware"
+import { NextRequest } from "next/server"
+import { logger } from "@/lib/logger"
 
-export async function POST(req: Request) {
+export async function POST(req: NextRequest) {
   try {
     if (!validateCsrf(req)) return error("CSRF token inválido", 403)
     const session = await getServerSession(authOptions)
@@ -27,7 +29,7 @@ export async function POST(req: Request) {
 
     return ok({ message: "Cuenta vinculada correctamente" })
   } catch (e) {
-    logger.error("Link Telegram error:", e)
+    logger.error("Link Telegram error", { error: e })
     return serverError(e)
   }
 }

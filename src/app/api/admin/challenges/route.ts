@@ -21,7 +21,7 @@ export async function GET() {
 
     return ok({ challenges })
   } catch (e) {
-    logger.error("Challenges GET error:", e)
+    logger.error("Challenges GET error", { error: e })
     return serverError(e)
   }
 }
@@ -43,7 +43,7 @@ export async function POST(req: NextRequest) {
     const challenge = await db.challenge.create({ data: parsed.data })
     return ok(challenge, 201)
   } catch (e) {
-    logger.error("Challenges POST error:", e)
+    logger.error("Challenges POST error", { error: e })
     return serverError(e)
   }
 }

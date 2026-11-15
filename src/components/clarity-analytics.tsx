@@ -9,10 +9,12 @@ export function ClarityAnalytics() {
   useEffect(() => {
     if (!CLARITY_ID) return
     try {
-      const w = window as Record<string, unknown>
-      w.clarity = w.clarity || function() {
-        // eslint-disable-next-line prefer-rest-params
-        ((w.clarity as Record<string, unknown>).q = (w.clarity as Record<string, unknown>).q || ([] as unknown[])).push(arguments)
+      const clarity = (window as unknown as Record<string, unknown>).clarity as unknown as (...args: unknown[]) => void
+      if (!clarity) {
+        const q: unknown[] = []
+        const f = (...args: unknown[]) => q.push(args)
+        ;(window as unknown as Record<string, unknown>).clarity = f
+        ;(f as unknown as Record<string, unknown>).q = q
       }
     } catch {}
   }, [])

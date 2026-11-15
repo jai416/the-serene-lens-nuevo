@@ -3,6 +3,7 @@ import { authOptions } from "@/lib/auth"
 import { db } from "@/lib/db"
 import { NextRequest } from "next/server"
 import { ok, error, serverError } from "@/lib/api-response"
+import { validateCsrf } from "@/lib/csrf-middleware"
 
 const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i
 
@@ -30,6 +31,7 @@ export async function GET(req: NextRequest) {
 
 export async function POST(req: NextRequest) {
   try {
+    if (!validateCsrf(req)) return error("CSRF token inválido", 403)
     const session = await getServerSession(authOptions)
     const body = await req.json()
     const { sessionId, message, userId } = body

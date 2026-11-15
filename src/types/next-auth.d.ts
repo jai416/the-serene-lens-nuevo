@@ -13,6 +13,8 @@ declare module "next-auth" {
       latitude?: number | null
       longitude?: number | null
       trialEndsAt?: string | null
+      createdAt?: string | null
+      telegramId?: string | null
     }
   }
 
@@ -23,6 +25,8 @@ declare module "next-auth" {
     latitude?: number | null
     longitude?: number | null
     trialEndsAt?: string | null
+    createdAt?: string | null
+    telegramId?: string | null
   }
 }
 

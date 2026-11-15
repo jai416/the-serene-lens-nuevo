@@ -1,12 +1,15 @@
-import { NextResponse } from "next/server"
+import { NextRequest, NextResponse } from "next/server"
 import { db } from "@/lib/db"
 import { checkRateLimit } from "@/lib/rate-limit"
+import { validateCsrf } from "@/lib/csrf-middleware"
+import { error } from "@/lib/api-response"
 import { logger } from "@/lib/logger"
 
 const APP_URL = process.env.NEXT_PUBLIC_APP_URL || ""
 
-export async function POST(req: Request) {
+export async function POST(req: NextRequest) {
   try {
+    if (!validateCsrf(req)) return error("CSRF token inválido", 403)
     const { email } = await req.json()
     if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
       return NextResponse.json({ success: false, error: "Email inválido" }, { status: 400 })

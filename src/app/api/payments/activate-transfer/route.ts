@@ -66,7 +66,7 @@ export async function POST(req: NextRequest) {
           amount: transfer.amount,
           status: "completed",
           confirmedAt: new Date(),
-          remoteId: transfer.referenceCode,
+          paypalOrderId: transfer.referenceCode,
         },
       })
 

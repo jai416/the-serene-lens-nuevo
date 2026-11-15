@@ -3,14 +3,17 @@ import { authOptions } from "@/lib/auth"
 import { db } from "@/lib/db"
 import { AnalysisStream } from "@/lib/streaming"
 import { unauthorized, serverError, error } from "@/lib/api-response"
+import { validateCsrf } from "@/lib/csrf-middleware"
 import { checkRateLimit } from "@/lib/rate-limit"
 import { checkAndDeductUsage } from "@/lib/usage"
 import { analyzeSkinWithGroq } from "@/lib/groq"
 import { getCachedAnalysis, setCachedAnalysis } from "@/lib/analysis-cache"
+import { NextRequest } from "next/server"
 import { logger } from "@/lib/logger"
 
-export async function POST(req: Request) {
+export async function POST(req: NextRequest) {
   try {
+    if (!validateCsrf(req)) return error("CSRF token inválido", 403)
     const session = await getServerSession(authOptions)
     if (!session?.user?.id) return unauthorized()
 

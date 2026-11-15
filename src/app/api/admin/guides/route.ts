@@ -32,7 +32,7 @@ export async function GET() {
 
     return ok({ guides })
   } catch (e) {
-    logger.error("Admin guides GET error:", e)
+    logger.error("Admin guides GET error", { error: e })
     return serverError(e)
   }
 }
@@ -57,7 +57,7 @@ export async function POST(request: NextRequest) {
 
     return ok({ guide })
   } catch (e) {
-    logger.error("Admin guides POST error:", e)
+    logger.error("Admin guides POST error", { error: e })
     return serverError(e)
   }
 }

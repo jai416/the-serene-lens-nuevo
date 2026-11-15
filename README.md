@@ -9,7 +9,7 @@ Observación cosmética de tu piel con inteligencia artificial.
 | Framework | Next.js 16 (Turbopack) |
 | Base de datos | PostgreSQL (Supabase) + Prisma 7 |
 | Autenticación | NextAuth v4 (JWT + credentials + Google + GitHub) |
-| AI Visión | Gemini 2.0 Flash (análisis de piel, escáner ingredientes). ⚠️ `GEMINI_API_KEY` no configurada en Render |
+| AI Visión | NVIDIA Llama 3.2 90B Vision + Gemini 2.0 Flash (fallback). Análisis de piel + escáner ingredientes |
 | AI Chat (RAG + `/asistente`) | Groq `llama-3.3-70b-versatile` (chat sin imágenes). ✅ Funcional en Render |
 | Pagos | PayPal (USD) + Transfermóvil (CUP). QvaPay eliminado |
 | Bot | Telegram (webhook con `after()`, RAG, `/asistente`, validación pagos) |
@@ -29,7 +29,7 @@ Observación cosmética de tu piel con inteligencia artificial.
 - **Evolución visual**: Gráficos Recharts con tendencias de textura, brillo, poros, uniformidad, sensibilidad y grasa. Disponible para todos los planes.
 - **Alertas climáticas**: Notificaciones automáticas cuando humedad o temperatura cambian significativamente.
 - **Blog + Productos + Guías digitales**: Contenido educativo y tienda integrada. 50 guías con SVGs y PDFs únicos.
-- **Escáner de ingredientes por webcam**: Captura foto de ingredientes con la cámara y analiza con Gemini Visión.
+- **Escáner de ingredientes por webcam**: Captura foto de ingredientes con la cámara y analiza con NVIDIA/Gemini Visión.
 - **Panel Esteticista**: Gestión de pacientes propios, análisis, informes PDF, código QR de referido.
 - **Panel Admin**: Dashboard con métricas, usuarios, pagos, blog, productos, guías, Telegram, notificaciones push.
 - **Diario de piel, Desafíos**: Seguimiento diario con streaks.
@@ -55,7 +55,7 @@ Observación cosmética de tu piel con inteligencia artificial.
 
 - Node.js 20+
 - PostgreSQL (Supabase recomendado)
-- API keys: Gemini (solo visión), Groq (chat RAG + `/asistente`), PayPal, Telegram Bot, Sentry, Clarity, OpenWeatherMap, Redis Upstash
+- API keys: NVIDIA (visión primaria) o Gemini (visión fallback), Groq (chat RAG + `/asistente`), PayPal, Telegram Bot, Sentry, Clarity, OpenWeatherMap, Redis Upstash
 - `.npmrc` con `legacy-peer-deps=true` (necesario por `@sentry/nextjs` con Next.js 16)
 
 ## Comandos
@@ -63,7 +63,7 @@ Observación cosmética de tu piel con inteligencia artificial.
 ```bash
 npm run dev              # Desarrollo
 npm run build            # Build producción
-npm test                 # Tests (Vitest, 239 tests, 27 archivos)
+npm test                 # Tests (Vitest, 229 tests, 25 archivos)
 npm run seed             # Seed principal (productos, challenges, digital products)
 npm run seed:guides      # Seed guías digitales (64 guías con SVGs/PDFs)
 npm run seed:community   # Seed comunidades (6 grupos, 8 insignias)
@@ -108,7 +108,8 @@ Ver `CRON-SETUP.md` para configuración detallada. Todos requieren header `Autho
 | Webhook Telegram async | `after()` de Next.js 16 + rate limits persistentes en Redis |
 | Notificaciones web | Reemplaza email. Campana en sidebar, dashboard, cleanup 48h |
 | Guías con SVGs únicos | 50 SVGs generados por categoría, cada guía con PDF propio |
-| Visión IA migrada a Gemini | Groq descontinuó modelos vision. Migrado a Gemini 2.0 Flash |
+| Visión IA con NVIDIA + Gemini fallback | NVIDIA Llama 3.2 90B Vision primario, Gemini 2.0 Flash como fallback automático |
+| CSRF en +46 endpoints | 7 consumer routes adicionales protegidas (product-scan, analyze, register, chat, lead-magnet) |
 | `/asistente` migrado a Groq | Antes Gemini Chat, ahora Groq `llama-3.3-70b-versatile` |
 
 ## Licencia

@@ -70,10 +70,12 @@
 - `GEMINI_API_KEY` se configura en `.env` local y en variables de entorno de Render
 
 ### Decisiones de AI
-- **Gemini 2.0 Flash** para visión (análisis de piel + escáner ingredientes). Reemplazó a Groq cuyos modelos vision fueron descontinuados
+- **NVIDIA Llama 3.2 90B Vision** como proveedor primario de visión (análisis de piel + escáner ingredientes). Fallback automático a Gemini 2.0 Flash si NVIDIA no está configurado o falla
+- **Gemini 2.0 Flash** como fallback de visión. Reemplazó a Groq cuyos modelos vision fueron descontinuados
 - **Groq** (`llama-3.3-70b-versatile`) para TODO el chat: RAG + `/asistente` (ya no depende de `GEMINI_API_KEY`)
 - `gemini-chat.ts` eliminado — `/asistente` migrado a Groq
 - Rate limit de `/asistente` persiste en Redis (`checkRateLimit()` con key `asistente:daily:{userId}`)
+- **Unified vision adapter**: `src/lib/vision.ts` intenta NVIDIA → Gemini secuencialmente
 
 ### Documentación
 - **DOC-admin.md**: Solo contiene "cómo usar el panel admin"
@@ -89,8 +91,10 @@
 | `src/lib/services/badge.service.ts` | Evaluación y asignación de insignias |
 | `src/lib/services/ingredient.service.ts` | Detección de conflictos entre ingredientes |
 | `src/lib/services/analysis.service.ts` | Análisis de piel con historial completo |
-| `src/lib/gemini-vision.ts` | Visión IA con Gemini 2.0 Flash (análisis piel + escáner ingredientes) |
-| `src/lib/groq.ts` | Análisis de piel (usa Gemini internamente) |
+| `src/lib/gemini-vision.ts` | Visión IA con Gemini 2.0 Flash (análisis piel + escáner ingredientes) — fallback |
+| `src/lib/nvidia-vision.ts` | Visión IA con NVIDIA Llama 3.2 90B Vision (proveedor primario) |
+| `src/lib/vision.ts` | Adapter unificado: intenta NVIDIA primero, cae a Gemini |
+| `src/lib/groq.ts` | Análisis de piel (usa vision.ts internamente) |
 | `src/lib/groq-chat.ts` | Chat Groq con `llama-3.3-70b-versatile` para RAG + `/asistente` |
 | `src/app/api/cron/weather-alert/route.ts` | Alertas por cambios climáticos |
 | `src/app/api/community/` | API completa de comunidad (grupos, posts, comentarios) |
@@ -216,36 +220,39 @@
 - `src/lib/telegram-handlers.ts`: se agregó `id: true` al `select` de Prisma (faltaba el campo, causaba TS error)
 - `src/components/qr-code-image.tsx`: se eliminó el `import("qrcode")` dinámico para evitar error de módulo no encontrado
 
-## Estado crítico — Gemini NO funcional en Render
-- `GEMINI_API_KEY` **no está configurada en Render**. No aparece en `render.yaml` (agregada en `7b73176` pero marcada `sync:false`)
-- Las funciones de visión (análisis de piel, escáner de ingredientes) fallan con 500 "Error interno"
-- Para activar: ir a Render Dashboard → Environment → agregar `GEMINI_API_KEY` con valor válido.
-- El endpoint `/api/debug` (commit `d9cf882`) permite verificar env vars desde Render, pero build actual no lo incluye
-- El bot de Telegram `/asistente` **ya no requiere Gemini** — usa Groq `llama-3.3-70b-versatile` igual que el chat RAG
+## Estado crítico — API Keys de Visión
+- **NVIDIA_API_KEY** configurada en `.env` (funcional: HTTP 200 en pruebas de texto). Visión con imágenes requiere probarse en Render
+- **GEMINI_API_KEY** **no está configurada en Render**. No aparece en `render.yaml`. Es el fallback si NVIDIA falla
+- Las funciones de visión (análisis de piel, escáner de ingredientes) usan NVIDIA → Gemini fallback automático
+- Para activar: ir a Render Dashboard → Environment → agregar `NVIDIA_API_KEY` y opcionalmente `GEMINI_API_KEY`
+- El bot de Telegram `/asistente` **no requiere Gemini** — usa Groq `llama-3.3-70b-versatile` igual que el chat RAG
 
 ### Fixes de código (Julio 2026)
-- **CSRF añadido a +39 endpoints**: user/comparison, user/clinic, user/clients, esthetician/clients, esthetician/clients/[id], esthetician/marketing, challenges, referral, referral/[code], support/messages, ingredients/check-conflicts, feedback(4), notifications(3), analysis(4), skin-diary(2), user(4), contact(1), community(7), delete-account
+- **CSRF añadido a +46 endpoints**: +39 anteriores + product-scan, analyze, analyze/stream, register, chat/messages, chat/session, lead-magnet
 - **Empty catch blocks loggean errores**: ~25 catch blocks en API routes y lib ahora usan `logger.error()` en vez de silenciar (register, reset-password, gift, analyze/stream, community, product-scan, weather-alert, analysis-cache, analysis.service, payment.service, auth.ts, bot-knowledge)
 - **`as any` eliminados**: ~25 casts removidos de session.user (plan/role ya tipados en next-auth.d.ts), navigator.connection, globalThis, Prisma dynamic keys, Record<string, any>, clarity window
 - **Hardcoded URLs eliminados**: 44 referencias a `the-serene-lens-nuevo.onrender.com` reemplazadas por `process.env.NEXT_PUBLIC_APP_URL || ""`
 - **N+1 queries**: badge.service, cleanup-trials, send-reminders, telegram-handlers, bot-knowledge
 - **Paginación cursor-based**: community posts/comments
 - **CSP actualizado**: Gemini, Groq, PayPal, QRServer
-- **Tests**: 239 pasando en 27 archivos
+- **Tests**: 229 pasando en 25 archivos
 
 ## Estado del build en Render
 - Último build desplegado: versión antigua (health reporta "2026-07-04-final")
 - Push `0d4bc14` (docs) + `7b73176` (render.yaml) + nuevo commit pendiente enviados a GitHub, Render debería auto-desplegar
 - Si auto-deploy no funciona, Trigger Manual Deploy en Render Dashboard
 
-## Monitoreo Gemini
-- `gemini-vision.ts` envía errores a Sentry mediante `captureError` y `captureMessage`
-- Auth errors (401/403) = disparan `captureMessage("GEMINI_API_KEY expirada o inválida")` → visible en Sentry Dashboard
+## Monitoreo de Visión IA
+- `nvidia-vision.ts` y `gemini-vision.ts` envían errores a Sentry mediante `captureError` y `captureMessage`
+- Auth errors (401/403) = disparan `captureMessage("NVIDIA_API_KEY inválida" / "GEMINI_API_KEY expirada")` → visible en Sentry Dashboard
 - Network errors y fallos inesperados = `captureError()` con contexto
-- `GEMINI_API_KEY` agregado al schema de `env.ts` (Zod validation) y `requireEnv()` ahora lanza error si falta (antes devolvía `""` silenciosamente)
+- `NVIDIA_API_KEY` es opcional en `env.ts` (Zod). `GEMINI_API_KEY` sigue siendo requerida como fallback
 
 ## Próximas tareas pendientes
-- ⚠️ **Configurar `GEMINI_API_KEY` en Render Dashboard** (crítico para análisis piel + escáner ingredientes)
+- ⚠️ **Configurar `NVIDIA_API_KEY` en Render Dashboard** (primario para visión)
+- ⚠️ **Configurar `GEMINI_API_KEY` en Render Dashboard** (fallback de visión)
+- ⚠️ **Configurar `PAYPAL_CLIENT_ID`, `PAYPAL_CLIENT_SECRET`, `PAYPAL_API_URL` en Render Dashboard**
+- ⚠️ **`GROQ_API_KEY` expirada** (403) — renovar en consola de Groq
 - Monitorear build en Render tras push
 - Verificar que `/api/cron/cleanup-notifications` aparezca tras el build
 - Configurar `TELEGRAM_BOT_TOKEN` en Render si se desea UV alerts

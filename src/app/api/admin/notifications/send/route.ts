@@ -64,7 +64,7 @@ export async function POST(req: NextRequest) {
 
     return ok({ sent, failed: 0 })
   } catch (e) {
-    logger.error("Notification send error:", e)
+    logger.error("Notification send error", { error: e })
     return serverError(e)
   }
 }

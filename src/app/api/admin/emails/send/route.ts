@@ -7,7 +7,7 @@ import { ok, error, serverError, unauthorized } from "@/lib/api-response"
 import { logger } from "@/lib/logger"
 import { createWebNotification } from "@/lib/notifications"
 
-const SEGMENT_FILTERS: Record<string, Record<string, string>> = {
+const SEGMENT_FILTERS: Record<string, Record<string, unknown>> = {
   all: {},
   free: { plan: "FREE" },
   premium: { plan: "PREMIUM" },
@@ -57,7 +57,7 @@ export async function POST(req: NextRequest) {
 
     return ok({ sent, failed: users.length - sent, total: users.length, info: "Notificaciones web enviadas (email próximamente)" })
   } catch (e) {
-    logger.error("Admin notification send error:", e)
+    logger.error("Admin notification send error", { error: e })
     return serverError(e)
   }
 }

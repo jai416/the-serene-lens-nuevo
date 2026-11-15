@@ -24,6 +24,7 @@ const envSchema = z.object({
   NEXT_PUBLIC_PHOTO_STEPS: z.enum(["2", "4"]).optional(),
   CRON_SECRET: z.string().optional(),
   RAINFOREST_API_KEY: z.string().optional(),
+  NVIDIA_API_KEY: z.string().optional(),
 })
 
 export type Env = z.infer<typeof envSchema>

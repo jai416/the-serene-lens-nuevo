@@ -9,6 +9,7 @@ import {
 import { groqChat } from "@/lib/groq-chat"
 import { sanitizeHtml } from "@/lib/sanitize"
 import * as R from "@/lib/telegram-responses"
+import { logger } from "@/lib/logger"
 
 const MENU_BACK_ROW = [{ text: "🔙 Menú principal", callback_data: "menu_main" }]
 const USER_KEYBOARD: { text: string }[][] = [
@@ -611,7 +612,7 @@ export async function handleActivar(chatId: string, userId: string, args: string
           db.transferPayment.update({ where: { id: transfer.id }, data: { status: "activated", activatedById: userId, activatedAt: new Date() } }),
           db.user.update({ where: { id: transfer.userId }, data: { plan: transfer.plan } }),
           db.subscription.create({ data: { userId: transfer.userId, plan: transfer.plan, provider: "transfer", status: "active", currentPeriodStart: new Date(), currentPeriodEnd: periodEnd } }),
-          db.payment.create({ data: { userId: transfer.userId, provider: "transfer", plan: transfer.plan, amount: transfer.amount, status: "completed", confirmedAt: new Date(), remoteId: transfer.referenceCode } }),
+          db.payment.create({ data: { userId: transfer.userId, provider: "transfer", plan: transfer.plan, amount: transfer.amount, status: "completed", confirmedAt: new Date() } }),
           db.auditLog.create({ data: { userId, action: "activate_transfer", targetId: transfer.id, targetType: "transfer", details: `Activated ${ref2}` } }),
         ])
       } catch {
@@ -642,7 +643,7 @@ export async function handleActivar(chatId: string, userId: string, args: string
       db.transferPayment.updateMany({ where: { id: { in: selected.map(t => t.id) } }, data: { status: "activated", activatedById: userId, activatedAt: now } }),
       ...selected.map(t => db.user.update({ where: { id: t.userId }, data: { plan: t.plan } })),
       db.subscription.createMany({ data: subs }),
-      db.payment.createMany({ data: selected.map(t => ({ userId: t.userId, provider: "transfer", plan: t.plan, amount: t.amount, status: "completed", confirmedAt: now, remoteId: t.referenceCode })) }),
+      db.payment.createMany({ data: selected.map(t => ({ userId: t.userId, provider: "transfer", plan: t.plan, amount: t.amount, status: "completed", confirmedAt: now })) }),
       db.auditLog.createMany({ data: selected.map(t => ({ userId, action: "activate_transfer", targetId: t.id, targetType: "transfer", details: `Batch activated ${t.referenceCode}` })) }),
     ])
     await sendTelegramMessage(chatId, R.batchValidateResult(selected.length, indices.length - selected.length))
@@ -672,7 +673,7 @@ export async function handleActivarConfirm(chatId: string, userId: string, ref: 
       db.transferPayment.update({ where: { id: transfer.id }, data: { status: "activated", activatedById: userId, activatedAt: new Date() } }),
       db.user.update({ where: { id: transfer.userId }, data: { plan: transfer.plan } }),
       db.subscription.create({ data: { userId: transfer.userId, plan: transfer.plan, provider: "transfer", status: "active", currentPeriodStart: new Date(), currentPeriodEnd: periodEnd } }),
-      db.payment.create({ data: { userId: transfer.userId, provider: "transfer", plan: transfer.plan, amount: transfer.amount, status: "completed", confirmedAt: new Date(), remoteId: transfer.referenceCode } }),
+      db.payment.create({ data: { userId: transfer.userId, provider: "transfer", plan: transfer.plan, amount: transfer.amount, status: "completed", confirmedAt: new Date() } }),
       db.auditLog.create({ data: { userId, action: "activate_transfer", targetId: transfer.id, targetType: "transfer", details: `Activated ${ref} via callback` } }),
     ])
   } catch {
