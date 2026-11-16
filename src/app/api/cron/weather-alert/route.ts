@@ -11,16 +11,16 @@ const TEMP_THRESHOLD = 5
 
 function buildAlert(humidityChange: number, tempChange: number): string | null {
   if (humidityChange > HUMIDITY_THRESHOLD) {
-    return `🌤 La humedad ha subido un ${Math.round(humidityChange)}%. Recuerda usar un hidratante más ligero hoy y ajustar tu rutina.`
+    return `La humedad ha subido un ${Math.round(humidityChange)}%. Recuerda usar un hidratante más ligero hoy y ajustar tu rutina.`
   }
   if (humidityChange < -HUMIDITY_THRESHOLD) {
-    return `🌤 La humedad ha bajado un ${Math.round(Math.abs(humidityChange))}%. Tu piel puede sentirse más seca. Aumenta la hidratación con ácido hialurónico y crema nutritiva.`
+    return `La humedad ha bajado un ${Math.round(Math.abs(humidityChange))}%. Tu piel puede sentirse más seca. Aumenta la hidratación con ácido hialurónico y crema nutritiva.`
   }
   if (tempChange > TEMP_THRESHOLD) {
-    return `🌡 La temperatura subió ${Math.round(tempChange)}°C hoy. Usa protector solar SPF 50+ y mantén tu piel fresca con texturas ligeras.`
+    return `La temperatura subió ${Math.round(tempChange)}°C hoy. Usa protector solar SPF 50+ y mantén tu piel fresca con texturas ligeras.`
   }
   if (tempChange < -TEMP_THRESHOLD) {
-    return `🌡 Hace ${Math.round(Math.abs(tempChange))}°C menos hoy. Tu piel puede resentirse con el frío. Añade una capa extra de hidratación y protector solar.`
+    return `Hace ${Math.round(Math.abs(tempChange))}°C menos hoy. Tu piel puede resentirse con el frío. Añade una capa extra de hidratación y protector solar.`
   }
   return null
 }

@@ -265,7 +265,7 @@ async function processUpdate(update: TelegramUpdate) {
     case "/consultar": {
       const rl = await checkRateLimit(`bot-consultar:${chatId}`, 10, 60000)
       if (!rl.allowed) {
-        await sendTelegramMessage(chatId, "⏳ Has usado muchas consultas. Espera un minuto antes de preguntar de nuevo.")
+        await sendTelegramMessage(chatId, "Has usado muchas consultas. Espera un minuto antes de preguntar de nuevo.")
         return
       }
       await handleConsultar(chatId, userId, rest)
@@ -282,11 +282,11 @@ async function processUpdate(update: TelegramUpdate) {
         const role = await getUserRole(chatId)
         if (role === "VALIDATOR" || role === "ADMIN") {
           await sendTelegramMessage(chatId,
-            `🔄 Transferencia detectada:\nCódigo: <code>${parsedSms.reference}</code>\nMonto: $${parsedSms.amount.toFixed(2)}\nFecha: ${parsedSms.date}\n\n¿Validar este pago?`,
+            `<b>Transferencia detectada:</b>\nCódigo: <code>${parsedSms.reference}</code>\nMonto: $${parsedSms.amount.toFixed(2)}\nFecha: ${parsedSms.date}\n\n¿Validar este pago?`,
           )
           await sendTelegramMenu(chatId, "Selecciona una acción:", [
-            [{ text: "✅ Confirmar Pago", callback_data: `validar_ref_${parsedSms.reference}` }],
-            [{ text: "❌ Rechazar", callback_data: "rechazar" }],
+            [{ text: "Confirmar Pago", callback_data: `validar_ref_${parsedSms.reference}` }],
+            [{ text: "Rechazar", callback_data: "rechazar" }],
           ])
           return
         }
@@ -326,7 +326,7 @@ async function processUpdate(update: TelegramUpdate) {
         if (role) {
           const rl = await checkRateLimit(`bot-rag:${chatId}`, 20, 60000)
           if (!rl.allowed) {
-            await sendTelegramMessage(chatId, "⏳ Has hecho muchas preguntas. Espera un momento antes de seguir.")
+            await sendTelegramMessage(chatId, "Has hecho muchas preguntas. Espera un momento antes de seguir.")
             return
           }
           const response = await generateBotResponse(msg.text || "", chatId, username)
@@ -334,11 +334,11 @@ async function processUpdate(update: TelegramUpdate) {
           if (role === "ADMIN" || role === "VALIDATOR") {
             const webResults = await searchWeb(msg.text || "")
             if (webResults) {
-              resultText += "\n\n🌐 <b>Resultados de búsqueda web:</b>\n\n" + webResults
+              resultText += "\n\n<b>Resultados de búsqueda web:</b>\n\n" + webResults
             }
           }
           const buttons = response.knowledgeId
-            ? [[{ text: "👍 Útil", callback_data: `rag_feedback_${response.knowledgeId}_1` }]]
+            ? [[{ text: "Útil", callback_data: `rag_feedback_${response.knowledgeId}_1` }]]
             : undefined
           if (buttons) {
             await sendTelegramMenu(chatId, resultText, buttons)
@@ -346,7 +346,7 @@ async function processUpdate(update: TelegramUpdate) {
             await sendTelegramMessage(chatId, resultText)
           }
         } else {
-          await sendTelegramMessage(chatId, "😅 No entendí bien. Puedes usar los botones o escribir /ayuda para ver qué puedo hacer.")
+          await sendTelegramMessage(chatId, "No entendí bien. Puedes usar los botones o escribir /ayuda para ver qué puedo hacer.")
           await handleStart(chatId, userId, username)
         }
       }

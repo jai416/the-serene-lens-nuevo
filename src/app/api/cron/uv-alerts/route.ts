@@ -25,10 +25,10 @@ export async function GET(req: NextRequest) {
 
     const uvTemplate = (uv: number) => {
       const msgs = [
-        `☀️ ¡Alto UV hoy! El índice UV en tu zona alcanzó ${uv}, considerado extremo. Protégete con protector solar de amplio espectro y reaplica cada 2 horas. Recuerda que la protección solar es el paso más importante de tu rutina. — The Serene Lens`,
-        `🌤 Cuida tu piel hoy. El índice UV en tu área es de ${uv} (extremo). Usa sombrero, gafas de sol y protector solar FPS 50+. Tu piel te lo agradecerá. — The Serene Lens`,
-        `⚠️ Radiación UV muy alta: ${uv}. Evita la exposición solar entre 10am y 4pm. Si sales al exterior, aplica protector solar 30 minutos antes y reaplica cada 2 horas. — The Serene Lens`,
-        `☀️ ¡Atención! Hoy el índice UV alcanza ${uv} en tu zona. El sol caribeño es hermoso pero exigente. No olvides tu protector solar, incluso en días nublados. — The Serene Lens`,
+        `¡Alto UV hoy! El índice UV en tu zona alcanzó ${uv}, considerado extremo. Protégete con protector solar de amplio espectro y reaplica cada 2 horas. Recuerda que la protección solar es el paso más importante de tu rutina. — The Serene Lens`,
+        `Cuida tu piel hoy. El índice UV en tu área es de ${uv} (extremo). Usa sombrero, gafas de sol y protector solar FPS 50+. Tu piel te lo agradecerá. — The Serene Lens`,
+        `Radiación UV muy alta: ${uv}. Evita la exposición solar entre 10am y 4pm. Si sales al exterior, aplica protector solar 30 minutos antes y reaplica cada 2 horas. — The Serene Lens`,
+        `¡Atención! Hoy el índice UV alcanza ${uv} en tu zona. El sol caribeño es hermoso pero exigente. No olvides tu protector solar, incluso en días nublados. — The Serene Lens`,
       ]
       return msgs[new Date().getDate() % msgs.length]
     }

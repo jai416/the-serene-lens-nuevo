@@ -9,14 +9,8 @@ import {
   formatIngredientsForPrompt,
 } from "@/lib/ingredient-kb"
 import { groqChatJSON } from "@/lib/groq-chat"
+import { analyzeMultipleImages } from "@/lib/vision"
 import { validateCsrf } from "@/lib/csrf-middleware"
-
-const GROQ_API_BASE = "https://api.groq.com/openai/v1"
-const MODEL = "meta-llama/llama-4-scout-17b-16e-instruct"
-
-function getApiKey(): string {
-  return process.env.GROQ_API_KEY || ""
-}
 
 async function fetchImageAsBase64(url: string): Promise<string | null> {
   try {
@@ -176,51 +170,13 @@ Proporciona tu análisis en la estructura JSON exacta especificada.`
 
     let parsed: Record<string, unknown>
 
-    if (imagesAvailable) {
-      const apiKey = getApiKey()
-      const visionBody = {
-        model: MODEL,
-        messages: [
-          { role: "system", content: VISION_SYSTEM },
-          {
-            role: "user",
-            content: [
-              { type: "text", text: `Compara estas dos imágenes de la misma persona tomadas en momentos diferentes y genera un informe de evolución.\n\n${textContext}` },
-              { type: "image_url", image_url: { url: `data:image/jpeg;base64,${firstB64}` } },
-              { type: "text", text: "Imagen INICIAL (antes)." },
-              { type: "image_url", image_url: { url: `data:image/jpeg;base64,${latestB64}` } },
-              { type: "text", text: "Imagen RECIENTE (después). Responde con el JSON especificado." },
-            ],
-          },
-        ],
+    if (firstB64 && latestB64) {
+      // Visión vía NVIDIA/Gemini (Groq ya no ofrece modelos vision)
+      const prompt = `Compara estas dos imágenes de la misma persona tomadas en momentos diferentes y genera un informe de evolución.\n\n${textContext}\n\nImagen 1: INICIAL (antes).\nImagen 2: RECIENTE (después).\nResponde con el JSON especificado.`
+      parsed = await analyzeMultipleImages([firstB64, latestB64], prompt, VISION_SYSTEM, {
         temperature: 0.2,
-        max_tokens: 2048,
-      }
-
-      const res = await fetch(`${GROQ_API_BASE}/chat/completions`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${apiKey}`,
-        },
-        body: JSON.stringify(visionBody),
-        signal: AbortSignal.timeout(60000),
+        maxTokens: 2048,
       })
-
-      if (!res.ok) {
-        const text = await res.text()
-        throw new Error(`Groq error ${res.status}: ${text}`)
-      }
-
-      const data = await res.json()
-      const content = data.choices?.[0]?.message?.content
-      if (!content) throw new Error("No response from AI")
-      const clean = content.replace(/```json|```/g, "").trim()
-      try {
-        parsed = JSON.parse(clean)
-      } catch {
-        throw new Error("AI returned invalid JSON: " + clean.slice(0, 200))
-      }
     } else {
       const prompt = `Compara estos dos análisis y genera un informe de evolución.\n\n${textContext}`
       parsed = await groqChatJSON<Record<string, unknown>>(

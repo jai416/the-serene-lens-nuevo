@@ -7,7 +7,7 @@ import Link from "next/link"
 import { Card, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
-import { BookmarkCheck, AlertTriangle, Info, Trash2, ExternalLink } from "lucide-react"
+import { BookmarkCheck, AlertTriangle, Info, Trash2, ExternalLink, Droplets, Sparkles, TestTube } from "lucide-react"
 import { ListSkeleton } from "@/components/ui/skeleton"
 interface Product {
   id: string
@@ -168,7 +168,7 @@ export default function MyProductsPage() {
                 <CardContent className="p-4 flex items-center justify-between">
                   <div className="flex items-center gap-3 flex-1 min-w-0">
                     <div className="w-10 h-10 rounded-xl bg-[#E2ECE0] flex items-center justify-center flex-shrink-0">
-                      <span className="text-lg">{s.product.category === "serum" ? "🧴" : s.product.category === "cleanser" ? "🧼" : "🧪"}</span>
+                      <span className="text-lg">{s.product.category === "serum" ? <Droplets className="w-5 h-5" /> : s.product.category === "cleanser" ? <Sparkles className="w-5 h-5" /> : <TestTube className="w-5 h-5" />}</span>
                     </div>
                     <div className="min-w-0">
                       <Link href={`/products/${s.product.slug}`}>

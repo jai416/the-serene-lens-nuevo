@@ -1,7 +1,7 @@
 import { logger } from "@/lib/logger"
 import { captureError, captureMessage } from "@/lib/sentry"
 
-const GEMINI_API_URL = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent"
+const GEMINI_API_URL = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent"
 
 function getApiKey(): string {
   const key = process.env.GEMINI_API_KEY

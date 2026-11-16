@@ -10,7 +10,7 @@ import { Badge } from "@/components/ui/badge"
 import {
   User, Users, FileText, Settings, TrendingUp, Calendar,
   Search, Plus, ChevronRight, Clock, Activity, Building2,
-  Edit2, Trash2, X, Loader2, Mail, Phone,
+  Edit2, Trash2, X, Loader2, Mail, Phone, MapPin,
   Gift, Share2, Copy, Check, BadgeCheck,
 } from "lucide-react"
 import { toast } from "sonner"
@@ -212,8 +212,8 @@ export default function EstheticianPage() {
                 </div>
               </div>
               <div className="space-y-1.5 text-xs">
-                {clinic?.address && <p className="text-[#666666]">📍 {clinic.address}</p>}
-                {clinic?.phone && <p className="text-[#666666]">📞 {clinic.phone}</p>}
+                {clinic?.address && <p className="text-[#666666]"><MapPin className="w-4 h-4 inline" /> {clinic.address}</p>}
+                {clinic?.phone && <p className="text-[#666666]"><Phone className="w-4 h-4 inline" /> {clinic.phone}</p>}
               </div>
               <Link href="/dashboard/clinic-settings">
                 <Button variant="ghost" size="sm" className="text-xs mt-4 w-full justify-between">

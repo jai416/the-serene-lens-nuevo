@@ -7,7 +7,7 @@ import Link from "next/link"
 import { Card, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
-import { Settings, ArrowLeft, Plus, Trash2 } from "lucide-react"
+import { Settings, ArrowLeft, Plus, Trash2, FileText, Pencil } from "lucide-react"
 import { toast } from "sonner"
 import { ListSkeleton } from "@/components/ui/skeleton"
 import { useLocale } from "@/lib/locale/locale-context"
@@ -176,7 +176,7 @@ export default function AdminFeatureFlagsPage() {
                 <div className="flex items-center justify-between mb-2">
                   <div>
                     <code className="text-sm font-mono" style={{ color: "#1A1A1A" }}>{flag}</code>
-                    {config.message && <p className="text-xs mt-1" style={{ color: "#666666" }}>📝 {config.message}</p>}
+                    {config.message && <p className="text-xs mt-1" style={{ color: "#666666" }}><FileText className="w-4 h-4 inline" /> {config.message}</p>}
                     {config.redirectUrl && <p className="text-xs" style={{ color: "#666666" }}>↪ {config.redirectUrl}</p>}
                   </div>
                   <Button
@@ -218,7 +218,7 @@ export default function AdminFeatureFlagsPage() {
                     className="text-xs mt-1 opacity-50 hover:opacity-100"
                     style={{ color: "#666666" }}
                   >
-                    ✏️ Editar mensaje y redirección
+                    <Pencil className="w-4 h-4 inline" /> Editar mensaje y redirección
                   </button>
                 )}
               </CardContent>

@@ -3,6 +3,7 @@ import type { Metadata } from "next"
 import { Card, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { buttonVariants } from "@/components/ui/button"
+import { Microscope } from "lucide-react"
 
 export const metadata: Metadata = {
   title: "Test de Tipo de Piel Gratis con IA | The Serene Lens",
@@ -21,7 +22,7 @@ export default function TestTipoDePielPage() {
       <Card className="max-w-lg w-full text-center border-0 shadow-none bg-transparent">
         <CardContent className="p-0">
           <div className="w-16 h-16 bg-[#E2ECE0] rounded-2xl flex items-center justify-center mx-auto mb-6">
-            <span className="text-2xl">🔬</span>
+            <Microscope className="w-8 h-8 text-[#1A1A1A]" />
           </div>
           <h1 className="text-3xl font-bold text-[#1A1A1A] mb-4">
             ¿Cuál es tu tipo de piel?

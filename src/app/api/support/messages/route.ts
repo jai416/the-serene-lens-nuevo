@@ -50,7 +50,7 @@ export async function POST(req: NextRequest) {
 
     try {
       const { notifyAdmins } = await import("@/lib/telegram")
-      await notifyAdmins("new_support_message", `💬 Nuevo mensaje de soporte: ${parsed.data.subject}`)
+      await notifyAdmins("new_support_message", `Nuevo mensaje de soporte: ${parsed.data.subject}`)
     } catch {}
 
     return ok({ message }, 201)

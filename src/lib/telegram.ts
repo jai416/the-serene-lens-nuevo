@@ -317,16 +317,16 @@ export async function getFeedbackAvg(): Promise<{ avg: number; count: number }> 
 // ===== Memes =====
 
 const MEMES = [
-  "🧴 *Antes de The Serene Lens:* Usaba cualquier crema.\n*Ahora:* Analizo mi piel con IA como una científica de datos. 🔬",
-  "☀️ *Tu piel cuando no usas protector solar:* 🍳🔥\n*Con SPF 50:* 🧊❄️",
-  "🙈 *Yo viendo mi foto sin filtro:* ¿Quién es esa?\n*The Serene Lens:* Déjame analizar tu tipo de piel...",
-  "💸 *Gastar en 10 cremas que no funcionan:* $200\n*The Serene Lens:* $4.99 y sabes exactamente lo que necesitas. 🧠",
-  "😴 *Rutina de 12 pasos:* Agotador.\n*Rutina inteligente:* 3 pasos, los correctos. ✨",
-  "🧐 *Cuando alguien dice 'mi piel es resistente':*\nThe Serene Lens: *foto frontal, izquierda, derecha* Ya veremos... 📸",
-  "🫠 *Ese grano que aparece justo antes de una cita:*\nThe Serene Lens: *aplicando ácido salicílico* No te preocupes. 🧪",
-  "👀 *Tu amiga te recomienda una crema:*\nTú: *corriendo a The Serene Lens para ver si es segura*",
-  "🎯 *The Serene Lens:* No tenemos porcentajes inventados.\n*Otros bots:* 'Tu piel es 73% grasa' 🤨",
-  "📊 *Análisis de piel:*\nTú: ¿Seca? ¿Grasa?\nThe Serene Lens: Mixta con tendencia a deshidratación. Permíteme explicarte...",
+  "*Antes de The Serene Lens:* Usaba cualquier crema.\n*Ahora:* Analizo mi piel con IA como una científica de datos.",
+  "*Tu piel cuando no usas protector solar:*\n*Con SPF 50:*",
+  "*Yo viendo mi foto sin filtro:* ¿Quién es esa?\n*The Serene Lens:* Déjame analizar tu tipo de piel...",
+  "*Gastar en 10 cremas que no funcionan:* $200\n*The Serene Lens:* $4.99 y sabes exactamente lo que necesitas.",
+  "*Rutina de 12 pasos:* Agotador.\n*Rutina inteligente:* 3 pasos, los correctos.",
+  "*Cuando alguien dice 'mi piel es resistente':*\nThe Serene Lens: *foto frontal, izquierda, derecha* Ya veremos...",
+  "*Ese grano que aparece justo antes de una cita:*\nThe Serene Lens: *aplicando ácido salicílico* No te preocupes.",
+  "*Tu amiga te recomienda una crema:*\nTú: *corriendo a The Serene Lens para ver si es segura*",
+  "*The Serene Lens:* No tenemos porcentajes inventados.\n*Otros bots:* 'Tu piel es 73% grasa'",
+  "*Análisis de piel:*\nTú: ¿Seca? ¿Grasa?\nThe Serene Lens: Mixta con tendencia a deshidratación. Permíteme explicarte...",
 ]
 
 export function getRandomMeme(): string {

@@ -123,7 +123,7 @@ export default function DashboardPage() {
             <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-6">
               <div className="max-w-xl">
                 <p className="text-sm font-medium text-[#666666] mb-2">
-                  {t("dashboard.greeting", locale).replace("{name}", session.user.name || t("common.user", locale))} 👋
+                  {t("dashboard.greeting", locale).replace("{name}", session.user.name || t("common.user", locale))}
                 </p>
                 <h1 className="text-3xl md:text-4xl font-bold text-[#1A1A1A] mb-3 leading-tight">
                   {hasAnalyses

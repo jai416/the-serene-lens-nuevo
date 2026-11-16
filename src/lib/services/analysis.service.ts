@@ -16,6 +16,35 @@ export class AnalysisError extends Error {
   }
 }
 
+function mapAiError(e: unknown): AnalysisError {
+  const msg = e instanceof Error ? e.message : String(e)
+  if (msg.includes("429")) {
+    return new AnalysisError("El servidor de IA está saturado. Espera 30 segundos y vuelve a intentar.", "AI_ERROR", e)
+  }
+  if (msg.includes("empty response") || msg.includes("invalid JSON")) {
+    return new AnalysisError("La foto no tiene suficiente definición. Asegúrate de tener buena luz y enfocar bien tu rostro.", "AI_ERROR", e)
+  }
+  if (msg.includes("timeout") || msg.includes("AbortError")) {
+    return new AnalysisError("La conexión tardó demasiado. Revisa tu internet o intenta con menos fotos.", "AI_ERROR", e)
+  }
+  if (msg.includes("blurry") || msg.includes("dark") || msg.includes("iluminación")) {
+    return new AnalysisError("La foto está oscura o borrosa. Busca buena luz natural y sostén el teléfono firme.", "VALIDATION", e)
+  }
+  return new AnalysisError("Error al procesar el análisis. Verifica tu conexión e intenta de nuevo.", "AI_ERROR", e)
+}
+
+function normalizeAnalysisResult(result: Record<string, unknown>) {
+  const skinType = (result as { tipoDePiel?: string; skinType?: string })?.tipoDePiel || (result as { skinType?: string })?.skinType || null
+  const observationsRaw = (result as { observations?: string | unknown[] })?.observations || []
+  const observations = typeof observationsRaw === "string" ? [observationsRaw] : (observationsRaw as { detalle?: string }[]).map((o) => o.detalle || String(o))
+  const recommendations = (result as { recomendaciones?: string[]; recommendations?: string[] })?.recomendaciones || (result as { recomendaciones?: string[]; recommendations?: string[] })?.recommendations || []
+  const routineRaw = (result as { rutina?: { manana?: string[]; noche?: string[] }; routine?: { morning?: string[]; evening?: string[] } })?.rutina
+  const routine = routineRaw
+    ? JSON.parse(JSON.stringify(routineRaw).replace(/"manana"/g, '"morning"').replace(/"noche"/g, '"evening"'))
+    : (result as { routine?: { morning?: string[]; evening?: string[] } })?.routine || null
+  return { skinType, observations, recommendations, routine }
+}
+
 export const AnalysisService = {
   async processAnalysis(userId: string, files: File[], body: Record<string, string>, clientId?: string) {
     const usage = await checkAndDeductUsage(userId)
@@ -120,30 +149,10 @@ export const AnalysisService = {
       })
       await setCachedAnalysis([cacheKeyBase64], body.concerns, body.age, result).catch((e) => logger.error("Cache analysis failed", { error: e }))
     } catch (e) {
-      const msg = e instanceof Error ? e.message : String(e)
-      if (msg.includes("429")) {
-        throw new AnalysisError("El servidor de IA está saturado. Espera 30 segundos y vuelve a intentar.", "AI_ERROR", e)
-      }
-      if (msg.includes("empty response") || msg.includes("invalid JSON")) {
-        throw new AnalysisError("La foto no tiene suficiente definición. Asegúrate de tener buena luz y enfocar bien tu rostro.", "AI_ERROR", e)
-      }
-      if (msg.includes("timeout") || msg.includes("AbortError")) {
-        throw new AnalysisError("La conexión tardó demasiado. Revisa tu internet o intenta con menos fotos.", "AI_ERROR", e)
-      }
-      if (msg.includes("blurry") || msg.includes("dark") || msg.includes("iluminación")) {
-        throw new AnalysisError("La foto está oscura o borrosa. Busca buena luz natural y sostén el teléfono firme.", "VALIDATION", e)
-      }
-      throw new AnalysisError("Error al procesar el análisis. Verifica tu conexión e intenta de nuevo.", "AI_ERROR", e)
+      throw mapAiError(e)
     }
 
-    const skinType = (result as { tipoDePiel?: string; skinType?: string })?.tipoDePiel || (result as { skinType?: string })?.skinType || null
-    const observationsRaw = (result as { observations?: string | unknown[] })?.observations || []
-    const observations = typeof observationsRaw === "string" ? [observationsRaw] : (observationsRaw as { detalle?: string }[]).map((o) => o.detalle || String(o))
-    const recommendations = (result as { recomendaciones?: string[]; recommendations?: string[] })?.recomendaciones || (result as { recomendaciones?: string[]; recommendations?: string[] })?.recommendations || []
-    const routineRaw = (result as { rutina?: { manana?: string[]; noche?: string[] }; routine?: { morning?: string[]; evening?: string[] } })?.rutina
-    const routine = routineRaw
-      ? JSON.parse(JSON.stringify(routineRaw).replace(/"manana"/g, '"morning"').replace(/"noche"/g, '"evening"'))
-      : (result as { routine?: { morning?: string[]; evening?: string[] } })?.routine || null
+    const { skinType, observations, recommendations, routine } = normalizeAnalysisResult(result)
 
     let analysis
     try {
@@ -224,6 +233,42 @@ export const AnalysisService = {
     }
 
     return { analysis, result }
+  },
+
+  /**
+   * Análisis guest (sin registro): procesa las fotos y devuelve el resultado
+   * SIN guardarlo en la base de datos. El límite (1/día por IP) lo controla la ruta.
+   */
+  async processGuestAnalysis(files: File[], body: Record<string, string>) {
+    const oversized = files.find((f) => f.size > 10 * 1024 * 1024)
+    if (oversized) throw new AnalysisError("Una imagen supera los 10MB", "VALIDATION")
+
+    const climateContext = buildClimateContext(null, null, body.climate)
+
+    let result: Record<string, unknown>
+    try {
+      result = await analyzeSkinWithGroq(files, {
+        age: body.age,
+        concerns: body.concerns,
+        gender: body.gender,
+        climate: climateContext,
+        routine: body.routine,
+      })
+    } catch (e) {
+      throw mapAiError(e)
+    }
+
+    const { skinType, observations, recommendations, routine } = normalizeAnalysisResult(result)
+
+    return {
+      result: {
+        ...result,
+        skinType,
+        observations,
+        recommendations,
+        routine,
+      },
+    }
   },
 }
 

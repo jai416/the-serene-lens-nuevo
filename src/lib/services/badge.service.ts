@@ -7,14 +7,14 @@ interface BadgeCriteria {
 }
 
 const BADGE_DEFINITIONS = [
-  { slug: "first-analysis", name: "Primer Análisis", description: "Completaste tu primer análisis de piel", icon: "🔬", criteria: { type: "first_analysis", threshold: 1 } },
-  { slug: "streak-7", name: "Constante", description: "7 días seguidos registrando en tu diario de piel", icon: "🔥", criteria: { type: "diary_days", threshold: 7 } },
-  { slug: "streak-30", name: "Dedicado", description: "30 días seguidos registrando en tu diario de piel", icon: "💪", criteria: { type: "diary_days", threshold: 30 } },
-  { slug: "analyses-5", name: "Explorador", description: "Realizaste 5 análisis de piel", icon: "📊", criteria: { type: "analyses", threshold: 5 } },
-  { slug: "analyses-10", name: "Experto", description: "Realizaste 10 análisis de piel", icon: "🏅", criteria: { type: "analyses", threshold: 10 } },
-  { slug: "analyses-25", name: "Maestro", description: "Realizaste 25 análisis de piel", icon: "👑", criteria: { type: "analyses", threshold: 25 } },
-  { slug: "streak-3", name: "Racha Inicial", description: "3 días seguidos de registro en tu diario", icon: "⭐", criteria: { type: "diary_days", threshold: 3 } },
-  { slug: "hydration-improvement", name: "Hidratación Mejorada", description: "Mejoraste tu hidratación en 2 análisis consecutivos", icon: "💧", criteria: { type: "hydration_improvement", threshold: 1 } },
+  { slug: "first-analysis", name: "Primer Análisis", description: "Completaste tu primer análisis de piel", icon: "", criteria: { type: "first_analysis", threshold: 1 } },
+  { slug: "streak-7", name: "Constante", description: "7 días seguidos registrando en tu diario de piel", icon: "", criteria: { type: "diary_days", threshold: 7 } },
+  { slug: "streak-30", name: "Dedicado", description: "30 días seguidos registrando en tu diario de piel", icon: "", criteria: { type: "diary_days", threshold: 30 } },
+  { slug: "analyses-5", name: "Explorador", description: "Realizaste 5 análisis de piel", icon: "", criteria: { type: "analyses", threshold: 5 } },
+  { slug: "analyses-10", name: "Experto", description: "Realizaste 10 análisis de piel", icon: "", criteria: { type: "analyses", threshold: 10 } },
+  { slug: "analyses-25", name: "Maestro", description: "Realizaste 25 análisis de piel", icon: "", criteria: { type: "analyses", threshold: 25 } },
+  { slug: "streak-3", name: "Racha Inicial", description: "3 días seguidos de registro en tu diario", icon: "", criteria: { type: "diary_days", threshold: 3 } },
+  { slug: "hydration-improvement", name: "Hidratación Mejorada", description: "Mejoraste tu hidratación en 2 análisis consecutivos", icon: "", criteria: { type: "hydration_improvement", threshold: 1 } },
 ] as const
 
 export const BadgeService = {

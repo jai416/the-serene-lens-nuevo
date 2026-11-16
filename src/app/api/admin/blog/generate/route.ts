@@ -39,7 +39,7 @@ No saludes, no des introducciones secundarias, genera directamente el contenido 
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        model: "llama-3.1-8b-instant",
+        model: "openai/gpt-oss-20b",
         messages: [
           { role: "system", content: systemPrompt },
           { role: "user", content: `Keyword: ${keyword}${context ? `\nContexto: ${context}` : ""}` },

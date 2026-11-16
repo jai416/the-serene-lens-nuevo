@@ -33,6 +33,24 @@ export async function redisGet<T = unknown>(key: string): Promise<T | undefined>
   }
 }
 
+/**
+ * Como redisGet pero LANZA el error en vez de devolver undefined.
+ * Útil donde "no existe" y "Redis caído" no son lo mismo (rate limits):
+ * el caller puede caer a su fallback (DB) en vez de fallar open.
+ */
+export async function redisGetStrict<T = unknown>(key: string): Promise<T | undefined> {
+  const r = await getRedis()
+  if (!r) throw new Error("Redis no disponible")
+  return (await r.get(key)) as T ?? undefined
+}
+
+/** Como redisSet pero LANZA el error (ver redisGetStrict). */
+export async function redisSetStrict<T = unknown>(key: string, value: T, ttlSeconds = DEFAULT_TTL): Promise<void> {
+  const r = await getRedis()
+  if (!r) throw new Error("Redis no disponible")
+  await r.set(key, value, { ex: ttlSeconds })
+}
+
 export async function redisSet<T>(key: string, value: T, ttlSeconds = DEFAULT_TTL): Promise<void> {
   try {
     const r = await getRedis()

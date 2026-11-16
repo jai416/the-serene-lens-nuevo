@@ -9,8 +9,8 @@ Observación cosmética de tu piel con inteligencia artificial.
 | Framework | Next.js 16 (Turbopack) |
 | Base de datos | PostgreSQL (Supabase) + Prisma 7 |
 | Autenticación | NextAuth v4 (JWT + credentials + Google + GitHub) |
-| AI Visión | NVIDIA Llama 3.2 90B Vision + Gemini 2.0 Flash (fallback). Análisis de piel + escáner ingredientes |
-| AI Chat (RAG + `/asistente`) | Groq `llama-3.3-70b-versatile` (chat sin imágenes). ✅ Funcional en Render |
+| AI Visión | NVIDIA Nemotron 3.5 VL 120B (primario) + Gemini 2.5 Flash (fallback). Análisis de piel + escáner ingredientes. 1 análisis gratis sin registro |
+| AI Chat (RAG + `/asistente`) | Groq `openai/gpt-oss-120b`. ✅ Funcional en Render |
 | Pagos | PayPal (USD) + Transfermóvil (CUP). QvaPay eliminado |
 | Bot | Telegram (webhook con `after()`, RAG, `/asistente`, validación pagos) |
 | Notificaciones | Sistema propio web + Redis (Upstash). Email desactivado (stubs) |
@@ -21,7 +21,8 @@ Observación cosmética de tu piel con inteligencia artificial.
 
 - **Análisis de piel con IA**: Sube selfies y recibe observaciones cosméticas personalizadas con rutinas AM/PM. La IA recuerda tu historial completo de análisis y compara progreso.
 - **Planes**: Essential (gratis, 6 análisis/mes), Premium ($7.99/mes), Pro ($14.99/mes), Esteticista ($49.99/mes). Anuales y packs de análisis disponibles.
-- **Asistente IA**: Chat con Groq `llama-3.3-70b-versatile` vía Telegram (`/asistente`). Límite diario según plan.
+- **Asistente IA**: Chat con Groq `openai/gpt-oss-120b` vía Telegram (`/asistente`). Límite diario según plan.
+- **Análisis sin registro**: 1 análisis gratis al día como invitado — guarda tu historial creando cuenta.
 - **Notificaciones web**: Campana en sidebar con contador de no leídos, dashboard de notificaciones, expiran a las 48h. Reemplaza completamente al email.
 - **Productos guardados**: Guarda tus productos favoritos y detecta conflictos entre ingredientes (retinol + BHA, niacina + vitamina C, etc.).
 - **Insignias**: Logros automáticos por rachas, análisis completados y mejora de hidratación.
@@ -108,9 +109,9 @@ Ver `CRON-SETUP.md` para configuración detallada. Todos requieren header `Autho
 | Webhook Telegram async | `after()` de Next.js 16 + rate limits persistentes en Redis |
 | Notificaciones web | Reemplaza email. Campana en sidebar, dashboard, cleanup 48h |
 | Guías con SVGs únicos | 50 SVGs generados por categoría, cada guía con PDF propio |
-| Visión IA con NVIDIA + Gemini fallback | NVIDIA Llama 3.2 90B Vision primario, Gemini 2.0 Flash como fallback automático |
+| Visión IA con NVIDIA + Gemini fallback | NVIDIA Nemotron 3.5 VL primario, Gemini 2.5 Flash como fallback automático |
 | CSRF en +46 endpoints | 7 consumer routes adicionales protegidas (product-scan, analyze, register, chat, lead-magnet) |
-| `/asistente` migrado a Groq | Antes Gemini Chat, ahora Groq `llama-3.3-70b-versatile` |
+| `/asistente` migrado a Groq | Antes Gemini Chat, ahora Groq `openai/gpt-oss-120b` |
 
 ## Licencia
 

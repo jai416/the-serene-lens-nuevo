@@ -7,9 +7,10 @@ import { Card, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import {
   Scan, Camera, Loader2, AlertCircle, CheckCircle2, Shield, User, ArrowLeft, ArrowRight,
-  Droplets, ClipboardList, Trash2, Sparkles,
+  Droplets, ClipboardList, Trash2, Sparkles, Check,
 } from "lucide-react"
 import WebcamCapture from "@/components/webcam-capture"
+import { GuestResult } from "@/components/guest-result"
 import Image from "next/image"
 import { useSession } from "next-auth/react"
 import { compressImage } from "@/lib/image-compression"
@@ -64,6 +65,7 @@ export default function AnalysisPage() {
   const [routine, setRoutine] = useState(draft?.routine || "")
   const [error, setError] = useState("")
   const [isAnalyzing, setIsAnalyzing] = useState(false)
+  const [guestResult, setGuestResult] = useState<Record<string, unknown> | null>(null)
   const [activePhotoSlot, setActivePhotoSlot] = useState<string | null>(null)
   const [webcamSlot, setWebcamSlot] = useState<string | null>(null)
   const [direction, setDirection] = useState<"forward" | "backward">("forward")
@@ -150,7 +152,6 @@ export default function AnalysisPage() {
 
   const handleAnalyze = async () => {
     if (!requiredPhotosDone) return
-    if (!session) { router.push("/login?callbackUrl=/analysis"); return }
     setIsAnalyzing(true)
     if (!hasTrackedStart.current) { hasTrackedStart.current = true; trackAnalysisStarted() }
 
@@ -166,6 +167,12 @@ export default function AnalysisPage() {
       if (!res.ok) { const d = await res.json(); throw new Error(d.error?.message || d.error || "Error al analizar") }
       const data = await res.json()
       clearDraft()
+      if (data.guest) {
+        // Invitado: el resultado se muestra aquí (no se guardó en la cuenta)
+        setGuestResult(data.result)
+        setIsAnalyzing(false)
+        return
+      }
       router.push(`/analysis/results/${data.analysis.id}`)
     } catch (e: any) {
       setError(e.message || "Error al analizar las imágenes")
@@ -193,22 +200,12 @@ export default function AnalysisPage() {
     return true
   }
 
-  if (status === "unauthenticated") {
+  if (guestResult) {
     return (
-      <div className="min-h-screen flex items-center justify-center px-4" style={{ backgroundColor: "#F8F9FA" }}>
-        <Card className="max-w-md w-full" style={{ borderRadius: "20px", borderColor: "#E8E8E8" }}>
-          <CardContent className="p-8 text-center">
-            <div className="w-14 h-14 rounded-2xl flex items-center justify-center mx-auto mb-4" style={{ backgroundColor: "#88B078" }}>
-              <User className="w-7 h-7" style={{ color: "#1A1A1A" }} />
-            </div>
-            <h2 className="font-serif text-xl font-semibold mb-2" style={{ color: "#1A1A1A" }}>Inicia sesión para continuar</h2>
-            <p className="text-sm mb-6" style={{ color: "#666666" }}>Necesitas una cuenta para realizar análisis y guardar tu historial de piel.</p>
-            <div className="flex gap-3 justify-center">
-              <Link href="/login?callbackUrl=/analysis"><Button variant="primary" className="px-8">Iniciar sesión</Button></Link>
-              <Link href="/login?callbackUrl=/analysis"><Button variant="secondary" className="px-8">Crear cuenta gratis</Button></Link>
-            </div>
-          </CardContent>
-        </Card>
+      <div className="min-h-screen" style={{ backgroundColor: "#F8F9FA" }}>
+        <div className="max-w-2xl mx-auto px-4 py-8">
+          <GuestResult result={guestResult} />
+        </div>
       </div>
     )
   }
@@ -216,6 +213,15 @@ export default function AnalysisPage() {
   return (
     <div className="min-h-screen" style={{ backgroundColor: "#F8F9FA" }}>
       <div className="max-w-2xl mx-auto px-4 py-8">
+        {/* Aviso para invitados */}
+        {status === "unauthenticated" && (
+          <div className="mb-6 p-3.5 rounded-xl bg-[#E2ECE0] border border-[#88B078]/30 text-center">
+            <p className="text-xs text-[#1A1A1A]">
+              Puedes analizar tu piel <strong>sin registrarte</strong> (1 análisis al día).
+              Crea una cuenta gratis para guardar tu historial y repetir cuando quieras.
+            </p>
+          </div>
+        )}
         {/* Header */}
         <div className="text-center mb-8">
           <Badge variant="mint" className="mb-4 rounded-full px-4 py-1.5 border-0">
@@ -240,7 +246,7 @@ export default function AnalysisPage() {
                 <span className="w-5 h-5 rounded-full flex items-center justify-center text-[10px] font-bold"
                   style={{ backgroundColor: stepIndex >= i ? "rgba(0,0,0,0.15)" : "rgba(0,0,0,0.08)" }}
                 >
-                  {stepIndex > i ? "✓" : i + 1}
+                  {stepIndex > i ? <Check className="w-3 h-3" /> : i + 1}
                 </span>
                 {s.label}
               </div>

@@ -1,7 +1,8 @@
 import { logger } from "@/lib/logger"
 
 const GROQ_API_BASE = "https://api.groq.com/openai/v1"
-const MODEL = "llama-3.3-70b-versatile"
+// gpt-oss-120b: el modelo más capaz disponible en la key actual (llama-3.3-70b fue retirado)
+const MODEL = "openai/gpt-oss-120b"
 
 function getApiKey(): string {
   const key = process.env.GROQ_API_KEY

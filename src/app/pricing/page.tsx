@@ -281,7 +281,7 @@ export default function PricingPage() {
               className="absolute top-3 right-3 w-8 h-8 rounded-full flex items-center justify-center hover:bg-[#E8E8E8] transition-colors text-[#666666]"
               aria-label="Cerrar"
             >
-              ✕
+              <X className="w-4 h-4" />
             </button>
             <h3 className="text-lg font-semibold text-[#1A1A1A] mb-4">
               Transferencia por Transfermovil
@@ -371,6 +371,19 @@ export default function PricingPage() {
             <span className="flex items-center gap-1"><Lock className="w-3 h-3 text-[#88B078]" /> Pago seguro</span>
             <span className="flex items-center gap-1"><Zap className="w-3 h-3 text-[#88B078]" /> Sin compromiso</span>
           </div>
+        </div>
+
+        {/* Oferta de lanzamiento */}
+        <div className="max-w-2xl mx-auto mb-10 p-5 rounded-2xl bg-gradient-to-r from-[#E2ECE0] to-[#F0F5EE] border border-[#88B078]/30 text-center">
+          <Badge variant="mint" className="mb-2 rounded-full px-3 py-0.5 text-xs font-bold border-0">
+            Oferta de lanzamiento
+          </Badge>
+          <p className="text-sm sm:text-base text-[#1A1A1A] font-medium">
+            Prueba Premium gratis durante 7 días con tu registro.
+          </p>
+          <p className="text-xs text-[#666666] mt-1">
+            Sin tarjeta de crédito. Después tu cuenta sigue en Essential con 3 análisis al mes.
+          </p>
         </div>
 
         {/* Tabs */}

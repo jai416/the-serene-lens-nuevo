@@ -79,7 +79,7 @@ export async function createTrialEndedNotification(userId: string, name: string)
   return createWebNotification(
     userId,
     "Tu periodo PREMIUM ha finalizado",
-    `Hola ${name || "usuario"}, tu prueba gratuita de 7 días ha terminado. Tu cuenta continúa en el plan Essential con 1 análisis por mes.`,
+    `Hola ${name || "usuario"}, tu prueba gratuita de 7 días ha terminado. Tu cuenta continúa en el plan Essential con 3 análisis por mes.`,
     "/pricing",
   )
 }
@@ -116,7 +116,7 @@ export async function createReminderNotification(userId: string, name: string) {
 export async function createGiftNotification(userId: string, code: string, analyses: number) {
   return createWebNotification(
     userId,
-    "Has recibido un regalo 🎁",
+    "Has recibido un regalo",
     `Te han regalado ${analyses} análisis. Usa el código ${code} para canjearlo.`,
     "/dashboard/subscription",
   )
@@ -134,7 +134,7 @@ export async function createGuideNotification(userId: string, guideTitle: string
 export async function createWeatherAlertNotification(userId: string, message: string) {
   return createWebNotification(
     userId,
-    "🌤 Alerta climática",
+    "Alerta climática",
     message,
     "/dashboard",
   )

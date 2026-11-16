@@ -3,6 +3,7 @@ import type { Metadata } from "next"
 import { Card, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { buttonVariants } from "@/components/ui/button"
+import { Flower2 } from "lucide-react"
 
 export const metadata: Metadata = {
   title: "Análisis de Piel Gratis con IA | The Serene Lens",
@@ -21,7 +22,7 @@ export default function AnalizarPielGratisPage() {
       <Card className="max-w-lg w-full text-center border-0 shadow-none bg-transparent">
         <CardContent className="p-0">
           <div className="w-16 h-16 bg-[#88B078] rounded-2xl flex items-center justify-center mx-auto mb-6">
-            <span className="text-2xl">🌸</span>
+            <Flower2 className="w-8 h-8 text-[#1A1A1A]" />
           </div>
           <h1 className="text-3xl font-bold text-[#1A1A1A] mb-4">
             Análisis de Piel Gratis con IA

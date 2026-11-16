@@ -10,7 +10,7 @@ export interface SendEmailInput {
 }
 
 export async function sendEmail(_input: SendEmailInput): Promise<boolean> {
-  logger.info("📧 Email service: Próximamente", { to: _input.to, subject: _input.subject })
+  logger.info("Email service: Próximamente", { to: _input.to, subject: _input.subject })
   return false
 }
 

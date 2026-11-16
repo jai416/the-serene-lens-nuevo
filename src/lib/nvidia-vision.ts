@@ -2,7 +2,10 @@ import { logger } from "@/lib/logger"
 import { captureError, captureMessage } from "@/lib/sentry"
 
 const NVIDIA_API_URL = "https://integrate.api.nvidia.com/v1/chat/completions"
-const NVIDIA_MODEL = "meta/llama-3.2-90b-vision-instruct"
+const NVIDIA_MODEL = "nvidia/nemotron-3.5-super-vl-120b-a12b"
+// Nemotron es un modelo de razonamiento: consume ~400+ tokens antes de responder.
+// Se fuerza un mínimo para que el JSON de salida no quede truncado.
+const MIN_MAX_TOKENS = 4096
 
 function getApiKey(): string {
   const key = process.env.NVIDIA_API_KEY
@@ -50,7 +53,7 @@ export async function analyzeImageWithNvidia(
         ],
       },
     ],
-    max_tokens: options?.maxTokens ?? 2048,
+    max_tokens: Math.max(options?.maxTokens ?? MIN_MAX_TOKENS, MIN_MAX_TOKENS),
     temperature: options?.temperature ?? 0.2,
     top_p: 1,
     frequency_penalty: 0,
@@ -124,7 +127,7 @@ export async function analyzeMultipleImagesWithNvidia(
   const body = {
     model: NVIDIA_MODEL,
     messages: [{ role: "user", content }],
-    max_tokens: options?.maxTokens ?? 4096,
+    max_tokens: Math.max(options?.maxTokens ?? MIN_MAX_TOKENS, MIN_MAX_TOKENS),
     temperature: options?.temperature ?? 0.2,
     top_p: 1,
     frequency_penalty: 0,

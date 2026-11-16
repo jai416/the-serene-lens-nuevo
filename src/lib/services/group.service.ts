@@ -174,7 +174,7 @@ async function completeGroup(
       await db.notification.create({
         data: {
           userId: referrerId,
-          title: "🎉 Grupo completado",
+          title: "Grupo completado",
           message: `Tu código ${groupId} completó los 3 referidos. Recibiste un análisis gratis.`,
           link: "/dashboard/referrals",
         },

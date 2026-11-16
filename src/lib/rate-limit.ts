@@ -1,6 +1,6 @@
 import { db } from "@/lib/db"
 import { logger } from "@/lib/logger"
-import { redisGet, redisSet, redisDel, isRedisConfigured } from "@/lib/redis"
+import { redisGetStrict, redisSetStrict, redisDel, isRedisConfigured } from "@/lib/redis"
 
 export async function checkRateLimit(
   key: string,
@@ -20,15 +20,16 @@ async function checkRateLimitRedis(
 ): Promise<{ allowed: boolean; remaining: number }> {
   try {
     const redisKey = `ratelimit:${key}`
-    const current = await redisGet<number>(redisKey)
+    // Strict: si Redis falla lanza el error y cae al fallback de DB (nunca fail-open)
+    const current = await redisGetStrict<number>(redisKey)
     if (current === undefined) {
-      await redisSet(redisKey, 1, Math.ceil(windowMs / 1000))
+      await redisSetStrict(redisKey, 1, Math.ceil(windowMs / 1000))
       return { allowed: true, remaining: maxRequests - 1 }
     }
     if (current >= maxRequests) {
       return { allowed: false, remaining: 0 }
     }
-    await redisSet(redisKey, current + 1, Math.ceil(windowMs / 1000))
+    await redisSetStrict(redisKey, current + 1, Math.ceil(windowMs / 1000))
     return { allowed: true, remaining: maxRequests - current - 1 }
   } catch (e) {
     logger.error("Redis rate limit failed, falling back to DB", { error: e instanceof Error ? e.message : String(e) })

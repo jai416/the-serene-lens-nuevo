@@ -22,7 +22,6 @@ import {
   Lock,
   Star,
 } from "lucide-react"
-import { useSession } from "next-auth/react"
 import { SeasonalHero } from "@/components/seasonal-hero"
 import { CardSkeleton } from "@/components/ui/skeleton"
 
@@ -49,9 +48,14 @@ const actionCards = [
   { icon: Beaker, title: "Ingredientes", description: "Escanea y conoce los ingredientes de tus productos.", href: "/products" },
 ]
 
-export default function HomePage() {
-  const { data: session } = useSession()
+const trustStats = [
+  { icon: Timer, value: "<30s", label: "para recibir tu análisis con IA" },
+  { icon: Leaf, value: "50+", label: "guías de skincare con PDF" },
+  { icon: Star, value: "6", label: "comunidades por tipo de piel" },
+  { icon: Trophy, value: "8", label: "insignias por tu progreso" },
+]
 
+export default function HomePage() {
   return (
     <div className="min-h-screen">
       <script
@@ -106,7 +110,7 @@ export default function HomePage() {
               </p>
 
               <div className="flex flex-col sm:flex-row gap-3">
-                <Link href={session ? "/analysis" : "/login"}>
+                <Link href="/analysis">
                   <button className="inline-flex items-center justify-center text-base font-semibold transition-all bg-[#88B078] text-white px-8 py-6 rounded-full shadow-[0_4px_16px_rgba(136,176,120,0.25)] hover:shadow-[0_8px_24px_rgba(136,176,120,0.35)] hover:bg-[#6F9A5E]">
                     <Scan className="w-4 h-4 mr-2" />
                     Comenzar Análisis
@@ -190,6 +194,26 @@ export default function HomePage() {
         </div>
       </section>
 
+      {/* ─── Prueba social / Confianza ─── */}
+      <section className="py-16 px-4 sm:px-8 bg-white border-y border-[#E8E8E8]/60">
+        <div className="max-w-5xl mx-auto">
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-8 text-center">
+            {trustStats.map((stat, i) => (
+              <div key={stat.label} className="animate-fade-in-up" style={{ animationDelay: `${i * 100}ms` }}>
+                <div className="w-11 h-11 rounded-xl bg-[#E2ECE0] flex items-center justify-center mx-auto mb-3">
+                  <stat.icon className="w-5 h-5 text-[#88B078]" />
+                </div>
+                <p className="font-serif text-2xl sm:text-3xl font-semibold text-[#1A1A1A] mb-1">{stat.value}</p>
+                <p className="text-xs sm:text-sm text-[#666666]">{stat.label}</p>
+              </div>
+            ))}
+          </div>
+          <p className="text-center text-xs text-[#999999] mt-10 max-w-lg mx-auto">
+            Datos reales del producto. Sin métricas inventadas: cuando tengamos testimonios de usuarios reales, aparecerán aquí.
+          </p>
+        </div>
+      </section>
+
       {/* ─── Features ─── */}
       <section className="py-20 sm:py-28 px-4 sm:px-8">
         <div className="max-w-7xl mx-auto">
@@ -263,7 +287,7 @@ export default function HomePage() {
                 period: "",
                 badge: "Para empezar",
                 popular: false,
-                features: ["1 análisis de piel con IA", "Rutina personalizada", "Blog y guías educativas"],
+                features: ["3 análisis de piel con IA", "Rutina personalizada", "Blog y guías educativas"],
               },
               {
                 id: "PREMIUM",

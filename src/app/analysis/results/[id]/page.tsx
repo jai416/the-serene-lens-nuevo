@@ -8,6 +8,7 @@ import { Badge } from "@/components/ui/badge"
 import {
   Scan,
   ArrowLeft,
+  ArrowRight,
   Sun,
   Moon,
   CheckCircle2,
@@ -689,6 +690,54 @@ export default function AnalysisResultsPage() {
               </div>
             </CardContent>
           </Card>
+
+          {/* ─── Paywall Premium (solo plan FREE) ─── */}
+          {session?.user?.plan === "FREE" && (
+            <Card className="p-6 border-0 shadow-[0_2px_12px_rgba(0,0,0,0.04)] bg-gradient-to-br from-[#E2ECE0] to-white">
+              <CardContent className="p-0">
+                <div className="flex items-start gap-4">
+                  <div className="w-11 h-11 rounded-xl bg-[#88B078] flex items-center justify-center shrink-0">
+                    <Sparkles className="w-5 h-5 text-white" />
+                  </div>
+                  <div className="flex-1">
+                    <h3 className="font-serif text-lg font-semibold text-[#1A1A1A] mb-1.5">
+                      Sigue el cambio de tu piel mes a mes
+                    </h3>
+                    <p className="text-sm text-[#666666] mb-3">
+                      Con Premium tienes análisis ilimitados, comparación automática entre análisis,
+                      productos guardados con detección de conflictos de ingredientes y rutinas actualizadas.
+                    </p>
+                    <ul className="space-y-1.5 mb-4">
+                      {[
+                        "Análisis ilimitados con IA",
+                        "Gráfico de evolución y comparativas mensuales",
+                        "Detección de conflictos entre ingredientes",
+                        "Rutinas que se adaptan a tus resultados",
+                      ].map((f) => (
+                        <li key={f} className="text-xs text-[#1A1A1A] flex items-center gap-2">
+                          <CheckCircle2 className="w-3.5 h-3.5 text-[#88B078] shrink-0" />
+                          {f}
+                        </li>
+                      ))}
+                    </ul>
+                    <div className="flex flex-wrap gap-3">
+                      <Link href="/pricing">
+                        <Button variant="primary" className="px-6">
+                          Ver planes
+                          <ArrowRight className="w-4 h-4 ml-2" />
+                        </Button>
+                      </Link>
+                      <Link href="/dashboard/subscription">
+                        <Button variant="secondary" className="px-6">
+                          Gestionar plan
+                        </Button>
+                      </Link>
+                    </div>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          )}
 
           {/* ─── Actions ─── */}
           <div className="flex gap-3 pt-2">

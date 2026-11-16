@@ -7,7 +7,7 @@ import Link from "next/link"
 import { Card, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
-import { BookOpen, ArrowLeft, Plus, Trash2, RefreshCw } from "lucide-react"
+import { BookOpen, ArrowLeft, Plus, Trash2, RefreshCw, ThumbsUp, ThumbsDown, Check, Pause } from "lucide-react"
 import { getCsrfToken } from "@/lib/csrf-client"
 import { toast } from "sonner"
 import { ListSkeleton } from "@/components/ui/skeleton"
@@ -229,15 +229,15 @@ export default function AdminKnowledgePage() {
                     <h3 className="text-sm font-semibold text-[#1A1A1A]">{entry.title}</h3>
                     <p className="text-xs text-[#666666] mt-1 line-clamp-2">{entry.content.slice(0, 200)}</p>
                     <div className="flex items-center gap-3 mt-2 text-[10px] text-[#666666]">
-                      <span>👍 {entry.helpfulCount}</span>
-                      <span>👎 {entry.unhelpfulCount}</span>
+                      <span><ThumbsUp className="w-4 h-4 inline" /> {entry.helpfulCount}</span>
+                      <span><ThumbsDown className="w-4 h-4 inline" /> {entry.unhelpfulCount}</span>
                       <span>Prioridad: {entry.priority}</span>
                       {entry.sourceUrl && <span>URL: {entry.sourceUrl}</span>}
                     </div>
                   </div>
                   <div className="flex gap-1 ml-4">
                     <button onClick={() => handleToggle(entry)} className="p-1.5 rounded hover:bg-[#F0F0F0]" title={entry.enabled ? "Desactivar" : "Activar"}>
-                      {entry.enabled ? "✅" : "⏸️"}
+                      {entry.enabled ? <Check className="w-3.5 h-3.5" /> : <Pause className="w-3.5 h-3.5" />}
                     </button>
                     <button onClick={() => handleDelete(entry.id)} className="p-1.5 rounded hover:bg-[#F0F0F0]" title="Eliminar">
                       <Trash2 className="w-3.5 h-3.5 text-[#E07070]" />

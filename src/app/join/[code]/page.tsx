@@ -63,7 +63,7 @@ export default function JoinPage() {
 
       if (result.success) {
         toast.success(result.completed
-          ? "🎉 ¡Grupo completado! Has ganado un análisis gratis para tu amigo."
+          ? "¡Grupo completado! Has ganado un análisis gratis para tu amigo."
           : "Te has unido al grupo correctamente."
         )
         setGroup((prev) => prev ? {

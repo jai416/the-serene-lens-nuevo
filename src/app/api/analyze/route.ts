@@ -4,6 +4,7 @@ import { authOptions } from "@/lib/auth"
 import { ok, error, serverError, unauthorized } from "@/lib/api-response"
 import { validateCsrf } from "@/lib/csrf-middleware"
 import { checkRateLimit } from "@/lib/rate-limit"
+import { isRedisConfigured } from "@/lib/redis"
 import { AnalysisService, AnalysisError } from "@/lib/services/analysis.service"
 import { analysisQueue } from "@/lib/queue"
 import { db } from "@/lib/db"
@@ -45,7 +46,43 @@ export async function POST(req: NextRequest) {
       userPlan = user.plan
       userRole = user.role
     } else {
-      return unauthorized()
+      // GUEST — 1 análisis gratis sin registro (1 por IP cada 24h)
+      if (!validateCsrf(req)) return error("CSRF token inválido", 403)
+
+      // Primero se valida TODO; el intento diario solo se consume con datos válidos
+      const guestFormData = await req.formData()
+      const guestPhotos = guestFormData.getAll("photos") as File[]
+      if (!guestPhotos || guestPhotos.length === 0) return error("Se requieren fotos")
+
+      const guestBody: Record<string, string> = {}
+      for (const key of ["age", "gender", "climate", "concerns", "routine", "language"]) {
+        const val = guestFormData.get(key)
+        if (val) guestBody[key] = val as string
+      }
+      const guestParsed = analysisBodySchema.safeParse(guestBody)
+      if (!guestParsed.success) {
+        return error("Datos inválidos: " + guestParsed.error.issues.map((i) => i.message).join(", "))
+      }
+
+      const ip = req.headers.get("x-forwarded-for") || req.headers.get("x-real-ip") || "unknown"
+      const guestKey = `analyze:guest:${ip}`
+      logger.info("Guest rate limit check", { guestKey, redisConfigured: isRedisConfigured() })
+      const rl = await checkRateLimit(guestKey, 1, 24 * 60 * 60 * 1000)
+      logger.info("Guest rate limit result", { guestKey, allowed: rl.allowed, remaining: rl.remaining })
+      if (!rl.allowed) {
+        return error("Ya usaste tu análisis gratis de hoy. Crea una cuenta gratis y ten 3 análisis al mes.", 429)
+      }
+
+      try {
+        const { result } = await AnalysisService.processGuestAnalysis(guestPhotos, guestBody)
+        logger.info("Guest analysis completed", { ip, duration: Date.now() - startTime })
+        return ok({ guest: true, result })
+      } catch (e) {
+        // Se devuelve el intento si la IA falló (no era culpa del usuario)
+        const { clearRateLimit } = await import("@/lib/rate-limit")
+        await clearRateLimit(guestKey).catch(() => {})
+        throw e
+      }
     }
 
     // 2. ESTHETICIAN — bypass total de límites

@@ -29,7 +29,7 @@ export async function generateBotResponse(userMessage: string, chatId: string, u
     // Fallback: use knowledge directly if AI fails
     if (results.length > 0) {
       return {
-        text: `📚 Según la información disponible:\n\n${results[0].content.slice(0, 400)}`,
+        text: `Según la información disponible:\n\n${results[0].content.slice(0, 400)}`,
         knowledgeId: primaryId,
       }
     }
@@ -45,7 +45,7 @@ export async function generateBotResponse(userMessage: string, chatId: string, u
       const results = await searchKnowledge(userMessage, 1)
       if (results.length > 0) {
         return {
-          text: `📚 ${results[0].content.slice(0, 400)}`,
+          text: `${results[0].content.slice(0, 400)}`,
           knowledgeId: results[0].id,
         }
       }

@@ -70,12 +70,26 @@
 - `GEMINI_API_KEY` se configura en `.env` local y en variables de entorno de Render
 
 ### Decisiones de AI
-- **NVIDIA Llama 3.2 90B Vision** como proveedor primario de visión (análisis de piel + escáner ingredientes). Fallback automático a Gemini 2.0 Flash si NVIDIA no está configurado o falla
-- **Gemini 2.0 Flash** como fallback de visión. Reemplazó a Groq cuyos modelos vision fueron descontinuados
-- **Groq** (`llama-3.3-70b-versatile`) para TODO el chat: RAG + `/asistente` (ya no depende de `GEMINI_API_KEY`)
+- **NVIDIA `nvidia/nemotron-3.5-super-vl-120b-a12b`** como proveedor primario de visión (análisis de piel + escáner ingredientes). Fallback automático a Gemini si NVIDIA falla
+  - `meta/llama-3.2-90b-vision-instruct` **murió el 2026-11-16** (EOL, HTTP 410). Nemotron es de razonamiento: consume ~400 tokens antes de responder → `MIN_MAX_TOKENS = 4096` en `nvidia-vision.ts`
+- **Gemini `gemini-2.5-flash`** como fallback de visión (verificado HTTP 200)
+  - `gemini-2.0-flash` **retirado por Google** (404 "no longer available"). `gemini-3.8-flash` y `gemini-flash-latest` daban 503 — no usar
+- **Groq** para TODO el chat: RAG + `/asistente` — modelo **`openai/gpt-oss-120b`** (2026-11-16)
+  - Key nueva `gsk_S8idx...` actualizada en `.env` y Render (la anterior daba 401)
+  - `llama-3.3-70b-versatile`, `llama-3.1-8b-instant` y `meta-llama/llama-4-scout` **ya no existen** en esta key → migrados a `openai/gpt-oss-120b` (chat/comparativas) y `openai/gpt-oss-20b` (generación blog)
+  - Modelos disponibles en la key: gpt-oss-120b/20b, qwen3.8-27b, allam-2-7b, whisper — **sin modelos vision** (otra vez)
+  - `/api/user/comparison` con imágenes migrado de Groq → `vision.ts` (NVIDIA/Gemini), porque Groq no da visión
 - `gemini-chat.ts` eliminado — `/asistente` migrado a Groq
 - Rate limit de `/asistente` persiste en Redis (`checkRateLimit()` con key `asistente:daily:{userId}`)
 - **Unified vision adapter**: `src/lib/vision.ts` intenta NVIDIA → Gemini secuencialmente
+
+### Embudo de conversión (Nov 2026)
+- **Plan Essential unificado a 3 análisis/mes** (antes: pricing.ts aplicaba 6 pero toda la UI decía 1 — corregido en pricing, translations EN/ES, telegram-responses, notifications, landing)
+- **Análisis guest SIN registro**: `POST /api/analyze` acepta anónimos → 1/día por IP (`analyze:guest:{ip}`), NO guarda en DB, devuelve `{ guest: true, result }`. Si la IA falla se devuelve el intento (`clearRateLimit`). Componente `src/components/guest-result.tsx` muestra resultado + CTA de registro
+- **Paywall post-análisis**: en `/analysis/results/[id]`, usuarios FREE ven card de upgrade → /pricing
+- **Prueba social en landing**: sección con datos REALES (<30s, 50+ guías, 6 comunidades, 8 insignias) — sin métricas inventadas (coherente con "Sin Engaños")
+- **Oferta de lanzamiento**: banner en /pricing comunicando el trial automático de 7 días Premium que ya existe en `auth.ts` (`trialEndsAt = now + 7d` en registro y OAuth)
+- **PayPal NO sirve en Cuba** (decisión del usuario): QvaPay y Transfermóvil se mantienen como métodos reales. PayPal queda configurado pero es sandbox
 
 ### Documentación
 - **DOC-admin.md**: Solo contiene "cómo usar el panel admin"
@@ -220,12 +234,18 @@
 - `src/lib/telegram-handlers.ts`: se agregó `id: true` al `select` de Prisma (faltaba el campo, causaba TS error)
 - `src/components/qr-code-image.tsx`: se eliminó el `import("qrcode")` dinámico para evitar error de módulo no encontrado
 
-## Estado crítico — API Keys de Visión
-- **NVIDIA_API_KEY** configurada en `.env` (funcional: HTTP 200 en pruebas de texto). Visión con imágenes requiere probarse en Render
-- **GEMINI_API_KEY** **no está configurada en Render**. No aparece en `render.yaml`. Es el fallback si NVIDIA falla
-- Las funciones de visión (análisis de piel, escáner de ingredientes) usan NVIDIA → Gemini fallback automático
-- Para activar: ir a Render Dashboard → Environment → agregar `NVIDIA_API_KEY` y opcionalmente `GEMINI_API_KEY`
-- El bot de Telegram `/asistente` **no requiere Gemini** — usa Groq `llama-3.3-70b-versatile` igual que el chat RAG
+## Estado crítico — API Keys (verificado 2026-11-16)
+- **Render configurado vía API** (`rnd_iIU...`): `NVIDIA_API_KEY`, `PAYPAL_*`, `GROQ_API_KEY` (nueva) añadidas; `QVAPAY_*` **se mantienen** (PayPal no sirve en Cuba — decisión del usuario)
+- **GROQ key nueva `gsk_S8idx...`** verificada (200) — modelo cambiado a `openai/gpt-oss-120b` en código
+- **GEMINI_API_KEY en Render** funciona con `gemini-2.5-flash` (código migrado desde `gemini-2.0-flash` retirado)
+- **NVIDIA**: key válida, modelo `nvidia/nemotron-3.5-super-vl-120b-a12b` verificado con imagen real
+- El bot de Telegram `/asistente` usa Groq con el nuevo modelo
+
+### Test de APIs en producción (2026-11-16)
+- **185 endpoints probados: 184 OK, 0 rotas** (200×21, 401×98, 403×53, 404×6, 405×6, 400×1)
+- Los 401/403 son respuestas correctas de auth/CSRF; los 404 son recursos fake esperados; 405 = método equivocado
+- `/api/health`: DB ok (60ms), Groq "1 clave configurada" (pero la key es inválida al usarla)
+- Script: `/tmp/opencode/api_test.py`, resultados: `/tmp/opencode/api_results.json`
 
 ### Fixes de código (Julio 2026)
 - **CSRF añadido a +46 endpoints**: +39 anteriores + product-scan, analyze, analyze/stream, register, chat/messages, chat/session, lead-magnet
@@ -238,9 +258,9 @@
 - **Tests**: 229 pasando en 25 archivos
 
 ## Estado del build en Render
-- Último build desplegado: versión antigua (health reporta "2026-07-04-final")
-- Push `0d4bc14` (docs) + `7b73176` (render.yaml) + nuevo commit pendiente enviados a GitHub, Render debería auto-desplegar
-- Si auto-deploy no funciona, Trigger Manual Deploy en Render Dashboard
+- `fa45213` (NVIDIA vision + CSRF +46 + TS fixes) **desplegado y verificado en producción** (el endpoint register ya responde con el CSRF nuevo)
+- Siguiente push: embudo de conversión + emojis + modelos de IA corregidos → hacer deploy con clear cache vía API:
+  `POST /v1/services/srv-d8arlkuq1p3s73drdc0g/deploys` con `{"clear_cache": "true"}`
 
 ## Monitoreo de Visión IA
 - `nvidia-vision.ts` y `gemini-vision.ts` envían errores a Sentry mediante `captureError` y `captureMessage`
@@ -249,10 +269,7 @@
 - `NVIDIA_API_KEY` es opcional en `env.ts` (Zod). `GEMINI_API_KEY` sigue siendo requerida como fallback
 
 ## Próximas tareas pendientes
-- ⚠️ **Configurar `NVIDIA_API_KEY` en Render Dashboard** (primario para visión)
-- ⚠️ **Configurar `GEMINI_API_KEY` en Render Dashboard** (fallback de visión)
-- ⚠️ **Configurar `PAYPAL_CLIENT_ID`, `PAYPAL_CLIENT_SECRET`, `PAYPAL_API_URL` en Render Dashboard**
-- ⚠️ **`GROQ_API_KEY` expirada** (403) — renovar en consola de Groq
-- Monitorear build en Render tras push
-- Verificar que `/api/cron/cleanup-notifications` aparezca tras el build
-- Configurar `TELEGRAM_BOT_TOKEN` en Render si se desea UV alerts
+- Push final + deploy con clear cache en Render (pendiente: tests + build)
+- Verificar análisis real end-to-end en producción tras el deploy
+- Verificar chat `/asistente` y RAG con el nuevo modelo Groq en producción
+- Configurar `TELEGRAM_BOT_TOKEN`/`TELEGRAM_BOT_SECRET_TOKEN` en Render si se desean UV alerts y Telegram como auth de API

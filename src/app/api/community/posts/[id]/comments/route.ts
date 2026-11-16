@@ -90,7 +90,7 @@ export async function POST(
       const { sendTelegramMessage } = await import("@/lib/telegram");
       const adminChats = await db.telegramAuth.findMany({ where: { role: "ADMIN" }, select: { chatId: true } });
       for (const ac of adminChats) {
-        sendTelegramMessage(ac.chatId, `🚨 Nuevo comentario retenido por spam en "${post.title}".\n\n"${parsed.data.content.slice(0, 200)}"`).catch((e) => logger.error("Telegram alert failed", { error: e }))
+        sendTelegramMessage(ac.chatId, `Nuevo comentario retenido por spam en "${post.title}".\n\n"${parsed.data.content.slice(0, 200)}"`).catch((e) => logger.error("Telegram alert failed", { error: e }))
       }
     }
 

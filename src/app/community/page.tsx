@@ -10,7 +10,7 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import {
   Users, MessageSquare, Heart, Send, Plus, ChevronRight,
-  Sparkles, Loader2, ThumbsUp, MessageCircle, LogIn,
+  Sparkles, Loader2, ThumbsUp, MessageCircle, LogIn, Star,
 } from "lucide-react"
 import { formatDate } from "@/lib/utils"
 import { ListSkeleton } from "@/components/ui/skeleton"
@@ -208,7 +208,7 @@ export default function CommunityPage() {
                   }`}
                 >
                   {g.name}
-                  {isRecommended && !isSelected && " ★"}
+                  {isRecommended && !isSelected && <> <Star className="w-4 h-4 inline" /></>}
                 </button>
               )
             })}
@@ -227,8 +227,8 @@ export default function CommunityPage() {
                     <h3 className="font-semibold text-[#1A1A1A] mb-2">{dbGroup?.name || skinGroup?.name || "Grupo"}</h3>
                     <p className="text-xs text-[#666666] mb-4">{dbGroup?.description || skinGroup?.description || ""}</p>
                     <div className="flex items-center gap-4 text-xs text-[#666666]">
-                      <span>👥 {dbGroup?._count?.members || 0} miembros</span>
-                      <span>📝 {dbGroup?._count?.posts || 0} posts</span>
+                      <span><Users className="w-4 h-4 inline" /> {dbGroup?._count?.members || 0} miembros</span>
+                      <span><MessageSquare className="w-4 h-4 inline" /> {dbGroup?._count?.posts || 0} posts</span>
                     </div>
                     <Button
                       variant="outline"
