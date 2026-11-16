@@ -7,10 +7,11 @@ import { getCUPRate } from "@/lib/cup-rate"
 import { checkRateLimit } from "@/lib/rate-limit"
 import { logger } from "@/lib/logger"
 import { PACK_ANALYSES } from "@/lib/pricing"
+import { getClientIp } from "@/lib/client-ip"
 
 export async function POST(req: NextRequest) {
   try {
-    const ip = req.headers.get("x-forwarded-for") || req.headers.get("x-real-ip") || "unknown"
+    const ip = getClientIp(req)
     const rl = await checkRateLimit(`webhook:${ip}`, 30, 60 * 1000)
     if (!rl.allowed) {
       return error("Demasiadas solicitudes", 429)

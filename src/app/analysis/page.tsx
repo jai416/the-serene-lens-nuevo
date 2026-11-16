@@ -165,7 +165,9 @@ export default function AnalysisPage() {
         method: "POST", headers: { "x-csrf-token": getCsrfToken() }, body: formData,
       })
       if (!res.ok) { const d = await res.json(); throw new Error(d.error?.message || d.error || "Error al analizar") }
-      const data = await res.json()
+      const payload = await res.json()
+      // ok() envuelve en { success, data: {...} }; las respuestas raw (ej: cola 202) van directo
+      const data = payload?.data ?? payload
       clearDraft()
       if (data.guest) {
         // Invitado: el resultado se muestra aquí (no se guardó en la cuenta)
@@ -173,7 +175,16 @@ export default function AnalysisPage() {
         setIsAnalyzing(false)
         return
       }
-      router.push(`/analysis/results/${data.analysis.id}`)
+      if (payload?.status === "QUEUED") {
+        setError(payload.message || "El análisis está en cola. Se procesará automáticamente en unos minutos.")
+        setIsAnalyzing(false)
+        return
+      }
+      if (data.analysis?.id) {
+        router.push(`/analysis/results/${data.analysis.id}`)
+      } else {
+        throw new Error("Respuesta inesperada del servidor. Intenta de nuevo.")
+      }
     } catch (e: any) {
       setError(e.message || "Error al analizar las imágenes")
       setIsAnalyzing(false)

@@ -10,6 +10,7 @@ import { analysisQueue } from "@/lib/queue"
 import { db } from "@/lib/db"
 import { logger } from "@/lib/logger"
 import { analysisBodySchema } from "@/lib/validations"
+import { getClientIp } from "@/lib/client-ip"
 
 export async function POST(req: NextRequest) {
   const startTime = Date.now()
@@ -64,7 +65,7 @@ export async function POST(req: NextRequest) {
         return error("Datos inválidos: " + guestParsed.error.issues.map((i) => i.message).join(", "))
       }
 
-      const ip = req.headers.get("x-forwarded-for") || req.headers.get("x-real-ip") || "unknown"
+      const ip = getClientIp(req)
       const guestKey = `analyze:guest:${ip}`
       logger.info("Guest rate limit check", { guestKey, redisConfigured: isRedisConfigured() })
       const rl = await checkRateLimit(guestKey, 1, 24 * 60 * 60 * 1000)
@@ -134,7 +135,7 @@ export async function POST(req: NextRequest) {
     }
 
     // 5. PROCESAMIENTO NORMAL
-    const ip = req.headers.get("x-forwarded-for") || req.headers.get("x-real-ip") || "unknown"
+    const ip = getClientIp(req)
     const rl = await checkRateLimit(`analyze:${userId}:${ip}`, 5, 60 * 1000)
     if (!rl.allowed) {
       return error("Demasiadas solicitudes. Espera un minuto antes de intentar de nuevo.")

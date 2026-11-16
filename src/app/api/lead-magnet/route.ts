@@ -4,6 +4,7 @@ import { checkRateLimit } from "@/lib/rate-limit"
 import { validateCsrf } from "@/lib/csrf-middleware"
 import { error } from "@/lib/api-response"
 import { logger } from "@/lib/logger"
+import { getClientIp } from "@/lib/client-ip"
 
 const APP_URL = process.env.NEXT_PUBLIC_APP_URL || ""
 
@@ -15,7 +16,7 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ success: false, error: "Email inválido" }, { status: 400 })
     }
 
-    const ip = req.headers.get("x-forwarded-for") || "unknown"
+    const ip = getClientIp(req)
     const { allowed } = await checkRateLimit(`lead:${ip}`, 3, 3600000)
     if (!allowed) {
       return NextResponse.json({ success: false, error: "Demasiados intentos. Intenta más tarde." }, { status: 429 })

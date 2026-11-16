@@ -5,6 +5,7 @@ import { db } from "@/lib/db"
 import { ok, error, unauthorized, forbidden, serverError } from "@/lib/api-response"
 import { validateCsrf } from "@/lib/csrf-middleware"
 import { checkRateLimit } from "@/lib/rate-limit"
+import { getClientIp } from "@/lib/client-ip"
 
 export async function POST(req: NextRequest) {
   try {
@@ -14,7 +15,7 @@ export async function POST(req: NextRequest) {
     if (!session?.user?.id) return unauthorized()
     if (session.user.role !== "ADMIN") return forbidden()
 
-    const ip = req.headers.get("x-forwarded-for") || req.headers.get("x-real-ip") || "unknown"
+    const ip = getClientIp(req)
     const rl = await checkRateLimit(`activate-transfer:${session.user.id}:${ip}`, 30, 60000)
     if (!rl.allowed) return error("Demasiadas solicitudes. Intenta de nuevo en un minuto.", 429)
 

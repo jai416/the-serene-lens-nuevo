@@ -10,6 +10,7 @@ import { analyzeSkinWithGroq } from "@/lib/groq"
 import { getCachedAnalysis, setCachedAnalysis } from "@/lib/analysis-cache"
 import { NextRequest } from "next/server"
 import { logger } from "@/lib/logger"
+import { getClientIp } from "@/lib/client-ip"
 
 export async function POST(req: NextRequest) {
   try {
@@ -17,7 +18,7 @@ export async function POST(req: NextRequest) {
     const session = await getServerSession(authOptions)
     if (!session?.user?.id) return unauthorized()
 
-    const ip = req.headers.get("x-forwarded-for") || req.headers.get("x-real-ip") || "unknown"
+    const ip = getClientIp(req)
     const rl = await checkRateLimit(`analyze-stream:${session.user.id}:${ip}`, 5, 60 * 1000)
     if (!rl.allowed) {
       return error("Demasiadas solicitudes. Espera un minuto.")

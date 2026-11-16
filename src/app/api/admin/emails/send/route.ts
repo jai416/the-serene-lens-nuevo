@@ -6,6 +6,7 @@ import { checkRateLimit } from "@/lib/rate-limit"
 import { ok, error, serverError, unauthorized } from "@/lib/api-response"
 import { logger } from "@/lib/logger"
 import { createWebNotification } from "@/lib/notifications"
+import { getClientIp } from "@/lib/client-ip"
 
 const SEGMENT_FILTERS: Record<string, Record<string, unknown>> = {
   all: {},
@@ -21,7 +22,7 @@ export async function POST(req: NextRequest) {
     const session = await getServerSession(authOptions)
     if (session?.user?.role !== "ADMIN") return unauthorized()
 
-    const ip = req.headers.get("x-forwarded-for") || req.headers.get("x-real-ip") || "unknown"
+    const ip = getClientIp(req)
     const rl = await checkRateLimit(`admin-emails-send:${ip}`, 5, 60 * 60 * 1000)
     if (!rl.allowed) {
       return error("Demasiados envíos. Intenta más tarde.", 429)

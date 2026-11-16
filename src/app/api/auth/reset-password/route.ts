@@ -5,6 +5,7 @@ import { ok, error, serverError } from "@/lib/api-response"
 import { checkRateLimit } from "@/lib/rate-limit"
 import { logger } from "@/lib/logger"
 import { validateCsrf } from "@/lib/csrf-middleware"
+import { getClientIp } from "@/lib/client-ip"
 
 async function hashPassword(password: string): Promise<string> {
   return new Promise((resolve, reject) => {
@@ -20,7 +21,7 @@ export async function POST(req: NextRequest) {
   try {
     if (!validateCsrf(req)) return error("CSRF token inválido", 403)
 
-    const ip = req.headers.get("x-forwarded-for") || req.headers.get("x-real-ip") || "unknown"
+    const ip = getClientIp(req)
     const rl = await checkRateLimit(`reset-password:${ip}`, 10, 60 * 60 * 1000)
     if (!rl.allowed) {
       return error("Demasiadas solicitudes. Intenta más tarde.", 429)

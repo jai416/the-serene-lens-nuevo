@@ -1,7 +1,7 @@
 "use client"
 
 import { useRef, useState, useEffect, useCallback } from "react"
-import { Camera, Loader2, RotateCcw, Check, X } from "lucide-react"
+import { Camera, Loader2, RotateCcw, Check, X, SwitchCamera } from "lucide-react"
 import { Button } from "@/components/ui/button"
 
 interface Props {
@@ -9,16 +9,21 @@ interface Props {
   onClose: () => void
 }
 
+type Facing = "environment" | "user"
+
 export default function WebcamCapture({ onCapture, onClose }: Props) {
   const videoRef = useRef<HTMLVideoElement>(null)
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const streamRef = useRef<MediaStream | null>(null)
   const [state, setState] = useState<"loading" | "ready" | "captured">("loading")
   const [error, setError] = useState("")
+  const [facing, setFacing] = useState<Facing>("environment")
+  const [canFlip, setCanFlip] = useState(false)
   const [capturedBlob, setCapturedBlob] = useState<Blob | null>(null)
   const [capturedUrl, setCapturedUrl] = useState<string | null>(null)
 
-  const startCamera = useCallback(async () => {
+  const startCamera = useCallback(async (targetFacing?: Facing) => {
+    const want: Facing = targetFacing ?? "environment"
     setState("loading")
     setError("")
     try {
@@ -28,14 +33,42 @@ export default function WebcamCapture({ onCapture, onClose }: Props) {
         setState("ready")
         return
       }
-      const stream = await navigator.mediaDevices.getUserMedia({
-        video: { facingMode: "environment", width: { ideal: 1280 }, height: { ideal: 720 } },
-      })
+
+      // Parar stream anterior (al girar la cámara o al reintentar)
+      streamRef.current?.getTracks().forEach((t) => t.stop())
+
+      // Cadena de intentos: cámara trasera EXACTA (móvil) → trasera flexible → cualquier cámara (escritorio)
+      const attempts: MediaStreamConstraints[] = [
+        { video: { facingMode: { exact: want }, width: { ideal: 1280 }, height: { ideal: 720 } } },
+        { video: { facingMode: want, width: { ideal: 1280 }, height: { ideal: 720 } } },
+        { video: { width: { ideal: 1280 }, height: { ideal: 720 } } },
+      ]
+      let stream: MediaStream | null = null
+      let lastErr: unknown = null
+      for (const constraints of attempts) {
+        try {
+          stream = await navigator.mediaDevices.getUserMedia(constraints)
+          break
+        } catch (e) {
+          lastErr = e
+        }
+      }
+      if (!stream) throw lastErr instanceof Error ? lastErr : new Error("camera_failed")
+
       streamRef.current = stream
       if (videoRef.current) {
         videoRef.current.srcObject = stream
       }
+      setFacing(want)
       setState("ready")
+
+      // ¿Hay más de una cámara para poder girar?
+      try {
+        const devices = await navigator.mediaDevices.enumerateDevices()
+        setCanFlip(devices.filter((d) => d.kind === "videoinput").length > 1)
+      } catch {
+        setCanFlip(false)
+      }
     } catch (e) {
       const name = e instanceof Error ? e.name : ""
       if (name === "NotAllowedError" || name === "SecurityError") {
@@ -58,6 +91,10 @@ export default function WebcamCapture({ onCapture, onClose }: Props) {
       if (capturedUrl) URL.revokeObjectURL(capturedUrl)
     }
   }, [startCamera, capturedUrl])
+
+  const flip = () => {
+    startCamera(facing === "environment" ? "user" : "environment")
+  }
 
   const capture = () => {
     const video = videoRef.current
@@ -106,7 +143,7 @@ export default function WebcamCapture({ onCapture, onClose }: Props) {
           autoPlay
           playsInline
           muted
-          className={`w-full h-full object-contain ${state === "ready" ? "block" : "hidden"}`}
+          className={`w-full h-full object-contain ${state === "ready" && !error ? "block" : "hidden"}`}
         />
 
         {state === "captured" && capturedUrl && (
@@ -118,17 +155,29 @@ export default function WebcamCapture({ onCapture, onClose }: Props) {
 
       <div className="flex gap-2">
         {error && (
-          <Button variant="primary" onClick={startCamera} className="flex-1">
+          <Button variant="primary" onClick={() => startCamera()} className="flex-1">
             <RotateCcw className="w-4 h-4 mr-2" />
             Reintentar cámara
           </Button>
         )}
 
         {state === "ready" && !error && (
-          <Button variant="primary" onClick={capture} className="flex-1">
-            <Camera className="w-4 h-4 mr-2" />
-            Tomar foto
-          </Button>
+          <>
+            <Button variant="primary" onClick={capture} className="flex-1">
+              <Camera className="w-4 h-4 mr-2" />
+              Tomar foto
+            </Button>
+            {canFlip && (
+              <Button
+                variant="secondary"
+                onClick={flip}
+                title={facing === "environment" ? "Cambiar a cámara frontal" : "Cambiar a cámara trasera"}
+              >
+                <SwitchCamera className="w-4 h-4 mr-2" />
+                Girar
+              </Button>
+            )}
+          </>
         )}
 
         {state === "captured" && (

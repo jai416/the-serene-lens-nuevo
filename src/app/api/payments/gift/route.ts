@@ -10,6 +10,7 @@ import { createGiftNotification } from "@/lib/notifications"
 import { z } from "zod"
 import { logger } from "@/lib/logger"
 import { PACK_ANALYSES } from "@/lib/pricing"
+import { getClientIp } from "@/lib/client-ip"
 
 const giftSchema = z.object({
   packType: z.enum(["BASIC", "POPULAR", "ADVANCED"]),
@@ -18,7 +19,7 @@ const giftSchema = z.object({
 
 export async function POST(req: NextRequest) {
   try {
-    const ip = req.headers.get("x-forwarded-for")?.split(",")[0]?.trim() || "unknown"
+    const ip = getClientIp(req)
     const { allowed } = await checkRateLimit(`gift:${ip}`, 5, 60000)
     if (!allowed) return error("Demasiadas solicitudes. Intenta de nuevo en un minuto.", 429)
 

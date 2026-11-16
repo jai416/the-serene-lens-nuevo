@@ -11,6 +11,7 @@ import { getCUPRate } from "@/lib/cup-rate"
 import { z } from "zod"
 import { logger } from "@/lib/logger"
 import { validateCsrf } from "@/lib/csrf-middleware"
+import { getClientIp } from "@/lib/client-ip"
 
 const createPaymentSchema = z.object({
   plan: z.string().min(1),
@@ -19,7 +20,7 @@ const createPaymentSchema = z.object({
 
 export async function POST(req: NextRequest) {
   try {
-    const ip = req.headers.get("x-forwarded-for")?.split(",")[0]?.trim() || "unknown"
+    const ip = getClientIp(req)
     const { allowed } = await checkRateLimit(`payment:create:${ip}`, 10, 60000)
     if (!allowed) return error("Demasiadas solicitudes. Intenta de nuevo en un minuto.", 429)
 
