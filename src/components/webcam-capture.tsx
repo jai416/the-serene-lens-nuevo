@@ -22,6 +22,12 @@ export default function WebcamCapture({ onCapture, onClose }: Props) {
     setState("loading")
     setError("")
     try {
+      // Detección de contexto seguro: en HTTP (no localhost) mediaDevices no existe
+      if (!navigator.mediaDevices?.getUserMedia) {
+        setError("Tu navegador no permite acceder a la cámara. Asegúrate de estar en una conexión segura (HTTPS) y de usar un navegador moderno.")
+        setState("ready")
+        return
+      }
       const stream = await navigator.mediaDevices.getUserMedia({
         video: { facingMode: "environment", width: { ideal: 1280 }, height: { ideal: 720 } },
       })
@@ -30,8 +36,17 @@ export default function WebcamCapture({ onCapture, onClose }: Props) {
         videoRef.current.srcObject = stream
       }
       setState("ready")
-    } catch {
-      setError("No se pudo acceder a la cámara. Verifica los permisos.")
+    } catch (e) {
+      const name = e instanceof Error ? e.name : ""
+      if (name === "NotAllowedError" || name === "SecurityError") {
+        setError("Permiso de cámara denegado. Haz clic en el ícono de cámara o candado en la barra de direcciones para permitir el acceso y vuelve a intentar.")
+      } else if (name === "NotFoundError" || name === "OverconstrainedError") {
+        setError("No se detectó ninguna cámara en este dispositivo.")
+      } else if (name === "NotReadableError") {
+        setError("La cámara está en uso por otra aplicación. Ciérrala y reintenta.")
+      } else {
+        setError("No se pudo acceder a la cámara. Verifica los permisos.")
+      }
       setState("ready")
     }
   }, [])
@@ -102,6 +117,13 @@ export default function WebcamCapture({ onCapture, onClose }: Props) {
       </div>
 
       <div className="flex gap-2">
+        {error && (
+          <Button variant="primary" onClick={startCamera} className="flex-1">
+            <RotateCcw className="w-4 h-4 mr-2" />
+            Reintentar cámara
+          </Button>
+        )}
+
         {state === "ready" && !error && (
           <Button variant="primary" onClick={capture} className="flex-1">
             <Camera className="w-4 h-4 mr-2" />
