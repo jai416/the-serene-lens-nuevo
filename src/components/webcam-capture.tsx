@@ -15,6 +15,7 @@ export default function WebcamCapture({ onCapture, onClose }: Props) {
   const videoRef = useRef<HTMLVideoElement>(null)
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const streamRef = useRef<MediaStream | null>(null)
+  const capturedUrlRef = useRef<string | null>(null)
   const [state, setState] = useState<"loading" | "ready" | "captured">("loading")
   const [error, setError] = useState("")
   const [facing, setFacing] = useState<Facing>("environment")
@@ -84,13 +85,16 @@ export default function WebcamCapture({ onCapture, onClose }: Props) {
     }
   }, [])
 
+  // IMPORTANTE: capturedUrl NO es dependencia — si lo fuera, al capturar la foto
+  // el effect se re-ejecutaría, pararía el stream y reiniciaría la cámara,
+  // perdiendo la imagen capturada. La cámara solo se detiene al desmontar.
   useEffect(() => {
     startCamera()
     return () => {
       streamRef.current?.getTracks().forEach((t) => t.stop())
-      if (capturedUrl) URL.revokeObjectURL(capturedUrl)
+      if (capturedUrlRef.current) URL.revokeObjectURL(capturedUrlRef.current)
     }
-  }, [startCamera, capturedUrl])
+  }, [startCamera])
 
   const flip = () => {
     startCamera(facing === "environment" ? "user" : "environment")
@@ -107,20 +111,27 @@ export default function WebcamCapture({ onCapture, onClose }: Props) {
     ctx.drawImage(video, 0, 0)
     canvas.toBlob((blob) => {
       if (!blob) return
+      const url = URL.createObjectURL(blob)
       setCapturedBlob(blob)
-      setCapturedUrl(URL.createObjectURL(blob))
+      setCapturedUrl(url)
+      capturedUrlRef.current = url
       setState("captured")
     }, "image/jpeg", 0.85)
   }
 
   const retake = () => {
     if (capturedUrl) URL.revokeObjectURL(capturedUrl)
+    capturedUrlRef.current = null
     setCapturedBlob(null)
     setCapturedUrl(null)
     setState("ready")
   }
 
   const confirm = () => {
+    if (capturedUrlRef.current) {
+      URL.revokeObjectURL(capturedUrlRef.current)
+      capturedUrlRef.current = null
+    }
     if (capturedBlob) onCapture(capturedBlob)
   }
 
