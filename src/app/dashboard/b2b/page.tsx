@@ -11,6 +11,7 @@ import { toast } from "sonner"
 import { CardSkeleton } from "@/components/ui/skeleton"
 import { useLocale } from "@/lib/locale/locale-context"
 import { t } from "@/lib/locale/translations"
+import { isEstheticianPlan } from "@/lib/pricing"
 
 interface ClinicData {
   id: string
@@ -58,7 +59,7 @@ export default function B2bDashboard() {
 
   if (!session) redirect("/login?callbackUrl=" + encodeURIComponent(pathname))
 
-  const isB2b = session.user.plan === "ESTHETICIAN"
+  const isB2b = isEstheticianPlan(session.user.plan)
 
   if (!isB2b) {
     return (

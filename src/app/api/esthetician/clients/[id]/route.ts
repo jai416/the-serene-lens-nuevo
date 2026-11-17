@@ -4,13 +4,14 @@ import { authOptions } from "@/lib/auth"
 import { db } from "@/lib/db"
 import { ok, error, unauthorized, forbidden, serverError } from "@/lib/api-response"
 import { validateCsrf } from "@/lib/csrf-middleware"
+import { isEstheticianPlan } from "@/lib/pricing"
 
 export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   try {
     if (!validateCsrf(req)) return error("CSRF token inválido", 403)
     const session = await getServerSession(authOptions)
     if (!session?.user) return unauthorized()
-    if (session.user.plan !== "ESTHETICIAN") return forbidden()
+    if (!isEstheticianPlan(session.user.plan)) return forbidden()
     const { id } = await params
 
     const client = await db.client.findUnique({ where: { id } })
@@ -36,7 +37,7 @@ export async function DELETE(req: NextRequest, { params }: { params: Promise<{ i
     if (!validateCsrf(req)) return error("CSRF token inválido", 403)
     const session = await getServerSession(authOptions)
     if (!session?.user) return unauthorized()
-    if (session.user.plan !== "ESTHETICIAN") return forbidden()
+    if (!isEstheticianPlan(session.user.plan)) return forbidden()
     const { id } = await params
 
     const client = await db.client.findUnique({ where: { id } })

@@ -11,6 +11,7 @@ import { db } from "@/lib/db"
 import { logger } from "@/lib/logger"
 import { analysisBodySchema } from "@/lib/validations"
 import { getClientIp } from "@/lib/client-ip"
+import { isEstheticianPlan } from "@/lib/pricing"
 
 export async function POST(req: NextRequest) {
   const startTime = Date.now()
@@ -87,7 +88,7 @@ export async function POST(req: NextRequest) {
     }
 
     // 2. ESTHETICIAN — bypass total de límites
-    const isEsthetician = userRole === "ESTHETICIAN" || userPlan === "ESTHETICIAN"
+    const isEsthetician = userRole === "ESTHETICIAN" || isEstheticianPlan(userPlan)
 
     // 3. LÍMITE DE 3 ANÁLISIS/DÍA (no ESTHETICIAN)
     if (!isEsthetician) {

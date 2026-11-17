@@ -17,6 +17,7 @@ import { toast } from "sonner"
 import { useLocale } from "@/lib/locale/locale-context"
 import { t } from "@/lib/locale/translations"
 import { getCsrfToken } from "@/lib/csrf-client"
+import { isEstheticianPlan } from "@/lib/pricing"
 
 interface ClientData {
   id: string
@@ -134,7 +135,7 @@ export default function EstheticianPage() {
 
   if (status === "loading") return <div className="p-8 text-center text-[#666666]">{t("common.loading", locale)}</div>
   if (!session) redirect("/login?callbackUrl=" + encodeURIComponent(pathname))
-  if (user?.plan !== "ESTHETICIAN") redirect("/dashboard/profile")
+  if (!isEstheticianPlan(user?.plan)) redirect("/dashboard/profile")
 
   const totalAnalyses = clients.reduce((sum, c) => sum + c._count.analyses, 0)
 

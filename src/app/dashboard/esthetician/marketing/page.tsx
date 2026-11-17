@@ -15,6 +15,7 @@ import { toast } from "sonner"
 import { useLocale } from "@/lib/locale/locale-context"
 import { t } from "@/lib/locale/translations"
 import QRCodeImage from "@/components/qr-code-image"
+import { isEstheticianPlan } from "@/lib/pricing"
 
 interface MarketingData {
   clinic: { name: string; logo: string | null; referralCode: string; referredUsers: number }
@@ -72,7 +73,7 @@ export default function MarketingKitPage() {
 
   if (status === "loading") return <div className="p-8 text-center text-[#666666]">{t("common.loading", locale)}</div>
   if (!session) redirect("/login?callbackUrl=" + encodeURIComponent(pathname))
-  if (user?.plan !== "ESTHETICIAN") redirect("/dashboard/profile")
+  if (!isEstheticianPlan(user?.plan)) redirect("/dashboard/profile")
 
   if (loading) {
     return <div className="text-center py-12"><Loader2 className="w-8 h-8 animate-spin mx-auto text-[#88B078]" /></div>

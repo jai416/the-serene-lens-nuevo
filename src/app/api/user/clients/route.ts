@@ -5,13 +5,14 @@ import { db } from "@/lib/db"
 import { ok, error, unauthorized, serverError } from "@/lib/api-response"
 import { logger } from "@/lib/logger"
 import { validateCsrf } from "@/lib/csrf-middleware"
+import { isEstheticianPlan } from "@/lib/pricing"
 
 export async function GET() {
   try {
     const session = await getServerSession(authOptions)
     if (!session?.user) return unauthorized()
 
-    if (session.user.plan !== "ESTHETICIAN" && session.user.role !== "ADMIN") {
+    if (!isEstheticianPlan(session.user.plan) && session.user.role !== "ADMIN") {
       return error("Plan Esteticista requerido", 403)
     }
 
@@ -33,7 +34,7 @@ export async function POST(req: NextRequest) {
     const session = await getServerSession(authOptions)
     if (!session?.user) return unauthorized()
 
-    if (session.user.plan !== "ESTHETICIAN" && session.user.role !== "ADMIN") {
+    if (!isEstheticianPlan(session.user.plan) && session.user.role !== "ADMIN") {
       return error("Plan Esteticista requerido", 403)
     }
 
@@ -92,7 +93,7 @@ export async function DELETE(req: NextRequest) {
     const session = await getServerSession(authOptions)
     if (!session?.user) return unauthorized()
 
-    if (session.user.plan !== "ESTHETICIAN" && session.user.role !== "ADMIN") {
+    if (!isEstheticianPlan(session.user.plan) && session.user.role !== "ADMIN") {
       return error("Plan Esteticista requerido", 403)
     }
 

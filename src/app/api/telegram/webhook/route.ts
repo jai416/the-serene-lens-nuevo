@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server"
 import { after } from "next/server"
 import { logger } from "@/lib/logger"
+import { isEstheticianPlan } from "@/lib/pricing"
 
 // ─── Rate limit (spam control) — Redis-backed ───────────────────
 const CMD_COOLDOWN_MS = 4000
@@ -374,7 +375,7 @@ async function checkTelegramAccess(chatId: string): Promise<{ allowed: boolean; 
   const user = await db.user.findFirst({ where: { telegramId: chatId } })
   if (!user) return { allowed: true }
 
-  if (user.role === "ADMIN" || user.role === "ESTHETICIAN" || user.plan === "ESTHETICIAN") return { allowed: true }
+  if (user.role === "ADMIN" || user.role === "ESTHETICIAN" || isEstheticianPlan(user.plan)) return { allowed: true }
   if (["PREMIUM", "PRO", "PRO_PLUS"].includes(user.plan)) return { allowed: true }
   if (user.isTelegramPremiumActive) return { allowed: true }
 

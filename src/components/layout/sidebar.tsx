@@ -34,6 +34,7 @@ import { useState } from "react"
 import { useLocale } from "@/lib/locale/locale-context"
 import { t } from "@/lib/locale/translations"
 import type { TranslationKey } from "@/lib/locale/translations"
+import { isEstheticianPlan } from "@/lib/pricing"
 
 interface NavItem {
   href: string
@@ -173,7 +174,7 @@ export function Sidebar() {
           </div>
         )}
 
-        {session?.user?.plan === "ESTHETICIAN" && (
+        {isEstheticianPlan(session?.user?.plan) && (
           <div>
             <p className="px-4 text-[10px] font-semibold uppercase tracking-widest text-[#999999] mb-1">
               {t("sidebar.sectionProfessional", locale)}

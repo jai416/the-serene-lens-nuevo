@@ -3,12 +3,13 @@ import { getServerSession } from "next-auth"
 import { authOptions } from "@/lib/auth"
 import { db } from "@/lib/db"
 import { ok, error, unauthorized, forbidden, serverError } from "@/lib/api-response"
+import { isEstheticianPlan } from "@/lib/pricing"
 
 export async function GET(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   try {
     const session = await getServerSession(authOptions)
     if (!session?.user) return unauthorized()
-    if (session.user.plan !== "ESTHETICIAN") return forbidden()
+    if (!isEstheticianPlan(session.user.plan)) return forbidden()
 
     const { id } = await params
 

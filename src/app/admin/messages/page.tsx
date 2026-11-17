@@ -13,6 +13,7 @@ import { toast } from "sonner"
 import { ListSkeleton } from "@/components/ui/skeleton"
 import { useLocale } from "@/lib/locale/locale-context"
 import { t } from "@/lib/locale/translations"
+import { basePlan } from "@/lib/pricing"
 
 interface ContactMessage {
   id: string
@@ -92,9 +93,9 @@ export default function AdminMessagesPage() {
     return (planOrder[a.plan] ?? 5) - (planOrder[b.plan] ?? 5)
   })
 
-  const proMessages = sortedMessages.filter((m) => m.plan === "PRO_PLUS" || m.plan === "PRO")
-  const estheticianMessages = sortedMessages.filter((m) => m.plan === "ESTHETICIAN")
-  const otherMessages = sortedMessages.filter((m) => m.plan !== "PRO_PLUS" && m.plan !== "PRO" && m.plan !== "ESTHETICIAN")
+  const proMessages = sortedMessages.filter((m) => basePlan(m.plan) === "PRO_PLUS" || basePlan(m.plan) === "PRO")
+  const estheticianMessages = sortedMessages.filter((m) => basePlan(m.plan) === "ESTHETICIAN")
+  const otherMessages = sortedMessages.filter((m) => basePlan(m.plan) !== "PRO_PLUS" && basePlan(m.plan) !== "PRO" && basePlan(m.plan) !== "ESTHETICIAN")
 
   return (
     <div className="overflow-x-hidden">
@@ -151,7 +152,7 @@ export default function AdminMessagesPage() {
               <div>
                 <h2 className="text-lg font-semibold text-[#1A1A1A]">{selected.name}</h2>
                 <p className="text-sm text-[#666666]">{selected.email}</p>
-                <Badge className="mt-1 text-[10px]" style={{ backgroundColor: "#E8E8E8", color: selected.plan === "PRO_PLUS" || selected.plan === "PRO" ? "#FBBF24" : "#666666" }}>
+                <Badge className="mt-1 text-[10px]" style={{ backgroundColor: "#E8E8E8", color: basePlan(selected.plan) === "PRO_PLUS" || basePlan(selected.plan) === "PRO" ? "#FBBF24" : "#666666" }}>
                   {selected.plan}
                 </Badge>
               </div>

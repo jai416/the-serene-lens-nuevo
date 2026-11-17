@@ -2,6 +2,34 @@ export const FALLBACK_CUP_RATE = Number(process.env.NEXT_PUBLIC_CUP_FALLBACK) ||
 
 export const PACK_EXPIRY_DAYS = 30
 
+/**
+ * Plan base sin el sufijo _ANNUAL.
+ *
+ * IMPORTANTE: comparar planes por string exacto ("ESTHETICIAN") deja fuera a
+ * quien compró la versión anual ("ESTHETICIAN_ANNUAL") y le bloquea el panel
+ * entero. Todo gating de features debe usar estas funciones.
+ */
+export function basePlan(plan?: string | null): string {
+  if (!plan) return "FREE"
+  return plan.endsWith("_ANNUAL") ? plan.slice(0, -"_ANNUAL".length) : plan
+}
+
+/** Acceso al panel de esteticista (mensual o anual). */
+export function isEstheticianPlan(plan?: string | null): boolean {
+  return basePlan(plan) === "ESTHETICIAN"
+}
+
+/** Acceso a funciones PRO / PRO+ / Esteticista (informes PDF, rutina dinámica...). */
+export function hasProAccess(plan?: string | null): boolean {
+  const b = basePlan(plan)
+  return b === "PRO" || b === "PRO_PLUS" || b === "ESTHETICIAN"
+}
+
+/** Acceso a funciones PRO+ (mensual o anual). */
+export function hasProPlusAccess(plan?: string | null): boolean {
+  return basePlan(plan) === "PRO_PLUS"
+}
+
 function toCUP(usd: number): number {
   return Math.round(usd * FALLBACK_CUP_RATE)
 }

@@ -10,6 +10,7 @@ import dynamic from "next/dynamic"
 import { useLocale } from "@/lib/locale/locale-context"
 import { t } from "@/lib/locale/translations"
 import { parseObservations } from "@/lib/analysis-shape"
+import { hasProAccess } from "@/lib/pricing"
 
 const SkinReportDownload = dynamic(
   () => import("@/components/pdf-skin-report").then((mod) => mod.SkinReportDownload),
@@ -95,7 +96,7 @@ export default function ReportPage() {
   if (!session) redirect("/login?callbackUrl=/dashboard/report")
 
   const plan = session.user.plan || "FREE"
-  const canGenerateReport = plan === "PRO_PLUS" || plan === "ESTHETICIAN"
+  const canGenerateReport = hasProAccess(plan)
 
   return (
     <div className="min-h-screen px-4 py-8">

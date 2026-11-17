@@ -15,6 +15,7 @@ import { getCsrfToken } from "@/lib/csrf-client"
 import { CardSkeleton } from "@/components/ui/skeleton"
 import { useLocale } from "@/lib/locale/locale-context"
 import { t } from "@/lib/locale/translations"
+import { hasProPlusAccess } from "@/lib/pricing"
 
 interface Payment {
   id: string
@@ -186,7 +187,7 @@ export default function SubscriptionPage() {
               </Badge>
             </div>
 
-            {plan === "PRO_PLUS" && (
+            {hasProPlusAccess(plan) && (
               <div className="mt-4 p-4 rounded-xl bg-[#88B078]/10 border border-[#88B078]">
                 <p className="text-sm font-medium text-[#1A1A1A] mb-2">Funciones Pro+ exclusivas:</p>
                 <ul className="space-y-1 text-xs text-[#666666]">
