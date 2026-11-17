@@ -112,6 +112,16 @@
 
 **5. Bug de shape de respuesta** — `analysis/page.tsx` leía `data.analysis.id` pero `ok()` envuelve en `{success, data:{...}}` → "Cannot read properties of undefined (reading 'id')" al terminar un análisis. El resumen "Resumen General" era además **texto hardcodeado** en la página, no el `resumenGeneral` real de la IA.
 
+### Verificación end-to-end en producción (17 Nov 2026)
+Recorrido completo con usuario nuevo (registro → trial Premium → análisis → resultados):
+- Registro con CSRF de la cookie `csrf-token` (64 hex, la del middleware). Ojo: la cookie de next-auth
+  (`__Host-next-auth.csrf-token`) es otra y solo sirve para el callback de credenciales
+- El trial de 7 días Premium se activa solo al registrarse ✓
+- Análisis logueado → 200 en ~26s con NVIDIA, devuelve `analysis.id` + `result`
+- Registro en DB con forma canónica v2: 6 métricas, `confidence`, `confidenceReason`, `resumenGeneral`,
+  `observations[]`, `routine.morning/evening` ✓
+- La página de resultados ahora calcula **6 categorías** (antes 0) y muestra el resumen real de la IA
+
 ### Forma canónica de los datos de análisis (`src/lib/analysis-shape.ts`)
 La columna `SkinAnalysis.observations` guardaba un array plano de strings mientras la mayoría de consumidores la leían como objeto con métricas → la página de resultados salía con "No determinada / 0 categorías" y el gráfico de evolución nunca tenía datos.
 - Canónico v2: `{ v, skinType, observations[], texture, shine, pores, uniformity, apparentSensitivity, apparentOil, confidence, resumenGeneral, routine, ... }`
