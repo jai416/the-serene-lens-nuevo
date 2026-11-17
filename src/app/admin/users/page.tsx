@@ -13,6 +13,7 @@ import { toast } from "sonner"
 import { ListSkeleton } from "@/components/ui/skeleton"
 import { useLocale } from "@/lib/locale/locale-context"
 import { t } from "@/lib/locale/translations"
+import { apiFetch } from "@/lib/csrf-client"
 
 interface User {
   id: string
@@ -28,8 +29,7 @@ interface User {
 const roleColors: Record<string, string> = {
   ADMIN: "#E07070",
   VALIDATOR: "#88B078",
-  USER: "#666666",
-}
+  USER: "#666666" }
 
 export default function AdminUsersPage() {
   const { locale } = useLocale()
@@ -51,11 +51,10 @@ export default function AdminUsersPage() {
 
   const updateUser = async (id: string, data: { role?: string; plan?: string; telegramId?: string | null }) => {
     try {
-      const res = await fetch("/api/admin/users", {
+      const res = await apiFetch("/api/admin/users", {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ id, ...data }),
-      })
+        body: JSON.stringify({ id, ...data }) })
       if (res.ok) {
         setUsers(users.map((u) => (u.id === id ? { ...u, ...data } : u)))
         toast.success("Usuario actualizado")

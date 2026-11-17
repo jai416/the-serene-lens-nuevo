@@ -3,6 +3,7 @@
 import { useState } from "react"
 import { Button } from "@/components/ui/button"
 import { Bookmark, BookmarkCheck } from "lucide-react"
+import { apiFetch } from "@/lib/csrf-client"
 
 interface Props {
   productId: string
@@ -17,18 +18,16 @@ export function SaveProductButton({ productId, className = "" }: Props) {
     setLoading(true)
     try {
       if (saved) {
-        const res = await fetch("/api/user/saved-products", {
+        const res = await apiFetch("/api/user/saved-products", {
           method: "DELETE",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ productId }),
-        })
+          body: JSON.stringify({ productId }) })
         if (res.ok) setSaved(false)
       } else {
-        const res = await fetch("/api/user/saved-products", {
+        const res = await apiFetch("/api/user/saved-products", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ productId }),
-        })
+          body: JSON.stringify({ productId }) })
         if (res.ok) setSaved(true)
       }
     } catch {

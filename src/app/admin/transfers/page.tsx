@@ -10,7 +10,7 @@ import { Card, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { formatDate } from "@/lib/utils"
 import { toast } from "sonner"
-import { getCsrfToken } from "@/lib/csrf-client"
+import { apiFetch } from "@/lib/csrf-client"
 import { ListSkeleton } from "@/components/ui/skeleton"
 import { useLocale } from "@/lib/locale/locale-context"
 import { t } from "@/lib/locale/translations"
@@ -36,8 +36,7 @@ interface Transfer {
 const statusConfig: Record<string, { label: string; variant: "secondary" | "success" | "primary" }> = {
   pending: { label: "Pendiente", variant: "secondary" },
   validated: { label: "Validado", variant: "success" },
-  activated: { label: "Activado", variant: "primary" },
-}
+  activated: { label: "Activado", variant: "primary" } }
 
 export default function AdminTransfersPage() {
   const { locale } = useLocale()
@@ -70,11 +69,10 @@ export default function AdminTransfersPage() {
 
   const handleValidate = useCallback(async (referenceCode: string) => {
     try {
-      const res = await fetch("/api/payments/validate-transfer", {
+      const res = await apiFetch("/api/payments/validate-transfer", {
         method: "POST",
-        headers: { "Content-Type": "application/json", "x-csrf-token": getCsrfToken() },
-        body: JSON.stringify({ referenceCode }),
-      })
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ referenceCode }) })
       const d = await res.json()
       if (!res.ok) throw new Error(d?.error || "Error al validar")
       toast.success("Pago validado correctamente")
@@ -86,11 +84,10 @@ export default function AdminTransfersPage() {
 
   const handleActivate = useCallback(async (referenceCode: string) => {
     try {
-      const res = await fetch("/api/payments/activate-transfer", {
+      const res = await apiFetch("/api/payments/activate-transfer", {
         method: "POST",
-        headers: { "Content-Type": "application/json", "x-csrf-token": getCsrfToken() },
-        body: JSON.stringify({ referenceCode }),
-      })
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ referenceCode }) })
       const d = await res.json()
       if (!res.ok) throw new Error(d?.error || "Error al activar")
       toast.success("Acceso activado correctamente")

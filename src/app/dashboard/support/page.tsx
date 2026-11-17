@@ -11,6 +11,8 @@ import { MessageSquare, Send, AlertCircle, CheckCircle2 } from "lucide-react"
 import { toast } from "sonner"
 import { useLocale } from "@/lib/locale/locale-context"
 import { t } from "@/lib/locale/translations"
+import { apiFetch } from "@/lib/csrf-client"
+import { errMessage } from "@/lib/api-response"
 
 interface SupportMessage {
   id: string
@@ -34,6 +36,10 @@ export default function SupportPage() {
   const [success, setSuccess] = useState(false)
   const [error, setError] = useState("")
 
+  useEffect(() => {
+    fetchMessages()
+  }, [])
+
   if (status === "loading") return <div className="min-h-screen flex items-center justify-center"><CardSkeleton /></div>
   if (!session) redirect("/login?callbackUrl=" + encodeURIComponent(pathname))
 
@@ -49,24 +55,19 @@ export default function SupportPage() {
     }
   }
 
-  useEffect(() => {
-    fetchMessages()
-  }, [])
-
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setSubmitting(true)
     setError("")
     setSuccess(false)
     try {
-      const res = await fetch("/api/support/messages", {
+      const res = await apiFetch("/api/support/messages", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ subject, message }),
-      })
+        body: JSON.stringify({ subject, message }) })
       if (!res.ok) {
         const d = await res.json()
-        throw new Error(d.error || "Error al enviar mensaje")
+        throw new Error(errMessage(d, "Error al enviar mensaje"))
       }
       setSuccess(true)
       setSubject("")
@@ -185,8 +186,7 @@ export default function SupportPage() {
                   <p className="text-xs text-[#999999] mt-2">
                     {new Date(m.createdAt).toLocaleDateString(locale === "en" ? "en-US" : "es-ES", {
                       year: "numeric", month: "long", day: "numeric",
-                      hour: "2-digit", minute: "2-digit",
-                    })}
+                      hour: "2-digit", minute: "2-digit" })}
                   </p>
                 </CardContent>
               </Card>

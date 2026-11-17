@@ -8,6 +8,7 @@ import { Badge } from "@/components/ui/badge"
 import { Lock, Eye, EyeOff, ArrowLeft, AlertCircle, CheckCircle2, Loader2, KeyRound } from "lucide-react"
 import Image from "next/image"
 import Link from "next/link"
+import { apiFetch } from "@/lib/csrf-client"
 
 function ResetPasswordForm() {
   const searchParams = useSearchParams()
@@ -61,11 +62,10 @@ function ResetPasswordForm() {
     }
 
     try {
-      const res = await fetch("/api/auth/reset-password", {
+      const res = await apiFetch("/api/auth/reset-password", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, token, password }),
-      })
+        body: JSON.stringify({ email, token, password }) })
       const data = await res.json()
 
       if (!res.ok) {

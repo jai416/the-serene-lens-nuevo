@@ -13,6 +13,8 @@ import { toast } from "sonner"
 import { ListSkeleton } from "@/components/ui/skeleton"
 import { useLocale } from "@/lib/locale/locale-context"
 import { t } from "@/lib/locale/translations"
+import { apiFetch } from "@/lib/csrf-client"
+import { errMessage } from "@/lib/api-response"
 
 interface BlogPost {
   id: string
@@ -38,18 +40,17 @@ export default function AdminBlogPage() {
     if (!genKeyword.trim()) return
     setGenerating(true)
     try {
-      const res = await fetch("/api/admin/blog/generate", {
+      const res = await apiFetch("/api/admin/blog/generate", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ keyword: genKeyword, context: genContext }),
-      })
+        body: JSON.stringify({ keyword: genKeyword, context: genContext }) })
       const data = await res.json()
       const payload = data?.data || data
       if (payload?.content) {
         setForm({ ...form, content: payload.content })
         toast.success("Borrador generado. Revisa y ajusta antes de publicar.")
       } else {
-        toast.error(payload?.error || "Error al generar")
+        toast.error(errMessage(payload, "Error al generar"))
       }
     } catch { toast.error("Error al generar borrador") }
     finally { setGenerating(false) }
@@ -72,11 +73,10 @@ export default function AdminBlogPage() {
   const createPost = async () => {
     if (!form.title || !form.slug) return
     try {
-      const res = await fetch("/api/admin/blog", {
+      const res = await apiFetch("/api/admin/blog", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ ...form, slug: form.slug.toLowerCase().replace(/\s+/g, "-") }),
-      })
+        body: JSON.stringify({ ...form, slug: form.slug.toLowerCase().replace(/\s+/g, "-") }) })
       if (res.ok) {
         const data = await res.json()
         const post = data?.data?.post || data.post
@@ -85,7 +85,7 @@ export default function AdminBlogPage() {
         toast.success("Artículo creado correctamente")
       } else {
         const data = await res.json()
-        toast.error(data.error?.message || data.error || "Error al crear artículo")
+        toast.error(errMessage(data, "Error al crear artículo"))
       }
     } catch {
       toast.error("Error al crear artículo")
@@ -95,17 +95,16 @@ export default function AdminBlogPage() {
   const deletePost = async (id: string) => {
     if (!confirm("¿Eliminar este artículo?")) return
     try {
-      const res = await fetch("/api/admin/blog", {
+      const res = await apiFetch("/api/admin/blog", {
         method: "DELETE",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ id }),
-      })
+        body: JSON.stringify({ id }) })
       if (res.ok) {
         setPosts(posts.filter((p) => p.id !== id))
         toast.success("Artículo eliminado")
       } else {
         const data = await res.json()
-        toast.error(data.error?.message || data.error || "Error al eliminar artículo")
+        toast.error(errMessage(data, "Error al eliminar artículo"))
       }
     } catch {
       toast.error("Error al eliminar artículo")
@@ -114,11 +113,10 @@ export default function AdminBlogPage() {
 
   const togglePublish = async (post: BlogPost) => {
     try {
-      const res = await fetch("/api/admin/blog", {
+      const res = await apiFetch("/api/admin/blog", {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ id: post.id, published: !post.published }),
-      })
+        body: JSON.stringify({ id: post.id, published: !post.published }) })
       if (res.ok) {
         setPosts(posts.map((p) => (p.id === post.id ? { ...p, published: !p.published } : p)))
       } else {

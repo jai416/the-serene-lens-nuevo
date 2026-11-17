@@ -11,11 +11,12 @@ import { CreditCard, CheckCircle2, XCircle, Clock, ShoppingBag, BarChart3, Loade
 import { getPlanLabel, formatPrice, formatDate } from "@/lib/utils"
 import { toast } from "sonner"
 import { useRouter } from "next/navigation"
-import { getCsrfToken } from "@/lib/csrf-client"
+import { apiFetch } from "@/lib/csrf-client"
 import { CardSkeleton } from "@/components/ui/skeleton"
 import { useLocale } from "@/lib/locale/locale-context"
 import { t } from "@/lib/locale/translations"
 import { hasProPlusAccess } from "@/lib/pricing"
+import { errMessage } from "@/lib/api-response"
 
 interface Payment {
   id: string
@@ -61,11 +62,10 @@ export default function SubscriptionPage() {
   const handleSubscribe = async (planId: string) => {
     setLoadingPayment(`paypal-${planId}`)
     try {
-      const res = await fetch("/api/payments/create", {
+      const res = await apiFetch("/api/payments/create", {
         method: "POST",
-        headers: { "Content-Type": "application/json", "x-csrf-token": getCsrfToken() },
-        body: JSON.stringify({ plan: planId, provider: "paypal" }),
-      })
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ plan: planId, provider: "paypal" }) })
       const data = await res.json()
       const payload = data?.data || data
       if (payload?.url) window.location.href = payload.url
@@ -83,21 +83,19 @@ export default function SubscriptionPage() {
       const amounts: Record<string, number> = {
         PREMIUM: 7.99, PRO: 9.99, PRO_PLUS: 14.99,
         PREMIUM_ANNUAL: 79.99, PRO_ANNUAL: 99.99,
-        PRO_PLUS_ANNUAL: 199.99, ESTHETICIAN: 49.99, ESTHETICIAN_ANNUAL: 499.99,
-      }
+        PRO_PLUS_ANNUAL: 199.99, ESTHETICIAN: 49.99, ESTHETICIAN_ANNUAL: 499.99 }
       const amount = amounts[planId] || 0
-      const res = await fetch("/api/payments/create-transfer", {
+      const res = await apiFetch("/api/payments/create-transfer", {
         method: "POST",
-        headers: { "Content-Type": "application/json", "x-csrf-token": getCsrfToken() },
-        body: JSON.stringify({ plan: planId, amount }),
-      })
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ plan: planId, amount }) })
       const data = await res.json()
       const payload = data?.data || data
       if (payload?.account) {
         toast.success("Datos de transferencia generados")
         router.push("/pricing")
       } else {
-        toast.error(payload?.error || "Error al crear transferencia")
+        toast.error(errMessage(payload, "Error al crear transferencia"))
       }
     } catch {
       toast.error("Error al crear transferencia")

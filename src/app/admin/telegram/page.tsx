@@ -12,6 +12,7 @@ import { toast } from "sonner"
 import { ListSkeleton } from "@/components/ui/skeleton"
 import { useLocale } from "@/lib/locale/locale-context"
 import { t } from "@/lib/locale/translations"
+import { apiFetch } from "@/lib/csrf-client"
 
 interface LinkedUser {
   id: string
@@ -55,11 +56,10 @@ export default function AdminTelegramPage() {
   const handleUnlink = async (userId: string) => {
     if (!confirm("¿Desvincular este usuario de Telegram?")) return
     try {
-      const res = await fetch(`/api/admin/users`, {
+      const res = await apiFetch(`/api/admin/users`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ id: userId, telegramId: null }),
-      })
+        body: JSON.stringify({ id: userId, telegramId: null }) })
       if (res.ok) {
         setLinkedUsers(linkedUsers.filter((u) => u.id !== userId))
         toast.success("Usuario desvinculado")
@@ -73,11 +73,10 @@ export default function AdminTelegramPage() {
     if (!broadcastText.trim()) return
     setSending(true)
     try {
-      const res = await fetch("/api/admin/telegram/broadcast", {
+      const res = await apiFetch("/api/admin/telegram/broadcast", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ message: broadcastText }),
-      })
+        body: JSON.stringify({ message: broadcastText }) })
       if (res.ok) {
         const d = await res.json()
         const data = d?.data || d

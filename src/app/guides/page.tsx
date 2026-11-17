@@ -10,7 +10,8 @@ import { Button } from "@/components/ui/button"
 import { CardSkeleton } from "@/components/ui/skeleton"
 import { BookOpen, Download, Loader2, ShoppingCart, CheckCircle2, Gift, Sparkles, Mail } from "lucide-react"
 import { toast } from "sonner"
-import { getCsrfToken } from "@/lib/csrf-client"
+import { apiFetch } from "@/lib/csrf-client"
+import { errMessage } from "@/lib/api-response"
 
 const FREE_GUIDE_KEY = "serene_free_guide_claimed"
 
@@ -96,11 +97,10 @@ export default function GuidesPage() {
     }
     setFreeSubmitting(true)
     try {
-      const res = await fetch("/api/lead-magnet", {
+      const res = await apiFetch("/api/lead-magnet", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email: freeEmail }),
-      })
+        body: JSON.stringify({ email: freeEmail }) })
       const data = await res.json()
       if (data?.success && data?.downloadUrl) {
         setFreeDownloadUrl(data.downloadUrl)
@@ -123,11 +123,10 @@ export default function GuidesPage() {
 
     if (successGuideId && token) {
       setVerifyingGuide(successGuideId)
-      fetch("/api/payments/verify-guide", {
+      apiFetch("/api/payments/verify-guide", {
         method: "POST",
-        headers: { "Content-Type": "application/json", "x-csrf-token": getCsrfToken() },
-        body: JSON.stringify({ paypalOrderId: token }),
-      })
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ paypalOrderId: token }) })
         .then((r) => r.json())
         .then((d) => {
           if (d?.data?.completed || d?.data?.alreadyCompleted) {
@@ -165,11 +164,10 @@ export default function GuidesPage() {
 
     setPurchasing(guide.id)
     try {
-      const res = await fetch("/api/payments/create-guide", {
+      const res = await apiFetch("/api/payments/create-guide", {
         method: "POST",
-        headers: { "Content-Type": "application/json", "x-csrf-token": getCsrfToken() },
-        body: JSON.stringify({ guideId: guide.id }),
-      })
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ guideId: guide.id }) })
       const data = await res.json()
 
       if (data?.data?.alreadyPurchased) {
@@ -181,7 +179,7 @@ export default function GuidesPage() {
       if (data?.data?.url || data.url) {
         window.location.href = data.data?.url || data.url
       } else {
-        toast.error(data.error?.message || data.error || "Error al procesar pago")
+        toast.error(errMessage(data, "Error al procesar pago"))
       }
     } catch {
       toast.error("Error al procesar pago")

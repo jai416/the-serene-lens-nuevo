@@ -8,7 +8,7 @@ import { Card, CardContent } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { CheckCircle2, ArrowRight, CreditCard, Loader2, AlertCircle } from "lucide-react"
-import { getCsrfToken } from "@/lib/csrf-client"
+import { apiFetch } from "@/lib/csrf-client"
 
 export default function PricingSuccessPage() {
   const { data: session } = useSession()
@@ -22,11 +22,10 @@ export default function PricingSuccessPage() {
     if (token) {
       const verify = async () => {
         try {
-          const res = await fetch("/api/payments/verify", {
+          const res = await apiFetch("/api/payments/verify", {
             method: "POST",
-            headers: { "Content-Type": "application/json", "x-csrf-token": getCsrfToken() },
-            body: JSON.stringify({ paypalOrderId: token }),
-          })
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ paypalOrderId: token }) })
           const data = await res.json()
           if (data?.data?.completed || data?.data?.alreadyCompleted) {
             setVerified(true)

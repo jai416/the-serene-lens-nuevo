@@ -10,6 +10,7 @@ import { formatDate } from "@/lib/utils"
 import { toast } from "sonner"
 import { useLocale } from "@/lib/locale/locale-context"
 import { CardSkeleton } from "@/components/ui/skeleton"
+import { apiFetch } from "@/lib/csrf-client"
 
 interface Notification {
   id: string
@@ -47,11 +48,10 @@ export default function NotificationsPage() {
   }, [session, fetchNotifications])
 
   const handleMarkRead = useCallback(async (id: string, link?: string | null) => {
-    await fetch("/api/notifications", {
+    await apiFetch("/api/notifications", {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ id }),
-    })
+      body: JSON.stringify({ id }) })
     setNotifications((prev) =>
       prev.map((n) => (n.id === id ? { ...n, read: true } : n))
     )
@@ -59,11 +59,10 @@ export default function NotificationsPage() {
   }, [router])
 
   const handleMarkAllRead = useCallback(async () => {
-    await fetch("/api/notifications", {
+    await apiFetch("/api/notifications", {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({}),
-    })
+      body: JSON.stringify({}) })
     setNotifications((prev) => prev.map((n) => ({ ...n, read: true })))
     toast.success(locale === "en" ? "All marked as read" : "Todo marcado como leído")
   }, [locale])

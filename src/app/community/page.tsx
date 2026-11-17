@@ -10,10 +10,10 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import {
   Users, MessageSquare, Heart, Send, Plus, ChevronRight,
-  Sparkles, Loader2, ThumbsUp, MessageCircle, LogIn, Star,
-} from "lucide-react"
+  Sparkles, Loader2, ThumbsUp, MessageCircle, LogIn, Star } from "lucide-react"
 import { formatDate } from "@/lib/utils"
 import { ListSkeleton } from "@/components/ui/skeleton"
+import { apiFetch } from "@/lib/csrf-client"
 
 interface CommunityGroup {
   id: string
@@ -113,16 +113,14 @@ export default function CommunityPage() {
     if (!postTitle.trim() || !postContent.trim()) return
     setSubmitting(true)
     try {
-      const res = await fetch("/api/community/posts", {
+      const res = await apiFetch("/api/community/posts", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           title: postTitle,
           content: postContent,
           groupId: selectedGroup,
-          category: "general",
-        }),
-      })
+          category: "general" }) })
       if (res.ok) {
         setNewPostOpen(false)
         setPostTitle("")
@@ -137,7 +135,7 @@ export default function CommunityPage() {
   }
 
   const joinGroup = async (groupId: string) => {
-    const res = await fetch(`/api/community/groups/${groupId}`, { method: "POST" })
+    const res = await apiFetch(`/api/community/groups/${groupId}`, { method: "POST" })
     if (res.ok) {
       setGroups((prev) =>
         prev.map((g) =>

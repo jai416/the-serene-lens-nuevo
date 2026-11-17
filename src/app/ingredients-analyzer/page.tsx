@@ -10,6 +10,8 @@ import { Badge } from "@/components/ui/badge"
 import { Upload, Camera, Loader2, AlertCircle, CheckCircle2, ArrowRight } from "lucide-react"
 import { toast } from "sonner"
 import WebcamCapture from "@/components/webcam-capture"
+import { apiFetch } from "@/lib/csrf-client"
+import { errMessage } from "@/lib/api-response"
 
 interface Ingredient {
   name: string
@@ -75,13 +77,12 @@ export default function IngredientsAnalyzerPage() {
     formData.append("image", file)
 
     try {
-      const res = await fetch("/api/product-scan", {
+      const res = await apiFetch("/api/product-scan", {
         method: "POST",
-        body: formData,
-      })
+        body: formData })
       if (!res.ok) {
         const d = await res.json()
-        throw new Error(d.error?.message || d.error || "Error al escanear")
+        throw new Error(errMessage(d, "Error al escanear"))
       }
       const d = await res.json()
       setResult(d?.data?.result || d?.result)
@@ -96,13 +97,11 @@ export default function IngredientsAnalyzerPage() {
   const categoryColors: Record<string, string> = {
     benefits: "bg-green-100 text-green-800",
     caution: "bg-yellow-100 text-yellow-800",
-    avoid: "bg-red-100 text-red-800",
-  }
+    avoid: "bg-red-100 text-red-800" }
   const categoryLabels: Record<string, string> = {
     benefits: "Beneficioso",
     caution: "Precaución",
-    avoid: "Evitar",
-  }
+    avoid: "Evitar" }
 
   return (
     <div className="min-h-screen bg-[#F8F9FA] p-6">

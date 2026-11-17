@@ -34,11 +34,14 @@ const CATEGORY_LABELS: Record<string, string> = {
 
 const LINE_COLORS = ["#88B078", "#D4A574", "#7BA3C4", "#C47BA0", "#A0C47B", "#C4A07B"]
 
+// Las etiquetas canónicas de la IA son Bajo | Leve | Moderado | Visible | Alto
 const SEVERITY_MAP: Record<string, number> = {
+  none: 0,
+  bajo: 1,
   leve: 1,
   moderado: 2,
   visible: 3,
-  none: 0,
+  alto: 4,
 }
 
 function toNumeric(v: string | undefined): number | null {
@@ -118,7 +121,7 @@ export function EvolutionChart({ data }: { data: EvolutionResult }) {
             <LineChart data={chartData} margin={{ top: 5, right: 10, left: -10, bottom: 5 }}>
               <CartesianGrid strokeDasharray="3 3" stroke="#E8E8E8" />
               <XAxis dataKey="date" tick={{ fontSize: 10, fill: "#666" }} />
-              <YAxis domain={[0, 3]} ticks={[0, 1, 2, 3]} tickFormatter={(v) => ["None", "Leve", "Moderado", "Visible"][v]} tick={{ fontSize: 10, fill: "#666" }} />
+              <YAxis domain={[0, 4]} ticks={[0, 1, 2, 3, 4]} tickFormatter={(v) => ["Ninguno", "Bajo", "Leve", "Moderado", "Visible"][v]} tick={{ fontSize: 10, fill: "#666" }} />
               <Tooltip
                 contentStyle={{ background: "#fff", border: "1px solid #E8E8E8", borderRadius: 8, fontSize: 12 }}
                 formatter={(value: number, name: string) => [["None", "Leve", "Moderado", "Visible"][value] || value, CATEGORY_LABELS[name] || name]}

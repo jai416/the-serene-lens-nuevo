@@ -9,6 +9,7 @@ import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { BookmarkCheck, AlertTriangle, Info, Trash2, ExternalLink, Droplets, Sparkles, TestTube } from "lucide-react"
 import { ListSkeleton } from "@/components/ui/skeleton"
+import { apiFetch } from "@/lib/csrf-client"
 interface Product {
   id: string
   name: string
@@ -55,11 +56,10 @@ export default function MyProductsPage() {
               const p2 = items[j].product
               if (p1.ingredients && p2.ingredients) {
                 try {
-                  const res = await fetch("/api/ingredients/check-conflicts", {
+                  const res = await apiFetch("/api/ingredients/check-conflicts", {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({ ingredients: p1.ingredients, savedProductIngredients: [p2.ingredients] }),
-                  })
+                    body: JSON.stringify({ ingredients: p1.ingredients, savedProductIngredients: [p2.ingredients] }) })
                   const result = await res.json()
                   const conflictsData = result?.data?.conflicts || result?.conflicts || []
                   allConflicts.push(...conflictsData)
@@ -98,11 +98,10 @@ export default function MyProductsPage() {
   if (!session) redirect("/login?callbackUrl=" + encodeURIComponent(pathname))
 
   const removeProduct = async (productId: string) => {
-    await fetch("/api/user/saved-products", {
+    await apiFetch("/api/user/saved-products", {
       method: "DELETE",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ productId }),
-    })
+      body: JSON.stringify({ productId }) })
     fetchSaved()
   }
 

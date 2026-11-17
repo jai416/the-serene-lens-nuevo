@@ -7,6 +7,26 @@ export function apiResponse<T>(data: T, status = 200) {
   return NextResponse.json({ success: true, data }, { status })
 }
 
+/**
+ * Extrae un mensaje legible de una respuesta de error.
+ * Las APIs devuelven `{ success:false, error:{ code, message } }` pero algunas
+ * devuelven `error` como string plano. Pasar el objeto a un toast o a
+ * `new Error()` provoca un crash de React ("Objects are not valid as a
+ * React child"), así que siempre hay que pasar por aquí.
+ */
+export function errMessage(body: unknown, fallback = "Error"): string {
+  if (!body || typeof body !== "object") return typeof body === "string" && body ? body : fallback
+  const err = (body as { error?: unknown }).error
+  if (typeof err === "string" && err) return err
+  if (err && typeof err === "object") {
+    const msg = (err as { message?: unknown }).message
+    if (typeof msg === "string" && msg) return msg
+  }
+  const msg = (body as { message?: unknown }).message
+  if (typeof msg === "string" && msg) return msg
+  return fallback
+}
+
 export function apiError(code: ErrorCode, message?: string, status?: number) {
   const resolvedStatus = status ?? errorStatus(code)
   const resolvedMessage = message ?? ErrorMessages[code]

@@ -7,8 +7,7 @@ import { Card, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import {
   Scan, Camera, Loader2, AlertCircle, CheckCircle2, Shield, User, ArrowLeft, ArrowRight,
-  Droplets, ClipboardList, Trash2, Sparkles, Check,
-} from "lucide-react"
+  Droplets, ClipboardList, Trash2, Sparkles, Check } from "lucide-react"
 import WebcamCapture from "@/components/webcam-capture"
 import { GuestResult } from "@/components/guest-result"
 import Image from "next/image"
@@ -16,9 +15,10 @@ import { useSession } from "next-auth/react"
 import { compressImage } from "@/lib/image-compression"
 import { validatePhoto } from "@/lib/photo-quality"
 import { getPhotoSteps } from "@/lib/photo-steps"
-import { getCsrfToken } from "@/lib/csrf-client"
+import { apiFetch } from "@/lib/csrf-client"
 import { trackAnalysisStarted, trackAnalysisPhotoUploaded, trackAnalysisAbandoned } from "@/lib/tracking"
 import Link from "next/link"
+import { errMessage } from "@/lib/api-response"
 const photoSteps = getPhotoSteps()
 const STORAGE_KEY = "tsl_analysis_draft"
 
@@ -161,10 +161,9 @@ export default function AnalysisPage() {
     formData.append("climate", climate); formData.append("concerns", concerns); formData.append("routine", routine)
 
     try {
-      const res = await fetch("/api/analyze", {
-        method: "POST", headers: { "x-csrf-token": getCsrfToken() }, body: formData,
-      })
-      if (!res.ok) { const d = await res.json(); throw new Error(d.error?.message || d.error || "Error al analizar") }
+      const res = await apiFetch("/api/analyze", {
+        method: "POST", body: formData })
+      if (!res.ok) { const d = await res.json(); throw new Error(errMessage(d, "Error al analizar")) }
       const payload = await res.json()
       // ok() envuelve en { success, data: {...} }; las respuestas raw (ej: cola 202) van directo
       const data = payload?.data ?? payload
@@ -290,7 +289,7 @@ export default function AnalysisPage() {
                 <div className="text-sm leading-relaxed mb-4 p-4 rounded-xl" style={{ color: "#666666", backgroundColor: "#F8F9FA", border: "1px solid #E8E8E8" }}>
                   <p className="mb-2 font-medium" style={{ color: "#1A1A1A" }}>¿Qué pasa con tus fotos?</p>
                   <ul className="list-disc pl-4 space-y-1 mb-3">
-                    <li>Las fotos se envían a <strong>Gemini (Google)</strong> para el análisis con IA.</li>
+                    <li>Las fotos se envían a un proveedor de IA (<strong>NVIDIA</strong>, con Gemini como respaldo) para el análisis.</li>
                     <li>No se usan para entrenar modelos ni se comparten con terceros.</li>
                     <li>Puedes eliminar tus fotos y análisis en cualquier momento desde tu dashboard.</li>
                     <li>Puedes solicitar la eliminación completa de tus datos escribiendo a theserenelens@gmail.com.</li>

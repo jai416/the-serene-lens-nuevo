@@ -24,13 +24,13 @@ import {
   Leaf,
   ThumbsUp,
   ThumbsDown,
-  Share2,
-} from "lucide-react"
+  Share2 } from "lucide-react"
 import { useSession } from "next-auth/react"
 import Link from "next/link"
 import { toast } from "sonner"
 import { SatisfactionSurvey } from "@/components/satisfaction-survey"
 import { toAnalysisView } from "@/lib/analysis-shape"
+import { apiFetch } from "@/lib/csrf-client"
 
 interface AIResult {
   skinType: string
@@ -102,8 +102,7 @@ export default function AnalysisResultsPage() {
         setAnalysis(analysisData)
         const parsed: AIResult = toAnalysisView(analysisData.observations, {
           skinType: analysisData.skinType,
-          recommendations: analysisData.recommendations,
-        })
+          recommendations: analysisData.recommendations })
         setResult(parsed)
       } catch {
         setAnalysis(null)
@@ -117,7 +116,7 @@ export default function AnalysisResultsPage() {
   useEffect(() => {
     if (analysis && session && !loading && !savedRef.current && !analysis.userId) {
       savedRef.current = true
-      fetch(`/api/analysis/${id}/save`, { method: "POST" })
+      apiFetch(`/api/analysis/${id}/save`, { method: "POST" })
         .then((res) => {
           if (!res.ok) throw new Error("Error al guardar")
           toast.success("Análisis guardado en tu historial")
@@ -133,11 +132,10 @@ export default function AnalysisResultsPage() {
     }
     setFeedbackSubmitting(true)
     try {
-      const res = await fetch(`/api/analysis/${id}/feedback`, {
+      const res = await apiFetch(`/api/analysis/${id}/feedback`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ type }),
-      })
+        body: JSON.stringify({ type }) })
       if (res.ok) {
         setFeedback(type)
         toast.success("¡Gracias por tu opinión!")
@@ -188,8 +186,7 @@ export default function AnalysisResultsPage() {
         month: "long",
         day: "numeric",
         hour: "2-digit",
-        minute: "2-digit",
-      })
+        minute: "2-digit" })
     : ""
 
   const allObservations: { label: string; value: string; badge: React.ReactNode }[] = []
@@ -456,7 +453,7 @@ export default function AnalysisResultsPage() {
                     Ver catálogo de productos
                   </Button>
                 </Link>
-                <Link href="/products">
+                <Link href="/ingredients-analyzer">
                   <Button variant="outline">
                     <Scan className="w-4 h-4 mr-2" />
                     Escanear ingredientes
@@ -577,8 +574,7 @@ export default function AnalysisResultsPage() {
                       navigator.share({
                         title: "The Serene Lens - Analisis de Piel",
                         text: `Descubrí que mi tipo de piel es ${result.skinType || "único"}. Haz tu análisis gratis con IA en The Serene Lens.`,
-                        url: process.env.NEXT_PUBLIC_APP_URL || "",
-                      }).catch(() => {})
+                        url: process.env.NEXT_PUBLIC_APP_URL || "" }).catch(() => {})
                     } else {
                       navigator.clipboard.writeText(process.env.NEXT_PUBLIC_APP_URL || "")
                       toast.success("Enlace copiado al portapapeles")

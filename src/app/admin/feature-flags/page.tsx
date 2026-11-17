@@ -12,6 +12,7 @@ import { toast } from "sonner"
 import { ListSkeleton } from "@/components/ui/skeleton"
 import { useLocale } from "@/lib/locale/locale-context"
 import { t } from "@/lib/locale/translations"
+import { apiFetch } from "@/lib/csrf-client"
 
 interface FlagConfig {
   enabled: boolean
@@ -61,11 +62,10 @@ export default function AdminFeatureFlagsPage() {
 
   const toggleFlag = async (flag: string, config: FlagConfig) => {
     try {
-      const res = await fetch("/api/admin/feature-flags", {
+      const res = await apiFetch("/api/admin/feature-flags", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ flag, ...config }),
-      })
+        body: JSON.stringify({ flag, ...config }) })
       if (res.ok) {
         setFlags({ ...flags, [flag]: config })
         toast.success(`Flag ${flag} ${config.enabled ? "activado" : "desactivado"}`)
@@ -80,11 +80,10 @@ export default function AdminFeatureFlagsPage() {
     const flag = newFlag.trim().toLowerCase().replace(/\s+/g, "-")
     const config: FlagConfig = { enabled: false, message: newMessage || undefined, redirectUrl: newRedirect || undefined }
     try {
-      const res = await fetch("/api/admin/feature-flags", {
+      const res = await apiFetch("/api/admin/feature-flags", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ flag, ...config }),
-      })
+        body: JSON.stringify({ flag, ...config }) })
       if (res.ok) {
         setFlags({ ...flags, [flag]: config })
         setNewFlag("")
@@ -185,8 +184,7 @@ export default function AdminFeatureFlagsPage() {
                     style={{
                       backgroundColor: config.enabled ? "#88B078" : "#E8E8E8",
                       color: config.enabled ? "#1A1A1A" : "#666666",
-                      border: "none",
-                    }}
+                      border: "none" }}
                   >
                     {config.enabled ? "ON" : "OFF"}
                   </Button>

@@ -4,6 +4,7 @@ import { useState } from "react"
 import { Button } from "@/components/ui/button"
 import { MessageSquare, ThumbsUp, ThumbsDown, Send, X } from "lucide-react"
 import { toast } from "sonner"
+import { apiFetch } from "@/lib/csrf-client"
 
 export function FeedbackButton() {
   const [open, setOpen] = useState(false)
@@ -15,11 +16,10 @@ export function FeedbackButton() {
     if (!message.trim()) return
     setSending(true)
     try {
-      const res = await fetch("/api/feedback/general", {
+      const res = await apiFetch("/api/feedback/general", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ type, message: message.trim() }),
-      })
+        body: JSON.stringify({ type, message: message.trim() }) })
       if (!res.ok) throw new Error()
       toast.success("¡Gracias por tu feedback! Ayudas a mejorar la app.")
       setOpen(false)

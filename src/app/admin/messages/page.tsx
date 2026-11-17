@@ -14,6 +14,7 @@ import { ListSkeleton } from "@/components/ui/skeleton"
 import { useLocale } from "@/lib/locale/locale-context"
 import { t } from "@/lib/locale/translations"
 import { basePlan } from "@/lib/pricing"
+import { apiFetch } from "@/lib/csrf-client"
 
 interface ContactMessage {
   id: string
@@ -51,11 +52,10 @@ export default function AdminMessagesPage() {
 
   const markRead = async (id: string, read: boolean) => {
     try {
-      const res = await fetch("/api/admin/messages", {
+      const res = await apiFetch("/api/admin/messages", {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ id, read }),
-      })
+        body: JSON.stringify({ id, read }) })
       if (res.ok) {
         setMessages(messages.map((m) => (m.id === id ? { ...m, read } : m)))
       }
@@ -68,11 +68,10 @@ export default function AdminMessagesPage() {
     if (!replyText.trim() || !selected || sending) return
     setSending(true)
     try {
-      const res = await fetch("/api/admin/messages", {
+      const res = await apiFetch("/api/admin/messages", {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ id: selected.id, reply: replyText.trim() }),
-      })
+        body: JSON.stringify({ id: selected.id, reply: replyText.trim() }) })
       if (!res.ok) throw new Error()
       toast.success("Respuesta enviada")
       setMessages(messages.map((m) => m.id === selected.id ? { ...m, reply: replyText.trim() } : m))
@@ -214,8 +213,7 @@ function MessageList({
   messages,
   selected,
   onSelect,
-  onMarkRead,
-}: {
+  onMarkRead }: {
   messages: ContactMessage[]
   selected: ContactMessage | null
   onSelect: (m: ContactMessage) => void
@@ -234,8 +232,7 @@ function MessageList({
           className="p-4 rounded-xl cursor-pointer transition-all"
           style={{
             backgroundColor: selected?.id === m.id ? "white" : "#F8F9FA",
-            border: `1px solid ${!m.read ? "#88B078" : "#E8E8E8"}`,
-          }}
+            border: `1px solid ${!m.read ? "#88B078" : "#E8E8E8"}` }}
         >
           <div className="flex items-center justify-between mb-1">
             <div className="flex items-center gap-2">

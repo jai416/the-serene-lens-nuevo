@@ -11,12 +11,11 @@ import {
   User, Users, FileText, Settings, TrendingUp, Calendar,
   Search, Plus, ChevronRight, Clock, Activity, Building2,
   Edit2, Trash2, X, Loader2, Mail, Phone, MapPin,
-  Gift, Share2, Copy, Check, BadgeCheck,
-} from "lucide-react"
+  Gift, Share2, Copy, Check, BadgeCheck } from "lucide-react"
 import { toast } from "sonner"
 import { useLocale } from "@/lib/locale/locale-context"
 import { t } from "@/lib/locale/translations"
-import { getCsrfToken } from "@/lib/csrf-client"
+import { apiFetch } from "@/lib/csrf-client"
 import { isEstheticianPlan } from "@/lib/pricing"
 
 interface ClientData {
@@ -100,11 +99,10 @@ export default function EstheticianPage() {
     if (!newClient.name.trim()) { toast.error("El nombre es obligatorio"); return }
     setAdding(true)
     try {
-      const res = await fetch("/api/esthetician/clients", {
+      const res = await apiFetch("/api/esthetician/clients", {
         method: "POST",
-        headers: { "Content-Type": "application/json", "x-csrf-token": getCsrfToken() },
-        body: JSON.stringify(newClient),
-      })
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(newClient) })
       const data = await res.json()
       if (!res.ok) throw new Error(data?.error || "Error al crear cliente")
       toast.success("Cliente añadido")
@@ -121,10 +119,8 @@ export default function EstheticianPage() {
   const handleDeleteClient = async (id: string, name: string) => {
     if (!confirm(`¿Eliminar a "${name}"? Esta acción no se puede deshacer.`)) return
     try {
-      const res = await fetch(`/api/esthetician/clients/${id}`, {
-        method: "DELETE",
-        headers: { "x-csrf-token": getCsrfToken() },
-      })
+      const res = await apiFetch(`/api/esthetician/clients/${id}`, {
+        method: "DELETE" })
       if (!res.ok) throw new Error()
       toast.success("Cliente eliminado")
       fetchData()

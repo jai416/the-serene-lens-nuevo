@@ -12,6 +12,8 @@ import Link from "next/link"
 import { toast } from "sonner"
 import { useLocale } from "@/lib/locale/locale-context"
 import { t } from "@/lib/locale/translations"
+import { apiFetch } from "@/lib/csrf-client"
+import { errMessage } from "@/lib/api-response"
 
 export default function ClinicSettingsPage() {
   const pathname = usePathname()
@@ -76,14 +78,13 @@ export default function ClinicSettingsPage() {
       if (logoFile) {
         body.logo = logo
       }
-      const res = await fetch("/api/user/clinic", {
+      const res = await apiFetch("/api/user/clinic", {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(body),
-      })
+        body: JSON.stringify(body) })
       if (!res.ok) {
         const d = await res.json()
-        throw new Error(d.error || t("clinic.saveError", locale))
+        throw new Error(errMessage(d, t("clinic.saveError", locale)))
       }
       setSuccess(true)
       toast.success(t("clinic.saved", locale))

@@ -12,6 +12,7 @@ import { toast } from "sonner"
 import { ListSkeleton } from "@/components/ui/skeleton"
 import { useLocale } from "@/lib/locale/locale-context"
 import { t } from "@/lib/locale/translations"
+import { apiFetch } from "@/lib/csrf-client"
 
 interface Challenge {
   id: string
@@ -27,8 +28,7 @@ interface Challenge {
 const FREQUENCY_LABELS: Record<string, string> = {
   daily: "Diario",
   weekly: "Semanal",
-  monthly: "Mensual",
-}
+  monthly: "Mensual" }
 
 export default function AdminChallengesPage() {
   const { locale } = useLocale()
@@ -66,7 +66,7 @@ export default function AdminChallengesPage() {
       return
     }
     try {
-      const res = await fetch("/api/admin/challenges", {
+      const res = await apiFetch("/api/admin/challenges", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -74,9 +74,7 @@ export default function AdminChallengesPage() {
           description: form.description.trim(),
           points: Number(form.points) || 10,
           frequency: form.frequency,
-          active: form.active,
-        }),
-      })
+          active: form.active }) })
       if (!res.ok) {
         const d = await res.json().catch(() => null)
         throw new Error(d?.error?.message || "Error al crear el desafío")
@@ -92,11 +90,10 @@ export default function AdminChallengesPage() {
 
   const updateChallenge = async (id: string, data: Partial<Challenge>) => {
     try {
-      const res = await fetch(`/api/admin/challenges/${id}`, {
+      const res = await apiFetch(`/api/admin/challenges/${id}`, {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(data),
-      })
+        body: JSON.stringify(data) })
       if (!res.ok) throw new Error("Error al actualizar")
       toast.success("Desafío actualizado")
       setEditingId(null)
@@ -109,7 +106,7 @@ export default function AdminChallengesPage() {
   const deleteChallenge = async (id: string) => {
     if (!confirm("¿Eliminar este desafío? Los participantes perderán su progreso.")) return
     try {
-      const res = await fetch(`/api/admin/challenges/${id}`, { method: "DELETE" })
+      const res = await apiFetch(`/api/admin/challenges/${id}`, { method: "DELETE" })
       if (!res.ok) throw new Error("Error al eliminar")
       toast.success("Desafío eliminado")
       loadChallenges()
@@ -262,8 +259,7 @@ export default function AdminChallengesPage() {
                           description: c.description,
                           points: c.points,
                           frequency: c.frequency,
-                          active: c.active,
-                        })
+                          active: c.active })
                         setCreating(true)
                       }}
                     >
@@ -315,8 +311,7 @@ export default function AdminChallengesPage() {
                             title: form.title,
                             description: form.description,
                             points: Number(form.points) || 10,
-                            frequency: form.frequency,
-                          })
+                            frequency: form.frequency })
                         }}
                       >
                         Guardar

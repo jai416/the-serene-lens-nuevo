@@ -7,7 +7,7 @@ import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { MessagesSquare, Send, Headphones, ArrowLeft } from "lucide-react"
 import { toast } from "sonner"
-import { getCsrfToken } from "@/lib/csrf-client"
+import { apiFetch } from "@/lib/csrf-client"
 import { useLocale } from "@/lib/locale/locale-context"
 import { t } from "@/lib/locale/translations"
 
@@ -35,10 +35,8 @@ export default function SupportChatPage() {
     const stored = localStorage.getItem(STORAGE_KEY)
     if (stored) return stored
     try {
-      const res = await fetch("/api/chat/session", {
-        method: "POST",
-        headers: { "x-csrf-token": getCsrfToken() },
-      })
+      const res = await apiFetch("/api/chat/session", {
+        method: "POST" })
       if (!res.ok) return null
       const d = await res.json()
       const id = d?.data?.sessionId || d?.sessionId
@@ -95,11 +93,10 @@ export default function SupportChatPage() {
     setSending(true)
     setText("")
     try {
-      const res = await fetch("/api/chat/messages", {
+      const res = await apiFetch("/api/chat/messages", {
         method: "POST",
-        headers: { "Content-Type": "application/json", "x-csrf-token": getCsrfToken() },
-        body: JSON.stringify({ sessionId, message }),
-      })
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ sessionId, message }) })
       if (!res.ok) throw new Error("No se pudo enviar el mensaje")
       await loadMessages(sessionId)
     } catch (e) {
@@ -164,8 +161,7 @@ export default function SupportChatPage() {
                           day: "numeric",
                           month: "short",
                           hour: "2-digit",
-                          minute: "2-digit",
-                        })}
+                          minute: "2-digit" })}
                       </p>
                     </div>
                   </div>

@@ -2,6 +2,7 @@
 
 import { useState } from "react"
 import { Star, MessageSquare, Send } from "lucide-react"
+import { apiFetch } from "@/lib/csrf-client"
 
 export function SatisfactionSurvey() {
   const [rating, setRating] = useState<number | null>(null)
@@ -13,11 +14,10 @@ export function SatisfactionSurvey() {
     if (!rating) return
     setSubmitting(true)
     try {
-      await fetch("/api/feedback/survey", {
+      await apiFetch("/api/feedback/survey", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ rating, comment }),
-      })
+        body: JSON.stringify({ rating, comment }) })
       setSubmitted(true)
     } catch {
       setSubmitted(true)

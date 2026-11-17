@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button"
 import { Bell, Send, Users, CheckCircle } from "lucide-react"
 import { toast } from "sonner"
 import { ListSkeleton } from "@/components/ui/skeleton"
+import { apiFetch } from "@/lib/csrf-client"
 
 const SEGMENTS = [
   { value: "all", label: "Todos" },
@@ -67,15 +68,13 @@ export default function AdminEmailsPage() {
 
     setSending(true)
     try {
-      const res = await fetch("/api/admin/notifications/send", {
+      const res = await apiFetch("/api/admin/notifications/send", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           title: title.trim(),
           message: message.trim(),
-          segment,
-        }),
-      })
+          segment }) })
 
       const d = await res.json()
       const body = d?.data || d
@@ -221,8 +220,7 @@ export default function AdminEmailsPage() {
                             month: "short",
                             year: "numeric",
                             hour: "2-digit",
-                            minute: "2-digit",
-                          })}
+                            minute: "2-digit" })}
                         </td>
                       </tr>
                     ))}

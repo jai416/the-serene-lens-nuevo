@@ -5,6 +5,7 @@ import { NotificationBell } from "@/components/notifications/notification-bell"
 import { LocaleSwitcher } from "@/components/locale-switcher"
 import { useLocale } from "@/lib/locale/locale-context"
 import { t } from "@/lib/locale/translations"
+import { basePlan } from "@/lib/pricing"
 
 const premiumPlans = new Set(["PREMIUM", "PRO", "PRO_PLUS", "ESTHETICIAN"])
 
@@ -14,7 +15,7 @@ export function TopHeader() {
 
   if (!session?.user) return null
 
-  const isPremium = premiumPlans.has(session.user.plan || "")
+  const isPremium = premiumPlans.has(basePlan(session.user.plan))
 
   return (
     <header className="sticky top-0 z-30 flex items-center justify-end gap-4 px-6 py-3 bg-white/80 backdrop-blur-md border-b border-[#E8E8E8]">

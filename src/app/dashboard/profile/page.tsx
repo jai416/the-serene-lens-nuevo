@@ -11,17 +11,16 @@ import { LocaleSwitcher } from "@/components/locale-switcher"
 import { useLocale } from "@/lib/locale/locale-context"
 import { t } from "@/lib/locale/translations"
 import {
-  Crown, Trash2, LogOut, Save, AlertCircle, User, Mail, Calendar, Activity, Bell, Loader2, Send,
-} from "lucide-react"
+  Crown, Trash2, LogOut, Save, AlertCircle, User, Mail, Calendar, Activity, Bell, Loader2, Send } from "lucide-react"
 import { toast } from "sonner"
+import { apiFetch } from "@/lib/csrf-client"
 
 const PLAN_LABELS: Record<string, { en: string; es: string }> = {
   FREE: { en: "Essential", es: "Essential" },
   PREMIUM: { en: "Premium", es: "Premium" },
   PRO: { en: "Pro", es: "Pro" },
   PRO_PLUS: { en: "Pro+", es: "Pro+" },
-  ESTHETICIAN: { en: "Esthetician", es: "Esteticista" },
-}
+  ESTHETICIAN: { en: "Esthetician", es: "Esteticista" } }
 
 export default function ProfilePage() {
   const pathname = usePathname()
@@ -38,40 +37,6 @@ export default function ProfilePage() {
   const [reminderOn, setReminderOn] = useState(false)
   const [reminderLoading, setReminderLoading] = useState(true)
 
-  if (status === "loading") return <div className="p-8 text-center text-[#666666]">{t("common.loading", locale)}</div>
-  if (!session) redirect("/login?callbackUrl=" + encodeURIComponent(pathname))
-  if (!user) return null
-
-  const handleSave = async () => {
-    setSaving(true)
-    setSaveError("")
-    try {
-      const res = await fetch("/api/user/profile", {
-        method: "PUT",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ name }),
-      })
-      if (!res.ok) throw new Error()
-      await update()
-      toast.success(t("profile.saved", locale))
-    } catch {
-      setSaveError(t("profile.saveError", locale))
-    } finally {
-      setSaving(false)
-    }
-  }
-
-  const handleDelete = async () => {
-    try {
-      const res = await fetch("/api/user/delete-account", { method: "DELETE" })
-      if (!res.ok) throw new Error()
-      toast.success(t("profile.accountDeleted", locale))
-      signOut({ callbackUrl: "/" })
-    } catch {
-      toast.error(t("profile.deleteError", locale))
-    }
-  }
-
   useEffect(() => {
     fetch("/api/user/reminders")
       .then((r) => r.json())
@@ -86,13 +51,45 @@ export default function ProfilePage() {
       .finally(() => setReminderLoading(false))
   }, [])
 
-  const handleSaveReminder = async () => {
+  if (status === "loading") return <div className="p-8 text-center text-[#666666]">{t("common.loading", locale)}</div>
+  if (!session) redirect("/login?callbackUrl=" + encodeURIComponent(pathname))
+  if (!user) return null
+
+  const handleSave = async () => {
+    setSaving(true)
+    setSaveError("")
     try {
-      const res = await fetch("/api/user/reminders", {
+      const res = await apiFetch("/api/user/profile", {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ frequency: reminderFreq, enabled: reminderOn }),
-      })
+        body: JSON.stringify({ name }) })
+      if (!res.ok) throw new Error()
+      await update()
+      toast.success(t("profile.saved", locale))
+    } catch {
+      setSaveError(t("profile.saveError", locale))
+    } finally {
+      setSaving(false)
+    }
+  }
+
+  const handleDelete = async () => {
+    try {
+      const res = await apiFetch("/api/user/delete-account", { method: "DELETE" })
+      if (!res.ok) throw new Error()
+      toast.success(t("profile.accountDeleted", locale))
+      signOut({ callbackUrl: "/" })
+    } catch {
+      toast.error(t("profile.deleteError", locale))
+    }
+  }
+
+  const handleSaveReminder = async () => {
+    try {
+      const res = await apiFetch("/api/user/reminders", {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ frequency: reminderFreq, enabled: reminderOn }) })
       if (res.ok) toast.success("Recordatorio guardado")
       else toast.error("Error al guardar recordatorio")
     } catch {
@@ -178,8 +175,7 @@ export default function ProfilePage() {
                 <td className="py-3.5 px-5 text-[#1A1A1A] font-medium">
                   {user.createdAt
                     ? new Date(user.createdAt).toLocaleDateString(locale === "en" ? "en-US" : "es-ES", {
-                        year: "numeric", month: "long", day: "numeric",
-                      })
+                        year: "numeric", month: "long", day: "numeric" })
                     : "—"}
                 </td>
               </tr>

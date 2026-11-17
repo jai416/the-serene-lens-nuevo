@@ -9,6 +9,8 @@ import { Card, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Users, Loader2, CheckCircle2, Clock, Gift } from "lucide-react"
 import { toast } from "sonner"
+import { apiFetch } from "@/lib/csrf-client"
+import { errMessage } from "@/lib/api-response"
 
 interface GroupInfo {
   groupId: string
@@ -54,10 +56,9 @@ export default function JoinPage() {
 
     setJoining(true)
     try {
-      const res = await fetch(`/api/referral/${code}`, {
+      const res = await apiFetch(`/api/referral/${code}`, {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
-      })
+        headers: { "Content-Type": "application/json" } })
       const data = await res.json()
       const result = data?.data || data
 
@@ -69,10 +70,9 @@ export default function JoinPage() {
         setGroup((prev) => prev ? {
           ...prev,
           completedCount: result.count,
-          slotsRemaining: Math.max(0, 3 - result.count),
-        } : prev)
+          slotsRemaining: Math.max(0, 3 - result.count) } : prev)
       } else {
-        toast.error(result.error || "Error al unirse al grupo")
+        toast.error(errMessage(result, "Error al unirse al grupo"))
       }
     } catch {
       toast.error("Error al procesar")

@@ -13,6 +13,8 @@ import { toast } from "sonner"
 import { ListSkeleton } from "@/components/ui/skeleton"
 import { useLocale } from "@/lib/locale/locale-context"
 import { t } from "@/lib/locale/translations"
+import { apiFetch } from "@/lib/csrf-client"
+import { errMessage } from "@/lib/api-response"
 
 interface Guide {
   id: string
@@ -43,8 +45,7 @@ export default function AdminGuidesPage() {
     image: "",
     category: "skincare",
     price: 0,
-    fileUrl: "",
-  })
+    fileUrl: "" })
 
   const loadGuides = useCallback(async () => {
     try {
@@ -73,16 +74,14 @@ export default function AdminGuidesPage() {
       return
     }
     try {
-      const res = await fetch("/api/admin/guides", {
+      const res = await apiFetch("/api/admin/guides", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           ...form,
           shortDesc: form.shortDesc || undefined,
           fileUrl: form.fileUrl || undefined,
-          price: Number(form.price),
-        }),
-      })
+          price: Number(form.price) }) })
       if (res.ok) {
         toast.success("Guía creada")
         setShowForm(false)
@@ -90,7 +89,7 @@ export default function AdminGuidesPage() {
         loadGuides()
       } else {
         const d = await res.json()
-        toast.error(d.error || "Error al crear guía")
+        toast.error(errMessage(d, "Error al crear guía"))
       }
     } catch {
       toast.error("Error al crear guía")
@@ -99,11 +98,10 @@ export default function AdminGuidesPage() {
 
   const toggleGuide = async (id: string, isActive: boolean) => {
     try {
-      const res = await fetch(`/api/admin/guides/${id}`, {
+      const res = await apiFetch(`/api/admin/guides/${id}`, {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ isActive: !isActive }),
-      })
+        body: JSON.stringify({ isActive: !isActive }) })
       if (res.ok) {
         setGuides(guides.map((g) => (g.id === id ? { ...g, isActive: !isActive } : g)))
         toast.success(isActive ? "Guía desactivada" : "Guía activada")
@@ -116,7 +114,7 @@ export default function AdminGuidesPage() {
   const deleteGuide = async (id: string) => {
     if (!confirm("¿Eliminar esta guía permanentemente?")) return
     try {
-      const res = await fetch(`/api/admin/guides/${id}`, { method: "DELETE" })
+      const res = await apiFetch(`/api/admin/guides/${id}`, { method: "DELETE" })
       if (res.ok) {
         setGuides(guides.filter((g) => g.id !== id))
         toast.success("Guía eliminada")

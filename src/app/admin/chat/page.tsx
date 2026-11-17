@@ -12,6 +12,7 @@ import { toast } from "sonner"
 import { ListSkeleton } from "@/components/ui/skeleton"
 import { useLocale } from "@/lib/locale/locale-context"
 import { t } from "@/lib/locale/translations"
+import { apiFetch } from "@/lib/csrf-client"
 
 interface ChatSession {
   sessionId: string
@@ -87,11 +88,10 @@ export default function AdminChatPage() {
     if (!reply.trim() || !activeId) return
     setSending(true)
     try {
-      const res = await fetch(`/api/admin/chat/${activeId}/reply`, {
+      const res = await apiFetch(`/api/admin/chat/${activeId}/reply`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ message: reply.trim() }),
-      })
+        body: JSON.stringify({ message: reply.trim() }) })
       if (!res.ok) throw new Error("No se pudo enviar el mensaje")
       setReply("")
       await loadMessages(activeId)
@@ -171,8 +171,7 @@ export default function AdminChatPage() {
                     day: "numeric",
                     month: "short",
                     hour: "2-digit",
-                    minute: "2-digit",
-                  })}
+                    minute: "2-digit" })}
                 </p>
               </button>
             ))}
@@ -212,8 +211,7 @@ export default function AdminChatPage() {
                             day: "numeric",
                             month: "short",
                             hour: "2-digit",
-                            minute: "2-digit",
-                          })}
+                            minute: "2-digit" })}
                         </p>
                       </div>
                     </div>

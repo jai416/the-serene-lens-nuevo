@@ -48,6 +48,12 @@ export default function ProductsPage() {
 
   useEffect(() => {
     const controller = new AbortController()
+    // Deep-link ?category= (p.ej. /products?category=proteccion-solar). Se lee del
+    // window y no con useSearchParams para no exigir un Suspense en el build.
+    try {
+      const cat = new URLSearchParams(window.location.search).get("category")
+      if (cat) setSelectedCategory(cat)
+    } catch {}
     const fetchProducts = async () => {
       setLoading(true)
       try {

@@ -10,12 +10,12 @@ import { Card, CardContent } from "@/components/ui/card"
 import {
   CheckCircle2, CreditCard, Lock, Zap,
   DollarSign, Coins, WalletCards, Loader2, AlertCircle,
-  ShoppingBag, Repeat, X,
-} from "lucide-react"
+  ShoppingBag, Repeat, X } from "lucide-react"
 import { PLANS, PACKS, CUP_RATE } from "@/lib/pricing"
 import { getPlan, getPack } from "@/lib/pricing"
 import { toast } from "sonner"
-import { getCsrfToken } from "@/lib/csrf-client"
+import { apiFetch } from "@/lib/csrf-client"
+import { errMessage } from "@/lib/api-response"
 
 type Tab = "subscriptions" | "packs"
 
@@ -73,11 +73,10 @@ export default function PricingPage() {
     setError("")
 
     try {
-      const res = await fetch("/api/payments/create", {
+      const res = await apiFetch("/api/payments/create", {
         method: "POST",
-        headers: { "Content-Type": "application/json", "x-csrf-token": getCsrfToken() },
-        body: JSON.stringify({ plan: planId, provider: "paypal" }),
-      })
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ plan: planId, provider: "paypal" }) })
 
       const data = await res.json()
       const payload = data?.data || data
@@ -115,11 +114,10 @@ export default function PricingPage() {
     setError("")
 
     try {
-      const res = await fetch("/api/payments/create-pack", {
+      const res = await apiFetch("/api/payments/create-pack", {
         method: "POST",
-        headers: { "Content-Type": "application/json", "x-csrf-token": getCsrfToken() },
-        body: JSON.stringify({ packType: packId, provider: "paypal" }),
-      })
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ packType: packId, provider: "paypal" }) })
 
       const data = await res.json()
       const payload = data?.data || data
@@ -152,11 +150,10 @@ export default function PricingPage() {
     setError("")
 
     try {
-      const res = await fetch("/api/payments/create-transfer", {
+      const res = await apiFetch("/api/payments/create-transfer", {
         method: "POST",
-        headers: { "Content-Type": "application/json", "x-csrf-token": getCsrfToken() },
-        body: JSON.stringify({ plan: id, amount }),
-      })
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ plan: id, amount }) })
 
       const data = await res.json()
       const payload = data?.data || data
@@ -188,14 +185,13 @@ export default function PricingPage() {
     setGiftModal({ ...giftModal, sending: true })
     setError("")
     try {
-      const res = await fetch("/api/payments/gift", {
+      const res = await apiFetch("/api/payments/gift", {
         method: "POST",
-        headers: { "Content-Type": "application/json", "x-csrf-token": getCsrfToken() },
-        body: JSON.stringify({ packType: giftModal.packId, recipientEmail: giftModal.email }),
-      })
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ packType: giftModal.packId, recipientEmail: giftModal.email }) })
       const data = await res.json()
       const payload = data?.data || data
-      if (!res.ok) throw new Error(payload?.error || "Error al enviar regalo")
+      if (!res.ok) throw new Error(errMessage(payload, "Error al enviar regalo"))
       toast.success("Regalo enviado correctamente. Revisa tu correo.")
       setGiftModal(null)
     } catch (e: any) {

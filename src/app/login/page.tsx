@@ -12,7 +12,7 @@ import Link from "next/link"
 import { toast } from "sonner"
 import { SocialLoginButtons } from "@/components/social-login-buttons"
 import { logger } from "@/lib/logger"
-import { getCsrfToken } from "@/lib/csrf-client"
+import { apiFetch } from "@/lib/csrf-client"
 
 const errorMessages: Record<string, string> = {
   CredentialsSignin: "Email o contraseña incorrectos",
@@ -20,8 +20,7 @@ const errorMessages: Record<string, string> = {
   OAuthSignin: "Error al iniciar sesión con el proveedor",
   OAuthCallback: "Error al iniciar sesión con el proveedor",
   AccessDenied: "No tienes permisos para acceder a esta página",
-  default: "Error de autenticación",
-}
+  default: "Error de autenticación" }
 
 function LoginForm() {
   const searchParams = useSearchParams()
@@ -31,11 +30,18 @@ function LoginForm() {
     rawCallback.startsWith("/") && !rawCallback.startsWith("//") ? rawCallback : "/dashboard"
   const errorParam = searchParams.get("error")
 
-  const [isRegister, setIsRegister] = useState(false)
+  const [isRegister, setIsRegister] = useState(searchParams.get("mode") === "register")
   const [showPassword, setShowPassword] = useState(false)
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState(errorParam ? errorMessages[errorParam] || errorMessages.default : "")
-  const [form, setForm] = useState({ email: "", password: "", name: "", estheticianCode: "" })
+  const [form, setForm] = useState({
+    email: "",
+    password: "",
+    name: "",
+    // El QR de referido y el kit de marketing enlazan a /register?ref=CODIGO:
+    // se prellena para no perder la atribución del referido
+    estheticianCode: searchParams.get("ref") || "",
+  })
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -48,11 +54,10 @@ function LoginForm() {
         if (form.name) payload.name = form.name
         if (form.estheticianCode) payload.estheticianCode = form.estheticianCode.trim()
 
-        const res = await fetch("/api/register", {
+        const res = await apiFetch("/api/register", {
           method: "POST",
-          headers: { "Content-Type": "application/json", "x-csrf-token": getCsrfToken() },
-          body: JSON.stringify(payload),
-        })
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload) })
         const data = await res.json()
         if (!res.ok) {
           setError(data.error?.message || data.error || "Error al registrarse")
@@ -61,8 +66,7 @@ function LoginForm() {
         const signInResult = await signIn("credentials", {
           email: form.email,
           password: form.password,
-          redirect: false,
-        })
+          redirect: false })
         if (signInResult?.error) {
           toast.success("Cuenta creada. Inicia sesión con tus credenciales.")
           setIsRegister(false)
@@ -76,8 +80,7 @@ function LoginForm() {
       const result = await signIn("credentials", {
         email: form.email,
         password: form.password,
-        redirect: false,
-      })
+        redirect: false })
 
       if (result?.error) {
         setError(errorMessages[result.error] || "Email o contraseña incorrectos")

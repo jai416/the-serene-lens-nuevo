@@ -31,16 +31,6 @@ export default function DashboardGuidesPage() {
   const [guides, setGuides] = useState<PurchasedGuide[]>([])
   const [loading, setLoading] = useState(true)
 
-  if (status === "loading") {
-    return (
-      <div className="min-h-screen flex items-center justify-center">
-        <ListSkeleton rows={3} />
-      </div>
-    )
-  }
-
-  if (!session) redirect("/login?callbackUrl=/dashboard/guides")
-
   useEffect(() => {
     const controller = new AbortController()
     fetch("/api/user/guides", { signal: controller.signal })
@@ -55,6 +45,16 @@ export default function DashboardGuidesPage() {
       })
     return () => controller.abort()
   }, [])
+
+  if (status === "loading") {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <ListSkeleton rows={3} />
+      </div>
+    )
+  }
+
+  if (!session) redirect("/login?callbackUrl=/dashboard/guides")
 
   return (
     <div className="min-h-screen px-4 py-8">

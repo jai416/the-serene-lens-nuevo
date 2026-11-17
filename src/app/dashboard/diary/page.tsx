@@ -11,6 +11,7 @@ import { toast } from "sonner"
 import { CardSkeleton } from "@/components/ui/skeleton"
 import { useLocale } from "@/lib/locale/locale-context"
 import { t, Locale } from "@/lib/locale/translations"
+import { apiFetch } from "@/lib/csrf-client"
 
 interface DiaryEntry {
   id: string
@@ -25,8 +26,7 @@ const FEELING_COLORS: Record<number, string> = {
   2: "#E89B5E",
   3: "#E8D45E",
   4: "#A8D88E",
-  5: "#88B078",
-}
+  5: "#88B078" }
 
 function startOfMonth(d: Date) {
   return new Date(d.getFullYear(), d.getMonth(), 1)
@@ -102,8 +102,7 @@ export default function DiaryPage() {
     2: t("diary.poor", locale),
     3: t("diary.fair", locale),
     4: t("diary.good", locale),
-    5: t("diary.good", locale),
-  }
+    5: t("diary.good", locale) }
   const pathname = usePathname()
   const { data: session, status } = useSession()
   const [entries, setEntries] = useState<DiaryEntry[]>([])
@@ -159,8 +158,7 @@ export default function DiaryPage() {
 
     setWeekSummary({
       trend: diff > 0.3 ? "up" : diff < -0.3 ? "down" : "stable",
-      avg: thisAvg,
-    })
+      avg: thisAvg })
   }, [entries])
 
   if (status === "loading") {
@@ -200,15 +198,13 @@ export default function DiaryPage() {
     }
     setSaving(true)
     try {
-      const res = await fetch("/api/skin-diary", {
+      const res = await apiFetch("/api/skin-diary", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           date: todayStr,
           feeling: selectedFeeling,
-          notes: notes || undefined,
-        }),
-      })
+          notes: notes || undefined }) })
       if (!res.ok) throw new Error("Error al guardar")
       toast.success("Entrada guardada")
       setSelectedFeeling(null)

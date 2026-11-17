@@ -8,7 +8,7 @@ import { Card, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { BookOpen, ArrowLeft, Plus, Trash2, RefreshCw, ThumbsUp, ThumbsDown, Check, Pause } from "lucide-react"
-import { getCsrfToken } from "@/lib/csrf-client"
+import { apiFetch } from "@/lib/csrf-client"
 import { toast } from "sonner"
 import { ListSkeleton } from "@/components/ui/skeleton"
 import { useLocale } from "@/lib/locale/locale-context"
@@ -65,10 +65,8 @@ export default function AdminKnowledgePage() {
   const handleSync = async () => {
     setSyncing(true)
     try {
-      const res = await fetch("/api/admin/knowledge/sync", {
-        method: "POST",
-        headers: { "x-csrf-token": getCsrfToken() },
-      })
+      const res = await apiFetch("/api/admin/knowledge/sync", {
+        method: "POST" })
       if (res.ok) {
         const d = await res.json()
         const data = d?.data || d
@@ -87,11 +85,10 @@ export default function AdminKnowledgePage() {
   const handleCreate = async () => {
     if (!newEntry.title || !newEntry.content) return
     try {
-      const res = await fetch("/api/admin/knowledge", {
+      const res = await apiFetch("/api/admin/knowledge", {
         method: "POST",
-        headers: { "Content-Type": "application/json", "x-csrf-token": getCsrfToken() },
-        body: JSON.stringify(newEntry),
-      })
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(newEntry) })
       if (res.ok) {
         toast.success("Entrada creada")
         setNewEntry({ title: "", content: "", category: "general", priority: 0 })
@@ -105,10 +102,8 @@ export default function AdminKnowledgePage() {
   const handleDelete = async (id: string) => {
     if (!confirm("¿Eliminar esta entrada?")) return
     try {
-      const res = await fetch(`/api/admin/knowledge/${id}`, {
-        method: "DELETE",
-        headers: { "x-csrf-token": getCsrfToken() },
-      })
+      const res = await apiFetch(`/api/admin/knowledge/${id}`, {
+        method: "DELETE" })
       if (res.ok) {
         toast.success("Entrada eliminada")
         setEntries(entries.filter((e) => e.id !== id))
@@ -120,11 +115,10 @@ export default function AdminKnowledgePage() {
 
   const handleToggle = async (entry: KnowledgeEntry) => {
     try {
-      const res = await fetch(`/api/admin/knowledge/${entry.id}`, {
+      const res = await apiFetch(`/api/admin/knowledge/${entry.id}`, {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ enabled: !entry.enabled }),
-      })
+        body: JSON.stringify({ enabled: !entry.enabled }) })
       if (res.ok) {
         setEntries(entries.map((e) => (e.id === entry.id ? { ...e, enabled: !e.enabled } : e)))
         toast.success(entry.enabled ? "Desactivado" : "Activado")

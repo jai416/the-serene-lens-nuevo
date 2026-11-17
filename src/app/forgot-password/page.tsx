@@ -7,6 +7,7 @@ import { Badge } from "@/components/ui/badge"
 import { Copy, Check, Mail, ArrowLeft, AlertCircle, CheckCircle2, Loader2, KeyRound } from "lucide-react"
 import Image from "next/image"
 import Link from "next/link"
+import { apiFetch } from "@/lib/csrf-client"
 
 export default function ForgotPasswordPage() {
   const [email, setEmail] = useState("")
@@ -32,11 +33,10 @@ export default function ForgotPasswordPage() {
     setResetLink("")
 
     try {
-      const res = await fetch("/api/auth/forgot-password", {
+      const res = await apiFetch("/api/auth/forgot-password", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email }),
-      })
+        body: JSON.stringify({ email }) })
       const data = await res.json()
 
       if (!res.ok) {

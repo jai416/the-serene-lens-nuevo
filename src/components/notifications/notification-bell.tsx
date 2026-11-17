@@ -5,6 +5,7 @@ import { useSession } from "next-auth/react"
 import { Bell, BellDot, CheckCheck, X } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { useRouter } from "next/navigation"
+import { apiFetch } from "@/lib/csrf-client"
 
 type Notification = {
   id: string
@@ -73,7 +74,7 @@ export function NotificationBell() {
 
   async function markAsRead(id: string, link?: string | null) {
     try {
-      await fetch(`/api/notifications/${id}`, { method: "PATCH" })
+      await apiFetch(`/api/notifications/${id}`, { method: "PATCH" })
       setData((prev) => {
         if (!prev) return prev
         return {
@@ -81,8 +82,7 @@ export function NotificationBell() {
           unreadCount: Math.max(0, prev.unreadCount - 1),
           notifications: prev.notifications.map((n) =>
             n.id === id ? { ...n, read: true } : n
-          ),
-        }
+          ) }
       })
       if (link) router.push(link)
     } catch {}
@@ -90,14 +90,13 @@ export function NotificationBell() {
 
   async function markAllRead() {
     try {
-      await fetch("/api/notifications/read-all", { method: "POST" })
+      await apiFetch("/api/notifications/read-all", { method: "POST" })
       setData((prev) => {
         if (!prev) return prev
         return {
           ...prev,
           unreadCount: 0,
-          notifications: prev.notifications.map((n) => ({ ...n, read: true })),
-        }
+          notifications: prev.notifications.map((n) => ({ ...n, read: true })) }
       })
     } catch {}
   }

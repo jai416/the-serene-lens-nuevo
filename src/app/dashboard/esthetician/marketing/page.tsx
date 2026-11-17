@@ -8,14 +8,14 @@ import { Card, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import {
   Gift, Share2, FileText, Download, Copy, Check,
-  Mail, Image, QrCode, ArrowLeft, Loader2, CheckCircle2,
-} from "lucide-react"
+  Mail, Image, QrCode, ArrowLeft, Loader2, CheckCircle2 } from "lucide-react"
 import Link from "next/link"
 import { toast } from "sonner"
 import { useLocale } from "@/lib/locale/locale-context"
 import { t } from "@/lib/locale/translations"
 import QRCodeImage from "@/components/qr-code-image"
 import { isEstheticianPlan } from "@/lib/pricing"
+import { apiFetch } from "@/lib/csrf-client"
 
 interface MarketingData {
   clinic: { name: string; logo: string | null; referralCode: string; referredUsers: number }
@@ -47,10 +47,9 @@ export default function MarketingKitPage() {
   const generateDiscount = async () => {
     setDiscountLoading(true)
     try {
-      const res = await fetch("/api/esthetician/marketing", {
+      const res = await apiFetch("/api/esthetician/marketing", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
-      })
+        headers: { "Content-Type": "application/json" } })
       const d = await res.json()
       const body = d?.data || d
       if (!res.ok) throw new Error(body?.error || "Error")

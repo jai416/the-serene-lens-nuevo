@@ -12,6 +12,8 @@ import { toast } from "sonner"
 import { ListSkeleton } from "@/components/ui/skeleton"
 import { useLocale } from "@/lib/locale/locale-context"
 import { t } from "@/lib/locale/translations"
+import { apiFetch } from "@/lib/csrf-client"
+import { errMessage } from "@/lib/api-response"
 
 interface Product {
   id: string
@@ -29,8 +31,7 @@ export default function AdminProductsPage() {
   const [products, setProducts] = useState<Product[]>([])
   const [form, setForm] = useState({
     name: "", slug: "", description: "", shortDesc: "",
-    image: "", category: "", skinTypes: "all", ingredients: "",
-  })
+    image: "", category: "", skinTypes: "all", ingredients: "" })
 
   useEffect(() => {
     if (session?.user?.role === "ADMIN") {
@@ -46,20 +47,17 @@ export default function AdminProductsPage() {
 
   const resetForm = () => setForm({
     name: "", slug: "", description: "", shortDesc: "",
-    image: "", category: "", skinTypes: "all", ingredients: "",
-  })
+    image: "", category: "", skinTypes: "all", ingredients: "" })
 
   const createProduct = async () => {
     if (!form.name || !form.slug) return
     try {
-      const res = await fetch("/api/admin/products", {
+      const res = await apiFetch("/api/admin/products", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           ...form,
-          slug: form.slug.toLowerCase().replace(/\s+/g, "-"),
-        }),
-      })
+          slug: form.slug.toLowerCase().replace(/\s+/g, "-") }) })
       if (res.ok) {
         const data = await res.json()
         const product = data?.data?.product || data.product
@@ -68,7 +66,7 @@ export default function AdminProductsPage() {
         toast.success("Producto creado correctamente")
       } else {
         const data = await res.json()
-        toast.error(data.error?.message || data.error || "Error al crear producto")
+        toast.error(errMessage(data, "Error al crear producto"))
       }
     } catch {
       toast.error("Error al crear producto")
@@ -78,17 +76,16 @@ export default function AdminProductsPage() {
   const deleteProduct = async (id: string) => {
     if (!confirm("¿Eliminar este producto?")) return
     try {
-      const res = await fetch("/api/admin/products", {
+      const res = await apiFetch("/api/admin/products", {
         method: "DELETE",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ id }),
-      })
+        body: JSON.stringify({ id }) })
       if (res.ok) {
         setProducts(products.filter((p) => p.id !== id))
         toast.success("Producto eliminado")
       } else {
         const data = await res.json()
-        toast.error(data.error?.message || data.error || "Error al eliminar producto")
+        toast.error(errMessage(data, "Error al eliminar producto"))
       }
     } catch {
       toast.error("Error al eliminar producto")
@@ -97,11 +94,10 @@ export default function AdminProductsPage() {
 
   const toggleActive = async (product: Product) => {
     try {
-      const res = await fetch("/api/admin/products", {
+      const res = await apiFetch("/api/admin/products", {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ id: product.id, isActive: !product.isActive }),
-      })
+        body: JSON.stringify({ id: product.id, isActive: !product.isActive }) })
       if (res.ok) {
         setProducts(products.map((p) => (p.id === product.id ? { ...p, isActive: !p.isActive } : p)))
       } else {
