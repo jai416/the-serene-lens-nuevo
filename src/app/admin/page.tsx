@@ -10,7 +10,7 @@ import {
   LayoutDashboard, Users, CreditCard, MessageSquare, Newspaper, Package,
   DollarSign, Activity, Eye, TrendingUp, UserPlus, BarChart3, ArrowUpRight,
   Calendar, Sparkles, CheckCircle2, Clock, Bell, BookOpen, Trophy, Heart,
-  ShoppingBag, MessageCircle, Settings, TrendingDown, Zap, Download, UsersRound,
+  ShoppingBag, MessageCircle, MessagesSquare, Settings, TrendingDown, Zap, Download, UsersRound,
   ShieldCheck, RefreshCw, Loader2, AlertCircle
 } from "lucide-react"
 import { NewUserToast } from "@/components/admin/new-user-toast"
@@ -521,6 +521,8 @@ export default function AdminPage() {
             { href: "/admin/feature-flags", label: "Features", icon: Settings },
             { href: "/admin/knowledge", label: "Conocimiento", icon: BookOpen },
             { href: "/admin/telegram", label: "Telegram", icon: MessageCircle },
+            { href: "/admin/chat", label: "Soporte", icon: MessagesSquare },
+            { href: "/admin/challenges", label: "Desafíos", icon: Trophy },
             { href: "/admin/logs", label: "Logs", icon: Activity },
           ].map((item) => (
             <Link key={item.href} href={item.href}>

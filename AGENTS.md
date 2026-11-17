@@ -98,6 +98,28 @@
 - **AGENTS.md**: Decisiones técnicas y mejoras recientes
 - **README.md**: Documentación oficial de la app
 
+### Auditoría profunda del panel admin y la web (Nov 2026)
+**1. Schema de BD desfasado** — la migración QvaPay→PayPal se aplicó al código pero NUNCA a la base: faltaban `Payment.paypalOrderId` y `Subscription.paypalSubscriptionId` → `/api/admin/payments` y `/api/admin/analytics` devolvían **500**. Corregido con un push **aditivo** (los campos legacy de QvaPay se re-agregaron al schema para no perder datos, porque es el método real en Cuba).
+
+**2. Gating de planes roto con las variantes `_ANNUAL`** — todos los features comparaban el plan por string exacto, así que quien compraba el plan anual quedaba **fuera**: las 4 APIs de esteticista devolvían **403** para `ESTHETICIAN_ANNUAL`. Creados `basePlan()`, `isEstheticianPlan()`, `hasProAccess()`, `hasProPlusAccess()` en `pricing.ts` y migrados **17 gates** (10 APIs + 7 UI).
+
+**3. Base de conocimiento del bot envenenada** — el sync scrapeaba las propias páginas y quitaba los tags de TODO el HTML, así que 13 entradas guardaban el chrome de navegación ("The Serene Lens | ... Inicio Productos ...") truncado a 3000 chars. El bot respondía con eso. Ahora el sync extrae solo `<main>`, descarta script/nav/header/footer, rechaza contenidos <200 chars y no crea placeholders. Borradas 15 entradas basura (13 scrapeadas + 1 placeholder + "Predictor de Envejecimiento" de una feature ya borrada).
+
+**4. APIs admin sin interfaz** (datos que salían de la DB pero no se mostraban) — 9 huérfanas. Construidas:
+- `/admin/challenges` — CRUD de desafíos (31 en DB, visibles para el usuario en `/dashboard/challenges` sin forma de gestionarlos)
+- `/admin/chat` — bandeja de soporte: lista de conversaciones, hilo y respuesta (la API existía desde siempre)
+- `/dashboard/chat` — UI del usuario del chat de soporte (no existía: las APIs `/api/chat/*` no las usaba nadie)
+
+**5. Bug de shape de respuesta** — `analysis/page.tsx` leía `data.analysis.id` pero `ok()` envuelve en `{success, data:{...}}` → "Cannot read properties of undefined (reading 'id')" al terminar un análisis. El resumen "Resumen General" era además **texto hardcodeado** en la página, no el `resumenGeneral` real de la IA.
+
+### Forma canónica de los datos de análisis (`src/lib/analysis-shape.ts`)
+La columna `SkinAnalysis.observations` guardaba un array plano de strings mientras la mayoría de consumidores la leían como objeto con métricas → la página de resultados salía con "No determinada / 0 categorías" y el gráfico de evolución nunca tenía datos.
+- Canónico v2: `{ v, skinType, observations[], texture, shine, pores, uniformity, apparentSensitivity, apparentOil, confidence, resumenGeneral, routine, ... }`
+- `parseObservations()` tolera array legacy (array plano) y objeto legacy
+- `toAnalysisView()` = único mapeo a la vista de UI (resultados y comparativas comparten mapper)
+- El prompt de IA ahora pide las **6 métricas por categoría** (etiquetas Bajo/Leve/Moderado/Visible/Alto) + `confidence`
+- Migrados los 11 consumidores (resultados, evolución, insignias, comparativas, social, informes, telegram, historial, dashboard)
+
 ## Archivos clave recientes
 
 | Archivo | Propósito |
@@ -107,6 +129,11 @@
 | `src/lib/services/analysis.service.ts` | Análisis de piel con historial completo |
 | `src/lib/gemini-vision.ts` | Visión IA con Gemini 2.0 Flash (análisis piel + escáner ingredientes) — fallback |
 | `src/lib/nvidia-vision.ts` | Visión IA con NVIDIA Llama 3.2 90B Vision (proveedor primario) |
+| `src/lib/analysis-shape.ts` | Forma canónica de los datos de análisis + parsers tolerantes a legacy |
+| `src/lib/client-ip.ts` | IP real del cliente para rate limits (x-forwarded-for con IPs variables) |
+| `src/app/admin/challenges/page.tsx` | Gestión de desafíos gamificados (API existía sin UI) |
+| `src/app/admin/chat/page.tsx` | Bandeja de soporte (responde a los chats de los usuarios) |
+| `src/app/dashboard/chat/page.tsx` | Chat de soporte del usuario (las APIs no las usaba nadie) |
 | `src/lib/vision.ts` | Adapter unificado: intenta NVIDIA primero, cae a Gemini |
 | `src/lib/groq.ts` | Análisis de piel (usa vision.ts internamente) |
 | `src/lib/groq-chat.ts` | Chat Groq con `llama-3.3-70b-versatile` para RAG + `/asistente` |

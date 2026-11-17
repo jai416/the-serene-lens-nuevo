@@ -22,6 +22,7 @@ export type TranslationKey =
   | "nav.admin"
   | "nav.logout"
   | "nav.support"
+  | "nav.chat"
   | "nav.login"
   | "sidebar.tagline"
   | "sidebar.premiumVersion"
@@ -332,6 +333,7 @@ const translations: Record<Locale, Record<TranslationKey, string>> = {
     "nav.admin": "Admin",
     "nav.logout": "Sign Out",
     "nav.support": "Support",
+    "nav.chat": "Live chat",
     "nav.login": "Sign In",
     "sidebar.tagline": "Know your skin better",
     "sidebar.premiumVersion": "Premium Version",
@@ -641,6 +643,7 @@ const translations: Record<Locale, Record<TranslationKey, string>> = {
     "nav.admin": "Admin",
     "nav.logout": "Cerrar Sesión",
     "nav.support": "Soporte",
+    "nav.chat": "Chat en vivo",
     "nav.login": "Iniciar sesión",
     "sidebar.tagline": "Conoce mejor tu piel",
     "sidebar.premiumVersion": "Versión Premium",
