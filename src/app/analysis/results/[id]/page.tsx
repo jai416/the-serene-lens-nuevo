@@ -30,6 +30,7 @@ import { useSession } from "next-auth/react"
 import Link from "next/link"
 import { toast } from "sonner"
 import { SatisfactionSurvey } from "@/components/satisfaction-survey"
+import { toAnalysisView } from "@/lib/analysis-shape"
 
 interface AIResult {
   skinType: string
@@ -91,17 +92,6 @@ export default function AnalysisResultsPage() {
   const [feedbackSubmitting, setFeedbackSubmitting] = useState(false)
   const savedRef = useRef(false)
 
-  function safeParseArray(val: unknown): string[] {
-    if (Array.isArray(val)) return val
-    if (typeof val === "string") { try { const p = JSON.parse(val); return Array.isArray(p) ? p : [] } catch { return [] } }
-    return []
-  }
-
-  function safeParseRecord(val: unknown): Record<string, string> {
-    if (val && typeof val === "object" && !Array.isArray(val)) return val as Record<string, string>
-    return {}
-  }
-
   useEffect(() => {
     const fetchAnalysis = async () => {
       try {
@@ -110,24 +100,10 @@ export default function AnalysisResultsPage() {
         const data = await res.json()
         const analysisData = data?.data?.analysis || data.analysis
         setAnalysis(analysisData)
-        const obs = JSON.parse(analysisData.observations || "{}")
-        const parsed: AIResult = {
-          skinType: obs.skinType || "",
-          texture: obs.texture || "",
-          pores: obs.pores || "",
-          shine: obs.shine || "",
-          uniformity: obs.uniformity || "",
-          apparentSensitivity: obs.apparentSensitivity || "",
-          apparentOil: obs.apparentOil || "",
-          observations: safeParseArray(obs.observations),
-          observationExplanations: safeParseRecord(obs.observationExplanations),
-          recommendations: safeParseArray(analysisData.recommendations),
-          confidence: obs.confidence || "media",
-          confidenceReason: obs.confidenceReason || "",
-          resumenGeneral: obs.resumenGeneral || "",
-          summary: obs.summary || "",
-          routine: typeof obs.routine === "object" && obs.routine && !Array.isArray(obs.routine) ? obs.routine : { morning: [], evening: [] },
-        }
+        const parsed: AIResult = toAnalysisView(analysisData.observations, {
+          skinType: analysisData.skinType,
+          recommendations: analysisData.recommendations,
+        })
         setResult(parsed)
       } catch {
         setAnalysis(null)
@@ -276,11 +252,9 @@ export default function AnalysisResultsPage() {
               </CardTitle>
             </CardHeader>
             <CardContent className="p-0">
-              <p className="text-sm text-[#666666] leading-relaxed mb-4">
-                Este análisis ofrece una descripción de las características visuales observadas en las
-                fotografías proporcionadas. A continuación se detallan los hallazgos organizados por
-                categorías.
-              </p>
+              {result.resumenGeneral && (
+                <p className="text-sm text-[#666666] leading-relaxed mb-4">{result.resumenGeneral}</p>
+              )}
               <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
                 <div className="p-3 rounded-2xl bg-[#F8F9FA]">
                   <p className="text-xs text-[#666666] mb-1">Piel aparente</p>

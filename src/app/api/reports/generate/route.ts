@@ -5,6 +5,7 @@ import { NextResponse } from "next/server"
 import { trackPdfGenerated } from "@/lib/tracking"
 import { sanitizeHtml } from "@/lib/sanitize"
 import { error, unauthorized, forbidden, serverError } from "@/lib/api-response"
+import { parseObservations } from "@/lib/analysis-shape"
 
 export async function GET(req: Request) {
   try {
@@ -42,9 +43,7 @@ export async function GET(req: Request) {
       year: "numeric", month: "long", day: "numeric",
     })
 
-    const observations = (() => {
-      try { return JSON.parse(analysis.observations) } catch { return {} }
-    })()
+    const observations = parseObservations(analysis.observations).list
 
     const recommendations = (() => {
       try { return JSON.parse(analysis.recommendations) } catch { return [] }
@@ -81,10 +80,10 @@ export async function GET(req: Request) {
     </div>
   </div>
 
-  ${observations.observations?.length ? `
+  ${observations.length ? `
   <div class="section">
     <div class="section-title">Factores Observados</div>
-    <ul class="obs-list">${observations.observations.map((o: string) => `<li>${sanitizeHtml(o)}</li>`).join("")}</ul>
+    <ul class="obs-list">${observations.map((o: string) => `<li>${sanitizeHtml(o)}</li>`).join("")}</ul>
   </div>` : ""}
 
   ${recommendations.length ? `

@@ -6,6 +6,7 @@ import { Badge } from "@/components/ui/badge"
 import { History, TrendingUp, TrendingDown, Minus, Clock } from "lucide-react"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
+import { toAnalysisView } from "@/lib/analysis-shape"
 
 interface AIResult {
   skinType: string
@@ -96,11 +97,11 @@ export function PreviousAnalysesComparison({ currentId, userId, currentResult }:
         if (idx >= 0 && sorted[idx + 1]) {
           setPrevious(sorted[idx + 1])
           if (!currentResult && sorted[idx]?.observations) {
-            try { setCurrent(JSON.parse(sorted[idx].observations)) } catch {}
+            setCurrent(toAnalysisView(sorted[idx].observations, { skinType: sorted[idx].skinType }))
           }
         } else if (!currentResult && sorted.length >= 2) {
           setPrevious(sorted[1])
-          try { setCurrent(JSON.parse(sorted[0].observations)) } catch {}
+          setCurrent(toAnalysisView(sorted[0].observations, { skinType: sorted[0].skinType }))
         }
       } catch {
         // silently fail

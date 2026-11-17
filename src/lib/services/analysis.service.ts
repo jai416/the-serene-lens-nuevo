@@ -4,6 +4,7 @@ import { getCachedAnalysis, setCachedAnalysis } from "@/lib/analysis-cache"
 import { AnalysisRepository } from "@/lib/repositories"
 import { logger, getCorrelationId } from "@/lib/logger"
 import { getWeather, buildClimateContext } from "@/lib/weather"
+import { buildObservations, parseObservations } from "@/lib/analysis-shape"
 
 export class AnalysisError extends Error {
   constructor(
@@ -85,10 +86,8 @@ export const AnalysisService = {
       if (pastAnalyses.length > 0) {
         const historyLines = pastAnalyses.slice(0, 5).map((a, i) => {
           const date = a.createdAt.toISOString().split("T")[0]
-          const obs = a.observations
-            ? (() => { try { return JSON.parse(a.observations) } catch { return [] } })()
-            : []
-          const topObs = (Array.isArray(obs) ? obs : []).slice(0, 2).map((o: any) => o.detalle || String(o)).join(", ")
+          const obs = parseObservations(a.observations)
+          const topObs = obs.list.slice(0, 2).join(", ")
           return `[${date}] Tipo: ${a.skinType || "no determinado"}. ${a.concerns ? `Preocupaciones: ${a.concerns}.` : ""} ${topObs ? `Hallazgos: ${topObs}.` : ""}`
         })
         historyContext = `HISTORIAL DEL USUARIO:\n${historyLines.join("\n")}\n\nUsa este historial para dar seguimiento: si ves mejoras o empeoramientos, COMPARA y destaca los cambios. Menciona explícitamente "En tu último análisis vimos X, ahora notamos Y" y refiérete a patrones observados en el historial.`
@@ -127,7 +126,12 @@ export const AnalysisService = {
         clientId: body.clientId || null,
         skinType,
         concerns: body.concerns || null,
-        observations: JSON.stringify(observations),
+        observations: buildObservations(cached as Record<string, unknown>, {
+          skinType,
+          observations,
+          recommendations,
+          routine,
+        }),
         recommendations: JSON.stringify(recommendations),
         routine: routine ? JSON.stringify(routine) : null,
       })
@@ -161,7 +165,12 @@ export const AnalysisService = {
         clientId: body.clientId || null,
         skinType,
         concerns: body.concerns || null,
-        observations: JSON.stringify(observations),
+        observations: buildObservations(result, {
+          skinType,
+          observations,
+          recommendations,
+          routine,
+        }),
         recommendations: JSON.stringify(recommendations),
         routine: routine ? JSON.stringify(routine) : null,
       })

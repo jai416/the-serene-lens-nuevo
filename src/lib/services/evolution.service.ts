@@ -1,5 +1,6 @@
 import { AnalysisRepository } from "@/lib/repositories"
 import { logger } from "@/lib/logger"
+import { parseObservations } from "@/lib/analysis-shape"
 
 interface EvolutionPoint {
   date: string
@@ -37,12 +38,7 @@ export async function getSkinEvolution(userId: string): Promise<EvolutionResult>
   }
 
   const points: EvolutionPoint[] = analyses.map((a) => {
-    let obs: Record<string, string> = {}
-    try {
-      obs = typeof a.observations === "string" ? JSON.parse(a.observations) : a.observations
-    } catch {
-      obs = {}
-    }
+    const obs = parseObservations(a.observations).data as Record<string, string>
 
     return {
       date: a.createdAt.toISOString().split("T")[0],

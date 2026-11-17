@@ -9,6 +9,7 @@ import { FileText, Loader2, TrendingUp, Calendar, Droplets } from "lucide-react"
 import dynamic from "next/dynamic"
 import { useLocale } from "@/lib/locale/locale-context"
 import { t } from "@/lib/locale/translations"
+import { parseObservations } from "@/lib/analysis-shape"
 
 const SkinReportDownload = dynamic(
   () => import("@/components/pdf-skin-report").then((mod) => mod.SkinReportDownload),
@@ -67,7 +68,7 @@ export default function ReportPage() {
             id: x.id as string,
             createdAt: x.createdAt as string,
             skinType: x.skinType as string | null,
-            observations: JSON.parse((x.observations as string) || "[]"),
+            observations: parseObservations(x.observations).list,
             recommendations: JSON.parse((x.recommendations as string) || "[]"),
             routine: x.routine as string | null,
             concerns: x.concerns as string | null,

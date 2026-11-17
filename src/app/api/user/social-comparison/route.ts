@@ -2,6 +2,7 @@ import { getServerSession } from "next-auth"
 import { authOptions } from "@/lib/auth"
 import { db } from "@/lib/db"
 import { ok, unauthorized, serverError } from "@/lib/api-response"
+import { parseObservations } from "@/lib/analysis-shape"
 
 export async function GET() {
   const session = await getServerSession(authOptions)
@@ -86,7 +87,7 @@ export async function GET() {
             name: r.referred!.name || "Amigo",
             image: r.referred!.image,
             skinType: analysis.skinType || "No determinado",
-            observations: JSON.parse(analysis.observations || "[]"),
+            observations: parseObservations(analysis.observations).list,
             isYou: false,
           }
         }),

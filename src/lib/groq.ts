@@ -44,13 +44,20 @@ REGLAS ABSOLUTAS:
 DEBES DEVOLVER ESTRICTAMENTE UN JSON con esta estructura exacta:
 
 {
-  "resumenGeneral": "Texto empático y claro sobre el estado general observado.",
+  "resumenGeneral": "Texto empático y claro sobre el estado general observado. Describe tu piel de forma concreta y útil, NO describas el informe ni lo que vas a hacer.",
   "tipoDePiel": "Ej: Mixta con tendencia a brillo en zona T",
+  "confidence": "Alta | Media | Baja",
+  "confidenceReason": "Qué tan claras están las imágenes para este análisis.",
+  "texture": "Etiqueta de textura facial",
+  "shine": "Etiqueta de brillo",
+  "pores": "Etiqueta de poros",
+  "uniformity": "Etiqueta de uniformidad del tono",
+  "apparentSensitivity": "Etiqueta de sensibilidad aparente",
+  "apparentOil": "Etiqueta de grasa aparente",
   "observations": [
     { "zona": "Frente", "detalle": "Descripción corta", "severidad": "Leve" }
   ],
   "observationExplanations": "Por qué aparecen estos factores en clima tropical.",
-  "confidenceReason": "Qué tan claras están las imágenes para este análisis.",
   "factores": ["Factor 1", "Factor 2"],
   "recomendaciones": ["Recomendación 1", "Recomendación 2"],
   "rutina": {
@@ -59,7 +66,12 @@ DEBES DEVOLVER ESTRICTAMENTE UN JSON con esta estructura exacta:
   },
   "productosRecomendados": ["Tipo de producto sugerido con activo clave"],
   "historialComparativo": "Qué monitorear en el próximo análisis para ver evolución."
-}`
+}
+
+REGLAS PARA LAS 6 CATEGORÍAS (texture, shine, pores, uniformity, apparentSensitivity, apparentOil):
+- Usa SOLO una de estas etiquetas exactas: "Bajo", "Leve", "Moderado", "Visible" o "Alto".
+- NUNCA números ni porcentajes. NUNCA "ninguno", "normal" o "no aplica": si no puedes evaluar, usa "Leve".
+- Evalúa cada categoría por separado según lo que se ve en las fotos.`
 }
 
 async function geminiFetch(

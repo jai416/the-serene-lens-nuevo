@@ -1,5 +1,6 @@
 import { db } from "@/lib/db"
 import { logger } from "@/lib/logger"
+import { parseObservations } from "@/lib/analysis-shape"
 
 interface BadgeCriteria {
   type: "streak" | "analyses" | "diary_days" | "hydration_improvement" | "first_analysis"
@@ -79,11 +80,8 @@ export const BadgeService = {
           select: { observations: true },
         })
         if (analyses.length < 2) return false
-        const parseObs = (obs: string) => {
-          try { return JSON.parse(obs) } catch { return {} }
-        }
-        const obs1 = parseObs(analyses[1].observations)
-        const obs2 = parseObs(analyses[0].observations)
+        const obs1 = parseObservations(analyses[1].observations).data
+        const obs2 = parseObservations(analyses[0].observations).data
         const severityMap: Record<string, number> = { none: 0, leve: 1, bajo: 1, moderado: 2, visible: 3, alto: 4 }
         const getVal = (obj: any, keys: string[]) => {
           for (const k of keys) {

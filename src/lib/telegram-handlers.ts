@@ -10,6 +10,7 @@ import { groqChat } from "@/lib/groq-chat"
 import { sanitizeHtml } from "@/lib/sanitize"
 import * as R from "@/lib/telegram-responses"
 import { logger } from "@/lib/logger"
+import { parseObservations } from "@/lib/analysis-shape"
 
 const MENU_BACK_ROW = [{ text: "Menú principal", callback_data: "menu_main" }]
 const USER_KEYBOARD: { text: string }[][] = [
@@ -953,7 +954,7 @@ export async function handleAnalisis(chatId: string, userId: string, args: strin
   if (analysis.skinType) text += `\n<b>Tipo de piel:</b> ${sanitizeHtml(analysis.skinType)}\n`
   if (analysis.observations && analysis.observations !== "[]") {
     text += `\n<b>Observaciones</b>\n`
-    try { const obs = JSON.parse(analysis.observations); if (Array.isArray(obs)) obs.forEach((o: any) => { text += `- ${sanitizeHtml(typeof o === "string" ? o : o.label || JSON.stringify(o))}\n` }) } catch { text += `${sanitizeHtml(analysis.observations.slice(0, 200))}\n` }
+    parseObservations(analysis.observations).list.forEach((o) => { text += `- ${sanitizeHtml(o)}\n` })
   }
   if (analysis.recommendations && analysis.recommendations !== "[]") {
     text += `\n<b>Recomendaciones</b>\n`

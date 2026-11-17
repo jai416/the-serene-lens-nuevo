@@ -11,6 +11,7 @@ import {
 import { groqChatJSON } from "@/lib/groq-chat"
 import { analyzeMultipleImages } from "@/lib/vision"
 import { validateCsrf } from "@/lib/csrf-middleware"
+import { parseObservations } from "@/lib/analysis-shape"
 
 async function fetchImageAsBase64(url: string): Promise<string | null> {
   try {
@@ -104,14 +105,8 @@ export async function POST(req: NextRequest) {
       latestAnalysis = analyses[analyses.length - 1]
     }
 
-    let firstObs: string[] = []
-    let latestObs: string[] = []
-    try {
-      firstObs = JSON.parse(firstAnalysis.observations || "[]")
-    } catch {}
-    try {
-      latestObs = JSON.parse(latestAnalysis.observations || "[]")
-    } catch {}
+    const firstObs = parseObservations(firstAnalysis.observations).list
+    const latestObs = parseObservations(latestAnalysis.observations).list
 
     const matched = matchIngredientsToAnalysis(
       [...firstObs, ...latestObs],
