@@ -5,12 +5,15 @@ import { db } from "@/lib/db"
 import { ok, error, serverError, unauthorized } from "@/lib/api-response"
 import { logger } from "@/lib/logger"
 
-const SEGMENT_FILTERS: Record<string, Record<string, string>> = {
+// Los segmentos comparan el plan BASE: un usuario con plan anual (p.ej.
+// PREMIUM_ANNUAL) debe recibir el segmento "premium".
+const SEGMENT_FILTERS: Record<string, { plan?: { in: string[] } }> = {
   all: {},
-  free: { plan: "FREE" },
-  premium: { plan: "PREMIUM" },
-  pro: { plan: "PRO" },
-  proPlus: { plan: "PRO_PLUS" },
+  free: { plan: { in: ["FREE"] } },
+  premium: { plan: { in: ["PREMIUM", "PREMIUM_ANNUAL"] } },
+  pro: { plan: { in: ["PRO", "PRO_ANNUAL"] } },
+  proPlus: { plan: { in: ["PRO_PLUS", "PRO_PLUS_ANNUAL"] } },
+  esthetician: { plan: { in: ["ESTHETICIAN", "ESTHETICIAN_ANNUAL"] } },
 }
 
 export async function POST(req: NextRequest) {

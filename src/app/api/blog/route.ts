@@ -5,7 +5,7 @@ import { serverError } from "@/lib/api-response"
 export async function GET(req: NextRequest) {
   try {
     const { searchParams } = new URL(req.url)
-    const limit = Math.min(Number(searchParams.get("limit")) || 10, 50)
+    const limit = Math.min(Math.max(Number(searchParams.get("limit")) || 10, 1), 50)
     const page = Math.max(Number(searchParams.get("page")) || 1, 1)
     const category = searchParams.get("category")
 

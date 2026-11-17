@@ -11,7 +11,7 @@ import { logger } from "@/lib/logger"
 import { validateCsrf } from "@/lib/csrf-middleware"
 
 const packSchema = z.object({
-  packType: z.enum(["BASIC", "POPULAR", "ADVANCED"]),
+  packType: z.enum(["BASIC", "POPULAR", "PACK_10", "ADVANCED", "PACK_25"]),
 })
 
 export async function POST(req: NextRequest) {

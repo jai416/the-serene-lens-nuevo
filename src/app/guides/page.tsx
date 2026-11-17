@@ -59,7 +59,7 @@ export default function GuidesPage() {
       const res = await fetch("/api/user/guides")
       const data = await res.json()
       const map: Record<string, PurchasedGuide> = {}
-      const items = data?.data?.purchases || data?.purchases || []
+      const items = data?.data?.guides || data?.guides || []
       for (const item of items) {
         map[item.digitalProductId] = item
       }

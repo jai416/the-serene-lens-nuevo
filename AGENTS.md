@@ -112,6 +112,50 @@
 
 **5. Bug de shape de respuesta** — `analysis/page.tsx` leía `data.analysis.id` pero `ok()` envuelve en `{success, data:{...}}` → "Cannot read properties of undefined (reading 'id')" al terminar un análisis. El resumen "Resumen General" era además **texto hardcodeado** en la página, no el `resumenGeneral` real de la IA.
 
+### Auditoría de APIs (Nov 2026) — bugs críticos corregidos
+- **`/api/products` devolvía SIEMPRE el catálogo vacío**: `getCache()` es async y no se esperaba → la
+  Promise era truthy → `JSON.stringify(promise)` = `{}` y la página `/products` salía vacía. También
+  el `setCache` sin await auto-invalidaba la caché en cada request
+- **El webhook de PayPal revertía la transacción**: `payload: body` (objeto) en una columna `String`
+  → `PrismaClientValidationError` → el `payment.update({status:"completed"})` y el `subscription.create`
+  nunca se guardaban. Ahora `payload: JSON.stringify(body)`
+- **Los packs PACK_10 y PACK_25 devolvían 400**: el enum del endpoint solo aceptaba
+  BASIC/POPULAR/ADVANCED, y el "más popular" de la web era PACK_10. El `isPack` hardcodeado además
+  caía en la rama de suscripción y creaba un plan inexistente → 1 análisis/mes y 0 packs entregados.
+  Ahora se usa `getPack()` como fuente única
+- **Password reset = account takeover**: el endpoint público devolvía el `resetUrl` con token válido a
+  cualquiera que conozca el email. Mitigaciones: límite por email (3/h), se invalidan los tokens
+  anteriores del mismo identificador y queda traza en el log. ⚠️ El enlace se sigue mostrando en
+  pantalla porque el email está desactivado — si se reactiva el email, hay que devolverlo por email
+- **8 crons aceptaban `Bearer undefined`** si faltaba `CRON_SECRET` (comparación por string).
+  Ahora todos usan `verifyCronSecret(req)`, que falla cerrado
+- **Webhook de Telegram fail-open**: sin `TELEGRAM_WEBHOOK_SECRET` no validaba nada. Ahora se bloquea
+  (503) si no está configurado
+- **IDOR**: `analysis.userId = null` (análisis de cliente de esteticista) lo podía reclamar o leer
+  cualquier usuario autenticado. Ahora solo la esteticista propietaria
+- **Path traversal** en la descarga de guías (`fileUrl` de la DB sin sanear) → ahora se resuelve
+  dentro de `public/guides` y se verifica el prefijo
+- **`POST /api/chat/messages` sin sesión** → cualquiera escribía en cualquier chat. Ahora exige sesión,
+  limita a 20 msg/min y 2000 caracteres
+- **Exploit de regalos**: crear un regalo y canjearlo daba packs gratis ilimitados. Ahora hay límite
+  de 2 regalos/día por usuario y 5 canjes/hora
+- **Recompensa de racha de 7 días** se cobraba dos veces el mismo día y además se Otorgaba sobre
+  `analysisLimit`, un campo legacy que el límite real ignora. Ahora se otorga como `PurchasePack`
+  (que sí cuenta) y solo al pasar de 6 a 7 días
+- **Shape de respuesta**: `/guides` leía `purchases` (la API devuelve `guides`), `/dashboard/b2b` y
+  `/forgot-password` leían la respuesta sin desenvolver `data` → panel B2B vacío y enlace de
+  recuperación nunca mostrado
+- **Límites de paginación negativos** (`?limit=-5`) provocaban 500 de Prisma → ahora se acotan
+- **`analysisBodySchema` es `.strict()`** pero el endpoint inyecta `clientId` → cualquier análisis de
+  cliente era rechazado por validación
+
+### Auditoría de APIs (Nov 2026) — pendiente
+- 29 endpoints sin ningún llamador (dead code). **No borrar** hasta cerrar los de pagos/gift/
+  link-telegram, que están en uso aunque sin UI completa
+- CSRF ausente en las 18 mutaciones de admin (mitigado por el guard de rol del middleware)
+- `admin/analytics` carga la tabla Payment entera → usar `aggregate` como hace `admin/stats`
+- `admin/payments`, `admin/users`, `admin/messages`, `admin/audit-logs` sin paginación
+
 ### Verificación end-to-end en producción (17 Nov 2026)
 Recorrido completo con usuario nuevo (registro → trial Premium → análisis → resultados):
 - Registro con CSRF de la cookie `csrf-token` (64 hex, la del middleware). Ojo: la cookie de next-auth

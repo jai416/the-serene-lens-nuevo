@@ -2,12 +2,12 @@ import { NextRequest, NextResponse } from "next/server"
 import { db } from "@/lib/db"
 import { logger } from "@/lib/logger"
 import { createReminderNotification } from "@/lib/notifications"
+import { verifyCronSecret } from "@/lib/cron-auth"
 
-const CRON_SECRET = process.env.CRON_SECRET || ""
 
 export async function GET(req: NextRequest) {
   const auth = req.headers.get("authorization")?.replace("Bearer ", "")
-  if (!CRON_SECRET || auth !== CRON_SECRET) {
+  if (!verifyCronSecret(req)) {
     return NextResponse.json({ error: "No autorizado" }, { status: 401 })
   }
 

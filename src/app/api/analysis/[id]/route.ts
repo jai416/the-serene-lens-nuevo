@@ -13,6 +13,7 @@ export async function GET(_req: Request, { params }: { params: Promise<{ id: str
       select: {
         id: true,
         userId: true,
+        clientId: true,
         skinType: true,
         concerns: true,
         observations: true,
@@ -23,9 +24,18 @@ export async function GET(_req: Request, { params }: { params: Promise<{ id: str
     })
 
     if (!analysis) return notFound("Análisis no encontrado")
+    if (!session?.user) return unauthorized()
 
-    if (!session?.user || (analysis.userId && analysis.userId !== session.user.id)) {
-      return unauthorized()
+    if (analysis.userId) {
+      if (analysis.userId !== session.user.id) return unauthorized()
+    } else {
+      // userId null = análisis de un cliente de esteticista: solo su esteticista lo ve
+      if (!analysis.clientId) return notFound("Análisis no encontrado")
+      const client = await db.client.findUnique({
+        where: { id: analysis.clientId },
+        select: { estheticianId: true },
+      })
+      if (!client || client.estheticianId !== session.user.id) return unauthorized()
     }
 
     return ok({ analysis })

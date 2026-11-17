@@ -8,12 +8,15 @@ import { logger } from "@/lib/logger"
 import { createWebNotification } from "@/lib/notifications"
 import { getClientIp } from "@/lib/client-ip"
 
+// Segmentos por plan BASE: un plan anual (p.ej. PREMIUM_ANNUAL) entra
+// también en su segmento mensual.
 const SEGMENT_FILTERS: Record<string, Record<string, unknown>> = {
   all: {},
-  free: { plan: "FREE" },
-  premium: { plan: "PREMIUM" },
-  pro: { plan: "PRO" },
-  proPlus: { plan: "PRO_PLUS" },
+  free: { plan: { in: ["FREE"] } },
+  premium: { plan: { in: ["PREMIUM", "PREMIUM_ANNUAL"] } },
+  pro: { plan: { in: ["PRO", "PRO_ANNUAL"] } },
+  proPlus: { plan: { in: ["PRO_PLUS", "PRO_PLUS_ANNUAL"] } },
+  esthetician: { plan: { in: ["ESTHETICIAN", "ESTHETICIAN_ANNUAL"] } },
   new: { createdAt: { gte: new Date(Date.now() - 7 * 86400000) } },
 }
 

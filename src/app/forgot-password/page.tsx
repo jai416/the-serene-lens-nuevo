@@ -45,7 +45,8 @@ export default function ForgotPasswordPage() {
       }
 
       setSuccess(true)
-      if (data.resetUrl) setResetLink(data.resetUrl)
+      const body = data?.data || data
+      if (body.resetUrl) setResetLink(body.resetUrl)
     } catch {
       setError("Error de conexión")
     } finally {

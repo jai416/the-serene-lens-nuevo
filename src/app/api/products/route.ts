@@ -9,11 +9,11 @@ const CACHE_TTL = 3600
 export async function GET(req: NextRequest) {
   try {
     const { searchParams } = new URL(req.url)
-    const limit = Math.min(Number(searchParams.get("limit")) || 10, 50)
+    const limit = Math.min(Math.max(Number(searchParams.get("limit")) || 10, 1), 50)
     const category = searchParams.get("category")
     const cacheKey = `products:${category || "all"}:${limit}`
 
-    const cached = getCache<any[]>(cacheKey)
+    const cached = await getCache<any[]>(cacheKey)
     if (cached) {
       return NextResponse.json({ success: true, data: { products: cached }, cached: true }, {
         status: 200,
@@ -40,7 +40,7 @@ export async function GET(req: NextRequest) {
       orderBy: { name: "asc" },
     })
 
-    setCache(cacheKey, products, CACHE_TTL)
+    await setCache(cacheKey, products, CACHE_TTL)
 
     return NextResponse.json({ success: true, data: { products } }, {
       status: 200,

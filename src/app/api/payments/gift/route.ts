@@ -13,7 +13,7 @@ import { PACK_ANALYSES } from "@/lib/pricing"
 import { getClientIp } from "@/lib/client-ip"
 
 const giftSchema = z.object({
-  packType: z.enum(["BASIC", "POPULAR", "ADVANCED"]),
+  packType: z.enum(["BASIC", "POPULAR", "PACK_10", "ADVANCED", "PACK_25"]),
   recipientEmail: z.string().email("Email inválido"),
 })
 
@@ -27,6 +27,13 @@ export async function POST(req: NextRequest) {
 
     const session = await getServerSession(authOptions)
     if (!session?.user) return unauthorized()
+
+    // Límite por usuario: el regalo da análisis gratis al destinatario, así que
+    // sin este límite un usuario puede regalarse packs ilimitados.
+    const { allowed: userAllowed } = await checkRateLimit(`gift:user:${session.user.id}`, 2, 24 * 60 * 60 * 1000)
+    if (!userAllowed) {
+      return error("Solo puedes crear 2 regalos al día. El pago del regalo se valida manualmente.", 429)
+    }
 
     let body: unknown
     try { body = await req.json() } catch { return error("Cuerpo de solicitud inválido") }

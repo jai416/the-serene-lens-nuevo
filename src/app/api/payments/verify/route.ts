@@ -7,7 +7,7 @@ import { verifyPayPalOrder } from "@/lib/paypal"
 import { validateCsrf } from "@/lib/csrf-middleware"
 import { logger } from "@/lib/logger"
 
-import { PACK_ANALYSES } from "@/lib/pricing"
+import { PACK_ANALYSES, getPack } from "@/lib/pricing"
 
 export async function POST(req: NextRequest) {
   try {
@@ -61,7 +61,8 @@ export async function POST(req: NextRequest) {
       return ok({ completed: false, status: paypalStatus.status || "unknown" })
     }
 
-    const isPack = ["BASIC", "POPULAR", "ADVANCED"].includes(payment.plan)
+    const packDef = getPack(payment.plan)
+    const isPack = Boolean(packDef)
     const amountUsd = payment.amount
     const cupRate = Number(process.env.NEXT_PUBLIC_CUP_FALLBACK) || 500
 
@@ -74,8 +75,8 @@ export async function POST(req: NextRequest) {
         },
       })
 
-      if (isPack) {
-        const analyses = PACK_ANALYSES[payment.plan] || 0
+      if (isPack && packDef) {
+        const analyses = packDef.analyses || PACK_ANALYSES[payment.plan] || 0
         await tx.purchasePack.create({
           data: {
             userId: payment.userId,

@@ -7,6 +7,7 @@ export const analysisBodySchema = z.object({
   climate: z.enum(["tropical", "seco", "templado", "frio", "humedo"]).optional(),
   routine: z.string().max(2000).optional(),
   language: z.enum(["es", "en"]).optional(),
+  clientId: z.string().optional(),
 }).strict()
 
 export const feedbackSchema = z.object({

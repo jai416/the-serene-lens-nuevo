@@ -1,11 +1,11 @@
 import { NextResponse } from "next/server"
 import { db } from "@/lib/db"
 import { logger } from "@/lib/logger"
+import { verifyCronSecret } from "@/lib/cron-auth"
 
 export async function POST(req: Request) {
   try {
-    const auth = req.headers.get("authorization")
-    if (auth !== `Bearer ${process.env.CRON_SECRET}`) {
+    if (!verifyCronSecret(req)) {
       return NextResponse.json({ error: "No autorizado" }, { status: 401 })
     }
 

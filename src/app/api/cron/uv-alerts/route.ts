@@ -2,13 +2,13 @@ import { NextRequest } from "next/server"
 import { db } from "@/lib/db"
 import { ok, unauthorized, error } from "@/lib/api-response"
 import { logger } from "@/lib/logger"
+import { verifyCronSecret } from "@/lib/cron-auth"
 
 export const dynamic = "force-dynamic"
 
 export async function GET(req: NextRequest) {
   try {
-    const auth = req.headers.get("authorization")
-    if (auth !== `Bearer ${process.env.CRON_SECRET}`) return unauthorized()
+    if (!verifyCronSecret(req)) return unauthorized()
 
     const users = await db.user.findMany({
       where: {

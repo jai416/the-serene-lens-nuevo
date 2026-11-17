@@ -40,8 +40,9 @@ export default function B2bDashboard() {
       fetch("/api/user/clinic", { signal: controller.signal })
         .then((res) => res.ok ? res.json() : { clinic: null, analyses: [] })
         .then((data) => {
-          setClinic(data.clinic)
-          setAnalyses(data.analyses || [])
+          const body = data?.data || data
+          setClinic(body?.clinic || null)
+          setAnalyses(body?.analyses || [])
         })
         .catch(() => toast.error("Error al cargar datos"))
         .finally(() => setLoading(false))

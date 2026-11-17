@@ -7,6 +7,7 @@ import { handlePrismaError } from "@/lib/prisma-error"
 import { validateCsrf } from "@/lib/csrf-middleware"
 import { z } from "zod"
 import { logger } from "@/lib/logger"
+import { checkRateLimit } from "@/lib/rate-limit"
 
 const redeemSchema = z.object({
   giftCode: z.string().min(1),
@@ -18,6 +19,9 @@ export async function POST(req: NextRequest) {
 
     const session = await getServerSession(authOptions)
     if (!session?.user) return unauthorized()
+
+    const { allowed } = await checkRateLimit(`redeem-gift:${session.user.id}`, 5, 60 * 60 * 1000)
+    if (!allowed) return error("Demasiados canjes. Espera un momento.", 429)
 
     const body = await req.json().catch(() => ({}))
     const parsed = redeemSchema.safeParse(body)

@@ -15,15 +15,25 @@ export async function POST(req: NextRequest, { params }: { params: Promise<{ id:
 
     const existing = await db.skinAnalysis.findUnique({
       where: { id },
-      select: { userId: true },
+      select: { userId: true, clientId: true },
     })
 
     if (!existing) return notFound("Análisis no encontrado")
 
+    // Un análisis con userId null pertenece a un cliente de una esteticista:
+    // solo su esteticista puede reclamarlo (reclamar sin ser = IDOR).
     if (existing.userId) {
       if (existing.userId !== session.user.id) return unauthorized()
       return ok({ saved: true })
     }
+
+    if (!existing.clientId) return notFound("Análisis no encontrado")
+
+    const client = await db.client.findUnique({
+      where: { id: existing.clientId },
+      select: { estheticianId: true },
+    })
+    if (!client || client.estheticianId !== session.user.id) return unauthorized()
 
     await db.skinAnalysis.update({
       where: { id },

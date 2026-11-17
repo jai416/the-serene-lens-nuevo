@@ -6,7 +6,7 @@ import { verifyPayPalOrder } from "@/lib/paypal"
 import { getCUPRate } from "@/lib/cup-rate"
 import { checkRateLimit } from "@/lib/rate-limit"
 import { logger } from "@/lib/logger"
-import { PACK_ANALYSES } from "@/lib/pricing"
+import { PACK_ANALYSES, getPack } from "@/lib/pricing"
 import { getClientIp } from "@/lib/client-ip"
 
 export async function POST(req: NextRequest) {
@@ -94,7 +94,8 @@ export async function POST(req: NextRequest) {
       return ok({ received: true, verified: false, type: "plan" })
     }
 
-    const isPack = ["BASIC", "POPULAR", "ADVANCED"].includes(payment.plan)
+    const packDef = getPack(payment.plan)
+      const isPack = Boolean(packDef)
     const amountUsd = payment.amount
     let cupRate = 500
     try {
@@ -112,8 +113,8 @@ export async function POST(req: NextRequest) {
         },
       })
 
-      if (isPack) {
-        const analyses = PACK_ANALYSES[payment.plan] || 0
+      if (isPack && packDef) {
+        const analyses = packDef.analyses || PACK_ANALYSES[payment.plan] || 0
         await tx.purchasePack.create({
           data: {
             userId: payment.userId,
@@ -152,7 +153,7 @@ export async function POST(req: NextRequest) {
         data: {
           provider: "paypal",
           eventType: orderId,
-          payload: body,
+          payload: JSON.stringify(body),
           processedAt: new Date(),
         },
       })

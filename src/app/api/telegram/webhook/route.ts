@@ -41,11 +41,15 @@ export const runtime = "nodejs"
 export async function POST(req: NextRequest) {
   try {
     const expectedSecret = process.env.TELEGRAM_WEBHOOK_SECRET
-    if (expectedSecret) {
-      const actualSecret = req.headers.get("x-telegram-bot-api-secret-token")
-      if (actualSecret !== expectedSecret) {
-        return NextResponse.json({ ok: false }, { status: 403 })
-      }
+    // Fail-closed: sin secreto configurado el webhook queda cerrado (si no,
+    // cualquiera podría ejecutar comandos del bot con un update falsificado)
+    if (!expectedSecret) {
+      logger.error("TELEGRAM_WEBHOOK_SECRET no configurado: webhook bloqueado")
+      return NextResponse.json({ ok: false }, { status: 503 })
+    }
+    const actualSecret = req.headers.get("x-telegram-bot-api-secret-token")
+    if (actualSecret !== expectedSecret) {
+      return NextResponse.json({ ok: false }, { status: 403 })
     }
 
     const update: TelegramUpdate = await req.json()

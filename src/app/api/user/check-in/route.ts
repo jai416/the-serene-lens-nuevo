@@ -75,13 +75,21 @@ export async function POST(req: NextRequest) {
       },
     })
 
-    // Check for streak reward at 7 days
+    // Recompensa por racha de 7 días: se otorga SOLO al pasar de 6 a 7
+    // (si no, un segundo check-in el mismo día la cobraría otra vez).
+    // Se entrega como pack porque `analysisLimit` es un campo legacy que el
+    // límite real (pricing.ts) no mira.
     let reward = null
-    if (newStreak === 7) {
-      // Grant a free analysis
-      await db.user.update({
-        where: { id: session.user.id },
-        data: { analysisLimit: { increment: 1 } },
+    if (newStreak === 7 && user.currentStreak === 6) {
+      await db.purchasePack.create({
+        data: {
+          userId: session.user.id,
+          packType: "STREAK_REWARD",
+          amountUsd: 0,
+          amountCup: 0,
+          analyses: 1,
+          status: "completed",
+        },
       })
       reward = {
         type: "free_analysis",

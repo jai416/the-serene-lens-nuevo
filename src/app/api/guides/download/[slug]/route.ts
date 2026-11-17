@@ -25,7 +25,13 @@ export async function GET(req: NextRequest, { params }: { params: Promise<{ slug
     })
     if (!purchase) return error("No has comprado esta guía", 403)
 
-    const filePath = path.join(/* turbopackIgnore: true */ process.cwd(), guide.fileUrl)
+    // Path traversal: el fileUrl viene de la DB y no puede salir de public/guides
+    const guidesRoot = path.resolve(/* turbopackIgnore: true */ process.cwd(), "public", "guides")
+    const filePath = path.resolve(guidesRoot, path.basename(guide.fileUrl))
+    if (!filePath.startsWith(guidesRoot + path.sep)) {
+      logger.error("Blocked guide path traversal", { slug, fileUrl: guide.fileUrl })
+      return error("Archivo no disponible", 404)
+    }
     try {
       await fs.access(filePath)
     } catch {
