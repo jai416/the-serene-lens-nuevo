@@ -514,46 +514,54 @@ Todo el proceso toma menos de 5 minutos. Las fotos se comprimen automáticamente
     synonyms: ["precio", "planes", "cuanto cuesta", "valor", "mensualidad", "gratis", "free"],
     content: `The Serene Lens ofrece planes de suscripción para todos:
 
-1. FREE (Gratuito)
-   - 1 análisis al mes
+1. ESSENTIAL (Gratuito)
+   - 3 análisis de piel con IA al mes
    - Acceso básico al historial
    - Sin límite de tiempo
+   - Prueba de Premium de 7 días al registrarte
 
-2. PREMIUM ($7.99/mes)
+2. PREMIUM ($7.99/mes o $79.99/año)
    - Análisis ilimitados
    - Historial completo de evolución
    - Comparativa mes a mes
-   - También disponible anual por $79.99 ($6.67/mes)
+   - Guardado de productos y detección de conflictos de ingredientes
 
-3. PRO ($9.99/mes)
-   - Todo lo de PREMIUM
+3. PRO ($9.99/mes o $99.99/año)
+   - Todo lo de Premium
    - Prioridad en procesamiento
    - Soporte prioritario
    - Acceso anticipado a nuevas funciones
 
-4. PRO+ ($14.99/mes)
-   - Todo lo de PRO
+4. PRO+ ($14.99/mes o $199.99/año)
+   - Todo lo de Pro
    - Informes PDF descargables
    - Rutina dinámica personalizada
    - Comparativa mensual detallada
    - Soporte prioritario 1h
-   - También disponible anual por $199.99
 
-5. ESTHETICIAN ($49.99/mes)
-   - Todo lo de PRO+
+5. ESTHETICIAN ($49.99/mes o $499.99/año)
+   - Todo lo de Pro+
    - Hasta 200 clientes
    - Panel de gestión de clientes con tu marca
-   - Informes PDF personalizados
-   - Exportación de datos (CSV)
-   - Soporte dedicado 24h
-   - También disponible anual por $499.99
+   - Informes PDF con la marca de la clínica
+   - Código QR de referido y kit de marketing
 
-También ofrecemos packs de análisis sin suscripción:
+FORMAS DE PAGO:
+- Transfermóvil (CUP) — disponible en Cuba, confirmación por el equipo de soporte
+- PayPal (USD) — para clientes fuera de Cuba
+
+PACKS DE ANÁLISIS:
+- Pack de 10: $4.99 • Pack de 25: $9.99 — expiran a los 30 días
+
+Los planes se cancelan cuando quieras; sin permanencia.
+
+PACKS DE ANÁLISIS (sin suscripción):
 - Pack Básico (3 análisis): $1.99
 - Pack Popular (5 análisis): $4.99
 - Pack de 10 análisis: $4.99
 - Pack Avanzado (15 análisis): $6.99
 - Pack de 25 análisis: $9.99 (mejor ahorro)
+- Caducan a los 30 días desde la compra
 
 Todos los precios están en USD. Aceptamos PayPal y Transfermóvil (Cuba).`
   },

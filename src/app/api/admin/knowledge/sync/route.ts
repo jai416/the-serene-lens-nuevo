@@ -15,22 +15,43 @@ const PAGES_TO_SYNC = [
   { url: "/products", title: "Productos", category: "product", subcategory: "faq", priority: 5 },
   { url: "/guides", title: "Guías Digitales", category: "general", subcategory: "guide", priority: 5 },
   { url: "/analysis", title: "Análisis de Piel", category: "analysis", subcategory: "tutorial", priority: 10 },
-  { url: "/dashboard", title: "Dashboard de Usuario", category: "support", subcategory: "tutorial", priority: 5 },
   { url: "/community", title: "Comunidad", category: "general", subcategory: "faq", priority: 3 },
   { url: "/blog", title: "Blog de Skincare", category: "blog", subcategory: "faq", priority: 5 },
   { url: "/terms", title: "Términos y Condiciones", category: "general", subcategory: "faq", priority: 2 },
   { url: "/privacy", title: "Política de Privacidad", category: "general", subcategory: "faq", priority: 2 },
-  { url: "/faq", title: "Preguntas Frecuentes", category: "general", subcategory: "faq", priority: 8 },
 ]
 
+/**
+ * Extrae el contenido útil de una página (sin navegación, header ni footer).
+ *
+ * Antes se hacía `html.replace(/<[^>]*>/g, " ")` sobre TODO el HTML: el
+ * resultado era el chrome de la web ("The Serene Lens | ... Inicio Productos
+ * ...") y no el contenido de la página, lo que envenenaba el RAG del bot.
+ */
 async function fetchPageContent(url: string): Promise<string> {
   const baseUrl = process.env.NEXT_PUBLIC_APP_URL || ""
   try {
     const res = await fetch(`${baseUrl}${url}`, { signal: AbortSignal.timeout(10000) })
     if (!res.ok) return ""
     const html = await res.text()
-    const text = html.replace(/<[^>]*>/g, " ").replace(/\s+/g, " ").trim()
-    return text.slice(0, 3000)
+
+    // El layout de la app envuelve el contenido en <main id="main-content">
+    const main =
+      html.match(/<main[^>]*>([\s\S]*?)<\/main>/i)?.[1] ??
+      html.match(/<article[^>]*>([\s\S]*?)<\/article>/i)?.[1] ??
+      ""
+
+    if (!main) return ""
+
+    const text = main
+      .replace(/<(script|style|nav|footer|header|aside|svg)[^>]*>[\s\S]*?<\/\1>/gi, " ")
+      .replace(/<[^>]*>/g, " ")
+      .replace(/&[a-z#0-9]+;/gi, " ")
+      .replace(/\s+/g, " ")
+      .trim()
+
+    // Si no hay texto suficiente, la página no aporta nada al RAG
+    return text.length >= 200 ? text.slice(0, 3000) : ""
   } catch {
     return ""
   }
@@ -58,10 +79,14 @@ export async function POST() {
         })
 
         if (existing) {
+          if (!content) {
+            failed++
+            continue
+          }
           await db.botKnowledge.update({
             where: { id: existing.id },
             data: {
-              content: content || existing.content,
+              content,
               version: existing.version + 1,
               updatedAt: new Date(),
               updatedBy: session.user.id,
@@ -69,10 +94,15 @@ export async function POST() {
           })
           updated++
         } else {
+          // Sin contenido real no se crea la entrada (evita placeholders en el RAG)
+          if (!content) {
+            failed++
+            continue
+          }
           await db.botKnowledge.create({
             data: {
               title: page.title,
-              content: content || `Contenido de ${page.title}`,
+              content,
               category: page.category,
               subcategory: page.subcategory,
               source: "web",
