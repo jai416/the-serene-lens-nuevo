@@ -67,6 +67,7 @@ export async function POST() {
 
     let created = 0
     let updated = 0
+    let skipped = 0
     let failed = 0
 
     for (const page of PAGES_TO_SYNC) {
@@ -81,6 +82,13 @@ export async function POST() {
         if (existing) {
           if (!content) {
             failed++
+            continue
+          }
+          // No se pisa contenido curado a mano: solo se reemplaza si está vacío
+          // o es un placeholder (contenido pobre scraped de páginas).
+          const isPlaceholder = existing.content.trim().length < 200
+          if (!isPlaceholder) {
+            skipped++
             continue
           }
           await db.botKnowledge.update({
@@ -120,8 +128,8 @@ export async function POST() {
       }
     }
 
-    logger.info("Knowledge sync completed", { created, updated, failed })
-    return ok({ created, updated, failed, total: PAGES_TO_SYNC.length })
+    logger.info("Knowledge sync completed", { created, updated, skipped, failed })
+    return ok({ created, updated, skipped, failed, total: PAGES_TO_SYNC.length })
   } catch (e) {
     logger.error("Knowledge sync error", { error: e })
     return serverError(e)
