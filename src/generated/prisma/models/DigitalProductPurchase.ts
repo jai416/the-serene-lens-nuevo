@@ -42,6 +42,7 @@ export type DigitalProductPurchaseMinAggregateOutputType = {
   currency: string | null
   provider: string | null
   paypalOrderId: string | null
+  qvapayId: string | null
   status: string | null
   downloadUrl: string | null
   createdAt: Date | null
@@ -55,6 +56,7 @@ export type DigitalProductPurchaseMaxAggregateOutputType = {
   currency: string | null
   provider: string | null
   paypalOrderId: string | null
+  qvapayId: string | null
   status: string | null
   downloadUrl: string | null
   createdAt: Date | null
@@ -68,6 +70,7 @@ export type DigitalProductPurchaseCountAggregateOutputType = {
   currency: number
   provider: number
   paypalOrderId: number
+  qvapayId: number
   status: number
   downloadUrl: number
   createdAt: number
@@ -91,6 +94,7 @@ export type DigitalProductPurchaseMinAggregateInputType = {
   currency?: true
   provider?: true
   paypalOrderId?: true
+  qvapayId?: true
   status?: true
   downloadUrl?: true
   createdAt?: true
@@ -104,6 +108,7 @@ export type DigitalProductPurchaseMaxAggregateInputType = {
   currency?: true
   provider?: true
   paypalOrderId?: true
+  qvapayId?: true
   status?: true
   downloadUrl?: true
   createdAt?: true
@@ -117,6 +122,7 @@ export type DigitalProductPurchaseCountAggregateInputType = {
   currency?: true
   provider?: true
   paypalOrderId?: true
+  qvapayId?: true
   status?: true
   downloadUrl?: true
   createdAt?: true
@@ -217,6 +223,7 @@ export type DigitalProductPurchaseGroupByOutputType = {
   currency: string
   provider: string
   paypalOrderId: string | null
+  qvapayId: string | null
   status: string
   downloadUrl: string | null
   createdAt: Date
@@ -253,6 +260,7 @@ export type DigitalProductPurchaseWhereInput = {
   currency?: Prisma.StringFilter<"DigitalProductPurchase"> | string
   provider?: Prisma.StringFilter<"DigitalProductPurchase"> | string
   paypalOrderId?: Prisma.StringNullableFilter<"DigitalProductPurchase"> | string | null
+  qvapayId?: Prisma.StringNullableFilter<"DigitalProductPurchase"> | string | null
   status?: Prisma.StringFilter<"DigitalProductPurchase"> | string
   downloadUrl?: Prisma.StringNullableFilter<"DigitalProductPurchase"> | string | null
   createdAt?: Prisma.DateTimeFilter<"DigitalProductPurchase"> | Date | string
@@ -268,6 +276,7 @@ export type DigitalProductPurchaseOrderByWithRelationInput = {
   currency?: Prisma.SortOrder
   provider?: Prisma.SortOrder
   paypalOrderId?: Prisma.SortOrderInput | Prisma.SortOrder
+  qvapayId?: Prisma.SortOrderInput | Prisma.SortOrder
   status?: Prisma.SortOrder
   downloadUrl?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -278,6 +287,7 @@ export type DigitalProductPurchaseOrderByWithRelationInput = {
 export type DigitalProductPurchaseWhereUniqueInput = Prisma.AtLeast<{
   id?: string
   paypalOrderId?: string
+  qvapayId?: string
   AND?: Prisma.DigitalProductPurchaseWhereInput | Prisma.DigitalProductPurchaseWhereInput[]
   OR?: Prisma.DigitalProductPurchaseWhereInput[]
   NOT?: Prisma.DigitalProductPurchaseWhereInput | Prisma.DigitalProductPurchaseWhereInput[]
@@ -291,7 +301,7 @@ export type DigitalProductPurchaseWhereUniqueInput = Prisma.AtLeast<{
   createdAt?: Prisma.DateTimeFilter<"DigitalProductPurchase"> | Date | string
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
   digitalProduct?: Prisma.XOR<Prisma.DigitalProductScalarRelationFilter, Prisma.DigitalProductWhereInput>
-}, "id" | "paypalOrderId">
+}, "id" | "paypalOrderId" | "qvapayId">
 
 export type DigitalProductPurchaseOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
@@ -301,6 +311,7 @@ export type DigitalProductPurchaseOrderByWithAggregationInput = {
   currency?: Prisma.SortOrder
   provider?: Prisma.SortOrder
   paypalOrderId?: Prisma.SortOrderInput | Prisma.SortOrder
+  qvapayId?: Prisma.SortOrderInput | Prisma.SortOrder
   status?: Prisma.SortOrder
   downloadUrl?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -322,6 +333,7 @@ export type DigitalProductPurchaseScalarWhereWithAggregatesInput = {
   currency?: Prisma.StringWithAggregatesFilter<"DigitalProductPurchase"> | string
   provider?: Prisma.StringWithAggregatesFilter<"DigitalProductPurchase"> | string
   paypalOrderId?: Prisma.StringNullableWithAggregatesFilter<"DigitalProductPurchase"> | string | null
+  qvapayId?: Prisma.StringNullableWithAggregatesFilter<"DigitalProductPurchase"> | string | null
   status?: Prisma.StringWithAggregatesFilter<"DigitalProductPurchase"> | string
   downloadUrl?: Prisma.StringNullableWithAggregatesFilter<"DigitalProductPurchase"> | string | null
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"DigitalProductPurchase"> | Date | string
@@ -333,6 +345,7 @@ export type DigitalProductPurchaseCreateInput = {
   currency?: string
   provider?: string
   paypalOrderId?: string | null
+  qvapayId?: string | null
   status?: string
   downloadUrl?: string | null
   createdAt?: Date | string
@@ -348,6 +361,7 @@ export type DigitalProductPurchaseUncheckedCreateInput = {
   currency?: string
   provider?: string
   paypalOrderId?: string | null
+  qvapayId?: string | null
   status?: string
   downloadUrl?: string | null
   createdAt?: Date | string
@@ -359,6 +373,7 @@ export type DigitalProductPurchaseUpdateInput = {
   currency?: Prisma.StringFieldUpdateOperationsInput | string
   provider?: Prisma.StringFieldUpdateOperationsInput | string
   paypalOrderId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  qvapayId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.StringFieldUpdateOperationsInput | string
   downloadUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -374,6 +389,7 @@ export type DigitalProductPurchaseUncheckedUpdateInput = {
   currency?: Prisma.StringFieldUpdateOperationsInput | string
   provider?: Prisma.StringFieldUpdateOperationsInput | string
   paypalOrderId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  qvapayId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.StringFieldUpdateOperationsInput | string
   downloadUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -387,6 +403,7 @@ export type DigitalProductPurchaseCreateManyInput = {
   currency?: string
   provider?: string
   paypalOrderId?: string | null
+  qvapayId?: string | null
   status?: string
   downloadUrl?: string | null
   createdAt?: Date | string
@@ -398,6 +415,7 @@ export type DigitalProductPurchaseUpdateManyMutationInput = {
   currency?: Prisma.StringFieldUpdateOperationsInput | string
   provider?: Prisma.StringFieldUpdateOperationsInput | string
   paypalOrderId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  qvapayId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.StringFieldUpdateOperationsInput | string
   downloadUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -411,6 +429,7 @@ export type DigitalProductPurchaseUncheckedUpdateManyInput = {
   currency?: Prisma.StringFieldUpdateOperationsInput | string
   provider?: Prisma.StringFieldUpdateOperationsInput | string
   paypalOrderId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  qvapayId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.StringFieldUpdateOperationsInput | string
   downloadUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -434,6 +453,7 @@ export type DigitalProductPurchaseCountOrderByAggregateInput = {
   currency?: Prisma.SortOrder
   provider?: Prisma.SortOrder
   paypalOrderId?: Prisma.SortOrder
+  qvapayId?: Prisma.SortOrder
   status?: Prisma.SortOrder
   downloadUrl?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -451,6 +471,7 @@ export type DigitalProductPurchaseMaxOrderByAggregateInput = {
   currency?: Prisma.SortOrder
   provider?: Prisma.SortOrder
   paypalOrderId?: Prisma.SortOrder
+  qvapayId?: Prisma.SortOrder
   status?: Prisma.SortOrder
   downloadUrl?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -464,6 +485,7 @@ export type DigitalProductPurchaseMinOrderByAggregateInput = {
   currency?: Prisma.SortOrder
   provider?: Prisma.SortOrder
   paypalOrderId?: Prisma.SortOrder
+  qvapayId?: Prisma.SortOrder
   status?: Prisma.SortOrder
   downloadUrl?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -563,6 +585,7 @@ export type DigitalProductPurchaseCreateWithoutUserInput = {
   currency?: string
   provider?: string
   paypalOrderId?: string | null
+  qvapayId?: string | null
   status?: string
   downloadUrl?: string | null
   createdAt?: Date | string
@@ -576,6 +599,7 @@ export type DigitalProductPurchaseUncheckedCreateWithoutUserInput = {
   currency?: string
   provider?: string
   paypalOrderId?: string | null
+  qvapayId?: string | null
   status?: string
   downloadUrl?: string | null
   createdAt?: Date | string
@@ -618,6 +642,7 @@ export type DigitalProductPurchaseScalarWhereInput = {
   currency?: Prisma.StringFilter<"DigitalProductPurchase"> | string
   provider?: Prisma.StringFilter<"DigitalProductPurchase"> | string
   paypalOrderId?: Prisma.StringNullableFilter<"DigitalProductPurchase"> | string | null
+  qvapayId?: Prisma.StringNullableFilter<"DigitalProductPurchase"> | string | null
   status?: Prisma.StringFilter<"DigitalProductPurchase"> | string
   downloadUrl?: Prisma.StringNullableFilter<"DigitalProductPurchase"> | string | null
   createdAt?: Prisma.DateTimeFilter<"DigitalProductPurchase"> | Date | string
@@ -629,6 +654,7 @@ export type DigitalProductPurchaseCreateWithoutDigitalProductInput = {
   currency?: string
   provider?: string
   paypalOrderId?: string | null
+  qvapayId?: string | null
   status?: string
   downloadUrl?: string | null
   createdAt?: Date | string
@@ -642,6 +668,7 @@ export type DigitalProductPurchaseUncheckedCreateWithoutDigitalProductInput = {
   currency?: string
   provider?: string
   paypalOrderId?: string | null
+  qvapayId?: string | null
   status?: string
   downloadUrl?: string | null
   createdAt?: Date | string
@@ -680,6 +707,7 @@ export type DigitalProductPurchaseCreateManyUserInput = {
   currency?: string
   provider?: string
   paypalOrderId?: string | null
+  qvapayId?: string | null
   status?: string
   downloadUrl?: string | null
   createdAt?: Date | string
@@ -691,6 +719,7 @@ export type DigitalProductPurchaseUpdateWithoutUserInput = {
   currency?: Prisma.StringFieldUpdateOperationsInput | string
   provider?: Prisma.StringFieldUpdateOperationsInput | string
   paypalOrderId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  qvapayId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.StringFieldUpdateOperationsInput | string
   downloadUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -704,6 +733,7 @@ export type DigitalProductPurchaseUncheckedUpdateWithoutUserInput = {
   currency?: Prisma.StringFieldUpdateOperationsInput | string
   provider?: Prisma.StringFieldUpdateOperationsInput | string
   paypalOrderId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  qvapayId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.StringFieldUpdateOperationsInput | string
   downloadUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -716,6 +746,7 @@ export type DigitalProductPurchaseUncheckedUpdateManyWithoutUserInput = {
   currency?: Prisma.StringFieldUpdateOperationsInput | string
   provider?: Prisma.StringFieldUpdateOperationsInput | string
   paypalOrderId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  qvapayId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.StringFieldUpdateOperationsInput | string
   downloadUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -728,6 +759,7 @@ export type DigitalProductPurchaseCreateManyDigitalProductInput = {
   currency?: string
   provider?: string
   paypalOrderId?: string | null
+  qvapayId?: string | null
   status?: string
   downloadUrl?: string | null
   createdAt?: Date | string
@@ -739,6 +771,7 @@ export type DigitalProductPurchaseUpdateWithoutDigitalProductInput = {
   currency?: Prisma.StringFieldUpdateOperationsInput | string
   provider?: Prisma.StringFieldUpdateOperationsInput | string
   paypalOrderId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  qvapayId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.StringFieldUpdateOperationsInput | string
   downloadUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -752,6 +785,7 @@ export type DigitalProductPurchaseUncheckedUpdateWithoutDigitalProductInput = {
   currency?: Prisma.StringFieldUpdateOperationsInput | string
   provider?: Prisma.StringFieldUpdateOperationsInput | string
   paypalOrderId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  qvapayId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.StringFieldUpdateOperationsInput | string
   downloadUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -764,6 +798,7 @@ export type DigitalProductPurchaseUncheckedUpdateManyWithoutDigitalProductInput 
   currency?: Prisma.StringFieldUpdateOperationsInput | string
   provider?: Prisma.StringFieldUpdateOperationsInput | string
   paypalOrderId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  qvapayId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.StringFieldUpdateOperationsInput | string
   downloadUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -779,6 +814,7 @@ export type DigitalProductPurchaseSelect<ExtArgs extends runtime.Types.Extension
   currency?: boolean
   provider?: boolean
   paypalOrderId?: boolean
+  qvapayId?: boolean
   status?: boolean
   downloadUrl?: boolean
   createdAt?: boolean
@@ -794,6 +830,7 @@ export type DigitalProductPurchaseSelectCreateManyAndReturn<ExtArgs extends runt
   currency?: boolean
   provider?: boolean
   paypalOrderId?: boolean
+  qvapayId?: boolean
   status?: boolean
   downloadUrl?: boolean
   createdAt?: boolean
@@ -809,6 +846,7 @@ export type DigitalProductPurchaseSelectUpdateManyAndReturn<ExtArgs extends runt
   currency?: boolean
   provider?: boolean
   paypalOrderId?: boolean
+  qvapayId?: boolean
   status?: boolean
   downloadUrl?: boolean
   createdAt?: boolean
@@ -824,12 +862,13 @@ export type DigitalProductPurchaseSelectScalar = {
   currency?: boolean
   provider?: boolean
   paypalOrderId?: boolean
+  qvapayId?: boolean
   status?: boolean
   downloadUrl?: boolean
   createdAt?: boolean
 }
 
-export type DigitalProductPurchaseOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "digitalProductId" | "amount" | "currency" | "provider" | "paypalOrderId" | "status" | "downloadUrl" | "createdAt", ExtArgs["result"]["digitalProductPurchase"]>
+export type DigitalProductPurchaseOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "digitalProductId" | "amount" | "currency" | "provider" | "paypalOrderId" | "qvapayId" | "status" | "downloadUrl" | "createdAt", ExtArgs["result"]["digitalProductPurchase"]>
 export type DigitalProductPurchaseInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   digitalProduct?: boolean | Prisma.DigitalProductDefaultArgs<ExtArgs>
@@ -857,6 +896,7 @@ export type $DigitalProductPurchasePayload<ExtArgs extends runtime.Types.Extensi
     currency: string
     provider: string
     paypalOrderId: string | null
+    qvapayId: string | null
     status: string
     downloadUrl: string | null
     createdAt: Date
@@ -1292,6 +1332,7 @@ export interface DigitalProductPurchaseFieldRefs {
   readonly currency: Prisma.FieldRef<"DigitalProductPurchase", 'String'>
   readonly provider: Prisma.FieldRef<"DigitalProductPurchase", 'String'>
   readonly paypalOrderId: Prisma.FieldRef<"DigitalProductPurchase", 'String'>
+  readonly qvapayId: Prisma.FieldRef<"DigitalProductPurchase", 'String'>
   readonly status: Prisma.FieldRef<"DigitalProductPurchase", 'String'>
   readonly downloadUrl: Prisma.FieldRef<"DigitalProductPurchase", 'String'>
   readonly createdAt: Prisma.FieldRef<"DigitalProductPurchase", 'DateTime'>

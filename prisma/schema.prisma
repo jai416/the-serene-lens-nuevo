@@ -29,6 +29,8 @@ model User {
   maxStreak         Int       @default(0)
   lastCheckInDate   DateTime?
   trialEndsAt       DateTime?
+  // Legado QvaPay — se conserva porque es el método de pago real en Cuba
+  qvapayId          String?   @unique
   createdAt         DateTime  @default(now())
   updatedAt         DateTime  @updatedAt
 
@@ -212,6 +214,9 @@ model Payment {
   userId            String
   provider          String    @default("paypal")
   paypalOrderId     String?   @unique
+  // Legado QvaPay — se conserva porque es el método de pago real en Cuba
+  qvapayId          String?   @unique
+  remoteId          String?
   plan              String
   amount            Float
   amountUsd         Float?
@@ -280,6 +285,8 @@ model Subscription {
   userId               String
   provider             String   @default("paypal")
   paypalSubscriptionId String?  @unique
+  // Legado QvaPay — se conserva porque es el método de pago real en Cuba
+  qvapayInvoiceId      String?  @unique
   plan                 String
   status               String   @default("active")
   currentPeriodStart   DateTime?
@@ -743,6 +750,8 @@ model DigitalProductPurchase {
   currency        String   @default("USD")
   provider        String   @default("paypal")
   paypalOrderId   String?  @unique
+  // Legado QvaPay — se conserva porque es el método de pago real en Cuba
+  qvapayId        String?  @unique
   status          String   @default("completed")
   downloadUrl     String?
   createdAt       DateTime @default(now())

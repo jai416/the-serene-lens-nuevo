@@ -151,6 +151,7 @@ export const UserScalarFieldEnum = {
   maxStreak: 'maxStreak',
   lastCheckInDate: 'lastCheckInDate',
   trialEndsAt: 'trialEndsAt',
+  qvapayId: 'qvapayId',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
   referredByEstheticianId: 'referredByEstheticianId'
@@ -274,6 +275,8 @@ export const PaymentScalarFieldEnum = {
   userId: 'userId',
   provider: 'provider',
   paypalOrderId: 'paypalOrderId',
+  qvapayId: 'qvapayId',
+  remoteId: 'remoteId',
   plan: 'plan',
   amount: 'amount',
   amountUsd: 'amountUsd',
@@ -326,6 +329,7 @@ export const SubscriptionScalarFieldEnum = {
   userId: 'userId',
   provider: 'provider',
   paypalSubscriptionId: 'paypalSubscriptionId',
+  qvapayInvoiceId: 'qvapayInvoiceId',
   plan: 'plan',
   status: 'status',
   currentPeriodStart: 'currentPeriodStart',
@@ -725,6 +729,7 @@ export const DigitalProductPurchaseScalarFieldEnum = {
   currency: 'currency',
   provider: 'provider',
   paypalOrderId: 'paypalOrderId',
+  qvapayId: 'qvapayId',
   status: 'status',
   downloadUrl: 'downloadUrl',
   createdAt: 'createdAt'

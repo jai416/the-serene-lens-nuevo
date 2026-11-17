@@ -66,6 +66,7 @@ export type UserMinAggregateOutputType = {
   maxStreak: number | null
   lastCheckInDate: Date | null
   trialEndsAt: Date | null
+  qvapayId: string | null
   createdAt: Date | null
   updatedAt: Date | null
   referredByEstheticianId: string | null
@@ -93,6 +94,7 @@ export type UserMaxAggregateOutputType = {
   maxStreak: number | null
   lastCheckInDate: Date | null
   trialEndsAt: Date | null
+  qvapayId: string | null
   createdAt: Date | null
   updatedAt: Date | null
   referredByEstheticianId: string | null
@@ -120,6 +122,7 @@ export type UserCountAggregateOutputType = {
   maxStreak: number
   lastCheckInDate: number
   trialEndsAt: number
+  qvapayId: number
   createdAt: number
   updatedAt: number
   referredByEstheticianId: number
@@ -167,6 +170,7 @@ export type UserMinAggregateInputType = {
   maxStreak?: true
   lastCheckInDate?: true
   trialEndsAt?: true
+  qvapayId?: true
   createdAt?: true
   updatedAt?: true
   referredByEstheticianId?: true
@@ -194,6 +198,7 @@ export type UserMaxAggregateInputType = {
   maxStreak?: true
   lastCheckInDate?: true
   trialEndsAt?: true
+  qvapayId?: true
   createdAt?: true
   updatedAt?: true
   referredByEstheticianId?: true
@@ -221,6 +226,7 @@ export type UserCountAggregateInputType = {
   maxStreak?: true
   lastCheckInDate?: true
   trialEndsAt?: true
+  qvapayId?: true
   createdAt?: true
   updatedAt?: true
   referredByEstheticianId?: true
@@ -335,6 +341,7 @@ export type UserGroupByOutputType = {
   maxStreak: number
   lastCheckInDate: Date | null
   trialEndsAt: Date | null
+  qvapayId: string | null
   createdAt: Date
   updatedAt: Date
   referredByEstheticianId: string | null
@@ -385,6 +392,7 @@ export type UserWhereInput = {
   maxStreak?: Prisma.IntFilter<"User"> | number
   lastCheckInDate?: Prisma.DateTimeNullableFilter<"User"> | Date | string | null
   trialEndsAt?: Prisma.DateTimeNullableFilter<"User"> | Date | string | null
+  qvapayId?: Prisma.StringNullableFilter<"User"> | string | null
   createdAt?: Prisma.DateTimeFilter<"User"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"User"> | Date | string
   referredByEstheticianId?: Prisma.StringNullableFilter<"User"> | string | null
@@ -454,6 +462,7 @@ export type UserOrderByWithRelationInput = {
   maxStreak?: Prisma.SortOrder
   lastCheckInDate?: Prisma.SortOrderInput | Prisma.SortOrder
   trialEndsAt?: Prisma.SortOrderInput | Prisma.SortOrder
+  qvapayId?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   referredByEstheticianId?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -505,6 +514,7 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   id?: string
   email?: string
   username?: string
+  qvapayId?: string
   AND?: Prisma.UserWhereInput | Prisma.UserWhereInput[]
   OR?: Prisma.UserWhereInput[]
   NOT?: Prisma.UserWhereInput | Prisma.UserWhereInput[]
@@ -571,7 +581,7 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   savedProducts?: Prisma.UserSavedProductListRelationFilter
   userBadges?: Prisma.UserBadgeListRelationFilter
   weatherLogs?: Prisma.WeatherLogListRelationFilter
-}, "id" | "email" | "username">
+}, "id" | "email" | "username" | "qvapayId">
 
 export type UserOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
@@ -595,6 +605,7 @@ export type UserOrderByWithAggregationInput = {
   maxStreak?: Prisma.SortOrder
   lastCheckInDate?: Prisma.SortOrderInput | Prisma.SortOrder
   trialEndsAt?: Prisma.SortOrderInput | Prisma.SortOrder
+  qvapayId?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   referredByEstheticianId?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -630,6 +641,7 @@ export type UserScalarWhereWithAggregatesInput = {
   maxStreak?: Prisma.IntWithAggregatesFilter<"User"> | number
   lastCheckInDate?: Prisma.DateTimeNullableWithAggregatesFilter<"User"> | Date | string | null
   trialEndsAt?: Prisma.DateTimeNullableWithAggregatesFilter<"User"> | Date | string | null
+  qvapayId?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"User"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"User"> | Date | string
   referredByEstheticianId?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
@@ -657,6 +669,7 @@ export type UserCreateInput = {
   maxStreak?: number
   lastCheckInDate?: Date | string | null
   trialEndsAt?: Date | string | null
+  qvapayId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
@@ -725,6 +738,7 @@ export type UserUncheckedCreateInput = {
   maxStreak?: number
   lastCheckInDate?: Date | string | null
   trialEndsAt?: Date | string | null
+  qvapayId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   referredByEstheticianId?: string | null
@@ -793,6 +807,7 @@ export type UserUpdateInput = {
   maxStreak?: Prisma.IntFieldUpdateOperationsInput | number
   lastCheckInDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   trialEndsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  qvapayId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
@@ -861,6 +876,7 @@ export type UserUncheckedUpdateInput = {
   maxStreak?: Prisma.IntFieldUpdateOperationsInput | number
   lastCheckInDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   trialEndsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  qvapayId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   referredByEstheticianId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -929,6 +945,7 @@ export type UserCreateManyInput = {
   maxStreak?: number
   lastCheckInDate?: Date | string | null
   trialEndsAt?: Date | string | null
+  qvapayId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   referredByEstheticianId?: string | null
@@ -956,6 +973,7 @@ export type UserUpdateManyMutationInput = {
   maxStreak?: Prisma.IntFieldUpdateOperationsInput | number
   lastCheckInDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   trialEndsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  qvapayId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -982,6 +1000,7 @@ export type UserUncheckedUpdateManyInput = {
   maxStreak?: Prisma.IntFieldUpdateOperationsInput | number
   lastCheckInDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   trialEndsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  qvapayId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   referredByEstheticianId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1009,6 +1028,7 @@ export type UserCountOrderByAggregateInput = {
   maxStreak?: Prisma.SortOrder
   lastCheckInDate?: Prisma.SortOrder
   trialEndsAt?: Prisma.SortOrder
+  qvapayId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   referredByEstheticianId?: Prisma.SortOrder
@@ -1045,6 +1065,7 @@ export type UserMaxOrderByAggregateInput = {
   maxStreak?: Prisma.SortOrder
   lastCheckInDate?: Prisma.SortOrder
   trialEndsAt?: Prisma.SortOrder
+  qvapayId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   referredByEstheticianId?: Prisma.SortOrder
@@ -1072,6 +1093,7 @@ export type UserMinOrderByAggregateInput = {
   maxStreak?: Prisma.SortOrder
   lastCheckInDate?: Prisma.SortOrder
   trialEndsAt?: Prisma.SortOrder
+  qvapayId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   referredByEstheticianId?: Prisma.SortOrder
@@ -1798,6 +1820,7 @@ export type UserCreateWithoutAnalysisJobsInput = {
   maxStreak?: number
   lastCheckInDate?: Date | string | null
   trialEndsAt?: Date | string | null
+  qvapayId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
@@ -1865,6 +1888,7 @@ export type UserUncheckedCreateWithoutAnalysisJobsInput = {
   maxStreak?: number
   lastCheckInDate?: Date | string | null
   trialEndsAt?: Date | string | null
+  qvapayId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   referredByEstheticianId?: string | null
@@ -1948,6 +1972,7 @@ export type UserUpdateWithoutAnalysisJobsInput = {
   maxStreak?: Prisma.IntFieldUpdateOperationsInput | number
   lastCheckInDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   trialEndsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  qvapayId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
@@ -2015,6 +2040,7 @@ export type UserUncheckedUpdateWithoutAnalysisJobsInput = {
   maxStreak?: Prisma.IntFieldUpdateOperationsInput | number
   lastCheckInDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   trialEndsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  qvapayId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   referredByEstheticianId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -2082,6 +2108,7 @@ export type UserCreateWithoutAccountsInput = {
   maxStreak?: number
   lastCheckInDate?: Date | string | null
   trialEndsAt?: Date | string | null
+  qvapayId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
@@ -2149,6 +2176,7 @@ export type UserUncheckedCreateWithoutAccountsInput = {
   maxStreak?: number
   lastCheckInDate?: Date | string | null
   trialEndsAt?: Date | string | null
+  qvapayId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   referredByEstheticianId?: string | null
@@ -2232,6 +2260,7 @@ export type UserUpdateWithoutAccountsInput = {
   maxStreak?: Prisma.IntFieldUpdateOperationsInput | number
   lastCheckInDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   trialEndsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  qvapayId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
@@ -2299,6 +2328,7 @@ export type UserUncheckedUpdateWithoutAccountsInput = {
   maxStreak?: Prisma.IntFieldUpdateOperationsInput | number
   lastCheckInDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   trialEndsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  qvapayId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   referredByEstheticianId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -2366,6 +2396,7 @@ export type UserCreateWithoutSessionsInput = {
   maxStreak?: number
   lastCheckInDate?: Date | string | null
   trialEndsAt?: Date | string | null
+  qvapayId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
@@ -2433,6 +2464,7 @@ export type UserUncheckedCreateWithoutSessionsInput = {
   maxStreak?: number
   lastCheckInDate?: Date | string | null
   trialEndsAt?: Date | string | null
+  qvapayId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   referredByEstheticianId?: string | null
@@ -2516,6 +2548,7 @@ export type UserUpdateWithoutSessionsInput = {
   maxStreak?: Prisma.IntFieldUpdateOperationsInput | number
   lastCheckInDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   trialEndsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  qvapayId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
@@ -2583,6 +2616,7 @@ export type UserUncheckedUpdateWithoutSessionsInput = {
   maxStreak?: Prisma.IntFieldUpdateOperationsInput | number
   lastCheckInDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   trialEndsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  qvapayId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   referredByEstheticianId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -2650,6 +2684,7 @@ export type UserCreateWithoutAnalysesInput = {
   maxStreak?: number
   lastCheckInDate?: Date | string | null
   trialEndsAt?: Date | string | null
+  qvapayId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
@@ -2717,6 +2752,7 @@ export type UserUncheckedCreateWithoutAnalysesInput = {
   maxStreak?: number
   lastCheckInDate?: Date | string | null
   trialEndsAt?: Date | string | null
+  qvapayId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   referredByEstheticianId?: string | null
@@ -2800,6 +2836,7 @@ export type UserUpdateWithoutAnalysesInput = {
   maxStreak?: Prisma.IntFieldUpdateOperationsInput | number
   lastCheckInDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   trialEndsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  qvapayId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
@@ -2867,6 +2904,7 @@ export type UserUncheckedUpdateWithoutAnalysesInput = {
   maxStreak?: Prisma.IntFieldUpdateOperationsInput | number
   lastCheckInDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   trialEndsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  qvapayId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   referredByEstheticianId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -2934,6 +2972,7 @@ export type UserCreateWithoutPaymentsInput = {
   maxStreak?: number
   lastCheckInDate?: Date | string | null
   trialEndsAt?: Date | string | null
+  qvapayId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
@@ -3001,6 +3040,7 @@ export type UserUncheckedCreateWithoutPaymentsInput = {
   maxStreak?: number
   lastCheckInDate?: Date | string | null
   trialEndsAt?: Date | string | null
+  qvapayId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   referredByEstheticianId?: string | null
@@ -3084,6 +3124,7 @@ export type UserUpdateWithoutPaymentsInput = {
   maxStreak?: Prisma.IntFieldUpdateOperationsInput | number
   lastCheckInDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   trialEndsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  qvapayId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
@@ -3151,6 +3192,7 @@ export type UserUncheckedUpdateWithoutPaymentsInput = {
   maxStreak?: Prisma.IntFieldUpdateOperationsInput | number
   lastCheckInDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   trialEndsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  qvapayId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   referredByEstheticianId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -3218,6 +3260,7 @@ export type UserCreateWithoutTransferPaymentsInput = {
   maxStreak?: number
   lastCheckInDate?: Date | string | null
   trialEndsAt?: Date | string | null
+  qvapayId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
@@ -3285,6 +3328,7 @@ export type UserUncheckedCreateWithoutTransferPaymentsInput = {
   maxStreak?: number
   lastCheckInDate?: Date | string | null
   trialEndsAt?: Date | string | null
+  qvapayId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   referredByEstheticianId?: string | null
@@ -3357,6 +3401,7 @@ export type UserCreateWithoutValidatedTransfersInput = {
   maxStreak?: number
   lastCheckInDate?: Date | string | null
   trialEndsAt?: Date | string | null
+  qvapayId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
@@ -3424,6 +3469,7 @@ export type UserUncheckedCreateWithoutValidatedTransfersInput = {
   maxStreak?: number
   lastCheckInDate?: Date | string | null
   trialEndsAt?: Date | string | null
+  qvapayId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   referredByEstheticianId?: string | null
@@ -3496,6 +3542,7 @@ export type UserCreateWithoutActivatedTransfersInput = {
   maxStreak?: number
   lastCheckInDate?: Date | string | null
   trialEndsAt?: Date | string | null
+  qvapayId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
@@ -3563,6 +3610,7 @@ export type UserUncheckedCreateWithoutActivatedTransfersInput = {
   maxStreak?: number
   lastCheckInDate?: Date | string | null
   trialEndsAt?: Date | string | null
+  qvapayId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   referredByEstheticianId?: string | null
@@ -3646,6 +3694,7 @@ export type UserUpdateWithoutTransferPaymentsInput = {
   maxStreak?: Prisma.IntFieldUpdateOperationsInput | number
   lastCheckInDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   trialEndsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  qvapayId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
@@ -3713,6 +3762,7 @@ export type UserUncheckedUpdateWithoutTransferPaymentsInput = {
   maxStreak?: Prisma.IntFieldUpdateOperationsInput | number
   lastCheckInDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   trialEndsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  qvapayId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   referredByEstheticianId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -3791,6 +3841,7 @@ export type UserUpdateWithoutValidatedTransfersInput = {
   maxStreak?: Prisma.IntFieldUpdateOperationsInput | number
   lastCheckInDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   trialEndsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  qvapayId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
@@ -3858,6 +3909,7 @@ export type UserUncheckedUpdateWithoutValidatedTransfersInput = {
   maxStreak?: Prisma.IntFieldUpdateOperationsInput | number
   lastCheckInDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   trialEndsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  qvapayId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   referredByEstheticianId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -3936,6 +3988,7 @@ export type UserUpdateWithoutActivatedTransfersInput = {
   maxStreak?: Prisma.IntFieldUpdateOperationsInput | number
   lastCheckInDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   trialEndsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  qvapayId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
@@ -4003,6 +4056,7 @@ export type UserUncheckedUpdateWithoutActivatedTransfersInput = {
   maxStreak?: Prisma.IntFieldUpdateOperationsInput | number
   lastCheckInDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   trialEndsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  qvapayId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   referredByEstheticianId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -4070,6 +4124,7 @@ export type UserCreateWithoutAuditLogsInput = {
   maxStreak?: number
   lastCheckInDate?: Date | string | null
   trialEndsAt?: Date | string | null
+  qvapayId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
@@ -4137,6 +4192,7 @@ export type UserUncheckedCreateWithoutAuditLogsInput = {
   maxStreak?: number
   lastCheckInDate?: Date | string | null
   trialEndsAt?: Date | string | null
+  qvapayId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   referredByEstheticianId?: string | null
@@ -4220,6 +4276,7 @@ export type UserUpdateWithoutAuditLogsInput = {
   maxStreak?: Prisma.IntFieldUpdateOperationsInput | number
   lastCheckInDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   trialEndsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  qvapayId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
@@ -4287,6 +4344,7 @@ export type UserUncheckedUpdateWithoutAuditLogsInput = {
   maxStreak?: Prisma.IntFieldUpdateOperationsInput | number
   lastCheckInDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   trialEndsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  qvapayId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   referredByEstheticianId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -4354,6 +4412,7 @@ export type UserCreateWithoutSubscriptionsInput = {
   maxStreak?: number
   lastCheckInDate?: Date | string | null
   trialEndsAt?: Date | string | null
+  qvapayId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
@@ -4421,6 +4480,7 @@ export type UserUncheckedCreateWithoutSubscriptionsInput = {
   maxStreak?: number
   lastCheckInDate?: Date | string | null
   trialEndsAt?: Date | string | null
+  qvapayId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   referredByEstheticianId?: string | null
@@ -4504,6 +4564,7 @@ export type UserUpdateWithoutSubscriptionsInput = {
   maxStreak?: Prisma.IntFieldUpdateOperationsInput | number
   lastCheckInDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   trialEndsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  qvapayId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
@@ -4571,6 +4632,7 @@ export type UserUncheckedUpdateWithoutSubscriptionsInput = {
   maxStreak?: Prisma.IntFieldUpdateOperationsInput | number
   lastCheckInDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   trialEndsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  qvapayId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   referredByEstheticianId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -4638,6 +4700,7 @@ export type UserCreateWithoutPurchasePacksInput = {
   maxStreak?: number
   lastCheckInDate?: Date | string | null
   trialEndsAt?: Date | string | null
+  qvapayId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
@@ -4705,6 +4768,7 @@ export type UserUncheckedCreateWithoutPurchasePacksInput = {
   maxStreak?: number
   lastCheckInDate?: Date | string | null
   trialEndsAt?: Date | string | null
+  qvapayId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   referredByEstheticianId?: string | null
@@ -4788,6 +4852,7 @@ export type UserUpdateWithoutPurchasePacksInput = {
   maxStreak?: Prisma.IntFieldUpdateOperationsInput | number
   lastCheckInDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   trialEndsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  qvapayId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
@@ -4855,6 +4920,7 @@ export type UserUncheckedUpdateWithoutPurchasePacksInput = {
   maxStreak?: Prisma.IntFieldUpdateOperationsInput | number
   lastCheckInDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   trialEndsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  qvapayId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   referredByEstheticianId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -4922,6 +4988,7 @@ export type UserCreateWithoutUsageRecordsInput = {
   maxStreak?: number
   lastCheckInDate?: Date | string | null
   trialEndsAt?: Date | string | null
+  qvapayId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
@@ -4989,6 +5056,7 @@ export type UserUncheckedCreateWithoutUsageRecordsInput = {
   maxStreak?: number
   lastCheckInDate?: Date | string | null
   trialEndsAt?: Date | string | null
+  qvapayId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   referredByEstheticianId?: string | null
@@ -5072,6 +5140,7 @@ export type UserUpdateWithoutUsageRecordsInput = {
   maxStreak?: Prisma.IntFieldUpdateOperationsInput | number
   lastCheckInDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   trialEndsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  qvapayId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
@@ -5139,6 +5208,7 @@ export type UserUncheckedUpdateWithoutUsageRecordsInput = {
   maxStreak?: Prisma.IntFieldUpdateOperationsInput | number
   lastCheckInDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   trialEndsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  qvapayId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   referredByEstheticianId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -5206,6 +5276,7 @@ export type UserCreateWithoutClinicInput = {
   maxStreak?: number
   lastCheckInDate?: Date | string | null
   trialEndsAt?: Date | string | null
+  qvapayId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
@@ -5273,6 +5344,7 @@ export type UserUncheckedCreateWithoutClinicInput = {
   maxStreak?: number
   lastCheckInDate?: Date | string | null
   trialEndsAt?: Date | string | null
+  qvapayId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   referredByEstheticianId?: string | null
@@ -5345,6 +5417,7 @@ export type UserCreateWithoutReferredByInput = {
   maxStreak?: number
   lastCheckInDate?: Date | string | null
   trialEndsAt?: Date | string | null
+  qvapayId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
@@ -5412,6 +5485,7 @@ export type UserUncheckedCreateWithoutReferredByInput = {
   maxStreak?: number
   lastCheckInDate?: Date | string | null
   trialEndsAt?: Date | string | null
+  qvapayId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
@@ -5500,6 +5574,7 @@ export type UserUpdateWithoutClinicInput = {
   maxStreak?: Prisma.IntFieldUpdateOperationsInput | number
   lastCheckInDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   trialEndsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  qvapayId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
@@ -5567,6 +5642,7 @@ export type UserUncheckedUpdateWithoutClinicInput = {
   maxStreak?: Prisma.IntFieldUpdateOperationsInput | number
   lastCheckInDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   trialEndsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  qvapayId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   referredByEstheticianId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -5653,6 +5729,7 @@ export type UserScalarWhereInput = {
   maxStreak?: Prisma.IntFilter<"User"> | number
   lastCheckInDate?: Prisma.DateTimeNullableFilter<"User"> | Date | string | null
   trialEndsAt?: Prisma.DateTimeNullableFilter<"User"> | Date | string | null
+  qvapayId?: Prisma.StringNullableFilter<"User"> | string | null
   createdAt?: Prisma.DateTimeFilter<"User"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"User"> | Date | string
   referredByEstheticianId?: Prisma.StringNullableFilter<"User"> | string | null
@@ -5680,6 +5757,7 @@ export type UserCreateWithoutAffiliateClicksInput = {
   maxStreak?: number
   lastCheckInDate?: Date | string | null
   trialEndsAt?: Date | string | null
+  qvapayId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
@@ -5747,6 +5825,7 @@ export type UserUncheckedCreateWithoutAffiliateClicksInput = {
   maxStreak?: number
   lastCheckInDate?: Date | string | null
   trialEndsAt?: Date | string | null
+  qvapayId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   referredByEstheticianId?: string | null
@@ -5830,6 +5909,7 @@ export type UserUpdateWithoutAffiliateClicksInput = {
   maxStreak?: Prisma.IntFieldUpdateOperationsInput | number
   lastCheckInDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   trialEndsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  qvapayId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
@@ -5897,6 +5977,7 @@ export type UserUncheckedUpdateWithoutAffiliateClicksInput = {
   maxStreak?: Prisma.IntFieldUpdateOperationsInput | number
   lastCheckInDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   trialEndsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  qvapayId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   referredByEstheticianId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -5964,6 +6045,7 @@ export type UserCreateWithoutContactMessagesInput = {
   maxStreak?: number
   lastCheckInDate?: Date | string | null
   trialEndsAt?: Date | string | null
+  qvapayId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
@@ -6031,6 +6113,7 @@ export type UserUncheckedCreateWithoutContactMessagesInput = {
   maxStreak?: number
   lastCheckInDate?: Date | string | null
   trialEndsAt?: Date | string | null
+  qvapayId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   referredByEstheticianId?: string | null
@@ -6114,6 +6197,7 @@ export type UserUpdateWithoutContactMessagesInput = {
   maxStreak?: Prisma.IntFieldUpdateOperationsInput | number
   lastCheckInDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   trialEndsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  qvapayId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
@@ -6181,6 +6265,7 @@ export type UserUncheckedUpdateWithoutContactMessagesInput = {
   maxStreak?: Prisma.IntFieldUpdateOperationsInput | number
   lastCheckInDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   trialEndsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  qvapayId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   referredByEstheticianId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -6248,6 +6333,7 @@ export type UserCreateWithoutEvolutionInput = {
   maxStreak?: number
   lastCheckInDate?: Date | string | null
   trialEndsAt?: Date | string | null
+  qvapayId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
@@ -6315,6 +6401,7 @@ export type UserUncheckedCreateWithoutEvolutionInput = {
   maxStreak?: number
   lastCheckInDate?: Date | string | null
   trialEndsAt?: Date | string | null
+  qvapayId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   referredByEstheticianId?: string | null
@@ -6398,6 +6485,7 @@ export type UserUpdateWithoutEvolutionInput = {
   maxStreak?: Prisma.IntFieldUpdateOperationsInput | number
   lastCheckInDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   trialEndsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  qvapayId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
@@ -6465,6 +6553,7 @@ export type UserUncheckedUpdateWithoutEvolutionInput = {
   maxStreak?: Prisma.IntFieldUpdateOperationsInput | number
   lastCheckInDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   trialEndsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  qvapayId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   referredByEstheticianId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -6532,6 +6621,7 @@ export type UserCreateWithoutSurveyFeedbackInput = {
   maxStreak?: number
   lastCheckInDate?: Date | string | null
   trialEndsAt?: Date | string | null
+  qvapayId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
@@ -6599,6 +6689,7 @@ export type UserUncheckedCreateWithoutSurveyFeedbackInput = {
   maxStreak?: number
   lastCheckInDate?: Date | string | null
   trialEndsAt?: Date | string | null
+  qvapayId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   referredByEstheticianId?: string | null
@@ -6682,6 +6773,7 @@ export type UserUpdateWithoutSurveyFeedbackInput = {
   maxStreak?: Prisma.IntFieldUpdateOperationsInput | number
   lastCheckInDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   trialEndsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  qvapayId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
@@ -6749,6 +6841,7 @@ export type UserUncheckedUpdateWithoutSurveyFeedbackInput = {
   maxStreak?: Prisma.IntFieldUpdateOperationsInput | number
   lastCheckInDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   trialEndsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  qvapayId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   referredByEstheticianId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -6816,6 +6909,7 @@ export type UserCreateWithoutCommunityPostsInput = {
   maxStreak?: number
   lastCheckInDate?: Date | string | null
   trialEndsAt?: Date | string | null
+  qvapayId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
@@ -6883,6 +6977,7 @@ export type UserUncheckedCreateWithoutCommunityPostsInput = {
   maxStreak?: number
   lastCheckInDate?: Date | string | null
   trialEndsAt?: Date | string | null
+  qvapayId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   referredByEstheticianId?: string | null
@@ -6966,6 +7061,7 @@ export type UserUpdateWithoutCommunityPostsInput = {
   maxStreak?: Prisma.IntFieldUpdateOperationsInput | number
   lastCheckInDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   trialEndsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  qvapayId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
@@ -7033,6 +7129,7 @@ export type UserUncheckedUpdateWithoutCommunityPostsInput = {
   maxStreak?: Prisma.IntFieldUpdateOperationsInput | number
   lastCheckInDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   trialEndsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  qvapayId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   referredByEstheticianId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -7100,6 +7197,7 @@ export type UserCreateWithoutCommentsInput = {
   maxStreak?: number
   lastCheckInDate?: Date | string | null
   trialEndsAt?: Date | string | null
+  qvapayId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
@@ -7167,6 +7265,7 @@ export type UserUncheckedCreateWithoutCommentsInput = {
   maxStreak?: number
   lastCheckInDate?: Date | string | null
   trialEndsAt?: Date | string | null
+  qvapayId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   referredByEstheticianId?: string | null
@@ -7250,6 +7349,7 @@ export type UserUpdateWithoutCommentsInput = {
   maxStreak?: Prisma.IntFieldUpdateOperationsInput | number
   lastCheckInDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   trialEndsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  qvapayId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
@@ -7317,6 +7417,7 @@ export type UserUncheckedUpdateWithoutCommentsInput = {
   maxStreak?: Prisma.IntFieldUpdateOperationsInput | number
   lastCheckInDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   trialEndsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  qvapayId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   referredByEstheticianId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -7384,6 +7485,7 @@ export type UserCreateWithoutCommunityGroupsInput = {
   maxStreak?: number
   lastCheckInDate?: Date | string | null
   trialEndsAt?: Date | string | null
+  qvapayId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
@@ -7451,6 +7553,7 @@ export type UserUncheckedCreateWithoutCommunityGroupsInput = {
   maxStreak?: number
   lastCheckInDate?: Date | string | null
   trialEndsAt?: Date | string | null
+  qvapayId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   referredByEstheticianId?: string | null
@@ -7534,6 +7637,7 @@ export type UserUpdateWithoutCommunityGroupsInput = {
   maxStreak?: Prisma.IntFieldUpdateOperationsInput | number
   lastCheckInDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   trialEndsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  qvapayId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
@@ -7601,6 +7705,7 @@ export type UserUncheckedUpdateWithoutCommunityGroupsInput = {
   maxStreak?: Prisma.IntFieldUpdateOperationsInput | number
   lastCheckInDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   trialEndsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  qvapayId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   referredByEstheticianId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -7668,6 +7773,7 @@ export type UserCreateWithoutCommunityMembershipsInput = {
   maxStreak?: number
   lastCheckInDate?: Date | string | null
   trialEndsAt?: Date | string | null
+  qvapayId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
@@ -7735,6 +7841,7 @@ export type UserUncheckedCreateWithoutCommunityMembershipsInput = {
   maxStreak?: number
   lastCheckInDate?: Date | string | null
   trialEndsAt?: Date | string | null
+  qvapayId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   referredByEstheticianId?: string | null
@@ -7818,6 +7925,7 @@ export type UserUpdateWithoutCommunityMembershipsInput = {
   maxStreak?: Prisma.IntFieldUpdateOperationsInput | number
   lastCheckInDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   trialEndsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  qvapayId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
@@ -7885,6 +7993,7 @@ export type UserUncheckedUpdateWithoutCommunityMembershipsInput = {
   maxStreak?: Prisma.IntFieldUpdateOperationsInput | number
   lastCheckInDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   trialEndsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  qvapayId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   referredByEstheticianId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -7952,6 +8061,7 @@ export type UserCreateWithoutPostReactionsInput = {
   maxStreak?: number
   lastCheckInDate?: Date | string | null
   trialEndsAt?: Date | string | null
+  qvapayId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
@@ -8019,6 +8129,7 @@ export type UserUncheckedCreateWithoutPostReactionsInput = {
   maxStreak?: number
   lastCheckInDate?: Date | string | null
   trialEndsAt?: Date | string | null
+  qvapayId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   referredByEstheticianId?: string | null
@@ -8102,6 +8213,7 @@ export type UserUpdateWithoutPostReactionsInput = {
   maxStreak?: Prisma.IntFieldUpdateOperationsInput | number
   lastCheckInDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   trialEndsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  qvapayId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
@@ -8169,6 +8281,7 @@ export type UserUncheckedUpdateWithoutPostReactionsInput = {
   maxStreak?: Prisma.IntFieldUpdateOperationsInput | number
   lastCheckInDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   trialEndsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  qvapayId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   referredByEstheticianId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -8236,6 +8349,7 @@ export type UserCreateWithoutSkinDiaryInput = {
   maxStreak?: number
   lastCheckInDate?: Date | string | null
   trialEndsAt?: Date | string | null
+  qvapayId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
@@ -8303,6 +8417,7 @@ export type UserUncheckedCreateWithoutSkinDiaryInput = {
   maxStreak?: number
   lastCheckInDate?: Date | string | null
   trialEndsAt?: Date | string | null
+  qvapayId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   referredByEstheticianId?: string | null
@@ -8386,6 +8501,7 @@ export type UserUpdateWithoutSkinDiaryInput = {
   maxStreak?: Prisma.IntFieldUpdateOperationsInput | number
   lastCheckInDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   trialEndsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  qvapayId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
@@ -8453,6 +8569,7 @@ export type UserUncheckedUpdateWithoutSkinDiaryInput = {
   maxStreak?: Prisma.IntFieldUpdateOperationsInput | number
   lastCheckInDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   trialEndsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  qvapayId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   referredByEstheticianId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -8520,6 +8637,7 @@ export type UserCreateWithoutUserChallengesInput = {
   maxStreak?: number
   lastCheckInDate?: Date | string | null
   trialEndsAt?: Date | string | null
+  qvapayId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
@@ -8587,6 +8705,7 @@ export type UserUncheckedCreateWithoutUserChallengesInput = {
   maxStreak?: number
   lastCheckInDate?: Date | string | null
   trialEndsAt?: Date | string | null
+  qvapayId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   referredByEstheticianId?: string | null
@@ -8670,6 +8789,7 @@ export type UserUpdateWithoutUserChallengesInput = {
   maxStreak?: Prisma.IntFieldUpdateOperationsInput | number
   lastCheckInDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   trialEndsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  qvapayId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
@@ -8737,6 +8857,7 @@ export type UserUncheckedUpdateWithoutUserChallengesInput = {
   maxStreak?: Prisma.IntFieldUpdateOperationsInput | number
   lastCheckInDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   trialEndsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  qvapayId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   referredByEstheticianId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -8804,6 +8925,7 @@ export type UserCreateWithoutProductReviewsInput = {
   maxStreak?: number
   lastCheckInDate?: Date | string | null
   trialEndsAt?: Date | string | null
+  qvapayId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
@@ -8871,6 +8993,7 @@ export type UserUncheckedCreateWithoutProductReviewsInput = {
   maxStreak?: number
   lastCheckInDate?: Date | string | null
   trialEndsAt?: Date | string | null
+  qvapayId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   referredByEstheticianId?: string | null
@@ -8954,6 +9077,7 @@ export type UserUpdateWithoutProductReviewsInput = {
   maxStreak?: Prisma.IntFieldUpdateOperationsInput | number
   lastCheckInDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   trialEndsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  qvapayId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
@@ -9021,6 +9145,7 @@ export type UserUncheckedUpdateWithoutProductReviewsInput = {
   maxStreak?: Prisma.IntFieldUpdateOperationsInput | number
   lastCheckInDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   trialEndsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  qvapayId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   referredByEstheticianId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -9088,6 +9213,7 @@ export type UserCreateWithoutGroupsOwnedInput = {
   maxStreak?: number
   lastCheckInDate?: Date | string | null
   trialEndsAt?: Date | string | null
+  qvapayId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
@@ -9155,6 +9281,7 @@ export type UserUncheckedCreateWithoutGroupsOwnedInput = {
   maxStreak?: number
   lastCheckInDate?: Date | string | null
   trialEndsAt?: Date | string | null
+  qvapayId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   referredByEstheticianId?: string | null
@@ -9238,6 +9365,7 @@ export type UserUpdateWithoutGroupsOwnedInput = {
   maxStreak?: Prisma.IntFieldUpdateOperationsInput | number
   lastCheckInDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   trialEndsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  qvapayId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
@@ -9305,6 +9433,7 @@ export type UserUncheckedUpdateWithoutGroupsOwnedInput = {
   maxStreak?: Prisma.IntFieldUpdateOperationsInput | number
   lastCheckInDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   trialEndsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  qvapayId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   referredByEstheticianId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -9372,6 +9501,7 @@ export type UserCreateWithoutReferralsOwnedInput = {
   maxStreak?: number
   lastCheckInDate?: Date | string | null
   trialEndsAt?: Date | string | null
+  qvapayId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
@@ -9439,6 +9569,7 @@ export type UserUncheckedCreateWithoutReferralsOwnedInput = {
   maxStreak?: number
   lastCheckInDate?: Date | string | null
   trialEndsAt?: Date | string | null
+  qvapayId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   referredByEstheticianId?: string | null
@@ -9511,6 +9642,7 @@ export type UserCreateWithoutReferralsReferredInput = {
   maxStreak?: number
   lastCheckInDate?: Date | string | null
   trialEndsAt?: Date | string | null
+  qvapayId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
@@ -9578,6 +9710,7 @@ export type UserUncheckedCreateWithoutReferralsReferredInput = {
   maxStreak?: number
   lastCheckInDate?: Date | string | null
   trialEndsAt?: Date | string | null
+  qvapayId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   referredByEstheticianId?: string | null
@@ -9661,6 +9794,7 @@ export type UserUpdateWithoutReferralsOwnedInput = {
   maxStreak?: Prisma.IntFieldUpdateOperationsInput | number
   lastCheckInDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   trialEndsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  qvapayId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
@@ -9728,6 +9862,7 @@ export type UserUncheckedUpdateWithoutReferralsOwnedInput = {
   maxStreak?: Prisma.IntFieldUpdateOperationsInput | number
   lastCheckInDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   trialEndsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  qvapayId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   referredByEstheticianId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -9806,6 +9941,7 @@ export type UserUpdateWithoutReferralsReferredInput = {
   maxStreak?: Prisma.IntFieldUpdateOperationsInput | number
   lastCheckInDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   trialEndsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  qvapayId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
@@ -9873,6 +10009,7 @@ export type UserUncheckedUpdateWithoutReferralsReferredInput = {
   maxStreak?: Prisma.IntFieldUpdateOperationsInput | number
   lastCheckInDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   trialEndsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  qvapayId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   referredByEstheticianId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -9940,6 +10077,7 @@ export type UserCreateWithoutDigitalPurchasesInput = {
   maxStreak?: number
   lastCheckInDate?: Date | string | null
   trialEndsAt?: Date | string | null
+  qvapayId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
@@ -10007,6 +10145,7 @@ export type UserUncheckedCreateWithoutDigitalPurchasesInput = {
   maxStreak?: number
   lastCheckInDate?: Date | string | null
   trialEndsAt?: Date | string | null
+  qvapayId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   referredByEstheticianId?: string | null
@@ -10090,6 +10229,7 @@ export type UserUpdateWithoutDigitalPurchasesInput = {
   maxStreak?: Prisma.IntFieldUpdateOperationsInput | number
   lastCheckInDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   trialEndsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  qvapayId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
@@ -10157,6 +10297,7 @@ export type UserUncheckedUpdateWithoutDigitalPurchasesInput = {
   maxStreak?: Prisma.IntFieldUpdateOperationsInput | number
   lastCheckInDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   trialEndsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  qvapayId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   referredByEstheticianId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -10224,6 +10365,7 @@ export type UserCreateWithoutCheckInsInput = {
   maxStreak?: number
   lastCheckInDate?: Date | string | null
   trialEndsAt?: Date | string | null
+  qvapayId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
@@ -10291,6 +10433,7 @@ export type UserUncheckedCreateWithoutCheckInsInput = {
   maxStreak?: number
   lastCheckInDate?: Date | string | null
   trialEndsAt?: Date | string | null
+  qvapayId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   referredByEstheticianId?: string | null
@@ -10374,6 +10517,7 @@ export type UserUpdateWithoutCheckInsInput = {
   maxStreak?: Prisma.IntFieldUpdateOperationsInput | number
   lastCheckInDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   trialEndsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  qvapayId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
@@ -10441,6 +10585,7 @@ export type UserUncheckedUpdateWithoutCheckInsInput = {
   maxStreak?: Prisma.IntFieldUpdateOperationsInput | number
   lastCheckInDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   trialEndsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  qvapayId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   referredByEstheticianId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -10508,6 +10653,7 @@ export type UserCreateWithoutClientsInput = {
   maxStreak?: number
   lastCheckInDate?: Date | string | null
   trialEndsAt?: Date | string | null
+  qvapayId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
@@ -10575,6 +10721,7 @@ export type UserUncheckedCreateWithoutClientsInput = {
   maxStreak?: number
   lastCheckInDate?: Date | string | null
   trialEndsAt?: Date | string | null
+  qvapayId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   referredByEstheticianId?: string | null
@@ -10658,6 +10805,7 @@ export type UserUpdateWithoutClientsInput = {
   maxStreak?: Prisma.IntFieldUpdateOperationsInput | number
   lastCheckInDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   trialEndsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  qvapayId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
@@ -10725,6 +10873,7 @@ export type UserUncheckedUpdateWithoutClientsInput = {
   maxStreak?: Prisma.IntFieldUpdateOperationsInput | number
   lastCheckInDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   trialEndsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  qvapayId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   referredByEstheticianId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -10792,6 +10941,7 @@ export type UserCreateWithoutNotificationsInput = {
   maxStreak?: number
   lastCheckInDate?: Date | string | null
   trialEndsAt?: Date | string | null
+  qvapayId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
@@ -10859,6 +11009,7 @@ export type UserUncheckedCreateWithoutNotificationsInput = {
   maxStreak?: number
   lastCheckInDate?: Date | string | null
   trialEndsAt?: Date | string | null
+  qvapayId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   referredByEstheticianId?: string | null
@@ -10942,6 +11093,7 @@ export type UserUpdateWithoutNotificationsInput = {
   maxStreak?: Prisma.IntFieldUpdateOperationsInput | number
   lastCheckInDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   trialEndsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  qvapayId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
@@ -11009,6 +11161,7 @@ export type UserUncheckedUpdateWithoutNotificationsInput = {
   maxStreak?: Prisma.IntFieldUpdateOperationsInput | number
   lastCheckInDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   trialEndsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  qvapayId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   referredByEstheticianId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -11076,6 +11229,7 @@ export type UserCreateWithoutSupportTicketsInput = {
   maxStreak?: number
   lastCheckInDate?: Date | string | null
   trialEndsAt?: Date | string | null
+  qvapayId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
@@ -11143,6 +11297,7 @@ export type UserUncheckedCreateWithoutSupportTicketsInput = {
   maxStreak?: number
   lastCheckInDate?: Date | string | null
   trialEndsAt?: Date | string | null
+  qvapayId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   referredByEstheticianId?: string | null
@@ -11226,6 +11381,7 @@ export type UserUpdateWithoutSupportTicketsInput = {
   maxStreak?: Prisma.IntFieldUpdateOperationsInput | number
   lastCheckInDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   trialEndsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  qvapayId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
@@ -11293,6 +11449,7 @@ export type UserUncheckedUpdateWithoutSupportTicketsInput = {
   maxStreak?: Prisma.IntFieldUpdateOperationsInput | number
   lastCheckInDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   trialEndsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  qvapayId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   referredByEstheticianId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -11360,6 +11517,7 @@ export type UserCreateWithoutTicketResponsesInput = {
   maxStreak?: number
   lastCheckInDate?: Date | string | null
   trialEndsAt?: Date | string | null
+  qvapayId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
@@ -11427,6 +11585,7 @@ export type UserUncheckedCreateWithoutTicketResponsesInput = {
   maxStreak?: number
   lastCheckInDate?: Date | string | null
   trialEndsAt?: Date | string | null
+  qvapayId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   referredByEstheticianId?: string | null
@@ -11510,6 +11669,7 @@ export type UserUpdateWithoutTicketResponsesInput = {
   maxStreak?: Prisma.IntFieldUpdateOperationsInput | number
   lastCheckInDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   trialEndsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  qvapayId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
@@ -11577,6 +11737,7 @@ export type UserUncheckedUpdateWithoutTicketResponsesInput = {
   maxStreak?: Prisma.IntFieldUpdateOperationsInput | number
   lastCheckInDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   trialEndsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  qvapayId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   referredByEstheticianId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -11644,6 +11805,7 @@ export type UserCreateWithoutChatMessagesInput = {
   maxStreak?: number
   lastCheckInDate?: Date | string | null
   trialEndsAt?: Date | string | null
+  qvapayId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
@@ -11711,6 +11873,7 @@ export type UserUncheckedCreateWithoutChatMessagesInput = {
   maxStreak?: number
   lastCheckInDate?: Date | string | null
   trialEndsAt?: Date | string | null
+  qvapayId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   referredByEstheticianId?: string | null
@@ -11794,6 +11957,7 @@ export type UserUpdateWithoutChatMessagesInput = {
   maxStreak?: Prisma.IntFieldUpdateOperationsInput | number
   lastCheckInDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   trialEndsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  qvapayId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
@@ -11861,6 +12025,7 @@ export type UserUncheckedUpdateWithoutChatMessagesInput = {
   maxStreak?: Prisma.IntFieldUpdateOperationsInput | number
   lastCheckInDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   trialEndsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  qvapayId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   referredByEstheticianId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -11928,6 +12093,7 @@ export type UserCreateWithoutGiftPacksBoughtInput = {
   maxStreak?: number
   lastCheckInDate?: Date | string | null
   trialEndsAt?: Date | string | null
+  qvapayId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
@@ -11995,6 +12161,7 @@ export type UserUncheckedCreateWithoutGiftPacksBoughtInput = {
   maxStreak?: number
   lastCheckInDate?: Date | string | null
   trialEndsAt?: Date | string | null
+  qvapayId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   referredByEstheticianId?: string | null
@@ -12067,6 +12234,7 @@ export type UserCreateWithoutGiftPacksRedeemedInput = {
   maxStreak?: number
   lastCheckInDate?: Date | string | null
   trialEndsAt?: Date | string | null
+  qvapayId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
@@ -12134,6 +12302,7 @@ export type UserUncheckedCreateWithoutGiftPacksRedeemedInput = {
   maxStreak?: number
   lastCheckInDate?: Date | string | null
   trialEndsAt?: Date | string | null
+  qvapayId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   referredByEstheticianId?: string | null
@@ -12217,6 +12386,7 @@ export type UserUpdateWithoutGiftPacksBoughtInput = {
   maxStreak?: Prisma.IntFieldUpdateOperationsInput | number
   lastCheckInDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   trialEndsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  qvapayId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
@@ -12284,6 +12454,7 @@ export type UserUncheckedUpdateWithoutGiftPacksBoughtInput = {
   maxStreak?: Prisma.IntFieldUpdateOperationsInput | number
   lastCheckInDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   trialEndsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  qvapayId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   referredByEstheticianId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -12362,6 +12533,7 @@ export type UserUpdateWithoutGiftPacksRedeemedInput = {
   maxStreak?: Prisma.IntFieldUpdateOperationsInput | number
   lastCheckInDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   trialEndsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  qvapayId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
@@ -12429,6 +12601,7 @@ export type UserUncheckedUpdateWithoutGiftPacksRedeemedInput = {
   maxStreak?: Prisma.IntFieldUpdateOperationsInput | number
   lastCheckInDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   trialEndsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  qvapayId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   referredByEstheticianId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -12496,6 +12669,7 @@ export type UserCreateWithoutRemindersInput = {
   maxStreak?: number
   lastCheckInDate?: Date | string | null
   trialEndsAt?: Date | string | null
+  qvapayId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
@@ -12563,6 +12737,7 @@ export type UserUncheckedCreateWithoutRemindersInput = {
   maxStreak?: number
   lastCheckInDate?: Date | string | null
   trialEndsAt?: Date | string | null
+  qvapayId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   referredByEstheticianId?: string | null
@@ -12646,6 +12821,7 @@ export type UserUpdateWithoutRemindersInput = {
   maxStreak?: Prisma.IntFieldUpdateOperationsInput | number
   lastCheckInDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   trialEndsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  qvapayId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
@@ -12713,6 +12889,7 @@ export type UserUncheckedUpdateWithoutRemindersInput = {
   maxStreak?: Prisma.IntFieldUpdateOperationsInput | number
   lastCheckInDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   trialEndsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  qvapayId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   referredByEstheticianId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -12780,6 +12957,7 @@ export type UserCreateWithoutSavedProductsInput = {
   maxStreak?: number
   lastCheckInDate?: Date | string | null
   trialEndsAt?: Date | string | null
+  qvapayId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
@@ -12847,6 +13025,7 @@ export type UserUncheckedCreateWithoutSavedProductsInput = {
   maxStreak?: number
   lastCheckInDate?: Date | string | null
   trialEndsAt?: Date | string | null
+  qvapayId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   referredByEstheticianId?: string | null
@@ -12930,6 +13109,7 @@ export type UserUpdateWithoutSavedProductsInput = {
   maxStreak?: Prisma.IntFieldUpdateOperationsInput | number
   lastCheckInDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   trialEndsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  qvapayId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
@@ -12997,6 +13177,7 @@ export type UserUncheckedUpdateWithoutSavedProductsInput = {
   maxStreak?: Prisma.IntFieldUpdateOperationsInput | number
   lastCheckInDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   trialEndsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  qvapayId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   referredByEstheticianId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -13064,6 +13245,7 @@ export type UserCreateWithoutUserBadgesInput = {
   maxStreak?: number
   lastCheckInDate?: Date | string | null
   trialEndsAt?: Date | string | null
+  qvapayId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
@@ -13131,6 +13313,7 @@ export type UserUncheckedCreateWithoutUserBadgesInput = {
   maxStreak?: number
   lastCheckInDate?: Date | string | null
   trialEndsAt?: Date | string | null
+  qvapayId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   referredByEstheticianId?: string | null
@@ -13214,6 +13397,7 @@ export type UserUpdateWithoutUserBadgesInput = {
   maxStreak?: Prisma.IntFieldUpdateOperationsInput | number
   lastCheckInDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   trialEndsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  qvapayId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
@@ -13281,6 +13465,7 @@ export type UserUncheckedUpdateWithoutUserBadgesInput = {
   maxStreak?: Prisma.IntFieldUpdateOperationsInput | number
   lastCheckInDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   trialEndsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  qvapayId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   referredByEstheticianId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -13348,6 +13533,7 @@ export type UserCreateWithoutWeatherLogsInput = {
   maxStreak?: number
   lastCheckInDate?: Date | string | null
   trialEndsAt?: Date | string | null
+  qvapayId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
@@ -13415,6 +13601,7 @@ export type UserUncheckedCreateWithoutWeatherLogsInput = {
   maxStreak?: number
   lastCheckInDate?: Date | string | null
   trialEndsAt?: Date | string | null
+  qvapayId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   referredByEstheticianId?: string | null
@@ -13498,6 +13685,7 @@ export type UserUpdateWithoutWeatherLogsInput = {
   maxStreak?: Prisma.IntFieldUpdateOperationsInput | number
   lastCheckInDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   trialEndsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  qvapayId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
@@ -13565,6 +13753,7 @@ export type UserUncheckedUpdateWithoutWeatherLogsInput = {
   maxStreak?: Prisma.IntFieldUpdateOperationsInput | number
   lastCheckInDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   trialEndsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  qvapayId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   referredByEstheticianId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -13632,6 +13821,7 @@ export type UserCreateManyReferredByInput = {
   maxStreak?: number
   lastCheckInDate?: Date | string | null
   trialEndsAt?: Date | string | null
+  qvapayId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -13658,6 +13848,7 @@ export type UserUpdateWithoutReferredByInput = {
   maxStreak?: Prisma.IntFieldUpdateOperationsInput | number
   lastCheckInDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   trialEndsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  qvapayId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
@@ -13725,6 +13916,7 @@ export type UserUncheckedUpdateWithoutReferredByInput = {
   maxStreak?: Prisma.IntFieldUpdateOperationsInput | number
   lastCheckInDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   trialEndsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  qvapayId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
@@ -13792,6 +13984,7 @@ export type UserUncheckedUpdateManyWithoutReferredByInput = {
   maxStreak?: Prisma.IntFieldUpdateOperationsInput | number
   lastCheckInDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   trialEndsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  qvapayId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -14191,6 +14384,7 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   maxStreak?: boolean
   lastCheckInDate?: boolean
   trialEndsAt?: boolean
+  qvapayId?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   referredByEstheticianId?: boolean
@@ -14261,6 +14455,7 @@ export type UserSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   maxStreak?: boolean
   lastCheckInDate?: boolean
   trialEndsAt?: boolean
+  qvapayId?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   referredByEstheticianId?: boolean
@@ -14289,6 +14484,7 @@ export type UserSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   maxStreak?: boolean
   lastCheckInDate?: boolean
   trialEndsAt?: boolean
+  qvapayId?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   referredByEstheticianId?: boolean
@@ -14317,12 +14513,13 @@ export type UserSelectScalar = {
   maxStreak?: boolean
   lastCheckInDate?: boolean
   trialEndsAt?: boolean
+  qvapayId?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   referredByEstheticianId?: boolean
 }
 
-export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "email" | "emailVerified" | "image" | "password" | "username" | "role" | "plan" | "analysisLimit" | "analysisUsed" | "analysisResetAt" | "telegramId" | "telegramTrialStartedAt" | "isTelegramPremiumActive" | "latitude" | "longitude" | "currentStreak" | "maxStreak" | "lastCheckInDate" | "trialEndsAt" | "createdAt" | "updatedAt" | "referredByEstheticianId", ExtArgs["result"]["user"]>
+export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "email" | "emailVerified" | "image" | "password" | "username" | "role" | "plan" | "analysisLimit" | "analysisUsed" | "analysisResetAt" | "telegramId" | "telegramTrialStartedAt" | "isTelegramPremiumActive" | "latitude" | "longitude" | "currentStreak" | "maxStreak" | "lastCheckInDate" | "trialEndsAt" | "qvapayId" | "createdAt" | "updatedAt" | "referredByEstheticianId", ExtArgs["result"]["user"]>
 export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   accounts?: boolean | Prisma.User$accountsArgs<ExtArgs>
   sessions?: boolean | Prisma.User$sessionsArgs<ExtArgs>
@@ -14443,6 +14640,7 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     maxStreak: number
     lastCheckInDate: Date | null
     trialEndsAt: Date | null
+    qvapayId: string | null
     createdAt: Date
     updatedAt: Date
     referredByEstheticianId: string | null
@@ -14932,6 +15130,7 @@ export interface UserFieldRefs {
   readonly maxStreak: Prisma.FieldRef<"User", 'Int'>
   readonly lastCheckInDate: Prisma.FieldRef<"User", 'DateTime'>
   readonly trialEndsAt: Prisma.FieldRef<"User", 'DateTime'>
+  readonly qvapayId: Prisma.FieldRef<"User", 'String'>
   readonly createdAt: Prisma.FieldRef<"User", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"User", 'DateTime'>
   readonly referredByEstheticianId: Prisma.FieldRef<"User", 'String'>
