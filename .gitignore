@@ -38,3 +38,4 @@ DOC-validator.md
 
 # CI (requires workflow PAT scope — not available in current token)
 .github/workflows/ci.yml
+fotos the serene.zip
