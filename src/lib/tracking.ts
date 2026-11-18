@@ -54,6 +54,14 @@ export function trackSignupFromGuest() {
 }
 
 /**
+ * Registro atribuido a una campaña (?from=... en /register: QR del one-pager,
+ * Telegram, etc.). Permite medir qué canal trae registros.
+ */
+export function trackSignupFromSource(source: string) {
+  trackEvent("signup_from_source", { source })
+}
+
+/**
  * Un usuario con prueba activa completó su primer pago real.
  * Se llama desde la página de éxito tras el cobro.
  */
