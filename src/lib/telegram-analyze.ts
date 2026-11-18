@@ -1,5 +1,5 @@
 import { logger } from "@/lib/logger"
-import { sendTelegramMessage } from "@/lib/telegram"
+import { sendTelegramMessage, logTelegramCommand } from "@/lib/telegram"
 import { checkRateLimit, clearRateLimit } from "@/lib/rate-limit"
 
 /** URL de registro con atribución para el embudo de Telegram. */
@@ -81,6 +81,7 @@ Cuando termines escribe <b>/listo</b> para recibir tu análisis.
 💡 También puedes usar el análisis completo en la web (sube hasta 3 fotos y guarda tu historial).`
 
 export async function handleAnalizarCommand(chatId: string): Promise<void> {
+  logTelegramCommand(chatId, "analizar", null, null, undefined).catch(() => {})
   pending.delete(chatId)
   await sendTelegramMessage(chatId, INSTRUCTIONS)
 }
@@ -106,6 +107,7 @@ export async function handlePhotoMessage(
     return
   }
 
+  logTelegramCommand(chatId, "foto", String(photoFileIds.length), null, undefined).catch(() => {})
   let entry = getPending(chatId)
   if (!entry) {
     entry = { photos: [], startedAt: Date.now() }
@@ -136,6 +138,7 @@ export async function handlePhotoMessage(
 
 /** Lanza el análisis con las fotos acumuladas. */
 export async function handleListoCommand(chatId: string): Promise<void> {
+  logTelegramCommand(chatId, "listo", null, null, undefined).catch(() => {})
   const entry = getPending(chatId)
   if (!entry || entry.photos.length === 0) {
     await sendTelegramMessage(
