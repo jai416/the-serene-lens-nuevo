@@ -1,6 +1,20 @@
 # Configuración de Cron Jobs en cron-job.org
 
-## Requisitos previos
+## Estado actual (Nov 2026) — YA CONFIGURADOS
+
+Los 11 jobs existen en cron-job.org y están **activos**. Correcciones aplicadas:
+- **Header roto**: tenían `Authorizate: <secret>` (typo + sin `Bearer`) → todos fallaban con
+  401. Ahora es `Authorization: Bearer <CRON_SECRET>`
+- **Keep Alive**: el schedule era inválido (`-1:00`) → ahora `*/10 * * * *`
+- **Timezone**: `America/Havana` (los horarios de abajo son hora de La Habana)
+- `Emails Migration` se queda **deshabilitado**: fue un one-off ya ejecutado
+
+Si necesitas recrearlos o editarlos, la API funciona con:
+```bash
+curl -H "Authorization: Bearer <API_KEY_CRON_JOB>" https://api.cron-job.org/jobs
+```
+
+## Requisitos previos (para recrear desde cero)
 
 1. Crear cuenta en [cron-job.org](https://cron-job.org)
 2. Tener configurada la variable `CRON_SECRET` en Render (Dashboard → Environment)
