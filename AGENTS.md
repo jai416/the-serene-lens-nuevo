@@ -159,6 +159,19 @@
 - Paginación ausente en `admin/payments`, `admin/users`, `admin/messages`, `admin/audit-logs`
   → añadir `take`+`skip` cuando crezca el volumen (hoy es pequeño)
 
+### Funnel de adquisición por Telegram (Nov 2026)
+`src/lib/telegram-analyze.ts` — el bot ignoraba las fotos (`if (!msg?.text) return`), así que el
+canal más importante en Cuba estaba muerto:
+- **Entradas**: botón "Analizar" en el teclado público, CTA en el saludo, lenguaje natural
+  ("analiza mi piel") y comando `/analizar`
+- **Flujo**: foto(s) → descarga vía `getFile` → guarda hasta 3 (TTL 30 min) → `/listo` o la 3ª
+  foto dispara `analyzeSkinWithGroq` (visión unificada NVIDIA → Gemini)
+- **Límites**: 3 análisis/día por chat (con devolución del intento si la IA falla) + cooldown
+  de 1 foto/min por chat
+- **CTA**: el resultado termina con el enlace a `/register?callbackUrl=/analysis&from=telegram`
+- **Verificación**: el webhook acepta updates con el `TELEGRAM_WEBHOOK_SECRET` (403 sin él);
+  los comandos quedan en la tabla `TelegramLog`
+
 ### Instrumentación del embudo (PostHog, Nov 2026)
 Tres eventos para medir guest → registro → pago:
 - `guest_analysis_done` — un invitado completó su análisis (deja la marca
