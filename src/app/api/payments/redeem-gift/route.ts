@@ -31,6 +31,9 @@ export async function POST(req: NextRequest) {
       where: { giftCode: parsed.data.giftCode },
     })
     if (!gift) return error("Código de regalo no encontrado", 404)
+    if (gift.status === "awaiting_payment") {
+      return error("Este regalo aún no está pagado. El comprador debe completar el pago en PayPal.", 400)
+    }
     if (gift.status !== "pending") return error("Este regalo ya fue canjeado", 400)
 
     if (gift.recipientEmail !== session.user.email) return error("Este regalo no está dirigido a ti", 403)

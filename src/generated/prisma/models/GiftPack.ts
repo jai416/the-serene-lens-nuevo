@@ -42,6 +42,7 @@ export type GiftPackMinAggregateOutputType = {
   analyses: number | null
   giftCode: string | null
   status: string | null
+  paypalOrderId: string | null
   redeemedById: string | null
   redeemedAt: Date | null
   createdAt: Date | null
@@ -55,6 +56,7 @@ export type GiftPackMaxAggregateOutputType = {
   analyses: number | null
   giftCode: string | null
   status: string | null
+  paypalOrderId: string | null
   redeemedById: string | null
   redeemedAt: Date | null
   createdAt: Date | null
@@ -68,6 +70,7 @@ export type GiftPackCountAggregateOutputType = {
   analyses: number
   giftCode: number
   status: number
+  paypalOrderId: number
   redeemedById: number
   redeemedAt: number
   createdAt: number
@@ -91,6 +94,7 @@ export type GiftPackMinAggregateInputType = {
   analyses?: true
   giftCode?: true
   status?: true
+  paypalOrderId?: true
   redeemedById?: true
   redeemedAt?: true
   createdAt?: true
@@ -104,6 +108,7 @@ export type GiftPackMaxAggregateInputType = {
   analyses?: true
   giftCode?: true
   status?: true
+  paypalOrderId?: true
   redeemedById?: true
   redeemedAt?: true
   createdAt?: true
@@ -117,6 +122,7 @@ export type GiftPackCountAggregateInputType = {
   analyses?: true
   giftCode?: true
   status?: true
+  paypalOrderId?: true
   redeemedById?: true
   redeemedAt?: true
   createdAt?: true
@@ -217,6 +223,7 @@ export type GiftPackGroupByOutputType = {
   analyses: number
   giftCode: string
   status: string
+  paypalOrderId: string | null
   redeemedById: string | null
   redeemedAt: Date | null
   createdAt: Date
@@ -253,6 +260,7 @@ export type GiftPackWhereInput = {
   analyses?: Prisma.IntFilter<"GiftPack"> | number
   giftCode?: Prisma.StringFilter<"GiftPack"> | string
   status?: Prisma.StringFilter<"GiftPack"> | string
+  paypalOrderId?: Prisma.StringNullableFilter<"GiftPack"> | string | null
   redeemedById?: Prisma.StringNullableFilter<"GiftPack"> | string | null
   redeemedAt?: Prisma.DateTimeNullableFilter<"GiftPack"> | Date | string | null
   createdAt?: Prisma.DateTimeFilter<"GiftPack"> | Date | string
@@ -268,6 +276,7 @@ export type GiftPackOrderByWithRelationInput = {
   analyses?: Prisma.SortOrder
   giftCode?: Prisma.SortOrder
   status?: Prisma.SortOrder
+  paypalOrderId?: Prisma.SortOrderInput | Prisma.SortOrder
   redeemedById?: Prisma.SortOrderInput | Prisma.SortOrder
   redeemedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -278,6 +287,7 @@ export type GiftPackOrderByWithRelationInput = {
 export type GiftPackWhereUniqueInput = Prisma.AtLeast<{
   id?: string
   giftCode?: string
+  paypalOrderId?: string
   AND?: Prisma.GiftPackWhereInput | Prisma.GiftPackWhereInput[]
   OR?: Prisma.GiftPackWhereInput[]
   NOT?: Prisma.GiftPackWhereInput | Prisma.GiftPackWhereInput[]
@@ -291,7 +301,7 @@ export type GiftPackWhereUniqueInput = Prisma.AtLeast<{
   createdAt?: Prisma.DateTimeFilter<"GiftPack"> | Date | string
   buyer?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
   redeemedBy?: Prisma.XOR<Prisma.UserNullableScalarRelationFilter, Prisma.UserWhereInput> | null
-}, "id" | "giftCode">
+}, "id" | "giftCode" | "paypalOrderId">
 
 export type GiftPackOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
@@ -301,6 +311,7 @@ export type GiftPackOrderByWithAggregationInput = {
   analyses?: Prisma.SortOrder
   giftCode?: Prisma.SortOrder
   status?: Prisma.SortOrder
+  paypalOrderId?: Prisma.SortOrderInput | Prisma.SortOrder
   redeemedById?: Prisma.SortOrderInput | Prisma.SortOrder
   redeemedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -322,6 +333,7 @@ export type GiftPackScalarWhereWithAggregatesInput = {
   analyses?: Prisma.IntWithAggregatesFilter<"GiftPack"> | number
   giftCode?: Prisma.StringWithAggregatesFilter<"GiftPack"> | string
   status?: Prisma.StringWithAggregatesFilter<"GiftPack"> | string
+  paypalOrderId?: Prisma.StringNullableWithAggregatesFilter<"GiftPack"> | string | null
   redeemedById?: Prisma.StringNullableWithAggregatesFilter<"GiftPack"> | string | null
   redeemedAt?: Prisma.DateTimeNullableWithAggregatesFilter<"GiftPack"> | Date | string | null
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"GiftPack"> | Date | string
@@ -334,6 +346,7 @@ export type GiftPackCreateInput = {
   analyses: number
   giftCode: string
   status?: string
+  paypalOrderId?: string | null
   redeemedAt?: Date | string | null
   createdAt?: Date | string
   buyer: Prisma.UserCreateNestedOneWithoutGiftPacksBoughtInput
@@ -348,6 +361,7 @@ export type GiftPackUncheckedCreateInput = {
   analyses: number
   giftCode: string
   status?: string
+  paypalOrderId?: string | null
   redeemedById?: string | null
   redeemedAt?: Date | string | null
   createdAt?: Date | string
@@ -360,6 +374,7 @@ export type GiftPackUpdateInput = {
   analyses?: Prisma.IntFieldUpdateOperationsInput | number
   giftCode?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.StringFieldUpdateOperationsInput | string
+  paypalOrderId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   redeemedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   buyer?: Prisma.UserUpdateOneRequiredWithoutGiftPacksBoughtNestedInput
@@ -374,6 +389,7 @@ export type GiftPackUncheckedUpdateInput = {
   analyses?: Prisma.IntFieldUpdateOperationsInput | number
   giftCode?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.StringFieldUpdateOperationsInput | string
+  paypalOrderId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   redeemedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   redeemedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -387,6 +403,7 @@ export type GiftPackCreateManyInput = {
   analyses: number
   giftCode: string
   status?: string
+  paypalOrderId?: string | null
   redeemedById?: string | null
   redeemedAt?: Date | string | null
   createdAt?: Date | string
@@ -399,6 +416,7 @@ export type GiftPackUpdateManyMutationInput = {
   analyses?: Prisma.IntFieldUpdateOperationsInput | number
   giftCode?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.StringFieldUpdateOperationsInput | string
+  paypalOrderId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   redeemedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -411,6 +429,7 @@ export type GiftPackUncheckedUpdateManyInput = {
   analyses?: Prisma.IntFieldUpdateOperationsInput | number
   giftCode?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.StringFieldUpdateOperationsInput | string
+  paypalOrderId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   redeemedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   redeemedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -434,6 +453,7 @@ export type GiftPackCountOrderByAggregateInput = {
   analyses?: Prisma.SortOrder
   giftCode?: Prisma.SortOrder
   status?: Prisma.SortOrder
+  paypalOrderId?: Prisma.SortOrder
   redeemedById?: Prisma.SortOrder
   redeemedAt?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -451,6 +471,7 @@ export type GiftPackMaxOrderByAggregateInput = {
   analyses?: Prisma.SortOrder
   giftCode?: Prisma.SortOrder
   status?: Prisma.SortOrder
+  paypalOrderId?: Prisma.SortOrder
   redeemedById?: Prisma.SortOrder
   redeemedAt?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -464,6 +485,7 @@ export type GiftPackMinOrderByAggregateInput = {
   analyses?: Prisma.SortOrder
   giftCode?: Prisma.SortOrder
   status?: Prisma.SortOrder
+  paypalOrderId?: Prisma.SortOrder
   redeemedById?: Prisma.SortOrder
   redeemedAt?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -564,6 +586,7 @@ export type GiftPackCreateWithoutBuyerInput = {
   analyses: number
   giftCode: string
   status?: string
+  paypalOrderId?: string | null
   redeemedAt?: Date | string | null
   createdAt?: Date | string
   redeemedBy?: Prisma.UserCreateNestedOneWithoutGiftPacksRedeemedInput
@@ -576,6 +599,7 @@ export type GiftPackUncheckedCreateWithoutBuyerInput = {
   analyses: number
   giftCode: string
   status?: string
+  paypalOrderId?: string | null
   redeemedById?: string | null
   redeemedAt?: Date | string | null
   createdAt?: Date | string
@@ -598,6 +622,7 @@ export type GiftPackCreateWithoutRedeemedByInput = {
   analyses: number
   giftCode: string
   status?: string
+  paypalOrderId?: string | null
   redeemedAt?: Date | string | null
   createdAt?: Date | string
   buyer: Prisma.UserCreateNestedOneWithoutGiftPacksBoughtInput
@@ -611,6 +636,7 @@ export type GiftPackUncheckedCreateWithoutRedeemedByInput = {
   analyses: number
   giftCode: string
   status?: string
+  paypalOrderId?: string | null
   redeemedAt?: Date | string | null
   createdAt?: Date | string
 }
@@ -652,6 +678,7 @@ export type GiftPackScalarWhereInput = {
   analyses?: Prisma.IntFilter<"GiftPack"> | number
   giftCode?: Prisma.StringFilter<"GiftPack"> | string
   status?: Prisma.StringFilter<"GiftPack"> | string
+  paypalOrderId?: Prisma.StringNullableFilter<"GiftPack"> | string | null
   redeemedById?: Prisma.StringNullableFilter<"GiftPack"> | string | null
   redeemedAt?: Prisma.DateTimeNullableFilter<"GiftPack"> | Date | string | null
   createdAt?: Prisma.DateTimeFilter<"GiftPack"> | Date | string
@@ -680,6 +707,7 @@ export type GiftPackCreateManyBuyerInput = {
   analyses: number
   giftCode: string
   status?: string
+  paypalOrderId?: string | null
   redeemedById?: string | null
   redeemedAt?: Date | string | null
   createdAt?: Date | string
@@ -693,6 +721,7 @@ export type GiftPackCreateManyRedeemedByInput = {
   analyses: number
   giftCode: string
   status?: string
+  paypalOrderId?: string | null
   redeemedAt?: Date | string | null
   createdAt?: Date | string
 }
@@ -704,6 +733,7 @@ export type GiftPackUpdateWithoutBuyerInput = {
   analyses?: Prisma.IntFieldUpdateOperationsInput | number
   giftCode?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.StringFieldUpdateOperationsInput | string
+  paypalOrderId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   redeemedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   redeemedBy?: Prisma.UserUpdateOneWithoutGiftPacksRedeemedNestedInput
@@ -716,6 +746,7 @@ export type GiftPackUncheckedUpdateWithoutBuyerInput = {
   analyses?: Prisma.IntFieldUpdateOperationsInput | number
   giftCode?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.StringFieldUpdateOperationsInput | string
+  paypalOrderId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   redeemedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   redeemedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -728,6 +759,7 @@ export type GiftPackUncheckedUpdateManyWithoutBuyerInput = {
   analyses?: Prisma.IntFieldUpdateOperationsInput | number
   giftCode?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.StringFieldUpdateOperationsInput | string
+  paypalOrderId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   redeemedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   redeemedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -740,6 +772,7 @@ export type GiftPackUpdateWithoutRedeemedByInput = {
   analyses?: Prisma.IntFieldUpdateOperationsInput | number
   giftCode?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.StringFieldUpdateOperationsInput | string
+  paypalOrderId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   redeemedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   buyer?: Prisma.UserUpdateOneRequiredWithoutGiftPacksBoughtNestedInput
@@ -753,6 +786,7 @@ export type GiftPackUncheckedUpdateWithoutRedeemedByInput = {
   analyses?: Prisma.IntFieldUpdateOperationsInput | number
   giftCode?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.StringFieldUpdateOperationsInput | string
+  paypalOrderId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   redeemedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -765,6 +799,7 @@ export type GiftPackUncheckedUpdateManyWithoutRedeemedByInput = {
   analyses?: Prisma.IntFieldUpdateOperationsInput | number
   giftCode?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.StringFieldUpdateOperationsInput | string
+  paypalOrderId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   redeemedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -779,6 +814,7 @@ export type GiftPackSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs
   analyses?: boolean
   giftCode?: boolean
   status?: boolean
+  paypalOrderId?: boolean
   redeemedById?: boolean
   redeemedAt?: boolean
   createdAt?: boolean
@@ -794,6 +830,7 @@ export type GiftPackSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Exte
   analyses?: boolean
   giftCode?: boolean
   status?: boolean
+  paypalOrderId?: boolean
   redeemedById?: boolean
   redeemedAt?: boolean
   createdAt?: boolean
@@ -809,6 +846,7 @@ export type GiftPackSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Exte
   analyses?: boolean
   giftCode?: boolean
   status?: boolean
+  paypalOrderId?: boolean
   redeemedById?: boolean
   redeemedAt?: boolean
   createdAt?: boolean
@@ -824,12 +862,13 @@ export type GiftPackSelectScalar = {
   analyses?: boolean
   giftCode?: boolean
   status?: boolean
+  paypalOrderId?: boolean
   redeemedById?: boolean
   redeemedAt?: boolean
   createdAt?: boolean
 }
 
-export type GiftPackOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "buyerId" | "recipientEmail" | "packType" | "analyses" | "giftCode" | "status" | "redeemedById" | "redeemedAt" | "createdAt", ExtArgs["result"]["giftPack"]>
+export type GiftPackOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "buyerId" | "recipientEmail" | "packType" | "analyses" | "giftCode" | "status" | "paypalOrderId" | "redeemedById" | "redeemedAt" | "createdAt", ExtArgs["result"]["giftPack"]>
 export type GiftPackInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   buyer?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   redeemedBy?: boolean | Prisma.GiftPack$redeemedByArgs<ExtArgs>
@@ -857,6 +896,7 @@ export type $GiftPackPayload<ExtArgs extends runtime.Types.Extensions.InternalAr
     analyses: number
     giftCode: string
     status: string
+    paypalOrderId: string | null
     redeemedById: string | null
     redeemedAt: Date | null
     createdAt: Date
@@ -1292,6 +1332,7 @@ export interface GiftPackFieldRefs {
   readonly analyses: Prisma.FieldRef<"GiftPack", 'Int'>
   readonly giftCode: Prisma.FieldRef<"GiftPack", 'String'>
   readonly status: Prisma.FieldRef<"GiftPack", 'String'>
+  readonly paypalOrderId: Prisma.FieldRef<"GiftPack", 'String'>
   readonly redeemedById: Prisma.FieldRef<"GiftPack", 'String'>
   readonly redeemedAt: Prisma.FieldRef<"GiftPack", 'DateTime'>
   readonly createdAt: Prisma.FieldRef<"GiftPack", 'DateTime'>

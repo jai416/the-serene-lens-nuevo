@@ -61,6 +61,29 @@ export async function POST(req: NextRequest) {
       return ok({ completed: false, status: paypalStatus.status || "unknown" })
     }
 
+    // Regalo: si esta orden pertenece a un GiftPack se activa SOLO el regalo.
+    // El comprador no recibe pack ni suscripción (lo recibe el destinatario
+    // cuando canjea el código).
+    const gift = await db.giftPack.findUnique({ where: { paypalOrderId } })
+    if (gift) {
+      await db.$transaction(async (tx) => {
+        await tx.payment.update({
+          where: { id: payment.id },
+          data: { status: "completed", confirmedAt: new Date() },
+        })
+        await tx.giftPack.update({
+          where: { id: gift.id },
+          data: { status: "pending" },
+        })
+      })
+      const { createGiftNotification } = await import("@/lib/notifications")
+      createGiftNotification(gift.buyerId, gift.giftCode, gift.analyses).catch((e) =>
+        logger.error("Gift notif failed", { error: e instanceof Error ? e.message : String(e) })
+      )
+      logger.info("Gift activated after payment", { giftCode: gift.giftCode, paypalOrderId })
+      return ok({ completed: true, giftCode: gift.giftCode, isGift: true })
+    }
+
     const packDef = getPack(payment.plan)
     const isPack = Boolean(packDef)
     const amountUsd = payment.amount

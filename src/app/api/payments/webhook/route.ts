@@ -94,6 +94,37 @@ export async function POST(req: NextRequest) {
       return ok({ received: true, verified: false, type: "plan" })
     }
 
+    // Regalo: esta orden pertenece a un GiftPack → solo se activa el regalo.
+    // Sin este chequeo el flujo creaba un PurchasePack para el COMPRADOR
+    // (el destinatario canjea después con su código).
+    const gift = await db.giftPack.findUnique({ where: { paypalOrderId: orderId } })
+    if (gift) {
+      await db.$transaction(async (tx) => {
+        await tx.payment.update({
+          where: { id: payment.id },
+          data: { status: "completed", confirmedAt: new Date() },
+        })
+        await tx.giftPack.update({
+          where: { id: gift.id },
+          data: { status: "pending" },
+        })
+        await tx.webhookEvent.create({
+          data: {
+            provider: "paypal",
+            eventType: orderId,
+            payload: JSON.stringify(body),
+            processedAt: new Date(),
+          },
+        })
+      })
+      const { createGiftNotification } = await import("@/lib/notifications")
+      createGiftNotification(gift.buyerId, gift.giftCode, gift.analyses).catch((e) =>
+        logger.error("Gift notif failed", { error: e instanceof Error ? e.message : String(e) })
+      )
+      logger.info("Gift activated via webhook", { giftCode: gift.giftCode, orderId })
+      return ok({ received: true, verified: true, type: "gift" })
+    }
+
     const packDef = getPack(payment.plan)
       const isPack = Boolean(packDef)
     const amountUsd = payment.amount

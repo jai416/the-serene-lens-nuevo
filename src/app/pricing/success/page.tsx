@@ -18,6 +18,7 @@ export default function PricingSuccessPage() {
   const [verifying, setVerifying] = useState(!!token)
   const [verified, setVerified] = useState(false)
   const [error, setError] = useState<string | null>(null)
+  const [giftCode, setGiftCode] = useState<string | null>(null)
 
   useEffect(() => {
     if (token) {
@@ -30,6 +31,7 @@ export default function PricingSuccessPage() {
           const data = await res.json()
           if (data?.data?.completed || data?.data?.alreadyCompleted) {
             setVerified(true)
+            if (data?.data?.giftCode) setGiftCode(data.data.giftCode)
             // Embudo: este usuario tenía prueba activa y acaba de pagar
             if (session?.user?.trialEndsAt) {
               trackTrialToPaid("paypal", session.user.plan || "unknown", 0)
@@ -90,8 +92,21 @@ export default function PricingSuccessPage() {
             <p className="text-sm text-[#666666]">
               {error
                 ? error
+                : giftCode
+                ? "El pago del regalo se confirmó. Comparte este código con la persona destinataria:"
                 : "Tu plan ha sido activado. Ya puedes disfrutar de todas las funciones."}
             </p>
+            {giftCode && !error && (
+              <div className="mt-3 p-3 rounded-xl bg-[#F8F9FA] border border-[#E8E8E8]">
+                <p className="font-mono text-lg font-bold text-[#1A1A1A] select-all">{giftCode}</p>
+                <button
+                  onClick={() => { navigator.clipboard?.writeText(giftCode) }}
+                  className="mt-2 text-xs text-[#88B078] hover:underline"
+                >
+                  Copiar código
+                </button>
+              </div>
+            )}
           </div>
 
           <div className="flex flex-col gap-3">

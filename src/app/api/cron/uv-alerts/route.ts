@@ -20,8 +20,8 @@ export async function GET(req: NextRequest) {
       select: { telegramId: true, latitude: true, longitude: true, name: true },
     })
 
-    const botToken = process.env.TELEGRAM_BOT_TOKEN
-    if (!botToken) return error("TELEGRAM_BOT_TOKEN no configurado")
+    const botToken = process.env.TELEGRAM_TOKEN
+    if (!botToken) return error("TELEGRAM_TOKEN no configurado")
 
     const uvTemplate = (uv: number) => {
       const msgs = [

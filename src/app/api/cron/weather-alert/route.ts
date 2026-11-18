@@ -45,7 +45,7 @@ export async function GET(req: NextRequest) {
       },
     })
 
-    const botToken = process.env.TELEGRAM_BOT_TOKEN
+    const botToken = process.env.TELEGRAM_TOKEN
     let notified = 0
     const today = new Date()
     today.setHours(0, 0, 0, 0)

@@ -5737,6 +5737,7 @@ export const GiftPackScalarFieldEnum = {
   analyses: 'analyses',
   giftCode: 'giftCode',
   status: 'status',
+  paypalOrderId: 'paypalOrderId',
   redeemedById: 'redeemedById',
   redeemedAt: 'redeemedAt',
   createdAt: 'createdAt'

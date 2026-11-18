@@ -192,7 +192,14 @@ export default function PricingPage() {
       const data = await res.json()
       const payload = data?.data || data
       if (!res.ok) throw new Error(errMessage(payload, "Error al enviar regalo"))
-      toast.success("Regalo enviado correctamente. Revisa tu correo.")
+      if (payload.url) {
+        // Regalo de pago: el código se entrega tras confirmar el cobro en PayPal
+        toast.success("Te llevamos a PayPal para pagar el regalo.")
+        window.location.assign(payload.url)
+        return
+      }
+      // Fallback (sin URL de pago): el código se muestra directamente
+      toast.success(`Regalo creado: ${payload.giftCode || ""}. Comparte este código con la persona destinataria.`)
       setGiftModal(null)
     } catch (e: any) {
       const msg = e.message || "Error al enviar regalo"

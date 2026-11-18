@@ -53,6 +53,9 @@ vi.mock("@/lib/db", () => ({
       findFirst: mockWebhookFindFirst,
       create: mockWebhookCreate,
     },
+    giftPack: {
+      findUnique: vi.fn().mockResolvedValue(null),
+    },
     $transaction: mockTransaction,
   },
 }))
