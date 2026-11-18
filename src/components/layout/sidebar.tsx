@@ -25,7 +25,6 @@ import {
   BookmarkCheck,
   Trophy,
   FileText,
-  HelpCircle,
   BookOpenCheck,
   Users,
   Bell,
@@ -96,7 +95,10 @@ export function Sidebar() {
         { href: "/dashboard/report", labelKey: "sidebar.report", icon: FileText },
         { href: "/dashboard/notifications", labelKey: "sidebar.notifications", icon: Bell },
         { href: "/dashboard/guides", labelKey: "sidebar.myGuides", icon: Bookmark },
-        { href: "/dashboard/support", labelKey: "nav.support", icon: HelpCircle },
+        { href: "/dashboard/guides", labelKey: "sidebar.myGuides", icon: Bookmark },
+        // Un solo canal de soporte para usuarios logueados: el chat en vivo.
+        // /dashboard/support se redirige aquí (escribían en la misma tabla
+        // ContactMessage que /contact y solo confundían)
         { href: "/dashboard/chat", labelKey: "nav.chat", icon: MessagesSquare },
       ],
     },

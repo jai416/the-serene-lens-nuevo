@@ -1,5 +1,12 @@
 import { Card, CardContent } from "@/components/ui/card"
 import { Mail, MessageSquare, AlertCircle } from "lucide-react"
+import { ContactForm } from "@/components/contact-form"
+
+export const metadata = {
+  title: "Contacto",
+  description:
+    "Escríbenos por el formulario, email o Telegram. Respondemos en 24-48 horas.",
+}
 
 export default function ContactPage() {
   return (
@@ -10,6 +17,12 @@ export default function ContactPage() {
         </h1>
         <p className="text-sm text-[#666666] mb-8">Estamos aquí para ayudarte.</p>
 
+        {/* Formulario principal (API /api/contact con CSRF y rate limit) */}
+        <div className="mb-8">
+          <ContactForm />
+        </div>
+
+        {/* Canales directos */}
         <div className="grid sm:grid-cols-2 gap-4 mb-8">
           <Card>
             <CardContent className="p-6">

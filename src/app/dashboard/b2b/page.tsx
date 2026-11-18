@@ -3,6 +3,7 @@
 import { useSession } from "next-auth/react"
 import { redirect, usePathname } from "next/navigation"
 import { useEffect, useState } from "react"
+import Link from "next/link"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
@@ -113,33 +114,38 @@ export default function B2bDashboard() {
         {clinic && (
           <Card className="p-6 mb-6">
             <CardHeader className="p-0 mb-4">
-              <CardTitle className="flex items-center gap-2 text-lg text-[#1A1A1A]">
-                <Building2 className="w-5 h-5" />
-                {t("b2b.customization", locale)}
+              <CardTitle className="flex items-center justify-between gap-2 text-lg text-[#1A1A1A]">
+                <span className="flex items-center gap-2">
+                  <Building2 className="w-5 h-5" />
+                  {t("b2b.customization", locale)}
+                </span>
+                <Link href="/dashboard/clinic-settings">
+                  <Button variant="outline" size="sm">
+                    <Upload className="w-4 h-4 mr-1.5" />
+                    Editar datos
+                  </Button>
+                </Link>
               </CardTitle>
             </CardHeader>
             <CardContent className="p-0 space-y-4">
+              {/* Solo lectura: la edición vive en /dashboard/clinic-settings
+                  (aquí había inputs sin onChange y un botón de logo muerto) */}
               <div>
                 <label className="text-sm font-medium mb-1.5 block text-[#1A1A1A]">{t("clinic.name", locale)}</label>
-                <input
-                  type="text"
-                  aria-label={t("clinic.name", locale)}
-                  defaultValue={clinic.name}
-                  className="w-full rounded-xl border border-[#E8E8E8] bg-white px-4 py-2.5 text-sm focus:outline-none focus:ring-1 focus:ring-[#88B078] text-[#1A1A1A]"
-                />
+                <p className="text-sm text-[#1A1A1A] px-4 py-2.5 rounded-xl bg-[#F8F9FA] border border-[#E8E8E8]">
+                  {clinic.name || "—"}
+                </p>
               </div>
               <div>
                 <label className="text-sm font-medium mb-1.5 block text-[#1A1A1A]">Logo</label>
                 <div className="flex items-center gap-3">
-                  {clinic.logo && (
+                  {clinic.logo ? (
                     <div className="w-12 h-12 rounded-xl bg-[#E2ECE0] flex items-center justify-center overflow-hidden">
                       <img src={clinic.logo} alt="Logo" className="w-full h-full object-contain" />
                     </div>
+                  ) : (
+                    <p className="text-sm text-[#999999]">Sin logo — añádelo en Ajustes</p>
                   )}
-                  <Button variant="outline" size="sm">
-                    <Upload className="w-4 h-4 mr-1.5" />
-                    {clinic.logo ? "Cambiar logo" : "Subir logo"}
-                  </Button>
                 </div>
               </div>
             </CardContent>

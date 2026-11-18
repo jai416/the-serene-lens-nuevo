@@ -377,6 +377,32 @@ export default function HomePage() {
 
       <FAQSection />
 
+      {/* ─── Recursos SEO: páginas que existen para búsqueda pero no estaban enlazadas ─── */}
+      <section className="pb-12 px-4">
+        <div className="max-w-5xl mx-auto">
+          <h2 className="text-center text-sm font-semibold text-[#666666] uppercase tracking-wide mb-5">
+            Recursos gratis
+          </h2>
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3">
+            {[
+              { href: "/analizar-piel-gratis", label: "Análisis de piel gratis" },
+              { href: "/analisis-de-piel-con-ia", label: "Análisis con IA" },
+              { href: "/test-tipo-de-piel", label: "Test de tipo de piel" },
+              { href: "/como-saber-mi-tipo-de-piel", label: "¿Cuál es mi tipo de piel?" },
+              { href: "/rutina-skincare-personalizada", label: "Rutina personalizada" },
+            ].map((r) => (
+              <Link
+                key={r.href}
+                href={r.href}
+                className="block text-center text-xs sm:text-sm text-[#666666] hover:text-[#88B078] border border-[#E8E8E8] rounded-xl px-3 py-3 transition-colors hover:border-[#88B078]/40"
+              >
+                {r.label}
+              </Link>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* ─── Disclaimer ─── */}
       <section className="pb-20 text-center px-4">
         <p className="text-xs text-[#9BAA93] max-w-lg mx-auto leading-relaxed">
@@ -389,6 +415,7 @@ export default function HomePage() {
           <Link href="/privacy">Políticas de Privacidad</Link>
           <Link href="/terms">Términos de Servicio</Link>
           <Link href="/payment-policy">Política de Pagos</Link>
+          <Link href="/security">Seguridad</Link>
           <Link href="/contact">Contacto</Link>
           <Link href="/about">Sobre Nosotros</Link>
         </div>

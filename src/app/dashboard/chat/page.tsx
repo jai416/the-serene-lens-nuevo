@@ -126,8 +126,8 @@ export default function SupportChatPage() {
             Habla con el equipo
           </h1>
           <p className="text-sm text-[#666666] max-w-md mx-auto">
-            Escríbenos y te respondemos en este chat. Para problemas con tu plan o pagos
-            usa el <Link href="/dashboard/support" className="text-[#88B078] underline">formulario de soporte</Link>.
+            Escríbenos y te respondemos en este chat. Para dudas rápidas también
+            puedes usar el bot de Telegram.
           </p>
         </div>
 
