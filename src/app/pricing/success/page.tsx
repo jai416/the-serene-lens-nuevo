@@ -9,6 +9,7 @@ import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { CheckCircle2, ArrowRight, CreditCard, Loader2, AlertCircle } from "lucide-react"
 import { apiFetch } from "@/lib/csrf-client"
+import { trackTrialToPaid } from "@/lib/tracking"
 
 export default function PricingSuccessPage() {
   const { data: session } = useSession()
@@ -29,6 +30,10 @@ export default function PricingSuccessPage() {
           const data = await res.json()
           if (data?.data?.completed || data?.data?.alreadyCompleted) {
             setVerified(true)
+            // Embudo: este usuario tenía prueba activa y acaba de pagar
+            if (session?.user?.trialEndsAt) {
+              trackTrialToPaid("paypal", session.user.plan || "unknown", 0)
+            }
           } else {
             setError("El pago aún está pendiente de confirmación. Si ya pagaste, espera unos minutos y recarga.")
           }
@@ -40,7 +45,7 @@ export default function PricingSuccessPage() {
       }
       verify()
     }
-  }, [token])
+  }, [token, session])
 
   if (verifying) {
     return (

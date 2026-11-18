@@ -86,7 +86,7 @@ export default function PricingPage() {
       }
 
       if (payload?.url) {
-        window.location.href = payload.url
+        window.location.assign(payload.url)
       } else {
         throw new Error("No se recibió URL de pago")
       }
@@ -127,7 +127,7 @@ export default function PricingPage() {
       }
 
       if (payload?.url) {
-        window.location.href = payload.url
+        window.location.assign(payload.url)
       } else {
         throw new Error("No se recibió URL de pago")
       }

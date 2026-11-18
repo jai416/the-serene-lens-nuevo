@@ -17,6 +17,9 @@ export async function GET() {
         id: true,
         skinType: true,
         concerns: true,
+        observations: true,
+        recommendations: true,
+        routine: true,
         createdAt: true,
         feedback: {
           select: {

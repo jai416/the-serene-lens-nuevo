@@ -4,6 +4,7 @@ import { authOptions } from "@/lib/auth"
 import { getAllFeatureFlags, setFeatureFlag } from "@/lib/feature-flags"
 import { checkRateLimit } from "@/lib/rate-limit"
 import { ok, unauthorized, error, serverError } from "@/lib/api-response"
+import { validateCsrf } from "@/lib/csrf-middleware"
 
 export async function GET() {
   try {
@@ -19,6 +20,7 @@ export async function GET() {
 
 export async function POST(req: NextRequest) {
   try {
+    if (!validateCsrf(req)) return error("CSRF token inválido", 403)
     const session = await getServerSession(authOptions)
     if (!session?.user || session.user.role !== "ADMIN") return unauthorized()
 

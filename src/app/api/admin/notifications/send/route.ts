@@ -4,6 +4,7 @@ import { authOptions } from "@/lib/auth"
 import { db } from "@/lib/db"
 import { ok, error, serverError, unauthorized } from "@/lib/api-response"
 import { logger } from "@/lib/logger"
+import { validateCsrf } from "@/lib/csrf-middleware"
 
 // Los segmentos comparan el plan BASE: un usuario con plan anual (p.ej.
 // PREMIUM_ANNUAL) debe recibir el segmento "premium".
@@ -18,6 +19,7 @@ const SEGMENT_FILTERS: Record<string, { plan?: { in: string[] } }> = {
 
 export async function POST(req: NextRequest) {
   try {
+    if (!validateCsrf(req)) return error("CSRF token inválido", 403)
     const session = await getServerSession(authOptions)
     if (!session?.user || session.user.role !== "ADMIN") return unauthorized()
 

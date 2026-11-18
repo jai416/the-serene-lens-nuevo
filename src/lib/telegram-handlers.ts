@@ -838,7 +838,7 @@ export async function handleLogs(chatId: string, userId: string, args: string[])
     }
   } catch (e) { logger.error("Recent errors fetch failed", { error: e }) }
 
-  let text = `<b>Logs${fecha ? ` (${fecha})` : ""}</b>\n\n${logs.join("\n") || "Sin registros."}${errorSection}`
+  const text = `<b>Logs${fecha ? ` (${fecha})` : ""}</b>\n\n${logs.join("\n") || "Sin registros."}${errorSection}`
   if (text.length > 4000) {
     const chunks = text.match(/.{1,4000}/g) || []
     for (const chunk of chunks) await sendTelegramMessage(chatId, chunk)

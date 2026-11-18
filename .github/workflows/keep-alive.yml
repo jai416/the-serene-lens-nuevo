@@ -1,0 +1,42 @@
+name: Keep Alive
+
+# Mantiene viva la web en Render (free tier se duerme a los 15 min sin
+# actividad). Corre en los servidores de GitHub: NO depende de la laptop.
+#
+# Requiere el secreto CRON_SECRET en el repositorio (Settings → Secrets →
+# Actions), con el mismo valor que el de Render.
+
+on:
+  schedule:
+    # Cada 10 minutos (Render free se despierta solo en el primer ping)
+    - cron: "*/10 * * * *"
+  # Permite lanzarlo a mano desde la pestaña Actions para probarlo
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  ping:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Ping keep-alive
+        env:
+          CRON_SECRET: ${{ secrets.CRON_SECRET }}
+        run: |
+          if [ -z "$CRON_SECRET" ]; then
+            echo "::error::El secreto CRON_SECRET no está definido en el repositorio"
+            exit 1
+          fi
+          code=$(curl -s -o /tmp/keepalive-body.txt -w "%{http_code}" \
+            --max-time 120 \
+            -H "Authorization: Bearer $CRON_SECRET" \
+            "https://the-serene-lens-nuevo.onrender.com/api/cron/keep-alive")
+          echo "HTTP $code"
+          cat /tmp/keepalive-body.txt
+          # El primer ping de un servicio dormido puede tardar >60s: solo
+          # fallamos si la respuesta no es 200 tras el despertar
+          if [ "$code" != "200" ]; then
+            exit 1
+          fi

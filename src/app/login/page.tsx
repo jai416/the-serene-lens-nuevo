@@ -13,6 +13,7 @@ import { toast } from "sonner"
 import { SocialLoginButtons } from "@/components/social-login-buttons"
 import { logger } from "@/lib/logger"
 import { apiFetch } from "@/lib/csrf-client"
+import { trackSignupFromGuest } from "@/lib/tracking"
 
 const errorMessages: Record<string, string> = {
   CredentialsSignin: "Email o contraseña incorrectos",
@@ -50,6 +51,13 @@ function LoginForm() {
 
     try {
       if (isRegister) {
+        // Embudo: si venía de un análisis como invitado, deja constancia
+        try {
+          if (localStorage.getItem("tsl_guest_analysis_done")) {
+            trackSignupFromGuest()
+            localStorage.removeItem("tsl_guest_analysis_done")
+          }
+        } catch {}
         const payload: Record<string, string> = { email: form.email, password: form.password }
         if (form.name) payload.name = form.name
         if (form.estheticianCode) payload.estheticianCode = form.estheticianCode.trim()

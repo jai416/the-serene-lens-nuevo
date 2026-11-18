@@ -7,6 +7,7 @@ import { ok, error, serverError, unauthorized } from "@/lib/api-response"
 import { logger } from "@/lib/logger"
 import { createWebNotification } from "@/lib/notifications"
 import { getClientIp } from "@/lib/client-ip"
+import { validateCsrf } from "@/lib/csrf-middleware"
 
 // Segmentos por plan BASE: un plan anual (p.ej. PREMIUM_ANNUAL) entra
 // también en su segmento mensual.
@@ -22,6 +23,7 @@ const SEGMENT_FILTERS: Record<string, Record<string, unknown>> = {
 
 export async function POST(req: NextRequest) {
   try {
+    if (!validateCsrf(req)) return error("CSRF token inválido", 403)
     const session = await getServerSession(authOptions)
     if (session?.user?.role !== "ADMIN") return unauthorized()
 

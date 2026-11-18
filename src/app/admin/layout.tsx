@@ -3,6 +3,7 @@
 import { useSession } from "next-auth/react"
 import { redirect } from "next/navigation"
 import { ReactNode } from "react"
+import Link from "next/link"
 
 const adminColors = {
   bg: "bg-[#F8F9FA]",
@@ -62,11 +63,11 @@ export default function AdminLayout({ children }: { children: ReactNode }) {
           <span className="text-sm font-semibold text-[#1A1A1A]">Panel Admin</span>
         </div>
         <div className="flex items-center gap-4">
-          <a href="/"
+          <Link href="/"
             className="text-xs text-[#666666] hover:bg-[#F0F0F0] px-3 py-1.5 rounded-lg transition-colors"
           >
             ← Volver al sitio
-          </a>
+          </Link>
           <div className="w-7 h-7 rounded-full bg-[#E2ECE0] flex items-center justify-center">
             <span className="text-xs font-medium text-[#88B078]">
               {(session.user.email || "A")[0].toUpperCase()}

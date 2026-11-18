@@ -5,6 +5,7 @@ import { NextRequest, NextResponse } from "next/server"
 import { checkRateLimit } from "@/lib/rate-limit"
 import { ok, unauthorized, serverError, error } from "@/lib/api-response"
 import { adminUserUpdateSchema } from "@/lib/validations"
+import { validateCsrf } from "@/lib/csrf-middleware"
 
 async function requireAdmin() {
   const session = await getServerSession(authOptions)
@@ -45,6 +46,7 @@ export async function GET(req: NextRequest) {
 
 export async function PUT(req: NextRequest) {
   try {
+    if (!validateCsrf(req)) return error("CSRF token inválido", 403)
     const admin = await requireAdmin()
     if (!admin) return unauthorized()
 

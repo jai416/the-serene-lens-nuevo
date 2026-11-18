@@ -4,12 +4,14 @@ import { db } from "@/lib/db"
 import { NextRequest, NextResponse } from "next/server"
 import { checkRateLimit } from "@/lib/rate-limit"
 import { ok, error, unauthorized, serverError } from "@/lib/api-response"
+import { validateCsrf } from "@/lib/csrf-middleware"
 
 export async function POST(
   req: NextRequest,
   { params }: { params: Promise<{ sessionId: string }> }
 ) {
   try {
+    if (!validateCsrf(req)) return error("CSRF token inválido", 403)
     const session = await getServerSession(authOptions)
     if (!session?.user || session.user.role !== "ADMIN") {
       return unauthorized()

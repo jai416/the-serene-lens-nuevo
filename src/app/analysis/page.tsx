@@ -16,7 +16,7 @@ import { compressImage } from "@/lib/image-compression"
 import { validatePhoto } from "@/lib/photo-quality"
 import { getPhotoSteps } from "@/lib/photo-steps"
 import { apiFetch } from "@/lib/csrf-client"
-import { trackAnalysisStarted, trackAnalysisPhotoUploaded, trackAnalysisAbandoned } from "@/lib/tracking"
+import { trackAnalysisStarted, trackAnalysisPhotoUploaded, trackAnalysisAbandoned, trackGuestAnalysisDone } from "@/lib/tracking"
 import Link from "next/link"
 import { errMessage } from "@/lib/api-response"
 const photoSteps = getPhotoSteps()
@@ -172,6 +172,10 @@ export default function AnalysisPage() {
         // Invitado: el resultado se muestra aquí (no se guardó en la cuenta)
         setGuestResult(data.result)
         setIsAnalyzing(false)
+        // Embudo: registra que este navegador ya hizo un análisis como invitado
+        // (lo consume el registro para emitir signup_from_guest)
+        trackGuestAnalysisDone()
+        try { localStorage.setItem("tsl_guest_analysis_done", "1") } catch {}
         return
       }
       if (payload?.status === "QUEUED") {

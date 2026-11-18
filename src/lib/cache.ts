@@ -40,12 +40,12 @@ function getCacheAdapter(): CacheAdapter {
   return memoryCache
 }
 
-function useRedis(): boolean {
+function hasRedisConfig(): boolean {
   return isRedisConfigured()
 }
 
 export async function getCache<T = unknown>(key: string): Promise<T | undefined> {
-  if (useRedis()) {
+  if (hasRedisConfig()) {
     const val = await redisGet<T>(key)
     if (val !== undefined) return val
   }
@@ -53,21 +53,21 @@ export async function getCache<T = unknown>(key: string): Promise<T | undefined>
 }
 
 export async function setCache<T>(key: string, value: T, ttlSeconds = 600): Promise<void> {
-  if (useRedis()) {
+  if (hasRedisConfig()) {
     await redisSet(key, value, ttlSeconds)
   }
   getCacheAdapter().set(key, value, ttlSeconds)
 }
 
 export async function delCache(key: string): Promise<void> {
-  if (useRedis()) {
+  if (hasRedisConfig()) {
     await redisDel(key)
   }
   getCacheAdapter().del(key)
 }
 
 export async function clearCache(): Promise<void> {
-  if (useRedis()) {
+  if (hasRedisConfig()) {
     await redisFlushAll()
   }
   getCacheAdapter().flushAll()

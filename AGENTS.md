@@ -149,12 +149,26 @@
 - **`analysisBodySchema` es `.strict()`** pero el endpoint inyecta `clientId` → cualquier análisis de
   cliente era rechazado por validación
 
-### Auditoría de APIs (Nov 2026) — pendiente
-- 29 endpoints sin ningún llamador (dead code). **No borrar** hasta cerrar los de pagos/gift/
-  link-telegram, que están en uso aunque sin UI completa
-- CSRF ausente en las 18 mutaciones de admin (mitigado por el guard de rol del middleware)
-- `admin/analytics` carga la tabla Payment entera → usar `aggregate` como hace `admin/stats`
-- `admin/payments`, `admin/users`, `admin/messages`, `admin/audit-logs` sin paginación
+### Auditoría de APIs (Nov 2026) — cierre
+- 29 endpoints sin ningún llamador en la UI. Decisión: **NO borrarlos** — varios son el soporte del
+  bot de Telegram y de los pagos (gift/link-telegram), y otros están "reservados" para el embudo
+  (chat, community comments/likes, check-in). Revisar cuando haya métricas de uso reales
+- CSRF de admin: **cerrado** — las 18 mutaciones admin validan `validateCsrf` y toda la UI admin
+  usa `apiFetch` (que inyecta el header)
+- `admin/analytics`: pasa de cargar la tabla Payment entera a `aggregate` (evita OOM)
+- Paginación ausente en `admin/payments`, `admin/users`, `admin/messages`, `admin/audit-logs`
+  → añadir `take`+`skip` cuando crezca el volumen (hoy es pequeño)
+
+### Instrumentación del embudo (PostHog, Nov 2026)
+Tres eventos para medir guest → registro → pago:
+- `guest_analysis_done` — un invitado completó su análisis (deja la marca
+  `tsl_guest_analysis_done` en localStorage). Se emite desde `analysis/page.tsx`
+- `signup_from_guest` — registro con la marca anterior presente. Se emite desde `login/page.tsx`
+- `trial_to_paid` — pago completado con prueba activa. Se emite desde `pricing/success/page.tsx`
+- Ya existían: `analysis_started`, `analysis_photo_uploaded`, `analysis_abandoned`,
+  `payment_success`, `payment_failed`
+
+Para ver el embudo: PostHog → Insights → **Funnel** con esos 3 nombres, ventana de 14 días.
 
 ### Verificación end-to-end en producción (17 Nov 2026)
 Recorrido completo con usuario nuevo (registro → trial Premium → análisis → resultados):

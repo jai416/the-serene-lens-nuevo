@@ -5,9 +5,11 @@ import { db } from "@/lib/db"
 import { checkRateLimit } from "@/lib/rate-limit"
 import { ok, error, unauthorized, notFound, serverError } from "@/lib/api-response"
 import { logger } from "@/lib/logger"
+import { validateCsrf } from "@/lib/csrf-middleware"
 
 export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   try {
+    if (!validateCsrf(req)) return error("CSRF token inválido", 403)
     const session = await getServerSession(authOptions)
     if (!session?.user || session.user.role !== "ADMIN") return unauthorized()
 
@@ -41,6 +43,7 @@ export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id
 
 export async function DELETE(_req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   try {
+    if (!validateCsrf(_req)) return error("CSRF token inválido", 403)
     const session = await getServerSession(authOptions)
     if (!session?.user || session.user.role !== "ADMIN") return unauthorized()
 

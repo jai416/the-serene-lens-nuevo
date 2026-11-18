@@ -6,6 +6,7 @@ import { checkRateLimit } from "@/lib/rate-limit"
 import { ok, error, unauthorized, notFound, serverError } from "@/lib/api-response"
 import { logger } from "@/lib/logger"
 import { challengeCreateSchema } from "@/lib/validations"
+import { validateCsrf } from "@/lib/csrf-middleware"
 
 export async function GET() {
   try {
@@ -28,6 +29,7 @@ export async function GET() {
 
 export async function POST(req: NextRequest) {
   try {
+    if (!validateCsrf(req)) return error("CSRF token inválido", 403)
     const session = await getServerSession(authOptions)
     if (!session?.user || session.user.role !== "ADMIN") return unauthorized()
 

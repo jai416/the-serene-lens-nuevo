@@ -2,9 +2,10 @@ import { getServerSession } from "next-auth"
 import { authOptions } from "@/lib/auth"
 import { db } from "@/lib/db"
 import { checkRateLimit } from "@/lib/rate-limit"
-import { NextResponse } from "next/server"
+import { NextRequest, NextResponse } from "next/server"
 import { ok, unauthorized, error, serverError } from "@/lib/api-response"
 import { logger } from "@/lib/logger"
+import { validateCsrf } from "@/lib/csrf-middleware"
 
 const PAGES_TO_SYNC = [
   { url: "/", title: "Inicio - The Serene Lens", category: "general", subcategory: "faq", priority: 10 },
@@ -57,8 +58,9 @@ async function fetchPageContent(url: string): Promise<string> {
   }
 }
 
-export async function POST() {
+export async function POST(req: NextRequest) {
   try {
+    if (!validateCsrf(req)) return error("CSRF token inválido", 403)
     const session = await getServerSession(authOptions)
     if (!session?.user || session.user.role !== "ADMIN") return unauthorized()
 

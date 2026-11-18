@@ -13,7 +13,15 @@ export function TopHeader() {
   const { data: session } = useSession()
   const { locale } = useLocale()
 
-  if (!session?.user) return null
+  // El selector de idioma se muestra también a invitados: la web pública
+  // tiene que poder cambiar de ES/EN sin crear cuenta.
+  if (!session?.user) {
+    return (
+      <header className="sticky top-0 z-30 flex items-center justify-end gap-3 px-6 py-3 bg-white/80 backdrop-blur-md border-b border-[#E8E8E8]">
+        <LocaleSwitcher />
+      </header>
+    )
+  }
 
   const isPremium = premiumPlans.has(basePlan(session.user.plan))
 

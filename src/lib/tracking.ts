@@ -35,3 +35,28 @@ export function trackB2bSignup(clinicName: string) {
 export function trackPdfGenerated(role: string) {
   trackEvent("pdf_generated", { role })
 }
+
+// ─── Embudo de conversión ────────────────────────────────────────
+// Los 3 eventos que permiten medir guest → registro → pago.
+// PostHog: ver el funnel con "insight: funnel" sobre estos nombres.
+
+/** Un invitado completó su primer análisis (el paywall se le mostró). */
+export function trackGuestAnalysisDone() {
+  trackEvent("guest_analysis_done", { source: "web" })
+}
+
+/**
+ * Alguien se registró después de haber hecho un análisis como invitado.
+ * Se llama desde el registro; la marca se pone en `trackGuestAnalysisDone`.
+ */
+export function trackSignupFromGuest() {
+  trackEvent("signup_from_guest", { source: "web" })
+}
+
+/**
+ * Un usuario con prueba activa completó su primer pago real.
+ * Se llama desde la página de éxito tras el cobro.
+ */
+export function trackTrialToPaid(provider: string, plan: string, amount: number) {
+  trackEvent("trial_to_paid", { provider, plan, amount })
+}

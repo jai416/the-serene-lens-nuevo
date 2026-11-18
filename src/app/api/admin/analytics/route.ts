@@ -21,9 +21,11 @@ export async function GET() {
       return NextResponse.json({ success: false, error: "Demasiadas solicitudes" }, { status: 429 })
     }
 
-    const [totalPayments, paypalPayments, recentSubscriptions, recentPacks] = await db.$transaction([
-      db.payment.findMany({ where: { status: "completed" } }),
-      db.payment.findMany({ where: { status: "completed", provider: "paypal" } }),
+    const [totalAgg, paypalAgg, recentSubscriptions, recentPacks] = await db.$transaction([
+      // aggregate en vez de findMany: con el tiempo la tabla de pagos crece y
+      // traerla entera para sumar agotaba la memoria del tier free
+      db.payment.aggregate({ where: { status: "completed" }, _sum: { amount: true } }),
+      db.payment.aggregate({ where: { status: "completed", provider: "paypal" }, _sum: { amount: true } }),
       db.subscription.findMany({
         orderBy: { createdAt: "desc" },
         take: 10,
@@ -43,8 +45,8 @@ export async function GET() {
     })
 
     const revenueByProvider = {
-      paypal: paypalPayments.reduce((sum, p) => sum + p.amount, 0),
-      total: totalPayments.reduce((sum, p) => sum + p.amount, 0),
+      paypal: paypalAgg._sum.amount ?? 0,
+      total: totalAgg._sum.amount ?? 0,
     }
 
     const planDistribution = Object.fromEntries(

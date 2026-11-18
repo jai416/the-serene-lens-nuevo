@@ -3,7 +3,7 @@
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { useSession } from "next-auth/react"
-import { Home, Scan, History, Leaf, User } from "lucide-react"
+import { Home, Scan, History, Leaf, User, Users, BookOpen, MessagesSquare } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { ThemeToggleCompact } from "@/components/theme-toggle"
 import { useLocale } from "@/lib/locale/locale-context"
@@ -19,7 +19,9 @@ const authItems: Array<{ href: string; labelKey: TranslationKey; icon: any }> = 
   { href: "/", labelKey: "nav.home", icon: Home },
   { href: "/analysis", labelKey: "nav.analysis", icon: Scan },
   { href: "/dashboard/history", labelKey: "nav.history", icon: History },
-  { href: "/products", labelKey: "nav.products", icon: Leaf },
+  { href: "/community", labelKey: "nav.community", icon: Users },
+  { href: "/guides", labelKey: "nav.guides", icon: BookOpen },
+  { href: "/dashboard/chat", labelKey: "nav.chat", icon: MessagesSquare },
   { href: "/dashboard/profile", labelKey: "nav.profile", icon: User },
 ]
 

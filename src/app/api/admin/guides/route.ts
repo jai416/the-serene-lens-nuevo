@@ -7,6 +7,7 @@ import { ok, error, unauthorized, serverError } from "@/lib/api-response"
 import { logger } from "@/lib/logger"
 import { z } from "zod"
 import { revalidateTag } from "next/cache"
+import { validateCsrf } from "@/lib/csrf-middleware"
 
 const guideCreateSchema = z.object({
   title: z.string().min(1).max(200),
@@ -39,6 +40,7 @@ export async function GET() {
 
 export async function POST(request: NextRequest) {
   try {
+    if (!validateCsrf(request)) return error("CSRF token inválido", 403)
     const session = await getServerSession(authOptions)
     if (!session?.user || session.user.role !== "ADMIN") return unauthorized()
 

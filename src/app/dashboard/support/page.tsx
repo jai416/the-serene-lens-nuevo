@@ -36,13 +36,6 @@ export default function SupportPage() {
   const [success, setSuccess] = useState(false)
   const [error, setError] = useState("")
 
-  useEffect(() => {
-    fetchMessages()
-  }, [])
-
-  if (status === "loading") return <div className="min-h-screen flex items-center justify-center"><CardSkeleton /></div>
-  if (!session) redirect("/login?callbackUrl=" + encodeURIComponent(pathname))
-
   const fetchMessages = async () => {
     try {
       const res = await fetch("/api/support/messages")
@@ -54,6 +47,13 @@ export default function SupportPage() {
       setLoading(false)
     }
   }
+
+  useEffect(() => {
+    fetchMessages()
+  }, [])
+
+  if (status === "loading") return <div className="min-h-screen flex items-center justify-center"><CardSkeleton /></div>
+  if (!session) redirect("/login?callbackUrl=" + encodeURIComponent(pathname))
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
