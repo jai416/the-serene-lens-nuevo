@@ -9,6 +9,11 @@ Los 11 jobs existen en cron-job.org y están **activos**. Correcciones aplicadas
 - **Timezone**: `America/Havana` (los horarios de abajo son hora de La Habana)
 - `Emails Migration` se queda **deshabilitado**: fue un one-off ya ejecutado
 
+**Añadidos en Nov 2026:**
+- `Daily Report (Telegram)` — diario 08:00 → `/api/cron/daily-report` (job 8892750)
+- `Telegram Onboarding` — diario 10:00 → `/api/cron/onboarding` (job 8893015): tips a chats
+  que hicieron /start pero aún no enviaron fotos (tip1 al día 1, CTA al día 3)
+
 Si necesitas recrearlos o editarlos, la API funciona con:
 ```bash
 curl -H "Authorization: Bearer <API_KEY_CRON_JOB>" https://api.cron-job.org/jobs
