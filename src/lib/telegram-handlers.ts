@@ -14,6 +14,7 @@ import { parseObservations } from "@/lib/analysis-shape"
 
 const MENU_BACK_ROW = [{ text: "Menú principal", callback_data: "menu_main" }]
 const USER_KEYBOARD: { text: string }[][] = [
+  [{ text: "📸 Analizar" }],
   [{ text: "Web" }, { text: "Precios" }, { text: "Mi Estado" }],
   [{ text: "Ayuda" }, { text: "Tip" }, { text: "Contacto" }],
   [{ text: "Recomendar" }, { text: "Valorar" }, { text: "Recordatorio" }],

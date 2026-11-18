@@ -28,7 +28,7 @@ function pick<T>(variants: T[]): T {
 export function welcomePublic(name?: string | null): string {
   const g = timeGreeting(name)
   return pick([
-    `${g}\n\nSoy el asistente de <b>The Serene Lens</b>. Puedes hablarme normal, sin comandos raros. ¿Qué se te ofrece?\n\n<i>Ejemplos:</i> "Quiero ver los precios", "¿Qué planes tienen?", "Muéstrame mi estado"`,
+    `${g}\n\n<b>📸 ¿Quieres saber cómo está tu piel?</b> Envíame una foto de tu rostro y te doy el análisis con IA. Escribe <b>/analizar</b> para empezar.\n\nSoy el asistente de <b>The Serene Lens</b>. Puedes hablarme normal, sin comandos raros. ¿Qué se te ofrece?\n\n<i>Ejemplos:</i> "Quiero ver los precios", "¿Qué planes tienen?", "Muéstrame mi estado"`,
     `${g}\n\n¡Qué bueno verte por aquí! Soy el asistente de <b>The Serene Lens</b>. Háblame natural, como a un amigo. ¿En qué te ayudo?\n\n<i>Por ejemplo:</i> "Dame tips de skincare", "Quiero contactarlos", "Muéstrame la web"`,
     `${g}\n\nBienvenido a <b>The Serene Lens</b>. Soy tu asistente de skincare con IA. Puedes pedirme cosas con tus palabras, no necesitas comandos especiales.\n\n<i>Ejemplo:</i> "Hola" para empezar, "gracias" si necesitas ayuda, o directamente dime qué quieres saber.`,
     `${g}\n\n<b>The Serene Lens</b> — Descubre tu piel sin engaños.\n\nPregúntame lo que sea: "¿Cuánto cuesta?", "¿Qué planes tienen?", "¿Cómo está mi cuenta?". Te entiendo aunque hables como tú quieras. ¡Inténtalo!`,

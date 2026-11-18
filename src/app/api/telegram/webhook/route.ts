@@ -27,6 +27,9 @@ type TelegramUpdate = {
     chat: { id: number }
     from?: { id: number; username?: string; first_name?: string }
     text?: string
+    caption?: string
+    // Array de tamaños de foto (el último es el de mayor resolución)
+    photo?: Array<{ file_id: string; file_unique_id: string; width: number; height: number }>
   }
   callback_query?: {
     id: string
@@ -95,8 +98,24 @@ async function processUpdate(update: TelegramUpdate) {
   }
 
   const msg = update.message
+  const chatId = String(msg?.chat.id ?? "")
+
+  // ─── Funnel de adquisición: fotos de rostro → análisis → CTA ───
+  if (msg?.photo?.length) {
+    const photoCooldown = await checkCooldown(chatId, true)
+    if (!photoCooldown.allowed) {
+      await sendTelegramMessage(chatId, photoCooldown.message!)
+      return
+    }
+    const { handlePhotoMessage } = await import("@/lib/telegram-analyze")
+    await handlePhotoMessage(
+      chatId,
+      msg.photo.map((p) => p.file_id)
+    )
+    return
+  }
+
   if (!msg?.text) return
-  const chatId = String(msg.chat.id)
 
   const args = msg.text.split(/\s+/)
   const command = args[0].toLowerCase()
@@ -159,6 +178,19 @@ async function processUpdate(update: TelegramUpdate) {
     case "/help":
       await handleAyuda(chatId, userId)
       break
+    // ─── Funnel de adquisición (público, sin plan) ───
+    case "/analizar":
+    case "/analyze-skin": {
+      const { handleAnalizarCommand } = await import("@/lib/telegram-analyze")
+      await handleAnalizarCommand(chatId)
+      break
+    }
+    case "/listo":
+    case "/done": {
+      const { handleListoCommand } = await import("@/lib/telegram-analyze")
+      await handleListoCommand(chatId)
+      break
+    }
     case "/skincare":
     case "/tip":
       await handleSkincare(chatId, userId)
@@ -324,6 +356,9 @@ async function processUpdate(update: TelegramUpdate) {
         await handleTestPiel(chatId, userId)
       } else if (/mi rutina|mi_rutina|rutina/.test(text)) {
         await handleMiRutina(chatId, userId)
+      } else if (/analiza[rz]|análisis de piel|quiero analizar/.test(text)) {
+        const { handleAnalizarCommand } = await import("@/lib/telegram-analyze")
+        await handleAnalizarCommand(chatId)
       } else if (/diario|historial|últimos/.test(text)) {
         await handleDiario(chatId, userId)
       } else {
