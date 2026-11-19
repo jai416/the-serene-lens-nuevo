@@ -456,7 +456,9 @@ export const ModelName = {
   UserSavedProduct: 'UserSavedProduct',
   Badge: 'Badge',
   UserBadge: 'UserBadge',
-  WeatherLog: 'WeatherLog'
+  WeatherLog: 'WeatherLog',
+  Trend: 'Trend',
+  TrendSource: 'TrendSource'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -472,7 +474,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "user" | "analysisJob" | "account" | "session" | "verificationToken" | "skinAnalysis" | "blogPost" | "product" | "payment" | "transferPayment" | "auditLog" | "subscription" | "purchasePack" | "usageTracking" | "feedback" | "clinic" | "affiliateClick" | "contactMessage" | "botLog" | "botKnowledge" | "botFeedback" | "cache" | "webhookEvent" | "userEvolution" | "rateLimit" | "appConfig" | "surveyFeedback" | "communityPost" | "comment" | "communityGroup" | "communityMember" | "postReaction" | "conversationState" | "skinDiary" | "challenge" | "userChallenge" | "productReview" | "groupAnalytics" | "referral" | "digitalProduct" | "digitalProductPurchase" | "dailyCheckIn" | "ingredientKB" | "client" | "telegramAuth" | "telegramLog" | "notification" | "telegramAlert" | "discountCode" | "telegramReminder" | "supportTicket" | "supportTicketResponse" | "chatMessage" | "leadMagnet" | "giftPack" | "userReminder" | "userSavedProduct" | "badge" | "userBadge" | "weatherLog"
+    modelProps: "user" | "analysisJob" | "account" | "session" | "verificationToken" | "skinAnalysis" | "blogPost" | "product" | "payment" | "transferPayment" | "auditLog" | "subscription" | "purchasePack" | "usageTracking" | "feedback" | "clinic" | "affiliateClick" | "contactMessage" | "botLog" | "botKnowledge" | "botFeedback" | "cache" | "webhookEvent" | "userEvolution" | "rateLimit" | "appConfig" | "surveyFeedback" | "communityPost" | "comment" | "communityGroup" | "communityMember" | "postReaction" | "conversationState" | "skinDiary" | "challenge" | "userChallenge" | "productReview" | "groupAnalytics" | "referral" | "digitalProduct" | "digitalProductPurchase" | "dailyCheckIn" | "ingredientKB" | "client" | "telegramAuth" | "telegramLog" | "notification" | "telegramAlert" | "discountCode" | "telegramReminder" | "supportTicket" | "supportTicketResponse" | "chatMessage" | "leadMagnet" | "giftPack" | "userReminder" | "userSavedProduct" | "badge" | "userBadge" | "weatherLog" | "trend" | "trendSource"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -4916,6 +4918,154 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    Trend: {
+      payload: Prisma.$TrendPayload<ExtArgs>
+      fields: Prisma.TrendFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.TrendFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TrendPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.TrendFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TrendPayload>
+        }
+        findFirst: {
+          args: Prisma.TrendFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TrendPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.TrendFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TrendPayload>
+        }
+        findMany: {
+          args: Prisma.TrendFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TrendPayload>[]
+        }
+        create: {
+          args: Prisma.TrendCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TrendPayload>
+        }
+        createMany: {
+          args: Prisma.TrendCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.TrendCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TrendPayload>[]
+        }
+        delete: {
+          args: Prisma.TrendDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TrendPayload>
+        }
+        update: {
+          args: Prisma.TrendUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TrendPayload>
+        }
+        deleteMany: {
+          args: Prisma.TrendDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.TrendUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.TrendUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TrendPayload>[]
+        }
+        upsert: {
+          args: Prisma.TrendUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TrendPayload>
+        }
+        aggregate: {
+          args: Prisma.TrendAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateTrend>
+        }
+        groupBy: {
+          args: Prisma.TrendGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.TrendGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.TrendCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.TrendCountAggregateOutputType> | number
+        }
+      }
+    }
+    TrendSource: {
+      payload: Prisma.$TrendSourcePayload<ExtArgs>
+      fields: Prisma.TrendSourceFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.TrendSourceFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TrendSourcePayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.TrendSourceFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TrendSourcePayload>
+        }
+        findFirst: {
+          args: Prisma.TrendSourceFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TrendSourcePayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.TrendSourceFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TrendSourcePayload>
+        }
+        findMany: {
+          args: Prisma.TrendSourceFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TrendSourcePayload>[]
+        }
+        create: {
+          args: Prisma.TrendSourceCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TrendSourcePayload>
+        }
+        createMany: {
+          args: Prisma.TrendSourceCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.TrendSourceCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TrendSourcePayload>[]
+        }
+        delete: {
+          args: Prisma.TrendSourceDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TrendSourcePayload>
+        }
+        update: {
+          args: Prisma.TrendSourceUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TrendSourcePayload>
+        }
+        deleteMany: {
+          args: Prisma.TrendSourceDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.TrendSourceUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.TrendSourceUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TrendSourcePayload>[]
+        }
+        upsert: {
+          args: Prisma.TrendSourceUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TrendSourcePayload>
+        }
+        aggregate: {
+          args: Prisma.TrendSourceAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateTrendSource>
+        }
+        groupBy: {
+          args: Prisma.TrendSourceGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.TrendSourceGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.TrendSourceCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.TrendSourceCountAggregateOutputType> | number
+        }
+      }
+    }
   }
 } & {
   other: {
@@ -5807,6 +5957,48 @@ export const WeatherLogScalarFieldEnum = {
 export type WeatherLogScalarFieldEnum = (typeof WeatherLogScalarFieldEnum)[keyof typeof WeatherLogScalarFieldEnum]
 
 
+export const TrendScalarFieldEnum = {
+  id: 'id',
+  title: 'title',
+  slug: 'slug',
+  summary: 'summary',
+  category: 'category',
+  origin: 'origin',
+  internalMentions: 'internalMentions',
+  status: 'status',
+  scoreTotal: 'scoreTotal',
+  scoreMomentum: 'scoreMomentum',
+  scoreCredibility: 'scoreCredibility',
+  scoreEvidence: 'scoreEvidence',
+  scoreRelevanceTopic: 'scoreRelevanceTopic',
+  scoreRelevanceAudience: 'scoreRelevanceAudience',
+  scoreOpportunity: 'scoreOpportunity',
+  scoreOverlap: 'scoreOverlap',
+  firstSeenAt: 'firstSeenAt',
+  lastSeenAt: 'lastSeenAt',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type TrendScalarFieldEnum = (typeof TrendScalarFieldEnum)[keyof typeof TrendScalarFieldEnum]
+
+
+export const TrendSourceScalarFieldEnum = {
+  id: 'id',
+  trendId: 'trendId',
+  url: 'url',
+  title: 'title',
+  publisher: 'publisher',
+  kind: 'kind',
+  publishedAt: 'publishedAt',
+  fetchedAt: 'fetchedAt',
+  credibilityScore: 'credibilityScore',
+  excerpt: 'excerpt'
+} as const
+
+export type TrendSourceScalarFieldEnum = (typeof TrendSourceScalarFieldEnum)[keyof typeof TrendSourceScalarFieldEnum]
+
+
 export const SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -6141,6 +6333,8 @@ export type GlobalOmitConfig = {
   badge?: Prisma.BadgeOmit
   userBadge?: Prisma.UserBadgeOmit
   weatherLog?: Prisma.WeatherLogOmit
+  trend?: Prisma.TrendOmit
+  trendSource?: Prisma.TrendSourceOmit
 }
 
 /* Types for Logging */

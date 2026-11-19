@@ -341,3 +341,13 @@ export type UserBadge = Prisma.UserBadgeModel
  * 
  */
 export type WeatherLog = Prisma.WeatherLogModel
+/**
+ * Model Trend
+ * 
+ */
+export type Trend = Prisma.TrendModel
+/**
+ * Model TrendSource
+ * 
+ */
+export type TrendSource = Prisma.TrendSourceModel

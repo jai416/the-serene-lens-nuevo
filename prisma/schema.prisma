@@ -1039,3 +1039,53 @@ model WeatherLog {
   @@unique([userId, date])
   @@index([userId, date])
 }
+
+// ─── AI Growth Engine (M1) — tendencias ──────────────────────────────
+// Aditivo: no toca ningún modelo existente. Scores vacíos hasta M2.
+
+model Trend {
+  id                String    @id @default(cuid())
+  title             String
+  slug              String    @unique
+  summary           String    @default("")
+  category          String    @default("ingredient") // ingredient|concern|research|faq|product
+  origin            String    @default("external")   // external|internal|both (señal propia ≠ tendencia de mercado)
+  internalMentions  Int       @default(0)
+  status            String    @default("detected")   // detected|scored|drafting|review|rejected|published
+  scoreTotal        Float?
+  scoreMomentum     Float?
+  scoreCredibility  Float?
+  scoreEvidence     Float?
+  scoreRelevanceTopic      Float?
+  scoreRelevanceAudience  Float?
+  scoreOpportunity  Float?
+  scoreOverlap      Float?
+  firstSeenAt       DateTime  @default(now())
+  lastSeenAt        DateTime  @default(now())
+  createdAt         DateTime  @default(now())
+  updatedAt         DateTime  @updatedAt
+
+  sources TrendSource[]
+
+  @@index([status])
+  @@index([category])
+  @@index([scoreTotal])
+}
+
+model TrendSource {
+  id              String   @id @default(cuid())
+  trendId         String
+  url             String
+  title           String
+  publisher       String
+  kind            String   @default("web") // paper|encyclopedia|ingredient-db|web|rss
+  publishedAt     DateTime?
+  fetchedAt      DateTime @default(now())
+  credibilityScore Float?
+  excerpt         String?
+
+  trend Trend @relation(fields: [trendId], references: [id], onDelete: Cascade)
+
+  @@unique([trendId, url])
+  @@index([trendId])
+}

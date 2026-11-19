@@ -110,7 +110,9 @@ export const ModelName = {
   UserSavedProduct: 'UserSavedProduct',
   Badge: 'Badge',
   UserBadge: 'UserBadge',
-  WeatherLog: 'WeatherLog'
+  WeatherLog: 'WeatherLog',
+  Trend: 'Trend',
+  TrendSource: 'TrendSource'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -979,6 +981,48 @@ export const WeatherLogScalarFieldEnum = {
 } as const
 
 export type WeatherLogScalarFieldEnum = (typeof WeatherLogScalarFieldEnum)[keyof typeof WeatherLogScalarFieldEnum]
+
+
+export const TrendScalarFieldEnum = {
+  id: 'id',
+  title: 'title',
+  slug: 'slug',
+  summary: 'summary',
+  category: 'category',
+  origin: 'origin',
+  internalMentions: 'internalMentions',
+  status: 'status',
+  scoreTotal: 'scoreTotal',
+  scoreMomentum: 'scoreMomentum',
+  scoreCredibility: 'scoreCredibility',
+  scoreEvidence: 'scoreEvidence',
+  scoreRelevanceTopic: 'scoreRelevanceTopic',
+  scoreRelevanceAudience: 'scoreRelevanceAudience',
+  scoreOpportunity: 'scoreOpportunity',
+  scoreOverlap: 'scoreOverlap',
+  firstSeenAt: 'firstSeenAt',
+  lastSeenAt: 'lastSeenAt',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type TrendScalarFieldEnum = (typeof TrendScalarFieldEnum)[keyof typeof TrendScalarFieldEnum]
+
+
+export const TrendSourceScalarFieldEnum = {
+  id: 'id',
+  trendId: 'trendId',
+  url: 'url',
+  title: 'title',
+  publisher: 'publisher',
+  kind: 'kind',
+  publishedAt: 'publishedAt',
+  fetchedAt: 'fetchedAt',
+  credibilityScore: 'credibilityScore',
+  excerpt: 'excerpt'
+} as const
+
+export type TrendSourceScalarFieldEnum = (typeof TrendSourceScalarFieldEnum)[keyof typeof TrendSourceScalarFieldEnum]
 
 
 export const SortOrder = {
