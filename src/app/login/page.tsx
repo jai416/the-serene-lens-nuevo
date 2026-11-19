@@ -14,6 +14,7 @@ import { SocialLoginButtons } from "@/components/social-login-buttons"
 import { logger } from "@/lib/logger"
 import { apiFetch } from "@/lib/csrf-client"
 import { trackSignupFromGuest, trackSignupFromSource } from "@/lib/tracking"
+import { CardSkeleton } from "@/components/ui/skeleton"
 
 const errorMessages: Record<string, string> = {
   CredentialsSignin: "Email o contraseña incorrectos",
@@ -307,7 +308,13 @@ function LoginForm() {
 
 export default function LoginPage() {
   return (
-    <Suspense fallback={null}>
+    <Suspense
+      fallback={
+        <div className="min-h-screen flex items-center justify-center px-4" style={{ backgroundColor: "#F8F9FA" }}>
+          <CardSkeleton />
+        </div>
+      }
+    >
       <LoginForm />
     </Suspense>
   )

@@ -5,12 +5,19 @@ import { useSession } from "next-auth/react"
 import { useLocale } from "@/lib/locale/locale-context"
 import { t } from "@/lib/locale/translations"
 import { Gift } from "lucide-react"
+import { CardSkeleton } from "@/components/ui/skeleton"
 
 export default function ReferralsPage() {
   const { locale } = useLocale()
   const pathname = usePathname()
   const { data: session, status } = useSession()
-  if (status === "loading") return null
+  if (status === "loading") {
+    return (
+      <div className="min-h-screen flex items-center justify-center px-4" style={{ backgroundColor: "#F8F9FA" }}>
+        <CardSkeleton />
+      </div>
+    )
+  }
   if (!session) redirect("/login?callbackUrl=" + encodeURIComponent(pathname))
 
   return (

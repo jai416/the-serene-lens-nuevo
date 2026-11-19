@@ -132,20 +132,20 @@ export default function ProfilePage() {
           <table className="w-full text-sm">
             <tbody>
               <tr className="border-b border-[#E8E8E8]/50">
-                <td className="py-3.5 px-5 text-[#666666] flex items-center gap-2">
-                  <User className="w-4 h-4" /> {t("profile.name", locale)}
+                <td className="py-3.5 px-5 text-[#666666]">
+                  <span className="flex items-center gap-2"><User className="w-4 h-4" /> {t("profile.name", locale)}</span>
                 </td>
-                <td className="py-3.5 px-5 text-[#1A1A1A] font-medium">{user.name || "—"}</td>
+                <td className="py-3.5 px-5 text-[#1A1A1A] font-medium break-words">{user.name || "—"}</td>
               </tr>
               <tr className="border-b border-[#E8E8E8]/50">
-                <td className="py-3.5 px-5 text-[#666666] flex items-center gap-2">
-                  <Mail className="w-4 h-4" /> {t("profile.email", locale)}
+                <td className="py-3.5 px-5 text-[#666666]">
+                  <span className="flex items-center gap-2"><Mail className="w-4 h-4" /> {t("profile.email", locale)}</span>
                 </td>
-                <td className="py-3.5 px-5 text-[#1A1A1A] font-medium">{user.email}</td>
+                <td className="py-3.5 px-5 text-[#1A1A1A] font-medium break-all">{user.email}</td>
               </tr>
               <tr className="border-b border-[#E8E8E8]/50">
-                <td className="py-3.5 px-5 text-[#666666] flex items-center gap-2">
-                  <Crown className="w-4 h-4" /> {t("profile.plan", locale)}
+                <td className="py-3.5 px-5 text-[#666666]">
+                  <span className="flex items-center gap-2"><Crown className="w-4 h-4" /> {t("profile.plan", locale)}</span>
                 </td>
                 <td className="py-3.5 px-5">
                   <div className="flex items-center justify-between">
@@ -159,8 +159,8 @@ export default function ProfilePage() {
                 </td>
               </tr>
               <tr className="border-b border-[#E8E8E8]/50">
-                <td className="py-3.5 px-5 text-[#666666] flex items-center gap-2">
-                  <Activity className="w-4 h-4" /> {t("profile.analyses", locale)}
+                <td className="py-3.5 px-5 text-[#666666]">
+                  <span className="flex items-center gap-2"><Activity className="w-4 h-4" /> {t("profile.analyses", locale)}</span>
                 </td>
                 <td className="py-3.5 px-5 text-[#1A1A1A] font-medium">
                   <Link href="/dashboard/history" className="text-[#88B078] hover:underline">
@@ -169,8 +169,8 @@ export default function ProfilePage() {
                 </td>
               </tr>
               <tr>
-                <td className="py-3.5 px-5 text-[#666666] flex items-center gap-2">
-                  <Calendar className="w-4 h-4" /> {t("profile.registered", locale)}
+                <td className="py-3.5 px-5 text-[#666666]">
+                  <span className="flex items-center gap-2"><Calendar className="w-4 h-4" /> {t("profile.registered", locale)}</span>
                 </td>
                 <td className="py-3.5 px-5 text-[#1A1A1A] font-medium">
                   {user.createdAt

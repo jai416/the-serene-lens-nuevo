@@ -9,6 +9,7 @@ import { Lock, Eye, EyeOff, ArrowLeft, AlertCircle, CheckCircle2, Loader2, KeyRo
 import Image from "next/image"
 import Link from "next/link"
 import { apiFetch } from "@/lib/csrf-client"
+import { CardSkeleton } from "@/components/ui/skeleton"
 
 function ResetPasswordForm() {
   const searchParams = useSearchParams()
@@ -204,7 +205,13 @@ function ResetPasswordForm() {
 
 export default function ResetPasswordPage() {
   return (
-    <Suspense fallback={null}>
+    <Suspense
+      fallback={
+        <div className="min-h-screen flex items-center justify-center px-4" style={{ backgroundColor: "#F8F9FA" }}>
+          <CardSkeleton />
+        </div>
+      }
+    >
       <ResetPasswordForm />
     </Suspense>
   )

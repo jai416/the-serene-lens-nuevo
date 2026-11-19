@@ -37,7 +37,13 @@ function RegisterRedirect() {
 
 export default function RegisterPage() {
   return (
-    <Suspense fallback={null}>
+    <Suspense
+      fallback={
+        <div className="min-h-screen flex items-center justify-center px-4" style={{ backgroundColor: "#F8F9FA" }}>
+          <CardSkeleton />
+        </div>
+      }
+    >
       <RegisterRedirect />
     </Suspense>
   )

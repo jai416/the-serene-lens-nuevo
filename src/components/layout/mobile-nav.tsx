@@ -5,7 +5,6 @@ import { usePathname } from "next/navigation"
 import { useSession } from "next-auth/react"
 import { Home, Scan, History, Leaf, User, Users, BookOpen, MessagesSquare } from "lucide-react"
 import { cn } from "@/lib/utils"
-import { ThemeToggleCompact } from "@/components/theme-toggle"
 import { useLocale } from "@/lib/locale/locale-context"
 import { t } from "@/lib/locale/translations"
 import type { TranslationKey } from "@/lib/locale/translations"
@@ -55,7 +54,6 @@ export function MobileNav() {
             </Link>
           )
         })}
-        <ThemeToggleCompact />
       </div>
     </nav>
   )

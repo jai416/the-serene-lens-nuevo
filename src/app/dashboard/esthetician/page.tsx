@@ -265,7 +265,7 @@ export default function EstheticianPage() {
                         <div className="min-w-0 flex-1">
                           <p className="text-sm font-medium text-[#1A1A1A] truncate">{c.name}</p>
                           <div className="flex items-center gap-2 text-xs text-[#666666]">
-                            {c.email && <span className="flex items-center gap-0.5"><Mail className="w-3 h-3" />{c.email}</span>}
+                            {c.email && <span className="flex items-center gap-0.5 min-w-0"><Mail className="w-3 h-3 shrink-0" /><span className="break-all">{c.email}</span></span>}
                             {c.phone && <span className="flex items-center gap-0.5"><Phone className="w-3 h-3" />{c.phone}</span>}
                             <span>· {c._count.analyses} {locale === "en" ? "analyses" : "análisis"}</span>
                           </div>
