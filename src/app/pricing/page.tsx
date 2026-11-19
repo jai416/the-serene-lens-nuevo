@@ -449,7 +449,7 @@ export default function PricingPage() {
                 <div className="text-center mb-6">
                   <p className="text-lg font-semibold mb-1 text-[#1A1A1A]">{plan.name}</p>
                   {plan.annual && (
-                    <div className="inline-block text-[10px] font-semibold px-1.5 py-0.5 rounded-full bg-[#88B078] text-white mb-2">
+                    <div className="inline-block text-[10px] font-semibold px-1.5 py-0.5 rounded-full bg-[#88B078] text-[#1A1A1A] mb-2">
                       AHORRA 16%
                     </div>
                   )}

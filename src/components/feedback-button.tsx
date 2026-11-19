@@ -36,7 +36,7 @@ export function FeedbackButton() {
     return (
       <button
         onClick={() => setOpen(true)}
-        className="fixed bottom-20 md:bottom-6 right-4 z-50 w-12 h-12 rounded-full bg-[#88B078] text-white shadow-lg flex items-center justify-center hover:bg-[#6F9A5E] transition-colors"
+        className="fixed bottom-20 md:bottom-6 right-4 z-50 w-12 h-12 rounded-full bg-[#88B078] text-[#1A1A1A] shadow-lg flex items-center justify-center hover:bg-[#6F9A5E] transition-colors"
         aria-label="Enviar feedback"
       >
         <MessageSquare className="w-5 h-5" />

@@ -6,12 +6,12 @@ const badgeVariants = cva(
   {
     variants: {
       variant: {
-        default: "border-transparent bg-[#88B078] text-white shadow-[0_2px_8px_rgba(136,176,120,0.3)])]",
-        primary: "border-transparent bg-[#88B078] text-white shadow-[0_2px_8px_rgba(136,176,120,0.3)])]",
+        default: "border-transparent bg-[#88B078] text-[#1A1A1A] shadow-[0_2px_8px_rgba(136,176,120,0.3)]",
+        primary: "border-transparent bg-[#88B078] text-[#1A1A1A] shadow-[0_2px_8px_rgba(136,176,120,0.3)]",
         secondary: "border-transparent bg-[#E2ECE0] text-[#666666]",
         outline: "border-[#E8E8E8] text-[#666666]",
-        success: "border-transparent bg-[#88B078] text-white shadow-[0_2px_8px_rgba(136,176,120,0.3)])]",
-        tertiary: "border-transparent bg-[#FFF9E6] text-[#1A1A1A] shadow-[0_2px_8px_rgba(255,249,230,0.3)])]",
+        success: "border-transparent bg-[#88B078] text-[#1A1A1A] shadow-[0_2px_8px_rgba(136,176,120,0.3)]",
+        tertiary: "border-transparent bg-[#FFF9E6] text-[#1A1A1A] shadow-[0_2px_8px_rgba(255,249,230,0.3)]",
         mint: "border-transparent bg-[#E2ECE0] text-[#1A1A1A]",
       },
     },

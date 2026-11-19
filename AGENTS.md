@@ -149,6 +149,30 @@
 - **`analysisBodySchema` es `.strict()`** pero el endpoint inyecta `clientId` → cualquier análisis de
   cliente era rechazado por validación
 
+### Canales de soporte unificados (máx 2) — Nov 2026
+Había 3 formas de escribir (contacto público, tickets en /dashboard/support y chat en
+/dashboard/chat), y dos de ellas escribían en la MISMA tabla `ContactMessage`:
+- **`/contact`** → formulario público para anónimos (ContactMessage sin userId)
+- **`/dashboard/chat`** → chat en vivo para usuarios logueados (ChatMessage → /admin/chat
+  + aviso Telegram + respuesta desde el panel)
+- `/dashboard/support` ahora **redirige** al chat (el endpoint `/api/support/messages`
+  sigue existiendo por si acaso, pero sin UI)
+
+### Regalos con pago (Opción A del plan de monetización) — Nov 2026
+Antes cualquier usuario creaba un regalo y lo canjeaba = análisis gratis ilimitados:
+- `GiftPack.paypalOrderId` (columna aditiva aplicada a producción con consentimiento)
+- `POST /payments/gift` → orden PayPal → `GiftPack.status = "awaiting_payment"`
+- webhook y `/payments/verify` detectan la orden del regalo → activan SOLO el regalo
+  (el comprador no recibe pack ni suscripción; el destinatario canjea con el código)
+- `/pricing/success` muestra el código con botón de copiar
+- `/payments/redeem-gift` rechaza con mensaje claro si aún no está pagado
+
+### Crons: fix TELEGRAM_TOKEN — Nov 2026
+- `uv-alerts` y `weather-alert` leían `TELEGRAM_BOT_TOKEN` (no existe en Render) → 400
+  en cada ejecución → notificación de fallo. Unificados a `TELEGRAM_TOKEN`
+- Jobs nuevos en cron-job.org: `Daily Report` (8892750, 08:00) y `Telegram Onboarding`
+  (8893015, 10:00) — ver CRON-SETUP.md
+
 ### Auditoría de APIs (Nov 2026) — cierre
 - 29 endpoints sin ningún llamador en la UI. Decisión: **NO borrarlos** — varios son el soporte del
   bot de Telegram y de los pagos (gift/link-telegram), y otros están "reservados" para el embudo

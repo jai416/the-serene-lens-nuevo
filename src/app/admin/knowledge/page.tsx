@@ -144,7 +144,7 @@ export default function AdminKnowledgePage() {
 
       {/* Actions */}
       <div className="flex gap-2 mb-6">
-        <Button onClick={handleSync} disabled={syncing} className="bg-[#88B078] text-white hover:bg-[#6F9A5E]">
+        <Button onClick={handleSync} disabled={syncing} className="bg-[#88B078] text-[#1A1A1A] hover:bg-[#6F9A5E] hover:text-white">
           <RefreshCw className={`w-4 h-4 mr-2 ${syncing ? "animate-spin" : ""}`} />
           {syncing ? "Sincronizando..." : "Sincronizar con la web"}
         </Button>
@@ -189,7 +189,7 @@ export default function AdminKnowledgePage() {
                 className="w-24 px-4 py-2 rounded-lg text-sm border border-[#E8E8E8] bg-[#F8F9FA] text-[#1A1A1A]"
               />
             </div>
-            <Button onClick={handleCreate} className="bg-[#88B078] text-white hover:bg-[#6F9A5E]">
+            <Button onClick={handleCreate} className="bg-[#88B078] text-[#1A1A1A] hover:bg-[#6F9A5E] hover:text-white">
               <Plus className="w-4 h-4 mr-2" />
               Crear entrada
             </Button>

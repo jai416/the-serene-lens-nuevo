@@ -249,7 +249,7 @@ export default function MarketingKitPage() {
             <a href={`mailto:?subject=${emailSubject}&body=${encodeURIComponent(
               t("esthetician.emailBody", locale).replace("{code}", clinic.referralCode) + (discountCode ? ` (${discountCode.discount}% descuento)` : "") + `\n\nRegístrate aquí: ${typeof window !== "undefined" ? window.location.origin : ""}/register`
             )}`}
-              className="inline-flex items-center px-3 py-1.5 text-xs font-medium rounded-xl bg-[#88B078] text-white hover:bg-[#7A9D68] transition-colors gap-1.5">
+              className="inline-flex items-center px-3 py-1.5 text-xs font-medium rounded-xl bg-[#88B078] text-[#1A1A1A] hover:bg-[#7A9D68] hover:text-white transition-colors gap-1.5">
               <Mail className="w-3.5 h-3.5" />
               Abrir en Email
             </a>

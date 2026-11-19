@@ -95,7 +95,6 @@ export function Sidebar() {
         { href: "/dashboard/report", labelKey: "sidebar.report", icon: FileText },
         { href: "/dashboard/notifications", labelKey: "sidebar.notifications", icon: Bell },
         { href: "/dashboard/guides", labelKey: "sidebar.myGuides", icon: Bookmark },
-        { href: "/dashboard/guides", labelKey: "sidebar.myGuides", icon: Bookmark },
         // Un solo canal de soporte para usuarios logueados: el chat en vivo.
         // /dashboard/support se redirige aquí (escribían en la misma tabla
         // ContactMessage que /contact y solo confundían)
@@ -245,7 +244,7 @@ export function Sidebar() {
           <Link
             href="/login"
             onClick={() => setMobileOpen(false)}
-            className="flex items-center gap-3 px-4 py-2.5 text-sm font-medium rounded-xl bg-[#88B078] text-white hover:bg-[#78A068] transition-all duration-200 mt-1"
+            className="flex items-center gap-3 px-4 py-2.5 text-sm font-medium rounded-xl bg-[#88B078] text-[#1A1A1A] hover:bg-[#78A068] hover:text-white transition-all duration-200 mt-1"
           >
             <User className="w-4.5 h-4.5 shrink-0" />
             {t("sidebar.login", locale)}

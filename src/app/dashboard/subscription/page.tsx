@@ -223,7 +223,7 @@ export default function SubscriptionPage() {
                   <div className="flex items-center justify-between mb-2">
                     <div>
                       <span className="text-sm font-medium text-[#1A1A1A]">Premium Anual</span>
-                      <span className="ml-2 text-[10px] font-semibold px-1.5 py-0.5 rounded-full bg-[#88B078] text-white">AHORRA 17%</span>
+                      <span className="ml-2 text-[10px] font-semibold px-1.5 py-0.5 rounded-full bg-[#88B078] text-[#1A1A1A]">AHORRA 17%</span>
                     </div>
                     <div className="text-right">
                       <span className="text-sm text-[#1A1A1A] font-semibold">$79.99/año</span>

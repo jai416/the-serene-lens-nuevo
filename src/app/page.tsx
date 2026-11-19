@@ -111,7 +111,7 @@ export default function HomePage() {
 
               <div className="flex flex-col sm:flex-row gap-3">
                 <Link href="/analysis">
-                  <button className="inline-flex items-center justify-center text-base font-semibold transition-all bg-[#88B078] text-white px-8 py-6 rounded-full shadow-[0_4px_16px_rgba(136,176,120,0.25)] hover:shadow-[0_8px_24px_rgba(136,176,120,0.35)] hover:bg-[#6F9A5E]">
+                  <button className="inline-flex items-center justify-center text-base font-semibold transition-all bg-[#88B078] text-[#1A1A1A] px-8 py-6 rounded-full shadow-[0_4px_16px_rgba(136,176,120,0.25)] hover:shadow-[0_8px_24px_rgba(136,176,120,0.35)] hover:bg-[#6F9A5E] hover:text-white">
                     <Scan className="w-4 h-4 mr-2" />
                     Comenzar Análisis
                   </button>

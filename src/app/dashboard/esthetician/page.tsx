@@ -357,6 +357,7 @@ export default function EstheticianPage() {
               { label: t("esthetician.toolHistory", locale), icon: Clock, href: "/dashboard/history", desc: t("esthetician.toolHistoryDesc", locale) },
               { label: locale === "en" ? "Marketing Kit" : "Kit Marketing", icon: Gift, href: "/dashboard/esthetician/marketing", desc: locale === "en" ? "Grow your practice" : "Haz crecer tu práctica" },
               { label: t("esthetician.toolAnalysis", locale), icon: Activity, href: "/analysis", desc: t("esthetician.toolAnalysisDesc", locale) },
+              { label: locale === "en" ? "Clinic Panel" : "Panel de Clínica", icon: Building2, href: "/dashboard/b2b", desc: locale === "en" ? "Your clinic at a glance" : "Tu clínica de un vistazo" },
             ].map((tool) => (
               <Link key={tool.href} href={tool.href}>
                 <Card className="p-4 hover:-translate-y-0.5 transition-all duration-200 border border-[#E8E8E8]/60 cursor-pointer h-full">

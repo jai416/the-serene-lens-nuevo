@@ -30,7 +30,7 @@ export function TopHeader() {
       <LocaleSwitcher />
       <NotificationBell />
       <div className="flex items-center gap-3 pl-4 border-l border-[#E8E8E8]">
-        <div className="w-9 h-9 rounded-full bg-[#88B078] flex items-center justify-center text-sm font-semibold text-white shadow-sm">
+        <div className="w-9 h-9 rounded-full bg-[#88B078] flex items-center justify-center text-sm font-semibold text-[#1A1A1A] shadow-sm">
           {session.user.name?.charAt(0)?.toUpperCase() || "U"}
         </div>
         <div className="hidden sm:block">

@@ -199,7 +199,7 @@ export default function CommunityPage() {
                   }}
                   className={`px-4 py-2 rounded-full text-sm font-medium transition-all duration-200 border ${
                     isSelected
-                      ? "bg-[#88B078] text-white border-[#88B078]"
+                      ? "bg-[#88B078] text-[#1A1A1A] border-[#88B078]"
                       : isRecommended
                       ? "bg-[#FFF9E6] text-[#1A1A1A] border-[#FCEAA6]"
                       : "bg-white text-[#666666] border-[#E8E8E8] hover:bg-[#F8F9FA]"

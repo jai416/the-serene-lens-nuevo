@@ -60,15 +60,11 @@ export default function DashboardGuidesPage() {
     <div className="min-h-screen px-4 py-8">
       <div className="max-w-3xl mx-auto">
         <div className="mb-8">
-          <Badge variant="mint" className="mb-4 rounded-full px-4 py-1.5 border-0">
-            <BookOpen className="w-3.5 h-3.5 mr-2" />
-            Mis Guías
-          </Badge>
           <h1 className="font-serif text-3xl sm:text-4xl font-semibold text-[#1A1A1A]">
-            {t("guides.subtitle", locale)}
+            {t("guides.title", locale)}
           </h1>
           <p className="text-[#666666] mt-1 text-sm">
-            {t("guides.subtitle", locale)}.
+            {t("guides.subtitle", locale)}
           </p>
         </div>
 

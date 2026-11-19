@@ -11,6 +11,13 @@ export async function scanProductIngredients(imageBase64: string, skinType?: str
 Responde exclusivamente en español.
 Examina la imagen de la etiqueta del producto, extrae los ingredientes y analízalos.
 ${skinContext}
+
+REGLAS:
+1. NUNCA inventes ingredientes: lista SOLO los que se lean en la etiqueta. Si la imagen no muestra una etiqueta legible (borrosa, sin texto, otra cosa), devuelve el JSON con "ingredients": [], "summary" explicando que la foto no tiene una etiqueta legible y pide una foto más nítida de la lista de ingredientes.
+2. Ordena los ingredientes como aparecen en la etiqueta.
+3. good = beneficiosos para su piel; caution = usables con moderación o fotosensibles (ej: retinol, AHAs); avoid = irritantes o mal combinados (ej: alcohol denat en alta posición, fragancias si hay piel sensible).
+4. En summary: máximo3 frases, prácticas, sin alarmismo (nunca uses palabras como "tóxico" o "peligroso").
+
 Responde SOLO con JSON en este formato exacto y nada más:
 
 {

@@ -151,7 +151,7 @@ export default function SupportChatPage() {
                       className={`max-w-[80%] rounded-2xl px-3.5 py-2.5 text-sm ${
                         m.isAdmin
                           ? "bg-[#E2ECE0] text-[#1A1A1A] rounded-bl-md"
-                          : "bg-[#88B078] text-white rounded-br-md"
+                          : "bg-[#88B078] text-[#1A1A1A] rounded-br-md"
                       }`}
                     >
                       <p className="whitespace-pre-wrap break-words">{m.message}</p>

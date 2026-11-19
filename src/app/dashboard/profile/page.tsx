@@ -105,7 +105,7 @@ export default function ProfilePage() {
         <Card className="p-6 border-0 shadow-[0_2px_12px_rgba(0,0,0,0.04)]">
           <CardContent className="p-0">
             <div className="flex items-center gap-4">
-              <div className="w-14 h-14 rounded-full bg-[#88B078] flex items-center justify-center text-xl font-bold text-white shrink-0">
+              <div className="w-14 h-14 rounded-full bg-[#88B078] flex items-center justify-center text-xl font-bold text-[#1A1A1A] shrink-0">
                 {(user.name || user.email || "U").charAt(0).toUpperCase()}
               </div>
               <div className="flex-1 min-w-0">

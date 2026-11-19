@@ -7,13 +7,13 @@ const buttonVariants = cva(
   {
     variants: {
       variant: {
-        default: "bg-[#88B078] text-white hover:bg-[#78A068] shadow-[0_4px_12px_rgba(136,176,120,0.3)])] hover:shadow-[0_8px_20px_rgba(136,176,120,0.45)])] rounded-full h-10 px-5 py-2",
-        primary: "bg-[#88B078] text-white hover:bg-[#78A068] shadow-[0_4px_12px_rgba(136,176,120,0.3)])] hover:shadow-[0_8px_20px_rgba(136,176,120,0.45)])] rounded-full h-10 px-5 py-2",
+        default: "bg-[#88B078] text-[#1A1A1A] hover:bg-[#78A068] hover:text-white shadow-[0_4px_12px_rgba(136,176,120,0.3)] hover:shadow-[0_8px_20px_rgba(136,176,120,0.45)] rounded-full h-10 px-5 py-2",
+        primary: "bg-[#88B078] text-[#1A1A1A] hover:bg-[#78A068] hover:text-white shadow-[0_4px_12px_rgba(136,176,120,0.3)] hover:shadow-[0_8px_20px_rgba(136,176,120,0.45)] rounded-full h-10 px-5 py-2",
         secondary: "bg-white text-[#1A1A1A] font-semibold border border-[#88B078] hover:bg-[#F8F9FA] rounded-full h-10 px-5 py-2",
         outline: "border border-[#E8E8E8] bg-transparent text-[#666666] font-medium hover:border-[#88B078] hover:bg-[#F8F9FA] rounded-full h-10 px-5 py-2",
         ghost: "hover:bg-[#E2ECE0] text-[#666666] hover:text-[#1A1A1A] rounded-full h-10 px-5 py-2",
         link: "text-[#666666] underline-offset-4 hover:underline hover:text-[#1A1A1A]",
-        destructive: "bg-[#E07070] text-white hover:bg-[#D06060] rounded-full h-10 px-5 py-2",
+        destructive: "bg-[#FECACA] text-[#B91C1C] hover:bg-[#FEE2E2] border border-[#FECACA] rounded-full h-10 px-5 py-2",
       },
       size: {
         default: "h-10 px-5 py-2",

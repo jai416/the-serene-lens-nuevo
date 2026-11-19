@@ -160,7 +160,7 @@ export default function AdminChatPage() {
                     {s.sessionId.slice(0, 8)}
                   </span>
                   {s.unreadCount > 0 && (
-                    <Badge className="rounded-full px-2 py-0 text-[10px] border-0 bg-[#88B078] text-white">
+                    <Badge className="rounded-full px-2 py-0 text-[10px] border-0 bg-[#88B078] text-[#1A1A1A]">
                       {s.unreadCount}
                     </Badge>
                   )}
@@ -200,7 +200,7 @@ export default function AdminChatPage() {
                       <div
                         className={`max-w-[80%] rounded-2xl px-3.5 py-2.5 text-sm ${
                           m.isAdmin
-                            ? "bg-[#88B078] text-white rounded-br-md"
+                            ? "bg-[#88B078] text-[#1A1A1A] rounded-br-md"
                             : "bg-[#F8F9FA] text-[#1A1A1A] rounded-bl-md"
                         }`}
                       >

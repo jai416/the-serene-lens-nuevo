@@ -12,7 +12,7 @@ export function LocaleSwitcher() {
         onClick={() => setLocale("es")}
         className={`text-xs px-2 py-1 rounded-md transition-colors ${
           locale === "es"
-            ? "bg-[#88B078] text-white font-medium"
+            ? "bg-[#88B078] text-[#1A1A1A] font-medium"
             : "text-[#666666] hover:text-[#1A1A1A]"
         }`}
         aria-label="Español"
@@ -24,7 +24,7 @@ export function LocaleSwitcher() {
         onClick={() => setLocale("en")}
         className={`text-xs px-2 py-1 rounded-md transition-colors ${
           locale === "en"
-            ? "bg-[#88B078] text-white font-medium"
+            ? "bg-[#88B078] text-[#1A1A1A] font-medium"
             : "text-[#666666] hover:text-[#1A1A1A]"
         }`}
         aria-label="English"
