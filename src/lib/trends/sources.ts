@@ -9,10 +9,11 @@ import { logger } from "@/lib/logger"
  */
 
 export const ALLOWED_HOSTS = new Set([
-  "eutils.ncbi.nlm.nih.gov",   // PubMed — evidencia científica
+  "eutils.ncbi.nlm.nih.gov",   // PubMed — evidencia científica (esearch + efetch)
   "www.ncbi.nlm.nih.gov",
-  "ec.europa.eu",              // COSING — ingredientes oficiales UE
-  "en.wikipedia.org",          // explicadores de ingredientes
+  // ec.europa.eu (COSING) eliminado: su API oficial exige API key propia y
+  // no se hace scraping de la SPA. Ver docs/CRON-TRENDS.md.
+  "en.wikipedia.org",          // explicadores de ingredientes (título EN mapeado)
   "en.m.wikipedia.org",
 ])
 

@@ -41,13 +41,73 @@ allowlist), timeout de 15s y 1 reintento con backoff de 1s.
 
 | Host | Uso | Coste |
 |---|---|---|
-| `eutils.ncbi.nlm.nih.gov` | PubMed — papers de los últimos 90 días (evidencia) | gratis, ≤3 req/s sin key |
-| `en.wikipedia.org` | explicadores de ingredientes | gratis |
-| `ec.europa.eu` (COSING) | ficha oficial INCI de la UE | gratis |
+| `eutils.ncbi.nlm.nih.gov` | PubMed — esearch `[Title/Abstract]` + efetch (título/abstract reales), últimos 90 días | gratis, ≤3 req/s sin key |
+| `en.wikipedia.org` | explicadores de ingredientes (API REST oficial, título EN mapeado) | gratis |
+
+### COSING — eliminado del collector (limitación documentada)
+
+Investigación (2026-11-20):
+
+- La SPA de COSING es Angular y **no expone scraping útil** (todo se renderiza
+  en cliente; cualquier `/api/...` devuelve el HTML del shell).
+- Sí existe una **API oficial**: `https://api.tech.ec.europa.eu/cosing20/1.0/api/cosmetics`
+  (descubierta en `assets/env-json-config.json` de la SPA), pero devuelve
+  **401 Missing Credentials** y exige una **API key propia** que no tenemos.
+  La `euSearchApiKey` pública del config **no** vale para ella (401 Invalid
+  Credentials probado con header `apikey` y `Bearer`).
+- La alternativa `webgate.ec.europa.eu/es/search-api` devuelve 500 con
+  cualquier parámetro probado.
+
+**Decisión**: sin API key no hay forma estable y oficial de consultar COSING →
+se **elimina del collector** (sin scraping frágil, sin simular resultados).
+Para reactivarlo: pedir/obtener una API key de COSING y re-añadir el host a
+la allowlist + `collectCosing()`.
 
 **Fuentes verificadas como NO usadas** (documentado para no reintentar a ciegas):
 - Google Trends: la API oficial fue eliminada en 2017 (HTTP 404 verificado).
 - Reddit: bloquea el JSON público sin OAuth (verificado con curl).
+- COSING: API oficial con key propia requerida (ver arriba).
+
+## Precisión de PubMed (fase correctiva)
+
+Dos capas, ambas en `src/lib/trends/collector.ts`:
+
+1. **Consulta restringida**: `(<query>)[Title/Abstract]` — todos los términos
+   deben aparecer en título o abstract del artículo. Ejemplo real: la query de
+   barrera cutánea pasó de **555 a 84** resultados (desaparecen microbiota
+   intestinal, AMD, etc.).
+2. **Validación post-fetch** (`isRelevantPaper`): cada candidato (título +
+   abstract reales de efetch) se contrasta contra:
+   - `relevant` del tema: frases semánticas (sinónimos) en título **o** abstract
+     → se conserva. No se exige la palabra literal de la query (evita perder
+     artículos válidos: "stratum corneum" cuenta para "skin barrier").
+   - `reject` del tema + `OFF_DOMAIN_REJECTS` (compartido): frases fuera de
+     dominio (gut/microbiota/macular/botulinum/…) → solo se evalúan contra el
+     **título** (un abstract válido puede mencionar algo de pasada).
+
+Se conservan **PMID y URL verificables** (`https://pubmed.ncbi.nlm.nih.gov/<pmid>/`)
+y el `excerpt` es el **abstract real** truncado — nunca resúmenes inventados.
+`publishedAt` solo se rellena si el registro trae año+mes+día explícitos.
+
+### Evaluación de precisión (muestra real)
+
+```bash
+TRENDS_EVAL=1 npx vitest run src/lib/__tests__/trends-precision.test.ts
+```
+
+Vuelca todos los kept/rejected de los 12 temas con PMID y título para
+revisión manual. **No escribe en la BD.** No afirmar precisión sin ejecutarla.
+
+## Wikipedia — mapeo explícito slug → título EN
+
+La API REST de Wikipedia existe en inglés; los títulos en español
+(`Niacinamida`) devuelven 404 en `en.wikipedia` (verificado). Cada `Topic`
+lleva `wikiTitle` con el título EN real (verificado con la API antes de
+mapear, p. ej. `barrera-cutanea → Stratum corneum`, porque
+`Skin barrier` redirige a "Innate immune system"). Un fallo de búsqueda o de
+red **no descarta la tendencia**: `collectWikipedia` devuelve `null`, se
+registra como indisponibilidad y el batch sigue (la tendencia se crea con los
+papers que sí haya, respetando el mínimo de 2 fuentes).
 
 ## Señales internas vs. tendencia de mercado
 
@@ -113,6 +173,17 @@ No afecta a ningún dato existente.
 
 ## Tests
 
-`src/lib/__tests__/trends-collector.test.ts` — allowlist SSRF, retry,
-dedup por slug, señal interna → `origin=both`, skipping con <2 fuentes, y
-continuidad del batch tras un fallo. Fetch y DB mockeados (sin red real).
+`src/lib/__tests__/trends-collector.test.ts` (sin red, fetch+DB mockeados):
+
+- allowlist SSRF (incluye COSING rechazado) y retry de `fetchText`
+- **consulta `[Title/Abstract]`** — se aserta en la URL de esearch
+- **relevantes conservados / tangenciales descartados** (gut-microbiota, AMD,
+  botulinum, alimentos, tangenciales sin términos del tema)
+- rechazo solo contra el título (el abstract no descarta)
+- **mapeo de título EN de Wikipedia** + fallo de red → `null` sin romper
+- **URLs y PMID válidos** (`pubmed.ncbi.nlm.nih.gov/<digits>/`)
+- parseo de XML de efetch (tags anidados, entidades, fechas reales)
+- **continuidad del batch** con PubMed caído, wiki caída y <2 fuentes → skip
+
+`src/lib/__tests__/trends-precision.test.ts` — evaluación gated
+(`TRENDS_EVAL=1`) contra PubMed real, solo lectura, no corre en la suite.
