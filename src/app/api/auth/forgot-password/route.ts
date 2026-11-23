@@ -1,11 +1,33 @@
 import { NextRequest } from "next/server"
-import crypto from "crypto"
-import { db } from "@/lib/db"
 import { checkRateLimit } from "@/lib/rate-limit"
 import { ok, error, serverError } from "@/lib/api-response"
 import { validateCsrf } from "@/lib/csrf-middleware"
 import { getClientIp } from "@/lib/client-ip"
 import { logger } from "@/lib/logger"
+
+/**
+ * M3.5.19 — Flujo PÚBLICO de recuperación de contraseña CERRADO.
+ *
+ * Contexto: el canal de email está deshabilitado (`sendEmail` es un stub que
+ * nunca entrega nada). Antes, este endpoint CREABA un token y lo devolvía
+ * como `resetUrl` en la respuesta HTTP SIN autenticación → cualquier cliente
+ * que conociera el email de una cuenta podía obtener su enlace de reset
+ * (toma de control de cuentas; rate-limits de3/h no lo impedían).
+ *
+ * Mientras no exista un canal de entrega seguro:
+ *  - NO se crean tokens (un token no entregable es inutilizable y, hoy, la
+ *    única "entrega" era exponerlo públicamente).
+ *  - Respuesta IDÉNTICA exista o no la cuenta: sin enumeración de cuentas y
+ *    sin prometer un email que no se envía.
+ *  - Rate limits por IP y por email intactos (defensa en profundidad).
+ *  - `/api/auth/reset-password` sigue operativo (expiración1h + uso único)
+ *    para tokens emitidos por un canal seguro (futuro o manual documentado).
+ *  - Recuperación actual: procedimiento manual del administrador (ver
+ *    informe M3.5.19) hasta que exista entrega real de email.
+ */
+
+const DISABLED_MESSAGE =
+  "La recuperación de contraseñas en línea está deshabilitada temporalmente. Si necesitas recuperar tu cuenta, contacta con el soporte."
 
 export async function POST(req: NextRequest) {
   try {
@@ -23,51 +45,21 @@ export async function POST(req: NextRequest) {
       return error("Email requerido", 400)
     }
 
-    const normalizedEmail = email.trim().toLowerCase()
-
-    // Límite por email además del de IP: sin email el atacante no puede
-    // pedir tokens de reset en masa para cuentas ajenas.
-    const emailRl = await checkRateLimit(`forgot-password:email:${normalizedEmail}`, 3, 60 * 60 * 1000)
+    // Rate limit por email: actúa sobre cualquier entrada, exista o no la
+    // cuenta (las ramas de respuesta son idénticas → sin enumeración).
+    const emailRl = await checkRateLimit(
+      `forgot-password:email:${email.trim().toLowerCase()}`,
+      3,
+      60 * 60 * 1000
+    )
     if (!emailRl.allowed) {
-      return ok({
-        message: "Si el email existe, recibirás instrucciones.",
-      })
+      return error("Demasiadas solicitudes. Intenta más tarde.", 429)
     }
 
-    const user = await db.user.findUnique({ where: { email: normalizedEmail } })
+    // Trazas de abuso sin secretos: aquí NO se genera ningún token.
+    logger.warn("Password recovery requested (canal deshabilitado)", { ip })
 
-    if (!user || !user.password) {
-      return ok({
-        message: "Si el email existe, recibirás instrucciones.",
-      })
-    }
-
-    const token = crypto.randomBytes(32).toString("hex")
-    const expires = new Date(Date.now() + 60 * 60 * 1000)
-
-    // Solo el último token emitido sirve: los anteriores quedan invalidados
-    await db.verificationToken.deleteMany({ where: { identifier: normalizedEmail } })
-
-    await db.verificationToken.create({
-      data: {
-        identifier: normalizedEmail,
-        token,
-        expires,
-      },
-    })
-
-    const baseUrl = process.env.NEXT_PUBLIC_APP_URL
-    const resetUrl = `${baseUrl}/reset-password?token=${token}&email=${encodeURIComponent(normalizedEmail)}`
-
-    // Aviso al propietario: el email está desactivado, así que el enlace
-    // se muestra en pantalla. Queda traza por si alguien abusa de ello.
-    logger.warn("Password reset issued", { email: normalizedEmail, ip })
-
-    return ok({
-      message: "Enlace de recuperación generado.",
-      resetUrl,
-      info: "El servicio de email estará disponible próximamente. Guarda este enlace para restablecer tu contraseña.",
-    })
+    return ok({ message: DISABLED_MESSAGE })
   } catch {
     return serverError()
   }

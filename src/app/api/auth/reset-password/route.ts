@@ -47,7 +47,7 @@ export async function POST(req: NextRequest) {
 
     if (new Date() > stored.expires) {
       await db.verificationToken.delete({ where: { token: stored.token } }).catch((e) => logger.error("Token cleanup failed", { error: e }))
-      return error("El token ha expirado. Solicita uno nuevo.", 400)
+      return error("Token inválido o expirado", 400)
     }
 
     const hashed = await hashPassword(password)

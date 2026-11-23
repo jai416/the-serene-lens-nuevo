@@ -22,8 +22,10 @@ async function main() {
   console.log("Seeding database...")
 
   const adminEmail = process.env.ROOT_ADMIN_EMAIL || "admin@theserenelens.com"
-  const adminPassword = process.env.SEED_ADMIN_PASSWORD || "admin123"
+  const adminPassword = process.env.SEED_ADMIN_PASSWORD
+  const demoPassword = process.env.SEED_DEMO_PASSWORD
 
+  if (adminPassword) {
   const admin = await db.user.upsert({
     where: { email: adminEmail },
     update: {},
@@ -35,20 +37,27 @@ async function main() {
       plan: "PRO",
     },
   })
-  console.log(`Admin user: ${admin.email} (password: ${adminPassword})`)
+  } else {
+    console.warn("[seed] SEED_ADMIN_PASSWORD no configurada: se omite esta cuenta (nunca se usa una contraseña por defecto).")
+  }
 
+  let demoId: string | null = null
+  if (demoPassword) {
   const demo = await db.user.upsert({
     where: { email: "demo@theserenelens.com" },
     update: {},
     create: {
       email: "demo@theserenelens.com",
       name: "Demo User",
-      password: await hashPassword("demo123"),
+      password: await hashPassword(demoPassword),
       role: "USER",
       plan: "FREE",
     },
   })
-  console.log(`Demo user: ${demo.email} (password: demo123)`)
+    demoId = demo.id
+  } else {
+    console.warn("[seed] SEED_DEMO_PASSWORD no configurada: se omite esta cuenta (nunca se usa una contraseña por defecto).")
+  }
 
   const posts = [
     {
@@ -681,38 +690,38 @@ Para el Caribe: **SPF 50+ siempre**. La diferencia entre FPS 30 (97% bloqueo) y 
   }
   console.log(`${challenges.length} challenges seeded`)
 
-  const communityPosts = [
+  const communityPosts = demoId ? [
     {
-      userId: demo.id,
+      userId: demoId,
       title: "Mi rutina de skincare para piel grasa en verano",
       content: "Hola a todos! Estoy buscando recomendaciones para mi rutina de verano. Tengo la piel grasa y en verano se me duplica el brillo. ¿Alguna recomendación de productos ligeros no comedogénicos?",
       category: "rutinas",
     },
     {
-      userId: demo.id,
+      userId: demoId,
       title: "¿La niacinamida realmente minimiza los poros?",
       content: "He leído mucho sobre la niacinamida y sus beneficios para los poros. ¿Alguien ha visto resultados reales? Llevo 3 meses usándola y noto mi piel más uniforme.",
       category: "ingredientes",
     },
     {
-      userId: demo.id,
+      userId: demoId,
       title: "Consejo: cómo aplicar protector solar correctamente",
       content: "Mucha gente no aplica suficiente protector solar. La cantidad recomendada es un dedo completo para la cara y el cuello. No olvides las orejas! Y reaplica cada 2 horas.",
       category: "consejos",
     },
     {
-      userId: demo.id,
+      userId: demoId,
       title: "Mi experiencia con el acné hormonal",
       content: "Después de años luchando con acné hormonal, finalmente encontré una rutina que funciona. Niacinamida + zinc por la mañana, retinol por la noche y protector solar siempre.",
       category: "general",
     },
     {
-      userId: demo.id,
+      userId: demoId,
       title: "¿Cuál es su paso favorito de la rutina?",
       content: "Para mí es el sérum de vitamina C por la mañana. Es como un chute de energía para la piel. Me encanta ver cómo mi piel se va iluminando. ¿Cuál es la vuestra?",
       category: "general",
     },
-  ]
+  ] : []
 
   for (const post of communityPosts) {
     const existing = await db.communityPost.findFirst({ where: { title: post.title } })
